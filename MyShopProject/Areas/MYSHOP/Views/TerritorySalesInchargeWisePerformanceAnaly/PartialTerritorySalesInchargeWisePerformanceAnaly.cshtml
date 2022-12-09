@@ -1,0 +1,317 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridtsiwiseperformanceanaly";
+
+    settings.CallbackRouteValues = new { Action = "PartialTerritorySalesInchargeWisePerformanceAnaly", Controller = "TerritorySalesInchargeWisePerformanceAnaly" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "TSI Name";
+        x.VisibleIndex = 1;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPCITY";
+        x.Caption = "District";
+        x.VisibleIndex = 2;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 3;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORTTO";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 4;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "TOTALORDERVALUE";
+          x.Caption = "Total Revenue <br/>(Total Order Booked)";
+          x.VisibleIndex = 5;
+          x.Width = 140;
+          x.ColumnType = MVCxGridViewColumnType.TextBox;
+          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+      });
+
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "TOTALORDVALWITHOUTVISIT";
+          x.Caption = "Total Order <br/>(Total Order without Visit)";
+          x.VisibleIndex = 6;
+          x.Width = 150;
+          x.ColumnType = MVCxGridViewColumnType.TextBox;
+          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+      });
+
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "TARGETORDVALUE";
+          x.Caption = "Targeted Revenue <br/>(Total Targeted Value)";
+          x.VisibleIndex = 7;
+          x.Width = 150;
+          x.ColumnType = MVCxGridViewColumnType.TextBox;
+          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+      });
+
+
+    settings.Columns.Add(x =>
+  {
+      x.FieldName = "AVGORDERVALUE";
+      x.Caption = "Average Order Value <br/>(Order Value/Order Count)";
+      x.VisibleIndex = 8;
+      x.Width = 180;
+      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+      x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+  });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGREVPERSTORE";
+        x.Caption = "Average Revenue per store <br/>(Total Order Value/Total Outlets)";
+        x.VisibleIndex = 9;
+        x.Width = 185;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVEEXPAMT";
+        x.Caption = "Revenue/Expenses Ratio <br/>(Total Order Value/Approved expenses)";
+        x.VisibleIndex = 10;
+        x.Width = 220;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGREVPERVISIT";
+        x.Caption = "Average Revenue Generated Per Visit <br/>(Total Order Value/Total Visit Count)";
+        x.VisibleIndex = 11;
+        x.Width = 220;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_VISIT";
+        x.Caption = "Total Number of Visits <br/>(Total Visits)";
+        x.VisibleIndex = 12;
+        x.Width = 150;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NEWSHOP_VISITED";
+        x.Caption = "Total Number of New Visits <br/>(New Visit)";
+        x.VisibleIndex = 13;
+        x.Width = 155;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "RE_VISITED";
+        x.Caption = "Total Number of Re-visits <br/>(Re-visit)";
+        x.VisibleIndex = 14;
+        x.Width = 150;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITCONVRATE";
+        x.Caption = "Visit Conversion Rate (%) <br/>(Number of Productive visit(Order)/Total number of Visits)";
+        x.VisibleIndex = 15;
+        x.Width = 330;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NEWVISITCONVRATE";
+        x.Caption = "New Visit Conversion Rate <br/>(Total New Productive Visit(Order)/Total number of New visits)";
+        x.VisibleIndex = 16;
+        x.Width = 350;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REVISITCONVRATE";
+        x.Caption = "Re-visit Conversion Rate <br/>(Total revisit productive (Order)/Total number of revisit)";
+        x.VisibleIndex = 17;
+        x.Width = 330;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTALVISITTIME";
+        x.Caption = "Total Visit Time (HH:MM)";
+        x.VisibleIndex = 18;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGVISITTIME";
+        x.Caption = "Average Visit Time (HH:MM)";
+        x.VisibleIndex = 19;
+        x.Width = 160;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NOVISITDAYS";
+        x.Caption = "Number of Days with No Visits <br/>(If no revisit/new visit for day, calculate as 1 count)";
+        x.VisibleIndex = 20;
+        x.Width = 300;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGTIMETOFSTCALL";
+        x.Caption = "Average Time to First Call <br/>(SUM(Time at First Call-Log in Time)/Attendance Count)";
+        x.VisibleIndex = 21;
+        x.Width = 320;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGWORKDURATION";
+        x.Caption = "Average Work Duration (HH:MM) <br/>(Total Attendance Hours/Attendance count in Month)";
+        x.VisibleIndex = 22;
+        x.Width = 300;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTALKMTRAVELLED";
+        x.Caption = "Total KM travelled";
+        x.VisibleIndex = 23;
+        x.Width = 120;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGKMTRAVELLED";
+        x.Caption = "Average KM Travelled <br/>(Total KM Travelled/Attendance Count in Month)";
+        x.VisibleIndex = 24;
+        x.Width = 270;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTNOOFFULLDAYS";
+        x.Caption = "Total Number of Full Days <br/>(Work duration above 7 hours 45 mins)";
+        x.VisibleIndex = 25;
+        x.Width = 230;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTNOOFHALFDAYS";
+        x.Caption = "Total Number of Half Days <br/>(Work Duration between 7:44 & 2 hours)";
+        x.VisibleIndex = 26;
+        x.Width = 230;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTLEAVEDAYS";
+        x.Caption = "Total Number of Leave Days <br/>(Approved Leave only)";
+        x.VisibleIndex = 27;
+        x.Width = 180;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTALABSENT";
+        x.Caption = "Total Number of Absent <br/>(Not providing attendance+less than 2 hours work+leave rejected/pending)";
+        x.VisibleIndex = 28;
+        x.Width = 420;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    ///Summary
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTALORDERVALUE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTALORDVALWITHOUTVISIT").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TARGETORDVALUE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "APPROVEEXPAMT").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_VISIT").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "NEWSHOP_VISITED").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RE_VISITED").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "NOVISITDAYS").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTALKMTRAVELLED").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTNOOFFULLDAYS").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTNOOFHALFDAYS").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTLEAVEDAYS").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTALABSENT").DisplayFormat = "0";
+
+}).Bind(Model).GetHtml()
+
+

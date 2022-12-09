@@ -1,0 +1,126 @@
+﻿                                                                                                                                                                                        `
+@model IEnumerable<Models.AttendancerecorduserwiseModel>
+
+<script type="text/javascript">
+
+
+    $(function () {
+
+        //$('#tblshoplist tfoot th').each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        //});
+
+      //  var table = $("#tblshoplist").dataTable();
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "bFilter": true,
+            "ordering": false,
+            searching: false
+        });
+
+
+
+        //$('#tblshoplist tfoot th').each(function (i) {
+
+        //    var title = $('#tblshoplist thead th').eq($(this).index()).text();
+        //    // or just var title = $('#sample_3 thead th').text();
+        //    var serach = '<input type="text" placeholder="Search ' + title + '" />';
+        //    $(this).html('');
+        //    $(serach).appendTo(this).keyup(function () { table.fnFilter($(this).val(), i) })
+        //});
+
+
+
+    });
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+</style>
+
+<div class="x_content">
+    <div class="rTable">
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+            <thead>
+
+                <tr>
+                    <th>User</th>
+                    <th>Designation</th>
+                    <th>Login Date</th>
+                    <th>Login Time</th>
+                    <th>Logout Time</th>
+                    <th>Duration</th>
+                    <th>Login/Logout Status</th>
+                    @*<th>Total Login Count</th>
+                    <th>Total Logout Count</th>*@
+                </tr>
+
+            </thead>
+
+            @*<tfoot>
+                <tr>
+
+                    <th>User</th>
+                    <th>Designation</th>
+                    <th>Login Date</th>
+                    <th>Login Time</th>
+                    <th>Logout Time</th>
+                    <th>Duration</th>
+                    <th>Login/Logout Status</th>
+                </tr>
+            </tfoot>*@
+
+
+            <tbody>
+
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.userName</td>
+                            <td>@item.designation</td>
+
+                            <td>@(Convert.ToString(item.login_date) == "" ? "" : Convert.ToDateTime(item.login_date).ToString("dd-MM-yyyy"))</td>
+                            <td>@item.Mintime</td>
+                            <td>@item.Maxtime</td>
+                            <td>@item.duration</td>
+                            <td>@item.Attendstatus</td>
+
+                            @*<td>@item.countlogin</td>
+                            <td>@item.countlogout</td>*@
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+
+        </table>
+    </div>
+</div>

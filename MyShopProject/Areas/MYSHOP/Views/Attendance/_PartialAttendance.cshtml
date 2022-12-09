@@ -1,0 +1,141 @@
+﻿@model IEnumerable<Models.AttendancerecordModel>
+
+<script type="text/javascript">
+    $(function () {
+
+
+        //$('#tblshoplist tfoot th').each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        //});
+
+      //  var table = $("#tblshoplist").dataTable();
+
+
+        
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "ordering": false,
+            "scrollX": true,
+            "pageLength": 5,
+            "lengthMenu": [5, 15, 50]
+          //  "searching": false,
+            
+        });
+
+        //$('#tblshoplist tfoot th').each(function (i) {
+        //    var title = $('#tblshoplist thead th').eq($(this).index()).text();
+        //    // or just var title = $('#sample_3 thead th').text();
+        //    var serach = '<input type="text" placeholder="Search ' + title + '" />';
+        //    $(this).html('');
+        //    $(serach).appendTo(this).keyup(function () { table.fnFilter($(this).val(), i) })
+        //});
+
+
+
+    });
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th, .dataTables_scrollHeadInner>table>thead>tr>th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+</style>
+
+<div class="x_content">
+    <div class="rTable">
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+                    <th style="width:150px">Employee Name</th>
+                    <th>Supervisor</th>
+                    <th>Designation</th>
+                    <th>State</th>
+                    <th>User ID</th>
+
+                    @*<th>First Visit Time</th>
+                    <th>Last Visit Time</th>*@
+
+                    <th style="width:100px"> Date</th>
+
+                    <th style="width:150px">Attendance Type</th>
+                    <th>Work/Leave Type</th>
+
+                    <th>In Time</th>
+                    <th style="width:120px">Login Status</th>
+                    <th style="width:120px">Out Time</th>
+
+                    <th style="width:150px">Undertime (HH:MM)</th>
+                    <th style="width:250px">GPS Inactive Duration (HH:MM)</th>
+                    <th style="width:150px">Idle Time (HH:MM)</th>
+                    <th style="width:120px">Idle Time Count</th>
+
+                    <th style="width:150px">Total Duration(hrs.)</th>
+                   
+                </tr>
+            </thead>
+            @*<tfoot>
+                <tr>
+
+                    <th>Login Date</th>
+                    <th>Login Date Time</th>
+                    <th>Logout Date Time</th>
+                    <th>Duration</th>
+                </tr>
+            </tfoot>*@
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Employeename</td>
+                            <td>@item.REPORTTO</td>
+                            <td>@item.Designation</td>
+                            <td>@item.state</td>
+                            <td>@item.UserLogin</td>
+
+                            <td>@(Convert.ToString(item.login_date) == "" ? "" : Convert.ToDateTime(item.login_date).ToString("dd-MM-yyyy"))</td>
+
+                            <td>@item.ATTEN_STATUS</td>
+                            <td>@item.WORK_LEAVE_TYPE</td>
+
+                            @*<td>@item.Minvisittime</td>
+                            <td>@item.Maxvisittime</td>*@
+                          
+                            <td>@(Convert.ToString(item.login_time) == "" ? "" : Convert.ToDateTime(item.login_time).ToString("dd-MM-yyyy")+' ' +item.Mintime)</td>
+                            <td>@item.LATE_CNT</td>
+                            <td>@(Convert.ToString(item.logout_time) == "" ? "" : Convert.ToDateTime(item.logout_time).ToString("dd-MM-yyyy")+' '+item.Maxtime)</td>
+                            
+                            <td>@item.UNDERTIME</td>
+                            <td>@item.GPS_INACTIVE_DURATION</td>
+                            <td>@item.IDEAL_TIME</td>
+                            <td>@item.IDEALTIME_CNT</td>
+
+                            <td>@item.duration</td>
+
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+    </div>

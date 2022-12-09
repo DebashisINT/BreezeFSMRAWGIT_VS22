@@ -1,0 +1,332 @@
+﻿using DataAccessLayer;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Web;
+using System.Web.Script.Services;
+using System.Web.Services;
+
+namespace MyShop.Models
+{
+    [WebService(Namespace = "http://tempuri.org/")]
+    [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
+    [System.ComponentModel.ToolboxItem(false)]
+    [System.Web.Script.Services.ScriptService]
+    public class ShopAddress : System.Web.Services.WebService
+    {
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetShop(string SearchKey)
+        {
+            List<PPModel> listShop = new List<PPModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+
+                BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+
+                // Mantis Issue 24450,24451 [column "Shop_Owner_Contact" added]
+                DataTable Shop = oDBEngine.GetDataTable("select top(10)Shop_Code,Entity_Location,Replace(Shop_Name,'''','&#39;') as Shop_Name,EntityCode,Shop_Owner_Contact from tbl_Master_shop where (type=2 and Shop_Name like '%" + SearchKey + "%') or  (type=2 and EntityCode like '%" + SearchKey + "%') or (type=2 and Shop_Owner_Contact like '%" + SearchKey + "%')");
+
+                // Mantis Issue 24450,24451 [ "Shop_Owner_Contact" added]
+                listShop = (from DataRow dr in Shop.Rows
+                            select new PPModel()
+                            {
+                                Shop_Code = dr["Shop_Code"].ToString(),
+                                Shop_Name = dr["Shop_Name"].ToString(),
+                                Entity_Location = Convert.ToString(dr["Entity_Location"]),
+                                EntityCode = Convert.ToString(dr["EntityCode"]),
+                                Shop_Owner_Contact = Convert.ToString(dr["Shop_Owner_Contact"])
+                            }).ToList();
+            }
+
+            return listShop;
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetDDShop(string SearchKey, String ddType)
+        {
+            List<PPModel> listShop = new List<PPModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+
+                BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+
+                // Mantis Issue 24450,24451 [column "Shop_Owner_Contact" added ]
+                DataTable Shop = oDBEngine.GetDataTable("select top(10)Shop_Code,Entity_Location,Replace(Shop_Name,'''','&#39;') as Shop_Name,EntityCode,Shop_Owner_Contact from tbl_Master_shop where (type=4 and Shop_Name like '%" + SearchKey + "%' and dealer_id='" + ddType + "') or  (type=4 and EntityCode like '%" + SearchKey + "%' and dealer_id='" + ddType + "') or (type=4 and Shop_Owner_Contact like '%" + SearchKey + "%' and dealer_id='" + ddType + "')");
+               
+                // Mantis Issue 24450,24451 ["Shop_Owner_Contact" added ]
+                listShop = (from DataRow dr in Shop.Rows
+                            select new PPModel()
+                            {
+                                Shop_Code = dr["Shop_Code"].ToString(),
+                                Shop_Name = dr["Shop_Name"].ToString(),
+                                Entity_Location = Convert.ToString(dr["Entity_Location"]),
+                                EntityCode = Convert.ToString(dr["EntityCode"]),
+                                Shop_Owner_Contact = Convert.ToString(dr["Shop_Owner_Contact"])
+                            }).ToList();
+            }
+
+            return listShop;
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetRetailerShop(string SearchKey)
+        {
+            List<PPModel> listShop = new List<PPModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+
+                BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+
+                DataTable Shop = oDBEngine.GetDataTable("select top(10)Shop_Code,Entity_Location,Replace(Shop_Name,'''','&#39;') as Shop_Name,EntityCode from tbl_Master_shop where (type=1 and Shop_Name like '%" + SearchKey + "%' and retailer_id=2) or  (type=1 and EntityCode like '%" + SearchKey + "%' and retailer_id=2)");
+
+                listShop = (from DataRow dr in Shop.Rows
+                            select new PPModel()
+                            {
+                                Shop_Code = dr["Shop_Code"].ToString(),
+                                Shop_Name = dr["Shop_Name"].ToString(),
+                                Entity_Location = Convert.ToString(dr["Entity_Location"]),
+                                EntityCode = Convert.ToString(dr["EntityCode"])
+                            }).ToList();
+            }
+
+            return listShop;
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetUserList(string SearchKey)
+        {
+            List<UsersModel> listUser = new List<UsersModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+
+                BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+
+                //DataTable Shop = oDBEngine.GetDataTable("select top(10)user_id,user_loginId,Replace(user_name,'''','&#39;') as user_name from tbl_Master_user where (user_inactive='N' and user_name like '%" + SearchKey + "%') or  (user_inactive='N' and user_loginId like '%" + SearchKey + "%')");
+                ProcedureExecute proc = new ProcedureExecute("PRC_UserNameSearch");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                DataTable Shop = proc.GetTable();
+                // Mantis Issue 24450,24451 [ EmployeeID added ]
+                listUser = (from DataRow dr in Shop.Rows
+                            select new UsersModel()
+                            {
+                                USER_NAME = dr["user_name"].ToString(),
+                                USER_LOGINID = dr["user_loginId"].ToString(),
+                                USER_ID = Convert.ToString(dr["user_id"]),
+                                EMPLOYEEID = Convert.ToString(dr["EmployeeID"])
+                            }).ToList();
+            }
+
+            return listUser;
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetEmployeeList(string SearchKey)
+        {
+            List<EmployeeModel> listEmployee = new List<EmployeeModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                //BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+                //DataTable Shop = oDBEngine.GetDataTable("select top(10)cnt_internalId,Replace(ISNULL(cnt_firstName,'')+' '+ISNULL(cnt_middleName,'')+ ' '+ISNULL(cnt_lastName,''),'''','&#39;') AS Employee_Name,cnt_UCC from tbl_master_contact where (cnt_firstName like '%" + SearchKey + "%') or  (cnt_middleName like '%" + SearchKey + "%') or  (cnt_lastName like '%" + SearchKey + "%')");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_EmployeeNameSearch");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                dt = proc.GetTable();
+
+                listEmployee = (from DataRow dr in dt.Rows
+                                select new EmployeeModel()
+                            {
+                                id = Convert.ToString(dr["cnt_internalId"]),
+                                Employee_Code = Convert.ToString(dr["cnt_UCC"]),
+                                Employee_Name = Convert.ToString(dr["Employee_Name"])
+                            }).ToList();
+            }
+
+            return listEmployee;
+        }
+        //rev Pratik
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetEmployeeListDesigWise(string SearchKey, string Desig, string SearchKeyAE, string SearchKeyWD, string BranchId)
+        {
+            List<EmployeeModel> listEmployee = new List<EmployeeModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                //BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+                //DataTable Shop = oDBEngine.GetDataTable("select top(10)cnt_internalId,Replace(ISNULL(cnt_firstName,'')+' '+ISNULL(cnt_middleName,'')+ ' '+ISNULL(cnt_lastName,''),'''','&#39;') AS Employee_Name,cnt_UCC from tbl_master_contact where (cnt_firstName like '%" + SearchKey + "%') or  (cnt_middleName like '%" + SearchKey + "%') or  (cnt_lastName like '%" + SearchKey + "%')");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_EmployeeNameSearch_Desg");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                proc.AddPara("@DesigId", Desig);
+                proc.AddPara("@Action", Desig);
+                proc.AddPara("@AeId", SearchKeyAE);
+                proc.AddPara("@WdId", SearchKeyWD);
+                proc.AddPara("@BranchId", BranchId);
+                dt = proc.GetTable();
+
+                listEmployee = (from DataRow dr in dt.Rows
+                                select new EmployeeModel()
+                                {
+                                    id = Convert.ToString(dr["cnt_internalId"]),
+                                    Employee_Code = Convert.ToString(dr["cnt_UCC"]),
+                                    Employee_Name = Convert.ToString(dr["Employee_Name"])
+                                }).ToList();
+            }
+
+            return listEmployee;
+        }
+        //End of rev Pratik
+        //Rev Pratik For On demand Product Search
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetProductList(string SearchKey)
+        {
+            List<ProductModel> listProduct = new List<ProductModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_ProductNameSearch");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                dt = proc.GetTable();
+
+                listProduct = (from DataRow dr in dt.Rows
+                               select new ProductModel()
+                                {
+                                    sProducts_ID = Convert.ToInt32(dr["sProducts_ID"]),
+                                    sProducts_Code = Convert.ToString(dr["sProducts_Code"]),
+                                    sProducts_Name = Convert.ToString(dr["sProducts_Name"])
+                                    //sProducts_Description = Convert.ToString(dr["sProducts_Description"])
+                                }).ToList();
+            }
+
+            return listProduct;
+        }
+        //End of Rev Pratik For On demand Product Search
+        //Rev Pratik For On demand Shop/Customer Search
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetCustomerList(string SearchKey)
+        {
+            List<CustomerModel> listShop = new List<CustomerModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_ShopNameSearch");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                dt = proc.GetTable();
+
+                listShop = (from DataRow dr in dt.Rows
+                               select new CustomerModel()
+                               {
+                                   Shop_Code = Convert.ToString(dr["Shop_Code"]),
+                                   Shop_Name = Convert.ToString(dr["Shop_Name"]),
+                               }).ToList();
+            }
+
+            return listShop;
+        }
+        //End of Rev Pratik For On demand Shop/Customer Search
+        //Mantis Issue 25133
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetGroupBeatList(string SearchKey, string OldGroupBeatId)
+        {
+            List<GroupBeatModel> listUser = new List<GroupBeatModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+
+                BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+
+                //DataTable Shop = oDBEngine.GetDataTable("select top(10)user_id,user_loginId,Replace(user_name,'''','&#39;') as user_name from tbl_Master_user where (user_inactive='N' and user_name like '%" + SearchKey + "%') or  (user_inactive='N' and user_loginId like '%" + SearchKey + "%')");
+                ProcedureExecute proc = new ProcedureExecute("PRC_GroupBeatNameSearch");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                proc.AddPara("@OldGroupBeatId", Convert.ToInt32(OldGroupBeatId));
+                DataTable Shop = proc.GetTable();
+                // Mantis Issue 24450,24451 [ EmployeeID added ]
+                listUser = (from DataRow dr in Shop.Rows
+                            select new GroupBeatModel()
+                            {
+                                ID = dr["ID"].ToString(),
+                                NAME = dr["NAME"].ToString(),
+                                CODE = dr["CODE"].ToString()
+                            }).ToList();
+            }
+
+            return listUser;
+        }
+        //End of Mantis Issue 25133
+    }
+
+    public class PPModel
+    {
+        public string Shop_Code { get; set; }
+        public string Shop_Name { get; set; }
+        public string Entity_Location { get; set; }
+        public string EntityCode { get; set; }
+        // Mantis Issue 24450,24451
+        public string Shop_Owner_Contact { get; set; }
+        // End of Mantis Issue 24450,24451
+    }
+
+    public class UsersModel
+    {
+        public string USER_ID { get; set; }
+        public string USER_NAME { get; set; }
+        public string USER_LOGINID { get; set; } 
+        // Mantis Issue 24450,24451
+        public string EMPLOYEEID { get; set; }
+        // End of Mantis Issue 24450,24451
+    }
+
+    public class EmployeeModel
+    {
+        public string id { get; set; }
+        public string Employee_Name { get; set; }
+        public string Employee_Code { get; set; }
+    }
+    //rev Pratik for On demand Product search
+    public class ProductModel
+    {
+        public int sProducts_ID { get; set; }
+        public string sProducts_Code { get; set; }
+        public string sProducts_Name { get; set; }
+        //public string sProducts_Description { get; set; }
+    }
+    //End of rev Pratik for on demand product search
+    //rev Pratik for On demand Shop/Customer search
+    public class CustomerModel
+    {
+        public string Shop_Code { get; set; }
+        public string Shop_Name { get; set; }
+    }
+    //End of rev Pratik for on demand Shop/Customer search
+    //Mantis Issue 25133
+    public class GroupBeatModel
+    {
+        public string ID { get; set; }
+        public string NAME { get; set; }
+        public string CODE { get; set; }
+
+    }
+    //End of Mantis Issue 25133
+}

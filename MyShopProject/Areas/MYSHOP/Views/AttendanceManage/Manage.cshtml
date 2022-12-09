@@ -1,0 +1,438 @@
+﻿
+@model Models.CounterClass
+
+
+
+@{
+    ViewBag.Title = "Manage";
+
+    var purl = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
+}
+
+
+
+
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+
+
+    #maskmap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #maskmap.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxesmap {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    #popupfootmap {
+        font-size: 16pt;
+    }
+</style>
+
+
+<style>
+    .modal-content {
+        border-radius: 0px;
+    }
+
+    .modal-header {
+        background-color: #007DB4;
+        color: white;
+    }
+
+    .modal-body {
+        height: 440px;
+    }
+</style>
+
+<h2>Manage</h2>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif3telvlrJn61kkLXDQA0ViQdDVJWifk"></script>
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+
+
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<script>
+    var arr = [];
+    var typeId;
+    var Ispageload = "0";
+
+    $(function () {
+
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+        $("#drpstate").chosen({
+            width: "100%"
+        });
+
+
+
+
+        $('body').on('click', '#btnshow', function () {
+
+            arr = [];
+            $('input.acheckbox:checkbox:checked').each(function () {
+                arr.push($(this).val());
+            });
+
+            typeId = arr.toString();
+            if (typeId != "" && typeId != null) {
+                Ispageload = "1";
+                gridCounterList.Refresh();
+                gridCounterList.Refresh();
+            }
+            else {
+                jAlert('Please select Shop Types');
+                return;
+            }
+            //$("#refreshgrid\counter").show();
+
+
+        });
+
+
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').removeClass('showing');
+            $('#maskmap').removeClass('showing');
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportCounterlist", "CounterList", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+            }
+        });
+
+    });
+
+    @*$('#ddlAppIds').on('change', function () {
+        if ($("#ddlAppIds option:selected").index() > 0) {
+            var selectedValue = $(this).val();
+            $('#ddlAppIds').prop("selectedIndex", 0);
+            /   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+            window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+            var url = '@Url.Action("ExportCounterlist", "CounterList", new { type = "_type_" })'
+            window.location.href = url.replace("_type_", selectedValue);
+
+            var arr = [];
+            $('input.acheckbox:checkbox:checked').each(function () {
+                arr.push($(this).val());
+            });
+
+              alert($("#drpuser").val());
+            var surl = '@Url.Action("ExportCounterlist", "CounterList")';
+            var usr = $("#drpuser").val();
+            $.ajax({
+
+                url: surl,
+                async: false,
+
+                data: {
+                    StateId: $('#drpstate').val(),
+                    TypeID: arr.toString()
+                },
+
+                type: 'POST',
+                success: function (data) {
+                    $('#refreshgrid').html(data);
+                },
+
+                error: function () {
+
+                },
+
+            });
+
+            }
+    });*@
+
+    @*$('#ddlAppIds').on('change', function () {
+        if ($("#ddlAppIds option:selected").index() > 0) {
+            var selectedValue = $(this).val();
+            var desg = $("#drpdesignation").val();
+            var usrtype = $("#ddlusertypes").val();
+            $('#ddlAppIds').prop("selectedIndex", 0);
+            var url = '@Url.Action("ExportCounterlist", "CounterList", new { type = "_type_" })'
+            window.location.href = url.replace("_type_", selectedValue);
+
+
+        }
+    });*@
+
+
+
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    function OnStartCallback(s, e) {
+
+
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["TypeID"] = typeId;
+        e.customArgs["Ispageload"] = Ispageload;
+    }
+
+</script>
+
+
+<style>
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist thead > tr > th, #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .tblspace > tbody > tr > td {
+        padding-right: 15px;
+    }
+
+    /*#tblshoplist {
+        width:200% !important;
+    }
+    .scrooler {
+        width:100%;
+        overflow-x:scroll;
+    }*/
+    .acheckbox {
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+</style>
+
+<div class="form_main">
+
+
+
+    <table class="pull-left tblspace">
+
+        <tr>
+
+
+            <td class="w1" id="dtstate"><h5>State : </h5></td>
+
+            <td id="dtdesg2" style="width:200px;">
+
+
+                @Html.Action("GetStateList", "MasterPopulate")
+
+
+            </td>
+
+            <td class="w1" id="dtstate"><h5>Shop Types : </h5></td>
+
+            <td id="ddlshotype">
+                <ul class="list-inline" style="padding-top:13px">
+                    @foreach (var item in Model.Shoptypes)
+                    {
+                        <li>
+                            <input id="chk@(item.ID)" class="acheckbox"
+                                   type="checkbox"
+                                   value="@item.ID"
+                                   checked="@item.IsChecked" />
+                            @item.Name
+                        </li>
+                    }
+                </ul>
+
+            </td>
+            <td style="padding-top:8px">
+                <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+
+
+                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+            </td>
+
+        </tr>
+
+        <tr></tr>
+    </table>
+
+
+
+    <br />
+
+    <div class="scrooler">
+        <div id="refreshgrid">
+            @{
+                Html.RenderAction("GetCounterlistPartial", "CounterList", new { StateId = Model.StateId, TypeID = Model.TypeID, Ispageload = "0" });
+
+            }
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div id="mask">
+    <div id="boxes">
+        <div class="inner">
+            <div id="dialog" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfoot">
+
+
+                    <img src="#" class="image" alt="Loading..."></img>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="maskmap">
+    <div id="boxesmap">
+        <div class="inner">
+            <div id="dialogmap" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfootmap">
+
+                    <div id="map" style="width: 100%; height: 450px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

@@ -1,0 +1,176 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "EmployeeAchievementDetails", Action = "Rendergrid" };
+    settings.KeyFieldName = "SEQ";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Date";
+        column.FieldName = "Date";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        column.Width = 120;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Time";
+        column.FieldName = "Time";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Employee";
+        column.Caption = "Employee";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Supervisor";
+        column.FieldName = "Supervisor";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Designation";
+        column.Caption = "Designation";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Department";
+        column.FieldName = "Department";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CustomerName";
+        column.Caption = "Customer Name";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CustomerAddress";
+        column.Caption = "Customer Address";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Contact No.";
+        column.FieldName = "ContactNo";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Mail";
+        column.Caption = "Mail Id";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Model";
+        column.Caption = "Model";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Primary Application";
+        column.FieldName = "PrimaryApplication";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SecondaryApplication";
+        column.Caption = "Secondary Application";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BookingAmount";
+        column.Caption = "Booking Amount";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.PropertiesEdit.DisplayFormatString = "0.00";
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "LeadType";
+        column.Caption = "Lead Type";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Stage";
+        column.Caption = "Stage";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "FunnelStage";
+        column.Caption = "Funnel Stage";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()
+
+
+
+
+

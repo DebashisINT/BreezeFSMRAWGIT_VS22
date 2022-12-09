@@ -1,0 +1,290 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridAllowanceReportList";
+
+    settings.CallbackRouteValues = new { Action = "GetReimbursementAllowanceReport", Controller = "ReimbursementAllowanceReport" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AppliedOn";
+        x.Caption = "Applied On";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ForDate";
+        x.Caption = "For Date";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+    });
+
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LoginID";
+        x.Caption = "Login ID";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EmpName";
+        x.Caption = "Emp Name";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(180);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Grade";
+        x.Caption = "Grade";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Supervisor";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(220);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "StateName";
+        x.Caption = "State";
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(180);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VisitLocation";
+        x.Caption = "Travel Location";
+        x.VisibleIndex = 8;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ExpenseType";
+        x.Caption = "Exp Type";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ModeOfTravel";
+        x.Caption = "Mode of Travel";
+        x.VisibleIndex = 10;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "FuelType";
+        x.Caption = "Fuel Type";
+        x.VisibleIndex = 11;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EligibleDistance";
+        x.Caption = "Eligible Distance";
+        x.VisibleIndex = 12;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AppliedDistance";
+        x.Caption = "Applied Distance";
+        x.VisibleIndex = 13;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TotalTravelled";
+        x.Caption = "Total Travelled[KM]";
+        x.VisibleIndex = 14;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ApprovedDistance";
+        x.Caption = "Approved Distance";
+        x.VisibleIndex = 15;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EligibleRate";
+        x.Caption = "Eligible Rate";
+        x.VisibleIndex = 16;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AppliedRate";
+        x.Caption = "Applied Rate";
+        x.VisibleIndex = 17;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EligibleAmount";
+        x.Caption = "Eligible Amount";
+        x.VisibleIndex = 18;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AppliedAmount";
+        x.Caption = "Applied Amount";
+        x.VisibleIndex = 19;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ApprovedAmount";
+        x.Caption = "Approved Amount";
+        x.VisibleIndex = 20;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Status";
+        x.Caption = "Status";
+        x.VisibleIndex = 21;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "AppliedOn").DisplayFormat = "Count: {0}";
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "VisitLocation").DisplayFormat = "Total: ";
+    
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "EligibleDistance").DisplayFormat = "{0}";
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "AppliedDistance").DisplayFormat = "{0}";
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TotalTravelled").DisplayFormat = "{0}";
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ApprovedDistance").DisplayFormat = "{0}";
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "EligibleAmount").DisplayFormat = "{0}";
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "AppliedAmount").DisplayFormat = "{0}";
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ApprovedAmount").DisplayFormat = "{0}";
+   
+
+}).Bind(Model).GetHtml()
+
+
+

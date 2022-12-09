@@ -1,0 +1,445 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridCompetitorStockRegister";
+
+    settings.CallbackRouteValues = new { Action = "Rendergrid", Controller = "CompetitorStockRegister" };
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+    settings.KeyFieldName = "SEQ";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employee_ID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 1;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Employee_ID'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 150;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 150;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 3;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPNAME";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 4;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENTITYCODE";
+        x.Caption = "Code";
+        x.VisibleIndex = 5;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENTITYCODE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ADDRESS";
+        x.Caption = "Address";
+        x.VisibleIndex = 6;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ADDRESS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 300;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 300;
+        }
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACT";
+        x.Caption = "Contact";
+        x.VisibleIndex = 7;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACT'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPTYPE";
+        x.Caption = "Shop type";
+        x.VisibleIndex = 8;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPTYPE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PPName";
+        x.Caption = "PP Name";
+        x.VisibleIndex = 9;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DDName";
+        x.Caption = "DD Name";
+        x.VisibleIndex = 10;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "COMPETITORSTKDATE";
+        x.Caption = "Competitor Stock Date";
+        x.VisibleIndex = 11;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='COMPETITORSTKDATE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "COMPETITORSTKNO";
+        x.Caption = "Competitor Stock Number";
+        x.VisibleIndex = 12;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='COMPETITORSTKNO'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 200;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 200;
+        }
+    });
+
+
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "PRODUCT";
+       x.Caption = "Product";
+       x.VisibleIndex = 13;
+       if (ViewBag.RetentionColumn != null)
+       {
+           System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRODUCT'");
+           if (row != null && row.Length > 0)  /// Check now
+           {
+               x.Visible = false;
+           }
+           else
+           {
+               x.Visible = true;
+               x.Width = 200;
+           }
+       }
+       else
+       {
+           x.Visible = true;
+           x.Width = 200;
+       }
+   });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "QUANTITY";
+        x.Caption = "Quantity";
+        x.VisibleIndex = 14;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QUANTITY'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "RATE";
+        x.Caption = "MRP";
+        x.VisibleIndex = 14;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RATE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STOCKVALUE";
+        x.Caption = "Stock Value";
+        x.VisibleIndex = 14;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STOCKVALUE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "QUANTITY").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RATE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "STOCKVALUE").DisplayFormat = "0.00";
+
+
+    settings.CustomJSProperties = (s, e) =>
+    {
+        ASPxGridView grid = (ASPxGridView)s;
+        e.Properties["cpGridFilterExpression"] = grid.FilterExpression;
+    };
+}).Bind(Model).GetHtml()
+
+
+

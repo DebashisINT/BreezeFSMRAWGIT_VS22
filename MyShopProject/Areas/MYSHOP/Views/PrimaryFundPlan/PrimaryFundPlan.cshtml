@@ -1,0 +1,246 @@
+﻿@*@model Model.PrimaryFundPlanModel*@
+@{
+    ViewBag.Title = "Party Detail";
+}
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+</style>
+
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<script>
+   
+
+    function EndGridCallback(s, e) {
+        if (s.cpErrorText != null && s.cpErrorText != "" && s.cpErrorText != 'undefined') {        
+            jAlert(s.cpErrorText, 'Alert');
+            s.cpErrorText = null;
+        }
+    }
+
+
+
+    $(function () {
+     $('#ddlAppIds').on('change', function () {
+         if ($("#ddlAppIds option:selected").index() > 0) {
+             var selectedValue = $(this).val();
+             $('#ddlAppIds').prop("selectedIndex", 0);
+             var url = '@Url.Action("ExporRegisterList", "PrimaryFundPlan", new { type = "_type_" })'
+             window.location.href = url.replace("_type_", selectedValue);
+         }
+     });
+    });
+
+    @*function ddlAppIdsChange() {
+        if ($("#ddlAppIds option:selected").index() > 0) {
+            var selectedValue = $("#ddlAppIds").val();
+            $('#ddlAppIds').prop("selectedIndex", 0);
+            var url = '@Url.Action("ExporRegisterList", "PrimaryFundPlan", new { type = "_type_" })'
+            window.location.href = url.replace("_type_", selectedValue);
+        }
+    }*@
+
+    function OnStartCallback(s, e) {
+    }
+
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    function StateName_lostFocus() {
+        alert("1");
+    }
+</script>
+<div class="breadCumb">
+    <span>Party Detail</span>
+</div>
+<div class="container">
+    <div class="backBox mt-5 p-3 ">
+        <div class="row py-3">
+            <div class="col-md-12 text-right">
+                <select name="ddlAppIds" class="btn btn-sm btn-primary " id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="2">RTF</option>
+                    <option value="2">CSV</option>
+
+                </select>
+                <table class="eqpadtbl">
+                    <tr>
+                        @*  <td>
+                                    <label>State</label>
+                                    <div>
+                                        @Html.Action("GetStateList", "MasterPopulate")
+
+                                    </div>
+                                </td>
+                              <td class="w150">
+                        <label>Shop List</label>
+                        <div>
+                            @Html.Action("GetShopList", "MasterPopulate")
+
+                        </div>
+                    </td>*@
+                        @*<td class="w150">
+                        <label>Employee</label>
+                        <div>
+                            @Html.Action("GetEmpList", "MasterPopulate")
+
+                        </div>
+                    </td>*@
+                        @*<td class="w150">
+                        <label>From Date</label>
+                        <div>
+
+                            @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                    deSettings =>
+                                    {
+                                        deSettings.Name = "dtFrom";
+                                        deSettings.Date = DateTime.Now;
+                                        deSettings.Properties.UseMaskBehavior = true;
+                                        deSettings.Properties.EditFormat = EditFormat.Custom;
+                                        deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                        deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    }).GetHtml()
+
+                        </div>
+                    </td>*@
+                        @*<td class="w150">
+                        <label>To Date</label>
+                        <div>
+
+                            @Html.DevExpress().DateEditFor(x => x.Todate,
+                                    deSettings =>
+                                    {
+                                        deSettings.Name = "dtTo";
+                                        deSettings.Date = DateTime.Now;
+                                        deSettings.Properties.UseMaskBehavior = true;
+                                        deSettings.Properties.EditFormat = EditFormat.Custom;
+                                        deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                        deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    }).GetHtml()
+                        </div>
+                    </td>*@
+                        <td style="padding-top: 22px;width:280px;">
+                            @*<label></label>
+                        <button type="button" id="btnAddnew" class="btn btn-success" tabindex=2>Add New</button>
+                        <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=3>Show</button>     onchange="ddlAppIdsChange()"*@
+
+
+                        </td>
+                    </tr>
+                </table>
+
+
+                <div class="form_main">
+                    <div class="clear"></div>
+                    <div id="refreshgrid">
+                    </div>
+                    <div id="refreshgridstatusinvoiceorderreportregister">
+                        @{
+                            Html.RenderAction("GetFundPlanList", "PrimaryFundPlan");
+                        }
+
+                        @*, new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId, Is_PageLoad = "Ispageload" }*@
+
+                    </div>
+
+                    <input type="hidden" id="hdnuser_id" />
+                    <input type="hidden" id="hdnuser_state" />
+                    <input type="hidden" id="hdnuser_shop" />
+                    @*@Html.DevExpress().PopupControl(
+                settings =>
+                {
+                    settings.Name = "pcModalImage";
+                    settings.Width = 600;
+                    settings.Height = 400;
+                    //settings.ScrollBars.v
+                    settings.AllowDragging = true;
+                    settings.CloseAction = CloseAction.CloseButton;
+                    settings.CloseOnEscape = true;
+                    settings.PopupAnimationType = AnimationType.None;
+                    settings.HeaderText = "View Documents";
+                    settings.Modal = true;
+                    settings.AutoUpdatePosition = true;
+                    settings.Top = 50;
+                    settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                    settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+                    settings.SetContent(() =>
+                    { });
+
+                    // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                }).GetHtml()*@
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        gridPrimaryFundPlan.Refresh();
+        gridPrimaryFundPlan.Refresh();
+    });
+
+
+</script>

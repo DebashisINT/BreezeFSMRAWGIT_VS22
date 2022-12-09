@@ -1,0 +1,330 @@
+﻿@model System.Data.DataTable
+
+@Html.DevExpress().GridView(
+   settings =>
+   {
+       // settings = null;
+       settings.Name = "gridsalesman";
+
+       settings.CallbackRouteValues = new { Controller = "DashboardMenu", Action = "DashboardGridViewSalesmanDetail" };
+       settings.ClientSideEvents.BeginCallback = "gridsalesmanOnStartCallback";
+
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       // settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+       settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+       settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+       //settings.SettingsSearchPanel.Visible = true;
+       settings.Settings.ShowFilterRow = true;
+       settings.Settings.ShowGroupPanel = true;
+       settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+       settings.Styles.Row.Cursor = "pointer";
+       settings.Settings.ShowFooter = true;
+       settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+       settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+       settings.SettingsPager.PageSizeItemSettings.Visible = true;
+       settings.SettingsPager.PageSize = 20;
+       settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+       settings.Settings.ShowFilterRowMenu = true;
+       //settings.ClientSideEvents.RowClick = "gridsalesmanclick";
+       settings.SettingsCookies.Enabled = false;
+       settings.SettingsCookies.StoreColumnsVisiblePosition = false;
+       settings.SettingsCookies.StoreColumnsWidth = false;
+       settings.SettingsCookies.StoreFiltering = false;
+       settings.SettingsCookies.StoreGroupingAndSorting = false;
+       settings.SettingsCookies.StorePaging = false;
+       settings.SettingsCookies.StoreSearchPanelFiltering = false;
+       settings.SettingsCookies.Version = "DataListCookie" + ViewBag.Type;
+       settings.SettingsCookies.CookiesID = "L5.0_v912" + ViewBag.Type;
+       //settings.ClientSideEvents.Init = "salesgridint";
+
+
+
+       //settings.SettingsCookies.cl
+       //settings.Columns.Clear();
+
+       int visibleindex = 1;
+       string Lavel3rdShort = "Visit Time";
+       String GroupByKey = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["GridStatewiseSummaryGroupBy"]);
+
+       if (Model != null)
+       {
+
+           int ColumnWidth = Model.Columns.Count;
+           
+           if (Model.Columns.Count > 0)
+
+               foreach (System.Data.DataColumn column in Model.Columns)
+               {
+                   if (column.ColumnName == "EMPID" || column.ColumnName == "DEGID")
+                   {
+                       ColumnWidth = ColumnWidth - 1;
+                       settings.Columns.Add(x =>
+                       {
+                           x.FieldName = column.ColumnName;
+                           //x.VisibleIndex = -visibleindex;
+                           x.Width = 0;
+                           //x.HeaderStyle.CssClass = "hide";
+                           x.ColumnType = MVCxGridViewColumnType.TextBox;
+                           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                           //x.CellStyle.CssClass = "hide";
+                           //x.Visible = false;
+
+                           //if (column.ColumnName == GroupByKey)
+                           //{
+                           //    x.GroupIndex = 0;
+                           //}
+                       });
+                       visibleindex = visibleindex + 1;
+
+
+                   }
+                   else
+                   {
+                       settings.Columns.Add(x =>
+                       {
+                           x.FieldName = column.ColumnName;
+                           x.Caption = column.ColumnName;
+
+                           //x.VisibleIndex = visibleindex;
+                           visibleindex = visibleindex + 1;
+                           //x.Width = System.Web.UI.WebControls.Unit.Percentage(100 / ColumnWidth);
+                           if (column.DataType.FullName == "System.Decimal" || column.DataType.FullName == "System.Int32" || column.DataType.FullName == "System.Int64")
+                           {
+                               x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                               x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                               
+                           }
+                           else if (column.DataType.FullName == "System.DateTime")
+                           {
+                               x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                               x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+                           }
+
+
+
+                           if (column.ColumnName == GroupByKey)
+                           {
+                               x.GroupIndex = 0;
+                           }
+                           else if (column.ColumnName == Lavel3rdShort)
+                           {
+                               x.GroupIndex = 0;
+                           }
+
+                           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                       });
+                   }
+
+
+               }
+       }
+
+
+       settings.DataBound = (sender, e) =>
+       {
+
+           if (Model != null)
+           {
+               if (ViewBag.Type == "3")
+               {
+                   MVCxGridView grid = (MVCxGridView)sender;
+                   foreach (MVCxGridViewColumn column in grid.Columns)
+                   {
+                       if (column.FieldName != Lavel3rdShort)
+                       {
+                           grid.UnGroup(column);
+                       }
+                       //else
+                       //{
+                       //    grid.GroupBy(column);
+                       //}
+                   }
+               }
+               if (ViewBag.Type == "2")
+               {
+                   MVCxGridView grid = (MVCxGridView)sender;
+                   foreach (MVCxGridViewColumn column in grid.Columns)
+                   {
+                       grid.UnGroup(column);
+                   }
+               }
+               if (ViewBag.Type == "1")
+               {
+                   MVCxGridView grid = (MVCxGridView)sender;
+                   foreach (MVCxGridViewColumn column in grid.Columns)
+                   {
+                       if (column.FieldName != GroupByKey)
+                       {
+                           grid.UnGroup(column);
+                       }
+                       else
+                       {
+                           grid.GroupBy(column);
+                       }
+                   }
+               }
+           }
+
+       };
+
+
+       settings.HtmlDataCellPrepared += (s, e) =>
+           {
+               int ID = Convert.ToInt32(ViewBag.Type);
+               if (e.DataColumn.Caption == "Today's Visit")
+               {
+                   MVCxGridView grid = (MVCxGridView)s;
+                   var Assigned_shop = (int)grid.GetRowValues(e.VisibleIndex, new string[] { "Today's Visit" });
+                   var EMPID = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "EMPID" });
+                   var EMPNAME = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Employee Name" });
+                   //var DEGID = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "DEGID" });
+
+                   var buttonHtml = "";
+                   if (Assigned_shop.ToString() != "0")
+                   {
+                       buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"infoButton\" onclick=\"assignedclick('" + EMPID + "','" + EMPNAME + "');\" title=\"Show Shop Details\">{0}</a>", Assigned_shop);
+                   }
+                   else
+                   {
+                       buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", Assigned_shop);
+                   }
+
+                   e.Cell.Text = buttonHtml;
+               }
+
+               if (e.DataColumn.Caption == "State" && ID == 1)
+               {
+                   try
+                   {
+
+                       MVCxGridView grid = (MVCxGridView)s;
+                       var DEGID = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "DEGID" });
+                       var State = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "State" });
+                       var buttonHtml = "";
+                       if (DEGID.ToString() != "0")
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"\" onclick=\"gridsalesmanclick('" + DEGID + "');\" title=\"\">{0}</a>", State);
+                       }
+                       else
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", State);
+                       }
+                       e.Cell.Text = buttonHtml;
+                   }
+                   catch { }
+               }
+
+               if (e.DataColumn.Caption == "Designation" && ID == 1)
+               {
+                   try
+                   {
+                       MVCxGridView grid = (MVCxGridView)s;
+                       var DEGID = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "DEGID" });
+                       var Designation = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Designation" });
+                       var buttonHtml = "";
+                       if (DEGID.ToString() != "0")
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"\" onclick=\"gridsalesmanclick('" + DEGID + "');\" title=\"\">{0}</a>", Designation);
+                       }
+                       else
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", Designation);
+                       }
+                       e.Cell.Text = buttonHtml;
+                   }
+                   catch { }
+               }
+
+               if (e.DataColumn.Caption == "Visit Count" && ID == 1)
+               {
+                   try
+                   {
+                       MVCxGridView grid = (MVCxGridView)s;
+                       var DEGID = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "DEGID" });
+                       var VisitCount = (int)grid.GetRowValues(e.VisibleIndex, new string[] { "Visit Count" });
+                       var buttonHtml = "";
+                       if (DEGID.ToString() != "0")
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"infoButton\" onclick=\"gridsalesmanclick('" + DEGID + "');\" title=\"\">{0}</a>", VisitCount);
+                       }
+                       else
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", VisitCount);
+                       }
+                       e.Cell.Text = buttonHtml;
+                   }
+                   catch { }
+               }
+
+               if (e.DataColumn.Caption == "Employee Count" && ID == 1)
+               {
+                   try
+                   {
+                       MVCxGridView grid = (MVCxGridView)s;
+                       var DEGID = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "DEGID" });
+                       var EmployeeCount = (int)grid.GetRowValues(e.VisibleIndex, new string[] { "Employee Count" });
+                       var buttonHtml = "";
+                       if (DEGID.ToString() != "0")
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"infoButton\" onclick=\"gridsalesmanclick('" + DEGID + "');\" title=\"\">{0}</a>", EmployeeCount);
+                       }
+                       else
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", EmployeeCount);
+                       }
+                       e.Cell.Text = buttonHtml;
+                   }
+                   catch { }
+               }
+           };
+
+
+
+
+       settings.ClientLayout += (s, e) =>
+       {
+
+           if (Model != null) 
+           {
+               if (Model.Columns.Count > 0)
+               {
+                   e.LayoutData.Remove(0);
+               }
+           }
+       };
+
+       settings.BeforeGetCallbackResult = (s, e) =>
+       {
+           MVCxGridView g = (MVCxGridView)s;
+           g.ExpandAll();
+       };
+
+
+       settings.ClientSideEvents.EndCallback = "gridsalesmanEndcallback";
+       settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Visit Count").DisplayFormat = "Total Visit Count: {0}";
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Visit Count").DisplayFormat = "Total: {0}";
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Employee Count").DisplayFormat = "Total: {0}";
+
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Today's Visit").DisplayFormat = "Total: {0}";
+
+       //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Assigned Shops").DisplayFormat = "Total: {0}";
+       settings.CustomSummaryCalculate = (s, e) =>
+       {
+           MVCxGridView g = (MVCxGridView)s;
+           //g.ExpandAll();
+       };
+
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Pending-Last 7 Days").DisplayFormat = "Total: {0}";
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Visit-Last 7 Days").DisplayFormat = "Total: {0}";
+
+   }).Bind(Model).GetHtml()
+
+
+<style>
+    #gridsalesman_DXHeadersRow0 > td {
+        width: 200px !important;
+    }
+</style>

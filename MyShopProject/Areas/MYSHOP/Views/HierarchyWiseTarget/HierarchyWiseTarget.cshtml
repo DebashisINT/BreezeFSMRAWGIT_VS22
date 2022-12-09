@@ -1,0 +1,595 @@
+﻿@model MyShop.Models.HierarchyWiseTargetClass
+@{
+    ViewBag.Title = "Hierarchy Wise Target";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .flatGrid > tbody > tr > .dxgvHeader_PlasticBlue {
+        background: #258bc1 !important;
+        border: 1px solid #1a6a94;
+    }
+
+    .flatGrid > tbody > tr.dxgvFooter_PlasticBlue {
+        background-color: #258bc1 !important;
+    }
+
+    .flatFooter.dxpLite_PlasticBlue .dxp-current {
+        background-color: #258bc1 !important;
+    }
+
+    .flatFooter.dxpLite_PlasticBlue .dxp-dropDownButton {
+        background: #258bc1 !important;
+        border: 1px Solid #1a6a94;
+    }
+</style>
+<script>
+    var EMPCODE = "";
+    var Level = 1;
+    var Type = "";
+    function SubmitOption() {
+        if ($("input[name='option']:checked").val() == "P") {
+            $('#myModalselection').modal('hide');
+            $('#myModal').modal('show');
+            Type = "P";
+            ppddgrid.Refresh();
+            ppddgrid.Refresh();
+        }
+        else if ($("input[name='option']:checked").val() == "S") {
+            $('#myModalselection').modal('hide');
+            $('#myModal').modal('show');
+            Type = "S";
+            ppddgrid.Refresh();
+            ppddgrid.Refresh();
+        }
+        else {
+            if (Level == 1) {
+                $('#myModalselection').modal('hide');
+                hideSWhowDivnext(var1);
+                grid2.Refresh();
+                grid2.Refresh();
+                $('html,body').animate({ scrollTop: $('#var2').offset().top });
+            }
+            else if (Level == 2) {
+                $('#myModalselection').modal('hide');
+                grid3.Refresh();
+                grid3.Refresh();
+                $('html,body').animate({ scrollTop: $('#var3').offset().top });
+            }
+            else if (Level == 3) {
+                $('#myModalselection').modal('hide');
+                grid4.Refresh();
+                grid4.Refresh();
+                $('html,body').animate({ scrollTop: $('#var4').offset().top });
+            }
+            else if (Level == 4) {
+                $('#myModalselection').modal('hide');
+                grid5.Refresh();
+                grid5.Refresh();
+                $('html,body').animate({ scrollTop: $('#var5').offset().top });
+            }
+            else if (Level == 5) {
+                $('#myModalselection').modal('hide');
+                grid6.Refresh();
+                grid6.Refresh();
+                $('html,body').animate({ scrollTop: $('#var6').offset().top });
+            }
+            else if (Level == 6) {
+
+                $('#myModalselection').modal('hide');
+                hideSWhowDivnext(var6);
+                grid7.Refresh();
+                grid7.Refresh();
+                $('html,body').animate({ scrollTop: $('#var7').offset().top });
+            }
+
+        }
+    }
+
+
+    function ShowButtonClick() {
+        grid1.Refresh();
+        grid1.Refresh();
+        $('.clickerConta').addClass('hide');
+        $('#var1').removeClass('hide');
+    }
+
+    function rowclickgrid1(s, e) {
+        $('#myModalselection').removeClass('hide');
+        var grid = MVCxClientGridView.Cast(s);
+        var key = grid.GetRowKey(e.visibleIndex);
+        
+        EMPCODE1 = key;
+        EMPCODEPPDD = key;
+        Level = 1;
+
+        $('#myModalselection').modal('show');
+        //hideSWhowDivnext(var1);
+        //grid2.Refresh();
+        //grid2.Refresh();
+
+        //$('html,body').animate({ scrollTop: $('#var2').offset().top });
+    }
+    function rowclickgrid2(s, e) {
+        $('#myModalselection').removeClass('hide');
+        $('#myModal').removeClass('hide');
+        
+        
+        $('#myModalselection').modal('show');
+
+        hideSWhowDivnext(var2);
+        var grid = MVCxClientGridView.Cast(s);
+        var key = grid.GetRowKey(e.visibleIndex);
+        EMPCODE2 = key;
+        EMPCODEPPDD = key;
+        Level = 2;
+        //grid3.Refresh();
+        //grid3.Refresh();
+        //$('html,body').animate({ scrollTop: $('#var3').offset().top });
+    }
+    function rowclickgrid3(s, e) {
+        hideSWhowDivnext(var3);
+        var grid = MVCxClientGridView.Cast(s);
+        var key = grid.GetRowKey(e.visibleIndex);
+        EMPCODE3 = key;
+        EMPCODEPPDD = key;
+        Level = 3;
+        $('#myModalselection').modal('show');
+
+        //grid4.Refresh();
+        //grid4.Refresh();
+        //$('html,body').animate({ scrollTop: $('#var4').offset().top });
+
+    }
+    function rowclickgrid4(s, e) {
+        hideSWhowDivnext(var4);
+        var grid = MVCxClientGridView.Cast(s);
+        var key = grid.GetRowKey(e.visibleIndex);
+        EMPCODE4 = key;
+        EMPCODEPPDD = key;
+        Level = 4;
+        $('#myModalselection').modal('show');
+
+        //grid5.Refresh();
+        //grid5.Refresh();
+        //$('html,body').animate({ scrollTop: $('#var5').offset().top });
+
+    }
+    function rowclickgrid5(s, e) {
+        hideSWhowDivnext(var5);
+        var grid = MVCxClientGridView.Cast(s);
+        var key = grid.GetRowKey(e.visibleIndex);
+        EMPCODE5 = key;
+        EMPCODEPPDD = key;
+        Level = 5;
+        $('#myModalselection').modal('show');
+
+        //grid6.Refresh();
+        //grid6.Refresh();
+        //$('html,body').animate({ scrollTop: $('#var6').offset().top });
+
+    }
+    function rowclickgrid6(s, e) {
+        
+        var grid = MVCxClientGridView.Cast(s);
+        var key = grid.GetRowKey(e.visibleIndex);
+        EMPCODE6 = key;
+        EMPCODEPPDD = key;
+        Level = 6;
+        $('#myModalselection').modal('show');
+
+        //grid7.Refresh();
+        //grid7.Refresh();
+        //$('html,body').animate({ scrollTop: $('#var7').offset().top });
+
+    }
+
+
+
+    function OnBeginCallback1(s, e) {
+        stateids = $('#cmbState').val();
+        e.customArgs["Month"] = $("#ddlMonth").val();
+        e.customArgs["StateId"] = stateids.join(',');
+        e.customArgs["Year"] = $("#ddlYear").val();
+        //
+
+    }
+    function OnBeginCallback2(s, e) {
+        e.customArgs["EMPCODE"] = EMPCODE1;
+
+    }
+    function OnBeginCallback3(s, e) {
+        e.customArgs["EMPCODE"] = EMPCODE2;
+    }
+    function OnBeginCallback4(s, e) {
+        e.customArgs["EMPCODE"] = EMPCODE3;
+    }
+    function OnBeginCallback5(s, e) {
+        e.customArgs["EMPCODE"] = EMPCODE4;
+    }
+    function OnBeginCallback6(s, e) {
+        e.customArgs["EMPCODE"] = EMPCODE5;
+    }
+    function OnBeginCallback7(s, e) {
+        e.customArgs["EMPCODE"] = EMPCODE6;
+    }
+
+    function OnBeginCallbackppdd(s, e) {
+        e.customArgs["EMPCODE"] = EMPCODEPPDD;
+        e.customArgs["Type"] = Type;
+        e.customArgs["Month"] = $("#ddlMonth").val();
+    }
+
+
+
+    function hideSWhowDivnext(id) {
+        var dataChild = $(this).attr('data-child');
+        var dataId = $(this).attr('data-id');
+        var ClickerCont = $(this).parentsUntil('.clickerConta');
+        //if (dataChild == 1) {
+        //    $('.childrens').addClass('hide');
+        //    $(ClickerCont).addClass('Clicked');
+        //    $(ClickerCont).next().removeClass('hide');
+        //}
+        $(id).nextAll('.clickerConta').addClass('hide');
+        $(id).addClass('Clicked');
+        $(id).next().toggleClass('hide');
+    }
+
+    function gridexport() {
+        var url = '@Url.Action("ExportToExcel", "HierarchyWiseTarget")';
+
+        window.location.href = url;
+    }
+
+</script>
+
+<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+
+<style>
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+        min-width: 340px;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .iminentSpan > span {
+        display: block;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 25px;
+        padding: 0;
+        font-size: 12px !important;
+        box-shadow: none;
+        text-align: left;
+        padding-left: 15px;
+    }
+
+        .iminentSpan button.multiselect.dropdown-toggle .caret {
+            float: right;
+            margin: 7px;
+        }
+
+    .modalfoot{
+        padding:5px 15px 2px 15px;
+    }
+
+    
+    #var6 {
+    margin-left: 180px;
+    }
+    #var7 {
+    margin-left: 210px;
+    }
+
+</style>
+<script>
+
+
+
+
+    $(function () {
+        $('#cmbState').multiselect({
+            includeSelectAllOption: false,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            buttonWidth: '100%',
+
+            onDropdownHide: function (event) {
+
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+        stateids = $('#cmbState').val();
+    });
+
+
+
+    $(document).ready(function () {
+        var firstChild = $('.clicker').first();
+
+
+        $('.clicker').click(function () {
+
+        });
+    })
+</script>
+<style>
+    .clickerstyle {
+        margin: 10px 0;
+        margin-bottom: 10px;
+    }
+
+    #var2 {
+        margin-left: 30px;
+    }
+
+    #var3 {
+        margin-left: 60px;
+    }
+
+    #var4 {
+        margin-left: 90px;
+    }
+
+    #var5 {
+        margin-left: 120px;
+    }
+
+    #var5 {
+        margin-left: 150px;
+    }
+
+    .arrowline {
+        position: relative;
+    }
+
+        .arrowline:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -30px;
+            width: 3px;
+            height: 62%;
+            background: #415698;
+        }
+
+        .arrowline:after {
+            content: '';
+            position: absolute;
+            top: calc(62% - 10px);
+            left: -30px;
+            width: 30px;
+            height: 3px;
+            background: #415698;
+        }
+
+    .btn-excel {
+        margin-top: 23px;
+    }
+
+
+    .padtop28 {
+        padding-top: 28px;
+    }
+
+    .noStyle .modal-header {
+        background-image: none !important;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        color: #3c3b3b;
+        padding: 8px 13px 8px 15px;
+    }
+
+    .noStyle .modal-body {
+        background: #fff;
+    }
+
+    .modal-dialog.modal-sm {
+        width: 30%;
+    }
+    #cmbState + .btn-group > button {
+        border-radius: 4px;
+        height: 34px;
+    }
+    span.multiselect-native-select button {
+        border: 1px solid #c9c9c9 !important;
+        border-radius: 5px !important;
+    }
+</style>
+
+
+
+
+<div class="breadCumb">
+    <span>
+        Month Wise Target vs Achievement
+    </span>
+</div>
+
+
+
+<div class="container">
+    <div class="backBox mt-5 p-3 ">
+
+        <div class="row mb-3">
+            <div class="col-md-2">
+                <label><b>Select State(s)</b></label>
+                <div class="iminentSpan">
+                    <select class="demo" multiple="multiple" id="cmbState">
+                        @foreach (var item in Model.StateListTarget)
+                    {
+                            <option value="@item.ID">@item.Name</option>
+                    }
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label><b>Select Month</b></label>
+                <div>
+                    @Html.DropDownList("ddlMonth", new SelectList(Model.MonthList, "ID", "MonthName"), new { @name = "from", @class = "full form-control" })
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label><b>Select Year</b></label>
+                <div>
+                    @Html.DropDownList("ddlYear", new SelectList(Model.YearList, "ID", "YearName"), new { @name = "from", @class = "full form-control" })
+
+                </div>
+            </div>
+            <div class="col-md-2 ">
+                <div>&nbsp;</div>
+                <button class="btn btn-success mt-1" onclick="ShowButtonClick()">Show</button>
+            </div>
+            <div class="col-md-4 text-right">
+
+                <span class="btn-excel">
+                    <span>Export To Excel</span>
+                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="gridexport()" /></span>
+                </span>
+            </div>
+
+        </div>
+        <div class="clear"></div>
+        <div class="clickerConta clickerstyle" id="var1">
+            @Html.Partial("FirstLevelGrid", Model.FirstLevelGrid)
+        </div>
+        <div class="clickerConta clickerstyle hide childrens arrowline" id="var2">
+            @Html.Partial("SecondLevelGrid", Model.SecondLevelGrid)
+        </div>
+        <div class="clickerConta clickerstyle hide childrens arrowline" id="var3">
+            @Html.Partial("ThirdLevelGrid", Model.ThirdLevelGrid)
+        </div>
+
+        <div class="clickerConta clickerstyle hide childrens arrowline" id="var4">
+            @Html.Partial("FourthLevelGrid", Model.FourthLevelGrid)
+
+        </div>
+
+        <div class="clickerConta clickerstyle hide childrens arrowline" id="var5">
+            @Html.Partial("FifthLevelGrid", Model.FifthLevelGrid)
+        </div>
+
+        <div class="clickerConta clickerstyle hide childrens arrowline" id="var6">
+            @Html.Partial("SixthLevelGrid", Model.SixthLevelGrid)
+        </div>
+        <div class="clickerConta clickerstyle hide childrens arrowline" id="var7">
+            @Html.Partial("SeventhLevelGrid", Model.SeventhLevelGrid)
+        </div>
+
+
+
+
+
+
+    </div>
+    </div>
+
+
+<div class="modal fade noStyle bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document" style="width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Show Target/Achievement For PP/DD</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 lblmTop8">
+                        @Html.Partial("PPDDGrid", Model.PPDDShopList)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade noStyle bs-example-modal-sm" id="myModalselection" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Show Target/Achievement for</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 lblmTop8" id="radoption">
+                        <label class="radio-inline">
+                            <input type="radio" name="option" id="inlineRadio3" value="P"> Show PP/DD
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="option" id="inlineRadio2" value="H">Show Hierarchy
+                        </label>
+                        
+                        <label class="radio-inline hide">
+                            <input type="radio" name="option" id="inlineRadio3" value="S"> Show Secondary
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer modalfoot">
+                @*<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>*@
+                <input type="button" value="Submit" onclick="SubmitOption();" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,382 @@
+﻿@model Models.StockDetailsListInput
+@{
+    ViewBag.Title = "Stock List";
+}
+
+<h2>Stock List</h2>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+
+<script>
+
+    $(function () {
+
+        $("#drpuser").chosen({
+            width: "100%"
+        })
+
+        $("#drpshop").chosen({
+            width: "100%"
+        })
+        $("#drpstate").chosen({
+            width: "100%"
+        })
+
+
+
+
+
+
+        if ($("#drpuser").val() != '') {
+            var surl = '@Url.Action("GetStockList", "StockUpdate")';
+            var usr = $("#drpuser").val();
+            var shop = $("#drpshop").val();
+            var state = $("#drpstate").val();
+            $.ajax({
+                url: surl,
+                async: false,
+                data: {
+                    selectedusrid: usr,
+                    Fromdate: $('#txtfromDate').val(),
+                    Todate: $('#txttoDate').val(),
+                    stateid: state,
+                    shopId: shop
+                },
+                type: 'POST',
+
+                success: function (data) {
+
+                    $('#refreshgrid').html(data);
+                },
+                error: function () {
+                    // alert('error');
+                },
+
+
+            });
+
+
+        }
+
+
+        else {
+
+            $('#refreshgrid').html('');
+            $.jAlert({
+                'title': 'Alert!',
+                'content': 'Select User to show',
+                'theme': 'dark_blue'
+            });
+        }
+
+
+
+
+
+    
+
+        $('#txtfromDate').daterangepicker({
+
+            singleDatePicker: true,
+            showDropdowns: true,
+
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+
+
+
+        });
+
+        $('#txttoDate').daterangepicker({
+
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+
+                format: 'DD-MM-YYYY'
+
+            }
+
+        });
+
+
+
+        $('body').on('click', '#btnshow', function () {
+
+
+            if ($("#drpuser").val() != '') {
+
+                var surl = '@Url.Action("GetStockList", "StockUpdate")';
+                var usr = $("#drpuser").val();
+                var shop = $("#drpshop").val();
+                var state = $("#drpstate").val();
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val(),
+                        stateid: state,
+                        shopId: shop
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        $('#refreshgrid').html(data);
+                    },
+                    error: function () {
+                        // alert('error');
+                    },
+
+
+                });
+
+
+            }
+
+
+            else {
+
+                $('#refreshgrid').html('');
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+            }
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                ///   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+                //window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+                var url = '@Url.Action("ExportStock", "StockUpdate", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+
+                ///  $('#type').val(selectedValue);
+                ///  $('#frmExportGrid').submit();
+
+
+                if ($("#drpuser").val() != '') {
+                    var surl = '@Url.Action("GetStockList", "StockUpdate")';
+                    var usr = $("#drpuser").val();
+                    var shop = $("#drpshop").val();
+                    var state = $("#drpstate").val();
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            selectedusrid: usr,
+                            Fromdate: $('#txtfromDate').val(),
+                            Todate: $('#txttoDate').val(),
+                            stateid: state,
+                            shopId: shop
+                        },
+                        type: 'POST',
+
+                        success: function (data) {
+
+                            $('#refreshgrid').html(data);
+                        },
+                        error: function () {
+                            // alert('error');
+                        },
+
+                    });
+
+                }
+
+
+                else {
+
+                    $('#refreshgrid').html('');
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'Select User to show',
+                        'theme': 'dark_blue'
+                    });
+                }
+            }
+        });
+
+
+
+
+
+    });
+
+
+
+</script>
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    /*table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+        opacity: 0.8 !important;
+        color: #fff !important;
+    }*/
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+</style>
+
+
+<div class="form_main">
+
+    @using (Html.BeginForm("GetAttendanceList", "Attendance", FormMethod.Post, new { @id = "fromsalesman" }))
+    {
+        <table class="pull-left padTabl">
+
+            <tr>
+
+                <td class="w1" id="dtdesg" style="width:110px;"><h5>State : </h5></td>
+
+                <td id="dtdesg2" style="width:150px;">
+                    <select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
+                        <option value="">Select</option>
+
+                        @foreach (var item in Model.statelist)
+                        {
+                            if (Model.stateid == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.StateName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.StateName</option>
+                            }
+                        }
+
+                    </select>
+
+                </td>
+
+
+                <td class="w1" id="dtdesg" style="width:110px;"><h5>Shop List : </h5></td>
+
+                <td id="dtdesg2" style="width:150px;">
+                    <select id="drpshop" name="drpshop" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
+                        <option value="">Select</option>
+                        @foreach (var item in Model.shoplist)
+                        {
+                            if (Model.shopId == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                        }
+                    </select>
+
+                </td>
+
+
+
+                <td class="w1" id="dt"><h5>User List: </h5></td>
+
+                <td id="dt5" style="width:200px;">
+
+                    <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
+                        @foreach (var item in Model.userlsit)
+                        {
+                            if (Model.selectedusrid == item.UserID)
+                            {
+                                <option value="@item.UserID" selected="selected">@item.username</option>
+                            }
+                            else
+                            {
+                                <option value="@item.UserID">@item.username</option>
+                            }
+                        }
+                    </select>
+
+                </td>
+
+                <td class="w1" id="dt1"><h5>From Date : </h5></td>
+
+                <td id="dt2" style="width:200px">
+                    @Html.TextBoxFor(m => m.Fromdate, new { @class = "form-control", @id = "txtfromDate", @tabindex = 2 })
+                </td>
+
+
+            </tr>
+
+            <tr>
+                <td class="w1" id="dt3" style="padding-left: 0;"><h5>To Date : </h5></td>
+
+                <td id="dt4" style="width:200px;">
+                    @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true, @tabindex = 3 })
+                </td>
+
+
+                <td style="width: 180px" colspan="3">
+
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+
+                        <option value="2">XLSX</option>
+
+                    </select>
+                </td>
+
+
+
+
+
+
+            </tr>
+        </table>
+
+    }
+
+    <br />
+
+    <div class="clear"></div>
+    <div id="refreshgrid">
+
+    </div>
+
+
+</div>
+

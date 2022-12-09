@@ -1,0 +1,89 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridClientSelection";
+
+    settings.CallbackRouteValues = new { Action = "_PartialClientSelectionGrid", Controller = "TimeSheet" };
+
+    settings.KeyFieldName = "Client_Id";
+
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.CommandColumn.ShowSelectCheckbox=true;
+
+    settings.CommandColumn.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.Settings.ShowPreview = true;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Client_Name";
+        x.Caption = "Name";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        x.EditFormSettings.Caption = "Name";
+
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Client_Address";
+        x.Caption = "Address";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        x.EditFormSettings.Caption = "Address";
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Client_ContactNummber";
+        x.Caption = "Contact Number";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        x.EditFormSettings.Caption = "Contact Number";
+
+    });
+
+    settings.DataBinding = (s, e) =>
+    {
+        ASPxGridView grd = (ASPxGridView)s;
+        grd.Selection.UnselectAll();
+        
+        if (ViewBag.SelectedIds != null)
+        {
+            List<MyShop.Models.FTS_EMPLOYEE_CLIENTMAP> obj = (List<MyShop.Models.FTS_EMPLOYEE_CLIENTMAP>)ViewBag.SelectedIds;
+            foreach (MyShop.Models.FTS_EMPLOYEE_CLIENTMAP item in obj)
+            {
+                grd.Selection.SelectRowByKey(item.EC_CLIENT_ID);
+            }
+        }
+
+    };
+
+    settings.ClientSideEvents.BeginCallback = "selectiongridbegincallback";
+    
+
+}).Bind(Model).GetHtml()
+
+

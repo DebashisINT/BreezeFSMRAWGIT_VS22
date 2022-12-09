@@ -1,0 +1,260 @@
+﻿
+@model MyShop.Models.TargetVsAchivementRangeClass
+@{
+    ViewBag.Title = "Target Vs Achivement Daily";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+
+<style>
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+        min-width: 340px;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .iminentSpan > span {
+        display: block;
+    }
+    .btn-excel {
+        float: right;
+        margin-right: 38px;
+        margin-top: -4px;
+    }
+    .gridbinded {
+        position: absolute;
+        right: 15px;
+        top: 11px;
+    }
+    #cmbState + .btn-group > button {
+        border-radius: 4px;
+        height: 34px;
+    }
+    span.multiselect-native-select button {
+        border: 1px solid #c9c9c9 !important;
+        border-radius: 5px !important;
+    }
+</style>
+<script>
+
+    function ShowButtonClick() {
+        if ($('#cmbState').val() == null) {
+            jAlert('Please select atleast one state.', 'Warning', function () {
+                return;
+            });
+        }
+        if ($('#cmbState').val() == null) {
+            
+                return;
+
+        }
+        var start = $('#dtfrom_I').val();
+        var end = $('#dtto_I').val();
+        start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+        end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+        var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+        if (dayse <= 30) {
+            gridtreeList.Refresh();
+            gridtreeList.Refresh();
+        }
+        else {
+            jAlert("Searching days must be within One month");
+        }
+    }
+
+    function OnBeginCallback(s, e) {
+        stateids = $('#cmbState').val();
+        e.customArgs["fromdate"] = dtfrom.GetText();
+        e.customArgs["enddate"] = dtto.GetText();
+        e.customArgs["States"] = stateids.join(',');;
+    }
+
+
+
+    $(function () {
+        $('#cmbState').multiselect({
+            includeSelectAllOption: false,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            buttonWidth: '100%',
+
+            onDropdownHide: function (event) {
+
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+        stateids = $('#cmbState').val();
+    });
+
+
+    function gridEndCallBack() {
+       
+    }
+
+    function DateValidateFrom() {
+        if (dtto.GetDate()) {
+            if (dtto.GetDate() < dtfrom.GetDate()) {
+                dtto.SetValue(dtfrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtfrom.GetDate()) {
+            if (dtto.GetDate() < dtfrom.GetDate()) {
+                dtto.SetValue(dtfrom.GetDate());
+            }
+        }
+    }
+
+
+    function gridExport() {
+        var url = '@Url.Action("ExportGridView", "TargetvsAchvToday", new { type = "_type_" })'
+
+        window.location.href = url.replace("_type_", 3);
+
+
+    }
+
+</script>
+
+
+<div class="breadCumb">
+    <span>
+        Day Wise Target vs Achievement
+    </span>
+</div>
+<div class="container">
+    <div class="backBox mt-5 p-3 ">
+
+        <div class=" mb-3">
+            <div class="col-md-2">
+                <label>Select State(s)</label>
+                <div class="iminentSpan">
+                    <select class="demo" multiple="multiple" id="cmbState">
+                        @foreach (var item in Model.StateListTarget)
+                    {
+                            <option value="@item.ID">@item.Name</option>
+                    }
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>From Date</label>
+                <div>
+                    @Html.DevExpress().DateEdit(settings =>
+               {
+                   settings.Name = "dtfrom";
+                   settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                   settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                   settings.Properties.EditFormatString = "dd-MM-yyyy";
+                   settings.Properties.EditFormat = EditFormat.Custom;
+                   settings.Properties.UseMaskBehavior = true;
+                   settings.Date = DateTime.Now;
+                   settings.Properties.AllowNull = false;
+                   settings.Properties.ShowOutOfRangeWarning = false;
+                   settings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+               }).GetHtml()
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>End Date</label>
+                <div>
+                    @Html.DevExpress().DateEdit(settings =>
+               {
+                   settings.Name = "dtto";
+                   settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                   settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                   settings.Properties.EditFormatString = "dd-MM-yyyy";
+                   settings.Properties.EditFormat = EditFormat.Custom;
+                   settings.Properties.UseMaskBehavior = true;
+                   settings.Date = DateTime.Now;
+                   settings.Properties.AllowNull = false;
+                   settings.Properties.ShowOutOfRangeWarning = false;
+                   settings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+               }).GetHtml()
+
+                </div>
+            </div>
+            <div class="col-md-2 ">
+                <div>&nbsp;</div>
+                <button class="btn btn-success mb-3" onclick="ShowButtonClick()">Show</button>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <span class="btn-excel">
+                    <span>Export To Excel</span>
+                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="gridexport()" /></span>
+                </span>
+            </div>
+            <div class="relative">
+
+                @Html.Partial("TargetVsAchivementRangeGrid", Model.TargetVsAchivementList)
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,256 @@
+﻿@*@model MyShop.Models.TravelConveyanceModelclass*@
+@Html.DevExpress().GridView(settings =>
+            {
+                settings.Name = "gridTaconfiguration";
+                settings.KeyFieldName = "TCId";
+             
+                settings.CallbackRouteValues = new { Action = "ConfigurationPartial", Controller = "TravelConveyance" };
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+                settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+                settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+                settings.SettingsSearchPanel.Visible = true;
+                settings.Settings.ShowFilterRow = true;
+                settings.Settings.ShowGroupPanel = true;
+                settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+                settings.Settings.ShowFooter = true;
+                settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+                settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+                settings.SettingsPager.PageSizeItemSettings.Visible = true;
+                settings.SettingsPager.PageSize = 10;
+                settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+                settings.Settings.ShowFilterRowMenu = true;
+
+
+                settings.Columns.Add(x =>
+               {
+                   x.FieldName = "Slno";
+                   x.Caption = "Serial";
+                   x.Width = 50;
+
+
+               });
+                
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "DateConveyance";
+                    x.Caption = "Date";
+
+                    x.Width = 120;
+                });
+                
+                
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "VisitlocName";
+                    x.Caption = "Visit Location";
+                    x.Width = 150;
+
+
+
+
+                });
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "EmpgradeName";
+                    x.Caption = "Emp Grade";
+                    x.Width = 150;
+
+
+
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "ExpenseName";
+                    x.Caption = "Expense Type";
+                    x.Width = 150;
+
+                    //x.ColumnType = MVCxGridViewColumnType.ComboBox;
+                    //var ComboProperties = x.PropertiesEdit as ComboBoxProperties;
+                    //ComboProperties.ValidationSettings.RequiredField.IsRequired = true;
+                    //ComboProperties.ValidationSettings.RequiredField.ErrorText = "Required";
+                    //ComboProperties.MaxLength = 100;
+                    //ComboProperties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    //ComboProperties.ValidationSettings.EnableCustomValidation = true;
+
+
+                    //ComboProperties.DataSource = Model.expensetype;
+                    //ComboProperties.TextField = "Name";
+                    //ComboProperties.ValueField = "ID";
+                    //ComboProperties.ValueType = typeof(int);
+                    //ComboProperties.DropDownStyle = DropDownStyle.DropDown;
+
+
+
+                });
+
+
+                //settings.Columns.Add(x =>
+                //{
+                //    x.FieldName = "DesignationName";
+                //    x.Caption = "Designation";
+                //    x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+
+
+
+
+                //});
+
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "StateName";
+                    x.Caption = "State";
+                    x.Width = 150;
+
+
+
+                });
+
+
+                //settings.Columns.Add(m => m.TravelId, column =>
+                //{
+                //    column.EditorProperties().ComboBox(p =>
+                //    {
+                //        p.CallbackRouteValues = new { Controller = "Editing", Action = "GetCities", TextField = "CityName" };
+                //        p.TextField = "CityName";
+                //        p.ClientSideEvents.BeginCallback = "CityComboBox_BeginCallback";
+                //    });
+                //});
+
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "TravelName";
+                    x.Caption = "Mode Of Travel";
+                    x.Width = 180;
+
+
+
+
+                    //        x.SetDataItemTemplateContent(data =>
+                    //{
+                    //    Html.DevExpress().ComboBox(set =>
+                    //    {
+
+                    //        set.CallbackRouteValues = new { Controller = "Editing", Action = "GetCities", TextField = "CityName" };
+
+                    //        Response.Write(DataBinder.Eval(data.DataItem, "Status").ToString());
+
+                    //        set.Properties.DataSource = Model.travelmode.Where(t => t.Expense_Id == 1).OrderBy(t => t.Name).ToList();
+                    //        set.Properties.TextField = "Name";
+                    //        set.Properties.ValueField = "ID";
+                    //        //set.Properties.ClientSideEvents.ValueChanged = "StatusChangePopup";
+                    //        //set.Properties.ClientSideEvents.ValueChanged = string.Format("function(s, e) {{ KeyValue = {0}; StatusChangePopup(s, e); }}", data.KeyValue);
+
+
+
+                    //    });
+
+                    //});
+                });
+
+                //settings.CellEditorInitialize += (s, e) =>
+                //{
+                //    if (e.Column.FieldName == "ExpenseId")
+                //    {
+                //        ASPxComboBox comboBox = (ASPxComboBox)e.Editor;
+
+
+
+                //        for (int i = 0; i < e.VisibleIndex; i++)
+                //        {
+                //            comboBox.Items.Add(i.ToString());
+
+                //        }
+                //    }
+
+                //};
+
+                settings.Columns.Add(x =>
+               {
+                   x.FieldName = "FuelTypes";
+                   x.Caption = "Fuel type";
+                   x.Width = 190;
+
+               });
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "EligibleDistance";
+                    x.Caption = "Eligible Distance(Km)";
+                    //var TextboxProperties = x.PropertiesEdit as TextBoxProperties;
+                    //TextboxProperties.DisplayFormatString = "n0";
+                    //TextboxProperties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    //TextboxProperties.ValidationSettings.RequiredField.IsRequired = true;
+                    //TextboxProperties.ValidationSettings.RequiredField.ErrorText = "Required";
+                    //TextboxProperties.ValidationSettings.RegularExpression.ValidationExpression = @"^[1-9]\d*$";
+                    //TextboxProperties.ValidationSettings.RegularExpression.ErrorText = "Invalid Value.";
+                    ////TextboxProperties.Style.VerticalAlign = System.Web.UI.WebControls.VerticalAlign.Middle;
+
+                    //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+
+                    //TextboxProperties.MaxLength = 10;
+                    x.Width = 220;
+
+
+
+                });
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "EligibleRate";
+                    x.Caption = "Eligible Rate";
+
+                    x.Width = 200;
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "EligibleAmtday";
+                    x.Caption = "Eligible Amount/Day";
+
+                    x.Width = 220;
+                });
+
+
+              
+                
+                settings.Columns.Add(x =>
+                {
+                        x.FieldName = "IsActivename";
+                        x.Caption = "Status";
+
+                        x.Width = 140;
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.Caption = "Action";
+                    x.VisibleIndex = 15;
+                    x.Width = 120;
+                    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                    x.SetDataItemTemplateContent(c =>
+                    {
+
+
+                        ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditConveyance('" + Convert.ToString(DataBinder.Eval(c.DataItem, "TCId")) + "')\"><img src='/assests/images/Edit.png' /></a>");
+
+
+                        ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteTConveyance('" + Convert.ToString(DataBinder.Eval(c.DataItem, "TCId")) + "')\"><img src='/assests/images/Delete.png' </a>");
+
+                    });
+                    
+                 
+                    
+                    
+                    
+                });
+                
+            }).Bind(Model.conveyancemode).GetHtml()
+

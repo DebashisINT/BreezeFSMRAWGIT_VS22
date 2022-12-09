@@ -1,0 +1,82 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridgpsInactive";
+
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.CallbackRouteValues = new { Action = "GPSListActivityList", Controller = "GPSStatus" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallbackshopgps";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    //settings.Columns.Add("UserName");
+    //settings.Columns.Add("total_shop_visited");
+    //settings.Columns.Add("total_time_spent_at_shop");
+    //settings.Columns.Add("gps");
+    //settings.Columns.Add("Ratio");
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "date";
+        x.Caption = "Date";
+        x.VisibleIndex = 1;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "gps_off_time";
+        x.Caption = "GPS Off Time";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "gps_on_time";
+        x.Caption = "GPS On Time";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+
+    });
+
+
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "duration";
+        x.Caption = "Duration";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+
+
+    });
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+
+}).Bind(Model).GetHtml()
+
+
+
+

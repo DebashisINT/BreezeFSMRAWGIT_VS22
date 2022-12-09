@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Activity Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>Activity Master</span>
+</div>
+
+
+
+
+<div class="container">
+    <div class="backBox p-3 mt-5">
+
+        <div class="col-md-12">
+
+            @{
+                Html.RenderAction("Rendermainpage", "ActivityMaster");
+            }
+
+        </div>
+    </div>
+</div>
+
+

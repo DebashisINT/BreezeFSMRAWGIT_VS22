@@ -1,0 +1,3614 @@
+﻿@using MyShop.Models;
+@model MyShop.Models.AddPartyDetailsModel
+@{
+    ViewBag.Title = "PartyList";
+}
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+<script>
+    var Is_PageLoad = "Ispageload";
+    $(function () {
+
+        $("#ddlStatus").val(1);
+        var d = new Date();
+
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        dtLogFrom.SetValue(d);
+        dtLogTo.SetValue(d);
+
+        //$("#drpuser").chosen({
+        //    width: "100%"
+        //})
+        //$("#drpstate").chosen({
+        //    width: "100%"
+        //})
+        //$("#drpshop").chosen({
+        //    width: "100%"
+        //})
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+
+            var IS_ReAssignedDate = "0";
+            if ($('#chkIsAssignDate').is(":checked")) {
+                IS_ReAssignedDate = "1";
+            }
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            else {
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                //Rev Debashis
+                //var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+                //if (dayse <= 30) {
+                    //End of Rev Debashis
+                    Is_PageLoad = "1";
+
+                    $.ajax({
+                        url: "@Url.Action("GetPartyDetailsList", "partyDetails")",
+                        async: false,
+                        data: {
+                            Fromdate: dtFrom.GetText(),
+                            Todate: dtTo.GetText(),
+                            empcode: empId,
+                            StateIds: StateId,
+                            Is_PageLoad: Is_PageLoad,
+                            IS_ReAssignedDate: IS_ReAssignedDate
+                        },
+                        type: 'POST',
+                        success: function (data) {
+                            gridPartyDetails.Refresh();
+                            gridPartyDetails.Refresh();
+                        },
+                        error: function () {
+                        },
+                    });
+                //Rev Debashis    
+                //    }
+                //        else {
+                //            jAlert("Searching days must be within One month.");
+                //}
+                //End of Rev Debashis
+            }
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporRegisterList", "partyDetails", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
+
+        $(".allow_decimal").on("input", function (evt) {
+            var self = $(this);
+            self.val(self.val().replace(/[^0-9\.]/g, ''));
+            if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                evt.preventDefault();
+            }
+        });
+
+    });
+
+    function ExportLogGrid() {
+        var url = '@Url.Action("ExportPartyLogList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+
+
+    function GridShow() {
+        GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+        Is_PageLoad = "";
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+
+        var startdate = new Date(Date.parse(newdatefrom));
+        //  alert(startdate);
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            //Rev Debashis
+            //var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+            //if (dayse <= 30) {
+                //End of Rev Debashis
+                Is_PageLoad = "1";
+
+                $.ajax({
+                    url: "@Url.Action("GetPartyDetailsList", "partyDetails")",
+                    async: false,
+                    data: {
+                        Fromdate: dtFrom.GetText(),
+                        Todate: dtTo.GetText(),
+                        empcode: empId,
+                        StateIds: StateId,
+                        Is_PageLoad: Is_PageLoad
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        gridPartyDetails.Refresh();
+                        gridPartyDetails.Refresh();
+                    },
+                    error: function () {
+                    },
+                });
+                //Rev Debashis
+            //}
+            //else {
+            //    jAlert("Searching days must be within One month.");
+            //}
+            //End of Rev Debashis
+        }
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["empcode"] = empId;
+        e.customArgs["StateIds"] = StateId;
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh();
+        EmpGridLookup.GetGridView().Refresh();
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateIds"] = StateId;
+    }
+    //Mantis Issue 24571
+    $(document).ready(function () {
+        $("#txtcluster").val("N/A")
+    });
+    //End of Mantis Issue 24571
+    function AddShop(values) {
+
+        //if ($("#txtAlternateContact").val() == "") {
+        //    jAlert("Please enter alternate contact.", "Alert", function () {
+        //        setTimeout(function () {
+        //            $("#txtAlternateContact").focus();
+        //            return
+        //        }, 200);
+        //    });
+        //    return
+        //}
+
+        if ($("#ddlState").val() == "0") {
+            jAlert("Please select State.", "Alert", function () {
+                setTimeout(function () {
+                    $("#ddlState").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+        //Mantis Issue 24571
+        //alert($("#ddl_district").val())
+        if ($("#ddlCity").val() == "0" || $("#ddlCity").val() == "") {
+            jAlert("Please select district.", "Alert", function () {
+                setTimeout(function () {
+                    $("#ddlCity").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+        if ($("#txtcluster").val() == "" || $("#txtcluster").val() == null || $("#txtcluster").val() == undefined) {
+            jAlert("Please enter cluster.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtcluster").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+        //End of Mantis Issue 24571
+        //if ($("#txtAlternateContact").val() == "") {
+        //    jAlert("Please enter alternate contact.", "Alert", function () {
+        //        setTimeout(function () {
+        //            $("#txtAlternateContact").focus();
+        //            return
+        //        }, 200);
+        //    });
+        //    return
+        //}
+
+        if ($("#ddlshoptypesr").val() == "0") {
+            jAlert("Please select Type", "Alert", function () {
+                setTimeout(function () {
+                    $("#ddlshoptypesr").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        if ($("#ddlshoptypesr").val() == "11") {
+            if ($("#RetailerShopCode").val() == "") {
+                jAlert("Please select Retailer", "Alert", function () {
+                    setTimeout(function () {
+                        $("#RetailerTxt").focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+        }
+
+
+        if ($("#txtPartyName").val() == "") {
+            jAlert("Please enter party name.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtPartyName").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        if ($("#txtPartyCode").val() == "") {
+            // Mantis Issue 24603
+            //jAlert("Please enter party code.", "Alert", function () {
+            //    setTimeout(function () {
+            //        $("#txtPartyCode").focus();
+            //        return
+            //    }, 200);
+            //});
+            if ($("#hdnIsAutoCodificationRequiredViewbag").val() == "1") {
+                jAlert("Auto Code Activated, but no code found for this party. Cannot Proceed.", "Alert", function () {
+                    setTimeout(function () {
+                        $("#txtPartyCode").focus();
+                        return
+                    }, 200);
+                });
+            }
+            else {
+                jAlert("Please enter party code.", "Alert", function () {
+                    setTimeout(function () {
+                        $("#txtPartyCode").focus();
+                        return
+                    }, 200);
+                });
+            }
+            // End of Mantis Issue 24603
+            return
+        }
+
+        if ($("#txtAddress").val() == "") {
+            jAlert("Please enter address.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtAddress").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        if ($("#txtPinCode").val() == "") {
+            jAlert("Please enter pin code.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtPinCode").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        if ($("#txtOwner").val() == "") {
+            jAlert("Please enter owner.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtOwner").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        if ($("#txtContact").val() == "") {
+            jAlert("Please enter contact.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtContact").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        //Mantis Issue 24571
+        var mail = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if ($("#txtAltEmail").val() != "") {
+            if (!mail.test($("#txtAltEmail").val().trim())) {
+                jAlert("Please Enter Valid Email.", "Alert", function () {
+                    setTimeout(function () {
+                        $("#txtAltEmail").focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+        }
+        //End of Mantis Issue 24571
+
+        if ($("#ddlStatus").val() == "Select") {
+            jAlert("Please select status.", "Alert", function () {
+                setTimeout(function () {
+                    $("#ddlStatus").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+        //Mantis Issue 24571
+        if ($("#txtgstn").val() != "") {
+            var gst_value = $("#txtgstn").val().toUpperCase();
+            $("#txtgstn").val(gst_value);
+            var reg = /^([0-9]{2}[a-zA-Z]{4}([a-zA-Z]{1}|[0-9]{1})[0-9]{4}[a-zA-Z]{1}([a-zA-Z]|[0-9]){3}){0,15}$/;
+            if (!reg.test($("#txtgstn").val())) {
+                jAlert("Please Enter Valid GSTIN.", "Alert", function () {
+                    setTimeout(function () {
+                        $("#txtgstn").focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+        }
+        if ($("#txttradelicence").val() != "") {
+            var tradelicence_value = $("#txttradelicence").val().toUpperCase();
+            $("#txttradelicence").val(tradelicence_value);
+            
+        }
+        //End of Mantis Issue 24571
+        
+        //if ($("#ddlNewCreateUser").val() == "0") {
+        if ($("#hdnUserID").val() == "0") {
+            jAlert("Please select assign to user.", "Alert", function () {
+                setTimeout(function () {
+                    $("#ddlNewCreateUser").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if ($("#txtEmail").val() != "") {
+            if (!expr.test($("#txtEmail").val())) {
+                jAlert("Please Enter Valid Email.", "Alert", function () {
+                    setTimeout(function () {
+                        $("#txtEmail").focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+        }
+        
+
+        if ($("#txtOwnerPAN").val() != "") {
+            $("#hdnflag").val("0");
+            var PAN = $("#txtOwnerPAN").val().toUpperCase();
+            var panPat = /^([a-zA-Z]{5})(\d{4})([a-zA-Z]{1})$/;
+            var code = /([C,P,H,F,A,T,B,L,J,G])/;
+            var code_chk = PAN.substring(3, 4);
+            if (PAN != "") {
+                if (PAN.search(panPat) == -1) {
+                    jAlert("Please Enter Valid PAN.", "Alert", function () {
+                        setTimeout(function () {
+                            $("#txtOwnerPAN").focus();
+                            return
+                        }, 200);
+                    });
+                    return
+                }
+                if (code.test(code_chk) == false) {
+                    jAlert("Please Enter Valid PAN.", "Alert", function () {
+                        setTimeout(function () {
+                            $("#txtOwnerPAN").focus();
+                            return
+                        }, 200);
+                    });
+                    return
+                }
+            }
+        }
+
+        if ($("#ddlShopTypes").val() == "1") {
+            if ($("#ddlEntity").val() == null) {
+                jAlert("Please select entity type.", "Alert", function () {
+                    setTimeout(function () {
+                        $("#ddlEntity").focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+        }
+
+        var date1 = new Date("1970-01-01");
+        var date2 = new Date();
+        var Difference_In_Time = date2.getTime() - date1.getTime();
+        var middle = (Math.round(Difference_In_Time / 1000) * 1155) + 1;
+
+        var date = date2.getFullYear() + '-' + (date2.getMonth() + 1) + '-' + date2.getDate();
+        var time = date2.getHours() + ":" + date2.getMinutes() + ":" + date2.getSeconds();
+        var dateTime = date + 'T' + time;
+
+
+        if (window.FormData !== undefined) {
+            var fileUpload = $("#uploadFile").get(0);
+            var files = fileUpload.files;
+            var fileData = new FormData();
+
+            for (var i = 0; i < files.length; i++) {
+                fileData.append('shop_image', files[i]);
+            }
+           
+            var shop_idd = "";
+            if ($("#hdnShopMode").val() != 'Edit') {
+                if (fileUpload.files.length > 0) {
+                    // shop_idd = $("#ddlNewCreateUser").val() + '_' + middle;
+                    shop_idd = $("#hdnUserID").val() + '_' + middle;
+                }
+            }
+            else {
+                shop_idd = $("#hdnShopCode").val();
+            }
+
+            var dob = null;
+            if (txtDOB.GetText() != null && txtDOB.GetText() != "01-01-0100") {
+                dob = txtDOB.GetText();
+            }
+            var date_aniversary = null;
+            if (txtAnniversary.GetText() != null && txtAnniversary.GetText() != "01-01-0100") {
+                date_aniversary = txtAnniversary.GetText();
+            }
+
+            if (fileUpload.files.length > 0) {
+
+                var isprocess = false;
+                var extension = $("#uploadFile").val().replace(/^.*\./, '');
+                switch (extension.toLowerCase()) {
+                    case 'jpg':
+                        isprocess = true;
+                    case 'jpeg':
+                        isprocess = true;
+                    case 'png':
+                        isprocess = true;
+                    case 'gif':
+                        isprocess = true;
+                    default:
+                        // Cancel the form submission
+                        if (!isprocess) {
+                            jAlert('Invalid file.');
+                            return false;
+                            return
+                        }
+                }
+                if ($("#uploadFile").get(0).files[0].size / 1024 / 1024 > 1) {
+                    jAlert('File size upto 1 MB.');
+                    return false;
+                    return
+                }
+            }
+
+            var retailer_id;
+            if ($("#ddlshoptypesr").val() == "1" || $("#ddlshoptypesr").val() == "11") {
+                retailer_id = $("#ddlShopTypes").val();
+            }
+
+            var dealer_id;
+            if ($("#ddlshoptypesr").val() == "4") {
+                dealer_id = $("#ddlShopTypes").val();
+            }
+
+            
+            var data = {
+                session_token: "zksjfhjsdjkskjdh",
+                //user_id: $("#ddlNewCreateUser").val(),
+                user_id: $("#hdnUserID").val(),
+                shop_name: $("#txtPartyName").val(),
+                address: $("#txtAddress").val(),
+                pin_code: $("#txtPinCode").val(),
+                shop_lat: $("#txtPartyLocationLat").val(),
+                shop_long: $("#txtPartyLocationLang").val(),
+                owner_name: $("#txtOwner").val(),
+                owner_contact_no: $("#txtContact").val(),
+                owner_email: $("#txtEmail").val(),
+                type: $("#ddlshoptypesr").val(),
+                dob: dob,
+                date_aniversary: date_aniversary,
+                shop_id: shop_idd,
+                added_date: dateTime,
+                assigned_to_pp_id: $('#ShopCode').val(),
+                assigned_to_dd_id: $('#DDShopCode').val(),
+                EntityCode: $("#txtPartyCode").val(),
+                Entity_Location: $("#txtLocation").val(),
+                Alt_MobileNo: $("#txtAlternateContact").val(),
+
+                State_ID: $("#ddlState").val(),
+                //Mantis Issue 24571
+                GSTN_NUMBER: $("#txtgstn").val(),
+                Trade_Licence_Number: $("#txttradelicence").val(),
+                Cluster: $('#txtcluster').val(),
+                Alt_MobileNo1: $("#txtAlternateContact1").val(),
+                Shop_Owner_Email2: $('#txtAltEmail').val(),
+                //End of Mantis Issue 24571
+                Entity_Status: $("#ddlStatus").val(),
+                Entity_Type: $("#ddlEntityType").val(),
+                ShopOwner_PAN: $("#txtOwnerPAN").val(),
+                ShopOwner_Aadhar: $("#txtOwnerAdhar").val(),
+                Remarks: $("#txtRemarks").val(),
+                AreaId: $("#ddlArea").val(),
+                CityId: $("#ddlCity").val(),
+                Entered_by: $("#hdnUserID").val(),
+
+                retailer_id: retailer_id,
+                dealer_id: dealer_id,
+                entity_id: $("#ddlEntity").val(),
+                party_status_id: $("#ddlPartyStatus").val(),
+                beat_id: $("#ddlGroupBeat").val(),
+                AccountHolder: $("#txtAccountHolder").val(),
+                BankName: $("#txtBankName").val(),
+                AccountNo: $("#txtAccountNo").val(),
+                IFSCCode: $("#txtIFSCCode").val(),
+                UPIID: $("#txtUPIID").val(),
+                assigned_to_shop_id: $('#RetailerShopCode').val(),
+                
+            }
+
+
+            if (fileUpload.files.length > 0) {
+                var model = {
+                    data: JSON.stringify(data),
+                    shop_image: fileUpload
+                }
+
+
+                if ($("#hdnShopMode").val() == 'Edit') {
+                    add_photo_url = "@Url.Action("EditShop", "partyDetails")";
+                }
+                else {
+                    add_photo_url = "@Url.Action("RegisterShop", "partyDetails")";
+                }
+                var model = new FormData();
+                var i = 0;//selected file index
+                model.append("shop_image", files[0]);
+                model.append("data", JSON.stringify(data));
+                $.ajax({
+                    // and other parameter is set here
+                    url: add_photo_url,
+                    type: "POST",
+                    data: model,
+                    dataType: "json",
+                    cache: false,
+                    contentType: false,
+                    processData: false
+                }).always(function (result) {
+                    if (result == 'OK') {
+                        jAlert("Party submitted successfully.");
+
+                        ClearData();
+                        if (values == "Exit") {
+                            $('#myModal').modal('hide');
+                        }
+                        GridShow();
+                    }
+
+                    //gridPartyDetails.Refresh();
+                    //gridPartyDetails.Refresh();
+                });
+            }
+            else {
+                $.ajax({
+                    url: "@Url.Action("AddParty", "partyDetails")",
+                    async: false,
+                    data: { data: data },
+                    type: 'POST',
+                    success: function (returnValue
+                        ) {
+                        // Mantis Issue 24603 (Return value "returnValue" added )
+                        if (returnValue == "204") {
+                            jAlert("Auto Party Code Not generated. Party not addded.");
+                        }
+                        else if (returnValue == "205") {
+                            jAlert("Invalid Last Number. Party not addded.");
+                        }
+                        else if (returnValue == "206") {
+                            jAlert("Invalid Shop Type. Party not addded.");
+                        }
+                        else if (returnValue == "207") {
+                            jAlert("Invalid State Code. Party not addded.");
+                        }
+                        else {
+                            jAlert("Party submitted successfully. Auto Party Code " + returnValue + " generated.");
+                        }
+                        // End of Mantis Issue 24603
+                        ClearData();
+                        if (values == "Exit") {
+                            $('#myModal').modal('hide');
+                        }
+                        GridShow();
+                        //gridPartyDetails.Refresh();
+                        //gridPartyDetails.Refresh();
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        }
+        else {
+            jAlert("Please try again later!");
+        }
+    }
+
+    function ShopActiveInactive(shopCode) {
+        $.ajax({
+            url: "@Url.Action("PartyChangeStatus", "partyDetails")",
+            async: false,
+            data: { shopCode: shopCode },
+            type: 'POST',
+            success: function (data) {
+                GridShow();
+                //gridPartyDetails.Refresh();
+                //gridPartyDetails.Refresh();
+            },
+            error: function () {
+            },
+        });
+    }
+
+    function OpenShopforEdit(shopCode) {
+        var x = "";
+        var dt = "";
+        $.ajax({
+            url: "@Url.Action("ShowPartyDetails", "partyDetails")",
+            async: false,
+            data: { shopCode: shopCode },
+            type: 'POST',
+            success: function (data) {
+
+                $("#divddType").addClass('hide');
+                $("#divddShopType").addClass('hide');
+
+
+                $("#hdnShopMode").val('Edit');
+                $("#myModalLabel").text("Edit Party");
+                $("#hdnShopCode").val(data.Shop_code);
+                $("#ddlCountry").val(data.CountryID)
+                CountryChange();
+                StateChangeWithValue(data.State, data.CityId);
+                CityChangeWithValue(data.CityId, data.AreaID);
+                BindShoptypes(data.type);
+                if (data.type == "2") {
+                    //BindShoptypes(data.type);
+                    $("#DivAssignTo").addClass("hide");
+                    $("#DivAssignToDD").addClass("hide");
+                } else if (data.type == "3") {
+                    $("#DivAssignTo").addClass("hide");
+                    $("#DivAssignToDD").addClass("hide");
+                } else if (data.type == "4") {
+                    //BindShoptypes(data.type);
+                    $("#DivAssignToDD").addClass("hide");
+                }
+                else if (data.type == "11") {
+                    $("#divddType").removeClass('hide');
+                    BindElectricianShoptypes(1);
+                    $("#DivAssignTo").addClass("hide");
+                    $("#DivAssignToDD").addClass("hide");
+                    $("#DivAssignToRetailer").removeClass('hide');
+                }
+                else {
+                    $("#DivAssignTo").removeClass("hide");
+                    $("#DivAssignToDD").removeClass("hide");
+                }
+                //setting date object
+                //Rev work start 01.08.2022 0025120: Owner dob,owner aniversery date not fetch in edit mode in party master
+                var d = new Date(data.dobstr);
+                             
+                var d2 = new Date(data.date_aniversarystr);
+                //Rev work clos 01.08.2022 0025120: Owner dob,owner aniversery date not fetch in edit mode in party master
+
+                BinddType(data.retailer_id, data.type);
+                $("#ddlshoptypesr").val(data.type),
+                //$("#ddlPPList").val(data.AssignedTo),
+                $('#ShopCode').val(data.PPCode),
+                PPTxt.SetText(data.AssignedTo);
+                $('#DDShopCode').val(data.DDCode),
+                DDTxt.SetText(data.AssignedToDD);
+                $("#txtPartyName").val(data.Party_Name),
+                $("#txtPartyCode").val(data.Party_Code),
+                $("#txtAddress").val(data.Address),
+                $("#txtPinCode").val(data.Pin_Code),
+                $("#txtOwner").val(data.owner_name),
+                //Rev work start 01.08.2022 0025120: Owner dob,owner aniversery date not fetch in edit mode in party master                          
+                //txtDOB.SetValue(data.dobstr),               
+               // txtAnniversary.SetValue(data.date_aniversarystr),              
+                //Rev work close 01.08.2022 0025120: Owner dob,owner aniversery date not fetch in edit mode in party master
+                $("#txtContact").val(data.owner_contact_no),
+                $("#txtAlternateContact").val(data.Alternate_Contact),
+                $("#txtEmail").val(data.owner_email);
+                //Rev work start 01.08.2022 0025120: Owner dob,owner aniversery date not fetch in edit mode in party master  
+                if (data.dobstr != "")
+                {
+                    txtDOB.SetDate(d);
+                }
+                else
+                {
+                    txtDOB.Clear();
+                }               
+                if (data.date_aniversarystr != "") {
+                    txtAnniversary.SetDate(d2);
+                }
+                else
+                {
+                    txtAnniversary.Clear();
+                }
+                //Rev work close 01.08.2022 0025120: Owner dob,owner aniversery date not fetch in edit mode in party master
+                if (data.ShopStatus == "False") {
+                    $("#ddlStatus").val(0);
+                }
+                else {
+                    $("#ddlStatus").val(1);
+                }
+                $("#ddlEntityType").val(data.EntyType),
+                $("#txtOwnerPAN").val(data.Owner_PAN),
+                $("#txtOwnerAdhar").val(data.Owner_Adhar),
+                $("#txtRemarks").val(data.Remarks),
+                //$("#ddlNewCreateUser").val(0),
+                $('#hdnUserID').val('0')
+                UserTxt.SetText('');
+
+                //$("#ddlOldCreateUser").val(data.NewUser),
+                $('#hdnOldUserID').val(data.NewUser)
+                OldUserTxt.SetText(data.NewUserName);
+
+
+                $("#txtPartyLocationLat").val(data.shop_lat),
+                $("#txtPartyLocationLang").val(data.shop_long),
+                $("#txtLocation").val(data.Location);
+
+
+
+                $("#ddlEntity").val(data.Entity),
+                $("#ddlPartyStatus").val(data.PartyStatus),
+                // Mantis Issue 25433
+                //$("#ddlGroupBeat").val(data.GroupBeat),
+                $("#ddlGroupBeat").val(data.GroupBeatId),
+                // End of Mantis Issue 25433
+                $("#txtAccountHolder").val(data.AccountHolder),
+                $("#txtBankName").val(data.BankName),
+                $("#txtAccountNo").val(data.AccountNo),
+                $("#txtIFSCCode").val(data.IFSCCode),
+                $("#txtUPIID").val(data.UPIID),
+                // Mantis Issue 25433
+                $("#txtcluster").val(data.Cluster);
+                $("#txtAlternateContact1").val(data.Alt_MobileNo1);
+                $("#txtAltEmail").val(data.Shop_Owner_Email2);
+                $("#txtgstn").val(data.GSTN_NUMBER);
+                $("#txttradelicence").val(data.Trade_Licence_Number);
+                // End of Mantis Issue 25433
+
+                $('#RetailerShopCode').val(data.Retaile),
+                RetailerTxt.SetText(data.AssignedToRetaile);
+
+                if (data.retailer_id == "1") {
+                    $("#divEntityType").removeClass('hide');
+                }
+
+
+                setTimeout(function () {
+                    $("#ddlState").val(data.State);
+
+                    if (data.type == "1") {
+                        $("#ddlShopTypes").val(data.retailer_id);
+                        $("#divddType").removeClass('hide');
+                        $("#divddShopType").removeClass('hide');
+                    }
+                    else if (data.type == "4") {
+                        $("#ddlShopTypes").val(data.dealer_id);
+                        $("#divddType").removeClass('hide');
+                    }
+                    else if (data.type == "1") {
+                        $("#ddlShopTypes").val(data.retailer_id);
+                        $("#divddType").removeClass('hide');
+                        $("#divddShopType").removeClass('hide');
+                    }
+
+
+                }, 1200);
+
+                //setTimeout(function () {
+                //    $("#ddlCity").val(data.CityId);
+                //}, 1000);
+
+                //setTimeout(function () {
+                //    $("#ddlArea").val(data.AreaID);
+                //}, 1000);
+
+                $('#myModal').modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+    function StateChangeWithValue(values, City) {
+
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetCity", "partyDetails")",
+            data: { State: values },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var status = "<select id='ddlCity' onchange = 'CityChange();' class = 'form-control'>";
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].CityID + '>' + data[i].CityName + '</option>';
+                }
+                status = status + '</select>';
+                $('#Citydiv').html(status);
+                $("#ddlCity").val(City);
+            }
+        });
+
+
+    }
+
+
+    function StateChange() {
+        var shoptype = $("#ddlshoptypesr").val();
+        var stateid = $("#ddlState").val();
+        if (stateid != "0") {
+            $.ajax({
+                url: "@Url.Action("LasteEntityCode", "partyDetails")",
+                async: false,
+                data: { stateid: stateid, ShopType: shoptype },
+                type: 'POST',
+                success: function (data) {
+                    $("#SpnlastEntityCode").html(data)
+                },
+                error: function () {
+                },
+            });
+
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("GetCity", "partyDetails")",
+                data: { State: $('#ddlState').val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    var status = "<select id='ddlCity' onchange = 'CityChange();' class = 'form-control'>";
+                    for (var i = 0; i < data.length; i++) {
+                        status = status + '<option value=' + data[i].CityID + '>' + data[i].CityName + '</option>';
+                    }
+                    status = status + '</select>';
+                    $('#Citydiv').html(status);
+                    $("#ddlCity").val(0);
+                }
+            });
+
+            var Area = "<select id='ddlArea' class = 'form-control'>";
+            Area = Area + '<option value="0">Select</option>';
+            Area = Area + '</select>';
+            $('#Areadiv').html(Area);
+
+        }
+    }
+
+    function ShopTypeChange() {
+        var shoptype = $("#ddlshoptypesr").val();
+        var stateid = $("#ddlState").val();
+        if (shoptype == "2") {
+            $("#DivAssignTo").addClass("hide");
+            $("#DivAssignToDD").addClass("hide");
+        } else if (shoptype == "3") {
+            $("#DivAssignTo").addClass("hide");
+            $("#DivAssignToDD").addClass("hide");
+        }
+        else if (shoptype == "4") {
+            $("#DivAssignToDD").addClass("hide");
+        }
+        else {
+            $("#DivAssignTo").removeClass("hide");
+            $("#DivAssignToDD").removeClass("hide");
+        }
+
+        $("#lblTypes").html($("#ddlshoptypesr :selected").text() + " Type ");
+
+        if (shoptype != "0") {
+            $.ajax({
+                url: "@Url.Action("LasteEntityCode", "partyDetails")",
+                async: false,
+                data: { stateid: stateid, ShopType: shoptype },
+                type: 'POST',
+                success: function (data) {
+                    $("#SpnlastEntityCode").html(data)
+                },
+                error: function () {
+                },
+            });
+        }
+
+        $("#divddShopType").addClass('hide');
+
+        if (shoptype == "1" || shoptype == "4") {
+            $("#divddType").removeClass('hide');
+            BindShoptypes(shoptype);
+            if (shoptype == "1") {
+                $("#divddShopType").removeClass('hide');
+            }
+        }
+        else {
+            $("#divddType").addClass('hide');
+        }
+
+        if (shoptype == "11") {
+            $("#divddType").removeClass('hide');
+            BindElectricianShoptypes(1);
+            $("#DivAssignTo").addClass("hide");
+            $("#DivAssignToDD").addClass("hide");
+            $("#DivAssignToRetailer").removeClass('hide');
+        }
+    }
+
+    function BindElectricianShoptypes(shoptype) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetElectricianShopTypes", "partyDetails")",
+            data: { shoptype: shoptype },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var status = "<select id='ddlShopTypes' class = 'form-control'>";
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                }
+                status = status + '</select>';
+                $('#ShopTypes').html(status);
+            }
+        });
+    }
+
+    function BindShoptypes(shoptype) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetShopTypes", "partyDetails")",
+            data: { shoptype: shoptype },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var status = "<select id='ddlShopTypes' class = 'form-control' onchange='ddlShopTypes_Change();'>";
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                }
+                status = status + '</select>';
+                $('#ShopTypes').html(status);
+                $("#ddlShopTypes").val(0);
+            }
+        });
+    }
+
+    function ddlShopTypes_Change() {
+        var TypeID = $("#ddlShopTypes").val();
+        var shoptype = $("#ddlshoptypesr").val();
+
+        if (TypeID == '1') {
+            $("#divEntityType").removeClass('hide');
+        }
+        else {
+            $("#divEntityType").addClass('hide');
+        }
+
+        BinddType(TypeID, shoptype);
+    }
+
+
+    function BinddType(TypeID, shoptype) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetddShopTypes", "partyDetails")",
+            data: { shoptype: shoptype, TypeID: TypeID },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var status = "<select id='ddlddShopType' class = 'form-control'>";
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                }
+                status = status + '</select>';
+                $('#ddShopType').html(status);
+                //$("#ddlddShopTypes").val(0);
+            }
+        });
+    }
+
+    function CountryChange() {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetState", "partyDetails")",
+            data: { Country: $('#ddlCountry').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var status = "<select id='ddlState' onchange = 'StateChange();' class = 'form-control'>";
+                // status = status + '<option value="0">--Select--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].StateID + '>' + data[i].StateName + '</option>';
+                }
+                status = status + '</select>';
+                $('#statediv').html(status);
+                $("#ddlState").val(0);
+            }
+        });
+
+        var City = "<select id='ddlCity' onchange = 'CityChange();' class = 'form-control'>";
+        City = City + '<option value="0">Select</option>';
+        City = City + '</select>';
+        $('#Citydiv').html(City);
+
+        var Area = "<select id='ddlArea' class = 'form-control'>";
+        Area = Area + '<option value="0">Select</option>';
+        Area = Area + '</select>';
+        $('#Areadiv').html(Area);
+
+    }
+
+    //$('.numbersOnly').keyup(function () {
+    //    this.value = this.value.replace(/[^0-9\.]/g, '');
+    //});
+
+    function CityChange() {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetArea", "partyDetails")",
+            data: { City: $('#ddlCity').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var status = "<select id='ddlArea' class = 'form-control'>";
+                // status = status + '<option value="0">--Select--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].AreaID + '>' + data[i].AreaName + '</option>';
+                }
+                status = status + '</select>';
+                $('#Areadiv').html(status);
+                $("#ddlArea").val(0);
+            }
+        });
+    }
+
+
+    function CityChangeWithValue(Values, Area) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetArea", "partyDetails")",
+            data: { City: Values },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                var status = "<select id='ddlArea' class = 'form-control'>";
+                // status = status + '<option value="0">--Select--</option>';
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].AreaID + '>' + data[i].AreaName + '</option>';
+                }
+                status = status + '</select>';
+                $('#Areadiv').html(status);
+                $("#ddlArea").val(Area);
+            }
+        });
+    }
+
+    function PPButnClick(s, e) {
+        $('#PPModel').modal('show');
+    }
+
+    function PP_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#PPModel').modal('show');
+            $("#txtPPSearch").focus();
+        }
+    }
+
+
+    function PPkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtPPSearch").val()) == "" || $.trim($("#txtPPSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtPPSearch").val();
+        // OtherDetails.BranchID = $('#ddl_Branch').val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Name");
+            HeaderCaption.push("PP Code");
+            HeaderCaption.push("Location");
+            // Mantis Issue 24450,24451
+            HeaderCaption.push("Contact No");
+            // End of Mantis Issue 24450,24451
+
+            if ($("#txtPPSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetShop", OtherDetails, "PPTable", HeaderCaption, "PPIndex", "SetPP");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[PPindex=0]"))
+                $("input[PPindex=0]").focus();
+        }
+    }
+
+    function SetPP(id, Name) {
+        var key = id;
+        $('#ShopCode').val(id)
+        if (key != null && key != '') {
+            $('#PPModel').modal('hide');
+            PPTxt.SetText(Name);
+            PPTxt.SetFocus();
+        }
+    }
+
+
+    function DDButnClick(s, e) {
+        $('#DDModel').modal('show');
+    }
+
+    function DD_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#DDModel').modal('show');
+            $("#txtDDSearch").focus();
+        }
+    }
+
+
+    function DDkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtDDSearch").val()) == "" || $.trim($("#txtDDSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtDDSearch").val(),
+        // Mantis Issue 24450,24451
+        //OtherDetails.ddType = $("#ddlddShopType").val();
+        OtherDetails.ddType = $("#ddlShopTypes").val();
+        // End of Mantis Issue 24450,24451
+        // OtherDetails.BranchID = $('#ddl_Branch').val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Name");
+            HeaderCaption.push("DD Code");
+            HeaderCaption.push("Location");
+            // Mantis Issue 24450,24451
+            HeaderCaption.push("Contact No");
+            // End of Mantis Issue 24450,24451
+
+            if ($("#txtDDSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetDDShop", OtherDetails, "DDTable", HeaderCaption, "DDIndex", "SetDD");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[DDIndex=0]"))
+                $("input[DDIndex=0]").focus();
+        }
+    }
+
+    function SetDD(id, Name) {
+        var key = id;
+        $('#DDShopCode').val(id)
+        if (key != null && key != '') {
+            $('#DDModel').modal('hide');
+            DDTxt.SetText(Name);
+            DDTxt.SetFocus();
+        }
+    }
+
+    function ValueSelected(e, indexName) {
+
+        if (e.code == "Enter") {
+
+            var Id = e.target.parentElement.parentElement.cells[0].innerText;
+            var name = e.target.parentElement.parentElement.cells[1].children[0].value;
+            if (Id) {
+
+                if (indexName == "PPIndex") {
+                    SetPP(Id, name);
+                }
+                else if (indexName == "DDIndex") {
+                    SetDD(Id, name);
+                }
+                else if (indexName == "RetailerIndex") {
+                    SetRetailer(Id, name);
+                }
+            }
+        }
+
+        else if (e.code == "ArrowDown") {
+            thisindex = parseFloat(e.target.getAttribute(indexName));
+            thisindex++;
+            if (thisindex < 10)
+                $("input[" + indexName + "=" + thisindex + "]").focus();
+        }
+        else if (e.code == "ArrowUp") {
+            thisindex = parseFloat(e.target.getAttribute(indexName));
+            thisindex--;
+            if (thisindex > -1)
+                $("input[" + indexName + "=" + thisindex + "]").focus();
+            else {
+                if (indexName == "PPIndex") {
+                    $('#txtPPSearch').focus();
+                }
+                else if (indexName == "DDIndex") {
+                    $('#txtDDSearch').focus();
+                }
+                else if (indexName == "RetailerIndex") {
+                    $('#txtRetailerSearch').focus();
+                }
+            }
+        }
+
+    }
+
+    function ClearData() {
+        $("#hdnShopMode").val('Add');
+        $("#hdnShopCode").val('');
+        $("#myModalLabel").val("Add Party");
+        $("#ddlCountry").val('0');
+        $("#ddlState").val('0');
+        $("#ddlCity").val('0');
+        $("#ddlArea").val('0');
+        $("#ddlshoptypesr").val('0');
+        $('#ShopCode').val('');
+        PPTxt.SetText('');
+        $('#DDShopCode').val('');
+        DDTxt.SetText('');
+        $("#txtPartyName").val('');
+        // Mantis Issue 24603
+        //$("#txtPartyCode").val('');
+        if ($("#hdnIsAutoCodificationRequiredViewbag").val() == "1") {
+            $("#txtPartyCode").val('Auto');
+        }
+        else {
+            $("#txtPartyCode").val('');
+        }
+        // End of Mantis Issue 24603
+        $("#txtAddress").val('');
+        $("#txtPinCode").val('');
+        $("#txtOwner").val('');
+        $("#txtContact").val('');
+        $("#txtAlternateContact").val('');
+        $("#txtEmail").val('');
+        $("#ddlStatus").val('1');
+        $("#ddlEntityType").val('0');
+        $("#txtOwnerPAN").val('');
+        $("#txtOwnerAdhar").val('');
+        $("#txtRemarks").val('');
+        //$("#ddlNewCreateUser").val(0);
+        //$("#ddlOldCreateUser").val(0);
+        $('#hdnUserID').val('0')
+        UserTxt.SetText('');
+        $('#hdnOldUserID').val('0')
+        OldUserTxt.SetText('');
+        $("#txtPartyLocationLat").val('0');
+        $("#txtPartyLocationLang").val('0');
+        $("#txtLocation").val('');
+        $("#uploadFile").val('');
+
+
+        $("#ddlEntity").val('0');
+        $("#ddlPartyStatus").val('0');
+        $("#ddlGroupBeat").val('0');
+        $("#txtAccountHolder").val('');
+        $("#txtBankName").val('');
+        $("#txtAccountNo").val('');
+        $("#txtIFSCCode").val('');
+        $("#txtUPIID").val('');
+
+        $("#divddType").addClass('hide');
+        $("#divddShopType").addClass('hide');
+
+        $("#DivAssignTo").removeClass("hide");
+        $("#DivAssignToDD").removeClass("hide");
+        $("#DivAssignToRetailer").addClass('hide');
+        $("#divEntityType").addClass('hide');
+        RetailerTxt.SetText('');
+        $('#RetailerShopCode').val('');
+        // Mantis Issue 25468
+        $('#txtcluster').val('N/A')
+        // End of Mantis Issue 25468
+    }
+
+    function DownloadFormat() {
+        var url = '@Url.Action("DownloadFormat", "partyDetails")'
+        window.location.href = url;
+    }
+
+    function ChekEmpSettingsUpload() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("ImportExcel", "partyDetails")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        //$("#myImportModal").toggle();
+                        $("#myImportModal").modal('hide');
+                        GridShow();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetPartyImportLog", "partyDetails")",
+                            success: function (response) {
+                                if (response) {
+                                    pcModalTemplateImportLogMode.Show();
+                                    gridTemplateImportLogList.Refresh();
+                                    gridTemplateImportLogList.Refresh();
+                                }
+                            }
+                        });
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+
+    function OnClickDeleteForm(ShopCode) {
+        var url = '/partyDetails/PartyDelete/';
+
+        jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+            if (ret == true) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'ShopCode': ShopCode }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "Delete Succesfully.") {
+                            jAlert("Successfully Deleted.");
+                            GridShow();
+                        }
+                        else {
+                            jAlert(response);
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    }
+
+    function ImportPartyPopOpen() {
+        $("#myImportModal").modal('show');
+    }
+
+    function ReAssignUserPopOpen() {
+        $("#ReAssignedModal").modal('show');
+    }
+
+    function ReAssignUserLogPopOpen() {
+        //$("#ReAssignedLogModal").modal('show');
+        var d = new Date();
+
+        dtLogFrom.SetValue(d);
+        dtLogTo.SetValue(d);
+
+        pcModalImportLogViewMode.Show();
+    }
+    //Mantis Issue 25133
+    function ReAssignBeatGroupPopOpen() {
+        $("#ReAssignedBeatModal").modal('show');
+    }
+
+    function ReAssignBeatGroupLogPopOpen() {
+        //$("#ReAssignedLogModal").modal('show');
+        var d = new Date();
+
+        dtLogFrom.SetValue(d);
+        dtLogTo.SetValue(d);
+
+        pcModalImportGroupBeatLogViewMode.Show();
+    }
+    //End of Mantis Issue 25133
+    function RetailerButnClick(s, e) {
+        $('#RetailerModel').modal('show');
+    }
+
+    function Retailer_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#RetailerModel').modal('show');
+            $("#txtRetailerSearch").focus();
+        }
+    }
+
+    function Retailerkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtRetailerSearch").val()) == "" || $.trim($("#txtRetailerSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtRetailerSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Name");
+            HeaderCaption.push("Retailer Code");
+            HeaderCaption.push("Location");
+
+            if ($("#txtRetailerSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetRetailerShop", OtherDetails, "RetailerTable", HeaderCaption, "RetailerIndex", "SetRetailer");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[RetailerIndex=0]"))
+                $("input[RetailerIndex=0]").focus();
+        }
+    }
+
+    function SetRetailer(id, Name) {
+        var key = id;
+        $('#RetailerShopCode').val(id)
+        if (key != null && key != '') {
+            $('#RetailerModel').modal('hide');
+            RetailerTxt.SetText(Name);
+            RetailerTxt.SetFocus();
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+<script>
+    function ShopReAssignUser() {
+        if (ShopCodeS != "") {
+            var data = {
+                OldUser: $("#ddlOldUser").val(),
+                //NewUser: $("#ddlNewAssignUser").val(),
+                NewUser: $("#hdnNewAssignUserID").val(),
+                ShopCode: ShopCodeS
+            }
+            // var url = '/partyDetails/ShopReAssignUser/';
+            $.ajax({
+                //type: "POST",
+                //url: url,
+                ////data: JSON.stringify({ 'OldUser': $("#ddlOldUser").val(), 'NewUser': $("#ddlNewAssignUser").val() }),
+                //data: { data: data },
+                //async: false,
+                //contentType: "application/json; charset=utf-8",
+                //dataType: "json",
+                url: "@Url.Action("ShopReAssignUser", "partyDetails")",
+                async: false,
+                data: { data: data },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    if (response == "Update Succesfully.") {
+                        jAlert("Successfully Updated.");
+                        ShopCodeS = [];
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetReAssignShopUserLog", "partyDetails")",
+                            success: function (response) {
+                                if (response) {
+                                    $("#ReAssignedModal").modal('hide');
+                                    pcModalTemplateReAssignShopLogMode.Show();
+                                    gridReAssignShopLogList.Refresh();
+                                    gridReAssignShopLogList.Refresh();
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        jAlert(response);
+                        ShopCodeS = [];
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                    ShopCodeS = [];
+                }
+            });
+        }
+        else {
+            jAlert("Please generate and select shops");
+        }
+    }
+
+    function ExportReAssignLogGrid() {
+        var url = '@Url.Action("ExportReAssignLogList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function ShopReAssignUserLog() {
+        var url = '/partyDetails/ShopReAssignUserLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogFrom.GetText(), 'ToDate': dtLogTo.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ReAssignShopUserManualLog", "partyDetails")",
+                        success: function (response) {
+                            if (response) {
+                                $("#ReAssignedModal").modal('hide');
+                                pcModalTemplateReAssignShopManualLogMode.Show();
+                                gridReAssignShopManualLogList.Refresh();
+                                gridReAssignShopManualLogList.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    function ExportReAssignManualLogGrid() {
+        var url = '@Url.Action("ExportReAssignManualLogList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function GenerateShopList() {
+        var url = '/partyDetails/GenerateReAssignShopList/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'userid': $("#ddlOldUser").val() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ReAssignShopList", "partyDetails")",
+                        success: function (response) {
+                            if (response) {
+                                $("#ReAssignedShopListModal").modal('show');
+
+                                gridReAssignShopList.Refresh();
+                                gridReAssignShopList.Refresh();
+                                setTimeout(function () {
+                                    gridReAssignShopList.UnselectRows();
+                                }, 1000);
+                                ShopCodeS = [];
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    var ShopCodeS = [];
+    function SelectShopCodes() {
+        gridReAssignShopList.GetSelectedFieldValues("SHOP_CODE", GetShopCodeSelectedFieldValuesCallback);
+    }
+
+    function GetShopCodeSelectedFieldValuesCallback(values) {
+        try {
+            ShopCodeS = [];
+            for (var i = 0; i < values.length; i++) {
+                ShopCodeS.push(values[i]);
+            }
+        } finally {
+            console.log(ShopCodeS);
+        }
+    }
+
+    $(document).ready(function () {
+        if ($("#hdnIsAutoCodificationRequiredViewbag").val() == "1") {
+            $("#txtPartyCode").attr("readonly", true);
+            $("#txtPartyCode").val("Auto");
+        }
+    })
+
+</script>
+@*Mantis Issue 25133*@
+<script>    
+
+    function GenerateShopForGroupBeatList() {
+        var url = '/partyDetails/GenerateReAssignShopListForGroupBeat/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'GroupBeatid': $("#ddlGroupBeatOld").val() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ReAssignShopListForGroupBeat", "partyDetails")",
+                        success: function (response) {
+                            if (response) {
+                                $("#ReAssignedShopListModalBeat").modal('show');
+
+                                gridReAssignShopListGroupBeat.Refresh();
+                                gridReAssignShopListGroupBeat.Refresh();
+                                setTimeout(function () {
+                                    gridReAssignShopListGroupBeat.UnselectRows();
+                                }, 1000);
+                                ShopCodeS = [];
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    var ShopCodeS = [];
+    function SelectShopGroupBeatCodes() {
+        gridReAssignShopListGroupBeat.GetSelectedFieldValues("SHOP_CODE", GetShopCodeGroupBeatSelectedFieldValuesCallback);
+    }
+
+    function GetShopCodeGroupBeatSelectedFieldValuesCallback(values) {
+        try {
+            ShopCodeS = [];
+            for (var i = 0; i < values.length; i++) {
+                ShopCodeS.push(values[i]);
+            }
+        } finally {
+            console.log(ShopCodeS);
+        }
+    }
+
+    //$(document).ready(function () {
+    //    if ($("#hdnIsAutoCodificationRequiredViewbag").val() == "1") {
+    //        $("#txtPartyCode").attr("readonly", true);
+    //        $("#txtPartyCode").val("Auto");
+    //    }
+    //})
+
+</script>
+<script>
+    function ShopReAssignGroupBeat() {
+        if (ShopCodeS != "") {
+            var data = {
+                OldGroupBeat: $("#ddlGroupBeatOld").val(),
+                NewGroupBeat: $("#hdnNewAssignGroupBeatID").val(),
+                ShopCode: ShopCodeS
+            }
+            // var url = '/partyDetails/ShopReAssignUser/';
+            $.ajax({
+                //type: "POST",
+                //url: url,
+                ////data: JSON.stringify({ 'OldUser': $("#ddlOldUser").val(), 'NewUser': $("#ddlNewAssignUser").val() }),
+                //data: { data: data },
+                //async: false,
+                //contentType: "application/json; charset=utf-8",
+                //dataType: "json",
+                url: "@Url.Action("ShopReAssignGroupBeat", "partyDetails")",
+                async: false,
+                data: { data: data },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    if (response == "Update Succesfully.") {
+                        jAlert("Successfully Updated.");
+                        ShopCodeS = [];
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetReAssignShopGroupBeatLog", "partyDetails")",
+                            success: function (response) {
+                                if (response) {
+                                    $("#ReAssignedGroupBeatModal").modal('hide');
+                                    pcModalTemplateReAssignShopLogModeGroupBeat.Show();
+                                    gridReAssignShopLogGroupBeatList.Refresh();
+                                    gridReAssignShopLogGroupBeatList.Refresh();
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        jAlert(response);
+                        ShopCodeS = [];
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                    ShopCodeS = [];
+                }
+            });
+        }
+        else {
+            jAlert("Please generate and select shops");
+        }
+    }
+
+    function ExportReAssignLogGroupBeatGrid() {
+        var url = '@Url.Action("ExportReAssignGroupBeatLogList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function ShopReAssignUserGroupBeatLog() {
+        var url = '/partyDetails/ShopReAssignGroupBeatLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogGBFrom.GetText(), 'ToDate': dtLogGBTo.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ReAssignShopGroupBeatManualLog", "partyDetails")",
+                        success: function (response) {
+                            if (response) {
+                                $("#ReAssignedGroupBeatModal").modal('hide');
+                                pcModalTemplateReAssignShopManualGroupBeatLogMode.Show();
+                                gridReAssignShopManualLogGroupBeatList.Refresh();
+                                gridReAssignShopManualLogGroupBeatList.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    function ExportReAssignManualLogGroupBeatGrid() {
+        var url = '@Url.Action("ExportReAssignManualLogGroupBeatList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function ShopReAssignGroupBeatLog() {
+        var url = '/partyDetails/ShopReAssignGroupBeatLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogGBFrom.GetText(), 'ToDate': dtLogGBTo.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ReAssignShopGroupBeatManualLog", "partyDetails")",
+                        success: function (response) {
+                            if (response) {
+                                $("#ReAssignedModal").modal('hide');
+                                pcModalTemplateReAssignShopManualLogMode.Show();
+                                gridReAssignShopManualLogList.Refresh();
+                                gridReAssignShopManualLogList.Refresh();
+                            }
+                        }
+                });
+            }
+        else {
+                    jAlert(response);
+    }
+    },
+    error: function (response) {
+        console.log(response);
+    }
+    });
+    }
+    function ExportReAssignGroupBeatManualLogGrid() {
+        var url = '@Url.Action("ExportReAssignGroupBeatManualLogList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+</script>
+@*End of Mantis Issue 25133*@
+
+<style>
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 20px 20px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 70%;
+    }
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 30px;
+        padding: 3px 12px;
+    }
+
+    .modalScroll .modal-body {
+        max-height: 75vh !important;
+        overflow-y: auto;
+    }
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+    }
+
+    .new-popup-width .modal-dialog {
+        width: 90% !important;
+    }
+    #myImportModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+</style>
+
+<script>
+    function Userkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtUserSearch").val()) == "" || $.trim($("#txtUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtUserSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("User Name");
+            HeaderCaption.push("User Login Id");
+            // Mantis Issue 24450,24451
+            HeaderCaption.push("Employee Id");
+            // End of Mantis Issue 24450,24451
+
+            if ($("#txtUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetUserList", OtherDetails, "UserTable", HeaderCaption, "UserIndex", "SetUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+        }
+    }
+
+    function SetUser(id, Name) {
+        var key = id;
+        $('#hdnUserID').val(id)
+        if (key != null && key != '') {
+            $('#UserSearchModel').modal('hide');
+            UserTxt.SetText(Name);
+            UserTxt.SetFocus();
+        }
+    }
+
+    function UserButnClick(s, e) {
+        $('#UserSearchModel').modal('show');
+    }
+
+    function User_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#UserSearchModel').modal('show');
+            $("#txtUserSearch").focus();
+        }
+    }
+
+    function OldUserkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtOldUserSearch").val()) == "" || $.trim($("#txtOldUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtOldUserSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("User Name");
+            HeaderCaption.push("User Login Id");
+            // Mantis Issue 24450,24451
+            HeaderCaption.push("Employee Id");
+            // End of Mantis Issue 24450,24451
+
+            if ($("#txtOldUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetUserList", OtherDetails, "OldUserTable", HeaderCaption, "OldUserIndex", "SetOldUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+            else if ($("input[OldUserIndex=0]"))
+                $("input[OldUserIndex=0]").focus();
+        }
+    }
+
+    function SetOldUser(id, Name) {
+        var key = id;
+        $('#hdnOldUserID').val(id)
+        if (key != null && key != '') {
+            $('#OldUserSearchModel').modal('hide');
+            OldUserTxt.SetText(Name);
+            OldUserTxt.SetFocus();
+        }
+    }
+
+    function OldUserButnClick(s, e) {
+        $('#OldUserSearchModel').modal('show');
+    }
+
+    function OldUser_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#OldUserSearchModel').modal('show');
+            $("#txtOldUserSearch").focus();
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+           
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+       if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+</script>
+
+<script>
+    function NewAssignUserkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtNewAssignUserSearch").val()) == "" || $.trim($("#txtNewAssignUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtNewAssignUserSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("User Name");
+            HeaderCaption.push("User Login Id");
+            // Mantis Issue 24450,24451
+            HeaderCaption.push("Employee Id");
+            // End of Mantis Issue 24450,24451
+
+            if ($("#txtNewAssignUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetUserList", OtherDetails, "NewAssignUserTable", HeaderCaption, "NewAssignUserIndex", "SetNewAssignUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+        }
+    }
+
+    function SetNewAssignUser(id, Name) {
+        var key = id;
+        $('#hdnNewAssignUserID').val(id)
+        if (key != null && key != '') {
+            $('#NewAssignUserSearchModel').modal('hide');
+            NewAssignUserTxt.SetText(Name);
+            NewAssignUserTxt.SetFocus();
+        }
+    }
+
+    function NewAssignUserButnClick(s, e) {
+        $('#NewAssignUserSearchModel').modal('show');
+    }
+
+    function NewAssignUser_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#NewAssignUserSearchModel').modal('show');
+            $("#txtNewAssignUserSearch").focus();
+        }
+    }
+
+</script>
+@*Mantis Issue 25133*@
+<script>
+    function NewAssignGroupBeatkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtNewAssignGroupBeatSearch").val()) == "" || $.trim($("#txtNewAssignGroupBeatSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtNewAssignGroupBeatSearch").val();
+        OtherDetails.OldGroupBeatId = $("#ddlGroupBeatOld").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            
+            HeaderCaption.push("Group Beat Name");
+            HeaderCaption.push("Group Beat Code");
+           
+
+            if ($("#txtNewAssignGroupBeatSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetGroupBeatList", OtherDetails, "NewAssignGroupBeatTable", HeaderCaption, "NewAssignGroupBeatIndex", "SetNewAssignGroupBeat");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+        }
+    }
+
+    function SetNewAssignGroupBeat(id,Name) {
+        var key = id;
+        $('#hdnNewAssignGroupBeatID').val(id)
+        if (key != null && key != '') {
+            $('#NewAssignGroupBeatSearchModel').modal('hide');
+            NewAssignGroupBeatTxt.SetText(Name);
+            NewAssignGroupBeatTxt.SetFocus();
+        }
+    }
+
+    function NewAssignGroupBeatButnClick(s, e) {
+        $('#NewAssignGroupBeatSearchModel').modal('show');
+    }
+
+    function NewAssignGroupBeat_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#NewAssignGroupBeatSearchModel').modal('show');
+            $("#txtNewAssignGroupBeatSearch").focus();
+        }
+    }
+
+</script>
+@*End of Mantis Issue 25133*@
+<div class="breadCumb">
+    <span>Party List</span>
+</div>
+
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 px-5">
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                            Add Party
+                        </button>
+                        <button type="button" class="btn btn-info mr-1" onclick="DownloadFormat();">
+                            Download Format
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="ImportPartyPopOpen();">
+                            Import File
+                        </button>
+                        <button type="button" class="btn btn-success" onclick="ReAssignUserPopOpen();">
+                            Re-assigned User
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="ReAssignUserLogPopOpen();">
+                            Re-assigned User Log
+                        </button>
+                        @*Mantis Issue 25133*@
+                        <button type="button" class="btn btn-success" onclick="ReAssignBeatGroupPopOpen();">
+                            Re-assigned Beat/Group
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="ReAssignBeatGroupLogPopOpen();">
+                            Re-assigned Beat/Group Log
+                        </button>
+                        @*End of Mantis Issue 25133*@
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-2" style="margin-bottom: 16px;">
+                        <span>State</span>
+                        <div>
+                            @Html.Action("GetStateList", "MasterPopulate")
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <span>Employee</span>
+                        <div>
+                            @*@Html.Action("GetEmpList", "MasterPopulate")*@
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "EmployeeTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                            }).GetHtml()
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <span>From Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtFrom";                           
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        }).GetHtml()
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <span>To Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Todate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtTo";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        }).GetHtml()
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 13px;">
+                        <span>&nbsp;</span>
+                        <input type="checkbox" id="chkIsAssignDate" /> Re-assigned Date
+                    </div>
+                    <div class="col-md-2" style="padding-top: 13px;">
+                        <span></span>
+                        <div>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="2">XLSX</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialPartyDetailsGridList", "partyDetails", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade pmsModal w70 font-pp modalScroll" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Party</h4>
+            </div>
+            <input type="hidden" id="hdnShopCode" value="" />
+            <div class="modal-body inputShrink">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <label>Country <span class="red">*</span></label>
+                        <div>
+                            @Html.DropDownListFor(m => m.Country, new SelectList(Model.CountryList, "cou_id", "cou_country", Model.CountryID), new { @id = "ddlCountry", @class = "form-control", @onchange = "CountryChange();" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>State <span class="red">*</span></label>
+                        <div id="statediv">
+                            @Html.DropDownListFor(m => m.State, new SelectList(Model.StateList, "StateID", "StateName", Model.StateID), new { @id = "ddlState", @class = "form-control", @onchange = "StateChange();" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>District <span class="red">*</span></label>
+                        <div id="Citydiv">
+                            <select class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Area </label>
+                        <div id="Areadiv">
+                            <select class="form-control">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    @*Mantis Issue 24571*@
+                    <div class="col-md-3">
+                        <label>Cluster <span class="red">*</span></label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Cluster, new { @class = "form-control", @id = "txtcluster" })
+                        </div>
+                    </div>
+                    @*End of Mantis Issue 24571*@
+                    <div class="col-md-3">
+                        <label>Type <span class="red">*</span></label>
+                        <div>
+                            @*<select class="form-control">
+                                    <option>Select</option>
+                                </select>*@
+                            @Html.DropDownListFor(m => m.type, new SelectList(Model.ShpTypeList, "ID", "Name", Model.Shoptype), new { @id = "ddlshoptypesr", @class = "form-control", @onchange = "ShopTypeChange();" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 hide" id="divddType">
+                        <label id="lblTypes">Type </label>
+                        <div id="ShopTypes">
+                            <select class="form-control" id="ddlShopTypes">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3" id="DivAssignTo">
+                        <label>Assigned To PP</label>
+                        <div>
+                            @*<select class="form-control">
+                                    <option>Select</option>
+                                </select>*@
+                            @*@Html.DropDownListFor(m => m.AssignedTo, new SelectList(Model.PPCodeList, "Shop_Code", "Shop_Name", Model.PPCode), new { @id = "ddlPPList", @class = "form-control" })*@
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "PPTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){PPButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){PP_KeyDown(s,e);}";
+
+                            }).GetHtml()
+
+                            <input type="hidden" id="txtContact_hidden">
+                            <input type="hidden" id="ShopCode" value="@Model.PPCode">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 hide" id="divddShopType">
+                        <label id="lblTypes">DD Type </label>
+                        <div id="ddShopType">
+                            <select class="form-control" id="ddlddShopType">
+                                <option>Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3" id="DivAssignToDD">
+                        <label>Assigned To DD</label>
+                        <div>
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "DDTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){DDButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){DD_KeyDown(s,e);}";
+
+                            }).GetHtml()
+
+                            <input type="hidden" id="txtDDContact_hidden">
+                            <input type="hidden" id="DDShopCode" value="@Model.DDCode">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 hide" id="DivAssignToRetailer">
+                        <label>Assigned To Retailer</label>
+                        <div>
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "RetailerTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedToRetaile;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){RetailerButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Retailer_KeyDown(s,e);}";
+                            }).GetHtml()
+
+                            <input type="hidden" id="txtContact_hidden">
+                            <input type="hidden" id="RetailerShopCode" value="@Model.Retaile">
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+                    <div class="col-md-3">
+                        <label>Party Name <span class="red">*</span></label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Party_Name, new { @class = "form-control", @id = "txtPartyName" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Party Code <span class="red">*</span>&nbsp;   <span id="SpnlastEntityCode" class="red"></span></label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Party_Code, new { @class = "form-control", @id = "txtPartyCode", @MaxLength = "10" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Owner <span class="red">*</span></label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.owner_name, new { @class = "form-control", @id = "txtOwner" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>DOB </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @*@Html.TextBoxFor(m => m.dobstr, new { @class = "form-control", @id = "txtDOB" })*@                           
+                            @Html.DevExpress().DateEditFor(x => x.dobstr,
+                                    deSettings =>
+                                    {
+                                        deSettings.Name = "txtDOB";
+                                        deSettings.Date = DateTime.Now;
+                                        deSettings.Properties.UseMaskBehavior = true;
+                                        deSettings.Properties.EditFormat = EditFormat.Custom;
+                                        deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                        deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    }).GetHtml()
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6">
+                        <label>Address <span class="red">*</span></label>
+                        <div>
+                            @*<textarea rows="4" class="form-control"></textarea>*@
+                            @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @id = "txtAddress" })
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label>Pin Code <span class="red">*</span></label>
+                                <div>
+                                    @*<input type="text" class="form-control" />*@
+                                    @Html.TextBoxFor(m => m.Pin_Code, new { @class = "form-control numbersOnly", @id = "txtPinCode", @MaxLength = "10" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label>Anniversary </label>
+                                <div>
+                                    @*<input type="text" class="form-control" />*@
+                                    @*@Html.TextBoxFor(m => m.date_aniversarystr, new { @class = "form-control", @id = "txtAnniversary" })*@
+                                    @Html.DevExpress().DateEditFor(x => x.date_aniversarystr,
+                                    deSettings =>
+                                    {
+                                        deSettings.Name = "txtAnniversary";
+                                        deSettings.Date = DateTime.Now;
+                                        deSettings.Properties.UseMaskBehavior = true;
+                                        deSettings.Properties.EditFormat = EditFormat.Custom;
+                                        deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                        deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    }).GetHtml()
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="col-md-3">
+                        <label>Contact <span class="red">*</span></label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.owner_contact_no, new { @class = "form-control numbersOnly", @id = "txtContact", @MaxLength = "10" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Alternate Contact </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Alternate_Contact, new { @class = "form-control numbersOnly", @id = "txtAlternateContact", @MaxLength = "10" })
+                        </div>
+                    </div>
+                    @*Mantis Issue 24571*@
+                    <div class="col-md-3">
+                        <label>Alternate Contact 1 </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Alt_MobileNo1, new { @class = "form-control numbersOnly", @id = "txtAlternateContact1", @MaxLength = "10" })
+                        </div>
+                    </div>
+                    @*End of Mantis Issue 24571*@
+                    <div class="col-md-3">
+                        <label>Email </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.owner_email, new { @class = "form-control", @id = "txtEmail" })
+                        </div>
+                    </div>
+                    @*Mantis Issue 24571*@
+                    <div class="col-md-3">
+                        <label>Alternate Email </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Shop_Owner_Email2, new { @class = "form-control", @id = "txtAltEmail" })
+                        </div>
+                    </div>
+                    @*End of Mantis Issue 24571*@
+                    <div class="col-md-3">
+                        <label>Status <span class="red">*</span></label>
+                        <div>
+                            <select class="form-control" id="ddlStatus">
+                                <option value="Select">Select</option>
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                            @*@Html.DropDownListFor(m => m.type, new SelectList(Model.shptypes, "ID", "Name", Model.Shoptype), new { @id = "ddlStatus", @class = "form-control" })*@
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-3">
+                        <label>Entity Category </label>
+                        <div>
+                            @*<select class="form-control">
+                                    <option>Select</option>
+                                </select>*@
+                            @Html.DropDownListFor(m => m.EntyType, new SelectList(Model.EntityTypeList, "TypeID", "TypeName", Model.EntityType), new { @id = "ddlEntityType", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Owner PAN <span class="infoQ" data-toggle="modal" data-target="#PanModel"><i class="fa fa-question-circle" aria-hidden="true"></i></span></label>
+                        <div class="relative">
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Owner_PAN, new { @class = "form-control", @id = "txtOwnerPAN", @MaxLength = "10" })
+                            <span class="sample">Sample: AAAAA9999A</span>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Owner Aadhaar </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Owner_Adhar, new { @class = "form-control numbersOnly", @id = "txtOwnerAdhar", @MaxLength = "16" })
+                        </div>
+                    </div>
+                    @*Mantis Issue 24571*@
+                    <div class="col-md-3">
+                        <label>GSTIN </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.GSTN_NUMBER, new { @class = "form-control", @id = "txtgstn" })
+                        </div>
+                    </div>
+                   
+                    <div class="clear"></div>
+                    <div class="col-md-3">
+                        <label>Trade License </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Trade_Licence_Number, new { @class = "form-control", @id = "txttradelicence" })
+                        </div>
+                    </div>
+                    @*End of Mantis Issue 24571*@
+                    <div class="col-md-3">
+                        <label>Remarks (if any)</label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control", @id = "txtRemarks" })
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <label>Assign to User <span class="red">*</span></label>
+                        <div>
+                            @*<select class="form-control">
+                                    <option>Select</option>
+                                </select>*@
+                            @*@Html.DropDownListFor(m => m.NewUser, new SelectList(Model.NewUseridList, "UserID", "username", Model.NewUserid), new { @id = "ddlNewCreateUser", @class = "form-control" })*@
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "UserTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){UserButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){User_KeyDown(s,e);}";
+
+                            }).GetHtml()
+
+                            @*<input type="hidden" id="txtContact_hidden">*@
+                            <input type="hidden" id="hdnUserID" value="@Model.NewUserid">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Old Assigned User</label>
+                        <div>
+                            @*<select class="form-control">
+                                    <option>Select</option>
+                                </select>*@
+                            @*@Html.DropDownListFor(m => m.OldUser, new SelectList(Model.OldUseridList, "UserID", "username", Model.OldUserid), new { @id = "ddlOldCreateUser", @class = "form-control" })*@
+
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "OldUserTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){OldUserButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){OldUser_KeyDown(s,e);}";
+
+                            }).GetHtml()
+
+                            @*<input type="hidden" id="txtContact_hidden">*@
+                            <input type="hidden" id="hdnOldUserID" value="@Model.OldUserid">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Party Location Lat </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.shop_lat, new { @class = "form-control allow_decimal numbersOnly", @id = "txtPartyLocationLat" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Party Location Long</label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.shop_long, new { @class = "form-control allow_decimal numbersOnly", @id = "txtPartyLocationLang" })
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-3 hide" id="divEntityType">
+                        <label>Entity Type</label>
+                        <div id="EntityTypediv">
+                            @*<select class="form-control">
+                                    <option>Select</option>
+                                </select>*@
+                            @Html.DropDownListFor(m => m.Entity, new SelectList(Model.EntityList, "id", "name", Model.EntityId), new { @id = "ddlEntity", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Party Status </label>
+                        <div id="Citydiv">
+                            @*<select class="form-control">
+                                    <option>Select</option>
+                                </select>*@
+                            @Html.DropDownListFor(m => m.PartyStatus, new SelectList(Model.PartyStatusList, "id", "name", Model.PartyStatusId), new { @id = "ddlPartyStatus", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Group/Beat </label>
+                        <div id="Citydiv">
+                            @*<select class="form-control">
+                                    <option>Select</option>
+                                </select>*@
+                            @Html.DropDownListFor(m => m.GroupBeat, new SelectList(Model.GroupBeatList, "id", "name", Model.GroupBeatId), new { @id = "ddlGroupBeat", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Account Holder </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.AccountHolder, new { @class = "form-control", @id = "txtAccountHolder", @MaxLength = "200" })
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-3">
+                        <label>Bank Name </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.BankName, new { @class = "form-control", @id = "txtBankName", @MaxLength = "100" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Account No </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.AccountNo, new { @class = "form-control numbersOnly", @id = "txtAccountNo", @MaxLength = "15" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>IFSC Code </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.IFSCCode, new { @class = "form-control", @id = "txtIFSCCode", @MaxLength = "11" })
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>UPI ID </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.UPIID, new { @class = "form-control", @id = "txtUPIID", @MaxLength = "100" })
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-6">
+                        <label>Location </label>
+                        <div>
+                            @*<textarea rows="4" class="form-control"></textarea>*@
+                            @Html.TextAreaFor(m => m.Location, new { @class = "form-control", @id = "txtLocation" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Add Photo</label>
+                        <input type="file" id="uploadFile" accept=".jpg, .jpeg, .png, .gif" class="form-control" />
+                        <span class="red">
+                            Accepts .jpg, .jpeg, .png, .gif upto 1 MB
+                        </span>
+                        @*<span class="buttonphoto"><i class="fa fa-plus-circle"></i> Add Photo</span>*@
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="AddShop('Exit');">Save & Exit</button>
+                <button type="button" class="btn btn-primary" onclick="AddShop('New');">Save & New</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearData();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnUserID" value="@Model.user_id" />
+<input type="hidden" id="hdnShopMode" />
+@*Mantis Issue 24603*@
+<input type="hidden" id="hdnIsAutoCodificationRequiredViewbag" value="@ViewBag.IsAutoCodificationRequired">
+@*End of Mantis Issue 24603*@
+<!--PP List-->
+<div class="modal fade pmsModal w70" id="PPModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">PP Search</h4>
+            </div>
+            <div class="modal-body">
+                @*Mantis Issue 24450,24451 [ "or Contact No"  added]*@
+                <input type="text" onkeydown="PPkeydown(event)" id="txtPPSearch" autofocus style="width:100%" placeholder="Search By PP Name or PP Code or Contact No" />
+                <div id="PPTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Location</th>
+                            @*Mantis Issue 24450,24451*@
+                            <th>Contact No</th>
+                            @*End of Mantis Issue 24450,24451*@
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--PP List-->
+
+<div class="modal fade pmsModal w40 " id="PanModel" role="dialog" aria-hidden="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">PAN</h4>
+            </div>
+            <div class="modal-body">
+                <div id="SalesManTable">
+                    <div style="color: #986014; font-size: 13px;">
+                        <p>1. First three characters are alphabetic series running from AAA to ZZZ<br></p>
+                        <p>2. Fourth character of PAN represents the status of the PAN holder.C — Company P — Person H — HUF(Hindu Undivided Family) <br></p>
+                        <p>3. F — Firm A — Association of Persons (AOP) T — AOP (Trust) B — Body of Individuals (BOI) L — Local Authority J — Artificial Juridical Person G — Government<br></p>
+                        <p>4. Fifth character represents the first character of the PAN holder’s last name/surname.<br></p>
+                        <p>5. Next four characters are sequential number running from 0001 to 9999.<br></p>
+                        <p>6. Last character in the PAN is an alphabetic check digit.<br></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="myImportModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Import Excel Template For Parties</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5 mt-4"><input type="submit" value="Import (Add/Update)" onclick="return ChekEmpSettingsUpload();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalTemplateImportLogMode";
+            settings.Width = 1200; //System.Web.UI.WebControls.Unit.Percentage(80);
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Import Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("GetPartyImportLog", new List<partyDetailsModel>());
+                //ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportLogGrid();'>Export</button>");
+            });
+
+            //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+        }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalTemplateReAssignShopLogMode";
+            settings.Width = 1000; //System.Web.UI.WebControls.Unit.Percentage(80);
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Re-assign Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("GetReAssignShopUserLog", new List<ReAssignShopModel>());
+                ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportReAssignLogGrid();'>Export</button>");
+            });
+
+            //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+        }).GetHtml()
+@*Mantis Issue 25133*@
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalTemplateReAssignShopLogModeGroupBeat";
+            settings.Width = 1000; //System.Web.UI.WebControls.Unit.Percentage(80);
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Re-assign Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("GetReAssignShopGroupBeatLog", new List<ReAssignShopGroupBeatModel>());
+                ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportReAssignLogGroupBeatGrid();'>Export</button>");
+            });
+
+            //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+        }).GetHtml()
+@*End of Mantis Issue 25133*@
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalTemplateReAssignShopManualLogMode";
+            settings.Width = 1000; //System.Web.UI.WebControls.Unit.Percentage(80);
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Re-assign Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("ReAssignShopUserManualLog", new List<ReAssignShopModelLog>());
+                ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportReAssignManualLogGrid();'>Export</button>");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+        }).GetHtml()
+
+@*Mantis Issue 25133*@
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalTemplateReAssignShopManualGroupBeatLogMode";
+            settings.Width = 1000; //System.Web.UI.WebControls.Unit.Percentage(80);
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Re-assign Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("ReAssignShopGroupBeatManualLog", new List<ReAssignShopGroupBeatModelLog>());
+                ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportReAssignGroupBeatManualLogGrid();'>Export</button>");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+        }).GetHtml()
+@*End of Mantis Issue 25133*@
+<!--DD List-->
+<div class="modal fade pmsModal w70" id="DDModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">DD Search</h4>
+            </div>
+            <div class="modal-body">
+                @*Mantis Issue 24450,24451 [ "or Contact No"  added]*@
+                <input type="text" onkeydown="DDkeydown(event)" id="txtDDSearch" autofocus style="width:100%" placeholder="Search By DD Name or DD Code or Contact No" />
+                <div id="DDTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Location</th>
+                            @*Mantis Issue 24450,24451*@
+                            <th>Contact No</th>
+                            @*End of Mantis Issue 24450,24451*@
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--DD List-->
+
+
+<div id="ReAssignedModal" class="modal fade pmsModal w50" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Re-assigned User</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Old Assigned User </label>
+                        <div>
+                            @Html.DropDownListFor(m => m.InactiveUserid, new SelectList(Model.InactiveUseridList, "UserID", "username", Model.NewUserid), new { @id = "ddlOldUser", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 25px;">
+
+                        <button type="button" class="btn btn-success" onclick="GenerateShopList();">Generate</button>
+                    </div>
+                    <div class="col-md-5">
+                        <label>Assign to User</label>
+                        <div>
+                            @*@Html.DropDownListFor(m => m.activeReAssgnUserid, new SelectList(Model.ActiveReassgnUseridList, "UserID", "username", Model.OldUserid), new { @id = "ddlNewAssignUser", @class = "form-control" })*@
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "NewAssignUserTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){NewAssignUserButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){NewAssignUser_KeyDown(s,e);}";
+
+                            }).GetHtml()
+
+                            @*<input type="hidden" id="txtContact_hidden">*@
+                            <input type="hidden" id="hdnNewAssignUserID" value="@Model.OldUserid">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="ShopReAssignUser();">Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*Mantis Issue 25133*@
+<div id="ReAssignedBeatModal" class="modal fade pmsModal w50" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Re-assigned Beat/Group</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <label>Assigned Beat/Group </label>
+                        <div>
+                            @Html.DropDownListFor(m => m.GroupBeatId, new SelectList(Model.InactiveGroupBeatidList, "ID", "NAME", Model.NewUserid), new { @id = "ddlGroupBeatOld", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2" style="padding-top: 25px;">
+
+                        <button type="button" class="btn btn-success" onclick="GenerateShopForGroupBeatList();">Generate</button>
+                    </div>
+                    <div class="col-md-5">
+                        <label>Assign to Beat/Group</label>
+                        <div>
+                            @*@Html.DropDownListFor(m => m.activeReAssgnUserid, new SelectList(Model.ActiveReassgnUseridList, "UserID", "username", Model.OldUserid), new { @id = "ddlNewAssignUser", @class = "form-control" })*@
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "NewAssignGroupBeatTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){NewAssignGroupBeatButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){NewAssignGroupBeat_KeyDown(s,e);}";
+
+                            }).GetHtml()
+
+                            @*<input type="hidden" id="txtContact_hidden">*@
+                            <input type="hidden" id="hdnNewAssignGroupBeatID" value="@Model.OldGroupBeatId">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="ShopReAssignGroupBeat();">Update</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*End of Mantis Issue 25133*@
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalImportLogViewMode";
+        settings.Width = 300;
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Re-assigned User Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("_ShopReassignManualLogView");
+        });
+
+        // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+@*Mantis Issue 25133*@
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalImportGroupBeatLogViewMode";
+        settings.Width = 300;
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Re-assigned Beat/Group Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("_ShopReassignGroupBeatManualLogView");
+        });
+
+        // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+@*End of Mantis Issue 25133*@
+<div id="ReAssignedShopListModal" class="modal fade pmsModal w90 new-popup-width" data-backdrop="static" role="dialog">
+    <div class="modal-dialog " style="width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Re-assigned Shop List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @{
+                            Html.RenderAction("ReAssignShopList", "partyDetails");
+                        }
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="SelectShopCodes();">OK</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*Mantis Issue 25133*@
+<div id="ReAssignedShopListModalBeat" class="modal fade pmsModal w90 new-popup-width " data-backdrop="static" role="dialog">
+    <div class="modal-dialog " style="width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Re-assigned Shop List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @{
+                            Html.RenderAction("ReAssignShopListForGroupBeat", "partyDetails");
+                        }
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" data-dismiss="modal" onclick="SelectShopGroupBeatCodes();">OK</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*End of Mantis Issue 25133*@
+<!--Retailer List-->
+<div class="modal fade pmsModal w70" id="RetailerModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Retailer Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" onkeydown="Retailerkeydown(event)" id="txtRetailerSearch" autofocus style="width:100%" placeholder="Search By Retailer Name or Retailer Code" />
+                <div id="RetailerTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Name</th>
+                            <th>Code</th>
+                            <th>Location</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Retailer List-->
+<!--User List-->
+<div class="modal fade pmsModal w70" id="UserSearchModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Search</h4>
+            </div>
+            <div class="modal-body">
+                @*Mantis Issue 24450,24451  [ "or Employee Id" added ] *@
+                <input type="text" class="form-control" onkeydown="Userkeydown(event)" id="txtUserSearch" autofocus style="width:100%" placeholder="Search By User Name or User Login Id or Employee Id" />
+                <div id="UserTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>User Name</th>
+                            <th>User Login Id</th>
+                            @*Rev Sancita*@
+                            <th>Employee Id</th>
+                            @*End of Mantis Issue 24450,24451*@
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--User List-->
+<!--Old User List-->
+<div class="modal fade pmsModal w70" id="OldUserSearchModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Old User Search</h4>
+            </div>
+            <div class="modal-body">
+                @*Mantis Issue 24450,24451  [ "or Employee Id" added ] *@
+                <input type="text" class="form-control" onkeydown="OldUserkeydown(event)" id="txtOldUserSearch" autofocus style="width:100%" placeholder="Search By User Name or User Login Id or Employee Id" />
+                <div id="OldUserTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>User Name</th>
+                            <th>User Login Id</th>
+                            @*Rev Sancita*@
+                            <th>Employee Id</th>
+                            @*End of Mantis Issue 24450,24451*@
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Old User List-->
+
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger"  onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->
+
+<!--New Assign User List-->
+<div class="modal fade pmsModal w70" id="NewAssignUserSearchModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Search</h4>
+            </div>
+            <div class="modal-body">
+                @*Mantis Issue 24450,24451  [ "or Employee Id" added ] *@
+                <input type="text" class="form-control" onkeydown="NewAssignUserkeydown(event)" id="txtNewAssignUserSearch" autofocus style="width:100%" placeholder="Search By User Name or User Login Id or Employee Id" />
+                <div id="NewAssignUserTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>User Name</th>
+                            <th>User Login Id</th>
+                            @*Rev Sancita*@
+                            <th>Employee Id</th>
+                            @*End of Mantis Issue 24450,24451*@
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--New Assign User List-->
+<!--Mantis Issue 25133-->
+<!--New Assign Group Beat List-->
+<div class="modal fade pmsModal w70" id="NewAssignGroupBeatSearchModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Group Beat Search</h4>
+            </div>
+            <div class="modal-body">
+                @*Mantis Issue 24450,24451  [ "or Employee Id" added ] *@
+                <input type="text" class="form-control" onkeydown="NewAssignGroupBeatkeydown(event)" id="txtNewAssignGroupBeatSearch" autofocus style="width:100%" placeholder="Search By User Name or User Login Id or Employee Id" />
+                <div id="NewAssignGroupBeatTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Group Beat Name</th>
+                            <th>Group Beat Code</th>
+                            
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--New Assign Group Beat List-->
+<!--End of Mantis Issue 25133-->

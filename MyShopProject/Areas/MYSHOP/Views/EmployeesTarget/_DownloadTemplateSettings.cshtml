@@ -1,0 +1,57 @@
+﻿@using MyShop.Models;
+@model EmployeesTargetSetting
+
+<style>
+    #ddlTempDesignation + div ul.multiselect-container, #ddlTempState + div ul.multiselect-container {
+        max-height: 250px;
+        overflow-y: auto;
+    }
+</style>
+<div class="">
+
+    <div><h3 class="ppHeader">Download Excel Template For Target Import</h3></div>
+    <hr class="mTop10" />
+    <div class="row">
+        <div>
+
+            <div class="clearfix ">
+               
+                <div class="col-lg-12 lblmTop8">
+                    <label><b>State</b></label>
+                    <div class="iminentSpan">
+                        @*<select class="demo multiselect" multiple="multiple" id="ddlTempState">
+                            <option value="8">ARUNACHAL PRADESH</option>
+                            <option value="9">DAMAN &amp; DIU</option>
+                            <option value="14">UTTARAKHAND</option>
+                            <option value="15">WEST BENGAL</option>
+                            <option value="28">ASSAM</option>
+                            <option value="38">CHITTAGONG</option>
+                        </select>*@
+                        @Html.DropDownList("ddlTempState", new SelectList(Model.StateList, "StateName", "StateName"), new { @id = "ddlTempState", @multiple = "multiple", @class = "demo multiselect" })
+                        @*@Html.DropDownList("ddlTempState", new SelectList(Model.StateList, "StateName", "StateName"), new { @id = "ddlTempState",  @class = "form-control" })*@
+                    </div>
+
+                   
+                </div>
+                <div class="col-lg-12 lblmTop8">
+                    <label><b>Designation</b></label>
+                    <div class="iminentSpan">
+                        @*<select class="demo multiselect" multiple="multiple" id="ddlTempDesignation">
+                            <option>Accountant</option>
+
+                        </select>*@
+                        @Html.DropDownList("ddlTempDesignation", new SelectList(Model.DesignationList, "DesignationName", "DesignationName"), new { @multiple = "multiple", @id = "ddlTempDesignation", @class = "demo multiselect" })
+                        @*@Html.DropDownList("ddlTempDesignation", new SelectList(Model.DesignationList, "DesignationName", "DesignationName"), new {  @id = "ddlTempDesignation", @class = "form-control" })*@
+                    </div>
+                   
+                </div>
+                <div class="col-md-12 mTop5">
+                    <button type="button" onclick="getTemplateByStateDesignation();" class="btn btn-success mTop5">Download Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        
+    </div>
+</div>

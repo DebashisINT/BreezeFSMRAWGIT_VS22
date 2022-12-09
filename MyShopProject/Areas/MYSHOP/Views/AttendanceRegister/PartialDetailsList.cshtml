@@ -1,0 +1,56 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "detailsGrid";
+
+    settings.CallbackRouteValues = new { Action = "PartialDetailsList", Controller = "AttendanceRegister" };
+    settings.ClientSideEvents.BeginCallback = "OnDetailsStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DATE";
+        x.Caption = "Date";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGGEDIN";
+        x.Caption = "In Time";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGEDOUT";
+        x.Caption = "Out Time";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATUS";
+        x.Caption = "Status";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+    });
+}).Bind(Model).GetHtml()
+
+
+

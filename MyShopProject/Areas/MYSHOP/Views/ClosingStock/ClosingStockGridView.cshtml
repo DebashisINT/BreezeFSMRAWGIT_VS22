@@ -1,0 +1,56 @@
+﻿@model System.Data.DataSet
+
+@Html.DevExpress().GridView(settings =>
+{
+       settings.Name = "gridclosingstockView";
+       settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+       settings.CallbackRouteValues = new { Controller = "ClosingStock", Action = "ClosingStockGridView" };
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+       //settings.SettingsSearchPanel.Visible = true;
+       settings.Settings.ShowFilterRow = true;
+       settings.Settings.ShowGroupPanel = false;
+       settings.Settings.ShowFooter = true;
+       settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+       settings.SettingsPager.PageSizeItemSettings.Visible = true;
+       settings.SettingsPager.PageSize = 10;
+
+       settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+       settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+
+       settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+       //settings.Settings.ShowFilterRowMenu = true;
+       settings.Styles.Header.Cursor = "default";
+       settings.SettingsBehavior.AllowSort = false;
+       settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+
+       settings.Columns.Clear();
+
+
+       System.Data.DataTable dtColumnTable = new System.Data.DataTable();
+    
+
+
+           dtColumnTable = Model.Tables[0];
+       System.Data.DataRow[] drrRow = dtColumnTable.Select();
+          
+           foreach (System.Data.DataRow dr in dtColumnTable.Rows)
+           {
+               settings.Columns.Add(x =>
+               {
+                   x.FieldName = Convert.ToString(dr["HEADSHRTNAME"]);
+                   x.Caption = Convert.ToString(dr["HEADNAME"]).Trim();
+                   x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                   x.Width = 160;
+                   // x.VisibleIndex = i;
+                   //x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+
+               });
+           }
+
+      
+      
+   }).Bind((System.Data.DataTable)Model.Tables[1]).GetHtml()
+
+
+

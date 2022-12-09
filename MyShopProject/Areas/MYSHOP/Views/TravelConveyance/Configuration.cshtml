@@ -1,0 +1,925 @@
+﻿@model  MyShop.Models.TravelConveyanceModelclass
+
+@{
+    ViewBag.Title = "Configure Travelling Allowance ";
+}
+
+
+@*<link href="~/Content/media.css" rel="stylesheet" />*@
+<style>
+    .dxgvTable_PlasticBlue, .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        overflow: initial !important;
+    }
+
+    .pad-md-18 {
+        padding-top: 18px;
+    }
+</style>
+
+<script>
+
+    function isNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                 && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+
+    $(function () {
+        $("#spaneligible").hide();
+        $("#spanrate").hide();
+        $("#spandistance").hide();
+
+
+
+        $("#txtdistance").val('0.00');
+        $("#txtRate").val('0.00');
+        $("#txteligibleamount").val('0.00');
+        $("#btnEdit").hide();
+        $("#btnshow").show();
+
+        //$("#txtdistance").keydown(function (event) {
+
+        //    if(!(event.keyCode == 8                                // backspace
+        //|| event.keyCode == 46                              // delete
+        //|| (event.keyCode >= 35 && event.keyCode <= 40)     // arrow keys/home/end
+        //|| (event.keyCode >= 48 && event.keyCode <= 57)     // numbers on keyboard
+        //|| (event.keyCode >= 96 && event.keyCode <= 105))   // number on keypad
+        //        )
+        //    {
+
+        //        event.preventDefault();
+        //    }
+        //});
+
+        //$("#txtRate").keydown(function (event) {
+
+        //    if (!(event.keyCode == 8                                // backspace
+        //|| event.keyCode == 46                              // delete
+        //|| (event.keyCode >= 35 && event.keyCode <= 40)     // arrow keys/home/end
+        //|| (event.keyCode >= 48 && event.keyCode <= 57)     // numbers on keyboard
+        //|| (event.keyCode >= 96 && event.keyCode <= 105))   // number on keypad
+        //        ) {
+
+        //        event.preventDefault();
+        //    }
+        //});
+        //$("#txteligibleamount").keydown(function (event) {
+
+        //    if (!(event.keyCode == 8                                // backspace
+        //|| event.keyCode == 46                              // delete
+        //|| (event.keyCode >= 35 && event.keyCode <= 40)     // arrow keys/home/end
+        //|| (event.keyCode >= 48 && event.keyCode <= 57)     // numbers on keyboard
+        //|| (event.keyCode >= 96 && event.keyCode <= 105))   // number on keypad
+        //        ) {
+
+        //        event.preventDefault();
+        //    }
+        //});
+
+
+
+        $('body').on('click', '#btnclear', function () {
+            $("#btnEdit").hide();
+            $("#btnshow").show();
+            $("#idvisitloc").val('');
+            $("#idempgrade").val('');
+            $("#idexpense").val('');
+            $("#iddesignation").val('');
+            $("#idtravelmode").val('');
+            $("#idstate").val('');
+            $("#txtdistance").val('0');
+            $("#txtRate").val('0');
+            $("#txteligibleamount").val('0');
+            $('#idfuel').val('');
+            $("#hdTCid_id").val('');
+            $("#chkIsactive").prop('checked', false);
+
+            empgradeGridLookup.gridView.UnselectAllRowsOnPage();
+            StateGridLookup.gridView.UnselectAllRowsOnPage();
+            empgradeGridLookup.SetEnabled(true);
+            StateGridLookup.SetEnabled(true);
+            // $('input:checkbox#IsActive').prop('checked', false);
+
+            //if ($('input[type=checkbox]').is(':checked')) {
+            //    $(this).prop('checked', false);
+
+            //} else {
+            //    $(this).prop('checked', false);
+            //}
+
+
+        });
+
+
+
+        $('body').on('click', '#btnshow', function () {
+
+            //  alert($('#idfuel').val());
+
+
+            if ($("#txteligibleamount").val() == '') {
+                $("#txteligibleamount").val('0');
+
+            }
+            // alert($("#txtdistance").val());
+            var f = true;
+
+
+            //if ($("#idexpense").val() == 1) {
+            if ($("#idvisitloc").val() == '') {
+                f = false;
+
+            }
+            if ($("#idempgrade").val() == '') {
+                f = false;
+
+            }
+            if ($("#idexpense").val() == '') {
+                f = false;
+
+            }
+
+            if ($("#iddesignation").val() == '') {
+                f = false;
+
+            }
+            if ($("#idtravelmode").val() == '' && $("#idexpense").val() == 1) {
+                f = false;
+
+            }
+            if ($("#idstate").val() == '') {
+                f = false;
+
+            }
+            //  alert(($("#txtdistance").val()) + ' ' + parseInt($("#txtRate").val()) + ' ' + parseInt($("#txteligibleamount").val()));
+
+            if (parseInt($("#txteligibleamount").val()) == "0" || $("#txteligibleamount").val() == '') {
+                if ((parseInt($("#txtdistance").val()) == "0" || $("#txtdistance").val() == '') || (parseInt($("#txtRate").val()) == "0" || $("#txtRate").val() == '') && $("#idexpense").val() == 1) {
+                    f = false;
+                  
+                }
+            }
+            if ((parseInt($("#txteligibleamount").val()) == "0" || $("#txteligibleamount").val() == '') && $("#idexpense").val() != 1) {
+                f = false;
+               
+            }
+            ////alert($("#chkIsactive").is(':checked'));
+            //if ($("#idvisitloc").val() != '' && $("#idempgrade").val() != '' && $("#idexpense").val() != '' && $("#iddesignation").val() != ''
+            //    && $("#idtravelmode").val() != '' && $("#idstate").val() != '' && parseInt($("#txtdistance").val()) != "0" && $("#txtdistance").val() != ''
+            //    ) {
+
+            //    f=true;
+            //}
+            //else
+            //{
+            //    f = false;
+            //}
+            if ($("#idexpense").val() == 1) {
+                $("#spaneligible").hide();
+            }
+            if ($("#idexpense").val() != 1) {
+                $("#spaneligible").show();
+            }
+            //}
+            //else {
+
+            //    if ($("#idvisitloc").val() != '' && $("#idempgrade").val() != '' && $("#idexpense").val() != '' && $("#iddesignation").val() != ''
+            //     && $("#idstate").val() != '' && parseInt($("#txteligibleamount").val()) != "0" && $("#txteligibleamount").val() != ''
+            //       ) {
+            //        f = true;
+            //    }
+            //    else
+            //    {
+            //        f = false;
+
+            //    }
+            //    $("#spaneligible").show();
+            //}
+            // alert(f);
+
+
+            //   alert(f);
+
+            if (f == true) {
+                var surl = '@Url.Action("ConfigurationInsert", "TravelConveyance")';
+                $.ajax({
+                    url: surl,
+                    //async: false,
+                    data: {
+
+                        VisitlocId: $("#idvisitloc").val(),
+
+                        StateId: StateId,
+                        EmpgradeId: EmpgradeId,
+
+
+                       // EmpgradeId: $("#idempgrade").val(),
+                        ExpenseId: $("#idexpense").val(),
+                        DesignationId: $("#iddesignation").val(),
+                        TravelId: $('#idtravelmode option:selected').val().split(",")[0],
+                       // StateId: $("#idstate").val(),
+                        EligibleDistance: $("#txtdistance").val(),
+                        EligibleRate: $("#txtRate").val(),
+                        EligibleAmtday: $("#txteligibleamount").val(),
+                        IsActive: $("#chkIsactive").is(':checked'),
+                        fuelID: $('#idfuel').val()
+
+
+
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        // alert(data);
+                        if (data == "Success") {
+                            // alert(data);
+                            //$("#myModal").modal('hide');
+                            //$.jAlert({
+                            //    'title': 'Alert!',
+                            //    'content': 'Shop Modified successfully',
+                            //    'theme': 'dark_blue'
+                            //});
+                            $("#btnEdit").hide();
+                            $("#btnshow").show();
+                            $("#idvisitloc").val('');
+                            $("#idempgrade").val('');
+                            $("#idexpense").val('');
+                            $('#idfuel').val('');
+                            $("#iddesignation").val('');
+                            $("#idtravelmode").val('');
+                            $("#idstate").val('');
+                            $("#txtdistance").val('0');
+                            $("#txtRate").val('0');
+                            $("#txteligibleamount").val('0');
+                            $("#hdTCid_id").val('');
+                            $("#chkIsactive").prop('checked', false);
+                            gridTaconfiguration.Refresh();
+                            gridTaconfiguration.Refresh();
+
+                            empgradeGridLookup.gridView.UnselectAllRowsOnPage();
+                            StateGridLookup.gridView.UnselectAllRowsOnPage();
+                            empgradeGridLookup.SetEnabled(true);
+                            StateGridLookup.SetEnabled(true);
+                        }
+                        else {
+                            //jAlert('Already data was inserted against same Grade,Designation,State');
+
+
+                            jAlert('Already data was inserted against same Grade,Designation,State,Visit location,Travel mode.');
+                        }
+                    },
+                    error: function () {
+
+                    },
+
+
+                });
+
+            }
+            else {
+                jAlert('Mandatory fields/Value required.');
+
+            }
+
+        });
+
+
+
+        $('body').on('click', '#btnEdit', function () {
+
+
+
+            //var f = true;
+            //if ($("#idexpense").val() == 1) {
+            //    //alert($("#chkIsactive").is(':checked'));
+            //    if ($("#idvisitloc").val() != '' && $("#idempgrade").val() != '' && $("#idexpense").val() != '' && $("#iddesignation").val() != ''
+            //     && $("#idtravelmode").val() != '' && $("#idstate").val() != '' && parseInt($("#txtdistance").val()) != "0" && $("#txtdistance").val() != ''
+            //        ) {
+
+            //        f = true;
+            //    }
+            //    else {
+            //        f = false;
+            //    }
+            //    $("#spaneligible").hide();
+            //}
+            //else {
+
+            //    if ($("#idvisitloc").val() != '' && $("#idempgrade").val() != '' && $("#idexpense").val() != '' && $("#iddesignation").val() != ''
+            //        && $("#idstate").val() != '' && parseInt($("#txteligibleamount").val()) != "0" && $("#txteligibleamount").val() != ''
+            //       ) {
+            //        f = true;
+            //    }
+            //    else {
+            //        f = false;
+
+            //    }
+            //    $("#spaneligible").show();
+            //}
+
+            var f = true;
+          
+
+            //if ($("#idexpense").val() == 1) {
+            if ($("#idvisitloc").val() == '') {
+                f = false;
+
+            }
+            if ($("#idempgrade").val() == '') {
+                f = false;
+
+            }
+            if ($("#idexpense").val() == '') {
+                f = false;
+
+            }
+
+            if ($("#iddesignation").val() == '') {
+                f = false;
+
+            }
+            if ($("#idtravelmode").val() == '' && $("#idexpense").val() == 1) {
+                f = false;
+
+            }
+            if ($("#idstate").val() == '') {
+                f = false;
+
+            }
+            //  alert(($("#txtdistance").val()) + ' ' + parseInt($("#txtRate").val()) + ' ' + parseInt($("#txteligibleamount").val()));
+
+            if (parseInt($("#txteligibleamount").val()) == "0" || $("#txteligibleamount").val() == '') {
+                if ((parseInt($("#txtdistance").val()) == "0" || $("#txtdistance").val() == '') || (parseInt($("#txtRate").val()) == "0" || $("#txtRate").val() == '') && $("#idexpense").val() == 1) {
+                    f = false;
+                   
+                }
+            }
+            if ((parseInt($("#txteligibleamount").val()) == "0" || $("#txteligibleamount").val() == '') && $("#idexpense").val() != 1) {
+                f = false;
+            }
+            ////alert($("#chkIsactive").is(':checked'));
+            //if ($("#idvisitloc").val() != '' && $("#idempgrade").val() != '' && $("#idexpense").val() != '' && $("#iddesignation").val() != ''
+            //    && $("#idtravelmode").val() != '' && $("#idstate").val() != '' && parseInt($("#txtdistance").val()) != "0" && $("#txtdistance").val() != ''
+            //    ) {
+
+            //    f=true;
+            //}
+            //else
+            //{
+            //    f = false;
+            //}
+            if ($("#idexpense").val() == 1) {
+                $("#spaneligible").hide();
+            }
+            if ($("#idexpense").val() != 1) {
+                $("#spaneligible").show();
+            }
+
+
+
+
+            if (f == true) {
+                var surl = '@Url.Action("ConfigurationUpdate", "TravelConveyance")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+
+                        VisitlocId: $("#idvisitloc").val(),
+                       EmpgradeId: $("#idempgrade").val(),
+                        EmpgradeId: EmpgradeId,
+                        ExpenseId: $("#idexpense").val(),
+                        DesignationId: $("#iddesignation").val(),
+                        TravelId: $('#idtravelmode option:selected').val().split(",")[0],
+                        StateId: $("#idstate").val(),
+                     
+                        EligibleDistance: $("#txtdistance").val(),
+                        EligibleRate: $("#txtRate").val(),
+                        EligibleAmtday: $("#txteligibleamount").val(),
+                        IsActive: $("#chkIsactive").is(':checked'),
+                        TCId: $("#hdTCid_id").val(),
+                        fuelID: $('#idfuel').val()
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        // alert(data);
+                        if (data == "Success") {
+                            $("#btnEdit").hide();
+                            $("#btnshow").show();
+                            $("#idvisitloc").val('');
+                            $("#idempgrade").val('');
+                            $('#idfuel').val('');
+                            $("#idexpense").val('');
+                            $("#iddesignation").val('');
+                            $("#idtravelmode").val('');
+                            $("#idstate").val('');
+                            $("#txtdistance").val('0');
+                            $("#txtRate").val('0');
+                            $("#txteligibleamount").val('0');
+                            $("#hdTCid_id").val('');
+                            $("#chkIsactive").prop('checked', false);
+                            gridTaconfiguration.Refresh();
+                            gridTaconfiguration.Refresh();
+
+
+                            empgradeGridLookup.gridView.UnselectAllRowsOnPage();
+                            StateGridLookup.gridView.UnselectAllRowsOnPage();
+                            empgradeGridLookup.SetEnabled(true);
+                            StateGridLookup.SetEnabled(true);
+                        }
+                        else {
+
+                            //$.jAlert({
+                            //    'title': 'Alert!',
+                            //    'content': 'Already data was inserted against same Grade,Designation,State,Visit location,Travel mode',
+                            //    'theme': 'dark_blue'
+                            //});
+
+
+                            jAlert('Already data was inserted against same Grade,Designation,State,Visit location,Travel mode.');
+                        }
+                    },
+                    error: function () {
+
+                    },
+
+
+                });
+            }
+            else {
+                jAlert('Mandatory fields/Value required.');
+                //$.jAlert({
+                //    'title': 'Alert!',
+                //    'content': 'Mandatory fields required',
+                //    'theme': 'dark_blue'
+                //});
+            }
+
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportConveyance", "TravelConveyance", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+            }
+        });
+    })
+    function EditConveyance(Tsid) {
+        $("#btnshow").hide();
+        $("#btnEdit").show();
+      //empgradeGridLookup.SetValue(null);
+       
+        empgradeGridLookup.gridView.UnselectAllRowsOnPage();
+        StateGridLookup.gridView.UnselectAllRowsOnPage();
+
+
+
+        var surl = '@Url.Action("EditConveyance", "TravelConveyance")';
+        $.ajax({
+            async:false,
+            url: surl,
+            data: {
+
+                Tsid: Tsid
+
+            },
+            type: 'POST',
+
+            success: function (dataconvence) {
+                
+                //  alert(dataconvence.EligibleAmtday);
+                var s = dataconvence.TravelId + ',' + dataconvence.fueladjust;
+                // alert(s);
+                $("#idvisitloc").val(dataconvence.VisitlocId);
+                $("#idempgrade").val(dataconvence.EmpgradeId);
+                $("#idexpense").val(dataconvence.ExpenseId);
+                $("#iddesignation").val(dataconvence.DesignationId);
+
+                $("#idstate").val(dataconvence.StateId);
+
+                $("#hdTCid_id").val(dataconvence.TCId);
+
+                $("#chkIsactive").prop('checked', dataconvence.IsActive);
+                Func_Travelmode();
+                if (dataconvence.TravelId != "0") {
+                    $("#idtravelmode").val(s);
+                    Func_FuelBind();
+                }
+                $('#idfuel').val(dataconvence.fuelID);
+                $("#txtdistance").val(dataconvence.EligibleDistance);
+                $("#txtRate").val(dataconvence.EligibleRate);
+                $("#txteligibleamount").val(dataconvence.EligibleAmtday);
+               //  alert(dataconvence.StateIdfetch);
+             
+
+
+                setTimeout(function () {
+                    empgradeGridLookup.SetValue(dataconvence.EmpgradeIdfetch);
+                    setTimeout(function () { StateGridLookup.SetValue(dataconvence.StateIdfetch); }, 200);
+                }, 100);
+
+                //empgradeGridLookup.SetValue(dataconvence.EmpgradeIdfetch);
+                //StateGridLookup.SetValue(dataconvence.StateIdfetch);
+            },
+            error: function () {
+
+            },
+
+
+        });
+        empgradeGridLookup.SetEnabled(false);
+        StateGridLookup.SetEnabled(false);
+    }
+
+
+    function DeleteTConveyance(Tsid) {
+
+        jConfirm('Confirm delete?', 'Confirmation Dialog', function (r) {
+            if (r == true) {
+                var surl = '@Url.Action("DeleteConveyance", "TravelConveyance")';
+                $.ajax({
+
+                    url: surl,
+                    async: false,
+                    data: {
+
+                        Tsid: Tsid
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'Deleted Successfully',
+                            'theme': 'dark_blue'
+                        });
+                        gridTaconfiguration.Refresh();
+                        gridTaconfiguration.Refresh();
+                    },
+                    error: function () {
+
+                    },
+
+                });
+            }
+            else {
+                return false;
+            }
+
+        });
+    }
+
+
+
+    function Func_Travelmode() {
+        $("#txtdistance").val('0.00');
+        $("#txtRate").val('0.00');
+        $("#txteligibleamount").val('0.00');
+        //alert($("#idexpense").val());
+
+
+
+        var fueltypess = "<select id='idtravelmode' class=form-control>";
+        fueltypess = fueltypess + '<option value="0">N.A</option>';
+        fueltypess = fueltypess + '</select>';
+        $('#divtravel').html(fueltypess);
+
+
+
+
+
+        if ($("#idexpense").val() != 1) {
+          
+            $("#txtRate").prop('disabled', true);
+            $("#txtdistance").prop('disabled', true);
+            $("#spaneligible").show();
+
+   
+
+            $("#idtravelmode").prop('disabled', true);
+            $("#idfuel").prop('disabled', true);
+            $("select#divtravel").prop('selectedIndex', 0);
+
+
+            var fueltypess = "<select id='idfuel' class=form-control >";
+            fueltypess = fueltypess + '<option value="0">N.A</option>';
+            fueltypess = fueltypess + '</select>';
+            $('#divfuelType').html(fueltypess);
+
+        }
+        else {
+
+            $("#txtRate").prop('disabled', false);
+            $("#txtdistance").prop('disabled', false);
+
+            $("#idtravelmode").prop('disabled', false);
+            $("#idfuel").prop('disabled', false);
+
+            $("#spaneligible").hide();
+        }
+        var surl = '@Url.Action("GetTravelMode", "TravelConveyance")';
+        $.ajax({
+            url: surl,
+            async: false,
+            data: {
+
+                ExpenseId: $("#idexpense").val()
+
+            },
+            type: 'POST',
+
+            success: function (data) {
+                // alert(data);
+                //if (data == "Success") {
+
+                var travelmodes = "<select id='idtravelmode' class=form-control onchange=Func_FuelBind() >";
+
+                travelmodes = travelmodes + '<option value="">Select</option>';
+                for (var i = 0; i < data.length; i++) {
+
+                    // alert(data[i].fueladjust);
+                    travelmodes = travelmodes + '<option value=' + data[i].ID + ',' + data[i].fueladjust + '  >' + data[i].Name + '</option>';
+                    //    alert(travelmodes);
+                }
+                travelmodes = travelmodes + '</select>';
+                $('#divtravel').html(travelmodes);
+
+                //}
+                //else {
+
+                //    $.jAlert({
+                //        'title': 'Alert!',
+                //        'content': 'Please enter all required fields/Email Should be correct',
+                //        'theme': 'dark_blue'
+                //    });
+                //}
+            },
+            error: function () {
+
+            },
+
+
+        });
+
+
+       if ($("#idexpense").val() != 1) {
+         $("select#divtravel").prop('selectedIndex', 0);
+         $("select#divfuelType").prop('selectedIndex', 0);
+      }
+
+    }
+
+
+
+
+
+
+    function Func_FuelBind() {
+
+
+        var s = [];
+        s = $('#idtravelmode option:selected').val();
+
+        var type = s.split(",")[1];
+        var val = s.split(",")[0];
+
+        if (type == 'true') {
+
+
+            var surl = '@Url.Action("GetFuelMode", "TravelConveyance")';
+            $.ajax({
+                url: surl,
+                async: false,
+                data: {
+
+                    ModeiD: val
+
+                },
+                type: 'POST',
+
+                success: function (data) {
+                    // alert(data);
+                    //if (data == "Success") {
+
+                    var fueltypess = "<select id='idfuel' class=form-control>";
+
+                    fueltypess = fueltypess + '<option value="">Select</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        fueltypess = fueltypess + '<option value=' + data[i].Value + ' >' + data[i].Text + '</option>';
+                    }
+                    fueltypess = fueltypess + '</select>';
+                    $('#divfuelType').html(fueltypess);
+
+                },
+                error: function () {
+
+                },
+
+
+            });
+        }
+
+        else {
+            var fueltypess = "<select id='idfuel' class=form-control>";
+            fueltypess = fueltypess + '<option value="0">N.A</option>';
+            fueltypess = fueltypess + '</select>';
+            $('#divfuelType').html(fueltypess);
+        }
+    }
+
+
+
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+
+
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+    }
+
+
+    var EmpgradeId = [];
+    function GradeSelectionChanged(s, e) {
+        empgradeGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallbackforgrade);
+    }
+
+
+    function GetSelectedFieldValuesCallbackforgrade(values) {
+
+        try {
+            EmpgradeId = [];
+            for (var i = 0; i < values.length; i++) {
+                EmpgradeId.push(values[i]);
+            }
+        } finally {
+            console.log(EmpgradeId);
+        }
+
+    }
+
+</script>
+<style>
+    select.full {
+        width: 100% !important;
+    }
+</style>
+<div class="breadCumb">
+    <span>Configure Travelling Allowance </span>
+</div>
+<div class="container">
+    <div class="backBox p-3">
+        <div class="row">
+            <div class="col-md-2">
+                <label>Visit Location</label><span class="red">*</span>
+                <div>
+                    @Html.DropDownListFor(m => m.VisitlocId, new SelectList(Model.visitloc, "ID", "Name", Model.VisitlocId), "Select", new { @id = "idvisitloc", @class = "form-control", @tabindex = 1 })
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Emp Grade</label><span class="red">*</span>
+                <div>
+
+                    @*@Html.DropDownListFor(m => m.EmpgradeId, new SelectList(Model.empgrade, "ID", "Name", Model.EmpgradeId), "Select", new { @id = "idempgrade", @class = "form-control", @tabindex = 2 })*@
+
+                    @Html.Action("GetEmployeeGradeList", "TravelConveyance")
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Expense Type</label><span class="red">*</span>
+                <div>
+
+                    @Html.DropDownListFor(m => m.ExpenseId, new SelectList(Model.expensetype, "ID", "Name", Model.ExpenseId), "Select", new { @id = "idexpense", @class = "form-control", @onchange = "Func_Travelmode()", @tabindex = 3 })
+                </div>
+            </div>
+            @*<div class="col-md-2">
+                <label>Designation</label><span class="red">*</span>
+                <div>
+
+                    @Html.DropDownListFor(m => m.DesignationId, new SelectList(Model.designation, "ID", "Name", Model.DesignationId), "Select", new { @id = "iddesignation", @class = "form-control", @tabindex = 4 })
+                </div>
+            </div>*@
+            <div class="col-md-2">
+                <label>State</label><span class="red">*</span>
+                <div>
+
+                    @*@Html.DropDownListFor(m => m.StateId, new SelectList(Model.state, "ID", "Name", Model.StateId), "Select", new { @id = "idstate", @class = "form-control", @tabindex = 5 })*@
+
+                    @Html.Action("GetStateList", "MasterPopulate")
+
+
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Mode Of Travel</label><span class="red">*</span>
+                <div id="divtravel">
+
+                    @Html.DropDownListFor(m => m.TravelId, new SelectList(Model.travelmode, "ID", "Name", Model.TravelId), "N.A", new { @id = "idtravelmode", @class = "form-control", @tabindex = 6 })
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label>Fuel Type</label><span class="red">*</span>
+                <div id="divfuelType">
+
+                    @Html.DropDownListFor(m => m.fuelID, new SelectList(Model.fueltype, "ID", "Name", Model.fuelID), "N.A", new { @id = "idfuel", @class = "form-control", @tabindex = 7 })
+
+                </div>
+            </div>
+
+            <div class="col-md-3 mt-4">
+                <label>Eligible Distance(KM)</label><span class="red" id="spandistance">*</span>
+                <div>
+
+                    @Html.TextBoxFor(m => m.EligibleDistance, new { @class = "form-control", @id = "txtdistance", @tabindex = 8, onkeypress = "return isNumber(this,event)" })
+
+                </div>
+            </div>
+            <div class="col-md-2 mt-4">
+                <label>Eligible Rate</label><span class="red" id="spanrate">*</span>
+                <div>
+
+                    @Html.TextBoxFor(m => m.EligibleRate, new { @class = "form-control", @id = "txtRate", @tabindex = 9, onkeypress = "return isNumber(this,event)" })
+                </div>
+            </div>
+            <div class="col-md-2 mt-4">
+                <label>Eligible Amount/Day</label><span class="red" id="spaneligible">*</span>
+                <div>
+
+                    @Html.TextBoxFor(m => m.EligibleAmtday, new { @class = "form-control", @id = "txteligibleamount", @tabindex = 10, onkeypress = "return isNumber(this,event)" })
+
+                </div>
+            </div>
+            <div class="col-md-1 mt-4">
+                <label>Active</label>
+                <div>
+
+                    @Html.CheckBoxFor(m => m.IsActive, new { @class = "acheckbox", @id = "chkIsactive", @tabindex = 11 })
+
+                </div>
+            </div>
+            <div class="col-md-4 mt-5 mb-4" style="padding-top: 7px;">
+                <label>&nbsp;</label>
+
+                <button type="button" id="btnshow" class="btn btn-success " tabindex=12>Add</button>
+                <button type="button" id="btnEdit" class="btn btn-success " tabindex=13>Update</button>
+                <button type="button" id="btnclear" class="btn btn-success " tabindex=14>Cancel</button>
+
+                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds" tabindex=15>
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+            </div>
+            <div class="col-md-12"></div>
+
+        </div>
+        <div style="clear: both;"><br /></div>
+        <div id="refreshgridsalessummary">
+
+            @{
+                Html.RenderAction("ConfigurationPartial", "TravelConveyance");
+            }
+        </div>
+    </div>
+    
+    <input type="hidden" id="hdTCid_id" />
+    <input type="hidden" id="hdnuser_state" />
+    <input type="hidden" id="hdnuser_shop" />
+</div>

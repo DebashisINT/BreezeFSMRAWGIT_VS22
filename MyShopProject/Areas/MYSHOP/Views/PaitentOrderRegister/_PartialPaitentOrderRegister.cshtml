@@ -1,0 +1,254 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridpaitentorderregister";
+
+    settings.CallbackRouteValues = new { Action = "GetRegisterreporttatusList", Controller = "PaitentOrderRegister" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPLOYEE_ID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 1;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 3;
+        x.Width = 180;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPNAME";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 4;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENTITYCODE";
+        x.Caption = "Code";
+        x.VisibleIndex = 5;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ADDRESS";
+        x.Caption = "Address";
+        x.VisibleIndex = 6;
+        x.Width = 350;
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACT";
+        x.Caption = "Contact";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPTYPE";
+        x.Caption = "Shop type";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PATIENT_NAME";
+        x.Caption = "Paitent Name";
+        x.VisibleIndex = 9;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PATIENT_PHONE_NO";
+        x.Caption = "Paitent Ph. No.";
+        x.VisibleIndex = 10;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PATIENT_ADDRESS";
+        x.Caption = "Paitent Address";
+        x.VisibleIndex = 11;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "HOSPITAL";
+        x.Caption = "Paitent Hospital";
+        x.VisibleIndex = 12;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMAIL_ADDRESS";
+        x.Caption = "Paitent Email ID";
+        x.VisibleIndex = 13;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PPNAME";
+        x.Caption = "PP Name";
+        x.VisibleIndex = 14;
+        x.Width = 170;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DDNAME";
+        x.Caption = "DD Name";
+        x.VisibleIndex = 15;
+        x.Width = 170;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ORDDATE";
+        x.Caption = "Order Date";
+        x.VisibleIndex = 16;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ORDRNO";
+        x.Caption = "Order Number";
+        x.VisibleIndex = 17;
+        x.Width = 200;
+
+    });
+
+
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "PRODUCT";
+       x.Caption = "Product";
+       x.VisibleIndex = 18;
+       x.Width = 250;
+   });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "QUANTITY";
+        x.Caption = "Quantity";
+        x.VisibleIndex = 19;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "RATE";
+    x.Caption = "Rate";
+    x.VisibleIndex = 20;
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    x.Width = 100;
+});
+
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "ORDVALUE";
+    x.Caption = "Order Value";
+    x.VisibleIndex = 21;
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    x.Width = 100;
+});
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "MRP";
+    x.Caption = "MRP";
+    x.VisibleIndex = 22;
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    x.Width = 100;
+});
+    
+    if (TempData["IsSchemeDetails"].ToString() == "1")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "SCHEME_QTY";
+            x.Caption = "Scheme Qty";
+            x.VisibleIndex = 23;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 100;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "SCHEME_RATE";
+            x.Caption = "Scheme Rate";
+            x.VisibleIndex = 24;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 100;
+            x.PropertiesEdit.DisplayFormatString = "0.00";
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "TOTAL_SCHEME_PRICE";
+            x.Caption = "Scheme Value";
+            x.VisibleIndex = 25;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 100;
+            x.PropertiesEdit.DisplayFormatString = "0.00";
+        });
+    }
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "QUANTITY").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RATE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ORDVALUE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "SCHEME_QTY").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "SCHEME_RATE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_SCHEME_PRICE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "MRP").DisplayFormat = "0.00";
+
+    settings.CustomJSProperties = (s, e) =>
+    {
+        ASPxGridView grid = (ASPxGridView)s;
+        e.Properties["cpGridFilterExpression"] = grid.FilterExpression;
+    };
+}).Bind(Model).GetHtml()
+

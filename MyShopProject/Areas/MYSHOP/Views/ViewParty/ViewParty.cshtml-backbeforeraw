@@ -1,0 +1,3111 @@
+﻿
+@{
+    ViewBag.Title = "ViewParty";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .dateIn {
+        font-size: 10px;
+        display: inline-block;
+        background: #efefef;
+        padding: 2px 10px;
+        margin-left: 5px;
+    }
+
+    .lnArea {
+        font-size: 11px;
+        margin: 5px 0;
+    }
+
+    .bt_indicator, .nt_indicator {
+        display: inline-block;
+        padding: 0 5px;
+    }
+
+    .bt_indicator {
+        padding-left: 20px;
+    }
+
+        .bt_indicator > img {
+            width: 22px;
+            margin-right: 5px;
+        }
+
+    .nt_indicator > img {
+        width: 13px;
+        margin-right: 5px;
+    }
+</style>
+<script type="text/javascript" src="https://github.com/douglascrockford/JSON-js/raw/master/json2.js"></script>
+<script>
+    var jsonObject = "";
+    var mainData = "";
+    var usrName = "";
+    function sendCsv() {
+        var data = jsonObject;
+        if (data == '')
+            return;
+        console.log("jsonObject", jsonObject);
+        console.log("mainData", mainData);
+
+        var newArr = [];
+        for (var i = 0; i < jsonObject.length; i++) {
+            if (i == 0) {
+                var bt = "";
+                var nt = "";
+                if (mainData[i].battery_percentage == "") { bt = "NA" } else { bt = mainData[i].battery_percentage }
+                if (mainData[i].network_status == "") { nt = "NA" } else { nt = mainData[i].network_status }
+                newArr.push({
+                    "Address": jsonObject[i].start_address,
+                    "Distance Covered": jsonObject[i].distance.text,
+                    "Start date": mainData[i].SDate,
+                    "Latitude": mainData[i].lat,
+                    "Longitude": mainData[i].lng,
+                    "Battery Percentage": bt,
+                    "Network Status": nt,
+                });
+            } else {
+                if (i > mainData.length - 1) {
+                } else {
+                    var bt = "";
+                    var nt = "";
+                    if (mainData[i].battery_percentage == "") { bt = "NA" } else { bt = mainData[i].battery_percentage }
+                    if (mainData[i].network_status == "") { nt = "NA" } else { nt = mainData[i].network_status }
+                    newArr.push({
+                        "Address": jsonObject[i - 1].start_address,
+                        "Distance Covered": jsonObject[i - 1].distance.text,
+                        "Start date": mainData[i].SDate,
+                        "Latitude": mainData[i].lat,
+                        "Longitude": mainData[i].lng,
+                        "Battery Percentage": bt,
+                        "Network Status": nt,
+                    });
+                }
+
+
+            }
+
+        }
+        //console.log("newArr", newArr);
+        JSONToCSVConvertor(newArr, "Visit Summary", true, usrName);
+    }
+
+
+    function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel,EmpName) {
+        //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+        var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+        var CSV = EmpName + '\r\n';
+
+        //This condition will generate the Label/Header
+        if (ShowLabel) {
+            var row = "";
+
+            //This loop will extract the label from 1st index of on array
+            for (var index in arrData[0]) {
+
+                //Now convert each value to string and comma-seprated
+                row += index + ',';
+            }
+
+            row = row.slice(0, -1);
+
+            //append Label row with line break
+            CSV += row + '\r\n';
+        }
+
+        //1st loop is to extract each row
+        for (var i = 0; i < arrData.length; i++) {
+            var row = "";
+
+            //2nd loop will extract each column and convert it in string comma-seprated
+            for (var index in arrData[i]) {
+                row += '"' + arrData[i][index] + '",';
+            }
+
+            row.slice(0, row.length - 1);
+
+            //add a line break after each row
+            CSV += row + '\r\n';
+        }
+
+        if (CSV == '') {
+            alert("Invalid data");
+            return;
+        }
+
+        //Generate a file name
+        var fileName = "";
+        //this will remove the blank-spaces from the title and replace it with an underscore
+        fileName += ReportTitle.replace(/ /g, "_");
+
+        //Initialize file format you want csv or xls
+        var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+        // Now the little tricky part.
+        // you can use either>> window.open(uri);
+        // but this will not work in some browsers
+        // or you will not get the correct file extension
+
+        //this trick will generate a temp <a /> tag
+        var link = document.createElement("a");
+        link.href = uri;
+
+        //set the visibility hidden so it will not effect on your web-layout
+        link.style = "visibility:hidden";
+        link.download = fileName + ".csv";
+
+        //this part will append the anchor tag and remove it after automatic click
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    function locationclick(id, name) {
+        usrName = name;
+        @*$("#hdnLead_Code").val(id);
+        $.ajax({
+            type: "POST",
+            //url: "Url.Action("GetEmployeesTargetByCode", "EmployeesTarget")",
+            url: "@Url.Action("ShowRoute", "ViewRoute")",
+            data: { id: id },
+            success: function (response) {
+                CRMpcControl.SetContentHtml(response);
+                MVCxClientUtils.FinalizeCallback();
+                CRMpcControl.SetHeaderText('Activities');
+                CRMpcControl.Show();
+            }
+        });*@
+        $('.FullDiv').removeClass('hide');
+        var Url = '@Url.Action("GetSalesmanLocation", "ViewRoute")'
+        var d = new Date();
+        var userid = id;
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        //var output = d.getFullYear() + '/' +
+        //    (month < 10 ? '0' : '') + month + '/' +
+        //    (day < 10 ? '0' : '') + day;
+
+        var output =  dtTo.GetText();
+
+        $.ajax({
+            url: Url,
+            async: false,
+            type: 'POST',
+            data: {
+                selectedusrid: userid,
+                Date: output,
+                IsGmap: "true"
+            },
+            error: function () {
+                $('#info').html('<p>An error has occurred</p>');
+            },
+
+            success: function (markers) {
+                //console.log('MAIN ARRAY',markers.salesmanarea);
+                //var MarkerData = markers
+
+
+                // start new Route
+                document.getElementById('listDirec').innerHTML = '';
+                //$("#directionname").html("<b>Name : " + username + "</b>");
+                if (markers != '') {
+                    var directionsDisplay;
+                    var directionsService = new google.maps.DirectionsService();
+                    directionsDisplay = new google.maps.DirectionsRenderer(
+                        );
+                    var infoWindow = new google.maps.InfoWindow();
+                    //////// 22/01/2018
+                    var waypts = [];
+                    var latlng = new google.maps.LatLng(28.535516, 77.391026);
+                    // var latlng = new google.maps.LatLng(lat, long);
+                    map = new google.maps.Map(document.getElementById('mapid'), {
+                        // center: latlng,
+                        zoom: 16,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+
+                    });
+                    //////// 22/01/18
+                    //directionsDisplay.setMap(map);
+                    directionsDisplay = new google.maps.DirectionsRenderer({ map: map, suppressMarkers: true, suppressInfoWindows: false });
+                    for (i = 0; i < markers.salesmanarea.length; i++) {
+                        var data = markers.salesmanarea[i];
+                        waypts.push({
+                            location: data.location,
+                            stopover: true,
+                        });
+                        //createMarker(data.location);
+                    }
+                    //////// 22/01/18
+                    var start = markers.latlanLogin;
+                    var end = markers.latlanLogout;
+                    var request = {
+                        origin: start,
+                        destination: end,
+                        waypoints: waypts,
+                        optimizeWaypoints: true,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+                    var infowindow_forRoutedMarker = new google.maps.InfoWindow({
+                        content: '22'
+                    });
+                    if (markers.Fullresponse != null) {
+                        directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+                        directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+                        var route = $.parseJSON(markers.Fullresponse).routes[0];
+                        var summaryPanel = document.getElementById('listDirec');
+                        var infowindow = new google.maps.InfoWindow();
+                        var drivingdistancesave = '';
+                        var drivingdistance = '';
+                        summaryPanel.innerHTML = '';
+                        var distance = 0.0000;
+                        var distancecount = 0;
+                        // For each route, display summary information.
+                        $("#lbltotaldistancecovered").html('');
+                        for (var i = 0; i < route.legs.length; i++) {
+                            var routeSegment = i + 1;
+                            var x = route.legs[i].distance.text;
+                            // alert(x);
+                            if (x.includes('km')) {
+                                //alert(parseFloat(x.replace('km', '').trim()));
+                                distance = parseFloat(x.replace('km', '').trim());
+                            }
+                            else {
+                                distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+                            }
+                            distancecount = distancecount + distance;
+                            if (i == 0) {
+                                summaryPanel.innerHTML += '<li><div class="mainLabel mMark"> Travel Point: ' + routeSegment + '</div>';
+                                summaryPanel.innerHTML += '<div class="mCont ss">' + route.legs[i].start_address + ' </div>';
+
+                                summaryPanel.innerHTML += '<span class="mKm">0 km</span>' + '</li>';
+
+                                drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i].start_location,
+                                    label: "" + (i + 1),
+                                    map: map,
+                                    icon: '/assests/images/lightbox/location-pinStart.png'
+                                });
+                            }
+                            else {
+
+                                summaryPanel.innerHTML += '<li><div class="mainLabel mMark">Travel Point: ' + routeSegment + '</div>';
+                                summaryPanel.innerHTML += '<div class="mCont aa">' + route.legs[i].start_address + ' </div>';
+
+                                summaryPanel.innerHTML += '<span class="mKm">' + route.legs[i - 1].distance.text + '</span></li>';
+
+                                drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i].start_location,
+                                    label: "" + (i + 1),
+                                    map: map,
+                                    icon: '/assests/images/lightbox/location-pin.png'
+
+                                });
+                            }
+                            drivingdistance = drivingdistance + drivingdistancesave;
+                        }
+                        summaryPanel.innerHTML += '<li><div class="mainLabel mMark">Travel Point: ' + (i + 1) + '</div>' +
+                           '<div class="mCont gg">' + route.legs[i - 1].end_address + ' </div><span class="mKm">' + route.legs[i - 1].distance.text + '</span></li>';
+
+                        summaryPanel.innerHTML += '<div class="fTotal"><b>Total Distance covered: </b> ' + distancecount.toFixed(2) + ' km' + '</div>'
+
+                        var marker = new google.maps.Marker({
+                            position: route.legs[i - 1].end_location,
+                            label: "" + (i + 1),
+                            map: map,
+                            animation: google.maps.Animation.DROP,
+                            icon: '/assests/images/lightbox/location-pinEnd.png'
+                        });
+
+
+                        drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+
+                        drivingdistance = drivingdistance + drivingdistancesave;
+                        //marker.addListener('click', function () {
+                        //    infowindow.open(map, marker);
+                        //});
+                        drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                        //  SubmitRequestedLocation(drivingdistance, JSON.stringify(response));
+                        $("#lbltotaldistancecovered").val(drivingdistance);
+                        //$("#lbltotaldistancecovered").html('Distance Covered: ' + distancecount+' km');
+                    }
+                    else {
+
+                        directionsService.route(request, function (response, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                //alert(JSON.stringify(response));
+                                // objToString(response)
+                                directionsDisplay.setDirections(response);
+                                var route = response.routes[0];
+                                var summaryPanel = document.getElementById('listDirec');
+                                var infowindow = new google.maps.InfoWindow();
+                                var drivingdistancesave = '';
+                                var drivingdistance = '';
+                                summaryPanel.innerHTML = '';
+                                var distance = 0;
+                                var distancecount = 0;
+                               // console.log(route.legs);
+                                // For each route, display summary information.
+                                $("#lbltotaldistancecovered").html('');
+                                var i;
+                                var newMarkers = [];
+
+
+                                for (var i = 0; i < route.legs.length; i++) {
+
+                                    //console.log("route.legs", route.legs)
+                                    //console.log("route.legs", route.legs)
+                                    var boxText = document.createElement("div");
+                                    infoboxOptions = {
+                                        content: boxText,
+                                        disableAutoPan: false,
+                                        //maxWidth: 150,
+                                        pixelOffset: new google.maps.Size(-200, -50),
+                                        zIndex: null,
+                                        alignBottom: true,
+                                        boxClass: "infobox-wrapper",
+                                        enableEventPropagation: true,
+                                        closeBoxMargin: "0px 0px -8px 0px",
+                                        closeBoxURL: "/assests/pluggins/images/close-btn.png",
+                                        infoBoxClearance: new google.maps.Size(1, 1)
+                                    };
+                                    jsonObject = route.legs;
+                                    mainData = markers.salesmanarea;
+                                    var routeSegment = i + 1;
+                                    var x = route.legs[i].distance.text;
+                                    // alert(x);
+                                    if (x.includes('km')) {
+                                        //  alert(parseFloat(x.replace('km', '').trim()));
+                                        distance = parseFloat(x.replace('km', '').trim());
+                                    }
+                                    else {
+                                        // alert(parseFloat(x.replace('m', '').trim()) / 1000.0000);
+                                        distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+                                    }
+                                    distancecount = distancecount + distance;
+                                    if (i == 0) {
+                                        var btP = "";
+                                        var nStat = "";
+                                        if (markers.salesmanarea[i].battery_percentage != "") {
+                                            var btP = markers.salesmanarea[i].battery_percentage + "%";
+                                        } else {
+                                            var btP = "NA";
+                                        }
+                                        if (markers.salesmanarea[i].network_status != "") {
+                                            var nStat = markers.salesmanarea[i].network_status;
+                                        } else {
+                                            var nStat = "NA";
+                                        }
+                                        summaryPanel.innerHTML += '<li><div><span class="mainLabel marker-link mMark" data-lat="' + route.legs[i].start_location + '" data-markerid="' + i + '">Travel Point: ' + routeSegment + '</span><span class="bt_indicator"><img src="../../../../../assests/images/battery-status.png" />' + btP + '</span><span class="nt_indicator"><img src="../../../../../assests/images/high-signal.png" />' + nStat + '</span></div>';
+                                        summaryPanel.innerHTML += '<div class="mCont ff">' + route.legs[i].start_address + ' </div>'
+                                        summaryPanel.innerHTML += '<div><span class="mKm">0 km' + '</span> <span class="dateIn">' + markers.salesmanarea[i].SDate + '</span></div>';
+                                        summaryPanel.innerHTML += '<div class="lnArea">Lat: <span>' + markers.salesmanarea[i].lat + '</span> <span>Long: ' + markers.salesmanarea[i].lng + '</span></div></li>';
+                                        drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+                                        var marker = new google.maps.Marker({
+                                            position: route.legs[i].start_location,
+                                            label: "",
+                                            map: map,
+                                            icon: '/assests/images/lightbox/location-pinStart.png'
+                                        });
+                                    }
+                                    else {
+
+                                        //console.log('loopCount', markers.salesmanarea)
+                                        //var mDate = '';
+                                        if (i > markers.salesmanarea.length - 1) {
+                                            // Comented for lat long marker issue
+                                            //console.log('item-1', markers.salesmanarea[i])
+                                            //summaryPanel.innerHTML += '<li><div class="mainLabel marker-link mMark" data-lat="' + route.legs[i].start_location + '" data-markerid="' + i + '">Travel Point: ' + routeSegment + '</div>';
+                                            //summaryPanel.innerHTML += '<div class="mCont">' + route.legs[i].start_address + ' </div>  ';
+                                            //summaryPanel.innerHTML += '<div><span class="mKm">' + route.legs[i - 1].distance.text + '</span></div>';
+                                            //summaryPanel.innerHTML += '<div class="lnArea">Lat:' + markers.salesmanarea[i - 1].lat + ' <span> </span> <span>Long:' + markers.salesmanarea[i - 1].lng + ' </span></div></li>';
+
+                                        } else {
+                                            var btP = "";
+                                            var nStat = "";
+                                            if (markers.salesmanarea[i].battery_percentage != "") {
+                                                var btP = markers.salesmanarea[i].battery_percentage + "%";
+                                            } else {
+                                                var btP = "NA";
+                                            }
+                                            if (markers.salesmanarea[i].network_status != "") {
+                                                var nStat = markers.salesmanarea[i].network_status;
+                                            } else {
+                                                var nStat = "NA";
+                                            }
+                                            //console.log('btP', btP);
+                                            //console.log('item', markers.salesmanarea[i])
+                                            summaryPanel.innerHTML += '<li><div><span class="mainLabel marker-link mMark" data-lat="' + route.legs[i].start_location + '" data-markerid="' + i + '">Travel Point: ' + routeSegment + '</span><span class="bt_indicator"><img src="../../../../../assests/images/battery-status.png" />' + btP + '</span><span class="nt_indicator"><img src="../../../../../assests/images/high-signal.png" />' + nStat + '</span></div>';
+                                            summaryPanel.innerHTML += '<div class="mCont">' + route.legs[i].start_address + ' </div>  ';
+                                            summaryPanel.innerHTML += '<div><span class="mKm">' + route.legs[i - 1].distance.text + '</span> <span class="dateIn">' + markers.salesmanarea[i].SDate + '</span></div>';
+                                            summaryPanel.innerHTML += '<div class="lnArea">Lat: <span>' + markers.salesmanarea[i].lat + '</span> <span>Long: ' + markers.salesmanarea[i].lng + '</span></div></li>';
+                                        }
+
+                                        drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                                        var marker = new google.maps.Marker({
+                                            position: route.legs[i].start_location,
+                                            label: "",
+                                            map: map,
+                                            icon: '/assests/images/lightbox/location-pin.png'
+
+                                        });
+                                    }
+
+                                    newMarkers.push(marker);
+                                    // susanta 04.01.2019
+                                    var current_count = i + 1;
+                                    boxText.innerHTML = '<div >' +
+                                                            '<div>' +
+                                                                '<div class="rPop ">Step ' + current_count + ' </div>' +
+                                                                '<div class="adr">' + route.legs[i].start_address + ' </div>' +
+                                                            '</a>' +
+                                                        '</div>';
+
+                                    //Define the infobox
+                                    newMarkers[i].infobox = new InfoBox(infoboxOptions);
+                                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                        return function () {
+                                            for (h = 0; h < newMarkers.length; h++) {
+                                                newMarkers[h].infobox.close();
+                                            }
+                                            newMarkers[i].infobox.open(map, this);
+                                        }
+                                    })(marker, i));
+
+                                    drivingdistance = drivingdistance + drivingdistancesave;
+                                }
+                                // Comented for lat long marker issue
+                                //var dataLat = route.legs[i - 1].end_location.lat();
+                                //var dataLong = route.legs[i - 1].end_location.lng();
+                                //console.log("dataLat", route.legs[i - 1].end_location);
+                                //summaryPanel.innerHTML += '<li><div class="mainLabel marker-link mMark" data-lat="' + route.legs[i - 1].end_location + '" data-markerid="' + (i - 1) + '">Travel Point: ' + (i + 1) + '</div>' +
+                                //   '<div class="mCont dd">' + route.legs[i - 1].end_address + ' </div><div><span class="mKm">' + route.legs[i - 1].distance.text + '</span></div><div class="lnArea">Lat:' + dataLat + ' <span> </span> <span>Long:' + dataLong + ' </span></div></li>';
+
+                                summaryPanel.innerHTML += '<div class="fTotal"><b>Total Distance covered: </b> ' + distancecount.toFixed(2) + ' km' + '</div>'
+
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i - 1].end_location,
+                                    label: "",
+                                    map: map,
+                                    animation: google.maps.Animation.DROP,
+                                    icon: '/assests/images/lightbox/location-pinEnd.png'
+                                });
+                                drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+
+                                drivingdistance = drivingdistance + drivingdistancesave;
+                                //marker.addListener('click', function () {
+                                //    infowindow.open(map, marker);
+                                //});
+                                drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                                //SubmitRequestedLocation(drivingdistance, JSON.stringify(response));
+                                $("#lbltotaldistancecovered").val(drivingdistance);
+                                $('.marker-link').on('click', function () {
+                                    var lat = $(this).data('lat');
+
+                                    google.maps.event.trigger(newMarkers[$(this).data('markerid')], 'click');
+                                    var center = new google.maps.LatLng(lat);
+                                    map.panTo(center);
+                                    map.setZoom(18);
+                                });
+                                //$("#lbltotaldistancecovered").html('Distance Covered: ' + distancecount+' km');
+                            }
+                        });
+                    }
+                }
+                else {
+                    summaryPanel.innerHTML = '';
+                    jAlert('No data');
+                }
+                // End Route
+            },
+        });
+
+
+        @*var url = '@Url.Action("ShowRoute", "ViewRoute")?id=' + id + '&Date=' + dtTo.GetText();
+
+
+        $.ajax({
+            type: "GET",
+            //url: "Url.Action("GetEmployeesTargetByCode", "EmployeesTarget")",
+            url: url,
+
+            success: function (response) {
+                console.log(response);
+                $("#ppMap").html(response);
+            }
+        });*@
+
+
+
+        //    CRMpcControl.SetContentUrl(url);
+        //MVCxClientUtils.FinalizeCallback();
+        //CRMpcControl.SetHeaderText('Show Route');
+        //CRMpcControl.Show();
+
+        // window.open(url);
+    }
+
+</script>
+
+
+<meta name="google" content="notranslate" />
+<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+
+@*<link href="~/assests/media.css" rel="stylesheet" />*@
+<link href="~/Scripts/Charts/styles.css" rel="stylesheet" />
+@*<link href="~/Content/media.css" rel="stylesheet" />*@
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+
+@*<link href="~/assests/pluggins/openstreetmap/leaflet.css" rel="stylesheet" />
+    <link href="~/assests/pluggins/openstreetmap/MarkerCluster.css" rel="stylesheet" />
+    <script src="~/assests/pluggins/openstreetmap/leaflet.js"></script>
+    <script src="~/assests/pluggins/openstreetmap/leaflet.markercluster.js"></script>*@
+
+
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCnT4LaIBF8iYIFQX_vVQ_F5bt6gPq5Q"></script>*@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCnT4LaIBF8iYIFQX_vVQ_F5bt6gPq5Q"></script>
+<script src="~/assests/pluggins/gmapCustomize/infobox.js"></script>
+<script src="~/assests/pluggins/gmapCustomize/markerclusterer_packed.js"></script>
+<script src="~/assests/pluggins/gmapCustomize/markerwithlabel_packed.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
+<style type="text/css">
+    /* set the size of the datepicker search control for Order Date*/
+    #ui-datepicker-div {
+        font-size: 11px;
+    }
+
+    /* set the size of the autocomplete search control*/
+    .ui-menu-item {
+    }
+
+    .ui-autocomplete {
+        font-size: 11px;
+    }
+
+    .mr0 {
+        margin-right: 0 !important;
+    }
+
+    .widgetBox {
+        position: relative;
+        margin-top: 20px;
+    }
+
+    .numCnt {
+        padding: 15px 25px;
+    }
+
+    .widgetBox .numCnt .number {
+        font-size: 26px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .widgetBox .numCnt .text {
+        font-size: 15px;
+        color: #fff;
+    }
+
+    .widgetBox h4 {
+        padding: 10px 25px;
+        background: #398b9e;
+        color: #fff;
+    }
+
+    .widgetBox.one {
+        background: #4bacc3;
+    }
+
+    .widgetBox.two {
+        background: #4bc3ae;
+    }
+
+    .widgetBox.three {
+        background: #b6c72f;
+    }
+
+    .widgetBox.four {
+        background: #e47b5b;
+    }
+
+    .widgetBox.two h4 {
+        background: #36a995;
+    }
+
+    .widgetBox.three h4 {
+        background: #9ead26;
+    }
+
+    .widgetBox.four h4 {
+        background: #ce6646;
+    }
+
+    .widgetBox .fa {
+        position: absolute;
+        font-size: 43px;
+        color: rgba(53, 50, 50, 0.5);
+        top: 18px;
+        right: 18px;
+    }
+
+    .boxForChart {
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 10px;
+        background: #fff;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.06);
+        margin-top: 5px;
+        padding: 8px 0;
+    }
+
+    .SelectChart {
+        width: 200px !important;
+        max-width: 200px;
+        margin: 8px 0;
+    }
+
+    .cngView {
+        margin-right: 15px;
+        padding-top: 7px;
+    }
+
+    .refine-btn {
+        position: absolute;
+        right: 50px;
+        top: 15px;
+    }
+
+    .activeW {
+        /*background: #bbc8ec !important;*/
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        transform: scale(1.1);
+        z-index: 8;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.9);
+    }
+
+    .dateT {
+        margin-top: 8px;
+    }
+
+        .dateT > tbody > tr > td:first-child {
+            font-size: 16px;
+            padding-right: 15px;
+        }
+
+    .ltri {
+        display: inline-block;
+        background: #64c7ab;
+        padding: 3px 8px;
+        border-radius: 4px;
+        position: relative;
+        color: #fff;
+    }
+
+        .ltri:after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-top: 11px solid transparent;
+            border-bottom: 11px solid transparent;
+            border-left: 12px solid #64c7ab;
+            position: absolute;
+            right: -7px;
+        }
+
+    #lblDate {
+        font-size: 17px;
+    }
+
+    .rightSide {
+        background: rgb(239, 244, 247) !important;
+        margin-left: 168px;
+    }
+</style>
+<style>
+    .noUser {
+        font-size: 16px;
+        font-weight: 300;
+        padding: 15px;
+    }
+
+    .mapContainer {
+        position: relative;
+        box-shadow: none;
+    }
+
+    .dropSectionuser {
+        position: fixed;
+        height: 100% !important;
+        width: 300px;
+        right: -300px;
+        background: #fff;
+        height: 100%;
+        top: 0px;
+        bottom: 0;
+        z-index: 7;
+        box-shadow: -5px 3px 5px rgba(160, 159, 159,0.4);
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .dropSectionuser.open {
+            right: 0px;
+        }
+
+    .userList {
+        height: 94vh;
+        overflow-y: auto;
+        padding: 0;
+        margin: 0;
+    }
+
+        .userList > a {
+            color: rgba(4, 4, 4, 0.7);
+        }
+
+            .userList > a:focus {
+                text-decoration: none;
+                background: rgba(49, 181, 115, 0.8);
+            }
+
+    .userlistItem {
+        padding: 8px 10px;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+        .userlistItem .userIcon {
+            float: left;
+        }
+
+            .userlistItem .userIcon > img {
+                max-width: 40px;
+            }
+
+        .userlistItem .userName, .userlistItem .userDesg, .userNUM {
+            margin-left: 55px;
+            font-family: 'Montserrat', sans-serif !important;
+        }
+
+        .userlistItem .userName {
+            font-weight: 500;
+        }
+
+        .userlistItem .userNUM {
+            font-size: 11px;
+        }
+
+    .userDesg {
+        font-size: 11px;
+    }
+
+    .searchArea {
+        padding: 15px 20px;
+        background: #f5f8fb;
+    }
+
+        .searchArea > .search {
+            width: 100%;
+            border-radius: 20px;
+            padding-left: 12px;
+            font-size: 13px;
+            height: 29px;
+            border: 1px solid #ccc;
+        }
+
+            .searchArea > .search:focus {
+                box-shadow: none;
+                outline: none;
+            }
+
+    #showMapSearch {
+        float: right;
+        margin-right: 39px;
+        background: #57b4ea;
+        padding: 4px 5px;
+        margin-top: -3px;
+        color: #fff;
+        border-radius: 3px;
+    }
+
+    .list-noStyle {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+        .list-noStyle > li {
+            float: left;
+            display: block;
+        }
+
+    .totalVisit {
+        text-align: center;
+        padding: 6px;
+        font-size: 30px;
+        margin-top: 18px;
+        color: #9261ec;
+    }
+
+    .mapBadge {
+        background: #d8e1e4;
+        color: #333;
+        font-weight: 300;
+        font-size: 11px;
+        border-radius: 3px;
+    }
+
+    .btnrouteCont {
+        margin-top: 46px;
+        padding: 17px;
+    }
+
+    .infobox-cell > i {
+        float: none !important;
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+        margin-right: 3px;
+    }
+
+    .infobox-cell > b {
+        font-size: 14px;
+        color: #969292;
+    }
+</style>
+<style>
+    .leaflet-top, .leaflet-bottom {
+        z-index: 5 !important;
+    }
+
+    .ClasicStyle {
+        width: 100%;
+    }
+
+        .ClasicStyle > thead > tr > th {
+            background: #f3f3f3;
+            font-weight: 500;
+        }
+
+        .ClasicStyle > thead > tr > th, .ClasicStyle > tbody > tr > td {
+            border: 1px solid #ccc;
+            font-size: 14px;
+            padding: 3px 5px;
+        }
+
+
+    .mTop15 {
+        margin-top: 15px;
+    }
+
+    #mixedChart {
+        width: 100%;
+        height: 150px;
+    }
+
+    .d-flex {
+        display: -ms-flexbox !important;
+        display: flex !important;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+    #map {
+        margin-bottom: 20px;
+    }
+
+    .d-inline-flex {
+        display: -ms-inline-flexbox !important;
+        display: inline-flex !important;
+    }
+
+    .flex-row {
+        -ms-flex-direction: row !important;
+        flex-direction: row !important;
+    }
+
+    .flex-column {
+        -ms-flex-direction: column !important;
+        flex-direction: column !important;
+    }
+
+    .flex-row-reverse {
+        -ms-flex-direction: row-reverse !important;
+        flex-direction: row-reverse !important;
+    }
+
+    .flex-column-reverse {
+        -ms-flex-direction: column-reverse !important;
+        flex-direction: column-reverse !important;
+    }
+
+    .flex-wrap {
+        -ms-flex-wrap: wrap !important;
+        flex-wrap: wrap !important;
+    }
+
+    .flex-nowrap {
+        -ms-flex-wrap: nowrap !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .flex-wrap-reverse {
+        -ms-flex-wrap: wrap-reverse !important;
+        flex-wrap: wrap-reverse !important;
+    }
+
+    .flex-fill {
+        -ms-flex: 1 1 auto !important;
+        flex: 1 1 auto !important;
+    }
+
+    .flex-grow-0 {
+        -ms-flex-positive: 0 !important;
+        flex-grow: 0 !important;
+    }
+
+    .flex-grow-1 {
+        -ms-flex-positive: 1 !important;
+        flex-grow: 1 !important;
+    }
+
+    .mr20 {
+        margin-right: 20px;
+    }
+
+    .flex-shrink-0 {
+        -ms-flex-negative: 0 !important;
+        flex-shrink: 0 !important;
+    }
+
+    .flex-shrink-1 {
+        -ms-flex-negative: 1 !important;
+        flex-shrink: 1 !important;
+    }
+
+    .justify-content-start {
+        -ms-flex-pack: start !important;
+        justify-content: flex-start !important;
+    }
+
+    .justify-content-end {
+        -ms-flex-pack: end !important;
+        justify-content: flex-end !important;
+    }
+
+    .justify-content-center {
+        -ms-flex-pack: center !important;
+        justify-content: center !important;
+    }
+
+    .justify-content-between {
+        -ms-flex-pack: justify !important;
+        justify-content: space-between !important;
+    }
+
+    .justify-content-around {
+        -ms-flex-pack: distribute !important;
+        justify-content: space-around !important;
+    }
+
+    .align-items-start {
+        -ms-flex-align: start !important;
+        align-items: flex-start !important;
+    }
+
+    .align-items-end {
+        -ms-flex-align: end !important;
+        align-items: flex-end !important;
+    }
+
+    .align-items-center {
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+
+    .align-items-baseline {
+        -ms-flex-align: baseline !important;
+        align-items: baseline !important;
+    }
+
+    .align-items-stretch {
+        -ms-flex-align: stretch !important;
+        align-items: stretch !important;
+    }
+
+    .align-content-start {
+        -ms-flex-line-pack: start !important;
+        align-content: flex-start !important;
+    }
+
+    .align-content-end {
+        -ms-flex-line-pack: end !important;
+        align-content: flex-end !important;
+    }
+
+    .align-content-center {
+        -ms-flex-line-pack: center !important;
+        align-content: center !important;
+    }
+
+    .align-content-between {
+        -ms-flex-line-pack: justify !important;
+        align-content: space-between !important;
+    }
+
+    .align-content-around {
+        -ms-flex-line-pack: distribute !important;
+        align-content: space-around !important;
+    }
+
+    .align-content-stretch {
+        -ms-flex-line-pack: stretch !important;
+        align-content: stretch !important;
+    }
+
+    .align-self-auto {
+        -ms-flex-item-align: auto !important;
+        align-self: auto !important;
+    }
+
+    .align-self-start {
+        -ms-flex-item-align: start !important;
+        align-self: flex-start !important;
+    }
+
+    .align-self-end {
+        -ms-flex-item-align: end !important;
+        align-self: flex-end !important;
+    }
+
+    .align-self-center {
+        -ms-flex-item-align: center !important;
+        align-self: center !important;
+    }
+
+    .align-self-baseline {
+        -ms-flex-item-align: baseline !important;
+        align-self: baseline !important;
+    }
+
+    .align-self-stretch {
+        -ms-flex-item-align: stretch !important;
+        align-self: stretch !important;
+    }
+
+    a.infoButton {
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        color: #2245c7;
+        font-family: 'Montserrat', sans-serif !important;
+    }
+
+    .boxWidget {
+        padding: 12px;
+        background: #fff;
+        border-radius: 1px;
+        margin-bottom: 8px;
+        font-size: 15px;
+        cursor: pointer;
+        position: relative;
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+    }
+
+        .boxWidget:before {
+            top: 44px;
+            content: '';
+            width: 60%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            position: absolute;
+            /* z-index: -1; */
+            -webkit-transform: rotate(45deg);
+            transform: rotate(45deg);
+            left: -25px;
+            border-radius: 10px;
+            -webkit-transition: all 0.3s ease-out;
+            -moz-transition: all 0.3s ease-out;
+            transition: all 0.3s ease-out;
+        }
+
+        .boxWidget:hover {
+            opacity: 0.9;
+            /*box-shadow: 0px 0px 38px rgba(187, 187, 187, 0.4);*/
+            /*transform: scale(1.06);*/
+        }
+
+            .boxWidget:hover::before {
+                -webkit-transform: rotate(58deg) scale(1.2);
+                transform: rotate(58deg) scale(1.2);
+            }
+
+    .flex1 {
+        flex: 1;
+    }
+
+    .flex2 {
+        flex: 2;
+    }
+
+    .flex3 {
+        flex: 3;
+    }
+
+    .flex4 {
+        flex: 4;
+    }
+
+    .flex50 {
+        flex-basis: 49%;
+    }
+
+    .flex70 {
+        flex-basis: 69.5%;
+    }
+
+    .flex30 {
+        flex-basis: 29.5%;
+    }
+
+    .flex60 {
+        flex-basis: 59.5%;
+    }
+
+    .flex40 {
+        flex-basis: 39.5%;
+    }
+
+    .flex-full {
+        height: 100%;
+        width: 100%;
+    }
+
+    .heightFull {
+        height: 100%;
+    }
+
+    .Widgheading {
+        font-size: 16px;
+        margin-bottom: 10px !important;
+        font-weight: 700;
+        font-family: 'Open Sans', sans-serif !important;
+        letter-spacing: -1px;
+    }
+
+    .mainLabel {
+        font-size: 14px;
+        /*letter-spacing: -1px;*/
+        font-weight: 500;
+        font-family: 'Montserrat', sans-serif !important;
+    }
+
+    .subLabel {
+        font-size: 9px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .wdgContent {
+        padding: 0px 0 0 0;
+    }
+
+    .WdgLetter {
+        font-size: 36px;
+        color: inherit;
+        font-family: 'Open Sans Condensed', sans-serif !important;
+        font-weight: bold;
+    }
+
+    .showD {
+        font-size: 9px;
+        display: block;
+        text-align: right;
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
+
+    .pad30 {
+        padding-top: 50px;
+    }
+
+    #panelRight {
+        width: 300px;
+        position: fixed;
+        border-left: 4px solid #398b9e;
+        right: -295px;
+        height: calc(100vh - 60px);
+        top: 60px;
+        background: #fff;
+        z-index: 99;
+        -webkit-transition: all 0.3s ease-out;
+        -moz-transition: all 0.3s ease-out;
+        transition: all 0.3s ease-out;
+    }
+
+        #panelRight.open {
+            right: 0px;
+        }
+
+    .panelAnchor {
+        position: absolute;
+        left: -50px;
+        background: #398b9e;
+        color: #fff;
+        height: 50px;
+        top: 60px;
+        width: 50px;
+        font-size: 22px;
+        text-align: center;
+        /* line-height: 30px; */
+        display: inline-block;
+        padding-top: 10px;
+    }
+
+        .panelAnchor:hover {
+            background: #2fa0ec;
+            box-shadow: 0px 0px 5px rgba(0,0,0,0.04);
+            cursor: pointer;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        background: rgba(0,0,0,0.5);
+    }
+
+    #accordion .Widgheading {
+        cursor: pointer;
+    }
+
+    .Widgheading > a, .Widgheading > a:focus, .Widgheading > a:active {
+        color: #777;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .mr8 {
+        margin-right: 8px;
+    }
+
+    #pie1, #pie2, #pie3 {
+        margin-top: 25px;
+    }
+
+    .pl-0 {
+        padding-left: 0;
+    }
+
+
+
+    /*dashboard grid*/
+    /*#griddashboard .dxgvHeader_PlasticBlue, #griddashboard .dxgvHeader_PlasticBlue table {
+        color: #333 !important;
+    }*/
+    #griddashboard .dxgvHeader_PlasticBlue {
+        cursor: pointer;
+        white-space: nowrap;
+        padding: 7px 6px;
+        border-top: none;
+        border: none;
+        background: #fff;
+        overflow: hidden;
+        font-weight: normal;
+        text-align: left;
+        font-family: 'Montserrat', sans-serif !important;
+    }
+
+    /*#griddashboard_DXFooterRow {
+        display: none;
+    }*/
+
+    #griddashboard.dxgvControl_PlasticBlue, #griddashboard.dxgvDisabled_PlasticBlue {
+        border-top: none !important;
+        border: none !important;
+        font: 10px 'Montserrat', sans-serif !important;
+        background-color: none !important;
+        color: #000000;
+        cursor: default;
+    }
+
+    #griddashboard .dxgvTable_PlasticBlue {
+        background-color: none !important;
+        border-width: 0;
+        border-collapse: separate !important;
+        overflow: hidden;
+    }
+
+    #griddashboard .dxgvFilterRow_PlasticBlue td.dxgv, #griddashboard .dxgvPagerBottomPanel_PlasticBlue {
+        padding: 6px 4px;
+        background: #fff;
+    }
+
+    #griddashboard .dxgvEditFormDisplayRow_PlasticBlue td.dxgv,
+    #griddashboard .dxgvDataRow_PlasticBlue td.dxgv,
+    #griddashboard .dxgvDataRowAlt_PlasticBlue td.dxgv,
+    #griddashboard .dxgvSelectedRow_PlasticBlue td.dxgv,
+    #griddashboard .dxgvFocusedRow_PlasticBlue td.dxgv {
+        padding: 6px 6px 7px;
+    }
+
+    #griddashboard .dxtc-link, .dxgvHeader_PlasticBlue td {
+        font-size: 12px !important;
+        font-weight: 500;
+    }
+
+    .closerCss, .closeAc, .closeAcDetails, .closer, .closeAcDetails2 {
+        position: absolute;
+        right: 2px;
+        top: 0px;
+    }
+
+    #griddashboard > tbody > tr > td > table {
+        table-layout: auto !important;
+    }
+
+    .col1 {
+        background: #7a9eef;
+        background-image: -webkit-linear-gradient(45deg,#7a9eef,#33b3a1);
+        background-image: linear-gradient(45deg,#7a9eef,#33b3a1);
+        background-repeat: repeat-x;
+    }
+
+    .col2 {
+        background: #F79187;
+        background-image: -webkit-linear-gradient(45deg,#9b3cb7,#ff396f);
+        background-image: linear-gradient(45deg,#9b3cb7,#ff396f);
+        background-repeat: repeat-x;
+    }
+
+    .col3 {
+        background: #7D7D7D;
+        background-image: -webkit-linear-gradient(45deg,#9b3cb7,#ff396f);
+        background-image: linear-gradient(45deg,#454046,#9220e8);
+        background-repeat: repeat-x;
+    }
+
+    .col4 {
+        background: #23C398;
+        background-image: -webkit-linear-gradient(45deg,#23C398,#d0c034);
+        background-image: linear-gradient(45deg,#23C398,#d0c034);
+        background-repeat: repeat-x;
+    }
+
+    .col5 {
+        background: #c0ca8b;
+        color: #fff;
+    }
+
+    .col6 {
+        background: #7d845d;
+        color: #fff;
+    }
+
+    .col7 {
+        background: #aed08e;
+        color: #fff;
+    }
+
+
+
+
+    .colorType3L {
+        background: #6986a5;
+        color: #fff;
+    }
+
+    .colorType3D {
+        background: #415B76;
+        color: #fff;
+    }
+
+    .colorType4L {
+        background: #B376BD;
+        color: #fff;
+    }
+
+    .colorType4D {
+        background: #8D5596;
+        color: #fff;
+    }
+
+    .text-white {
+        color: #fff;
+    }
+
+    .noShaded:before {
+        display: none;
+    }
+
+    #griddashboard_DXMainTable > tbody > tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #griddashboard_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue {
+        background-color: #23c398;
+        color: #fff !important;
+    }
+
+
+    #griddashboarddetails_DXMainTable > tbody > tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #griddashboarddetails_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue {
+        background-color: #23c398;
+        color: #fff !important;
+    }
+
+
+    #gridsalesman_DXMainTable > tbody > tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    #gridsalesman_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue {
+        background-color: #23c398 !important;
+        color: #fff !important;
+    }
+
+    #gridsummarydashboard_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue {
+        background-color: #23c398;
+        color: #fff !important;
+    }
+
+    .shadow {
+        /*box-shadow: 0 5px 5px 0 rgba(6, 28, 54, .091) !important;*/
+        box-shadow: 0px 0px 10px rgba(70, 68, 68, 0.3);
+    }
+
+    .acCont {
+        padding: 4px 5px 0 5px;
+        border-bottom: 1px solid #efefef;
+        margin-top: 4px;
+    }
+
+        .acCont:first-child {
+            margin-top: 5px;
+        }
+
+    .Actholder .text {
+        margin-left: 45px;
+    }
+
+        .Actholder .text > div {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .Actholder .text > p {
+            font-size: 11px;
+        }
+
+    .avatar {
+        width: 3rem;
+        height: 3rem;
+        line-height: 2rem;
+        display: inline-block;
+        background: #505050 no-repeat center/cover;
+        position: relative;
+        text-align: center;
+        color: #fff;
+        font-weight: 400;
+        vertical-align: bottom;
+        font-size: .875rem;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border-radius: 50% !important;
+        float: left;
+    }
+
+    .mapContainer {
+        border: 4px solid #FFF;
+        box-shadow: 0px 0px 10px rgba(70, 68, 68, 0.3);
+    }
+
+    .cred {
+        color: red;
+    }
+
+    .cgreen {
+        color: #33CC66;
+    }
+
+    .greenTrack {
+        color: #034C31;
+    }
+
+    .blink_me {
+        animation: blinker 1s linear infinite;
+    }
+
+    .lds-ellipsis {
+        display: inline-block;
+        position: relative;
+        width: 64px;
+        height: 25px;
+    }
+
+        .lds-ellipsis div {
+            position: absolute;
+            top: 11px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #97e292;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+
+            .lds-ellipsis div:nth-child(1) {
+                left: 6px;
+                animation: lds-ellipsis1 0.6s infinite;
+            }
+
+            .lds-ellipsis div:nth-child(2) {
+                left: 6px;
+                animation: lds-ellipsis2 0.6s infinite;
+            }
+
+            .lds-ellipsis div:nth-child(3) {
+                left: 26px;
+                animation: lds-ellipsis2 0.6s infinite;
+            }
+
+            .lds-ellipsis div:nth-child(4) {
+                left: 45px;
+                animation: lds-ellipsis3 0.6s infinite;
+            }
+
+    .text-bold {
+        font-weight: bold;
+    }
+
+    .min115 {
+        min-height: 115px;
+    }
+
+    @@keyframes blinker {
+        50% {
+            opacity: 0;
+        }
+    }
+
+    .mtop20 {
+        margin-top: 20px;
+    }
+
+    .dxgvFooter_PlasticBlue {
+        display: none;
+    }
+
+    #directions_panel {
+        background-color: #FFFFFF;
+        max-height: 394px;
+        overflow-y: auto;
+        padding: 15px;
+    }
+
+    .pdleft0 {
+        padding-left: 0;
+    }
+
+    .pdright0 {
+        padding-right: 0;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        border: none !important;
+        background: #4dcba0 !important;
+    }
+
+    .btn-excel {
+        float: right;
+        margin-right: 38px;
+        margin-top: -4px;
+    }
+
+    .btn-prime {
+        float: right;
+        margin-right: 20px;
+        margin-top: -4px;
+        background: #6ac270;
+        color: #fff;
+        font-size: 14px;
+        padding: 4px 10px;
+        display: none;
+    }
+
+        .btn-prime:hover {
+            background: #5db362;
+        }
+
+    .clstyle {
+        background: #f73e2c;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        color: #fff;
+        border-radius: 50%;
+        line-height: 24px;
+        top: -5px;
+        -webkit-transition: all 0.3s ease-in;
+        transition: all 0.3s ease-in;
+        cursor: pointer;
+        font-size: 15px;
+    }
+
+        .clstyle:hover {
+            background: #e63827;
+            transform: scale(1.1);
+        }
+
+    .maxisize {
+        max-width: 380px;
+    }
+
+    #directionname {
+        font-size: 14px;
+        background: #fff;
+        padding: 8px 15px 0 15px;
+        margin: 0 !important;
+    }
+
+    .mapShowlist {
+        float: right;
+        font-size: 14px;
+    }
+
+    .separate-left {
+        border-left: 1px solid #ccc;
+    }
+
+    #gridsummarydashboard, #griddashboard {
+        width: 100% !important;
+    }
+
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+
+    /*i con tab*/
+    .iconicTabs {
+        padding-bottom: 13px;
+        border-bottom: 1px dashed #ccc;
+        padding-top: 11px;
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+
+        .iconicTabs li {
+            display: inline-block;
+            list-style-type: none;
+            position: relative;
+        }
+
+            .iconicTabs li > .tabitems {
+                text-align: center;
+                vertical-align: middle;
+                margin-right: 15px;
+                background: #e3e7e8;
+                border: 1px solid #ccc;
+                padding: 0 10px 5px 10px;
+                border-radius: 5px;
+                padding: 10px 25px;
+                color: #8a8a8a;
+            }
+
+            .iconicTabs li.active > .tabitems {
+                background: #272b3c;
+                color: #fff;
+                border-color: #272b3c;
+            }
+
+    .iconicTabsWrap > .tab-content {
+        background: #fff;
+        padding: 25px 20px;
+    }
+
+    .iconicTabs > .tabitems .tabText {
+        font-weight: 500;
+        font-family: 'Montserrat', sans-serif !important;
+    }
+
+    .iconicTabs li.active > a:after {
+        content: '';
+        width: 0;
+        height: 0;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-top: 10px solid #272b3c;
+        position: absolute;
+        bottom: -19px;
+        left: 50%;
+        transform: translateX(-70%);
+    }
+
+    .iconicTabs li > a:focus {
+        text-decoration: none;
+    }
+
+
+
+
+    /*svg tabs */
+    /*****************************/
+    /* Shape */
+    /*****************************/
+
+    .tabs {
+        position: relative;
+        overflow: hidden;
+        margin: 0 auto;
+        width: 100%;
+        font-weight: 300;
+        font-size: 1.25em;
+    }
+
+        /* Nav */
+        .tabs nav {
+            text-align: center;
+        }
+
+            .tabs nav ul {
+                position: relative;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: -moz-flex;
+                display: -ms-flex;
+                display: flex;
+                margin: 0 auto;
+                padding: 0;
+                /*max-width: 1200px;*/
+                list-style: none;
+                -ms-box-orient: horizontal;
+                -ms-box-pack: center;
+                -webkit-flex-flow: row wrap;
+                -moz-flex-flow: row wrap;
+                -ms-flex-flow: row wrap;
+                flex-flow: row wrap;
+                /*-webkit-justify-content: center;
+                -moz-justify-content: center;
+                -ms-justify-content: center;
+                justify-content: center;*/
+            }
+
+                .tabs nav ul li {
+                    position: relative;
+                    z-index: 1;
+                    display: block;
+                    margin: 0;
+                    text-align: center;
+                    /*-webkit-flex: 1;
+                    -moz-flex: 1;
+                    -ms-flex: 1;
+                    flex: 1;*/
+                }
+
+            .tabs nav a {
+                position: relative;
+                display: block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                line-height: 2.1;
+            }
+
+                .tabs nav a span {
+                    vertical-align: middle;
+                    font-size: 0.75em;
+                }
+
+            .tabs nav li.active a {
+                color: #313233;
+            }
+
+            .tabs nav a:focus {
+                outline: none;
+            }
+
+    /* Icons */
+    .icon::before {
+        z-index: 10;
+        display: inline-block;
+        margin: 0 0.4em 0 0;
+        vertical-align: middle;
+        text-transform: none;
+        font-weight: normal;
+        font-variant: normal;
+        font-size: 1.3em;
+        font-family: 'stroke7pixeden';
+        line-height: 1;
+        speak: none;
+        -webkit-backface-visibility: hidden;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .icon-upload::before {
+        content: "\e68a";
+    }
+
+    .icon-tools::before {
+        content: "\e60a";
+    }
+
+    .icon-plane::before {
+        content: "\e625";
+    }
+
+    .icon-joy::before {
+        content: "\e6a4";
+    }
+
+    .icon-plug::before {
+        content: "\e69a";
+    }
+
+    .icon-home::before {
+        content: "\e648";
+    }
+
+    .icon-gift::before {
+        content: "\e652";
+    }
+
+    .icon-display::before {
+        content: "\e65e";
+    }
+
+    .icon-date::before {
+        content: "\e660";
+    }
+
+    .icon-config::before {
+        content: "\e666";
+    }
+
+    .icon-coffee::before {
+        content: "\e669";
+    }
+
+    .icon-camera::before {
+        content: "\e66f";
+    }
+
+    .icon-box::before {
+        content: "\e674";
+    }
+
+    /* Content */
+    .content-wrap {
+        position: relative;
+    }
+
+        .content-wrap section {
+            display: none;
+            margin: 0 auto;
+            padding: 1em;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+            .content-wrap section.content-current {
+                display: block;
+            }
+
+            .content-wrap section p {
+                margin: 0;
+                padding: 0.75em 0;
+                color: rgba(40,44,42,0.05);
+                font-weight: 900;
+                font-size: 4em;
+                line-height: 1;
+            }
+
+    /* Fallback */
+    .no-js .content-wrap section {
+        display: block;
+        padding-bottom: 2em;
+        border-bottom: 1px solid rgba(255,255,255,0.6);
+    }
+
+    .no-flexbox nav ul {
+        display: block;
+    }
+
+        .no-flexbox nav ul li {
+            min-width: 15%;
+            display: inline-block;
+        }
+
+
+
+
+
+
+
+
+
+    .tabs-style-shape nav ul li {
+        margin: 0 3em;
+    }
+
+        .tabs-style-shape nav ul li:first-child {
+            margin-left: 0;
+        }
+
+        .tabs-style-shape nav ul li.active {
+            z-index: 100;
+        }
+
+    .tabs-style-shape nav li a {
+        overflow: visible;
+        margin: 0 -3em 0 0;
+        padding: 0;
+        color: #fff;
+        font-weight: 500;
+    }
+
+    .tabs-style-shape nav li:first-child a span {
+        padding-left: 2em;
+        border-radius: 30px 0 0 0;
+    }
+
+    .tabs-style-shape nav li:last-child a span {
+        padding-right: 2em;
+        border-radius: 0 30px 0 0;
+    }
+
+    .tabs-style-shape nav li a svg {
+        position: absolute;
+        left: 100%;
+        margin: 0;
+        width: 3em;
+        height: 100%;
+        fill: #bdc2c9;
+    }
+
+        .tabs-style-shape nav li a svg:nth-child(2),
+        .tabs-style-shape nav li:last-child a svg {
+            right: 100%;
+            left: auto;
+            -webkit-transform: scale3d(-1,1,1);
+            transform: scale3d(-1,1,1);
+        }
+
+    .tabs-style-shape nav li a span {
+        display: block;
+        overflow: hidden;
+        padding: 0.32em 0;
+        background-color: #bdc2c9;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 16px;
+    }
+
+    .tabs-style-shape nav li a:hover span {
+        background-color: #2CC185;
+    }
+
+    .tabs-style-shape nav li a:hover svg {
+        fill: #2CC185;
+    }
+
+    /* Make only shape clickable */
+    .tabs-style-shape nav li a svg {
+        pointer-events: none;
+    }
+
+        .tabs-style-shape nav li a svg use {
+            pointer-events: auto;
+        }
+
+    .tabs-style-shape nav li.active a span,
+    .tabs-style-shape nav li.active a svg {
+        -webkit-transition: none;
+        transition: none;
+    }
+
+    .tabs-style-shape nav li.active a span {
+        background: #fff;
+    }
+
+    .tabs-style-shape nav li.active a svg {
+        fill: #fff;
+    }
+
+    .tabs-style-shape .content-wrap {
+        background: #fff;
+    }
+
+    .tabs-style-shape .tab-content {
+        background: #fff;
+        padding: 20px;
+    }
+
+    .only-bordered {
+        border: 1px solid #ccc;
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+
+        .only-bordered > tbody > tr > td {
+            border-top: none;
+            padding: 2px 8px;
+            font-size: 14px;
+        }
+
+    #epTable .progress {
+        margin: 3px 0;
+        height: 10px;
+    }
+
+    .ptb0 {
+        padding-top: 0 !important;
+    }
+
+
+    .cl3rd1 {
+        background: #7bb1a2;
+        background-image: -webkit-linear-gradient(45deg,#2379c3,#d07534);
+        background-image: linear-gradient(45deg,#2379c3,#d07534);
+        background-repeat: repeat-x;
+    }
+
+    .cl3rd2 {
+        background: #d0a13f;
+        background-image: -webkit-linear-gradient(45deg,#cdce80,#d09934);
+        background-image: linear-gradient(45deg,#cdce80,#d09934);
+        background-repeat: repeat-x;
+    }
+
+    .cl3rd3 {
+        background: #967dd1;
+        background-image: -webkit-linear-gradient(45deg,#c580ce,#3464d0);
+        background-image: linear-gradient(45deg,#c580ce,#3464d0);
+        background-repeat: repeat-x;
+    }
+
+    .cl3rd4 {
+        background: #82b7a9;
+        background-image: -webkit-linear-gradient(45deg,#7fc18a,#3464d0);
+        background-image: linear-gradient(45deg,#7fc18a,#3464d0);
+        background-repeat: repeat-x;
+    }
+
+    .cl2rd1 {
+        background: #8238a3;
+        background-image: -webkit-linear-gradient(45deg,#c3237c,#62219e);
+        background-image: linear-gradient(45deg,#c3237c,#62219e);
+        background-repeat: repeat-x;
+    }
+
+    .cl2rd2 {
+        background: #5f7de5;
+        background-image: -webkit-linear-gradient(45deg,#164bc3,#8d9dfb);
+        background-image: linear-gradient(45deg,#164bc3,#8d9dfb);
+        background-repeat: repeat-x;
+    }
+
+    .cl2rd3 {
+        background: #3cb2aa;
+        background-image: -webkit-linear-gradient(45deg,#50d0ca,#2b988f);
+        background-image: linear-gradient(45deg,#50d0ca,#2b988f);
+        background-repeat: repeat-x;
+    }
+
+    .cl2rd4 {
+        background: #a97fc3;
+        background-image: -webkit-linear-gradient(45deg,#816cc1,#ff98be);
+        background-image: linear-gradient(45deg,#816cc1,#ff98be);
+        background-repeat: repeat-x;
+    }
+
+
+    .cl2rd5 {
+        background: #8238a3;
+        background-image: -webkit-linear-gradient(45deg,#c3237c,#62219e);
+        background-image: linear-gradient(45deg,#e8f906d9,#ff5bae);
+        background-repeat: repeat-x;
+    }
+
+    .cl2rd6 {
+        background: #7bb1a2;
+        background-image: -webkit-linear-gradient(45deg,#52d7ff,#34d0b3);
+        background-image: linear-gradient(45deg,#52d7ff,#34d0b3);
+        background-repeat: repeat-x;
+    }
+
+    .cl2rd7 {
+        background: #82b7a9;
+        background-image: -webkit-linear-gradient(45deg,#7fc18a,#aba1a1);
+        background-image: linear-gradient(45deg,#7fc18a,#aba1a1);
+        background-repeat: repeat-x;
+    }
+
+    .resposive-image {
+        max-width: 100%;
+    }
+
+    /*map style with markerCluster*/
+    .marker-cluster {
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        -moz-transition: 0.4s;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        color: #fff;
+        width: 32px;
+        height: 38px;
+        background-color: #1396e2;
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 38px;
+    }
+
+        .marker-cluster:hover {
+            background-color: #073855;
+        }
+
+    .marker-style {
+        text-align: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        margin-left: -17px !important;
+        margin-top: -49px !important;
+    }
+
+        .marker-style img {
+            position: absolute !important;
+            top: -1px !important;
+            bottom: 0px !important;
+            right: 0px;
+            left: 0px;
+            margin: auto !important;
+        }
+
+    .cluster > div {
+        color: #fff !important;
+        text-align: center !important;
+        z-index: 3;
+    }
+
+        .cluster > div:before {
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            /*background-color: #1396e2;*/
+            content: "";
+            height: 31px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            width: 31px;
+            z-index: -1;
+        }
+
+    .infobox-wrapper > img {
+        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+        opacity: 0.7;
+        -moz-transition: 0.4s;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        position: absolute !important;
+        left: 50%;
+        top: -36px;
+        z-index: 2;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+
+        .infobox-wrapper > img:hover {
+            filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+            opacity: 1;
+        }
+
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .infobox-inner {
+        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+        background: #fff;
+        font-size: 12px;
+        position: relative;
+        margin-bottom: 0px;
+        min-width: 340px;
+        max-width: 340px;
+        border-radius: 2px;
+        cursor: default;
+    }
+
+        .infobox-inner:after {
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 6px 6px 0 6px;
+            border-color: #fff transparent transparent transparent;
+            position: absolute;
+            left: 140px;
+            content: "";
+            bottom: -6px;
+        }
+
+        .infobox-inner .infobox-image {
+            float: left;
+            height: auto;
+            overflow: hidden;
+            position: relative;
+            /* border-radius: 15px 15px 0 0; */
+            text-align: center;
+            padding: 15px;
+        }
+
+    .infobox-image .desig {
+        position: absolute;
+        display: block;
+        background: #d9e8ee;
+        border-radius: 14px;
+        bottom: 6px;
+        font-size: 11px;
+        padding: 3px 15px;
+        font-weight: 500;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        color: #9261ec;
+    }
+
+    .infobox-inner .infobox-image img {
+        width: 85px;
+    }
+
+    .infobox-inner .infobox-image .infobox-price {
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        background-color: rgba(49, 181, 115, 0.8);
+        color: #fff;
+        font-size: 14px;
+        padding: 7px 15px;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+    }
+
+    .infobox-inner .statCont {
+        margin-left: 118px;
+    }
+
+    .infobox-inner .infobox-image .infobox-icons {
+        position: absolute;
+        bottom: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
+        .infobox-inner .infobox-image .infobox-icons ul {
+            display: inline-block;
+            margin: 0 auto;
+            background: rgba(4, 4, 4, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            color: #c3c1c1;
+        }
+
+            .infobox-inner .infobox-image .infobox-icons ul li {
+                list-style-type: none;
+                display: inline-block;
+                padding: 2px 10px;
+                font-size: 14px;
+            }
+
+    .infobox-inner .infobox-title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+        .infobox-inner .infobox-title a {
+            color: #073855;
+        }
+
+    .infobox-inner .infobox-description {
+        padding: 8px;
+        position: relative;
+        text-align: left;
+        border-left: 4px solid #90dfaa;
+    }
+
+
+
+    .infobox-inner .infobox-location {
+        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+        opacity: 0.5;
+        font-size: 12px;
+        padding: 0 8px 8px 0px;
+    }
+
+    .infobox-inner .fa {
+        color: #1396e2;
+        float: right;
+        font-size: 18px;
+        margin-top: 4px;
+    }
+
+    .infobox-inner .infobox-image .profileImage {
+        width: 80px;
+    }
+
+    .infobox-wrapper > img {
+        position: absolute !important;
+        left: auto;
+        right: 0px !important;
+        top: 12px;
+    }
+
+
+    .infobox-inner .fa {
+        float: none !important;
+    }
+
+    .infobox-inner .infobox-title .fa, .infobox-inner .infobox-location .fa {
+        color: #333;
+        margin-right: 15px;
+    }
+
+    .infobox-description {
+        text-align: center;
+    }
+
+        .infobox-description .infobox-location {
+            line-height: 20px;
+        }
+
+    .infobox-wrapper {
+        max-width: 400px !important;
+    }
+
+    .disabledA {
+        cursor: default;
+        opacity: 0.2;
+    }
+
+    .leaflet-container a.leaflet-popup-close-button {
+        top: 24px;
+        right: -10px;
+        z-index: 5;
+    }
+
+    .leaflet-div-icon {
+        background: transparent;
+        border: none;
+    }
+
+    .leaflet-container a.btn {
+        color: #fff;
+    }
+
+    .eventToggler {
+        position: absolute;
+        left: -20px;
+        width: 20px;
+        height: 40px;
+        text-align: center;
+        line-height: 37px;
+        background: #3f99d6;
+        top: 45px;
+        color: #fff;
+        box-shadow: -3px 0px 5px rgba(0,0,0,0.12);
+        cursor: pointer;
+    }
+
+    .btnrouteCont > a.btn {
+        padding: 2px 10px !important;
+    }
+</style>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    #mapid {
+        height: 100vh;
+    }
+
+    .leaflet-routing-container.leaflet-bar {
+        display: none;
+    }
+
+    table td {
+        vertical-align: top;
+    }
+
+    #listDirec {
+        height: 84%;
+        overflow-y: auto;
+        font-size: 13px;
+        color: #134480;
+        padding: 0;
+        padding-left: 10px;
+    }
+
+    .fTotal {
+        position: absolute;
+        bottom: 13px;
+    }
+
+    #listDirec > li {
+        margin-bottom: 8px;
+    }
+
+    .rTime {
+        font-size: 10px;
+        color: #24b572;
+    }
+
+    .lmVal {
+        font-size: 10px;
+        color: #c32828;
+    }
+
+    .rPop {
+        font-size: 14px;
+        text-transform: uppercase;
+    }
+
+    .adr {
+        text-decoration: none;
+        color: #716d6d;
+        margin-top: 11px;
+    }
+
+    .dt {
+        color: #458cad;
+        font-size: 12px;
+        margin-top: 10px;
+    }
+
+    .infoLegend {
+        position: absolute;
+        bottom: 45px;
+        background: #fff;
+        display: inline-block;
+        padding: 10px 0 10px 14px;
+        border-radius: 10px;
+        left: 15px;
+    }
+
+        .infoLegend > span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+            .infoLegend > span.spaceSpan {
+                width: 20px;
+            }
+
+            .infoLegend > span.colorEX {
+                width: 25px;
+                height: 15px;
+                background: #3fb265;
+                margin-right: 10px;
+                border-radius: 2px;
+            }
+
+                .infoLegend > span.colorEX.inBetween {
+                    background: #9a62c7;
+                }
+
+                .infoLegend > span.colorEX.logout {
+                    background: #F64A15;
+                }
+
+    .FullDiv .infobox-wrapper {
+        background: #fff;
+        padding: 15px;
+        box-shadow: 0 0 5px rgba(0,0,0,0.23);
+        border-radius: 5px;
+    }
+
+    .marker-link {
+        cursor: pointer;
+    }
+
+    .FullDiv {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        z-index: 10;
+    }
+
+    .leftFloak {
+        position: absolute;
+        left: -300px;
+        top: 0;
+        bottom: 0;
+        width: 300px;
+        background: #fff;
+        padding: 0;
+        -webkit-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+    }
+
+        .leftFloak.open {
+            left: 0;
+            box-shadow: 0px 10px 11px rgba(37, 36, 36, 0.22);
+        }
+
+            .leftFloak.open .leftFloakToggle {
+                box-shadow: 0px 10px 11px rgba(37, 36, 36, 0.22);
+            }
+
+    .closeFullMap {
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background: #ff3939;
+        top: 17px;
+        right: 68px;
+        z-index: 11;
+        text-align: center;
+        color: #fff;
+        line-height: 31px;
+        border-radius: 50%;
+        cursor: pointer;
+        opacity: 0.5;
+    }
+
+        .closeFullMap:hover {
+            opacity: 1;
+        }
+</style>
+
+
+
+<script>
+    function addDays(date, daysToAdd) {
+        var _24HoursInMilliseconds = 86400000;
+        return new Date(date.getTime() + daysToAdd * _24HoursInMilliseconds);
+    };
+
+    $(document).ready(function () {
+        StatePopulate();
+
+        setTimeout(function () {
+            $("#ddlState").val('15');
+        }, 600);
+        setTimeout(function () {
+            showMap();
+        }, 600);
+
+        $('.eventToggler').click(function () {
+            $(this).parent('.dropSectionuser').toggleClass('open');
+            if ($('.dropSectionuser').hasClass('open')) {
+                $('.eventToggler').text('>');
+            } else {
+                $('.eventToggler').text('<');
+            }
+        });
+        var now = new Date();
+        var yesterday = addDays(now, -0);
+        dtTo.SetValue(yesterday);
+        dtTo.SetMaxDate(yesterday);
+
+        $('.closeFullMap').click(function () {
+
+            $(this).parent('.FullDiv').addClass('hide');
+        });
+        $('.leftFloakToggle').click(function () {
+            var pdiv = $(this).parent('.leftFloak');
+            if ($('.leftFloakToggle').parent().hasClass('open')) {
+               //console.log('remove')
+               $('.leftFloak').removeClass('open');
+               $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-left').addClass('lnr lnr-chevron-right');
+            } else {
+                //console.log('add')
+                $('.leftFloak').addClass('open');
+                $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-right').addClass('lnr lnr-chevron-left');
+            }
+        });
+
+    });
+
+    function showMap() {
+       
+        //stateid = '15';// cmbState.GetValue();
+        stateid = $("#ddlState").val();
+        console.log(stateid);
+        GetAddress(stateid);
+        // $('#map').removeClass('hide');
+    }
+
+
+    function GetAddress(StateID) {
+        $(".mLoader").css({ "opacity": "1", "display": "flex" });
+        $("#map_box").html("");
+        $("#map_box").html('<div id="map_canvas" style="border: 3px solid #dedede; width: 100%;  height: 400px; margin-top: 0px;"></div>');
+
+        var surl = '@Url.Action("GetParty", "ViewRoute")';
+        var date = dtTo.GetText();
+        $.ajax({
+            url: surl,
+            async: true,
+            data: { StateID: StateID},
+            type: 'POST',
+
+            success: function (markers) {
+                console.log(markers);
+                $(".mLoader").css({ "opacity": "0", "display": "none" });
+                //return false;
+                var data = markers;
+                //console.log(data)
+                if (markers.length > 0) {
+                    $('.dropSectionuser').addClass('open');
+                } else {
+                    $('.dropSectionuser').removeClass('open');
+                }
+                if (markers.length == 0) {
+                    $('#userList').html('<h3 class="noUser">User not Available');
+                    var mapOptions = {
+                        center: new google.maps.LatLng(22.572645, 88.363892),
+                        zoom: 6,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        disableDefaultUI: true,
+                        mapTypeControl: true,
+                        mapTypeControlOptions: {
+                            mapTypeIds: [google.maps.MapTypeId.ROADMAP,
+                            google.maps.MapTypeId.HYBRID],
+                            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                            position: google.maps.ControlPosition.TOP_LEFT
+                        },
+                        scaleControl: false,
+                        zoomControl: true,
+                        zoomControlOptions: {
+                            position: google.maps.ControlPosition.RIGHT_BOTTOM
+                        },
+                        fullscreenControl: true,
+                        fullscreenControlOptions: {
+                            position: google.maps.ControlPosition.TOP_RIGHT
+                        }
+                    };
+
+
+                    var infoWindow = new google.maps.InfoWindow();
+                    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                    var marker = new google.maps.Marker({
+                        // position: new google.maps.LatLng(22.572645, 88.363892),
+                        map: map
+                    });
+                    (function (marker, data) {
+                        google.maps.event.addListener(marker, "click", function (e) {
+
+                            infoWindow.open(map, marker);
+                        });
+                    })(marker, data)
+
+                }
+                else {
+                    // Susanta 27.12.2018
+
+                    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+                        zoom: 6,
+                        scrollwheel: true,
+                        center: new google.maps.LatLng(markers[0].Shop_Lat, markers[0].Shop_Long),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        mapTypeControl: false
+
+                    });
+                    var i;
+                    var newMarkers = [];
+                   // console.log(markers);
+                    var strhtml = "";
+                    $('#userList').html(strhtml);
+                    for (i = 0; i < markers.length; i++) {
+                        //var pictureLabel = document.createElement("img");
+                        //pictureLabel.src = locations[i][7];
+                        var data = markers[i];
+                        //console.log(data);
+                        strhtml = strhtml + '<li class="userlistItem marker-link clearfix" data-lat="' + data.Shop_Lat + '" data-long="' + data.Shop_Long + '" data-markerid="' + i + '"> ' + '<div class="userIcon"><img src="/assests/pluggins/images/man.png" /></div>' + '<div class="userName">' + data.Shop_Name + '</div>' + '<div class="userNUM">' + data.Shop_Owner_Contact + ' </div>' + '</li>';
+                        // user Click infobox
+
+
+                        var boxText = document.createElement("div");
+                        infoboxOptions = {
+                            content: boxText,
+                            disableAutoPan: false,
+                            //maxWidth: 150,
+                            pixelOffset: new google.maps.Size(-100, 0),
+                            zIndex: null,
+                            alignBottom: true,
+                            boxClass: "infobox-wrapper",
+                            enableEventPropagation: true,
+                            closeBoxMargin: "0px 0px -8px 0px",
+                            closeBoxURL: "/assests/pluggins/images/close-btn.png",
+                            infoBoxClearance: new google.maps.Size(1, 1)
+                        };
+                        var marker = new MarkerWithLabel({
+                            //title: locations[i][0],
+                            position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
+                            map: map,
+                            icon: '/assests/images/locate.png',
+                            //labelContent: pictureLabel,
+                            animation: google.maps.Animation.DROP,
+                            labelAnchor: new google.maps.Point(50, 0),
+                            labelClass: "marker-style"
+                        });
+                        newMarkers.push(marker);
+                        // susanta 04.01.2019
+                        boxText.innerHTML =
+                               '<div class="infobox-inner">' +
+                                '<div class="clearfix">' +
+                                    '<div class="infobox-image" style="position: relative">' +
+                                        '<img src="/assests/pluggins/images/man.png" class="profileImage">' +
+                                        //'<span class="desig">ASO</span>' +
+                                   ' </div>' +
+                                    '<div class="statCont clearfix">' +
+                                        '<ul class="list-noStyle">' +
+                                            '<li>' +
+                                                '<div class="totalVisit"> 0 </div>' +
+                                                '<div class="text-center"><span class="badge mapBadge">TOTAL VISITS</span></div>' +
+                                            '</li>' +
+                                        '</ul>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="infobox-description">' +
+                                    '<div class="infobox-title"><a href="#">' + data.Shop_Name + ' </a></div>' +
+                                    '<div class="infobox-location"><b>Location :</b> ' + data.Address + ' </div>' +
+                                                           '<div class="infobox-cell"><i class="fa fa-phone"></i> <b> ' + data.Shop_Owner_Contact + ' </b></div>' +
+                                    '</div>' +
+                                '</div>';
+
+                        //Define the infobox
+                        newMarkers[i].infobox = new InfoBox(infoboxOptions);
+                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                            return function () {
+                                for (h = 0; h < newMarkers.length; h++) {
+                                    newMarkers[h].infobox.close();
+                                }
+                                newMarkers[i].infobox.open(map, this);
+                            }
+                        })(marker, i));
+
+                    }
+                    $('#userList').html(strhtml);
+
+                    $('.marker-link').on('click', function () {
+                        var lat = $(this).data('lat');
+                        var lon = $(this).data('long');
+                        //console.log(lat);
+                        //console.log(lon);
+                        google.maps.event.trigger(newMarkers[$(this).data('markerid')], 'click');
+
+                        var center = new google.maps.LatLng(lat, lon);
+                        map.panTo(center);
+                        map.setZoom(18);
+                    });
+                    var options = {
+                        valueNames: ['userName', 'userNUM'],
+                        item: ''
+                    };
+                    var userList = new List('users', options);
+
+
+                    var clusterStyles = [
+                    {
+                        url: '/assests/pluggins/images/cluster.png',
+                        height: 50,
+                        width: 50
+
+                    }
+                    ];
+                    var markerCluster = new MarkerClusterer(map, newMarkers, { styles: clusterStyles, maxZoom: 15 });
+
+                }
+
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    function StatePopulate() {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("SatetListView", "ViewRoute")",
+            data: {},
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                var status = "<select id='ddlState' class = 'full form-control'>";
+                status = status + '<option value="0">select</option>';
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
+                }
+                status = status + '</select>';
+                $('#divState').html(status);
+            }
+        });
+    }
+
+    function filter() {
+        showMap();
+    }
+
+</script>
+<style>
+    .mLoader{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgb(255 255 255 / 90%);
+        z-index: 99;
+        left: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity:0;
+    }
+    .excExportMap {
+        display: inline-block;
+        padding: 2px 3px;
+        background: #fff;
+        border-radius: 3px;
+        width: 20px;
+        /* height: 10px; */
+        float: right;
+        cursor: pointer;
+    }
+
+        .excExportMap > img {
+            max-width: 100%;
+        }
+
+    .pdtable > tbody > tr > td {
+        padding-right: 20px;
+    }
+
+    .leftFloakToggle {
+        position: absolute;
+        right: -19px;
+        width: 20px;
+        background: #1a73e8;
+        height: 80px;
+        text-align: center;
+        line-height: 82px;
+        color: #fff;
+        top: 72px;
+        cursor: pointer;
+    }
+
+        .leftFloakToggle:hover {
+            background: #328FDE;
+        }
+
+    .mMark {
+        display: inline-block;
+        font-size: 10px;
+        background: #d2e1f7;
+        color: #186cda;
+        padding: 3px 5px;
+        border-radius: 4px;
+    }
+
+    .mCont {
+        color: #576cb7;
+        font-family: poppins;
+        font-size: 11px;
+        margin: 5px 0;
+        font-weight: 500;
+    }
+
+    .mKm {
+        font-size: 12px;
+        color: #e41f1f;
+    }
+</style>
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "CRMpcControl";
+        settings.Width = 1200;
+        settings.Height = 550;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.HeaderText = "Employees Target Setting";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+<div class="mLoader"><img src="~/assests/images/Rainbow.gif" /></div>
+<div class="breadCumb">
+    <span>View Employee on Map</span>
+    <div class="crossBtnN"><a href="#" onclick="window.location.href ='../DashboardMenu/FSMDashboard'"><i class="fa fa-times"></i></a></div>
+</div>
+<div class="FullDiv hide">
+    <div class="closeFullMap"><i class="fa fa-close"></i></div>
+
+    <div id="mapid"></div>
+    <div class="infoLegend">
+        <span class="colorEX"></span><span>Login</span><span class="spaceSpan"></span>
+        <span class="colorEX inBetween"></span><span>Visits</span><span class="spaceSpan"></span>
+        <span class="colorEX logout"></span><span>Logout</span><span class="spaceSpan"></span>
+    </div>
+    <div class="leftFloak">
+        <div class="leftFloakToggle">
+            <span class="lnr lnr-chevron-right"></span>
+
+        </div>
+
+        <div style="padding: 15px 20px;background: #1a73e8;color: #fff;margin-bottom: 7px;">User Locations <span onclick="sendCsv()" class="excExportMap" title="Export Data to Excel"><img src="~/assests/images/excel.png" /></span></div>
+        <ul id="listDirec"></ul>
+    </div>
+    <div id="lbltotaldistancecovered"></div>
+
+</div>
+<div class="container mt-5 mb-4">
+    <div class="backBox p-4">
+        <div class="dropSectionuser">
+            <div class="eventToggler"> < </div>
+            <div id="users">
+
+                <div class="searchArea">
+                    <input class="search" placeholder="Name/Mobile" />
+                </div>
+                <ul class="list userList" id="userList"></ul>
+            </div>
+        </div>
+        <div>
+            <table class="pdtable mb-4">
+
+                <tr>
+                    <td class="hide">
+                        <label>Select Date</label>
+                        <div>
+                            @Html.DevExpress().DateEdit(Settings =>
+                                {
+                                    Settings.Name = "dtTo";
+                                    Settings.Date = DateTime.Now;
+                                    Settings.Properties.UseMaskBehavior = true;
+                                    Settings.Properties.EditFormat = EditFormat.Custom;
+                                    Settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    Settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    Settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                        </div>
+                    </td>
+                    <td>
+                        <label>Select State</label>
+                        <div id="divState">
+
+                        </div>
+                    </td>
+                    <td style="padding-top: 21px;">
+                        <button class="btn btn-success" id="btnFilter" onclick="filter()">Show</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="map_box"><div id="map_canvas" style="border: 3px solid #dedede; width: 100%;  height: 100vh; margin-top: 0px;"></div></div>
+
+    </div>
+</div>
+
+
+

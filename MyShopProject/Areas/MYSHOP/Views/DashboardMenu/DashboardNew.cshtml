@@ -1,0 +1,844 @@
+﻿
+
+
+<script>
+
+    //$(function () {
+    //    var s = 0;
+    //    GetAddress(0);
+
+
+    //});
+
+</script>
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif3telvlrJn61kkLXDQA0ViQdDVJWifk"></script>*@
+<script src="~/assests/pluggins/gmapCustomize/infobox.js"></script>
+<script src="~/assests/pluggins/gmapCustomize/markerclusterer_packed.js"></script>
+<script src="~/assests/pluggins/gmapCustomize/markerwithlabel_packed.js"></script>
+@*<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>*@
+<script src="~/assests/js/frmCDN/list.min.js"></script>
+
+<style>
+    .btn-xss {
+        padding: 1px 5px;
+        font-size: 100%;
+    }
+    /*map style with markerCluster*/
+    .marker-style {
+        text-align: center;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        margin-left: -17px !important;
+        margin-top: -49px !important;
+    }
+
+        .marker-style img {
+            position: absolute !important;
+            top: -1px !important;
+            bottom: 0px !important;
+            right: 0px;
+            left: 0px;
+            margin: auto !important;
+        }
+
+    .cluster > div {
+        color: #fff !important;
+        text-align: center !important;
+        z-index: 3;
+    }
+
+        .cluster > div:before {
+            -moz-border-radius: 50%;
+            -webkit-border-radius: 50%;
+            border-radius: 50%;
+            /*background-color: #1396e2;*/
+            content: "";
+            height: 31px;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            margin: auto;
+            width: 31px;
+            z-index: -1;
+        }
+
+    .infobox-wrapper > img {
+        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+        opacity: 0.7;
+        -moz-transition: 0.4s;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        position: absolute !important;
+        left: 50%;
+        top: -36px;
+        z-index: 2;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+    }
+
+        .infobox-wrapper > img:hover {
+            filter: progid:DXImageTransform.Microsoft.Alpha(enabled=false);
+            opacity: 1;
+        }
+
+    .infobox-wrapper .infobox-inner {
+        -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+        -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.2);
+        background: #fff;
+        font-size: 12px;
+        position: relative;
+        margin-bottom: 50px;
+        min-width: 340px;
+        max-width: 340px;
+        border-radius: 2px;
+        cursor: default;
+    }
+
+        .infobox-wrapper .infobox-inner:after {
+            width: 0px;
+            height: 0px;
+            border-style: solid;
+            border-width: 6px 6px 0 6px;
+            border-color: #fff transparent transparent transparent;
+            position: absolute;
+            left: 95px;
+            content: "";
+            bottom: -6px;
+        }
+
+        .infobox-wrapper .infobox-inner .infobox-image {
+            float: left;
+            height: auto;
+            overflow: hidden;
+            position: relative;
+            /* border-radius: 15px 15px 0 0; */
+            text-align: center;
+            padding: 15px;
+        }
+
+    .infobox-image .desig {
+        position: absolute;
+        display: block;
+        background: #d9e8ee;
+        border-radius: 14px;
+        bottom: 6px;
+        font-size: 11px;
+        padding: 3px 15px;
+        font-weight: 500;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        color: #9261ec;
+    }
+
+    .infobox-wrapper .infobox-inner .infobox-image img {
+        width: 85px;
+    }
+
+    .infobox-wrapper .infobox-inner .infobox-image .infobox-price {
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        border-radius: 2px;
+        -moz-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+        background-color: rgba(49, 181, 115, 0.8);
+        color: #fff;
+        font-size: 14px;
+        padding: 7px 15px;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 2;
+    }
+
+    .infobox-wrapper .infobox-inner .statCont {
+        margin-left: 118px;
+    }
+
+    .infobox-wrapper .infobox-inner .infobox-image .infobox-icons {
+        position: absolute;
+        bottom: 10px;
+        text-align: center;
+        width: 100%;
+    }
+
+        .infobox-wrapper .infobox-inner .infobox-image .infobox-icons ul {
+            display: inline-block;
+            margin: 0 auto;
+            background: rgba(4, 4, 4, 0.7);
+            padding: 10px;
+            border-radius: 10px;
+            color: #c3c1c1;
+        }
+
+            .infobox-wrapper .infobox-inner .infobox-image .infobox-icons ul li {
+                list-style-type: none;
+                display: inline-block;
+                padding: 2px 10px;
+                font-size: 14px;
+            }
+
+    .infobox-wrapper .infobox-inner .infobox-title {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+        .infobox-wrapper .infobox-inner .infobox-title a {
+            color: #073855;
+        }
+
+    .infobox-wrapper .infobox-inner .infobox-description {
+        padding: 8px;
+        position: relative;
+        text-align: left;
+        border-left: 4px solid #90dfaa;
+    }
+
+
+
+    .infobox-wrapper .infobox-inner .infobox-location {
+        filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+        opacity: 0.5;
+        font-size: 12px;
+        padding: 0 8px 8px 0px;
+    }
+
+    .infobox-wrapper .infobox-inner .fa {
+        color: #1396e2;
+        float: right;
+        font-size: 18px;
+        margin-top: 4px;
+    }
+
+    .infobox-wrapper .infobox-inner .infobox-image .profileImage {
+        width: 80px;
+    }
+
+    .infobox-wrapper > img {
+        position: absolute !important;
+        left: auto;
+        right: 0px !important;
+        top: 12px;
+    }
+
+
+    .infobox-wrapper .infobox-inner .fa {
+        float: none !important;
+    }
+
+    .infobox-wrapper .infobox-inner .infobox-title .fa, .infobox-wrapper .infobox-inner .infobox-location .fa {
+        color: #333;
+        margin-right: 15px;
+    }
+
+    .infobox-description {
+        text-align: center;
+    }
+
+        .infobox-description .infobox-location {
+            line-height: 20px;
+        }
+
+    .infobox-wrapper {
+        max-width: 400px !important;
+    }
+
+    .disabledA {
+        cursor: default;
+        opacity: 0.2;
+    }
+</style>
+
+<script type="text/javascript">
+    function genParty(data) {
+        var markers = data;
+        console.log(data);
+        //return false;
+
+        if (markers.length == 0) {
+            $('#userList').html('<h3 class="noUser">User not Available');
+            var mapOptions = {
+                center: new google.maps.LatLng(22.572645, 88.363892),
+                zoom: 6,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            var infoWindow = new google.maps.InfoWindow();
+            var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+            var marker = new google.maps.Marker({
+                // position: new google.maps.LatLng(22.572645, 88.363892),
+                map: map
+            });
+            (function (marker, data) {
+                google.maps.event.addListener(marker, "click", function (e) {
+
+                    infoWindow.open(map, marker);
+                });
+            })(marker, data)
+        }
+        else {
+            // Susanta 27.12.2018
+            $("#showMapSearch").trigger("click");
+            var map = new google.maps.Map(document.getElementById('map_canvas'), {
+                zoom: 6,
+                scrollwheel: true,
+                center: new google.maps.LatLng(markers[0].Shop_Lat, markers[0].Shop_Long),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            var i;
+            var newMarkers = [];
+            //console.log(markers);
+            var strhtml = "";
+            $('#userList').html(strhtml);
+            for (i = 0; i < markers.length; i++) {
+                //var pictureLabel = document.createElement("img");
+                //pictureLabel.src = locations[i][7];
+                var data = markers[i];
+                //console.log(data);
+                if (data.MAP_COLOR == "GREEN") {
+                    strhtml = strhtml + '<li class="userlistItem marker-link clearfix" data-lat="' + data.Shop_Lat + '" data-long="' + data.Shop_Long + '" data-markerid="' + i + '"> ' + '<div class="userIcon"><img src="/assests/pluggins/images/man.png" /></div>' + '<div class="userName" style="color:green">' + data.Shop_Name + '</div>' + '<div class="userNUM">' + data.Shop_Owner_Contact + ' </div>' + '</li>';
+                }
+                else if (data.MAP_COLOR == "RED") {
+                    strhtml = strhtml + '<li class="userlistItem marker-link clearfix" data-lat="' + data.Shop_Lat + '" data-long="' + data.Shop_Long + '" data-markerid="' + i + '"> ' + '<div class="userIcon"><img src="/assests/pluggins/images/man.png" /></div>' + '<div class="userName" style="color:red">' + data.Shop_Name + '</div>' + '<div class="userNUM">' + data.Shop_Owner_Contact + ' </div>' + '</li>';
+                }
+                else {
+                    strhtml = strhtml + '<li class="userlistItem marker-link clearfix" data-lat="' + data.Shop_Lat + '" data-long="' + data.Shop_Long + '" data-markerid="' + i + '"> ' + '<div class="userIcon"><img src="/assests/pluggins/images/man.png" /></div>' + '<div class="userName">' + data.Shop_Name + '</div>' + '<div class="userNUM">' + data.Shop_Owner_Contact + ' </div>' + '</li>';
+                }
+                
+                // user Click infobox
+
+
+                var boxText = document.createElement("div");
+                infoboxOptions = {
+                    content: boxText,
+                    disableAutoPan: false,
+                    //maxWidth: 150,
+                    pixelOffset: new google.maps.Size(-100, 0),
+                    zIndex: null,
+                    alignBottom: true,
+                    boxClass: "infobox-wrapper",
+                    enableEventPropagation: true,
+                    closeBoxMargin: "0px 0px -8px 0px",
+                    closeBoxURL: "/assests/pluggins/images/close-btn.png",
+                    infoBoxClearance: new google.maps.Size(1, 1)
+                };
+                if(data.MAP_COLOR =="GREEN"){
+                    var marker = new MarkerWithLabel({
+                        //title: locations[i][0],
+                        position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
+                        map: map,
+                        icon: '/assests/images/mapsMarkerT1Green.png',
+                        //labelContent: pictureLabel,
+                        animation: google.maps.Animation.DROP,
+                        labelAnchor: new google.maps.Point(50, 0),
+                        labelClass: "marker-style"
+                    });
+                } else if (data.MAP_COLOR == "RED") {
+                    var marker = new MarkerWithLabel({
+                        //title: locations[i][0],
+                        position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
+                        map: map,
+                        icon: '/assests/images/mapsMarkerT1Red.png',
+                        //labelContent: pictureLabel,
+                        animation: google.maps.Animation.DROP,
+                        labelAnchor: new google.maps.Point(50, 0),
+                        labelClass: "marker-style"
+                    });
+                }else {
+                    var marker = new MarkerWithLabel({
+                        //title: locations[i][0],
+                        position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
+                        map: map,
+                        icon: '/assests/images/mapsMarkerT1.png',
+                        //labelContent: pictureLabel,
+                        animation: google.maps.Animation.DROP,
+                        labelAnchor: new google.maps.Point(50, 0),
+                        labelClass: "marker-style"
+                    });
+                }
+                
+                newMarkers.push(marker);
+                // susanta 04.01.2019
+                boxText.innerHTML =
+                       '<div class="infobox-inner">' +
+                                '<div class="clearfix">' +
+                                    '<div class="infobox-image" style="position: relative">' +
+                                        '<img src="/assests/pluggins/images/man.png" class="profileImage">' +
+                                        //'<span class="desig">ASO</span>' +
+                                   ' </div>' +
+                                '</div>' +
+                                '<div class="infobox-description">' +
+                                    '<div class="infobox-title"><a href="#">Shop Name: ' + data.Shop_Name + ' </a></div>' +
+                                    '<div class="infobox-location"><b>Location :</b> ' + data.Address + ' </div>' +
+                                    '<div class="infobox-cell"><i class="fa fa-phone"></i> <b> ' + data.Shop_Owner_Contact + ' </b></div>' +
+                                    '</div>' +
+                                '</div>';
+                
+                //Define the infobox
+                newMarkers[i].infobox = new InfoBox(infoboxOptions);
+                google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                    return function () {
+                        for (h = 0; h < newMarkers.length; h++) {
+                            newMarkers[h].infobox.close();
+                        }
+                        newMarkers[i].infobox.open(map, this);
+                    }
+                })(marker, i));
+
+            }
+            $('#userList').html(strhtml);
+
+            $('.marker-link').on('click', function () {
+                var lat = $(this).data('lat');
+                var lon = $(this).data('long');
+                console.log(lat);
+                console.log(lon);
+                google.maps.event.trigger(newMarkers[$(this).data('markerid')], 'click');
+
+                var center = new google.maps.LatLng(lat, lon);
+                map.panTo(center);
+                map.setZoom(18);
+            });
+            var options = {
+                valueNames: ['userName', 'userNUM'],
+                item: ''
+            };
+            var userList = new List('users', options);
+
+
+            var clusterStyles = [
+            {
+                url: '/assests/pluggins/images/cluster.png',
+                height: 50,
+                width: 50
+
+            }
+            ];
+            var markerCluster = new MarkerClusterer(map, newMarkers, { styles: clusterStyles, maxZoom: 15 });
+        }
+    }
+    function Partyclick(id) {
+        //e.preventDefault();
+        //alert(id)
+        var surl = '@Url.Action("viewPartyDetails", "DashboardMenu")';
+        $.ajax({
+            url: surl,
+            async: false,
+            data: { id: id },
+            type: 'POST',
+
+            success: function (data) {
+                genParty(data);
+            },
+            error: function () {
+
+            },
+        })
+    }
+
+
+    function GetAddress(StateID) {
+        $("#map_canvas").html("");
+        var surl = '@Url.Action("Mapopen", "DashboardMenu")';
+
+        $.ajax({
+            url: surl,
+            async: false,
+            data: { StateID: StateID },
+            type: 'POST',
+
+            success: function (markers) {
+                console.log('google mark')
+                console.log(markers)
+               // alert(markers.length);
+                // var waypts = [];
+
+                if (markers.length == 0) {
+                    $('#userList').html('<h3 class="noUser">User not Available');
+                    var mapOptions = {
+                       center: new google.maps.LatLng(22.572645, 88.363892),
+                        zoom: 6,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    };
+                    var infoWindow = new google.maps.InfoWindow();
+                    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                    var marker = new google.maps.Marker({
+                       // position: new google.maps.LatLng(22.572645, 88.363892),
+                        map: map
+                    });
+                    (function (marker, data) {
+                        google.maps.event.addListener(marker, "click", function (e) {
+
+                            infoWindow.open(map, marker);
+                        });
+                    })(marker, data)
+                }
+                else {
+                    // Susanta 27.12.2018
+
+                    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+                        zoom: 6,
+                        scrollwheel: true,
+                        center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    });
+                    var i;
+                    var newMarkers = [];
+                    console.log(markers);
+                    var strhtml = "";
+                    $('#userList').html(strhtml);
+                    for (i = 0; i < markers.length; i++) {
+
+
+
+
+
+                        //var pictureLabel = document.createElement("img");
+                        //pictureLabel.src = locations[i][7];
+                        var data = markers[i];
+                        //console.log(data);
+                        strhtml = strhtml + '<li class="userlistItem marker-link clearfix" data-lat="' + data.lat + '" data-long="' + data.lng + '" data-markerid="' + i + '"> ' + '<div class="userIcon"><img src="/assests/pluggins/images/man.png" /></div>' + '<div class="userName">' + data.SalesMan + '</div>' + '<div class="userNUM">' + data.Mobile + ' </div>' + '</li>';
+                        // user Click infobox
+
+
+                        var boxText = document.createElement("div");
+                        infoboxOptions = {
+                            content: boxText,
+                            disableAutoPan: false,
+                            //maxWidth: 150,
+                            pixelOffset: new google.maps.Size(-100, 0),
+                            zIndex: null,
+                            alignBottom: true,
+                            boxClass: "infobox-wrapper",
+                            enableEventPropagation: true,
+                            closeBoxMargin: "0px 0px -8px 0px",
+                            closeBoxURL: "/assests/pluggins/images/close-btn.png",
+                            infoBoxClearance: new google.maps.Size(1, 1)
+                        };
+                        var marker = new MarkerWithLabel({
+                            //title: locations[i][0],
+                            position: new google.maps.LatLng(data.lat, data.lng),
+                            map: map,
+                            icon: '/assests/images/locate.png',
+                            //labelContent: pictureLabel,
+                            animation: google.maps.Animation.DROP,
+                            labelAnchor: new google.maps.Point(50, 0),
+                            labelClass: "marker-style"
+                        });
+                        newMarkers.push(marker);
+                        // susanta 04.01.2019
+                        boxText.innerHTML =
+                               '<div class="infobox-inner">' +
+                                '<div class="clearfix">' +
+                                    '<div class="infobox-image" style="position: relative">' +
+                                        '<img src="/assests/pluggins/images/man.png" class="profileImage">' +
+                                        //'<span class="desig">ASO</span>' +
+                                   ' </div>' +
+                                    '<div class="statCont clearfix">' +
+                                        '<div style="padding:27px 0 10px 0"><span style="margin-right:5px;display:inline-block">TOTAL VISITS</span><span class="badge mapBadge">' + data.Total_Visit + '</span></div>' +
+                                        '<ul class="list-noStyle">' +
+                                            '<li style="margin-right: 5px;"><div class=""><a class="btn btn-info btn-xss " href="javascript:void(0);" onclick=Partyclick("' + data.User_Id + '")>View Party</a></div></li>' +
+                                            '<li><div class=""><a class="btn btn-danger btn-xss disabledA hide" href="#" onclick=locationclick("' + data.User_Id + '","' + data.SalesMan.replace('  ', '&nbsp;').replace(' ', '&nbsp;') + '");>View Route</a></div></li>' +
+                                        '</ul>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="infobox-description">' +
+                                    '<div class="infobox-title"><a href="#">' + data.SalesMan + ' </a></div>' +
+                                    '<div class="infobox-location"><b>Location :</b> ' + data.Loaction + ' </div>' +
+                                                           '<div class="infobox-cell"><i class="fa fa-phone"></i> <b> ' + data.Mobile + ' </b></div>' +
+                                    '</div>' +
+                                '</div>';
+                        // view route function
+                        // <li><div class="btnrouteCont"><a class="btn btn-danger btn-xs" href="#" onclick=locationclick("' + data.User_Id + '","' + data.SalesMan.replace('  ', '&nbsp;').replace(' ', '&nbsp;') + '");>View Route</a></div></li>
+                        // 04.01.2019 end
+
+                        // comented on 04.1.2019
+                        //boxText.innerHTML =
+                        //    '<div class="infobox-inner">' +
+                        //        '<a href="#" >' +
+                        //        '<div class="infobox-image" style="position: relative">' +
+                        //        '<img src="/assests/pluggins/images/man.png" class="profileImage">' +
+                        //        '</div>' +
+                        //        '</a>' +
+                        //        '<div class="infobox-description">' +
+                        //        '<div class="infobox-title"><a href="">' + data.SalesMan + '</a></div>' +
+                        //        '<div class="infobox-location"><i class="fa fa-address-book"></i>' + data.Loaction + '</div>' +
+                        //        '<div class="text-center"><a class="btn btn-danger btn-xs" href="#" onclick=locationclick("' + data.User_Id + '","' + data.SalesMan.replace('  ', '&nbsp;').replace(' ', '&nbsp;') + '");>View Route</a></div>' +
+                        //        '</div>' +
+                        //        '</div>';
+                        //Define the infobox
+                        newMarkers[i].infobox = new InfoBox(infoboxOptions);
+                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                            return function () {
+                                for (h = 0; h < newMarkers.length; h++) {
+                                    newMarkers[h].infobox.close();
+                                }
+                                newMarkers[i].infobox.open(map, this);
+                            }
+                        })(marker, i));
+
+                    }
+                    $('#userList').html(strhtml);
+
+                    $('.marker-link').on('click', function () {
+                        var lat = $(this).data('lat');
+                        var lon = $(this).data('long');
+                        console.log(lat);
+                        console.log(lon);
+                        google.maps.event.trigger(newMarkers[$(this).data('markerid')], 'click');
+
+                        var center = new google.maps.LatLng(lat, lon);
+                        map.panTo(center);
+                        map.setZoom(18);
+                    });
+                    var options = {
+                        valueNames: ['userName', 'userNUM'],
+                        item: ''
+                    };
+                    var userList = new List('users', options);
+
+
+                    var clusterStyles = [
+                    {
+                        url: '/assests/pluggins/images/cluster.png',
+                        height: 50,
+                        width: 50
+
+                    }
+                    ];
+                    var markerCluster = new MarkerClusterer(map, newMarkers, { styles: clusterStyles, maxZoom: 15 });
+
+
+
+
+
+                 //sudip
+                 //   var mapOptions = {
+                 //       center: new google.maps.LatLng(markers[0].lat, markers[0].lng),
+                 //       zoom: 7,
+                 //       mapTypeId: google.maps.MapTypeId.ROADMAP
+                 //   };
+                 //   var infoWindow = new google.maps.InfoWindow();
+                 //   var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                 //   for (i = 0; i < markers.length; i++) {
+                 //       var data = markers[i];
+
+
+                 //       var iconpath = '/assests/images/locate.png'
+                 //       var marker = new google.maps.Marker({
+                 //           position: new google.maps.LatLng(data.lat, data.lng),
+                 //           map: map,
+                 //           icon: iconpath
+                 //       });
+                 //       (function (marker, data) {
+                 //           google.maps.event.addListener(marker, "click", function (e) {
+                 //               var add = "<div style='cursor:pointer;' onclick=locationclick('" + data.User_Id + "','" + data.SalesMan.replace("  ", "&nbsp;").replace(" ", "&nbsp;") + "');><b>Name: </b>" + data.SalesMan + "<br/><b>Address: </b>" + data.Loaction + "</br> <a>View Route</a></div>"
+                 //               infoWindow.setContent(add);
+                 //               //    infoWindow.setContent(data.description);
+                 //               infoWindow.open(map, marker);
+                 //           });
+                 //       })(marker, data);
+                 //   }
+                }
+            },
+
+
+            error: function () {
+
+            },
+
+
+        });
+
+
+
+    }
+
+
+    $(document).ready(function () {
+        $('#showMapSearch').click(function () {
+            $('.dropSectionuser').toggleClass('off');
+        })
+
+
+    })
+
+
+</script>
+<style>
+    .noUser {
+        font-size: 16px;
+        font-weight: 300;
+        padding: 15px;
+    }
+
+    .mapContainer {
+        position: relative;
+        box-shadow: none;
+    }
+
+    .dropSectionuser {
+        position: absolute;
+        width: 300px;
+        background: #fff;
+        height: 100%;
+        top: 0px;
+        bottom: 0;
+        right: -15px;
+        z-index: 2;
+        box-shadow: -5px 3px 5px rgba(160, 159, 159,0.4);
+        -webkit-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+        -webkit-transform-origin: top right;
+        transform-origin: top right;
+    }
+
+        .dropSectionuser.off {
+            -webkit-transform: scale(0);
+            transform: scale(0);
+            transform-origin: top right;
+        }
+
+    .userList {
+        height: 336px;
+        overflow-y: auto;
+        padding: 0;
+        margin: 0;
+    }
+
+        .userList > a {
+            color: rgba(4, 4, 4, 0.7);
+        }
+
+            .userList > a:focus {
+                text-decoration: none;
+                background: rgba(49, 181, 115, 0.8);
+            }
+
+    .userlistItem {
+        padding: 8px 10px;
+        border-bottom: 1px solid #f1f1f1;
+    }
+
+        .userlistItem .userIcon {
+            float: left;
+        }
+
+            .userlistItem .userIcon > img {
+                max-width: 40px;
+            }
+
+        .userlistItem .userName, .userlistItem .userDesg, .userNUM {
+            margin-left: 55px;
+            font-family: 'Montserrat', sans-serif !important;
+        }
+
+        .userlistItem .userName {
+            font-weight: 500;
+        }
+
+        .userlistItem .userNUM {
+            font-size: 11px;
+        }
+
+    .userDesg {
+        font-size: 11px;
+    }
+
+    .searchArea {
+        padding: 15px 20px;
+        background: #f5f8fb;
+    }
+
+        .searchArea > .search {
+            width: 100%;
+            border-color: #ccc;
+            border-radius: 20px;
+            padding-left: 12px;
+        }
+
+            .searchArea > .search:focus {
+                box-shadow: none;
+                outline: none;
+            }
+
+    #showMapSearch {
+        float: right;
+        margin-right: 39px;
+        background: #57b4ea;
+        padding: 4px 5px;
+        margin-top: -3px;
+        color: #fff;
+        border-radius: 3px;
+    }
+
+    .list-noStyle {
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+    }
+
+        .list-noStyle > li {
+            float: left;
+            display: block;
+        }
+
+    .totalVisit {
+        text-align: center;
+        padding: 6px;
+        font-size: 30px;
+        margin-top: 18px;
+        color: #9261ec;
+    }
+
+    .mapBadge {
+        background: #d8e1e4;
+        color: #333;
+        font-weight: 300;
+        font-size: 11px;
+        border-radius: 3px;
+    }
+
+    .btnrouteCont {
+        margin-top: 46px;
+        padding: 17px;
+    }
+
+    .infobox-cell > i {
+        float: none !important;
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+        margin-right: 3px;
+    }
+
+    .infobox-cell > b {
+        font-size: 14px;
+        color: #969292;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+
+
+    })
+
+
+</script>
+
+<div class="dropSectionuser">
+    <div id="users">
+        <div class="searchArea">
+            <input class="search" placeholder="Name/Mobile" />
+        </div>
+        <ul class="list userList" id="userList"></ul>
+    </div>
+</div>
+<div id="map_canvas" style="border-top: none; width: 100%; margin-top: -1px; height: 380px; background-color: #FAFAFA; margin-top: 0px;"></div>
+

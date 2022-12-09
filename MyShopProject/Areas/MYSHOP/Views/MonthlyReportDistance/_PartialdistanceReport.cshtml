@@ -1,0 +1,187 @@
+﻿@model MyShop.Models.DistanceReportOutput
+
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+
+            "ordering": false
+        });
+
+    });
+
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    #tblshoplist2 {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist2 > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+    /*tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            box-sizing: border-box;
+        }*/
+    .scroller {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+        .scroller > table {
+            width: 200%;
+        }
+</style>
+
+<div class="x_content">
+
+    <div class="rTable">
+
+
+        <div class="scroller">
+            <table id="tblshoplist" class="table table-bordered table-bordered">
+
+                <thead>
+                    <tr>
+                        <th style="width:100px">Reporting</th>
+                        <th style="width:100px">Name</th>
+                        <th style="width:100px">User Id</th>
+                        <th style="width:100px">Designation</th>
+                        <th style="width:170px">Generate Distance</th>
+                        @if (Model != null && Model.dates.Count() > 0)
+                        {
+                            if (Model.dates.Count() == 28)
+                            {
+                                foreach (var item in Model.dates)
+                                {
+
+                                    <th style="width:80px">@item.datevisit <br />kms</th>
+                                }
+                                <th style="width:80px">-</th>
+                                <th style="width:80px">-</th>
+                                <th style="width:80px">-</th>
+                            }
+
+                            else if (Model.dates.Count() == 29)
+                            {
+                                foreach (var item in Model.dates)
+                                {
+
+                                    <th style="width:80px">@item.datevisit <br />kms</th>
+                                }
+
+                                <th style="width:80px">-</th>
+                                <th style="width:80px">-</th>
+                            }
+
+                            else if (Model.dates.Count() == 30)
+                            {
+                                foreach (var item in Model.dates)
+                                {
+
+                                    <th style="width:80px">@item.datevisit <br />kms</th>
+                                }
+
+                                <th style="width:80px">-</th>
+                            }
+                            else if (Model.dates.Count() == 31)
+                            {
+                                foreach (var item in Model.dates)
+                                {
+
+                                    <th style="width:80px">@item.datevisit <br />kms</th>
+                                }
+
+                            }
+
+                        }
+
+                        <th style="width:170px">Total Distance<br />kms</th>
+                     
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var itemdistance in Model.distance)
+                    {
+                        <tr>
+                            <td style="width:100px">@itemdistance.ReportName</td>
+                            <td style="width:100px">@itemdistance.UserName</td>
+                            <td style="width:100px">@itemdistance.UserLoginID</td>
+
+                            <td style="width:100px">@itemdistance.Designation</td>
+
+                            <td><a href="javascript:void(0);" onclick="OpenDistanceCalculation('@itemdistance.User_Id')">Generate</a></td>
+                            <td>@itemdistance.Date_1</td>
+                            <td>@itemdistance.Date_2</td>
+                            <td>@itemdistance.Date_3</td>
+                            <td>@itemdistance.Date_4</td>
+                            <td>@itemdistance.Date_5</td>
+                            <td>@itemdistance.Date_6</td>
+                            <td>@itemdistance.Date_7</td>
+                            <td>@itemdistance.Date_8</td>
+                            <td>@itemdistance.Date_9</td>
+                            <td>@itemdistance.Date_10</td>
+                            <td>@itemdistance.Date_11</td>
+                            <td>@itemdistance.Date_12</td>
+                            <td>@itemdistance.Date_13</td>
+                            <td>@itemdistance.Date_14</td>
+                            <td>@itemdistance.Date_15</td>
+                            <td>@itemdistance.Date_16</td>
+                            <td>@itemdistance.Date_17</td>
+                            <td>@itemdistance.Date_18</td>
+                            <td>@itemdistance.Date_19</td>
+                            <td>@itemdistance.Date_20</td>
+                            <td>@itemdistance.Date_21</td>
+                            <td>@itemdistance.Date_22</td>
+                            <td>@itemdistance.Date_23</td>
+                            <td>@itemdistance.Date_24</td>
+                            <td>@itemdistance.Date_25</td>
+                            <td>@itemdistance.Date_26</td>
+                            <td>@itemdistance.Date_27</td>
+                            <td>@itemdistance.Date_28</td>
+                            <td>@itemdistance.Date_29</td>
+                            <td>@itemdistance.Date_30</td>
+                            <td>@itemdistance.Date_31</td>
+                            <td style="width:170px">@itemdistance.Totaldistancecal </td>
+
+                       
+                        </tr>
+
+                    }
+
+                </tbody>
+
+
+
+
+
+
+            </table>
+        </div>
+    </div>
+
+</div>

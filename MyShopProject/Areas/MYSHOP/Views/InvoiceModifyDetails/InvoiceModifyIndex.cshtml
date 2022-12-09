@@ -1,0 +1,1056 @@
+﻿@model MyShop.Models.InvoiceDetailsUpdateModel
+@{
+    ViewBag.Title = "Modify Invoice Details";
+}
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+
+
+    #maskmap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #maskmap.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxesmap {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    #popupfootmap {
+        font-size: 16pt;
+    }
+</style>
+
+<script>
+    var arr = [];
+    var typeId;
+    var Ispageload = "0";
+    function addDays(date, daysToAdd) {
+        var _24HoursInMilliseconds = 86400000;
+        return new Date(date.getTime() + daysToAdd * _24HoursInMilliseconds);
+    };
+    $(function () {
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("EmpGridLookup");
+        lookup.GetGridView().Refresh();
+
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+        $("#drpstate").chosen({
+            width: "100%"
+        });
+        var d = new Date();
+
+        var now = new Date();
+
+        //  var yesterday = addDays(now, -1);
+        var yesterday = addDays(now, -0);
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+        dtFrom.SetValue(yesterday);
+        dtTo.SetValue(yesterday);
+
+
+        dtFrom.SetMaxDate(yesterday);
+        dtTo.SetMaxDate(yesterday);
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+
+            $('#maskmap').removeClass('showing');
+        });
+
+
+        $('body').on('click', '#btnshow', function () {
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+            if (dayse <= 30) {
+                gridInvoiceModifyList.Refresh();
+            }
+            else {
+                jAlert("Searching days must be within One month.");
+            }
+        });
+
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').removeClass('showing');
+            $('#maskmap').removeClass('showing');
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportInvoiceModifylist", "InvoiceModifyDetails", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+        // $('#txtInvoiceAmount').mask("999999999.99");
+
+        //$("#txtInvoiceAmount").keypress(function (e) {
+        //    if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+        //        //display error message
+        //        $("#errmsg").html("Digits Only").show().fadeOut("slow");
+        //        return false;
+        //    }
+        //});
+        // $(".numeric").numeric({ decimal: ".", negative: false, scale: 3 });
+
+
+        $('body').on('click', '#btnclear', function () {
+            Clearall();
+        });
+
+        $('body').on('click', '#btnEdit', function () {
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+            var flag = false;
+
+            if ($("#idproduct").val() == "") {
+                alert(flag);
+            }
+            else if ($("#txtprod_qty").val() == "" || parseInt($("#txtprod_qty").val()) == 0) {
+                alert(flag);
+            }
+            else if ($("#txtprod_rate").val() == "" || parseInt($("#txtprod_rate").val()) == 0) {
+                alert(flag);
+            }
+            else {
+                flag = true;
+                var surl = '@Url.Action("UpdateInvoiceProduct", "InvoiceModifyDetails")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        Order_ID: $("#OrderIDUpdate").val(),
+                        Invoice_ProdId: $("#hdnproductorderid").val(),
+                        Product_Id: $("#idproduct").val(),
+                        Product_Qty: $("#txtprod_qty").val(),
+                        Product_Rate: $("#txtprod_rate").val(),
+                        InvoiceID: $("#InvoiceIDUpdate").val()                
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        jAlert('Updated Successfully');
+                        gridProductlist.Refresh();
+                        gridInvoiceModifyList.Refresh();
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        });
+
+    });
+
+
+    function DeleteProduct(ProdID, OrderID,InvoiceID) {
+        $.jAlert({
+            'type': 'confirm',
+            'confirmQuestion': 'Do you want to delete the Product?',
+            'onConfirm': function (e, btn) {
+                var surl = '@Url.Action("DeleteProduct", "InvoiceModifyDetails")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        OrderId: OrderID,
+                        ProdID: ProdID,
+                        InvoiceID: InvoiceID
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        jAlert('Deleted Successfully');
+                        gridProductlist.Refresh();
+                        gridInvoiceModifyList.Refresh();
+                    },
+                    error: function () {
+                    },
+                });
+            },
+            'onDeny': function (e, btn) {
+                return false;
+            }
+        });
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    var desigId = [];
+    function DesigSelectionChanged(s, e) {
+        DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    }
+    function GetDesigSelectedFieldValuesCallback(values) {
+        try {
+            desigId = [];
+            for (var i = 0; i < values.length; i++) {
+                desigId.push(values[i]);
+            }
+        } finally {
+            console.log(desigId);
+        }
+    }
+
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+        //EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["EmployeeID"] = empId;
+        e.customArgs["FromDate"] = dtFrom.GetText();
+        e.customArgs["ToDate"] = dtTo.GetText();
+        e.customArgs["Ispageload"] = 1;
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        e.customArgs["REPORT_BY"] = $('#ddlShowReport').val();
+    }
+
+    function OpenProductWindow(OrderNo, InvNo, dates) {
+        if (InvNo != "") {
+            //debugger;
+            //$("#hdnorder").val(orderid);
+            //var dts = new Date(parseInt(dates.substr(6)));
+            //alert(dts);
+            //alert(dates);
+
+            //var date = new Date(dates.replace(/(\d{2})-(\d{2})-(\d{4})/, "$2/$1/$3"));
+
+            //dtInv.SetMinDate(new Date(date));
+            $("#OrderID").val(OrderNo);
+            $("#InvoiceID").val(InvNo);
+            @*var surl = '@Url.Action("ViewInvoice", "InvoiceModifyDetails")';
+        $.ajax({
+            url: surl,
+            async: false,
+            data: {
+                OrderCode: OrderNo,
+                invoice_no: InvNo
+            },
+            type: 'POST',
+            success: function (data) {
+                // alert(data.Status);
+                if (data.Status == "Success") {
+                    $('#txtInvoiceNo').val(data.InvoiceNo);
+                    $('#txtInvoiceAmount').val(data.InvoiceAmount);
+                    var dtEnd = new Date(parseInt(data.InvoiceDate.substr(6)));
+                    dtInv.SetDate(dtEnd);
+                    $('#txtRemarks').val(data.Renarks);
+
+                }
+                else {
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'Data not found',
+                        'theme': 'dark_blue'
+                    });
+                }
+                //  gridInvoiceModifyList.Refresh();
+            },
+            error: function () {
+
+            },
+        });
+        $("#myModal").modal('show');*@
+            gridProductlist.Refresh();
+            $("#myModalNew").modal('show');
+        }
+        else {
+            jAlert("Invoice Details Not Found.")
+        }
+    }
+
+    function OnStartCallbackProduct(s, e) {
+        e.customArgs["OrderID"] = $("#OrderID").val();
+        e.customArgs["InvoiceID"] = $("#InvoiceID").val();
+    }
+
+    function Clearall() {
+
+        $("#btnEdit").attr('style', 'display:none;');
+        $("#txtprod_rate").val(0);
+        $("#txtprod_qty").val(0);
+        $("#txtprod_price").val(0);
+        $("#hdnproductorderid").val(0);
+    }
+
+    function GetServerDateFormat(today) {
+        if (today != "" && today != null) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+
+    document.onkeyup = function (e) {
+        if (event.keyCode == 27) { //  && myModal.GetVisible() == true
+            // $("#myModal").modal('hide');
+
+            $("#myModalNew").modal('hide');
+        }
+    }
+
+    function DeleteInvoice(OrderNo, BillID) {
+        if (BillID != "") {
+            jConfirm('Confirm delete?', 'Confirmation Dialog', function (r) {
+                if (r == true) {
+                    var surl = '@Url.Action("DeleteInvoice", "InvoiceModifyDetails")';
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            OrderCode: OrderNo,
+                            BillingID: BillID
+                        },
+                        type: 'POST',
+                        success: function (data) {
+                            if (data == "Success") {
+                                $.jAlert({
+                                    'title': 'Alert!',
+                                    'content': 'Deleted Successfully',
+                                    'theme': 'dark_blue'
+                                });
+                            }
+                            else {
+                                $.jAlert({
+                                    'title': 'Alert!',
+                                    'content': 'Not Deleted',
+                                    'theme': 'dark_blue'
+                                });
+                            }
+                            gridInvoiceModifyList.Refresh();
+                        },
+                        error: function () {
+
+                        },
+                    });
+                }
+                else {
+                    return false;
+                }
+            });
+        }
+        else {
+            jAlert("Invoice Details Not Found.");
+        }
+    }
+
+
+    function InvoiceSave() {
+        var InvoiceNo = $('#txtInvoiceNo').val();
+        var InvoiceAmount = $('#txtInvoiceAmount').val();
+        var InvoiceDate = dtInv.GetText();// JSON.stringify(new Date(dtInv.GetDate()));
+        //  alert(InvoiceDate);
+        var Renarks = $('#txtRemarks').val();
+        var OrderNo = $("#OrderID").val();
+        var InvNo = $("#InvoiceID").val();
+        // InvoiceAmount.mask("999999999.99");
+        if (InvoiceNo != "") {
+            if (InvoiceAmount != "") {
+                if (InvoiceDate != "") {
+                    if (Renarks != "") {
+                        var surl = '@Url.Action("UpdateInvoice", "InvoiceModifyDetails")';
+                        $.ajax({
+                            url: surl,
+                            async: false,
+                            data: {
+                                OrderCode: OrderNo,
+                                invoice_no: InvNo,
+                                InvoiceDate: InvoiceDate,
+                                InvoiceAmount: InvoiceAmount,
+                                Renarks: Renarks,
+                                newInvoice: InvoiceNo
+                            },
+                            type: 'POST',
+                            success: function (data) {
+                                if (data == "Success") {
+                                    $('#txtInvoiceNo').val('');
+                                    $('#txtInvoiceAmount').val('');
+                                    dtInv.SetValue(new Date());
+                                    $('#txtRemarks').val('');
+                                    $("#myModal").modal('hide');
+                                    gridInvoiceModifyList.Refresh();
+                                }
+                                else {
+                                    $.jAlert({
+                                        'title': 'Alert!',
+                                        'content': 'Data not found',
+                                        'theme': 'dark_blue'
+                                    });
+                                }
+                                //  gridInvoiceModifyList.Refresh();
+                            },
+                            error: function (response) {
+
+                            },
+                        });
+                    }
+                    else {
+                        jAlert("Please Enter Remarks");
+                        $('#txtRemarks').focus();
+                    }
+                }
+                else {
+                    jAlert("Please Select Date");
+                    dtInv.focus();
+                }
+            }
+            else {
+                jAlert("Please Enter Invoice Amount");
+                $('#txtInvoiceAmount').focus();
+            }
+        }
+        else {
+            jAlert("Please Enter Invoice No");
+            $('#txtInvoiceNo').focus();
+        }
+
+
+    }
+
+    function validateFloatKeyPress(el, evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode;
+        var number = el.value.split('.');
+        if (charCode != 46 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        //just one dot (thanks ddlab)
+        if (number.length > 1 && charCode == 46) {
+            return false;
+        }
+        //get the carat position
+        var caratPos = getSelectionStart(el);
+        var dotPos = el.value.indexOf(".");
+        if (caratPos > dotPos && dotPos > -1 && (number[1].length > 1)) {
+            return false;
+        }
+        //if (!el.value.includes(".")) {
+        //    if (el.value.length > 8) {
+        //        return false;
+        //    }
+        //}
+        return true;
+    }
+
+
+    function getSelectionStart(o) {
+        if (o.createTextRange) {
+            var r = document.selection.createRange().duplicate()
+            r.moveEnd('character', o.value.length)
+            if (r.text == '') return o.value.length
+            return o.value.lastIndexOf(r.text)
+        } else return o.selectionStart
+    }
+
+
+    function EditProduct(ProdID, OrderID,InvoiceID) {
+        var surl = '@Url.Action("EditInvoiceProducts", "InvoiceModifyDetails")';
+        $.ajax({
+            async: false,
+            url: surl,
+            data: {
+                OrderId: OrderID,
+                ProdID: ProdID
+            },
+            type: 'POST',
+
+            success: function (data) {
+                $("#idproduct").val(data.Product_Id);
+                $("#txtprod_qty").val(data.Product_Qty);
+                $("#txtprod_rate").val(data.Product_Rate);
+                $("#txtprod_price").val(data.Product_Price);
+
+                $("#hdnorder").val(data.Order_ID);
+                $("#hdnproductorderid").val(data.Order_ProdId);
+
+                $("#OrderIDUpdate").val(OrderID);
+                $("#InvoiceIDUpdate").val(InvoiceID);
+
+                $("#btnEdit").attr('style', 'display:inline-block;');
+               
+            },
+            error: function () {
+
+            },
+
+
+        });
+     //   empgradeGridLookup.SetEnabled(false);
+        StateGridLookup.SetEnabled(false);
+    }
+
+    function calculation() {
+        if ($("#txtprod_rate").val() == "") {
+            $("#txtprod_rate").val(0);
+        }
+        if ($("#txtprod_qty").val() == "") {
+            $("#txtprod_qty").val(0);
+        }
+        $("#txtprod_price").val(parseInt($("#txtprod_qty").val()) * parseInt($("#txtprod_rate").val()));
+    }
+
+    function Clearall() {
+        $("#btnEdit").attr('style', 'display:none;');
+        $("#txtprod_rate").val(0);
+        $("#txtprod_qty").val(0);
+        $("#txtprod_price").val(0);
+        $("#hdnproductorderid").val(0);
+    }
+
+</script>
+
+<style>
+    .modal-content {
+        border-radius: 0px;
+    }
+
+    .modal-header {
+        background-color: #007DB4;
+        color: white;
+    }
+
+    .modal-body {
+        height: 440px;
+    }
+</style>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<style>
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist thead > tr > th, #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .tblspace > tbody > tr > td {
+        padding-right: 15px;
+    }
+
+    .acheckbox {
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+<div class="breadCumb">
+    <span>Modify Invoice Details</span>
+</div>
+
+
+
+<div class="container">
+    <div class="backBox mt-5 p-3 ">
+
+        <table class="pull-left tblspace smblock mb-4">
+            <tr>
+
+                <td id="dtdesg4" style="width:190px;">
+                    <label>State </label>
+                    @Html.Action("GetStateList", "MasterPopulate")
+                </td>
+                <td id="dtdesg3" style="width:190px;">
+                    <label>Designation </label>
+                    @Html.Action("GetDesigList", "SalesReportSummary")
+                </td>
+                <td id="dtdesg2" style="width:190px;">
+                    <label>Employee(s) </label>
+                    @*@Html.Action("GetEmpList", "MasterPopulate")*@
+                    @Html.DevExpress().ButtonEdit(
+                    settings =>
+                    {
+                        settings.Name = "EmployeeTxt";
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        //settings.Text = Model.AssignedTo;
+                        settings.ReadOnly = true;
+                        settings.Properties.Buttons.Add("...");
+                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                    }).GetHtml()
+                </td>
+                <td style="width:190px;">
+                    <label>From Date </label>
+                    @Html.DevExpress().DateEditFor(x => x.FromDate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                </td>
+
+                <td style="width:190px;">
+                    <label>To Date </label>
+                    @Html.DevExpress().DateEditFor(x => x.ToDate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                </td>
+                <td style="width:170px;">
+                    <label>Show Report on </label>
+                    <select name="ddlShowReport" class="from-control" id="ddlShowReport" style="width:100%">
+                        <option value="0">Order Date</option>
+                        <option value="1">Invoice Date</option>
+
+                    </select>
+                </td>
+                <td style="padding-top: 20px; width: 194px;">
+                    <button type="button" id="btnshow" class="btn btn-success btn-sm btnwidth">Show</button>
+
+                    <select name="ddlAppIds" class="btn btn-sm btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+                        <option value="1">PDF</option>
+                        <option value="2">XLSX</option>
+                        <option value="3">XLS</option>
+                        <option value="4">RTF</option>
+                        <option value="5">CSV</option>
+
+                    </select>
+                </td>
+            </tr>
+            <tr></tr>
+        </table>
+        <br />
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                    Html.RenderAction("GetInvoiceModifylistPartial", "InvoiceModifyDetails", new { Employee = Model.EmployeeID, Fromdate = Model.FromDate, Todate = Model.ToDate, Ispageload = "0" });
+                }
+            </div>
+        </div>
+
+        <div id="myModalNew" class="modal fade" data-backdrop="static" role="dialog">
+            <div class="modal-dialog modal-lg" style="width: 1045px">
+
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Product List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="divModalBody" style="padding-left:20px;">
+                            <div>
+                                @{
+                                    Html.RenderAction("PartialInvoiceProductDetails", "InvoiceModifyDetails");
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+    </div>
+
+
+<div id="mask">
+    <div id="boxes">
+        <div class="inner">
+            <div id="dialog" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfoot">
+
+                    <img src="#" class="image" alt="Loading..."></img>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="OrderID">
+<input type="hidden" id="InvoiceID">
+<div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg" style="width: 428px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Invoice Details</h4>
+            </div>
+            <div style="height: 267px;">
+                <div id="divModalBody" style="padding-left:20px;">
+                    <div>
+                        <table class="pull-left tblspace smblock mBot10">
+                            <tr>
+                                <td>Invoice No.</td>
+                                <td>&nbsp;</td>
+                                <td><input type="text" id="txtInvoiceNo" maxlength="16" class="from-control" /></td>
+                            </tr>
+                            <tr>
+                                <td>Invoice Amount</td>
+                                <td>&nbsp;</td>  @*add class ='numeric'data-inputmask="'mask': '9999999999.99'"*@
+                                <td><input type="text" id="txtInvoiceAmount" class="from-control numeric" onkeypress="return validateFloatKeyPress(this,event);" maxlength="12" />&nbsp;<span id="errmsg"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Invoice Date</td>
+                                <td>&nbsp;</td>
+                                <td>
+                                    @Html.DevExpress().DateEditFor(x => x.InvDate,
+                                        deSettings =>
+                                        {
+                                            deSettings.Name = "dtInv";
+                                            deSettings.Date = DateTime.Now;
+                                            deSettings.Properties.UseMaskBehavior = true;
+                                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+
+                                        }).GetHtml()
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Remarks</td>
+                                <td>&nbsp;</td>
+                                <td><textarea id="txtRemarks" style="margin: 0px 0px 5px; width: 228px; height: 98px;" maxlength="500" class="from-control"></textarea></td>
+                            </tr>
+                            <tr></tr>
+                            <tr>
+                                <td>&nbsp;</td>
+
+                                <td><input type="button" id="btnSave" class="btn btn-success" value="Save" onclick="InvoiceSave()" /></td>
+                                <td><input type="button" id="btnClose" class="btn btn-danger" value="Close" data-dismiss="modal" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<input id="hdnorder" type="hidden" />
+<input id="hdnproductorderid" type="hidden" />
+
+
+<div id="maskmap">
+    <div id="boxesmap">
+        <div class="inner">
+            <div id="dialogmap" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfootmap">
+
+                    <div id="map" style="width: 100%; height: 450px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->

@@ -1,0 +1,258 @@
+﻿@model List<MyShop.Models.DashboardSettingMapped>
+
+@if (Model != null)
+{
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,800;1,900&display=swap" rel="stylesheet">
+    <style>
+        .mapShowlist li .tootip {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+        .newStyleMN .widgBox .icon {
+            position: absolute;
+            left: -32px;
+            top: 28px;
+            border-radius: 6px;
+        }
+
+        .newStyleMN .widgBox .txt {
+            width: 100% !important;
+            max-width: 100% !important;
+            font-family: 'Poppins', sans-serif !important;
+            padding-left: 0px;
+            font-weight: 400;
+            font-size: 15px;
+            margin-top: -9px;
+            margin-bottom: 10px;
+        }
+
+        .dtday {
+            font-size: 13px;
+        }
+
+        .newStyleMN .widgBox .Numb {
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 300;
+            font-size: 38px;
+            color: #505050;
+            text-align: left;
+        }
+
+        .newStyleMN .widgBox.active .Numb {
+            color: #fff;
+        }
+
+        .newStyleMN .widgBox {
+            border-radius: 15px;
+            padding: 15px;
+            padding-bottom: 15px;
+        }
+
+        .newStyleMN .lspacer {
+            padding-left: 25px;
+        }
+
+        .flex-itm.scr:not(:last-child) .widgBox {
+            margin-right: 30px;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 Widgheading clearfix">
+                @if (Model.Where(x => x.DetailsName == "Total Employees").Count() > 0 || Model.Where(x => x.DetailsName == "At Work").Count() > 0 || Model.Where(x => x.DetailsName == "On Leave").Count() > 0 || Model.Where(x => x.DetailsName == "Not Logged In").Count() > 0)
+                {
+                    @*<span>Employee Attendance Summary/*Add to check*/</span>*@
+                }
+                <ul class="mapShowlist">
+                    <li class="relative">
+                        @Html.Action("DashboardStateComboboxFV")
+                    </li>
+                    @*Mantis Issue 24729*@
+                    <li class="relative">
+                        @Html.Action("DashboardBranchComboboxFV")
+                    </li>
+                    @*EnMantis Issue 24729*@
+                    @if (Model.Where(x => x.DetailsName == "View Party").Count() > 0)
+                    {
+                        <li title="Click to get route details of Employees with Map " id="">
+                            <div class="pointer hoverMenu rut" onclick="ShowViewParty();">
+                                <span class="text ">
+                                    View Party
+                                    <span class="arrr"></span>
+                                </span>
+                                <span class="lni lni-user "></span>
+                            </div>
+                        </li>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "View Route").Count() > 0)
+                    {
+                        <li title="Click to get route details of Employees with Map " id="">
+                            <div class="pointer hoverMenu rut" onclick="ShowViewRoute();">
+                                <span class="text ">
+                                    View Route
+                                    <span class="arrr"></span>
+                                </span>
+                                <span class="lni lni-direction "></span>
+                            </div>
+                            @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
+                        </li>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "View Map").Count() > 0)
+                    {
+                        <li class="scr" data-scroll="map" id="">
+                            <div class="pointer hoverMenu mp" onclick="showMapFV();">
+                                <span class="text">
+                                    View Map
+                                    <span class="arrr"></span>
+                                </span>
+                                <span class="lni lni-map"></span>
+                            </div>
+                        </li>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "Live Track Employees At Work").Count() > 0)
+                    {
+                        <li class="" id="">
+                            <div class="pointer hoverMenu trc" onclick="TrackVisitClick();">
+                                <span class="text">
+                                    Live Tracker
+                                    <span class="arrr"></span>
+                                </span>
+                                <span class="liveBlink"></span>
+                                <span class="lni lni-map-marker"></span>
+                            </div>
+                            @*separate-left*@
+                            @*<span class=" greenTrack" style="cursor:pointer;" >Live Track Employees At Work <img class="pull-right blink cgreen" style="width: 12px; margin: 3px 0 0 5px;" src="/assests/images/Live.png" /></span>*@
+                        </li>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "View Outlet").Count() > 0)
+                    {
+                        <li title="Click to View Outlet" id="">
+                            <div class="pointer hoverMenu rut" onclick="ShowViewOutlet();">
+                                <span class="text ">
+                                    View Outlet
+                                    <span class="arrr"></span>
+                                </span>
+                                <span class="lni lni-hospital "></span>
+                            </div>
+                            @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
+                        </li>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "Emp Outlet").Count() > 0)
+                    {
+                        <li title="Click to get Employee Outlet " id="">
+                            <div class="pointer hoverMenu rut" onclick="ShowViewEMPOutlet();">
+                                <span class="text ">
+                                    Emp Outlet
+                                    <span class="arrr"></span>
+                                </span>
+                                <span class="lni lni-users "></span>
+                            </div>
+                            @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="clearfix mb-5">
+                <div class="d-flex justify-content-center mainDashBoxes newStyleMN">
+                    @if (Model.Where(x => x.DetailsName == "Total Employees for Field Visit").Count() > 0)
+                    {
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox c2" id="" onclick="OnTotalClickFV(this);">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon"><span class="lnr lnr-users"></span></div>
+
+                                </div>
+                                <div class="lspacer">
+                                    @*Mantis Issue 25455 [value 0 added] *@
+                                    <div class="Numb" id="lblTotalFV">0</div>
+                                    <div class="flex-grow-1 txt">Employee Strength</div>
+                                    <div class="dtday">As of Today</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    @if (Model.Where(x => x.DetailsName == "At Work for Field Visit").Count() > 0)
+                    {
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox c3" id="" onclick="AtWorkClickFV(this);">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon"><span class="lnr lnr-briefcase"></span></div>
+
+                                </div>
+                                <div class="lspacer">
+                                    @*Mantis Issue 25455 [value 0 added] *@
+                                    <div class="Numb" id="lblAtWorkFV">0</div>
+                                    <div class="flex-grow-1 txt">Employees At Work</div>
+                                    <div class="dtday">Today</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    @if (Model.Where(x => x.DetailsName == "On Leave for Field Visit").Count() > 0)
+                    {
+
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox " id="" onclick="OnLeaveClickFV(this);">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon"><span class="lnr lnr-calendar-full"></span></div>
+
+                                </div>
+                                <div class="lspacer">
+                                    @*Mantis Issue 25455 [value 0 added] *@
+                                    <div class="Numb" id="lblOnLeaveFV">0</div>
+                                    <div class="flex-grow-1 txt">Employees On Leave</div>
+                                    <div class="dtday"> Today</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "Not Logged In for Field Visit").Count() > 0)
+                    {
+
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox c4" id="" onclick="NotLoggedInClickFV(this);">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon"><span class="lnr lnr-power-switch transNotLogged"></span></div>
+
+                                </div>
+                                <div class="lspacer">
+                                    @*Mantis Issue 25455 [value 0 added] *@
+                                    <div class="Numb" id="lblNotLoggedInFV">0</div>
+                                    <div class="flex-grow-1 txt">Not Logged In</div>
+                                    <div class="dtday">Today</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $('.scr').on('click', function (e) {
+                e.preventDefault()
+
+                var position = $(this).attr("data-scroll");
+                var p = $('#' + position).offset().top;
+
+                $("body, html").animate({
+                    scrollTop: 150
+                } /* speed */);
+            })
+        })
+    </script>
+
+}

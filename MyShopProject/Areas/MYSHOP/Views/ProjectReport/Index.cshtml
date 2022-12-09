@@ -1,0 +1,1686 @@
+﻿
+@using MyShop.Models;
+@model MyShop.Models.ProjectReportModel
+@{
+    ViewBag.Title = "Project & Projection Entry";
+}
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+<script src="~/assests/pluggins/amchart4/core.js"></script>
+<script src="~/assests/pluggins/amchart4/charts.js"></script>
+<script src="~/assests/pluggins/amchart4/animated.js"></script>
+<script>
+    var Is_PageLoad = "Ispageload";
+    var OrderLostReasonId = "";
+    var ProjectCompletedDTId = "";
+    var FilterTypes = "";
+
+    $(function () {
+
+        $("#ddlStatus").val(1);
+        var d = new Date();
+
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        OrderLostReasonId = "";
+        ProjectCompletedDTId = "";
+        FilterTypes = "";
+
+        gridProjectReport.Refresh();
+        gridProjectReport.Refresh();
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("EnquiryFromGridLookup");
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("EnquiryFromGridLookup");
+        //lookup.GetGridView().Refresh();
+
+        //dtLogFrom.SetValue(d);
+        //dtLogTo.SetValue(d);
+
+        //$("#drpuser").chosen({
+        //    width: "100%"
+        //})
+        //$("#drpstate").chosen({
+        //    width: "100%"
+        //})
+        //$("#drpshop").chosen({
+        //    width: "100%"
+        //})
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+
+            var flag = true;
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            FilterTypes = "";
+
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            //else if ((EnquiryFromDesc.includes("IndiaMart") || EnquiryFromDesc.includes("MccoyMart")) && (Math.ceil((endDate - startdate) / (1000 * 60 * 60 * 24)) > 7)) {
+            //    jAlert('Difference of From Date and To Date cannot be more than 7 Days when Enquiries From includes IndiaMart or MccoyMart.');
+            //}
+            //else if (EnquiryFromDesc.length == 0) {
+            //    jAlert('Select Enquiry From.');
+            //}
+            else {
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                Is_PageLoad = "1";
+                gridProjectReport.Refresh();
+
+               
+           }
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporRegisterList", "ProjectReport", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
+
+        $(".allow_decimal").on("input", function (evt) {
+            var self = $(this);
+            self.val(self.val().replace(/[^0-9\.]/g, ''));
+            if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                evt.preventDefault();
+            }
+        });
+
+    });
+
+    
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".filterToggle").on("click", function (e) {
+            e.preventDefault();
+            $(".filterDrop").removeClass("active");
+            $(this).parent(".filterParent").find(".filterDrop").toggleClass("active")
+
+        })
+        getUserListForChart()
+    });
+    function getUserListForChart() {
+        $.ajax({
+            url: "@Url.Action("UserListFORCHART", "ProjectReport")",
+            async: false,
+            data: {},
+            type: 'POST',
+            success: function (data) {
+                console.log("UserListFORCHART", data)
+                var userListView='';
+                for (i = 0; i < data.length; i++) {
+                    userListView += '<option value="' + data[i].UserId + '">' + data[i].UserName + '</option>'
+                }
+                console.log("v", userListView)
+                $("#userListViewDataList").html(userListView)
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+    function fetchChart() {
+        var userID = $("#userListViewDataList").val();
+        if (!userID) {
+            alert("You must select a User")
+            return false;
+        }
+        $.ajax({
+            url: "@Url.Action("CHARTONE", "ProjectReport")",
+            async: false,
+            data: { "userId": userID },
+            type: 'POST',
+            success: function (data) {
+                console.log("chartOne", data)
+                var obj = [{
+                    "title": "Total Project Count",
+                    "value": parseInt(data[0].TotProjectCnt),
+                    "color": am4core.color("#53d593")
+                    
+                },
+                {
+                    "title": "Order Lost Count",
+                    "value": parseInt(data[0].OrderLostCnt),
+                    "color": am4core.color("#f94b4b")
+                }]
+
+                pieChartPlotting(obj, "title", "value", "chartOne")
+            },
+            error: function () {
+            },
+        });
+        $.ajax({
+            url: "@Url.Action("CHARTTWO", "ProjectReport")",
+            async: false,
+            data: { "userId": userID },
+            type: 'POST',
+            success: function (data) {
+                console.log("chartTwo", data);
+                var obj = [{
+                    "title": "Total Project Count",
+                    "value": parseInt(data[0].TotProjectCnt),
+                    "color": am4core.color("#53d593")
+                },
+                {
+                    "title": "Completed Project Count",
+                    "value": parseInt(data[0].InactivProjectCnt),
+                    "color": am4core.color("#D2d2cf")
+                }]
+                pieChartPlotting(obj, "title", "value", "chartTwo")
+            },
+            error: function () {
+            },
+        });
+    }
+    
+
+    function pieChartPlotting(data, value, title, dv) {
+        am4core.useTheme(am4themes_animated);
+        var chart = am4core.create(dv, am4charts.PieChart);
+        chart.hideCredits = true;
+        chart.data = data;
+        var series = chart.series.push(new am4charts.PieSeries());
+        series.dataFields.value = "value";
+        series.dataFields.category = "title";
+        // this creates initial animation
+        series.hiddenState.properties.opacity = 1;
+        series.hiddenState.properties.endAngle = -90;
+        series.hiddenState.properties.startAngle = -90;
+        chart.legend = new am4charts.Legend();
+        series.slices.template.propertyFields.fill = "color";
+        chart.legend.position = "bottom";
+        series.labels.template.disabled = true;
+        series.ticks.template.disabled = true;
+    }
+
+</script>
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+
+        for (var i = 0; i <= gridProjectReport.GetColumnsCount() ; i++) {
+            if (gridProjectReport.GetColumn(i) != null) {
+                if (gridProjectReport.GetColumn(i).visible == false) {
+                    console.log(gridProjectReport.GetColumn(i).fieldName);
+                    visibleColumn.push(gridProjectReport.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        // addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridProjectReport.IsCustomizationWindowVisible())
+            gridProjectReport.HideCustomizationWindow();
+        else
+            gridProjectReport.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridProjectReport.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    @*function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "CRMEnquiries")",
+            async: false,
+        data: { Columns: visibleColumn },
+        type: 'POST',
+        success: function (data) {
+            gridProjectReport.Refresh();
+        },
+        error: function () {
+        },
+        });
+
+    }*@
+    function datevalidate() {
+        //appcbl_to_dt.SetMinDate(appcbl_frm_dt.GetDate());
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+        e.customArgs["OrderLostReasonId"] = OrderLostReasonId;
+        e.customArgs["ProjectCompletedDTId"] = ProjectCompletedDTId;
+        e.customArgs["FilterTypes"] = FilterTypes;
+    }
+
+    //function LookupValChange() {
+    //    EmpGridLookup.GetGridView().Refresh();
+    //    EmpGridLookup.GetGridView().Refresh();
+    //}
+
+    function EmpStartCallback(s, e) {
+        //  e.customArgs["StateIds"] = StateId;
+    }
+
+    function OpenforEdit(PR_ID) {
+        $.ajax({
+            url: "@Url.Action("ShowDetails", "ProjectReport")",
+            async: false,
+            data: { PR_ID: PR_ID },
+            type: 'POST',
+            success: function (data) {
+
+                $("#hdnAction").val('Edit');
+                $("#myModalLabel").text("Edit Enquiries");
+                $("#hdnuniqueid").val(data.PR_ID);
+
+
+                $("#ddlMonth").val(data.Month);
+                $("#ddlYear").val(data.Year);
+
+                //$("proj_start_dt").val(data.Date);
+                // Mantis Issue 25203
+                //proj_start_dt.value = data.Date;
+                var d = new Date(data.Date);
+                if (data.Date != "") {
+                    proj_start_dt.SetDate(d);
+                }
+                else {
+                    proj_start_dt.Clear();
+                }
+                // End of Mantis Issue 25203
+
+                $("#ddlShop").val(data.Shop);
+                $("#ddlProjectName").val(data.ProjectName);
+                $("#txt_Area").val(data.Area);
+                $("#ddlShopType").val(data.ShopType);
+                $("#txt_contactpersn").val(data.Contact_Person);
+                $("#txt_phoneno").val(data.PhoneNo);
+                $("#txt_ApproxQty").val(data.ApproxQty);
+                $("#txt_Grade").val(data.Grade);
+                $("#txt_ProdName").val(data.ProdName);
+                $("#ddlExptMonth").val(data.ExptMonth);
+                $("#ddlExptYear").val(data.ExptYear);
+                $("#txt_Remarks").val(data.Remarks);
+                $("#txt_OrderLost").val(data.OrderLost);
+                //$("#proj_complete_dt").val(data.proj_complete_dt);
+                // Mantis Issue 25203
+                //proj_complete_dt.value = data.proj_complete_dt;
+                var dc = new Date(data.proj_complete_dt);
+                if (data.proj_complete_dt != "") {
+                    proj_complete_dt.SetDate(dc);
+                }
+                else {
+                    proj_complete_dt.Clear();
+                }
+                // End of Mantis Issue 25203
+                // Mantis Issue 25203
+                $("#txt_ArctName").val(data.ArctName);
+                $("#txt_ConslName").val(data.ConslName);
+                $("#txt_FabrName").val(data.FabrName);
+                $("#txt_Others").val(data.Others);
+                // End of Mantis Issue 25203
+
+                $('#myModalProjection').modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+    function OnClickDeleteForm(PR_ID) {
+        var url = '/ProjectReport/DeleteData/';
+
+        jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+            if (ret == true) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'PR_ID': PR_ID }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "Deleted") {
+                            jAlert("Successfully Deleted.");
+                            GridShow();
+                        }
+                        else {
+                            jAlert(response);
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    }
+
+    function GridShow() {
+
+        Is_PageLoad = "";
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+
+        var startdate = new Date(Date.parse(newdatefrom));
+        //  alert(startdate);
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            gridProjectReport.Refresh();
+
+            //@*$.ajax({
+            //    url: "@Url.Action("GetPartyDetailsList", "partyDetails")",
+            //    async: false,
+            //data: {
+            //    Fromdate: dtFrom.GetText(),
+            //    Todate: dtTo.GetText(),
+            //    empcode: empId,
+            //    StateIds: StateId,
+            //    Is_PageLoad: Is_PageLoad
+            //},
+            //type: 'POST',
+            //success: function (data) {
+            //    gridPartyDetails.Refresh();
+            //    gridPartyDetails.Refresh();
+            //},
+            //error: function () {
+            //},
+            //    });*@
+
+        }
+    }
+
+    function ClearData() {
+        $("#myModalLabel").val("Add Projection Report");
+        $("#hdnAction").val('Add');
+        $("#hdnuniqueid").val('');
+
+        $("#ddlMonth").val('');
+        ddlMonth.selectedIndex = 0;
+
+        $("#ddlYear").val('');
+        ddlYear.selectedIndex = 0;
+
+       // $("#proj_start_dt").val('');
+        //proj_start_dt.value = '';
+        proj_start_dt.Clear();
+
+        $("#ddlShop").val('');
+        ddlShop.selectedIndex = 0;
+
+        $("#ddlProjectName").val('');
+        ddlProjectName.selectedIndex = 0;
+
+        $("#txt_Area").val('');
+
+        $("#ddlShopType").val('');
+        ddlShopType.selectedIndex = 0;
+
+        $("#txt_contactpersn").val('');
+        $("#txt_phoneno").val('');
+        $("#txt_ApproxQty").val('');
+        $("#txt_Grade").val('');
+        $("#txt_ProdName").val('');
+
+        $("#ddlExptMonth").val('');
+        ddlExptMonth.selectedIndex = 0;
+
+        $("#ddlExptYear").val('');
+        ddlExptYear.selectedIndex = 0;
+
+        $("#txt_Remarks").val('');
+        //$("#txt_ExecName").val('');
+        $("#txt_OrderLost").val('');
+        // $("#proj_complete_dt").val('');
+        //proj_complete_dt.value = '';
+        proj_complete_dt.Clear();
+        // Mantis Issue 25203
+        $("#txt_ArctName").val('');
+        $("#txt_ConslName").val('');
+        $("#txt_FabrName").val('');
+        $("#txt_Others").val('');
+        // End of Mantis Issue 25203
+
+
+    }
+
+    function save_new() {
+        if (validateForm()) {
+            save("N");
+        }
+    }
+
+    function save_exit() {
+        if (validateForm()) {
+            save("E");
+        }
+    }
+
+
+    function validateForm() {
+        var x = true;
+
+        if (ddlMonth.selectedIndex == 0 || ddlMonth.selectedIndex == -1) {
+            jAlert("Please select Month!");
+            x = false;
+            $("#ddlMonth").focus();
+            return false;
+        }
+        if (ddlYear.selectedIndex == 0 || ddlYear.selectedIndex == -1) {
+            jAlert("Please select Year!");
+            x = false;
+            $("#ddlYear").focus();
+            return false;
+        }
+
+        //var proj_start_dt = proj_start_dt.value;
+        if (proj_start_dt.GetText() == "" || proj_start_dt.GetText() == null) {
+            jAlert("Please select Project Start Date !");
+            x = false;
+            proj_start_dt.GetText().focus();
+            return false;
+        }
+
+        if (ddlShop.selectedIndex == 0 || ddlShop.selectedIndex == -1) {
+            jAlert("Please select Customer Name !");
+            x = false;
+            $("#ddlShop").focus();
+            return false;
+        }
+
+        if (ddlProjectName.selectedIndex == 0 || ddlProjectName.selectedIndex == -1) {
+            jAlert("Please select Project Name !");
+            x = false;
+            $("#ddlProjectName").focus();
+            return false;
+        }
+
+        if ($("#txt_Area").val() == "" || $("#txt_Area").val() == null) {
+            jAlert("Please enter Area !");
+            x = false;
+            $("#txt_Area").focus();
+            return false;
+        }
+
+        if (ddlShopType.selectedIndex == 0 || ddlShopType.selectedIndex == -1) {
+            jAlert("Please select Category !");
+            x = false;
+            $("#ddlShopType").focus();
+            return false;
+        }
+
+        if ($("#txt_contactpersn").val() == "" || $("#txt_contactpersn").val() == null) {
+            jAlert("Please enter Contact Person !");
+            x = false;
+            $("#txt_contactpersn").focus();
+            return false;
+        }
+
+        if ($("#txt_phoneno").val() == "" || $("#txt_phoneno").val() == null) {
+            jAlert("Please enter Phone No !");
+            x = false;
+            $("#txt_phoneno").focus();
+            return false;
+        }
+        if ($("#txt_ApproxQty").val() == 0 || $("#txt_ApproxQty").val() == null) {
+            jAlert("Please enter Approx. Qty (Sqft) !");
+            x = false;
+            $("#txt_ApproxQty").focus();
+            return false;
+        }
+        if ($("#txt_Grade").val() == "" || $("#txt_Grade").val() == null) {
+            jAlert("Please enter Grade !");
+            x = false;
+            $("#txt_Grade").focus();
+            return false;
+        }
+        if ($("#txt_ProdName").val() == "" || $("#txt_ProdName").val() == null) {
+            jAlert("Please enter Product Name and Code !");
+            x = false;
+            $("#txt_ProdName").focus();
+            return false;
+        }
+
+        if (ddlExptMonth.selectedIndex == 0 || ddlExptMonth.selectedIndex == -1) {
+            jAlert("Please select Expected Month!");
+            x = false;
+            $("#ddlExptMonth").focus();
+            return false;
+        }
+        if (ddlExptYear.selectedIndex == 0 || ddlExptYear.selectedIndex == -1) {
+            jAlert("Please select Expected Year!");
+            x = false;
+            $("#ddlExptYear").focus();
+            return false;
+        }
+
+        if ($("#txt_Remarks").val() == "" || $("#txt_Remarks").val() == null) {
+            jAlert("Please enter Remarks !");
+            x = false;
+            $("#txt_Remarks").focus();
+            return false;
+        }
+
+
+        if (x == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function save(actionType) {
+        var action = "";
+        if ($("#hdnAction").val() == "Add") {
+            action = "ADD";
+        }
+        else if ($("#hdnAction").val() == "Edit") {
+            action = "MOD";
+        }
+
+
+        var _header = {
+
+            Date: proj_start_dt.GetText(),
+            Month: $("#ddlMonth").val(),
+            Year: $("#ddlYear").val(),
+            Shop: $("#ddlShop").val(),
+            ProjectName: $("#ddlProjectName").val(),
+            Area: $("#txt_Area").val(),
+            ShopType: $("#ddlShopType").val(),
+            Contact_Person: $("#txt_contactpersn").val(),
+            PhoneNo: $("#txt_phoneno").val(),
+            ApproxQty: $("#txt_ApproxQty").val(),
+            Grade: $("#txt_Grade").val(),
+            ProdName: $("#txt_ProdName").val(),
+            ExptMonth: $("#ddlExptMonth").val(),
+            ExptYear: $("#ddlExptYear").val(),
+            Remarks: $("#txt_Remarks").val(),
+            OrderLost: $("#txt_OrderLost").val(),
+            proj_complete_dt: proj_complete_dt.GetText(),
+            // Mantis Issue 25203
+            ArctName: $("#txt_ArctName").val(),
+            ConslName: $("#txt_ConslName").val(),
+            FabrName: $("#txt_FabrName").val(),
+            Others: $("#txt_Others").val(),
+            // End of Mantis Issue 25203
+            Action_type: action
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/ProjectReport/Savedata",
+            data: "{apply:" + JSON.stringify(_header) + ",uniqueid:" + JSON.stringify($('#hdnuniqueid').val()) + "}",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response.response_msg == "Success") {
+
+                    jAlert("Saved Successfully", "Alert", function () {
+                        if (actionType == "N") {
+
+                            $("#myModalLabel").val("Add Projection Report");
+                            $("#hdnAction").val('Add');
+                            $("#hdnuniqueid").val('');
+
+                            $("#ddlMonth").val('');
+                            ddlMonth.selectedIndex = 0;
+
+                            $("#ddlYear").val('');
+                            ddlYear.selectedIndex = 0;
+
+                            //$("#proj_start_dt").val('');
+                            //proj_start_dt.value = '';
+                            proj_start_dt.Clear();
+
+                            $("#ddlShop").val('');
+                            $("#ddlProjectName").val('');
+                            $("#ddlShopType").val('');
+                            $("#txt_contactpersn").val('');
+                            $("#txt_phoneno").val('');
+                            $("#txt_ApproxQty").val('');
+                            $("#txt_Grade").val('');
+                            $("#txt_ProdName").val('');
+
+                            $("#ddlExptMonth").val('');
+                            ddlExptMonth.selectedIndex = 0;
+
+                            $("#ddlExptYear").val('');
+                            ddlExptYear.selectedIndex = 0;
+
+                            $("#txt_Remarks").val('');
+                            //$("#txt_ExecName").val('');
+                            $("#txt_OrderLost").val('');
+                            //$("#proj_complete_dt").val('');
+                            proj_complete_dt.Clear();
+                            // Mantis Issue 25203
+                            $("#txt_ArctName").val('');
+                            $("#txt_ConslName").val('');
+                            $("#txt_FabrName").val('');
+                            $("#txt_Others").val('');
+                            // End of Mantis Issue 25203
+                        }
+                        else {
+                            var url = '@Url.Action("Index", "ProjectReport")'
+                            window.location.href = url;
+                        }
+                    });
+                }
+                else {
+                    jAlert(response.response_msg);
+                }
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+
+    }
+
+    // Mantis Issue 25203
+    function OpenforHODRemarks(PR_ID) {
+        $("#hdnuniqueid").val(PR_ID);
+
+        $.ajax({
+            url: "@Url.Action("GetHODRemarks", "ProjectReport")",
+            async: false,
+        data: { PR_ID: PR_ID },
+        type: 'POST',
+        success: function (data) {
+            if (data.HODRemarks == "NOT HOD") {
+                jAlert("Remarks can only be added by the HOD");
+            }
+            else {
+                $("#txt_HODRemarks").val(data.HODRemarks);
+                $('#myModalHODRemarks').modal('show');
+            }
+            
+        },
+        error: function () {
+        },
+        });
+    }
+
+    function save_HODRemarks() {
+
+        var HODRemarks = $("#txt_HODRemarks").val()
+
+        if (HODRemarks == "" || HODRemarks == null) {
+            jAlert("Please enter Remarks !");
+            x = false;
+            $("#txt_HODRemarks").focus();
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/ProjectReport/SaveHODRemarks",
+                data: "{HODRemarks:" + JSON.stringify(HODRemarks) + ",uniqueid:" + JSON.stringify($('#hdnuniqueid').val()) + "}",
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.response_msg == "Success") {
+
+                        jAlert("HOD Remarks Saved Successfully", "Alert", function () {
+                            var url = '@Url.Action("Index", "ProjectReport")'
+                            window.location.href = url;
+                        });
+                    }
+                    else {
+                        jAlert(response.response_msg);
+                    }
+                },
+                error: function (response) {
+                    jAlert("Please try again later");
+                }
+            });
+        }
+
+        
+
+    }
+    // End of Mantis Issue 25203
+
+    function PopulateProjectNameList(e) {
+
+        if ($("#hdnAction").val() == "Add") {
+            var selShop = $("#ddlShop").val();
+
+            if (selShop != 0 && selShop != -1) {
+                $.ajax({
+                    url: "@Url.Action("GetProjectNameList", "ProjectReport")",
+                    async: false,
+                    data: { selShop: selShop },
+                    type: 'GET',
+                    success: function (json, textStatus) {
+                        json = json || {};
+                        $("#ddlProjectName").empty();
+                        for (var i = 0; i < json.ProjectNameList.length; i++) {
+                            $("#ddlProjectName").append('<option value="' + json.ProjectNameList[i].Project_Id + '">' + json.ProjectNameList[i].Project_Name + '</option>');
+                        }
+
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        }
+
+    }
+
+    function AutofillDetails(e) {
+
+        //var objmultiselectto = [];
+
+        //var designationid = $("#ddsupervisor").val();
+
+        if ($("#hdnAction").val() == "Add") {
+            var selShop = $("#ddlShop").val();
+            var selProjectName = $("#ddlProjectName").val();
+
+            if (selShop != 0 && selShop != -1 && selProjectName != 0 && selProjectName != -1) {
+                $.ajax({
+                    url: "@Url.Action("ShowAutofillDetails", "ProjectReport")",
+                    async: false,
+                    data: { selShop: selShop, selProjectName: selProjectName },
+                    type: 'POST',
+                    success: function (data) {
+
+                        if (data.Area != null) {
+                            $("#txt_Area").val(data.Area);
+                            $("#ddlShopType").val(data.ShopType);
+                            $("#txt_contactpersn").val(data.Contact_Person);
+                            $("#txt_phoneno").val(data.PhoneNo);
+                            $("#txt_ApproxQty").val(data.ApproxQty);
+                            $("#txt_Grade").val(data.Grade);
+                            $("#txt_ProdName").val(data.ProdName);
+                            $("#ddlExptMonth").val(data.ExptMonth);
+                            $("#ddlExptYear").val(data.ExptYear);
+                            $("#txt_Remarks").val(data.Remarks);
+                            $("#txt_OrderLost").val(data.OrderLost);
+                            //$("#proj_complete_dt").val(data.proj_complete_dt);
+                            // Mantis Issue 25203
+                            //proj_complete_dt.value = data.proj_complete_dt;
+
+                            var dc = new Date(data.proj_complete_dt);
+                            if (data.proj_complete_dt != "") {
+                                proj_complete_dt.SetDate(dc);
+                            }
+                            else {
+                                proj_complete_dt.Clear();
+                            }
+                            // End of Mantis Issue 25203
+
+                            $("#txt_ArctName").val(data.ArctName);
+                            $("#txt_ConslName").val(data.ConslName);
+                            $("#txt_FabrName").val(data.FabrName);
+                            $("#txt_Others").val(data.Others);
+                            // End of Mantis Issue 25203
+                        }
+                        else {
+
+                            $("#txt_Area").val('');
+
+                            $("#ddlShopType").val('');
+                            ddlShopType.selectedIndex = 0;
+
+                            $("#txt_contactpersn").val('');
+                            $("#txt_phoneno").val('');
+                            $("#txt_ApproxQty").val('');
+                            $("#txt_Grade").val('');
+                            $("#txt_ProdName").val('');
+
+                            $("#ddlExptMonth").val('');
+                            ddlExptMonth.selectedIndex = 0;
+
+                            $("#ddlExptYear").val('');
+                            ddlExptYear.selectedIndex = 0;
+
+                            $("#txt_Remarks").val('');
+                            $("#txt_OrderLost").val('');
+                            // $("#proj_complete_dt").val('');
+                            proj_complete_dt.Clear();
+                            // Mantis Issue 25203
+                            $("#txt_ArctName").val('');
+                            $("#txt_ConslName").val('');
+                            $("#txt_FabrName").val('');
+                            $("#txt_Others").val('');
+                            // End of Mantis Issue 25203
+                        }
+                    },
+                    error: function () {
+                    },
+                });
+            }
+
+        }
+    }
+
+    function getListFilter() {
+        $.ajax({
+            url: "@Url.Action("GetOrderLostReason", "ProjectReport")",
+            async: false,
+            type: 'POST',
+            success: function (data) {
+                var html = '<li class="hdType"><input type="checkbox" onclick="setAllselection()" value="" /> <span class="txts">SELECT ALL</span></li>'
+                for (i = 0; i < data.OrderLostReasonList.length; i++) {
+                    html += "<li><input type='checkbox' id=" + data.OrderLostReasonList[i].ID + "  class='txts' onclick=CheckParticular($(this).is(':checked')) value=" + data.OrderLostReasonList[i].ID + "  /><span class='txts'>" + data.OrderLostReasonList[i].Close_Reason + "</span> <span class='badge filterBadgeColor'>" + data.OrderLostReasonList[i].Close_Reason_Count + " </span> </a></li>";
+                }
+                $("#slItems").html(html);
+            }
+        });
+    }
+
+    function itemClick() {
+        var ar = [];
+
+        $("#slItems").find(":checkbox:checked").each(function () {
+            var values = $(this).val();
+            if (values == '') {
+
+            } else {
+                ar.push($(this).val());
+            }
+
+        });
+
+        $(".filterDrop").removeClass("active");
+        OrderLostReasonId = ar.toString();
+        FilterTypes = "ORDER_LOST_REASON";
+        gridProjectReport.Refresh();
+
+    }
+    function setAllselection(e) {
+        $("#slItems").find(":checkbox.txts").attr("checked", true);
+
+    }
+
+    function getListFilterP() {
+        $.ajax({
+            url: "@Url.Action("GetProjectCompletedDT", "ProjectReport")",
+            async: false,
+            type: 'POST',
+            success: function (data) {
+                var html = '<li class="hdType"><input type="checkbox" onclick="setAllselectionP()" value="" /> <span class="txts">SELECT ALL</span></li>'
+                for (i = 0; i < data.ProjectCompletedDTList.length; i++) {
+                    html += "<li><input type='checkbox' id=" + data.ProjectCompletedDTList[i].ID + "  class='txts' onclick=CheckParticularP($(this).is(':checked')) value=" + data.ProjectCompletedDTList[i].ID + "  /><span class='txts'>" + data.ProjectCompletedDTList[i].Completed_Date + "</span> <span class='badge filterBadgeColor'>" + data.ProjectCompletedDTList[i].Completed_Date_Count + " </span> </a></li>";
+                }
+                $("#slItemsP").html(html);
+            }
+        });
+    }
+
+    function itemClickP() {
+        var ar = [];
+
+        $("#slItemsP").find(":checkbox:checked").each(function () {
+            var values = $(this).val();
+            if (values == '') {
+
+            } else {
+                ar.push($(this).val());
+            }
+
+        });
+
+        $(".filterDrop").removeClass("active");
+        ProjectCompletedDTId = ar.toString();
+        FilterTypes = "PROJECT_COMPLETE_DATE";
+        gridProjectReport.Refresh();
+
+    }
+    function setAllselectionP(e) {
+        $("#slItemsP").find(":checkbox.txts").attr("checked", true);
+
+    }
+
+</script>
+
+<style>
+    .hdlist  {
+        font-size: 16px;
+        background: #f1efef;
+        border-radius: 5px;
+        margin: 10px 0;
+        padding: 8px 15px;
+    }
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 20px 20px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 70%;
+    }
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 30px;
+        padding: 3px 12px;
+    }
+
+    .modalScroll .modal-body {
+        max-height: 75vh !important;
+        overflow-y: auto;
+    }
+
+    .bulAssignTbl > tbody > tr > td {
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .mHead {
+        margin: 0;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+        color: #415ed2;
+        margin-bottom: 13px;
+    }
+
+    .filterParent {
+        position: relative;
+        display: inline-block;
+    }
+
+    .filterDrop {
+        background: #fbfbfb;
+        position: absolute;
+        top: 85%;
+        left: 0px;
+        padding: 15px;
+        border-radius: 5px;
+        min-width: 400px;
+        box-shadow: 1px 6px 10px 0px rgb(0 0 0 / 18%), 1px 0px 10px 0px rgb(0 0 0 / 13%);
+        display: none;
+        opacity: 0;
+        -webkit-transition: top 0.3s ease-out, opacity 0.3s ease 0.5s;
+        -moz-transition: top 0.3s ease-out, opacity 0.3s ease 0.5s;
+        -o-transition: top 0.3s ease-out, opacity 0.3s ease 0.5s;
+        transition: top 0.3s ease-out, opacity 0.3s ease 0.5s;
+        z-index: 9;
+    }
+
+        .filterDrop.active {
+            display: block;
+            opacity: 1;
+            top: 92%;
+        }
+
+    .mainFilterList {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .mainFilterList > li {
+            padding: 7px 5px;
+        }
+
+            .mainFilterList > li.hdType {
+                background: #ddd;
+            }
+
+            .mainFilterList > li:not(:last-child) {
+                border-bottom: 1px solid #ececec;
+            }
+
+            .mainFilterList > li .badge {
+                float: right;
+                display: inline-block;
+            }
+
+            .mainFilterList > li .txts {
+                max-width: 80%;
+                display: inline-block;
+                padding-left: 8px;
+            }
+
+    .filterBadgeColor {
+        background: #ffe5c5;
+        color: #333;
+        border: 1px solid #efa74e;
+    }
+    label
+    {
+        margin-top: 10px;
+    }
+    .badge {
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        line-height: 22px;
+        padding: 0;
+        background-color: #fff;
+        color: #7e7e7e;
+    }
+</style>
+
+
+<div id="chartModal" class="modal fade pmsModal w90" data-backdrop="static" role="dialog">
+    <div class="modal-dialog modal-lg" style="width:1000px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Projection Analytics</h4>
+            </div>
+            <div class="modal-body">
+                 <div class="row">
+                       <div class="col-md-4">
+                           <select class="form-control" id="userListViewDataList"></select>
+                       </div>
+                       <div class="col-md-4">
+                            <button type="button" class="btn btn-success" onclick="fetchChart()"> Show</button>
+                       </div>
+                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="hdlist">Total Project VS Order Lost</div>
+                        <div id="chartOne" style="min-height:350px"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="hdlist">Total Project VS Completed Project</div>
+                        <div id="chartTwo" style="min-height: 350px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="breadCumb">
+    <span>Project & Projection Entry</span>
+</div>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 px-5">
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                        <!-- Button trigger modal -->
+                        @if (ViewBag.CanAdd)
+                        {
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalProjection" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                                Add New
+                            </button>
+                            
+                            <div class="filterParent">
+                                <button class="btn btn-primary  filterToggle" type="button" onclick="getListFilter()">Filter - Order Lost <span class="badge" style=" margin-left: 8px;"><i class="fa fa-filter"></i></span></button>
+                                <div class="filterDrop">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <ul class="mainFilterList" id="slItems">
+                                            
+                                            
+                                            
+                                                    </ul>
+                                                </div>
+                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 text-right"><button type="button" onclick="itemClick()" class="btn btn-default">OK</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="filterParent">
+                                <button class="btn btn-warning  filterToggle" type="button" onclick="getListFilterP()">Filter - Completed Project <span class="badge" style=" margin-left: 8px;"><i class="fa fa-filter"></i></span></button>
+                                <div class="filterDrop">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <ul class="mainFilterList" id="slItemsP">
+                                            
+                                            
+                                            
+                                                    </ul>
+                                                </div>
+                               
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 text-right"><button type="button" onclick="itemClickP()" class="btn btn-default">OK</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        }
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#chartModal" data-backdrop="static" data-keyboard="false">
+                            Show Analytics
+                        </button>
+                    </div>
+                        <div class="clear"></div>
+                        <div class="col-md-2">
+                            <span>From Date</span>
+                            <div>
+                                @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <span>To Date</span>
+                            <div>
+                                @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                            </div>
+                        </div>
+                        
+                       
+                        <div class="col-md-4" style="padding-top: 13px;">
+                            <span></span>
+                            <div>
+                                @if (ViewBag.CanView)
+                                {
+                                    <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                                }
+
+                                @if (ViewBag.CanExport)
+                                {
+                                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                        <option value="0">Export to</option>
+                                        <option value="2">XLSX</option>
+                                    </select>
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+                   
+                    <div class="clear"></div>
+                <div class="clear"></div>
+                    
+                    @*<div class="options">
+                        <div class="options-item">
+                            @Html.DevExpress().Button(settings =>
+                            {
+                                settings.Name = "btShowColumnChooser";
+                                settings.Text = "Show Column Chooser";
+                                settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                                // settings.Theme = "MaterialCompactOrange";
+                            }).GetHtml()
+                        </div>
+                    </div>*@
+                   
+                    <div class="scrooler mt-3">
+                        <div id="refreshgrid">
+                            @{
+                                Html.RenderAction("PartialProjectReportGridList", "ProjectReport", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<input type="hidden" id="hdnAction" />
+<input type="hidden" id="hdnuniqueid" />
+
+
+<!-- Modal -->
+<div class="modal fade pmsModal w70 font-pp modalScroll" id="myModalProjection" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Projection Entry</h4>
+            </div>
+            @*<input type="hidden" id="hdnuniqueid" value="" />*@
+            <div class="modal-body inputShrink">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Month <span class="red">*</span></label>
+                        <div>
+                            <select class="form-control" id="ddlMonth">
+                                <option value="Select">Select</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Year <span class="red">*</span></label>
+                        <div>
+                            <select class="form-control" id="ddlYear">
+                                <option value="Select">Select</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Project Start Date <span class="red">*</span></label>
+                        <div>
+                            @Html.DevExpress().DateEdit(
+                                     settings =>
+                                     {
+                                         settings.Name = "proj_start_dt";
+                                        settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                                        settings.Properties.EditFormatString = "dd/MM/yyyy";
+                                         settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        settings.Properties.ClientSideEvents.DateChanged = "datevalidate";
+                                        // settings.Date = Convert.ToDateTime(@Model.Date);
+                                         //settings.Date = DateTime.Now;
+                                     }
+                            ).GetHtml()
+
+                            @*<input type="date" id="proj_start_dt" name="proj_start_dt" value="@Model.Date">*@
+
+                            @*<span id="Mandatoryfrm_dt" style="display: none" class="validclass">
+                        <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>*@
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label>Customer Name <span class="red">*</span></label>
+                        <div>
+                            @Html.DropDownListFor(m => m.ShopUser, new SelectList(Model.ShopUserList, "Shop_Code", "Shop_Name", Model.ShopUserId), new { @id = "ddlShop", @class = "form-control", @onchange = "PopulateProjectNameList(this)" })
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <label>Name of Project <span class="red">*</span></label>
+                        <div>
+                            @Html.DropDownListFor(m => m.ProjectName, new SelectList(Model.ProjectNameList, "Project_Id", "Project_Name", Model.ProjectNameId), new { @id = "ddlProjectName", @class = "form-control", @onchange = "AutofillDetails(this)" })
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Area <span class="red">*</span></label>
+                        <div>
+                            <input type="text" id="txt_Area" class="form-control" value="@Model.Area" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Category <span class="red">*</span></label>
+                        <div>
+                            @Html.DropDownListFor(m => m.ShopType, new SelectList(Model.ShopTypeList, "shop_typeId", "shop_typeName", Model.ShopTypeId), new { @id = "ddlShopType", @class = "form-control" })
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Contact Person <span class="red">*</span></label>
+                        <div>
+                            <input type="text" id="txt_contactpersn" class="form-control" value="@Model.Contact_Person" />
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Contact No <span class="red">*</span></label>
+                        <div>
+                            @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control numbersOnly", @id = "txt_phoneno" })
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label>Approx. Qty (Sqft) <span class="red">*</span></label>
+                        <div>
+                            @Html.TextBoxFor(m => m.ApproxQty, new { @class = "form-control allow_decimal numbersOnly", @id = "txt_ApproxQty" })
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-3">
+                        <label>Grade <span class="red">*</span></label>
+                        <div>
+                            <input type="text" id="txt_Grade" class="form-control" value="@Model.Grade" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Product Name & Code <span class="red">*</span></label>
+                        <div>
+                            <input type="text" id="txt_ProdName" class="form-control" value="@Model.ProdName" />
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Expected Month <span class="red">*</span></label>
+                        <div>
+                            <select class="form-control" id="ddlExptMonth">
+                                <option value="Select">Select</option>
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Expected Year <span class="red">*</span></label>
+                        <div>
+                            <select class="form-control" id="ddlExptYear">
+                                <option value="Select">Select</option>
+                                <option value="2022">2022</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                                <option value="2028">2028</option>
+                                <option value="2029">2029</option>
+                                <option value="2030">2030</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                @*Mantis Issue 25203*@
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Architect Name/Firm Name </label>
+                        <div>
+                            <input type="text" id="txt_ArctName" class="form-control" value="@Model.ArctName" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Consultant Name/Firm Name </label>
+                        <div>
+                            <input type="text" id="txt_ConslName" class="form-control" value="@Model.ConslName" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Fabricator Name/Firm Name </label>
+                        <div>
+                            <input type="text" id="txt_FabrName" class="form-control" value="@Model.FabrName" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Others </label>
+                        <div>
+                            <input type="text" id="txt_Others" class="form-control" value="@Model.Others" />
+
+                        </div>
+                    </div>
+                </div>
+                @*End of Mantis Issue 25203*@
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Current Remarks <span class="red">*</span></label>
+                        <div>
+                            <textarea rows="10" class="form-control" style="height:100px" cols="100" id="txt_Remarks">@Model.Remarks</textarea>
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 ">
+                        <label>Executive Name</label>
+                        <div>
+                            <input type="text" id="txt_ExecName" class="form-control" value="@Model.ExecName" style="font-weight:bold" disabled />
+
+                        </div>
+                    </div>
+                    <div class="col-md-3 ">
+                        <label>Order Lost</label>
+                        <div>
+                            <input type="text" id="txt_OrderLost" class="form-control" value="@Model.OrderLost" />
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label>Completed project </label>
+                        <div>
+                            @Html.DevExpress().DateEdit(
+                                     settings =>
+                                     {
+                                         settings.Name = "proj_complete_dt";
+                                         settings.Properties.DisplayFormatString = "dd/MM/yyyy";
+                                         settings.Properties.EditFormatString = "dd/MM/yyyy";
+                                         settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                         settings.Properties.ClientSideEvents.DateChanged = "datevalidate";
+                                         //settings.Date = Convert.ToDateTime(@Model.proj_complete_dt);
+                                         //settings.Date = DateTime.Now;
+                                     }
+                            ).GetHtml()
+                            
+                            @*<input type="date" id="proj_complete_dt" name="proj_complete_dt" value="@Model.proj_complete_dt">*@
+
+                        </div>
+                    </div>
+
+                    <div class="clear"></div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="save_exit();">Save & Exit</button>
+                <button type="button" class="btn btn-success" onclick="save_new();">Save & New</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearData();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Mantis Issue 25203*@
+<div class="modal fade pmsModal w70 font-pp modalScroll" id="myModalHODRemarks" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">HOD Remarks</h4>
+            </div>
+            @*<input type="hidden" id="hdnuniqueid" value="" />*@
+            <div class="modal-body inputShrink">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Remarks <span class="red">*</span></label>
+                        <div>
+                            <textarea rows="5" class="form-control" style="height:100px" cols="100" id="txt_HODRemarks">@Model.HODRemarks</textarea>
+
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="save_HODRemarks();">Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearData();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*End of Mantis Issue 25203*@

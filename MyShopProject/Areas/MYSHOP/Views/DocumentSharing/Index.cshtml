@@ -1,0 +1,233 @@
+﻿@{
+    ViewBag.Title = "Micro Learning Configuration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function AddDocGroup() {
+        $("#hdnID").val('0');
+        $("#DocGroupModal").modal('show')
+    }
+
+    function AddDoc(id) {
+        window.location.href = "@Url.Action("UploadVideo", "DocumentSharing")" + "?id=" + id;
+    }
+
+    $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    })
+
+
+    function EditClick(ID) {
+        $("#hdnID").val(ID);
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditDocumentGroup", "DocumentSharing")",
+            data: { id: ID },
+            success: function (response) {
+
+                if (response.code == "") {
+                    jAlert('No data found');
+                }
+                else {
+                    $("#txtCode").val(response.code)
+                    $("#txtName").val(response.name)
+                    $("#DocGroupModal").modal('show')
+                }
+            }
+        });
+    }
+
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+
+    function SaveDocGroup() {
+        var id = $("#hdnID").val();
+        //if ($("#txtCode").val().trim() == "") {
+            $("#txtCode").val(uuidv4());
+        //}
+        if ($("#txtName").val().trim() == "") {
+            jAlert("Enter name to proceed.");
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveDocumentGroup", "DocumentSharing")",
+                data: { code: $("#txtCode").val(), name: $("#txtName").val(), id: id },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        jAlert('Saved successfully.');
+                        $("#DocGroupModal").modal('hide');
+                        $("#txtCode").val("")
+                        gridList.Refresh();
+                    }
+                    else if (parseInt(response) == -1)
+                        $("#txtCode").val("")
+                        jAlert('Code already exists.')
+                }
+            });
+        }
+    }
+
+    function beginUsergridcallback(s, e) {
+        e.customArgs["id"] = $("#hdnID").val();
+    }
+    function AssignUserClick(ID) {
+        $("#hdnID").val(ID);
+        $("#usermapModal").modal('show');
+        gridUserList.Refresh();
+        var unselect = [];
+       // gridUserList.SelectRowsByKey(unselect)
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SetUsers", "DocumentSharing")",
+            data: { ID: ID },
+            success: function (response) {
+               // if (response.length > 0) {
+
+                    gridUserList.SelectRowsByKey(response)
+               // }
+            }
+        });
+
+
+    }
+
+    function SaveUserDocGroup() {
+        var id = $("#hdnID").val();
+        gridUserList.GetSelectedFieldValues("user_id", function (str) {
+            var selected = str.join(",");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveDocumentGroupUser", "DocumentSharing")",
+                data: { selected: selected, id: id },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        jAlert('Saved successfully.');
+                        $("#DocGroupModal").modal('hide');
+                        gridList.Refresh();
+                    }
+                    else if (parseInt(response) == -1)
+                        jAlert('Code already exists.')
+                }
+            });
+        });
+    }
+
+
+    function DeleteClick(ID) {
+        $("#hdnID").val(ID);
+
+        jConfirm('Delete ?', 'Alert', function (r) {
+            if (r == true)
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "DocumentSharing")",
+                    data: { ID: ID },
+                    success: function (response) {
+                        jAlert('Deleted successfully.')
+                        gridList.Refresh();
+                    }
+                });
+        });
+
+
+
+    }
+
+</script>
+<div class="breadCumb">
+    <span>Micro Learning Configuration</span>
+</div>
+<div class="container">
+    <div class="form_main backBox px-3 clearfix">
+        <div class="row pt-3">
+            <div class="col-md-12">
+                <button type="button" id="btnAdd" class="btn btn-success" onclick="AddDocGroup()"> <i class="fa fa-plus"></i> Add</button>
+            </div>
+        </div>
+        
+        <br />
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                    Html.RenderAction("PartialGrid", "DocumentSharing");
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="DocGroupModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add/Modify Document Group</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                <div id="divModalBody">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="hide"><label>Code</label></div>
+                            <div class="hide">
+                                <input type="text" id="txtCode" maxlength="100" class="form-control" />
+                            </div>
+                            <div><label>Name</label></div>
+                            <div>
+                                <input type="text" id="txtName" maxlength="100" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="width: 476px;">
+
+                <div>
+                    <button type="button" id="btnSave" class="btn btn-success" onclick="SaveDocGroup()">Save</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" id="hdnID" />
+</div>
+
+
+<div id="usermapModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 750px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Map</h4>
+            </div>
+            <div class="modal-body" style="width: auto">
+                <div id="divModalBody">
+                    @{
+                        Html.RenderAction("PartialUserGrid", "DocumentSharing", new { id = "0" });
+                    }
+                </div>
+            </div>
+            <div class="modal-footer" style="width: auto">
+
+                <div>
+                    <button type="button" id="btnSave" class="btn btn-success" onclick="SaveUserDocGroup()">Map User</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" id="hdnID" />
+</div>

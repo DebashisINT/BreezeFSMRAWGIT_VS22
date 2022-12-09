@@ -1,0 +1,120 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridPJPDetails";
+    settings.KeyFieldName = "ID";
+    settings.CallbackRouteValues = new { Action = "PartialPJPDetailsGridList", Controller = "PJPDetailsList" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 200;
+    
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMP_NAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 1;
+        x.Width = 220;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMP_ID";
+        x.Caption = "User ID";
+        x.VisibleIndex = 2;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Emp_Phone";
+        x.Caption = "Phone";
+        x.VisibleIndex = 3;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Supervisor";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 4;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Supervisor_ID";
+        x.Caption = "Supervisor ID";
+        x.VisibleIndex = 5;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PJP_DATE";
+        x.Caption = "Date";
+        x.VisibleIndex = 6;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "From_Time";
+        x.Caption = "From Time";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "To_Time";
+        x.Caption = "To Time";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        x.Caption = "Customer";
+        x.VisibleIndex = 9;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Location";
+        x.Caption = "Location";
+        x.VisibleIndex = 10;
+        x.Width = 150;
+    });    
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Remarks";
+        x.Caption = "Remarks";
+        x.VisibleIndex = 11;
+        x.Width = 200;
+    });
+
+}).Bind(Model).GetHtml()

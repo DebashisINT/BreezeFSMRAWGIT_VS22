@@ -1,0 +1,994 @@
+﻿@model Models.ShopslistInput
+
+
+
+@{
+    ViewBag.Title = "Shop List";
+
+    var purl = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
+}
+
+
+
+<link href="~/Content/media.css" rel="stylesheet" />
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+        margin-top: 30px;
+        position: relative;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+
+
+    #maskmap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #maskmap.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxesmap {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+    #popupfootmap {
+        font-size: 16pt;
+    }
+
+
+</style>
+@*Rev Debashis 0025198*@
+<style>
+    #BranchGridLookup_CC {
+        width: 100%;
+    }
+</style>
+@*End of Rev Debashis 0025198*@
+
+<style>
+    .modal-content {
+        border-radius: 6px;
+    }
+
+    .modal-header {
+        background-color: #007DB4;
+        color: white;
+        border-radius: 6px 6px 0 0;
+    }
+
+    .modal-body {
+        height: 565px;
+    }
+    .chosen-container-single .chosen-single {
+        height: 35px !important;
+    }
+    .chosen-container-single .chosen-single > span {
+        margin-top: 6px;
+     }
+    .chosen-container-single .chosen-single div b {
+        margin-top: 7px;
+    }
+
+    button.close {
+        color: #fff;
+        opacity: .5;
+        font-weight: 500;
+    }
+
+    .showing .close {
+        opacity: .8;
+        width: 40px;
+        height: 40px;
+        line-height: 37px;
+        border-radius: 50%;
+        display: block;
+        text-shadow: none;
+        background: #5d5d5d;
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        color: #fff;
+    }
+
+        .showing .close:hover {
+            color: #fff;
+            opacity: 1;
+        }
+</style>
+
+
+
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy-L3SIYyrQ"></script>*@
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@Model.KeyId"></script>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+
+
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<script>
+
+
+    $(function () {
+
+        //Rev Debashis 0025198
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        lookup.GetGridView().Refresh();
+        //End of Rev Debashis 0025198
+
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+        $("#drpstate").chosen({
+            width: "100%"
+        });
+
+
+
+        @*$('body').on('click', '#btnshow', function () {
+
+            if ($("#drpuser").val() != '') {
+
+                //  alert($("#drpuser").val());
+                var surl = '@Url.Action("Getshoplist", "ShopList")';
+                var usr = $("#drpuser").val();
+                var usr = $("#drpuser").val();
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val(),
+                        StateId: $('#drpstate').val()
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        $('#refreshgrid').html(data);
+                    },
+                    error: function () {
+
+                    },
+                });
+            }
+            else {
+                $('#refreshgrid').html('');
+
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+
+            }
+
+        });*@
+
+
+
+        $('body').on('click', '#btnshow', function () {
+            //  alert();
+            //Mantis Issue 24728
+            //gridShoListList.Refresh();
+            //gridShoListList.Refresh();
+            
+            var start = $('#txtfromDate').val();
+            var end = $('#txttoDate').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+            if (dayse < 35) {
+                //Rev Debashis 0025198
+                if (BranchId == "" || BranchId == null) {
+                    jAlert("Please select Branch.");
+                    flag = false;
+                    return false;
+                }
+                else {
+                    //End of Rev Debashis 0025198
+                        gridShoListList.Refresh();
+                        gridShoListList.Refresh();
+                    //Rev Debashis 0025198
+                }
+                //End of Rev Debashis 0025198
+            }
+            else {
+                jAlert("Searching days must be within 35 days");
+                flag = false;
+                return false;
+            }
+            //End of Mantis Issue 24728
+        });
+
+
+
+        $('body').on('click', '#btnmodify', function () {
+            if ($("#drpuser").val() != '') {
+
+
+                //var fl = $("#ShopileName");
+                //var doc = fl.get(0);
+                //var files = doc.files;
+                //if (files && files.length > 0) {
+                //   var file = $("#ShopileName").get(0);
+                //    var e = file; //$(this);
+                // //   uploadFile(e);
+                //}
+
+
+
+
+                var surl = '@Url.Action("ShopSubmit", "ShopList")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        address: $("#txtaddress").val(),
+                        shop_name: $("#txtshpname").val(),
+                        Shoptype: $("#drpshoptypesr").val(),
+                        pin_code: $("#txtpincode").val(),
+                        owner_name: $("#txtowner").val(),
+                        owner_contact_no: $("#txtcontact").val(),
+                        owner_email: $("#txtEmail").val(),
+                        shop_Auto: $("#hdnshpid").val(),
+                        dobstr: $("#txtDOB").val(),
+                        date_aniversarystr: $("#txtAnniversary").val(),
+                        Assign_To: $("#drpassignto").val()
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        // alert(data);
+                        if (data == true) {
+                            // alert(data);
+                            $("#myModal").modal('hide');
+                            $.jAlert({
+                                'title': 'Alert!',
+                                'content': 'Shop Modified successfully',
+                                'theme': 'dark_blue'
+                            });
+
+                            gridShoListList.Refresh();
+
+                            @*var surl = '@Url.Action("Getshoplist", "ShopList")';
+                            var usr = $("#drpuser").val();
+                            $.ajax({
+                                url: surl,
+                                async: false,
+                                data: {
+                                    selectedusrid: usr,
+                                    Fromdate: $('#txtfromDate').val(),
+                                    Todate: $('#txttoDate').val()
+                                },
+                                type: 'POST',
+
+                                success: function (data) {
+
+                                    $('#refreshgrid').html(data);
+                                },
+                                error: function () {
+
+                                },
+                            });
+                        }
+
+                        else {
+
+                            $.jAlert({
+                                'title': 'Alert!',
+                                'content': 'Please enter all require fields with correct format',
+                                'theme': 'dark_blue'
+                            });*@
+                        }
+                        else
+                        {
+
+                       
+
+                            $.jAlert({
+                                'title': 'Alert!',
+                                'content': 'Please enter all required fields/Email Should be correct',
+                                'theme': 'dark_blue'
+                            });
+                        }
+                    },
+                    error: function () {
+
+                    },
+
+
+                });
+
+            }
+            else {
+
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to delete',
+                    'theme': 'dark_blue'
+                });
+            }
+        });
+
+
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').removeClass('showing');
+            $('#maskmap').removeClass('showing');
+        });
+
+
+
+        //$('#txtfromDate,#txttoDate').daterangepicker({
+        //    singleDatePicker: true,
+        //    showDropdowns: true,
+        //    locale: {
+        //        format: 'DD-MM-YYYY'
+        //    }
+        //});
+
+
+        $('#txtfromDate').daterangepicker({
+            autoUpdateInput: false,
+            singleDatePicker: true,
+            showDropdowns: true,
+        }, function (chosen_date) {
+            $('#txtfromDate').val(chosen_date.format('DD-MM-YYYY'));
+        });
+
+
+        $('#txttoDate').daterangepicker({
+            autoUpdateInput: false,
+            singleDatePicker: true,
+            showDropdowns: true,
+        }, function (chosen_date) {
+            $('#txttoDate').val(chosen_date.format('DD-MM-YYYY'));
+        });
+
+
+        var d = new Date();
+        var dd = d.getDate();
+        var mm = d.getMonth() + 1; //January is 0!
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+        var yyyy = d.getFullYear();
+
+        $('#txtfromDate').val(dd + '-' + mm + '-' + yyyy);
+        $('#txttoDate').val(dd + '-' + mm + '-' + yyyy);
+
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                ///   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+                //window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+                var url = '@Url.Action("ExportShoplist", "ShopList", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+                ///  $('#type').val(selectedValue);
+                ///  $('#frmExportGrid').submit();
+
+            }
+        });
+
+
+    });
+
+
+    function uploadFile(e) {
+        var fl = $(e);
+        var doc = fl.get(0);
+        var CandidateId = $("#KeyValue").val();
+        var imagename = $("#hdnshimage").val();
+        if (window.FormData !== undefined) {
+
+            var fileUpload = fl.get(0);
+            var files = fileUpload.files;
+            if (files[0].size <= 2048000) {
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+                $.ajax({
+                    url: '@Url.Action("FileFileUploadforShop", "ShopList")' + '?shopimagename=' + imagename,
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    async: false,
+                    success: function (result) {
+                        if (result != "error") {
+                            var data = result;
+                            if (data == "Success") {
+
+                            }
+
+                        }
+                        else {
+
+                        }
+
+                    },
+                    error: function (err) {
+
+                    }
+                });
+            }
+            else {
+                jAlert("The file size shoud not be more than 2 MB.");
+
+            }
+        } else {
+            alert("FormData is not supported.");
+
+        }
+    }
+
+
+
+
+    function OpenShopImage(imgfile) {
+
+        $('.image').attr({
+            'src': imgfile
+        });
+        $('#mask').addClass('showing');
+    }
+
+    function onCompleteModifyshop() {
+        //alert();
+        $("#myModal").modal('hide');
+        alert('success');
+    }
+
+
+    function OpenShopforEdit(shopid) {
+
+        var surl = '@Url.Action("ShopListModify", "ShopList")';
+        var usr = $("#drpuser").val();
+        $.ajax({
+            url: surl,
+            async: false,
+            data: {
+                ShopUniqueId: shopid
+
+            },
+            type: 'POST',
+            success: function (data) {
+                $("#divModalBody").html(data);
+                $("#myModal").modal('show');
+            },
+            error: function () {
+            },
+
+        });
+
+    }
+
+
+
+
+    function OpenShopfordelete(shopid) {
+        // alert('');
+        if ($("#drpuser").val() != '') {
+            var surl = '@Url.Action("DeleteShopList", "ShopList")';
+            var usr = $("#drpuser").val();
+            $.ajax({
+                url: surl,
+                async: false,
+                data: {
+
+                    ShopUniqueId: shopid
+
+                },
+                type: 'POST',
+
+                success: function (data) {
+
+                    if (data == true) {
+
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'Data Deleted Successfully',
+                            'theme': 'dark_blue'
+                        });
+                        var surl = '@Url.Action("Getshoplist", "ShopList")';
+                        $.ajax({
+                            url: surl,
+                            async: false,
+                            data: {
+                                selectedusrid: usr,
+                                Fromdate: $('#txtfromDate').val(),
+                                Todate: $('#txttoDate').val()
+                            },
+                            type: 'POST',
+
+                            success: function (data) {
+
+                                $('#refreshgrid').html(data);
+                            },
+                            error: function () {
+
+                            },
+                        });
+
+
+                    }
+                },
+
+
+                error: function () {
+
+                },
+
+
+            });
+        }
+
+        else {
+
+            $.jAlert({
+                'title': 'Alert!',
+                'content': 'Select User to delete',
+                'theme': 'dark_blue'
+            });
+        }
+
+    }
+
+    function OpenShopforLocation(lat, long, locname) {
+        $('#maskmap').addClass('showing');
+        var latlng = new google.maps.LatLng(lat, long);
+
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            zoom: 15
+
+
+        });
+        var content = '<div id="iw_container">' +
+
+        '<div class="iw_title"></div>' +
+        '<div class="iw-content"><b>Location</b>: ' + locname +
+
+
+        '</div>';
+
+
+        var infowindow = new google.maps.InfoWindow({
+            content: content,
+
+        });
+
+
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: "Porcelain Factory of Vista Alegre"
+        });
+
+
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, marker);
+        });
+
+        // Event that closes the Info Window with a click on the map
+        google.maps.event.addListener(map, 'click', function () {
+            infowindow.close();
+        });
+
+
+
+    }
+
+    //Rev Debashis 0025198
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+    //End of Rev Debashis 0025198
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["selectedusrid"] = $("#drpuser").val();
+        e.customArgs["Fromdate"] = $('#txtfromDate').val();
+        e.customArgs["Todate"] = $('#txttoDate').val();
+        e.customArgs["StateId"] = $('#drpstate').val();
+        //Rev Debashis 0025198
+        e.customArgs["BranchId"] = BranchId;
+        //End of Rev Debashis 0025198
+        e.customArgs["Ispageload"] = "1";
+    }
+
+    //Rev Debashis 0025198
+    var BranchId = [];
+    var Branch_Id = "";
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
+
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+
+        BranchId = [];
+        Branch_Id = "";
+    }
+
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+    //End of Rev Debashis 0025198
+
+</script>
+<style>
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+    #tblshoplist thead > tr > th, #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+    .mx324 {
+       width:324px !important;
+    }
+
+    /*#tblshoplist {
+        width:200% !important;
+    }
+    .scrooler {
+        width:100%;
+        overflow-x:scroll;
+    }*/
+</style>
+<div class="breadCumb">
+    <span>Shop List</span>
+</div>
+<div class="container">
+    <div class="form_main backBox px-3">
+        
+        @using (Html.BeginForm("GetSalesmanLocation", "TrackSalesman", FormMethod.Post, new { @id = "fromsalesman" }))
+        {
+            <div class="row pt-3">
+                @*Rev Debashis 0025198*@
+                    <div class="col-md-2">
+                        <label>Head Branch : </label>
+                        <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                            @foreach (var item in Model.modelbranch)
+                            {
+                                <option value="@item.BRANCH_ID">@item.CODE</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Branch </label>
+                        <div>
+                            @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                        </div>
+                    </div>
+                    @*End of Rev Debashis 0025198*@
+                    <div class="col-md-2">
+                        <label>User List</label>
+                        <div>
+                            <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
+
+
+                                <option value=0>ALL</option>
+                                @foreach (var item in Model.userlsit)
+                                {
+                                    if (Model.selectedusrid == item.UserID)
+                                    {
+                                        <option value="@item.UserID" selected="selected">@item.username</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.UserID">@item.username</option>
+
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>State</label>
+                        <div id="dtdesg2">
+                            <select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass">
+
+                                <option value="">Select</option>
+
+                                @foreach (var item in Model.states)
+                                {
+                                    if (Model.StateId == item.ID)
+                                    {
+                                        <option value="@item.ID" selected="selected">@item.StateName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@item.ID">@item.StateName</option>
+                                    }
+                                }
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>From Date</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.Fromdate, new { @class = "form-control", @id = "txtfromDate" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>To Date</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true })
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-4" style="padding-top: 23px;">
+                        <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                        <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                            <option value="0">Export to</option>
+
+                            <option value="2">XLSX</option>
+
+                        </select>
+                    </div>
+                </div>
+
+        }
+
+        <br />
+
+        @*<div class="scrooler">
+                <div id="refreshgrid">
+
+                </div>
+            </div>*@
+
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                    //Rev Debashis 0025198
+                    //Html.RenderAction("Getshoplist", "ShopList", new { StateId = Model.StateId, selectedusrid = Model.selectedusrid, Fromdate = Model.Fromdate, Todate = Model.Todate, Ispageload = "0" });
+                    Html.RenderAction("Getshoplist", "ShopList", new { BranchId=Model.BranchId,StateId = Model.StateId, selectedusrid = Model.selectedusrid, Fromdate = Model.Fromdate, Todate = Model.Todate, Ispageload = "0" });
+                    //End of Rev Debashis 0025198
+               // Html.RenderPartial("PartialShopListgridview");
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="mask">
+    <div id="boxes">
+        <div class="inner">
+            <div id="dialog" class="window">
+                <a href="#" class="close"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <div id="popupfoot">
+                    
+                    
+                     <img src="#" class="image" alt="No Image Found"></img>
+                
+                
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modify Shop</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                @*Rev Pallab*@
+                @*<div id="divModalBody" style="padding-left:20px;">*@
+                  <div id="divModalBody" style="">
+                @*Rev end Pallab*@
+                    </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div id="maskmap">
+    <div id="boxesmap">
+        <div class="inner">
+            <div id="dialogmap" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfootmap">
+                 
+                    <div id="map" style="width: 100%; height: 450px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

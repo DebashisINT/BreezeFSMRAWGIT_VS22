@@ -1,0 +1,530 @@
+﻿@model  MyShop.Models.DistanceDate
+
+
+@{
+    ViewBag.Title = "Monthly Report Distance List";
+}
+
+
+@*<script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>*@
+<script src="~/assests/js/jquery-ui.min.js"></script>
+<link href="~/Content/media.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(function () {
+
+        $('body').on('click', '#btnshow', function () {
+
+            //   var month = $("#tdmonth").val();
+            //Get the selected year value
+            // var year = $("#tdyear").val();
+
+            var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+
+            //alert(iMonth + '' + iYear);
+
+            $("#divLoader").show();
+
+            var surl = '@Url.Action("GetDistanceDetails", "MonthlyReportDistance")';
+
+            $.ajax({
+                url: surl,
+                async: false,
+                data: {
+                    Month: month,
+                    Year: year
+                },
+                type: 'POST',
+
+                success: function (data) {
+
+                    // alert(data);
+                    if (data == 'nodata') {
+                        //  alert('No dat to be displayed', "Alert!");
+                    }
+                    else {
+
+                        $('#refreshgrid').html(data);
+
+                    }
+                    $("#divLoader").hide();
+                },
+                error: function () {
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'No data to be displayed',
+                        'theme': 'dark_blue'
+                    });
+                    $("#divLoader").hide();
+                },
+
+
+            });
+
+
+        });
+
+
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportDistancelist", "MonthlyReportDistance", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+                var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
+
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+
+                $("#divLoader").show();
+                var surl = '@Url.Action("GetDistanceDetails", "MonthlyReportDistance")';
+                $.ajax({
+                    url: surl,
+                    async: true,
+                    data: {
+
+                        Month: month,
+                        Year: year
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        // alert(data);
+                        if (data == 'nodata') {
+                            //  alert('No dat to be displayed', "Alert!");
+                        }
+                        else {
+                            $('#refreshgrid').html(data);
+
+                        }
+                        $("#divLoader").hide();
+                    },
+                    error: function () {
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'No data to be displayed',
+                            'theme': 'dark_blue'
+                        });
+                        $("#divLoader").hide();
+                    },
+
+                });
+            };
+
+        });
+
+
+
+    });
+
+    function OpenDistanceCalculation(userid) {
+
+        var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
+        var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+        // alert(month);
+        // alert(userid + '-' + month + '-' + year);
+
+        var s = daysInMonth(month, year)
+
+        ///alert(s);  
+
+        var n = '';
+
+          
+        //for (var i = 1; i <= s; i++) {      
+        //    if (i == s) {
+        //        n = '1';
+        //    }
+        //}
+          
+       
+        for(var i=1;i<=s;i++)
+        {
+            if (i == 1)
+            {
+              //  alert();
+              
+                $("#divLoader").show();
+              
+            }
+            if (i.toString().length == 1)
+            {
+                i = '0' + i;
+            }
+
+            if (month.toString().length == 1) {
+                month = '0' + month;
+            }
+
+            var date=i + '-' + month+'-'+year
+            // alert(i + '-' + month+'-'+year)
+            if (i == s)
+            {
+                n = '1';
+                $("#divLoader").hide();
+            }
+           
+            GenerateDrivingdistance(userid, date);
+        }
+       
+        // alert();
+
+        if (n == '1') {
+
+            var surl = '@Url.Action("GetDistanceDetails", "MonthlyReportDistance")';
+
+            $.ajax({
+
+                url: surl,
+                async: false,
+                data: {
+                    Month: month,
+                    Year: year
+                },
+
+                type: 'POST',
+
+                success: function (data) {
+
+                    // alert(data);
+                    if (data == 'nodata') {
+
+                        //  alert('No dat to be displayed', "Alert!");
+
+                    }
+                    else {
+
+                      //  alert(data);
+                        $('#refreshgrid').html('');
+                        $('#refreshgrid').html(data);
+
+
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'Distance updated Successfully for ' + $("#tdyear").val(),
+                            'theme': 'dark_blue'
+                        });
+
+
+                      
+
+                    }
+                    
+                }
+            });
+
+        }
+
+
+    }
+
+    function daysInMonth(month, year) {
+
+        // alert(month, year);
+        return new Date(year, month, 0).getDate();
+    }
+
+</script>
+
+
+<script>
+
+    function GenerateDrivingdistance(usrid, date) {
+
+        /// alert(usrid+'-'+date);
+      
+        var Url = '@Url.Action("GetSalesmanLocation", "MonthlyReportDistance")'
+
+        $.ajax({
+            url: Url,
+            async: false,
+            type: 'POST',
+            data: {
+
+                selectedusrid: usrid,
+                Date: date
+
+            },
+            error: function () {
+                $('#info').html('<p>An error has occurred</p>');
+            },
+
+            success: function (markers) {
+
+                if (markers != 'nodata') {
+
+                    var directionsDisplay;
+                    var directionsService = new google.maps.DirectionsService();
+
+                    directionsDisplay = new google.maps.DirectionsRenderer(
+                        //{
+                        //suppressMarkers: true
+                        //}
+                        );
+
+                    var infoWindow = new google.maps.InfoWindow();
+
+                    var waypts = [];
+
+                    var latlng = new google.maps.LatLng(28.535516, 77.391026);
+                    // var latlng = new google.maps.LatLng(lat, long);
+
+
+                    map = new google.maps.Map(document.getElementById('map'), {
+                        // center: latlng,
+                        zoom: 16,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+
+                    });
+
+                    if (markers.Fullresponse != null) {
+
+                        directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+
+                        var route = $.parseJSON(markers.Fullresponse).routes[0];
+                        var infowindow = new google.maps.InfoWindow();
+                        var drivingdistancesave = '';
+                        var drivingdistance = '';
+
+                        var distance = 0.0000;
+                        var distancecount = 0;
+
+                        for (var i = 0; i < route.legs.length; i++) {
+                            var routeSegment = i + 1;
+
+                            var x = route.legs[i].distance.text;
+                            if (x.includes('km')) {
+                                distance = parseFloat(x.replace('km', '').trim());
+                            }
+                            else {
+                                distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+                            }
+                            distancecount = distancecount + distance;
+
+                            if (i == 0) {
+                                drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+                            }
+                            else {
+                                drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                            }
+                            drivingdistance = drivingdistance + drivingdistancesave;
+                        }
+
+                        drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+                        drivingdistance = drivingdistance + drivingdistancesave;
+                        drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                    }
+
+                    else {
+                        directionsDisplay = new google.maps.DirectionsRenderer({ map: map, suppressMarkers: true, suppressInfoWindows: false });
+                        for (i = 0; i < markers.salesmanarea.length; i++) {
+                            var data = markers.salesmanarea[i];
+                            waypts.push({
+                                location: data.location,
+                                stopover: true,
+                            });
+                        }
+
+                        var start = markers.latlanLogin;
+                        var end = markers.latlanLogout;
+
+                        var request = {
+                            origin: start,
+                            destination: end,
+                            waypoints: waypts,
+                            optimizeWaypoints: true,
+                            travelMode: google.maps.TravelMode.DRIVING
+                        };
+
+
+                        var infowindow_forRoutedMarker = new google.maps.InfoWindow({
+                            content: '22'
+                        });
+
+                        directionsService.route(request, function (response, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+
+                                directionsDisplay.setDirections(response);
+
+                                var route = response.routes[0];
+                                var infowindow = new google.maps.InfoWindow();
+                                var drivingdistancesave = '';
+                                var drivingdistance = '';
+
+                                var distance = 0;
+                                var distancecount = 0;
+
+                                for (var i = 0; i < route.legs.length; i++) {
+                                    var routeSegment = i + 1;
+                                    var x = route.legs[i].distance.text;
+
+                                    if (x.includes('km')) {
+                                        distance = parseFloat(x.replace('km', '').trim());
+                                    }
+                                    else {
+                                        distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+                                    }
+                                    distancecount = distancecount + distance;
+                                    if (i == 0) {
+                                        drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+                                    }
+                                    else {
+                                        drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                                    }
+                                    drivingdistance = drivingdistance + drivingdistancesave;
+
+                                }
+
+                                drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+                                drivingdistance = drivingdistance + drivingdistancesave;
+                                drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                                SubmitRequestedLocation(drivingdistance, JSON.stringify(response), date, usrid);
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    function SubmitRequestedLocation(datloaction, responseget, date, usrid) {
+
+        var Url = '@Url.Action("InserSalesmanLocationforMonthlyReport", "MonthlyReportDistance")'
+        var data = { "locationdetail": datloaction, selectedusrid: usrid, Date: date, response: responseget };
+        $.ajax({
+            type: "POST",
+            url: Url,
+          
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (r) {
+
+            }
+        });
+
+
+    }
+</script>
+
+<script>
+    $(function () {
+        $('#tdyear').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'MM yy',
+
+            onClose: function () {
+                var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+            },
+
+            beforeShow: function () {
+                if ((selDate = $(this).val()).length > 0) {
+                    iYear = selDate.substring(selDate.length - 4, selDate.length);
+                    iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), $(this).datepicker('option', 'monthNames'));
+                    $(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+                    $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+                }
+            }
+        });
+    });
+
+</script>
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    /*table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+        opacity: 0.8 !important;
+        color: #fff !important;
+    }*/
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>Monthly Report Distance List</span>
+</div>
+<div class="container">
+    <div class="backBox mt-5 p-3">
+        <div class="form_main">
+            <div class="row  mb-3">
+                <div class="col-sm-3">
+                    <label>Month/Year</label>
+                    <div>
+                        <input type="text" id="tdyear" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-sm-4" style="padding-top: 23px">
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+
+
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+
+                        <option value="2">XLSX</option>
+
+                    </select>
+                </div>
+            </div>
+            <br />
+
+            <div id="refreshgrid"></div>
+        </div>
+    </div>
+</div>
+<div class="row" style="display:none;">
+    <div class="col-md-8">
+        <div id="map" style="width: 100%; height: 600px;"></div>
+    </div>
+    <div class="col-md-4">
+        <div id="directions_panel" style="background-color: #fffad3;"></div>
+    </div>
+</div>
+
+
+<div id="divLoader" style="margin:0 auto;color:black;text-align:center;display:none;">
+    <table id="imgLoader" border="0" style="position: absolute; left: 446.5px; top: 127px; z-index: 30000;border:none;background-color:transparent;">
+        <tbody>
+            <tr>
+                <td>
+
+                    <img src='~/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif3telvlrJn61kkLXDQA0ViQdDVJWifk"></script>

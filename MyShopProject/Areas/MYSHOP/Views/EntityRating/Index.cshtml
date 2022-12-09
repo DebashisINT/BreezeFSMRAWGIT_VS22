@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Rating configuration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function AddEntityRating() {
+        var url = "/MYSHOP/EntityRating/masterSetting?ActionType=ADD&Ratingcode=0&EditFlag=1&RatingId=0";
+        window.location.href = url;
+    }
+
+    function EditClick(id) {
+        var url = "/MYSHOP/EntityRating/masterSetting?ActionType=EDIT&Ratingcode=" + id + "&EditFlag=1&RatingId=0";
+        window.location.href = url;
+    }
+
+    function DeleteClick(code) {
+        jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+            var apply = {};
+            apply.ActionType = "Delete";
+            apply.code = code;
+
+            $.ajax({
+                type: "POST",
+                url: "/EntityRating/RatingDelete",
+                data: JSON.stringify(apply),
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    //if (response.response_msg == "Success") {
+                    jAlert(response.response_msg, 'Alert')
+                    ListGrid.Refresh();
+                    ListGrid.Refresh();
+
+                }
+            });
+        });
+    }
+
+</script>
+<div class="breadCumb">
+    <span>Rating Configuration</span>
+</div>
+
+
+
+
+<div class="container">
+    <div class="backBox p-3 mt-5">
+        <div class="col-md-12 mb-3">
+            <button type="button" onclick="AddEntityRating();" id="btnSearch" class="btn btn-success">Add New</button>
+        </div>
+        <div class="col-md-12">
+
+            @{
+                Html.RenderAction("_PartialMasterSettingGrid", "EntityRating");
+            }
+
+        </div>
+    </div>
+</div>

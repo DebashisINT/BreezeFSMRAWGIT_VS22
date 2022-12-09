@@ -1,0 +1,207 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridLeaveDetailsDB";
+    settings.KeyFieldName = "ID";
+    settings.CallbackRouteValues = new { Action = "LeaveDetailslistGridDB", Controller = "LeaveApplyList" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CREATED_DATE";
+        x.Caption = "Apply Date";
+        x.VisibleIndex = 1;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMP_NAME";
+        x.Caption = "Applied By";
+        x.VisibleIndex = 2;
+        x.Width = 220;
+    });
+
+    //Rev Debashis 0024681
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPID";
+        x.Caption = "Employee Code";
+        x.VisibleIndex = 3;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPDESG";
+        x.Caption = "Designation";
+        x.VisibleIndex = 4;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACTNO";
+        x.Caption = "Contact Number";
+        x.VisibleIndex = 5;
+        x.Width = 120;
+    });
+    //End of Rev Debashis 0024681
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LEAVE_START_DATE";
+        x.Caption = "From Date";
+        x.VisibleIndex = 6;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LEAVE_END_DATE";
+        x.Caption = "To Date";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    //Rev Debashis 0024681
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPLIED_TIME";
+        x.Caption = "Applied time";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+    });
+    //End of Rev Debashis 0024681
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LeaveType";
+        x.Caption = "Leave Type";
+        x.VisibleIndex = 9;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LEAVE_REASON";
+        x.Caption = "Remarks";
+        x.VisibleIndex = 10;
+        x.Width = 400;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CURRENT_STATUS";
+        x.Caption = "Status";
+        x.VisibleIndex = 11;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVE_EMP_NAME";
+        x.Caption = "Approve/Reject By";
+        x.VisibleIndex = 12;
+        x.Width = 200;
+    });
+
+    //Rev Debashis 0024681
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AEMPID";
+        x.Caption = "Employee Code";
+        x.VisibleIndex = 13;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AEMPDESG";
+        x.Caption = "Designation";
+        x.VisibleIndex = 14;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ACONTACTNO";
+        x.Caption = "Contact Number";
+        x.VisibleIndex = 15;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVEREJECT_DATE";
+        x.Caption = "Approve/Reject date";
+        x.VisibleIndex = 16;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVEREJECT_TIME";
+        x.Caption = "Approve/Reject time";
+        x.VisibleIndex = 17;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVER_REMARKS";
+        x.Caption = "Approver Remarks";
+        x.VisibleIndex = 18;
+        x.Width = 220;
+    });
+    //End of Rev Debashis 0024681
+
+    
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LEAVE_USERID";
+        x.Caption = "LEAVE_USERID";
+        x.VisibleIndex = 20;
+        x.Width = 0;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVAL_USER";
+        x.Caption = "APPROVAL_USER";
+        x.VisibleIndex = 21;
+        x.Width = 0;
+    });
+
+}).Bind(Model).GetHtml()

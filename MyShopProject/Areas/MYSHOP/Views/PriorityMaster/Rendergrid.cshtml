@@ -1,0 +1,73 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "PriorityMaster", Action = "Rendergrid" };
+    settings.KeyFieldName = "Id";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Priority";
+        column.FieldName = "PriorityName";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(80);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenPriorityforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                 "" +
+                 "<a href=\"javascript:void(0);\" onclick=\"OpenPriorityforView('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"View\"><span class='ico editColor mr-3'><i class='fa fa-eye' aria-hidden='true'></i></span></a>" +
+                  "" +
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+            );
+        });
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.False;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+
+        x.Caption = "Action";
+        x.VisibleIndex = 35;
+        //x.Width = 50;
+        //x.SetDataItemTemplateContent(c =>
+        //{floatedBtnArea
+        //    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ShopCode")) + "')\">Modify</a>");
+        //});
+
+    });
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()
+
+
+
+
+

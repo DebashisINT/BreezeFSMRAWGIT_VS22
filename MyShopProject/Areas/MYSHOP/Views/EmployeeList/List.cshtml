@@ -1,0 +1,55 @@
+﻿@model IList<MyShop.Models.EmployeeHiarchyModel>
+@{
+    ViewBag.Title = "List";
+    /// Layout = "~/Views/Shared/_Layoutpage1.cshtml";
+}
+@*@section HeadResources{
+
+
+@Html.DevExpress().GetStyleSheets(
+                new StyleSheet { ExtensionSuite = ExtensionSuite.Editors, ExtensionType = ExtensionType.TreeList },
+                new StyleSheet { ExtensionSuite = ExtensionSuite.Editors, ExtensionType = ExtensionType.DropDownEdit },
+                new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList, ExtensionType = ExtensionType.Button },
+                new StyleSheet { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+                new StyleSheet { ExtensionSuite = ExtensionSuite.Editors },
+                new StyleSheet { ExtensionSuite = ExtensionSuite.HtmlEditor }
+    )
+
+
+
+@Html.DevExpress().GetScripts(
+            new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+            new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
+            new Script { ExtensionSuite = ExtensionSuite.GridView },
+            new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+            new Script { ExtensionSuite = ExtensionSuite.Editors },
+            new Script { ExtensionSuite = ExtensionSuite.Chart },
+            new Script { ExtensionSuite = ExtensionSuite.Report },
+            new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+            new Script { ExtensionSuite = ExtensionSuite.TreeList }
+
+    )
+
+
+
+}*@
+
+<script>
+
+    function OnCustomshoplistClick(shopid) {
+        var dt = { "selectedusrid": shopid };
+        $.post('@Url.Action("GetShopList", "EmployeeList")', dt, function (data, status) {
+
+        });
+    }
+</script>
+
+
+<div class="container pt-5" >
+
+    @*@Html.Action("_PartialEmployeeList")*@
+    <div class="">
+        @Html.Partial("_PartialEmployeeList", Model)
+    </div>
+        
+</div>

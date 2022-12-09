@@ -1,0 +1,179 @@
+﻿@model MyShop.Models.AllhierarchyShoplist
+
+
+<script type="text/javascript">
+    $(function () {
+
+
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+
+            "ordering": false,
+            "paging": false,
+            "info": false
+        });
+
+
+
+        $("#hfTotalPageIndex").val('@Model.PageCount');
+
+
+    });
+
+
+
+
+
+
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            margin-bottom: 2px !important;
+            box-sizing: border-box;
+        }
+</style>
+
+
+<div class="clear"></div>
+<div class="x_content" style="position:relative">
+
+    <div style="position: absolute; left: 0; top: 20px;"><b>Total Shop(s): </b> @Model.Totalcount</div>
+    <div class="rTable" id="dvData">
+
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+            <thead>
+
+
+                <tr>
+
+                    <th style="width:80px;">User</th>
+                    <th style="width:100px;">Designation</th>
+                    <th style="width:100px;">Type</th>
+                    <th style="width:90px;">Shop</th>
+                    <th style="width:150px;">Address</th>
+                    <th style="width:100px;">State</th>
+
+
+                    <th style="width:80px;">Pincode</th>
+                    <th style="width:150px;">Owner</th>
+                    <th style="width:90px;">Contact</th>
+                    <th style="width:80px;">Email</th>
+                    <th style="width:110px;">Date</th>
+
+                    <th style="width:80px;">Shop Visit</th>
+                    <th style="width:80px;">Image</th>
+
+
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @if (Model.shoplist != null && Model.shoplist.Count() > 0)
+                {
+                    foreach (var item in Model.shoplist)
+                    {
+                        <tr>
+                            <td>@item.UserName</td>
+                            <td>@item.Designation</td>
+                            <td>@item.Shoptype</td>
+                            <td>@item.shop_name</td>
+
+                            <td>@item.address</td>
+                            <td>@item.StateName</td>
+                            <td>@item.pin_code</td>
+                            <td>@item.owner_name</td>
+                            <td>@item.owner_contact_no</td>
+                            <td>@item.owner_email</td>
+
+                            <td>@Convert.ToDateTime(item.Shop_CreateTime).ToString("dd-MM-yyyy") @item.time_shop</td>
+
+
+                            <td>@item.countactivity</td>
+                            <td><a href="javascript:void(0);" onclick="OpenShopImage('@item.Shop_Image')">View</a></td>
+
+
+
+
+
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+    <div class="center">
+        <div class="">
+
+
+            @*@for (int i = 1; i <= Model.PageCount; i++)
+            {
+                if (i != Model.CurrentPageIndex)
+                {
+                    <a href="javascript:PagerClickMain(@i);">@i</a>
+                }
+                else
+                {
+                    <a class="active">@i</a>
+                }
+
+            }*@
+
+
+            <!-- pager -->
+            @if (Model.pager !=null && Model.pager.EndPage > 1 )
+            {
+                <ul class="pagination">
+                    @if (Model.pager.CurrentPage > 1)
+                    {
+                        <li>
+                            <a href="javascript:PagerClickMain(1)">First</a>
+                        </li>
+                        <li>
+                            <a href="javascript:PagerClickMain(@(Model.pager.CurrentPage - 1))">Previous</a>
+                        </li>
+                    }
+
+                    @for (var page = Model.pager.StartPage; page <= Model.pager.EndPage; page++)
+                    {
+                        <li class="@(page == Model.pager.CurrentPage ? "active" : "")">
+                            <a href="javascript:PagerClickMain(@page)">@page</a>
+                        </li>
+                    }
+
+                    @if (Model.pager.CurrentPage < Model.pager.TotalPages)
+                    {
+                        <li>
+                            <a href="javascript:PagerClickMain(@(Model.pager.CurrentPage + 1))">Next</a>
+                        </li>
+                        <li>
+                            <a href="javascript:PagerClickMain()@(Model.pager.TotalPages))">Last</a>
+                        </li>
+                    }
+                </ul>
+            }	
+
+
+        </div>
+    </div>
+</div>

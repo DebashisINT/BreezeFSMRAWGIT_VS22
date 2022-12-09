@@ -1,0 +1,90 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "DynamicReport", Action = "ShowGrid" };
+    settings.KeyFieldName = "ID";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    int visibleindex = 1;
+
+    System.Data.DataTable dt = Model.Tables[0];
+
+    if (dt != null)
+    {
+
+
+        if (dt.Rows.Count > 0)
+
+            foreach (System.Data.DataRow dr in dt.Rows)
+            {
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = Convert.ToString(dr["LAYOUT_HEADER"]);
+                    x.Caption = Convert.ToString(dr["LAYOUT_HEADER"]);
+                    visibleindex = visibleindex + 1;
+                    x.Width = 250;
+                    if (Convert.ToString(dr["LAYOUT_TYPE"]) == "edit")
+                    {
+                        x.ColumnType = MVCxGridViewColumnType.TextBox;
+                        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+
+                    }
+                    else if (Convert.ToString(dr["LAYOUT_TYPE"]) == "check" || Convert.ToString(dr["LAYOUT_TYPE"]) == "dropdown" || Convert.ToString(dr["LAYOUT_TYPE"]) == "radio")
+                    {
+                        x.ColumnType = MVCxGridViewColumnType.DropDownEdit;
+                        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+
+                    }
+                    else if (Convert.ToString(dr["LAYOUT_TYPE"]) == "date")
+                    {
+                        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+                        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";                  
+                        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+                    }
+
+                    x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                });
+            }
+
+
+
+    }
+
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model.Tables[1]).GetHtml()
+
+
+
+
+
+
+
+

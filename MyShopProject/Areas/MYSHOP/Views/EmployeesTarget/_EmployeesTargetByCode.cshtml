@@ -1,0 +1,148 @@
+﻿@using MyShop.Models;
+@model EmployeesTargetSetting
+
+<style>
+    .pdbot5 {
+        padding-bottom: 10px;
+    }
+    .disabled {
+        background: #f5f5f5 !important;
+        border: 1px solid #ccc !important;
+    }
+    .ptop34 {
+        padding-top: 34px;
+    }
+</style>
+
+<input type="hidden" value="0" id="hdnEmployeeTargetSettingID" />
+<input type="hidden" value="@Model.EmployeeCode" id="hdnEmployeeCode" />
+<input type="hidden" value="@Model.SettingType" id="hdnSettingType" />
+
+<div class="mainAreaPopUp clearfix pTop10" style="background-color: white;">
+    <div class="row">
+        <div class="col-lg-3 pdbot5">EMP CODE : <b>@Model.EmployeeCode</b></div>
+        <div class="col-lg-3 pdbot5">NAME  : <b>@Model.Employeename</b></div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-3"> 
+            <label> Year</label>
+            <select id="drpYear" class="form-control">
+                <option value="@DateTime.Now.Year">@DateTime.Now.Year</option>
+                <option value="@(DateTime.Now.Year + 1)">@(DateTime.Now.Year + 1)</option>
+            </select>
+        </div>
+        @if (Model.SettingType != "Visits")
+        {
+            <div class="OrderCollectionSec">
+                <div class="col-lg-3">
+                    <label>Brand</label>
+                    @Html.DropDownList("ddlBrand", new SelectList(Model.BrandList, "BrandID", "BrandName"), new { @id = "ddlBrand", @class = "form-control" })
+                </div>
+                <div class="col-lg-3">
+                    <label>Category</label>
+                    @Html.DropDownList("ddlCategory", new SelectList(Model.CategoryList, "CategoryID", "CategoryName"), new { @id = "ddlCategory", @class = "form-control", @onChange = "GetProductItemsListByCategory()" })
+                </div>
+                <div class="col-lg-3">
+                    <label>Items</label>
+                    @Html.DropDownList("ddlItemsList", new SelectList(Model.ItemsList, "ProductID", "ProductName"), new { @id = "ddlItemsList", @class = "form-control" })
+                </div>
+            </div>
+        }
+        <div class="col-lg-3">
+            <label>Select Basis</label>
+            <select id="drpBasis" class="form-control">
+                <option value="0">Select</option>
+                <option value="Daily">Daily </option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+                <option value="Yearly">Yearly</option>
+            </select>
+        </div>
+        <div class="col-lg-3" style=" min-height: 47px;">
+            <label>Applicable from</label>
+
+            @*<input type="text" id="dtApplicablefrom">*@
+
+            @Html.DevExpress().DateEdit(
+           settings =>
+           {
+               settings.Name = "dtApplicablefrom";
+               settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+               settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+               settings.Properties.EditFormatString = "dd-MM-yyyy";
+               settings.Properties.EditFormat = EditFormat.Custom;
+               settings.Properties.UseMaskBehavior = true;
+               settings.Properties.ShowOutOfRangeWarning = false;
+               settings.ClientEnabled = true;
+           }).GetHtml()
+        </div>
+        <div class="col-lg-3" style=" min-height: 47px;">
+            <label>Valid Upto </label>
+            @*<input type="text" id="dtValidUpto">*@
+            @Html.DevExpress().DateEdit(
+           settings =>
+           {
+               settings.Name = "dtValidUpto";
+               settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+               settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+               settings.Properties.EditFormatString = "dd-MM-yyyy";
+               settings.Properties.EditFormat = EditFormat.Custom;
+               settings.Properties.UseMaskBehavior = true;
+               settings.Properties.ShowOutOfRangeWarning = false;
+               settings.ClientEnabled = true;
+           }).GetHtml()
+        </div>
+
+        <div class="divVisitisArea">
+            
+                @foreach (var item in Model.TargetTypeList)
+                {
+                    <div class="sec-Visittarget col-lg-3">
+                        <input type="hidden" class="clsTypeName" value="@item.TypeName" />
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <input type="checkbox" value="@item.EmployeesTargetSettingTypeID" class="chkEmployeesTargetSettingType" onchange="getDataRange(this)" />
+                                <label>@item.TypeName</label>
+                            </div>
+                            <div class="col-lg-12">
+                                <label>@item.TypeName Target</label>
+                                <input type="text" class="value disabled" onkeypress="return isNumberKey(event)" for-data="@item.EmployeesTargetSettingTypeID " disabled=" disabled" />
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            
+        </div>
+
+        <div class="col-lg-3 ptop34 footerarea">
+            <button type="button" onclick="InsertEmployeesTargetSetting()" class="btn btn-primary">Save</button>
+
+            <button type="button" onclick="CancelEmployeesTargetSetting()" class="btn btn-danger">Cancel</button>
+        </div>
+    </div>
+
+    <div class="row">
+
+
+
+    </div>
+
+    <div class="row">
+
+
+    </div>
+
+
+
+    <div class="scrooler mTop5">
+        <div id="refreshgrid">
+            @{
+                Html.RenderAction("GetEmployeesTargetListByCode", "EmployeesTarget", new { employeecode = Model.EmployeeCode, settingtype = Model.SettingType });
+            }
+        </div>
+    </div>
+
+</div>

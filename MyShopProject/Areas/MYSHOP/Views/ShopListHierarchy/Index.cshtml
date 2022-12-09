@@ -1,0 +1,158 @@
+﻿@model MyShop.Models.FTSEntityShoplist
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<!--Import materialize.css-->
+
+<script src="~/Scripts/Pager/pagination.js"></script>
+<script>
+
+
+   
+
+</script>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style type="text/css">
+        body {
+            font-family: Arial;
+            font-size: 10pt;
+        }
+
+        table {
+            border: 1px solid #ccc;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+            table th {
+                background-color: #B8DBFD;
+                color: #333;
+                font-weight: bold;
+            }
+
+            table th, table td {
+                padding: 5px;
+                border: 1px solid #ccc;
+            }
+
+            table, table table td {
+                border: 0px solid #ccc;
+            }
+    </style>
+
+    <style>
+        .pagination {
+            display: inline-block;
+        }
+
+            .pagination a {
+                color: black;
+                float: left;
+                padding: 6px 7px;
+                text-decoration: none;
+                transition: background-color .3s;
+                border: 1px solid #ddd;
+            }
+
+                .pagination a.active {
+                    background-color: #4CAF50;
+                    color: white;
+                    border: 1px solid #4CAF50;
+                }
+
+                .pagination a:hover:not(.active) {
+                    background-color: #ddd;
+                }
+    </style>
+</head>
+<body>
+    <div>
+        @using (Html.BeginForm("Index", "ShopListHierarchy", FormMethod.Post))
+        {
+        <h4>Customers</h4>
+        <hr />
+    <table cellpadding="0" cellspacing="0" id="myTable">
+        <tr>
+            <th>CustomerID</th>
+            <th>ContactName</th>
+            <th>City</th>
+            <th>Country</th>
+        </tr>
+
+        @foreach (FTSEntityframework.tbl_Master_shop shop in Model.shoplist)
+        {
+            <tr>
+                <td>@shop.Shop_Name</td>
+                <td>@shop.Address</td>
+                <td>@shop.Pincode</td>
+                <td>@shop.Shop_Code</td>
+            </tr>
+        }
+
+
+    </table>
+
+
+        <br />
+
+            
+              
+          <div class="center">
+  <div class="pagination">
+
+  
+      @for (int i = 1; i <= Model.PageCount; i++)
+      {
+         
+              if (i != Model.CurrentPageIndex)
+              {
+                  <a href="javascript:PagerClick(@i);">@i</a>
+              }
+              else
+              {
+                <a class="active">@i</a>
+              }
+
+      }
+
+  </div>
+</div>
+  
+            
+            
+    @*<table cellpadding="0" cellspacing="0" id="myTable">
+        <tr>
+            @for (int i = 1; i <= Model.PageCount; i++)
+            {
+                <td>
+                    @if (i != Model.CurrentPageIndex)
+                    {
+                        <a href="javascript:PagerClick(@i);">@i</a>
+                    }
+                    else
+                    {
+                        <span>@i</span>
+                    }
+                </td>
+            }
+        </tr>
+    </table>*@
+              @*<ul class="pagination pager" id="myPager"></ul>*@
+
+        <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />
+        }
+        <script type="text/javascript">
+            function PagerClick(index) {
+                document.getElementById("hfCurrentPageIndex").value = index;
+                document.forms[0].submit();
+            }
+        </script>
+    </div>
+</body>
+</html>

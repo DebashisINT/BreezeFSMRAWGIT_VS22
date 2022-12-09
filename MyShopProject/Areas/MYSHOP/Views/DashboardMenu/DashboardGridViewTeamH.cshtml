@@ -1,0 +1,179 @@
+﻿
+@model System.Data.DataTable
+
+@Html.DevExpress().GridView(
+   settings =>
+   {
+       settings.Name = "griddashboardTeamH";
+
+       settings.CallbackRouteValues = new { Controller = "DashboardMenu", Action = "DashboardGridViewTeamH" };
+       settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       settings.Settings.HorizontalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
+       settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+       //settings.Settings.VerticalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
+       //settings.Settings.VerticalScrollableHeight = 110;
+       settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+       settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+       //settings.SettingsSearchPanel.Visible = true;
+       settings.Settings.ShowFilterRow = true;
+       settings.Settings.ShowGroupPanel = false;
+       settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+       settings.Settings.ShowFooter = true;
+       settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+       settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+       settings.SettingsPager.PageSizeItemSettings.Visible = true;
+       settings.SettingsPager.PageSize = 10;
+       settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+       settings.Settings.ShowFilterRowMenu = true;
+       settings.Columns.Clear();
+
+
+       int visibleindex = 1;
+
+       if (Model != null)
+       {
+
+           double ColumnWidth = Model.Columns.Count;
+
+           if (Model.Columns.Count > 0)
+
+               foreach (System.Data.DataColumn column in Model.Columns)
+               {
+                   if (column.ColumnName == "EMPIID")
+                   {
+                       ColumnWidth = ColumnWidth - 1;
+                       //settings.Columns.Add(column.ColumnName,column.ColumnName).SetDataItemTemplateContent(c =>
+                       //{
+                       //    Html.DevExpress().HyperLink(lnkSettings =>
+                       //    {
+                       //        lnkSettings.NavigateUrl = String.Format("javascript:OnShopShowClick();");
+                       //        lnkSettings.Properties.Text = "Show";
+                       //    }).Render();
+                       //});
+
+                       settings.Columns.Add(x =>
+                       {
+                           x.FieldName = column.ColumnName;
+                           x.Caption = column.ColumnName;
+                           if (ColumnWidth <= 5)
+                           {
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(0);
+                           }
+                           else
+                           {
+                               x.Width = System.Web.UI.WebControls.Unit.Pixel(0);
+                           }
+                           x.Visible = false;
+                           x.VisibleIndex = -visibleindex;
+
+                           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                       });
+
+                       visibleindex = visibleindex + 1;
+
+
+                   }
+                   else
+                   {
+                       var windowWidth = ViewBag.WindowSize;
+                       settings.Columns.Add(x =>
+                       {
+                           x.FieldName = column.ColumnName;
+                           x.Caption = column.ColumnName;
+                           x.VisibleIndex = visibleindex;
+                           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                           visibleindex = visibleindex + 1;
+                           if (ColumnWidth == 10)
+                           {
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+                           }
+                           else if (ColumnWidth == 6)
+                           {
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(16.66);
+                           }
+                           else if (ColumnWidth == 5)
+                           {
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                           }
+                           else if (ColumnWidth == 4)
+                           {
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+                           }
+                           else if (ColumnWidth == 8)
+                           {
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(12.5);
+                           }
+                           else
+                           {
+                               //x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+                           }
+
+                           if (column.DataType.FullName == "System.Decimal" || column.DataType.FullName == "System.Int32" || column.DataType.FullName == "System.Int64")
+                           {
+                               x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                               x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                               x.PropertiesEdit.DisplayFormatString = "0.00";
+                           }
+                           else if (column.DataType.FullName == "System.DateTime")
+                           {
+                               x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                               x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           }
+
+                       });
+
+                   }
+
+               }
+
+           settings.HtmlDataCellPrepared += (s, e) =>
+           {
+
+               if (e.DataColumn.Caption == "Shops Visited")
+               {
+                   MVCxGridView grid = (MVCxGridView)s;
+                   var ID = (int)grid.GetRowValues(e.VisibleIndex, new string[] { "Shops Visited" });
+                   var EMPID = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "EMPID" });
+                   var EMPNAME = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Employee" });
+                   var buttonHtml = "";
+                   if (ID.ToString() != "0")
+                   {
+                       buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"infoButton\" onclick=\"shopclickTeam('" + EMPID + "','" + EMPNAME + "');\" title=\"Show Shop Details\">{0}</a>", ID);
+                   }
+                   else
+                   {
+                       buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", ID);
+                   }
+                   e.Cell.Text = buttonHtml;
+               }
+
+
+           };
+
+           settings.DataBound += (s, e) =>
+           {
+
+               MVCxGridView grid = (MVCxGridView)s;
+               foreach (GridViewDataColumn c in grid.Columns)
+               {
+                   if ((c.FieldName.ToString()).StartsWith("EMPID"))
+                   {
+                       c.Visible = false;
+                   }
+               }
+           };
+       }
+
+       settings.ClientSideEvents.EndCallback = "griddashboardEndcallback";
+
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Shops Visited").DisplayFormat = "Total: {0}";
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Order Value").DisplayFormat = "Total: {0}";
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Collection Amt.").DisplayFormat = "Total: {0}";
+
+   }).Bind(Model).GetHtml()
+

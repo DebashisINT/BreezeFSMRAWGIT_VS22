@@ -1,0 +1,71 @@
+﻿
+@Html.DevExpress().GridLookup(
+    settings =>
+    {
+        settings.Properties.Caption = "";
+        settings.Properties.CaptionCellStyle.CssClass = "hide";
+        settings.Name = "ChannelGridLookup";
+        settings.KeyFieldName = "ch_id";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Properties.ClientInstanceName = "ChannelGridLookup";
+        settings.GridViewClientSideEvents.SelectionChanged = "ChannelSelectionChanged";
+        settings.Properties.ClientSideEvents.ValueChanged = "ChannelSelectionChanged";
+        settings.GridViewClientSideEvents.BeginCallback = "ChannelStartCallback";
+
+        settings.Properties.ClientSideEvents.ValueChanged = "ChannelLookupValChange";
+        settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+        settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.None;
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ch_Channel";
+            column.Caption = "Channel";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(85);
+        });
+
+        settings.Properties.Caption = " ";
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+        settings.Properties.MultiTextSeparator = ", ";
+        settings.Properties.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+        settings.GridViewProperties.CallbackRouteValues = new { Controller = "MasterPopulate", Action = "GetChannelList" };
+        settings.GridViewProperties.Settings.ShowFilterRow = true;
+        settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+        settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+        {
+
+            ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+            Html.DevExpress().Button(btnSettings =>
+            {
+                btnSettings.Name = "btnDeSelectAllChannel";
+                btnSettings.UseSubmitBehavior = false;
+                btnSettings.Text = "DeSelect All";
+                btnSettings.ClientSideEvents.Click = "DeSelectAllChannelGridLookup";
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+            ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+            Html.DevExpress().Button(btnSettings =>
+            {
+                btnSettings.Name = "btnSelectAllChannel";
+                btnSettings.UseSubmitBehavior = false;
+                btnSettings.Text = "Select All";
+                btnSettings.ClientSideEvents.Click = "SelectAllChannelGridLookup";
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+        });
+
+        settings.DataBound = (sender, e) =>
+        {
+            var gridLookup = (MVCxGridLookup)sender;
+            gridLookup.GridView.Width = 310;
+        };
+
+    }).BindList(Model).GetHtml()

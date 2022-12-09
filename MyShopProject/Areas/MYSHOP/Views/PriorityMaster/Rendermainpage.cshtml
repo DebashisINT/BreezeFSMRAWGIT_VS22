@@ -1,0 +1,261 @@
+﻿@model MyShop.Models.PriorityMasterModel
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<script>
+    var is_pageload = "0";
+    $(function () {
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportMeetingDetailsReport", "PriorityMaster", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue) + "&IsPageload=" + IsPageload;
+            }
+        });
+    });
+
+    var IsPageload = 1;
+    function OnBeginCallback(s, e) {
+        IsPageload = 0;
+        e.customArgs["ispageload"] = "0";
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+    }
+
+
+    function ClearData() {
+        $("#hdnPriorityID").val('');
+        $("#txtPriority").val('');
+        $("#btnSaveExit").removeClass('hide');
+        $("#btnSaveNew").removeClass('hide');
+    }
+
+    function OpenPriorityforEdit(val) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetPriority", "PriorityMaster")",
+            data: { PriorityID: val },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $("#hdnPriorityID").val(val);
+                $("#txtPriority").val(data);
+                $("#btnSaveExit").removeClass('hide');
+                $("#btnSaveNew").addClass('hide');
+                $('#myModal').modal('show');
+            }
+        });
+    }
+
+    function OpenPriorityforView(val) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("GetPriority", "PriorityMaster")",
+            data: { PriorityID: val },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+                $("#hdnPriorityID").val(val);
+                $("#txtPriority").val(data);
+
+                $("#btnSaveExit").addClass('hide');
+                $("#btnSaveNew").addClass('hide');
+                $('#myModal').modal('show');
+            }
+        });
+    }
+
+    function OnClickDeleteForm(val) {
+        var url = '/PriorityMaster/DeletePriority/';
+
+        jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+            if (ret == true) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'PriorityID': val }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "Delete Succesfully.") {
+                            jAlert("Successfully Deleted.");
+                            ListGrid.Refresh();
+                            ListGrid.Refresh();
+                        }
+                        else {
+                            jAlert(response);
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    }
+
+    function AddPriority(val) {
+        if ($("#txtPriority").val() != "") {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("AddPriority", "PriorityMaster")",
+                data: { PriorityID: $("#hdnPriorityID").val(), PriorityName: $("#txtPriority").val() },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    if (data == "Save successfully." || data == "Update successfully.") {
+                        $("#hdnPriorityID").val('');
+                        $("#txtPriority").val('');
+                        jAlert(data);
+                        if (val == "Exit") {
+                            $('#myModal').modal('hide');
+                        }
+                        ListGrid.Refresh();
+                        ListGrid.Refresh();
+                    }
+                    else {
+                        jAlert(data);
+                    }
+                }
+            });
+        }
+        else {
+            jAlert("Please enter priority.");
+        }
+    }
+</script>
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    label {
+        font-weight: 500;
+    }
+</style>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<div class="">
+    <div class="">
+        <div class="row mt-2 mb-3">
+            <div class="col-md-3 col-lg-4 pad-md-18">
+                <label></label>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                    Add Priority
+                </button>
+                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="form_main backBox p-3">
+        <div style="clear: both;"></div>
+        <div class="">
+            <div id="refreshgridsalessummary">
+                @{
+                    Html.RenderAction("Rendergrid", "PriorityMaster", new { ispageload = "0" });
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade pmsModal w70 font-pp" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Priority</h4>
+            </div>
+            <input type="hidden" id="hdnPriorityID" value="" />
+            <div class="modal-body inputShrink">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Priority <span class="red">*</span></label>
+                        <div>
+                            <input type="text" class="form-control" id="txtPriority" maxlength="100" />
+                            @*@Html.TextBoxFor(m => m.Priority, new { @class = "form-control", @id = "txtPriority" })*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSaveExit" class="btn btn-success" onclick="AddPriority('Exit');">Save & Exit</button>
+                <button type="button" id="btnSaveNew" class="btn btn-primary" onclick="AddPriority('New');">Save & New</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearData();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

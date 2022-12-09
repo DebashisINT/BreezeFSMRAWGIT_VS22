@@ -1,0 +1,98 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridStockPositionDetails";
+
+    settings.CallbackRouteValues = new { Action = "GetStockPositionDetailsList", Controller = "StockPosition" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ORDDATE";
+        x.Caption = "Order Date";
+        x.VisibleIndex = 1;
+        //x.Width = 120;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15); PRODNAME
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ORDNO";
+        x.Caption = "Order Number";
+        x.VisibleIndex = 2;
+        //x.Width = 120;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "INVDATE";
+     x.Caption = "Invoice Dt.";
+     x.VisibleIndex = 3;
+     //x.Width = 120;
+     x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "INVNO";
+        x.Caption = "Inv No.";
+        x.VisibleIndex = 4;
+        //x.Width = 120;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PRODNAME";
+        x.Caption = "Product";
+        x.VisibleIndex = 5;
+        //x.Width = 200;
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(16);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PRODCLASS";
+        x.Caption = "PRD. Class";
+        x.VisibleIndex = 6;
+        //x.Width = 150;
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "INVQTY";
+        x.Caption = "Quantity";
+        x.VisibleIndex = 7;
+        //x.Width = 120;
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+    });
+}).Bind(Model).GetHtml()
+

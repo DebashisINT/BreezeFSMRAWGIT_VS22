@@ -1,0 +1,197 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridWareHouseList";
+
+    settings.CallbackRouteValues = new { Action = "WarehouseMasterGrid", Controller = "WarehouseMaster" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.Caption = "Permission";
+    //    x.VisibleIndex = 1;
+
+    //    x.SetDataItemTemplateContent(c =>
+    //    {
+    //        ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"WarehousePermission('" + Convert.ToString(DataBinder.Eval(c.DataItem, "WAREHOUSE_ID")) + "')\">Permission</a>");
+    //    });
+    //});
+    
+    settings.Columns.Add(x =>
+     {
+         x.FieldName = "WAREHOUSE_NAME";
+         x.Caption = "Warehouse Name";
+         x.VisibleIndex = 1;
+         x.ColumnType = MVCxGridViewColumnType.TextBox;
+         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+     });
+
+    settings.Columns.Add(x =>
+     {
+         x.FieldName = "ADDRESS1";
+         x.Caption = "Address 1";
+         x.VisibleIndex = 2;
+         x.ColumnType = MVCxGridViewColumnType.TextBox;
+         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+     });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ADDRESS2";
+        x.Caption = "Address 2";
+        x.VisibleIndex = 3;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ADDRESS3";
+        x.Caption = "Address 3";
+        x.VisibleIndex = 4;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "cou_country";
+        x.Caption = "Country";
+        x.VisibleIndex = 5;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "state";
+        x.Caption = "State";
+        x.VisibleIndex = 6;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "city_name";
+        x.Caption = "City/District";
+        x.VisibleIndex = 7;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PIN";
+        x.Caption = "Pin";
+        x.VisibleIndex = 8;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACT_NAME";
+        x.Caption = "Contact Person Name";
+        x.VisibleIndex = 9;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACT_PHONE";
+        x.Caption = "Contact Person Phone";
+        x.VisibleIndex = 10;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        x.Caption = "Distributor";
+        x.VisibleIndex = 11;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ISDEFAULT";
+        x.Caption = "Is Default";
+        x.VisibleIndex = 12;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CREATED_BY";
+        x.Caption = "Entered By";
+        x.VisibleIndex = 13;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CREATE_ON";
+        x.Caption = "Entered On";
+        x.VisibleIndex = 14;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UPDATED_BY";
+        x.Caption = "Modified By";
+        x.VisibleIndex = 15;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UPDATE_ON";
+        x.Caption = "Modified On";
+        x.VisibleIndex = 16;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+    });
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.Caption = "Modify";
+    //    x.VisibleIndex = 17;
+
+    //    x.SetDataItemTemplateContent(c =>
+    //    {
+    //        ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenWarehouseEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "WAREHOUSE_ID")) + "')\">Modify</a>");
+    //    });
+    //});
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Delete";
+        x.VisibleIndex = 18;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"WarehouseDeleet('" + Convert.ToString(DataBinder.Eval(c.DataItem, "WAREHOUSE_ID")) + "')\">Delete</a>");
+        });
+    });
+
+  
+
+}).Bind(Model).GetHtml()

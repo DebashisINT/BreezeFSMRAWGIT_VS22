@@ -1,0 +1,56 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "LateVisitSMSReport", Action = "_PartialGrid" };
+    settings.KeyFieldName = "Code";
+    settings.EnableRowsCache = true;
+    settings.Settings.ShowFilterRow = true;
+
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Date";
+        column.FieldName = "Date";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Employee Name";
+        column.FieldName = "Emp_Name";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Login_ID";
+        column.Caption = "Login ID";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "SMS time";
+        column.FieldName = "SMS_time";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SMS_time_type";
+        column.Caption = "Type";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+
+    });
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()
+
+
+

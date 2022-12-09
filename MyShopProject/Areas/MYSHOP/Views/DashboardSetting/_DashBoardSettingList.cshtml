@@ -1,0 +1,100 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridDashBoardSettingList";
+
+    settings.CallbackRouteValues = new { Action = "GetDashBoardSettingList", Controller = "DashboardSetting" };
+    //settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SettingName";
+        x.Caption = "Setting Name";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20); 
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PermissionLevelText";
+        x.Caption = "Permission Level";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20); 
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CreatedDate";
+        x.Caption = "Created On";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20); 
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ModifiedDate";
+        x.Caption = "Modified On";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20); 
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Actions";
+        x.VisibleIndex = 4;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                //"<a href='javascript:void(0);' onclick=\"OpenDashboardSetting('" + Convert.ToString(DataBinder.Eval(c.DataItem, "DashboardSettingID")) + "')\" class='pad' title='Edit'><img src='/assests/images/info.png' /></i></a>" +
+                //"<a style='cursor:pointer' onclick=\"OpenDashboardSetting('" + Convert.ToString(DataBinder.Eval(c.DataItem, "DashboardSettingID")) + "')\"><i class='fa fa-pencil-square-o' aria-hidden='true'></i></a>"+
+                //"<a style='cursor:pointer; margin-left: 12px;' onclick=\"RemoveDashboardSetting('" + Convert.ToString(DataBinder.Eval(c.DataItem, "DashboardSettingID")) + "')\"><i class='fa fa-trash' aria-hidden='true'></i> </a>" 
+                
+                "<a style='cursor:pointer' onclick=\"OpenDashboardSetting('" + Convert.ToString(DataBinder.Eval(c.DataItem, "DashboardSettingID")) + "')\"><img src='/assests/images/edit.png' title='Edit' class='mright8' /> </a>" +
+                "<a style='cursor:pointer; margin-left: 12px;' onclick=\"RemoveDashboardSetting('" + Convert.ToString(DataBinder.Eval(c.DataItem, "DashboardSettingID")) + "')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
+                );
+        });
+
+
+    });
+
+}).Bind(Model).GetHtml()
+
+
+

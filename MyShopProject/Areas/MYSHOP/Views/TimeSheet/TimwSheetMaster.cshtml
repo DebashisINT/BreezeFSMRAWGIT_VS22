@@ -1,0 +1,220 @@
+﻿@{
+    ViewBag.Title = "Time Sheet Entity Master";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+<script>
+    function selectiongridbegincallback(s, e) {
+
+        e.customArgs["empcode"] = $("#userID").val();
+    }
+    function empchange() {
+        gridProjectSelection.Refresh();
+        gridClientSelection.Refresh();
+        gridActivitySelection.Refresh();
+        gridProductSelection.Refresh();
+    }
+
+
+    function SaveAttatchment() {
+        var strproject = "";
+        var strclient = "";
+        var stractivity = "";
+        var strproduct = "";
+
+        gridProjectSelection.GetSelectedFieldValues("Project_Id", function (str) {
+            strproject = str.join(",");
+            gridClientSelection.GetSelectedFieldValues("Client_Id", function (str) {
+                strclient = str.join(",");
+                gridActivitySelection.GetSelectedFieldValues("Activity_Id", function (str) {
+                    stractivity = str.join(",");
+                    gridProductSelection.GetSelectedFieldValues("product_id", function (str) {
+                        strproduct = str.join(",");
+
+                        var surl = '@Url.Action("SaveAttatchment", "TimeSheet")';
+                        $.ajax({
+                            url: surl,
+                            //async: false,
+                            data: {
+                                project: strproject,
+                                client: strclient,
+                                activity: stractivity,
+                                product: strproduct,
+                                empcode: $("#userID").val()
+                            },
+                            type: 'POST',
+
+                            success: function (data) {
+                                alert(data);
+                                gridProjectSelection.Refresh();
+                                gridClientSelection.Refresh();
+                                gridActivitySelection.Refresh();
+                                gridProductSelection.Refresh();
+
+
+                            },
+                            error: function () {
+
+                            },
+
+
+                        });
+
+
+
+
+                    })
+                })
+            })
+        })
+    }
+</script>
+<style>
+    .tab-content > .active.fade, .pill-content > .active.fade {
+        opacity:1;
+    }
+    #myTabContent{
+        padding:15px 0;
+    }
+    .boxTop {
+        padding: 10px 0 0 0;
+        margin-bottom:15px;
+        border: 1px solid #ccc;
+        border-top: 2px solid #2db350;
+        border-radius: 3px 3px 0 0;
+    }
+    .boxTop >h5{
+        font-size: 16px;
+        margin: 0;
+        padding: 0px 15px 10px;
+    }
+</style>
+<div class="breadCumb">
+    <span>Time Sheet Entity Master</span>
+</div>
+
+
+<div class="container">
+    <div class="backBox p-3 mt-3">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item active">
+                <a class="nav-link " id="Client-tab" data-toggle="tab" href="#Client" role="tab" aria-controls="Client" aria-selected="false">Client</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Project-tab" data-toggle="tab" href="#Project" role="tab" aria-controls="Project" aria-selected="false">Project</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Activity-tab" data-toggle="tab" href="#Activity" role="tab" aria-controls="Activity" aria-selected="false">Activity</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="Employee-tab" data-toggle="tab" href="#Employee" role="tab" aria-controls="Employee" aria-selected="false">Employee Attatchment</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade active" id="Client" role="tabpanel" aria-labelledby="Client-tab">
+                @{
+                    Html.RenderAction("_PartialClientGrid", "TimeSheet");
+                }
+            </div>
+            <div class="tab-pane fade" id="Project" role="tabpanel" aria-labelledby="Project-tab">
+                @{
+                    Html.RenderAction("_PartialProjectGrid", "TimeSheet");
+                }
+            </div>
+            <div class="tab-pane fade" id="Activity" role="tabpanel" aria-labelledby="Activity-tab">
+                @{
+                    Html.RenderAction("_PartialActivityGrid", "TimeSheet");
+                }
+            </div>
+            <div class="tab-pane fade" id="Employee" role="tabpanel" aria-labelledby="Employee-tab">
+                <div class="col-md-8">
+                    <table style="margin-bottom:15px">
+                        <tr>
+                            <td style="width:130px"><span class="font-normal">Employee</span></td>
+                            <td class="sltemp">
+                                <select id="userID" onchange="empchange();">
+                                    <option></option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                </div>
+
+                <div class="clear"></div>
+
+                <div class="col-md-6">
+                    <div class="boxTop">
+                        <h5>CLIENT</h5>
+                        @{
+                            Html.RenderAction("_PartialClientSelectionGrid", "TimeSheet");
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="boxTop">
+                        <h5 class="font-pp">PROJECT</h5>
+                        @{
+                            Html.RenderAction("_PartialProjectSelectionGrid", "TimeSheet");
+                        }
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="col-md-6">
+                    <div class="boxTop">
+                        <h5>ACTIVITY</h5>
+                        @{
+                            Html.RenderAction("_PartialActivitySelectionGrid", "TimeSheet");
+                        }
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="boxTop">
+                        <h5>PRODUCT</h5>
+                        @{
+                            Html.RenderAction("_PartialProductSelectionGrid", "TimeSheet");
+                        }
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div style="margin-top:15px"><button type="button" class="btn btn-sucess" onclick="SaveAttatchment();">Save Attatchment</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        gridProject.Refresh();
+        gridClient.Refresh();
+        gridActivity.Refresh();
+
+        gridProjectSelection.Refresh();
+        gridClientSelection.Refresh();
+        gridActivitySelection.Refresh();
+        gridProductSelection.Refresh();
+
+
+        var employeeUrl = '@Url.Action("GetEmployee", "TimeSheet")'
+        $.ajax({
+            type: "POST",
+            url: employeeUrl,
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                //console.log(msg);
+                if (msg.length > 0) {
+                    var obj = "<option>Select</option>";
+                    for (i = 0; i < msg.length; i++) {
+                        obj += "<option value='" + msg[i].EmpCode + "'>" + msg[i].NAME + "</option>"
+                    }
+                    obj += "";
+                    //console.log(obj)
+                    $("#userID").html(obj);
+                }
+            }
+        });
+
+    })
+</script>

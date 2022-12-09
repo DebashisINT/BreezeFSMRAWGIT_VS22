@@ -1,0 +1,478 @@
+﻿<style>
+    .table-responsive {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
+    ul.nopad {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul.nopad > li {
+        display: inline-block;
+        min-width: 18.7%;
+    }
+
+    ul.nopad > li:not(:last-child) {
+        margin-right: 1%;
+    }
+    .colorBox {
+        background: #4f4e94;
+        color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .colorBox.c1 {
+            background: #309b60;
+        }
+
+        .colorBox.c2 {
+            background: #3798c5;
+        }
+
+        .colorBox.c3 {
+            background: #e68929;
+        }
+
+        .colorBox.c4 {
+            background: #882626;
+        }
+
+    .infoWrp {
+        padding: 12px 15px;
+        position: relative;
+    }
+
+        .infoWrp .nums {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+    .infoWrp  .txts {
+        font-size: 80%;
+    }
+
+    .mrLinks {
+        /*cursor: pointer;*/
+        background: rgba(0, 0, 0, 0.34);
+        padding: 5px 10px;
+        font-size: 80%;
+    }
+
+        .mrLinks > .fa {
+            float: right;
+            margin-top: 4px;
+        }
+
+    .fltd {
+        position: absolute;
+        right: 20px;
+        top: 9px;
+        font-size: 37px !important;
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .box-holder {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        border-top: 4px solid rgb(13, 105, 67);
+        background: #fff;
+    }
+
+        .box-holder .hdd-rp {
+            font-size: 15px;
+            font-weight: 600;
+            padding: 8px 15px;
+        }
+
+        .box-holder .bxd-cont {
+            padding: 15px;
+        }
+
+    .table {
+        width: 100%;
+    }
+
+        .table .thead-light th {
+            color: #495057;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+    .badge {
+        font-weight: 500;
+        font-size: 12px;
+    }
+
+    .badge-warning {
+        color: #212529;
+        background-color: #ffc107;
+    }
+
+    .badge-success {
+        color: #fff;
+        background-color: #28a745;
+    }
+
+    .badge-danger {
+        color: #fff;
+        background-color: #dc3545;
+    }
+
+    #chartdiv {
+        width: 100%;
+        height: 450px;
+    }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    
+ .font-normal {
+        font-size: 14px !important;
+    }
+
+    .sltemp {
+        padding: 5px 10px 0 15px;
+        /* margin-top: 5px; */
+        max-width: 150px;
+    }
+
+    .lagendInfo {
+        font-size: 14px;
+        margin: 10px 0;
+    }
+
+        .lagendInfo .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 15px;
+            display: inline-block;
+            margin-right: 7px;
+        }
+
+            .lagendInfo .dot.Present {
+                background: #50c36e;
+            }
+
+            .lagendInfo .dot.Leave {
+                background: #757272;
+            }
+
+    .separt {
+        width: 20px;
+        text-align: center;
+        display: inline-block;
+    }
+
+    .lagendInfo .dot.Absent {
+        background: #da3131;
+    }
+    .cllHeader {
+        padding: 7px;
+        text-align: center;
+        background: rgba(0,0,0,0.23);
+    }
+    .borderRight {
+        border-right: 2px dashed rgba(0,0,0,0.13);
+    }
+    .spannedTbl {
+        border: 1px solid #3d5ac3;
+    } 
+    .spannedTbl > thead > tr > th {
+        background: #3d5ac3;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        border-color: #334dad;
+        border-right: 2px solid #334dad;
+    }
+    .colorType2 {
+        border: 1px solid #3293bf;
+    } 
+    .colorType2 > thead > tr > th {
+        background: #3293bf;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        border-color: #3182a7;
+        border-right: 2px solid #3182a7;
+    } 
+    .spannedTbl > tbody > tr > td {
+        font-size: 13px;
+    } 
+    .spannedTbl > tbody > tr > td:not(:last-child) {
+        border-right: 1px solid #ccc;
+    } 
+    .vMiddle {
+        vertical-align: middle !important;
+    }
+    .spannedTbl > tbody > tr:nth-of-type(even) {
+        background: #efefef;
+    }
+    .target-achiev .infoWrp .nums, .target-achiev .infoWrp .txts {
+        text-align: center;
+    }
+    
+    </style >
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nopad">
+            <li>
+                <div class="colorBox target-achiev">
+                    <div class="cllHeader">Enquiry</div>
+                    <div class="infoWrp">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 borderRight">
+                                <div class="nums" id="inq_tgt">223</div>
+                                <div class="txts">Target</div>
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <div class="nums" id="inq_Ach">18</div>
+                                <div class="txts">Achieved</div>
+                            </div>
+                        </div>
+                       
+                    </div>
+       
+                </div>
+            </li>
+            <li>
+                <div class="colorBox c1 target-achiev">
+                    <div class="cllHeader">Lead</div>
+                    <div class="infoWrp">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 borderRight">
+                                <div class="nums" id="lead_tgt">458</div>
+                                <div class="txts">Target</div>
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <div class="nums" id="lead_Ach">563</div>
+                                <div class="txts">Achieved</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <li>
+                <div class="colorBox c2 target-achiev">
+                    <div class="cllHeader">Test Drive</div>
+                    <div class="infoWrp">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 borderRight">
+                                <div class="nums" id="td_tgt">587</div>
+                                <div class="txts">Target</div>
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <div class="nums" id="td_Ach">45</div>
+                                <div class="txts">Achieved</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <li>
+                <div class="colorBox c3 target-achiev">
+                    <div class="cllHeader">Booking</div>
+                    <div class="infoWrp">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 borderRight">
+                                <div class="nums" id="booking_tgt">45</div>
+                                <div class="txts">Target</div>
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <div class="nums" id="booking_Ach">562</div>
+                                <div class="txts">Achieved</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+            <li>
+                <div class="colorBox c4 target-achiev">
+                    <div class="cllHeader">Retail</div>
+                    <div class="infoWrp">
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6 borderRight">
+                                <div class="nums" id="rt_tgt">189</div>
+                                <div class="txts">Target</div>
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <div class="nums" id="rt_Ach">0</div>
+                                <div class="txts">Achieved</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="clearfix">
+            <div class="row">
+                <div class="col-md-4"><h4 class="heade">Month Wise</h4></div>
+                <div class="col-md-8 text-right pr-0">
+                    <div class="table-responsive">
+                        <table class="tbleChoosedate mb-2">
+                            <tr>
+
+                                <td class="dateWidth">
+                                    <select class="form-control" id="ddlmonthyear">
+                                        @{
+                                            foreach (KeyValuePair<string, string> entry in ViewBag.DateList)
+                                            {
+                                                <option value="@entry.Key">@entry.Value</option>
+                                            }
+                                        }
+                                    </select>
+                                </td>
+                                <td><button type="button" class="btn btn-success" onclick="Refreshmonthwisesummary()">Show Analysis</button></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tableWrp">
+            <div class="table-responsive">
+                <table class="table spannedTbl">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="vMiddle">Month</th>
+                            <th colspan="2" class="text-center">Enquiry</th>
+                            <th colspan="2" class="text-center">Lead</th>
+                            <th colspan="2" class="text-center">Test Drive</th>
+                            <th colspan="2" class="text-center">Booking</th>
+                            <th colspan="2" class="text-center">Retail</th>
+                        </tr>
+                        <tr>
+                            <th>Target</th>
+                            <th>Achieved</th>
+                            <th>Target</th>
+                            <th>Achieved</th>
+                            <th>Target</th>
+                            <th>Achieved</th>
+                            <th>Target</th>
+                            <th>Achieved</th>
+                            <th>Target</th>
+                            <th>Achieved</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tgtbody">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h4 class="heade">Employee Wise</h4>
+        <div class="tableWrp table-responsive">
+            <table class="table spannedTbl colorType2">
+                <thead>
+                    <tr>
+                        <th rowspan="2" class="vMiddle">Employee</th>
+                        <th rowspan="2" class="vMiddle">Designation</th>
+                        <th rowspan="2" class="vMiddle">Department</th>
+                        <th colspan="2" class="text-center">Enquiry</th>
+                        <th colspan="2" class="text-center">Lead</th>
+                        <th colspan="2" class="text-center">Test Drive</th>
+                        <th colspan="2" class="text-center">Booking</th>
+                        <th colspan="2" class="text-center">Retail</th>
+                    </tr>
+                    <tr>
+
+                        <th>Target</th>
+                        <th>Achieved</th>
+                        <th>Target</th>
+                        <th>Achieved</th>
+                        <th>Target</th>
+                        <th>Achieved</th>
+                        <th>Target</th>
+                        <th>Achieved</th>
+                        <th>Target</th>
+                        <th>Achieved</th>
+                    </tr>
+                </thead>
+                <tbody id="empbody">
+                    <tr>
+                        <td>Susanta </td>
+                        <td>Web Designer</td>
+                        <td>Int</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Susanta </td>
+                        <td>Web Designer</td>
+                        <td>Int</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Susanta </td>
+                        <td>Web Designer</td>
+                        <td>Int</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Susanta </td>
+                        <td>Web Designer</td>
+                        <td>Int</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

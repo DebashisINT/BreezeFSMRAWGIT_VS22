@@ -1,0 +1,11 @@
+﻿@model List<MyShop.Models.BranchData>
+
+<select class="demo" multiple="multiple" id="cmbBranchTVH">
+    @foreach (var item in Model)
+    {
+        <option value="@item.BranchID">@item.name</option>
+    }
+</select>
+
+<input type="hidden" value="@ViewBag.BranchListCount" id="hdnBranchListCountTVH" />
+

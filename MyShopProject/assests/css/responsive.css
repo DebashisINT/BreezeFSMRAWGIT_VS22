@@ -1,0 +1,174 @@
+﻿/* SMARTPHONES PORTRAIT */
+@media only screen and (min-width: 300px) {
+
+
+}
+
+/* SMARTPHONES LANDSCAPE */
+@media only screen and (max-width: 480px) {
+    .tabs-style-shape nav li a {
+        
+        
+    }
+    .tabs.tabs-style-shape >nav >ul {
+        display:block;
+    }
+    .tabs-style-shape nav li {
+        margin:3px 0 !important; 
+    }
+    .tabs-style-shape nav li a{
+        margin:0 !important;
+    }
+    .tabs-style-shape nav li a >span {
+        border-radius:5px !important;
+        text-align:center;
+        padding: 0  !important;
+        font-size:100% !important;
+    }
+    .tabs-style-shape nav li a>svg  {
+        display:none;
+    }
+    ul.mapShowlist {
+        height: 80px;
+        border-radius: 3px;
+    }
+    .container {
+        width:100% !important;
+        padding:0;
+    }
+
+    .mainDashBoxes .flex-itm {
+        margin-right: 0px;
+        margin-top:20px
+    }
+    .widgBox .icon {
+        width: 40px;
+        height: 40px;
+        font-size: 19px;
+    }
+    .widgBox .Numb {
+        font-size: 3.2em;
+    }
+    .widgBox .txt {
+        font-size: 13px;
+    }
+     .morethan7 {
+        column-count:1;
+        width:100% !important;
+    }
+    .morethan14 {
+        column-count:1;
+        width:100% !important;
+    }
+    .nav>li>a {
+        padding: 10px 6px;
+    }
+    ul.nopad> li {
+        width:100%;
+        margin-right:0;
+    }
+    .box-holder {
+        overflow-x:auto;
+    }
+    .tbleChoosedate {
+        float: none !important;
+        margin-right: 0 !important;
+        font-size: 14px;
+        margin-left:15px;
+        width: 100%;
+    }
+    .tbleChoosedate > tbody > tr > td {
+        display:block !important;
+        text-align:left;
+
+    }
+    .dateWidth {
+        width:100% !important;
+    }
+    .multiselect-container.dropdown-menu {
+        min-width:auto !important;
+    }
+    .mapShowlist>li:first-child{
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+    .mapShowlist select#cmbState + .btn-group  {
+        width: 100%;
+        display: block;
+    }
+}
+
+/* TABLETS PORTRAIT */
+@media only screen and (max-width: 768px) {
+
+    .tabs-style-shape nav li a span {
+        font-size: 12px !important;
+    }
+    .prof a .user + span {
+        display:none
+    }
+     .sideNavigation {
+        width: 100%;
+        left: -100%;
+    }
+     .sideNavigation>ul {
+        margin:0;
+    }
+    .sideNavigation>ul>li>a .lnr {
+        -webkit-transform: translate(0px, 7px);
+        transform: translate(0px, 7px);
+        display: inline-block;
+    }
+    .navActivated .sideNavigation{
+        left:0;
+    }
+    .sideNavigation>ul>li>a .flText {
+            display: inline-block;
+        font-size: 1.4rem;
+        background: none;
+        position: static; 
+        left: 100%;
+        height: 100%;
+        text-align: left;
+        top: 0;
+        line-height: 32px;
+        padding: 6px 15px;
+        width: auto;
+        visibility:visible;
+        box-sizing: border-box;
+        text-transform: uppercase;
+    }
+    .sideNavigation>ul>li .submenu-fl {
+        position:static;
+        width: 100%
+    }
+    .morethan7 {
+        column-count:2;
+        width:100% !important;
+    }
+    .morethan14 {
+        column-count:2;
+        width:100% !important;
+    }
+    .colorBox {
+        margin-bottom:10px;
+    }
+    .profDrop {
+       right: 0;
+       left: auto;
+    }
+    .pignose-calendar {
+        font-size: 58%;
+    }
+    .pignose-calendar .pignose-calendar-top .pignose-calendar-top-month {
+        font-size: 70%;
+    }
+}
+
+
+/* TABLET LANDSCAPE / DESKTOP */
+@media only screen and (min-width: 1024px) {
+
+
+}

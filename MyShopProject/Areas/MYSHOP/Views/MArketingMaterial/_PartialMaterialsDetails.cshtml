@@ -1,0 +1,252 @@
+﻿@model MyShop.Models.MoaterialDetailsReportOutput
+
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "ordering": false,
+            "bFilter": true
+        });
+
+        //$("#tblmaterial").dataTable({
+        //    "aaSorting": [],
+        //    "ordering": false,
+        //    "bFilter": true
+        //});
+
+    });
+
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+            border-right: 1px solid #0d87cd;
+        }
+
+    #tblshoplist2 {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist2 > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+    /*tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            box-sizing: border-box;
+        }*/
+    .scroller {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+        .scroller > table {
+            width: 200%;
+        }
+</style>
+
+<div class="x_content">
+
+    <div class="rTable">
+
+
+        <div class="scroller">
+
+            <table id="tblshoplist" class="table table-bordered table-bordered">
+                <thead>
+
+                    <tr>
+
+                        <th rowspan="2" style="text-align:center;vertical-align:middle">Shop Name</th>
+                        <th rowspan="2" style="text-align:center;vertical-align:middle">Address</th>
+                        <th rowspan="2" style="text-align:center;vertical-align:middle">Mobile</th>
+                        <th rowspan="2" style="text-align:center;vertical-align:middle">User Name</th>
+                        <th rowspan="2" style="text-align:center;vertical-align:middle">View Images</th>
+                        <th colspan=@Model.mateerial.Count() style="text-align:center;">Retail Branding</th>
+                        <th colspan=@Model.mateerialpop.Count() style="text-align:center;">Pop Material</th>
+
+                    </tr>
+
+                    <tr>
+
+                        @if (Model != null && Model.mateerial.Count() > 0)
+                        {
+                            foreach (var item in Model.mateerial)
+                            {
+                                <th>@item.Material_name </th>
+                            }
+                        }
+
+                        @if (Model != null && Model.mateerialpop.Count() > 0)
+                        {
+                            foreach (var item in Model.mateerialpop)
+                            {
+                                <th>@item.Material_name </th>
+                            }
+                        }
+                        
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.markeingdetails)
+                    {
+
+                        <tr>
+
+
+                            <td style="width:100px">@item.Shop_Name</td>
+                            <td style="width:100%">@item.Address</td>
+                            <td style="width:100px">@item.Mobile</td>
+                            <td style="width:100px">@item.UserName</td>
+                            <td><a href="javascript:void(0);" onclick="OpenmaterialImage('@item.ShopID')">View</a></td>
+                            <td>@item.Material_1</td>
+
+                            <td>@item.Material_2</td>
+                            <td>@item.Material_3</td>
+                            <td>@item.Material_4</td>
+                            <td>@item.Material_5</td>
+                            <td>@item.Material_6</td>
+                            <td>@item.Material_7</td>
+                            <td>@item.Material_8</td>
+                            <td>@item.Material_9</td>
+                            <td>@item.Material_10</td>
+                            <td>@item.Material_11</td>
+                            <td>@item.Material_12</td>
+                            <td>@item.Material_13</td>
+                            <td>@item.Material_14</td>
+                            <td>@item.Material_15</td>
+                        </tr>
+
+                    }
+
+                </tbody>
+            </table>
+
+
+
+            @*<table id="tblmaterial" class="table table-bordered table-bordered">
+
+                <thead>
+                    <tr>
+                        <th style="width:100px">Shop Name</th>
+
+                        <th style="width:250px">Address</th>
+                        <th style="width:100px">Mobile</th>
+                        <th style="width:100px">User Name</th>
+                        <th style="width:100px">Open Image</th>
+
+
+                        @if (Model != null && Model.mateerial.Count() > 0)
+                        {
+                            foreach (var item in Model.mateerial)
+                            {
+                                <th>@item.Types <br /> @item.Material_name </th>
+                            }
+                        }
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model.markeingdetails)
+                    {
+
+                    <tr>
+
+
+                        <td style="width:100px">@item.Shop_Name</td>
+                        <td style="width:100%">@item.Address</td>
+                        <td style="width:100px">@item.Mobile</td>
+                        <td style="width:100px">@item.UserName</td>
+                        <td><a href="javascript:void(0);" onclick="OpenmaterialImage('@item.ShopID')">View</a></td>
+                        <td>@item.Material_1</td>
+
+                        <td>@item.Material_2</td>
+                        <td>@item.Material_3</td>
+                        <td>@item.Material_4</td>
+                        <td>@item.Material_5</td>
+                        <td>@item.Material_6</td>
+                        <td>@item.Material_7</td>
+                        <td>@item.Material_8</td>
+                        <td>@item.Material_9</td>
+                        <td>@item.Material_10</td>
+                        <td>@item.Material_11</td>
+                        <td>@item.Material_12</td>
+                        <td>@item.Material_13</td>
+                        <td>@item.Material_14</td>
+                        <td>@item.Material_15</td>
+                    </tr>
+
+                    }
+
+                </tbody>
+
+
+
+
+
+
+            </table>*@
+
+            @*<table id="tblshoplist" class="table table-bordered table-bordered">
+                <thead>
+
+                    <tr>
+
+                        <th rowspan="2" style="text-align:center;vertical-align:middle">h1</th>
+                        <th rowspan="2" style="text-align:center;vertical-align:middle">h2</th>
+                        <th colspan="3" style="text-align:center;">h3</th>
+                        <th colspan="2" style="text-align:center;">h4</th>
+
+                    </tr>
+
+                    <tr>
+
+                        <th>1</th>
+                        <th>2</th>
+                        <th>3</th>
+                        <th>4</th>
+                        <th>5</th>
+
+                    </tr>
+
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                </tbody>
+            </table>*@
+        </div>
+    </div>
+
+</div>

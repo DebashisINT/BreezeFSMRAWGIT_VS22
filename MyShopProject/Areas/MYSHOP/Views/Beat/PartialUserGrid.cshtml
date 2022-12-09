@@ -1,0 +1,56 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridUserList";
+    settings.KeyFieldName = "user_id";
+    settings.CallbackRouteValues = new { Action = "PartialUserGrid", Controller = "Beat" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.NumericButtonCount = 5;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.ClientSideEvents.BeginCallback = "beginUsergridcallback";
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "user_name";
+        x.Caption = "User Name";
+        // x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+
+    });
+
+    settings.Columns.Add(x =>
+     {
+         x.FieldName = "user_loginId";
+         x.Caption = "user Login ID";       
+         //x.Width = 120;
+         x.ColumnType = MVCxGridViewColumnType.TextBox;
+         x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+     });
+
+    
+    
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+

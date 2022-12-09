@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Primary Sales Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadCumb">
+    <span>Primary Sales Order</span>
+</div>
+
+
+
+
+<div class="container">
+    <div class="backBox p-3 mt-5">
+
+        <div class="col-md-12">
+
+            @{
+                Html.RenderAction("Rendermainpage", "PrimarySalesOrder");
+            }
+
+        </div>
+    </div>
+</div>

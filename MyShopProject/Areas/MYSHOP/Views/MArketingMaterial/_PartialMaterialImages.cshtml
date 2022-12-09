@@ -1,0 +1,35 @@
+﻿@model IEnumerable<MyShop.Models.MaterialImages>
+
+<link href="~/Scripts/Lightbox/css/lightbox.css" rel="stylesheet" />
+
+<script src="~/Scripts/Lightbox/js/lightbox.js"></script>
+
+<style>
+    .inImage {
+        margin: 0;
+        padding: 0;
+    }
+
+        .inImage li {
+            list-style-type: none;
+            display: inline-block;
+            width: 32%;
+            margin: 0 5px 5px 0;
+        }
+</style>
+<div>
+
+    <ul class="inImage">
+
+
+        @foreach (var item in Model)
+        {
+            <li>
+                @*<img id="imageSlide" alt="" src='@item.Image_name' style="width:180px;" />*@
+                <a href='@item.Image_name' data-lightbox="image-1" data-title="My caption"><img id="imageSlide" alt="" src='@item.Image_name' style="width:100%;max-height:150px" /></a>
+
+            </li>
+        }
+    </ul>
+
+</div>

@@ -1,0 +1,769 @@
+﻿@model MyShop.Models.ShopslistHiarchyInput
+@{
+    ViewBag.Title = "Total Shops";
+}
+
+<h2>Total Shops </h2>
+
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+</style>
+
+<style>
+    .modal-content {
+        border-radius: 0px;
+    }
+
+    .modal-header {
+        background-color: #007DB4;
+        color: white;
+    }
+
+    .modal-body {
+        height: 440px;
+    }
+</style>
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+
+<script>
+
+
+    $(function () {
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').removeClass('showing');
+
+        });
+
+
+
+        $("#hfCurrentPageIndex").val(1);
+
+
+        if ($("#hfCurrentPageIndex").val()==1)
+        {
+
+            $("#prev").css('visibility', 'hidden'); // Hide element
+        }
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+
+        $("#drpdesignation").chosen({
+            width: "100%"
+        });
+
+        $("#drpstate").chosen({
+            width: "100%"
+        });
+
+
+        //  alert('@Model.selectedusrid');
+        if ('@Model.selectedusrid' != '') {
+
+            $("#drpuser").val('@Model.selectedusrid');
+            if ($("#drpuser").val() != '') {
+                $("#divLoader").show();
+                //  alert($("#drpuser").val());
+                var surl = '@Url.Action("GetshoplistHierarchy", "ShopListHierarchy")';
+                var usr = $("#drpuser").val();
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        selectedusrid: usr,
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        $('#refreshgrid').html(data);
+                        $("#divLoader").hide();
+                    },
+                    error: function () {
+
+                    },
+                });
+            }
+            else {
+                $('#refreshgrid').html('');
+
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+
+            }
+
+        }
+
+        $('body').on('click', '#btnshow', function () {
+
+
+            //var info = $('#tblshoplist').DataTable().page.info();
+            //alert(info.page+1);
+            if ($("#drpuser").val() != '') {
+
+                //  alert($("#drpuser").val());
+                var surl = '@Url.Action("GetshoplistHierarchy", "ShopListHierarchy")';
+                var usr = $("#drpuser").val();
+                var desg = $("#drpdesignation").val();
+                var state = $("#drpstate").val();
+
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val(),
+                        Desgid: desg,
+                        StateId: state
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        $('#refreshgrid').html('');
+                        $('#refreshgrid').html(data);
+                    },
+                    error: function () {
+
+                    },
+                });
+            }
+            else {
+                $('#refreshgrid').html('');
+
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+
+            }
+
+        });
+
+
+
+        //$('#txtfromDate,#txttoDate').daterangepicker({
+        //    singleDatePicker: true,
+        //    showDropdowns: true,
+        //    autoUpdateInput: false,
+        //    locale: {
+        //        format: 'DD-MM-YYYY'
+        //    }
+        //});
+
+
+        $('#txtfromDate,#txttoDate').daterangepicker({
+            autoUpdateInput: false,
+            singleDatePicker: true,
+            showDropdowns: true,
+        }, function (chosen_date) {
+            $('#txtfromDate,#txttoDate').val(chosen_date.format('DD-MM-YYYY'));
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var fromdate = $('#txtfromDate').val();
+                var todate = $('#txttoDate').val();
+                var desig = $("#drpdesignation").val();
+                var state = $('#drpstate').val();
+                var usr = $("#drpuser").val();
+               // alert(usr);
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                ///   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+                //window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+
+                var url = '@Url.Action("ExportShoplist", "ShopListHierarchy", new { type = "_type_", user ="_usr_"})'
+                // window.location.href = url.replace("_type_", selectedValue).replace("_usr_", usr);
+                window.location.href = "/ShopListHierarchy/ExportShoplist?type=" + selectedValue + "&user=" + usr + "&Fromdate=" + fromdate + "&Todate=" + todate + "&Desgid=" + desig + "&StateId=" + state;
+
+                ///  $('#type').val(selectedValue);
+                ///  $('#frmExportGrid').submit();
+                var desg = $("#drpdesignation").val();
+                var state = $("#drpstate").val();
+
+
+
+                if ($("#drpuser").val() != '') {
+
+                //  alert($("#drpuser").val());
+                var surl = '@Url.Action("GetshoplistHierarchy", "ShopListHierarchy")';
+                var usr = $("#drpuser").val();
+                var desg = $("#drpdesignation").val();
+                var state = $("#drpstate").val();
+
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val(),
+                        Desgid :desg,
+                        StateId: state
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        $('#refreshgrid').html(data);
+                    },
+                    error: function () {
+
+                    },
+                });
+            }
+            }
+        });
+
+
+    });
+
+
+
+
+
+    function OpenShopImage(imgfile) {
+
+        $('.image').attr({
+            'src': imgfile
+        });
+        $('#mask').addClass('showing');
+    }
+
+    function onCompleteModifyshop() {
+        alert();
+        $("#myModal").modal('hide');
+        alert('success');
+    }
+
+    function PagerClickMain(index) {
+
+        if (index != '') {
+
+            if ($("#drpuser").val() != '') {
+
+                //  alert($("#drpuser").val());
+                var surl = '@Url.Action("GetshoplistHierarchy", "ShopListHierarchy")';
+                var usr = $("#drpuser").val();
+                var desg = $("#drpdesignation").val();
+                var state = $("#drpstate").val();
+
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val(),
+                        Desgid: desg,
+                        StateId: state,
+                        pageNumber: index
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        $('#refreshgrid').html(data);
+                    },
+                    error: function () {
+
+                    },
+                });
+            }
+        }
+
+    }
+
+
+    function PagerClick(index) {
+
+        alert(index)
+        document.getElementById("hfCurrentPageIndex").value = index;
+        alert(parseInt($("#hfTotalPageIndex").val()) + ' _' + parseInt($("#hfCurrentPageIndex").val()))
+
+        if (parseInt($("#hfTotalPageIndex").val()) == parseInt(index)) {
+
+            $("#next").removeAttr("style")
+            $("#next").css('visibility', 'hidden');
+
+            $("#prev").removeAttr("style")
+            $("#prev").css('visibility', 'visible');
+
+        }
+
+        if (parseInt(index) <= 1) {
+
+            $("#prev").removeAttr("style")
+            $("#prev").css('visibility', 'hidden');
+            $("#next").removeAttr("style")
+            $("#next").css('visibility', 'visible');
+
+        }
+
+
+        if(parseInt(index)>parseInt($("#hfTotalPageIndex").val()))
+            {
+            if (index != '') {
+
+                if ($("#drpuser").val() != '') {
+
+                    //  alert($("#drpuser").val());
+                    var surl = '@Url.Action("GetshoplistHierarchy", "ShopListHierarchy")';
+                    var usr = $("#drpuser").val();
+                    var desg = $("#drpdesignation").val();
+                    var state = $("#drpstate").val();
+
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            selectedusrid: usr,
+                            Fromdate: $('#txtfromDate').val(),
+                            Todate: $('#txttoDate').val(),
+                            Desgid: desg,
+                            StateId: state,
+                            pageNumber: $("#hfCurrentPageIndex").val()
+                        },
+                        type: 'POST',
+
+                        success: function (data) {
+
+                            $('#refreshgrid').html(data);
+                        },
+                        error: function () {
+
+                        },
+                    });
+                }
+            }
+        }
+        else
+        {
+
+            jAlert('You have exceeded at last page.');
+        }
+    }
+
+
+    function PagerClickPrev() {
+
+        $("#hfCurrentPageIndex").val(parseInt($("#hfCurrentPageIndex").val()) - 1)
+
+        alert(parseInt($("#hfTotalPageIndex").val()) + ' _' + parseInt($("#hfCurrentPageIndex").val()))
+
+        $("#next").removeAttr("style")
+        $("#next").css('visibility', 'visible');
+
+        $("#prev").removeAttr("style")
+        $("#prev").css('visibility', 'visible');
+
+        if (parseInt($("#hfTotalPageIndex").val()) >= parseInt($("#hfCurrentPageIndex").val())) {
+
+            $("#next").removeAttr("style")
+            $("#next").css('visibility', 'hidden');
+
+            $("#prev").removeAttr("style")
+            $("#prev").css('visibility', 'visible');
+
+        }
+
+        if ($("#drpuser").val() != '') {
+
+            if (parseInt($("#hfCurrentPageIndex").val()) <= 1) {
+
+                $("#prev").removeAttr("style")
+                $("#prev").css('visibility', 'hidden'); // Hide element
+
+                $("#next").removeAttr("style")
+                $("#next").css('visibility', 'visible');
+
+
+                //  alert($("#drpuser").val());
+                var surl = '@Url.Action("GetshoplistHierarchy", "ShopListHierarchy")';
+                var usr = $("#drpuser").val();
+                if ($("#parseInt").val() != 1) {
+                    var desg = $("#drpdesignation").val();
+                    var state = $("#drpstate").val();
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            selectedusrid: usr,
+                            Fromdate: $('#txtfromDate').val(),
+                            Todate: $('#txttoDate').val(),
+                            Desgid: desg,
+                            StateId: state,
+                            pageNumber: parseInt($("#hfCurrentPageIndex").val()) - 1
+                        },
+                        type: 'POST',
+
+                        success: function (data) {
+
+                            $('#refreshgrid').html(data);
+                        },
+                        error: function () {
+
+                        },
+                    });
+                }
+            }
+        }
+    }
+
+
+    function PagerClickNext() {
+
+        $("#hfCurrentPageIndex").val(parseInt($("#hfCurrentPageIndex").val()) + 1)
+        alert(parseInt($("#hfTotalPageIndex").val()) + ' _' + parseInt($("#hfCurrentPageIndex").val()))
+        if (parseInt($("#hfTotalPageIndex").val()) >= parseInt($("#hfCurrentPageIndex").val()))
+
+        {
+
+            $("#next").removeAttr("style")
+            $("#next").css('visibility', 'hidden');
+
+            $("#prev").removeAttr("style")
+            $("#prev").css('visibility', 'visible');
+
+        }
+        if ($("#drpuser").val() != '') {
+
+            //  alert($("#drpuser").val());
+            var surl = '@Url.Action("GetshoplistHierarchy", "ShopListHierarchy")';
+            var usr = $("#drpuser").val();
+            if (parseInt($("#hfCurrentPageIndex").val()) >= 1 && parseInt($("#hfTotalPageIndex").val()) >= parseInt($("#hfCurrentPageIndex").val())) {
+
+                $("#prev").removeAttr("style")
+                $("#prev").css('visibility', 'visible');
+
+                var desg = $("#drpdesignation").val();
+                var state = $("#drpstate").val();
+
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val(),
+                        Desgid: desg,
+                        StateId: state,
+                        pageNumber: parseInt($("#hfCurrentPageIndex").val())+1
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        $('#refreshgrid').html(data);
+                    },
+                    error: function () {
+
+                    },
+                });
+            }
+        }
+    }
+</script>
+
+<style>
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist thead > tr > th, #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+    /*#tblshoplist {
+        width:200% !important;
+    }
+    .scrooler {
+        width:100%;
+        overflow-x:scroll;
+    }*/
+
+    .pagination {
+        display: inline-block;
+    }
+
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 6px 7px;
+            text-decoration: none;
+            transition: background-color .3s;
+            border: 1px solid #ddd;
+        }
+
+            .pagination a.active {
+                background-color: #4CAF50;
+                color: white;
+                border: 1px solid #4CAF50;
+            }
+
+            .pagination a:hover:not(.active) {
+                background-color: #ddd;
+            }
+</style>
+
+
+<div class="form_main">
+
+    @using (Html.BeginForm("GetSalesmanLocation", "TrackSalesman", FormMethod.Post, new { @id = "fromsalesman" }))
+    {
+
+        <table class="pull-left">
+
+            <tr>
+                <td class="w1"><h5>User List: </h5></td>
+
+                <td style="width:200px;">
+
+
+                    @*@Html.DropDownListFor(m => m.selectedusrid, new SelectList(Model.userlsit, "UserID", "username", Model.selectedusrid), "-Select-", new { @id = "drpuser", @class = "whclass" })*@
+
+                    <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
+                        @foreach (var item in Model.userlsit)
+                        {
+                            if (Model.selectedusrid == item.UserID)
+                            {
+                                <option value="@item.UserID" selected="selected">@item.username</option>
+                            }
+                            else
+                            {
+                                <option value="@item.UserID">@item.username</option>
+
+                            }
+                        }
+                    </select>
+
+                </td>
+
+                <td class="w1" id="dtdesg"><h5>Designation : </h5></td>
+
+                <td id="dtdesg2" style="width:200px;">
+                    <select id="drpdesignation" name="drpdesignation" data-placeholder="Click or Type Here..." class="whclass">
+                        <option value="">Select</option>
+                        @foreach (var item in Model.designation)
+                        {
+                            if (Model.Desgid == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.DesgName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.DesgName</option>
+                            }
+                        }
+                    </select>
+
+                </td>
+
+
+
+                <td class="w1" id="dtstate"><h5>State : </h5></td>
+
+                <td id="dtdesg2" style="width:200px;">
+                    <select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass">
+                        <option value="">Select</option>
+                        @foreach (var item in Model.states)
+                        {
+                            if (Model.StateId == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.StateName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.StateName</option>
+                            }
+                        }
+                    </select>
+
+                </td>
+
+
+            </tr>
+            <tr>
+
+                <td class="w1"><h5>From Date : </h5></td>
+
+                <td>
+                    @Html.TextBoxFor(m => m.Fromdate, new { @class = "form-control", @id = "txtfromDate" })
+                </td>
+
+                <td class="w1"><h5>To Date : </h5></td>
+
+                <td>
+                    @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true })
+                </td>
+                <td></td>
+
+                <td>
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+
+
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+
+                        <option value="2">XLSX</option>
+
+                    </select>
+
+                </td>
+            </tr>
+        </table>
+
+    }
+
+    <br />
+
+    <div class="scrooler">
+
+
+        <div id="refreshgrid">
+
+        </div>
+
+
+
+    </div>
+    @*<input id="prev" type="button" class="btn btn-success" name="inputprev" onclick="PagerClickPrev()" value="Previous" />
+        <input id="next" type="button" class="btn btn-success" name="inputnext" onclick="PagerClickNext()" value="Next" />
+
+        <label id="lblpagestatus"></label>*@
+
+
+    @*<div style="float:right;width:250px;"> <span style=" display: inline-block;">Go To Page:</span>  <span style=" display: inline-block;"><input id="next" type="text" name="inputnext" onchange="PagerClick(this.value)" placeholder="Input only Number" /></span></div>*@
+
+    <input type="hidden" id="hfCurrentPageIndex" name="currentPageIndex" />
+    <input type="hidden" id="hfTotalPageIndex" name="totalPageIndex" />
+</div>
+
+
+<div id="mask">
+    <div id="boxes">
+        <div class="inner">
+            <div id="dialog" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfoot"> <img src="#" class="image" alt="Loading..."></img> </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width:450px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modify Shop</h4>
+            </div>
+            <div class="modal-body">
+                <div id="divModalBody" style="padding-left:20px;">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="divLoader" style="margin:0 auto;color:black;text-align:center;display:none;">
+    <table id="imgLoader" border="0" style="position: absolute; left: 446.5px; top: 127px; z-index: 30000;border:none;background-color:transparent;">
+        <tbody>
+            <tr>
+                <td>
+
+                    <img src='~/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,85 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridProductlist";
+
+    settings.CallbackRouteValues = new { Action = "PartialInvoiceAllProducts", Controller = "InvoiceModifyDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallbackProduct";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 100;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "5", "10", "15", "20", "25" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "Shop_Name";
+    //    x.Caption = "Shop";
+    //    x.VisibleIndex = 1;
+    //    x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    //});
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "sProducts_Name";
+        x.Caption = "Product";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+
+
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Product_Qty";
+        x.Caption = "Quantity";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Product_Rate";
+        x.Caption = "Rate";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Product_Price";
+        x.Caption = "Price";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Action";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.WriteLine("<a style='cursor:pointer' onclick=\"EditProduct('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Invoice_ProdId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Order_ID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Invoice_ID")) + "')\"><img src='/assests/images/Edit.png' /></a>");
+            ViewContext.Writer.WriteLine("<a style='cursor:pointer' onclick=\"DeleteProduct('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Invoice_ProdId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Order_ID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Invoice_ID")) + "')\"><img src='/assests/images/delete.png' /></a>");
+
+        });
+
+    });
+
+}).Bind(Model).GetHtml()

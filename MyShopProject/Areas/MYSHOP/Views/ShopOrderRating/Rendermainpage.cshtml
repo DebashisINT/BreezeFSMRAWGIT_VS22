@@ -1,0 +1,128 @@
+﻿<script>
+
+    function LoadDataandShow() {
+
+        var obj = {};
+        obj.Month = $("#month").val();
+        obj.Year = $("#year").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/ShopOrderRating/GenerateTable",
+            data: JSON.stringify(obj),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                
+                ListGrid.Refresh()
+                ListGrid.Refresh()
+
+            }
+        });
+    }
+    var IsPageload = 1;
+    function OnBeginCallback(s, e) {
+        IsPageload = 0;
+        e.customArgs["ispageload"] = "0";
+    }
+
+    $(function () {
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportCustomerRateingReport", "ShopOrderRating", new { type = "_type_", IsPageload = "_IsPageload_" })'
+                window.location.href = url.replace("_type_", selectedValue)+"&IsPageload="+IsPageload;
+            }
+        });
+    });
+
+</script>
+
+
+<div class="">
+    <div class=" px-3 py-3">
+        <div class="clearfix">
+
+            <div class="row clearfix mb-3">
+                <div class="col-md-12 text-right clearfix py-3">
+                    <table class="tbleChoosedate responsive_Tbl">
+                        <tr>
+                            <td>Month</td>
+                            <td class="dateWidth pr-2">
+                                <select id='month'>
+                                    <option selected value='1'>Janaury</option>
+                                    <option value='2'>February</option>
+                                    <option value='3'>March</option>
+                                    <option value='4'>April</option>
+                                    <option value='5'>May</option>
+                                    <option value='6'>June</option>
+                                    <option value='7'>July</option>
+                                    <option value='8'>August</option>
+                                    <option value='9'>September</option>
+                                    <option value='10'>October</option>
+                                    <option value='11'>November</option>
+                                    <option value='12'>December</option>
+                                </select>
+                                <span id="Mandatoryfrm_dt" style="display: none" class="validclass">
+                                    <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </td>
+                            <td>Year</td>
+                            <td class="dateWidth pr-2">
+                                <select id='year'>
+
+                                    <option selected value='2020'>2020</option>
+                                    <option value='2021'>2021</option>
+                                    <option value='2022'>2022</option>
+                                    <option value='2023'>2023</option>
+                                    <option value='2024'>2024</option>
+                                    <option value='2025'>2025</option>
+                                    <option value='2026'>2026</option>
+                                    <option value='2027'>2027</option>
+                                    <option value='2028'>2028</option>
+                                    <option value='2029'>2029</option>
+
+                                </select>
+                                <span id="Mandatoryto_dt" style="display: none" class="validclass">
+                                    <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </td>
+                            <td><button type="button" class="btn btn-success" onclick="LoadDataandShow();">Show</button>
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                    <option value="0">Export to</option>
+                                    <option value="1">XLSX</option>
+                                    <option value="2">XLS</option>
+                                    <option value="3">PDF</option>
+                                    <option value="4">CSV</option>
+                                    <option value="5">RTF</option>
+
+                                </select></td>
+                            
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="">
+                    <div style="clear: both;"></div>
+                    <div id="DetailsTable">
+
+                        @{
+                            Html.RenderAction("Rendergrid", "ShopOrderRating", new { ispageload="1" });
+                        }
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

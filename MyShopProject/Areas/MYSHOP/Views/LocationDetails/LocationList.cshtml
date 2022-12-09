@@ -1,0 +1,676 @@
+﻿@model Models.LocationInput
+@{
+    ViewBag.Title = "Location List";
+}
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#showGrid').hide();
+    })
+    function addDays(date, daysToAdd) {
+        var _24HoursInMilliseconds = 86400000;
+        return new Date(date.getTime() + daysToAdd * _24HoursInMilliseconds);
+    };
+
+
+
+    $(function () {
+
+
+        var d = new Date();
+
+        var now = new Date();
+
+        var yesterday = addDays(now, -1);
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+        dtFrom.SetValue(yesterday);
+        dtTo.SetValue(yesterday);
+
+
+        dtFrom.SetMaxDate(yesterday);
+        dtTo.SetMaxDate(yesterday);
+
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+
+            $('#maskmap').removeClass('showing');
+        });
+
+
+        @*if ('@Model.selectedusrid' != '') {
+            $("#drpuser").val('@Model.selectedusrid');
+            if ($("#drpuser").val() != '') {
+                $("#divLoader").show();
+                var surl = '@Url.Action("GetLocationList", "LocationDetails")';
+                var usr = $("#drpuser").val();
+                $.ajax({
+                    url: surl,
+                    async: true,
+                    data: {
+                        selectedusrid: usr,
+                        //Fromdate: $('#txtfromDate').val(),
+                        //Todate: $('#txttoDate').val()
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        if (data == 'nodata') {
+                            alert('No dat to be displayed', "Alert!");
+                        }
+                        else {
+                            $('#refreshgrid').html(data);
+
+                        }
+                        $("#divLoader").hide();
+                    },
+                    error: function () {
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'No data to be displayed',
+                            'theme': 'dark_blue'
+                        });
+                        $("#divLoader").hide();
+                    },
+                });
+            }
+
+            else {
+
+                $('#refreshgrid').html('');
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+            }
+
+        }*@
+
+
+        $('#txtfromDate').daterangepicker({
+
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+
+        });
+
+        $('#txttoDate').daterangepicker({
+
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+
+
+            }
+
+        });
+
+
+
+
+
+        $('body').on('click', '#btnshow', function () {
+
+
+            if ($("#drpuser").val() != '') {
+                $("#divLoader").show();
+                var surl = '@Url.Action("GetLocationList", "LocationDetails")';
+                var usr = $("#drpuser").val();
+                $.ajax({
+                    url: surl,
+                    async: true,
+                    data: {
+                        selectedusrid: usr,
+                        //Fromdate: $('#txtfromDate').val(),
+                        //Todate: $('#txttoDate').val()
+                        Fromdate: dtFrom.GetText(),
+                        Todate: dtTo.GetText()
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        if (data == 'nodata') {
+                            //  alert('No dat to be displayed', "Alert!");
+                        }
+                        else {
+                            $('#showGrid').show();
+                            $('#refreshgrid').html(data);
+                            
+                        }
+                        $("#divLoader").hide();
+                    },
+                    error: function (
+
+
+                        ) {
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'No data to be displayed',
+                            'theme': 'dark_blue'
+                        });
+                        $("#divLoader").hide();
+                    },
+
+
+                });
+
+            }
+
+
+
+            else {
+                $('#showGrid').hide();
+                $('#refreshgrid').html('');
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+            }
+
+
+
+        });
+
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                ///   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+                //window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+                var url = '@Url.Action("ExportLocation", "LocationDetails", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+                ///  $('#type').val(selectedValue);
+                ///  $('#frmExportGrid').submit();
+
+                if ($("#drpuser").val() != '') {
+                    $("#divLoader").show();
+                    var surl = '@Url.Action("GetLocationList", "LocationDetails")';
+                    var usr = $("#drpuser").val();
+                    $.ajax({
+                        url: surl,
+                        async: true,
+                        data: {
+                            selectedusrid: usr,
+                            //Fromdate: $('#txtfromDate').val(),
+                            //Todate: $('#txttoDate').val()
+                            Fromdate: dtFrom.GetText(),
+                            Todate: dtTo.GetText()
+
+                        },
+                        type: 'POST',
+
+                        success: function (data) {
+                            if (data == 'nodata') {
+                                //  alert('No dat to be displayed', "Alert!");
+                            }
+                            else {
+                                $('#showGrid').show();
+                                $('#refreshgrid').html(data);
+
+                            }
+                            $("#divLoader").hide();
+                        },
+                        error: function (
+
+
+                            ) {
+                            $.jAlert({
+                                'title': 'Alert!',
+                                'content': 'No data to be displayed',
+                                'theme': 'dark_blue'
+                            });
+                            $("#divLoader").hide();
+                        },
+
+
+                    });
+
+                }
+
+
+
+                else {
+                    $('#showGrid').hide();
+                    $('#refreshgrid').html('');
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'Select User to show',
+                        'theme': 'dark_blue'
+                    });
+                }
+
+            }
+        });
+
+    });
+
+    function OpenShopforLocation(lat, long, locname) {
+        $('#maskmap').addClass('showing');
+        var latlng = new google.maps.LatLng(lat, long);
+
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            zoom: 15
+
+
+        });
+        var content = '<div id="iw_container">' +
+
+        '<div class="iw_title"></div>' +
+        '<div class="iw-content"><b>Location</b>: ' + locname +
+
+
+        '</div>';
+
+
+        var infowindow = new google.maps.InfoWindow({
+            content: content,
+
+        });
+
+
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: "Porcelain Factory of Vista Alegre"
+        });
+
+
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, marker);
+        });
+
+        // Event that closes the Info Window with a click on the map
+        google.maps.event.addListener(map, 'click', function () {
+            infowindow.close();
+        });
+
+
+
+    }
+
+
+
+
+
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy - L3SIYyrQ"></script>
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@Model.KeyId"></script>*@
+<script type="text/javascript">
+    function GetAddress(lat, lng, shopid) {
+      
+        var latlng = new google.maps.LatLng(lat, lng);
+        var geocoder = geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                if (results[1]) {
+                    //// alert("Location: " + results[1].formatted_address);
+
+                    var addrsss = results[1].formatted_address;
+                    if ($("#drpuser").val() != '') {
+                        var surl = '@Url.Action("UpdateLocation", "LocationDetails")';
+                        var usr = $("#drpuser").val();
+                        $.ajax({
+                            url: surl,
+                            async: false,
+                            data: {
+
+                                lat: lat,
+                                lng: lng,
+                                id: shopid,
+                                location: addrsss
+                            },
+                            type: 'POST',
+
+                            success: function (data) {
+
+                                if (data == true) {
+
+
+                                    if ($("#drpuser").val() != '') {
+                                        $("#divLoader").show();
+                                        var surl = '@Url.Action("GetLocationList", "LocationDetails")';
+                                        var usr = $("#drpuser").val();
+                                        $.ajax({
+                                            url: surl,
+                                            async: true,
+                                            data: {
+                                                selectedusrid: usr,
+                                                //Fromdate: $('#txtfromDate').val(),
+                                                //Todate: $('#txttoDate').val()
+                                                Fromdate: dtFrom.GetText(),
+                                                Todate: dtTo.GetText()
+                                            },
+                                            type: 'POST',
+
+                                            success: function (data) {
+                                                if (data == 'nodata') {
+                                                    //  alert('No dat to be displayed', "Alert!");
+                                                }
+                                                else {
+                                                    $('#showGrid').show();
+                                                    $('#refreshgrid').html(data);
+
+                                                }
+                                                $("#divLoader").hide();
+                                            },
+                                            error: function (
+
+
+                                                ) {
+                                                $.jAlert({
+                                                    'title': 'Alert!',
+                                                    'content': 'No data to be displayed',
+                                                    'theme': 'dark_blue'
+                                                });
+                                                $("#divLoader").hide();
+                                            },
+
+
+                                        });
+
+                                    }
+
+
+                                }
+                            },
+
+
+                            error: function () {
+
+                            },
+
+
+                        });
+                    }
+
+
+                }
+            }
+        });
+    }
+</script>
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    /*table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+        opacity: 0.8 !important;
+        color: #fff !important;
+    }*/
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+</style>
+
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+
+
+    #maskmap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #maskmap.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxesmap {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    #popupfootmap {
+        font-size: 16pt;
+    }
+    
+    .tableScroll {
+        width:100%;
+        overflow-x:auto;
+    }
+    .tableScroll > #tblshoplist {
+        width:auto !important;
+    }
+    
+</style>
+<div class="breadCumb">
+    <span>Location List</span>
+</div>
+<div class="container pt-3">
+    <div class="form_main backBox p-3 mt-2">
+        @using (Html.BeginForm("GetLocationList", "LocationDetails", FormMethod.Post, new { @id = "fromsalesman" }))
+        {
+            <div class="row">
+                <div class="col-md-2">
+                    <label>User List</label>
+                    <div>
+                        <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
+                            @foreach (var item in Model.userlsit)
+                            {
+                                if (Model.selectedusrid == item.UserID)
+                                {
+                                    <option value="@item.UserID" selected="selected">@item.username</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.UserID">@item.username</option>
+                                }
+                            }
+                        </select>
+
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label>From Date</label>
+                    <div>
+                        @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Height = 34;
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label>To Date</label>
+                    <div>
+                        @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Height = 34;
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                    </div>
+                </div>
+                <div class="col-md-4 btnPadding">
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+
+                        <option value="2">XLSX</option>
+
+                    </select>
+                </div>
+            </div>
+
+
+        }
+
+        <div class="" id="showGrid">
+            <div class="row">
+                <div class="col-md-12 ">
+                    <div id="refreshgrid"></div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>
+
+
+<div id="divLoader" style="margin:0 auto;color:black;text-align:center;display:none;">
+    <table id="imgLoader" border="0" style="position: absolute; left: 446.5px; top: 127px; z-index: 30000;border:none;background-color:transparent;">
+        <tbody>
+            <tr>
+                <td>
+
+                    <img src='~/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+<div id="maskmap">
+    <div id="boxesmap">
+        <div class="inner">
+            <div id="dialogmap" class="window">
+                <span class="pull-right closeBtn close"><a href="#" onclick="reloadParent()"><i class="fa fa-times"></i></a></span>
+                
+                <div id="popupfootmap">
+
+                    <div id="map" style="width: 100%; height: 450px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

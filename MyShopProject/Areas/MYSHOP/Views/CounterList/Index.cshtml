@@ -1,0 +1,529 @@
+﻿@model Models.CounterClass
+
+
+
+@{
+    ViewBag.Title = "Shop";
+
+    var purl = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
+}
+
+
+
+
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+        margin-top: 30px;
+        position: relative;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+
+
+    #maskmap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #maskmap.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxesmap {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    #popupfootmap {
+        font-size: 16pt;
+    }
+</style>
+
+
+<style>
+    .modal-content {
+        border-radius: 0px;
+    }
+
+    .modal-header {
+        background-color: #007DB4;
+        color: white;
+    }
+
+    .modal-body {
+        height: 440px;
+    }
+    .list-inline > li {
+        display:inline-block;
+        margin-right:10px;
+    }
+
+    .showing .close {
+        opacity: .8;
+        width: 40px;
+        height: 40px;
+        line-height: 37px;
+        border-radius: 50%;
+        display: block;
+        text-shadow: none;
+        background: #5d5d5d;
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        color: #fff;
+    }
+        .showing .close:hover {
+            color: #fff;
+            opacity: 1;
+        }
+</style>
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif3telvlrJn61kkLXDQA0ViQdDVJWifk"></script>
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+
+
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<script>
+    var arr = [];
+    var typeId;
+    var Ispageload = "0";
+    
+    $(function () {
+
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+        $("#drpstate").chosen({
+            width: "100%"
+        });
+
+
+
+
+        //$('body').on('click', '#btnshow', function () {
+        $('body').on('click', '#btnshow', function (e) {
+            var flag = true;
+            if ($("#hdnStateMandatory").val() == "True") {
+                if (StateId == "") {
+                    jAlert("Please select State.");
+                    flag = false;
+                    return;
+                }
+            }
+            arr = [];
+           
+            $('input.acheckbox:checkbox:checked').each(function () {
+                arr.push($(this).val());
+            });   
+            typeId = arr.toString(); 
+            if (flag) {
+                if (typeId != "" && typeId != null) {
+                    Ispageload = "1";
+                    gridCounterList.Refresh();
+                    //   gridCounterList.Refresh();
+                }
+                else {
+                    jAlert('Please select Shop Types');
+                    return;
+                }
+            }
+            //$("#refreshgrid\counter").show();
+
+
+        });
+
+
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').removeClass('showing');
+            $('#maskmap').removeClass('showing');
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportCounterlist", "CounterList", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+            }
+        });
+        //Rev work start 16.06.2022 mantise 0024948: Show All checkbox required for Shops report
+        var mainCheckboxes = []
+
+        $('body').on('click', '#ddlshotype', function (e) {
+            console.log(e.target.name)
+            if (e.target.name == 'Show All') {
+                if (e.target.checked == true) {
+                   
+                    $('#ddlshotype').find(':checkbox[name!="Show All"]').each(function () {
+                        
+                        var itemId =$(this).attr("id");
+                        var isChk = $(this).attr("checked")
+
+                        var obj = {
+                            id: itemId,
+                            isChecked: isChk
+                        }
+                        mainCheckboxes.push(obj)
+                        $(this).prop('checked', false).attr('disabled', true)
+                    });
+                    console.log(arr)
+                } else {
+                    $('#ddlshotype').find(':checkbox[name!="Show All"]').each(function () {
+                        var itemId = $(this).attr("id");
+                        console.log("mainCheckboxes", mainCheckboxes)
+                        for (i = 0; i < mainCheckboxes.length; i++) {
+                            if (itemId == mainCheckboxes[i].id && mainCheckboxes[i].isChecked == 'checked') {
+                                $("#" + itemId).prop('checked', true).removeAttr("disabled");
+                            } else if (itemId == mainCheckboxes[i].id && mainCheckboxes[i].isChecked == undefined) {
+                                $("#" + itemId).prop('checked', false).removeAttr("disabled");
+                            } else {
+
+                            }
+                        }
+                       
+                    });
+                }
+                
+            }
+        })
+        //Rev work close 16.06.2022 mantise 0024948: Show All checkbox required for Shops report
+    });
+
+    @*$('#ddlAppIds').on('change', function () {
+        if ($("#ddlAppIds option:selected").index() > 0) {
+            var selectedValue = $(this).val();
+            $('#ddlAppIds').prop("selectedIndex", 0);
+            /   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+            window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+            var url = '@Url.Action("ExportCounterlist", "CounterList", new { type = "_type_" })'
+            window.location.href = url.replace("_type_", selectedValue);
+
+            var arr = [];
+            $('input.acheckbox:checkbox:checked').each(function () {
+                arr.push($(this).val());
+            });
+
+              alert($("#drpuser").val());
+            var surl = '@Url.Action("ExportCounterlist", "CounterList")';
+            var usr = $("#drpuser").val();
+            $.ajax({
+
+                url: surl,
+                async: false,
+
+                data: {
+                    StateId: $('#drpstate').val(),
+                    TypeID: arr.toString()
+                },
+
+                type: 'POST',
+                success: function (data) {
+                    $('#refreshgrid').html(data);
+                },
+
+                error: function () {
+
+                },
+
+            });
+
+            }
+    });*@
+
+    @*$('#ddlAppIds').on('change', function () {
+        if ($("#ddlAppIds option:selected").index() > 0) {
+            var selectedValue = $(this).val();
+            var desg = $("#drpdesignation").val();
+            var usrtype = $("#ddlusertypes").val();
+            $('#ddlAppIds').prop("selectedIndex", 0);
+            var url = '@Url.Action("ExportCounterlist", "CounterList", new { type = "_type_" })'
+            window.location.href = url.replace("_type_", selectedValue);
+
+
+        }
+    });*@
+
+
+
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    function OnStartCallback(s, e) {
+
+
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["TypeID"] = typeId;
+        e.customArgs["Ispageload"] = Ispageload;       
+    }
+
+
+    function StateStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function EmpStateLookupValChange() {
+        StateGridLookup.GetGridView().Refresh();
+        StateGridLookup.GetGridView().Refresh();
+    }
+    //Rev Pallab 25448
+    function OpenShopImage(imgfile) {
+
+        $('.image').attr({
+            'src': imgfile
+        });
+        $('#mask').addClass('showing');
+    }
+    //Rev end Pallab 25448
+</script>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<style>
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist thead > tr > th, #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .tblspace > tbody > tr > td {
+        padding-right: 15px;
+    }
+
+    /*#tblshoplist {
+        width:200% !important;
+    }
+    .scrooler {
+        width:100%;
+        overflow-x:scroll;
+    }*/
+    .acheckbox {
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>Shop</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+
+        <table class="pull-left tblspace smblock mb-3">
+
+            <tr>
+
+
+                <td class="w1" id="dtstate">State : </td>
+
+                <td id="dtdesg2" style="width:200px;">
+
+
+                    @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
+
+
+                </td>
+
+                <td class="w1" id="dtstate">Shop Types : </td>
+
+                <td id="ddlshotype">
+                    <ul class="list-inline" style="padding-top:13px">
+                        @foreach (var item in Model.Shoptypes)
+                        {
+                            <li>
+                                <input id="chk@(item.ID)" class="acheckbox"
+                                       type="checkbox"
+                                       value="@item.ID"
+                                       checked="@item.IsChecked"
+                                       @*rev work start 16.06.2022 mantise 0024948 show all checkbox required for shops report*@
+                                       name="@item.Name"
+                                       @*rev work close 16.06.2022 mantise 0024948 show all checkbox required for shops report*@ 
+                                       />
+                                @item.Name
+                            </li>
+                        }
+                    </ul>
+
+                </td>
+                <td style="padding-top:8px">
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+                        <option value="1">PDF</option>
+                        <option value="2">XLSX</option>
+                        <option value="3">XLS</option>
+                        <option value="4">RTF</option>
+                        <option value="5">CSV</option>
+                    </select>
+                </td>
+
+            </tr>
+
+            <tr></tr>
+        </table>
+
+        <br />
+
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{                    
+                    Html.RenderAction("GetCounterlistPartial", "CounterList", new { StateId = Model.StateId, TypeID = Model.TypeID, Ispageload = "0" });                   
+                }
+            </div>
+        </div>
+        <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
+        <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+    </div>
+</div>
+
+
+<div id="mask">
+    <div id="boxes">
+        <div class="inner">
+            <div id="dialog" class="window">
+                <a href="#" class="close"><i class="fa fa-times" aria-hidden="true"></i></a>
+                <div id="popupfoot">
+
+
+                    <img src="#" class="image" alt="Image not found!"></img>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="maskmap">
+    <div id="boxesmap">
+        <div class="inner">
+            <div id="dialogmap" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfootmap">
+
+                    <div id="map" style="width: 100%; height: 450px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

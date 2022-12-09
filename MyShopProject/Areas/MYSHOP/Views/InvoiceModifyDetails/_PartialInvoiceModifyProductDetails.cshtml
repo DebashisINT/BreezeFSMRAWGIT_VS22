@@ -1,0 +1,222 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridInvoiceModifyList";
+    settings.CallbackRouteValues = new { Action = "GetInvoiceModifylistPartial", Controller = "InvoiceModifyDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employee_ID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 1;
+        x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employee_Name";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "State_name";
+        x.Caption = "State";
+        x.VisibleIndex = 3;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 4;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENTITYCODE";
+        x.Caption = "Code";
+        x.VisibleIndex = 5;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "Address";
+           x.Caption = "Address";
+           x.VisibleIndex = 6;
+           x.Width = 200;
+           //  x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+
+       });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Contact";
+        x.Caption = "Contact";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Type";
+        x.Caption = "Shop Type";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PPName";
+        x.Caption = "PP Name";
+        x.VisibleIndex = 9;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DDName";
+        x.Caption = "DD Name";
+        x.VisibleIndex = 10;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Order_Number";
+        x.Caption = "Order Number";
+        x.VisibleIndex = 11;
+
+        //x.SetDataItemTemplateContent(c =>
+        //{
+        //    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "Order_Number")) + "</a>");
+        //});
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Order_Date";
+        x.Caption = "Order Date";
+        x.VisibleIndex = 12;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Order_Value";
+        x.Caption = "Order Value";
+        x.VisibleIndex = 13;
+        x.Width = 120;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Invoice_Number";
+        x.Caption = "Inv No";
+        x.VisibleIndex = 14;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //  x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Invoice_Date";
+        x.Caption = "Inv Date";
+        x.VisibleIndex = 15;
+        x.Width = 120;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Delivered_Value";
+        x.Caption = "Delivered Value";
+        x.VisibleIndex = 16;
+        x.Width = 120;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //  x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Action";
+        x.VisibleIndex = 17;
+        x.Width = 120;
+        x.SetDataItemTemplateContent(c =>
+        {
+            // ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenHomeLocationforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "UserID")) + "')\">Modify</a>");
+
+            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Order_Number")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Invoice_Number")) + "','" + Convert.ToDateTime(DataBinder.Eval(c.DataItem, "Order_Date")).ToString("dd-MM-yyyy") + "')\"><img src='/assests/images/Edit.png' /></a>");
+
+
+            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteInvoice('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Order_Number")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "BillingId")) + "')\"><img src='/assests/images/Delete.png' </a>");
+
+        });
+
+    });
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Order_Value"); ;
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Delivered_Value");
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "countactivity").DisplayFormat = "0";
+
+}).Bind(Model).GetHtml()
+
+
+

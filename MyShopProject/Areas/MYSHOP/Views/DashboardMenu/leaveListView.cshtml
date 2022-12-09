@@ -1,0 +1,90 @@
+﻿<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <table class="eqpadtbl mb-2">
+                <tr>
+                    <td class="w150">
+                        <div>From Date</div>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                                        deSettings =>
+                                                        {
+                                                            deSettings.Name = "dtFrom";
+                                                            deSettings.Date = DateTime.Now;
+                                                            deSettings.Properties.UseMaskBehavior = true;
+                                                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                                                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                                        }).GetHtml()
+
+                        </div>
+                    </td>
+                    <td class="w150">
+                        <div>To Date</div>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Todate,
+                                                        deSettings =>
+                                                        {
+                                                            deSettings.Name = "dtTo";
+                                                            deSettings.Date = DateTime.Now;
+                                                            deSettings.Properties.UseMaskBehavior = true;
+                                                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                                                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                                        }).GetHtml()
+                        </div>
+                    </td>
+                    <td style="padding-top: 22px;width:170px;">
+                        <label></label>
+                        <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form_main">
+        <div class="clear"></div>
+        <div id="refreshgrid">
+        </div>
+        <div id="refreshgridstatusinvoiceorderreportregister">
+            @{
+                Html.RenderAction("LeaveDetailslistGridDB", "LeaveApplyList", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
+            }
+            @*change for design*@
+
+        </div>
+
+
+        <input type="hidden" id="hdnuser_id" />
+        <input type="hidden" id="hdnuser_state" />
+        <input type="hidden" id="hdnuser_shop" />
+
+        @Html.DevExpress().PopupControl(
+                                    settings =>
+                                    {
+                                        settings.Name = "pcModalImage";
+                                        settings.Width = 600;
+                                        settings.Height = 400;
+                                        //settings.ScrollBars.v
+                                        settings.AllowDragging = true;
+                                        settings.CloseAction = CloseAction.CloseButton;
+                                        settings.CloseOnEscape = true;
+                                        settings.PopupAnimationType = AnimationType.None;
+                                        settings.HeaderText = "View Documents";
+                                        settings.Modal = true;
+                                        settings.AutoUpdatePosition = true;
+                                        settings.Top = 50;
+                                        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                                        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+                                        settings.SetContent(() =>
+                                        { });
+
+                                        // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                                    }).GetHtml()
+
+    </div>
+</div>
+

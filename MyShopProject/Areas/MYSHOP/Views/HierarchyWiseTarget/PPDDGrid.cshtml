@@ -1,0 +1,81 @@
+﻿
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ppddgrid";
+    settings.SettingsSearchPanel.Visible = true;
+    settings.CallbackRouteValues = new { Controller = "HierarchyWiseTarget", Action = "PPDDGrid" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    //username,Id,iddeg,user_name,ParentId,parentgeg
+    settings.Settings.ShowFilterRow = true;
+
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 250;
+    // settings.Settings.ShowGroupPanel = true;
+    //settings.AutoGenerateColumns = false;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsContextMenu.EnableGroupPanelMenu = DefaultBoolean.True;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+
+    settings.Styles.Table.CssClass += " flatGrid ";
+    settings.StylesPager.Pager.CssClass += " flatFooter ";
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "5", "10", "20", "30", "40", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 100;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.ShowFooter = true;
+
+    settings.Columns.Add("SHOP_NAME", "Shop Name").Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    settings.Columns.Add("SHOP_TYPE", "Shop Type").Width = System.Web.UI.WebControls.Unit.Percentage(5);
+    settings.Columns.Add("EMPNAME", "Employee Name").Width = System.Web.UI.WebControls.Unit.Percentage(12);
+    settings.Columns.Add("CONTACTNO", "Login ID.").Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+    });
+
+
+    settings.Columns.Add("TGT_ORDERVALUE", "Tgt. Value").Width = System.Web.UI.WebControls.Unit.Percentage(12);
+    settings.Columns.Add("ACHV_ORDERVALUE", "Achv. Value").Width = System.Web.UI.WebControls.Unit.Percentage(12);
+    settings.Columns.Add("TGT_COLLECTION", "Tgt. Collection").Width = System.Web.UI.WebControls.Unit.Percentage(12);
+    settings.Columns.Add("ACHV_COLLECTION", "Achv. Collection").Width = System.Web.UI.WebControls.Unit.Percentage(12);
+    
+
+
+    settings.CustomColumnSort = settings.CustomColumnGroup;
+
+    settings.Settings.ShowGroupFooter = GridViewGroupFooterMode.VisibleAlways;
+    settings.Settings.GridLines = System.Web.UI.WebControls.GridLines.Both;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_ORDERVALUE").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_ORDERVALUE").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_COLLECTION").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_COLLECTION").DisplayFormat = "Total: {0}";
+
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallbackppdd";
+
+
+    settings.DataBinding = (s, e) =>
+    {
+        MVCxGridView g = (MVCxGridView)s;
+        g.ExpandAll();
+    };
+
+
+}
+).Bind(Model).GetHtml()
+
+
+
+
+

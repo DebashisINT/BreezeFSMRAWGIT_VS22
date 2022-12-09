@@ -1,0 +1,207 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridrevisitvariancedet";
+
+    settings.CallbackRouteValues = new { Action = "GetRevisitVarianceDetailsListPopulate", Controller = "RevisitVarianceDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACTNO";
+        x.Caption = "Login ID";
+        x.VisibleIndex = 1;
+        x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 2;
+        x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "EMPNAME";
+     x.Caption = "Employee Name";
+     x.VisibleIndex = 3;
+     x.Width = 100;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+     x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+     x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DESIGNATION";
+        x.Caption = "Designation";
+        x.VisibleIndex = 4;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "SHOPPIN";
+          x.Caption = "Shop PIN";
+          x.VisibleIndex = 5;
+          x.Width = 60;
+          x.ColumnType = MVCxGridViewColumnType.TextBox;
+          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+      });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_NAME";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 6;
+        x.Width = 120;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "SHOP_OWNER_CONTACT";
+       x.Caption = "Shop Contact";
+       x.VisibleIndex = 7;
+       x.Width = 80;
+       // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+       x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+       x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+   });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPADDR";
+        x.Caption = "Address";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPSTAT";
+        x.Caption = "Shop State";
+        x.VisibleIndex = 9;
+        x.Width = 90;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "SHOP_TYPE";
+    x.Caption = "Shop Type";
+    x.VisibleIndex = 10;
+    x.Width = 80;
+    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+});
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "REVISITTGDATE";
+    //x.Caption = "Shop Revisit Tg. Dt.";
+    x.Caption = "Shop Revisit <br/>Target Date";
+    x.VisibleIndex = 11;
+    x.Width = 80;
+    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+});
+
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "TARGETRV";
+    x.Caption = "Target";
+    x.VisibleIndex = 12;
+    x.Width = 50;
+    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+});
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "REVISITDATE";
+    x.Caption = "Revisit Date";
+    x.VisibleIndex = 13;
+    x.Width = 80;
+    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+});
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "NEWVISITDATE";
+    x.Caption = "New Visit <br/>Date";
+    x.VisibleIndex = 14;
+    x.Width = 80;
+    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+});
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "ACHIEVEMENT";
+    x.Caption = "Achievement";
+    x.VisibleIndex = 15;
+    x.Width = 80;
+    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+});
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "REMARKS";
+    x.Caption = "Remarks";
+    x.VisibleIndex = 16;
+    x.Width = 70;
+    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+});
+
+    ///Summary
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TARGETRV").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHIEVEMENT").DisplayFormat = "0";    
+}).Bind(Model).GetHtml()

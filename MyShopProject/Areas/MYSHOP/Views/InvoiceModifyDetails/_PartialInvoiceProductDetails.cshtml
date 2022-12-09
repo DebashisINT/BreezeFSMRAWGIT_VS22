@@ -1,0 +1,61 @@
+﻿ @model  Models.OrderDetailsSummaryProducts
+
+<div class="form_main">
+    <div class="row">
+        <div class="col-md-2">
+            <label>Product List</label><span class="red">*</span>
+            <div>
+                @Html.DropDownListFor(m => m.Product_Id, new SelectList(Model.products, "Id", "Product_name", Model.Product_Id), "Select", new { @id = "idproduct", @class = "form-control", @tabindex = 1, @disabled="disabled" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label>Quantity</label><span class="red" id="spanrate">*</span>
+            <div>
+                @Html.TextBoxFor(m => m.Product_Qty, new { @class = "form-control", @id = "txtprod_qty", @tabindex = 2, onkeypress = "return isNumber(this,event)", onchange = "calculation()", maxlength = "8" })
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <label>Rate</label><span class="red" id="spaneligible">*</span>
+            <div>
+                @Html.TextBoxFor(m => m.Product_Rate, new { @class = "form-control", @id = "txtprod_rate", @tabindex = 3, onkeypress = "return isNumber(this,event)", onchange = "calculation()", maxlength = "8" })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label>Price</label><span class="red" id="spaneligible">*</span>
+            <div>
+                @Html.TextBoxFor(m => m.Product_Price, new { @class = "form-control", @id = "txtprod_price", @tabindex = 8, @readonly = true })
+            </div>
+        </div>
+
+
+        <div class="col-md-4 pad-md-18">
+            <label>&nbsp;</label>
+            <button type="button" id="btnEdit" class="btn btn-success " tabindex=13>Update</button>
+            <button type="button" id="btnclear" class="btn btn-success " tabindex=14>Cancel</button>
+           
+        </div>
+
+
+        <div class="col-md-12">
+        </div>
+
+    </div>
+    <input type="hidden" id="hdTCid_id" />
+    <input type="hidden" id="hdnuser_state" />
+    <input type="hidden" id="hdnuser_shop" />
+
+
+    <input type="hidden" id="OrderIDUpdate">
+    <input type="hidden" id="InvoiceIDUpdate">
+</div>
+<div style="clear: both;"><br /></div>
+
+<div>
+
+
+    @{
+        Html.RenderAction("PartialInvoiceAllProducts", "InvoiceModifyDetails");
+    }
+</div>
+

@@ -1,0 +1,153 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridTemplateImportLogList";
+    settings.CallbackRouteValues = new { Action = "GetEmployeesTargetSettingImportLog", Controller = "EmployeesTarget" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(480);
+    settings.Settings.VerticalScrollableHeight = 230;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.ClientSideEvents.BeginCallback = "OnStartLogGridCallback";
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = false;
+    settings.Settings.ShowGroupPanel = false;
+
+    settings.CommandColumn.Visible = false;
+
+    settings.Settings.ShowFooter = false;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.False;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Visible = false;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Mobile";
+        x.Caption = "Login ID/Mobile";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Name";
+        x.Caption = "Emp/PP/DD";
+        x.VisibleIndex = 2;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+       
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Supervisor_Assigned";
+        x.Caption = "Supervisor/Assigned";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+       
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NewCounter";
+        x.Caption = "New Counter";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Revisit";
+        x.Caption = "Re-visit";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TargetValue";
+        x.Caption = "Target Value";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TargetCollection";
+        x.Caption = "Target Collection";
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Status";
+        x.VisibleIndex = 8;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.SetDataItemTemplateContent(c =>
+        {
+            if (Convert.ToString(DataBinder.Eval(c.DataItem, "Status")) == "True")
+            {
+                ViewContext.Writer.Write(
+                        "<i class='fa fa-check green' aria-hidden='true'></i>"
+                    );
+            }
+            else
+            {
+                ViewContext.Writer.Write(
+                        "<i class='fa fa-close red' aria-hidden='true'></i>"
+                    );
+            }
+        });
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Message";
+        x.Caption = "Reason";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CreatedDate";
+        x.Caption = "Import Date & Time";
+        x.VisibleIndex = 10;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+    });
+
+
+}).Bind(Model).GetHtml()
+
+
+
+

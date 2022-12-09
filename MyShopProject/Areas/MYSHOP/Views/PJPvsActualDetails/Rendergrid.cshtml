@@ -1,0 +1,219 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "PJPvsActualDetails", Action = "Rendergrid" };
+    settings.KeyFieldName = "SEQ";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Date";
+        column.FieldName = "Date";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Employee Name";
+        column.FieldName = "EMPLOYEE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Designation";
+        column.Caption = "Designation";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Phone";
+        column.FieldName = "Phone";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Supervisor";
+        column.Caption = "Supervisor";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "State";
+        column.FieldName = "State";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "PJPCustomer";
+        column.Caption = "PJP Customer";        
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CustomerType";
+        column.Caption = "Customer Type";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Customer Phone";
+        column.FieldName = "CustomerPhone";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Location";
+        column.Caption = "Location";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "From_Time";
+        column.Caption = "From Time";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+    
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "To_Time";
+        column.Caption = "To Time";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "PJPRemarks";
+        column.Caption = "PJP Remarks";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AchvCustomer";
+        column.Caption = "Achv. Customer";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AchvCustomerType";
+        column.Caption = "Customer Type";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+    
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AchvCustomerPhone";
+        column.Caption = "Customer Phone";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AchvLocation";
+        column.Caption = "Location";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AchvCustomerAddress";
+        column.Caption = "Customer Address";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "AchvGPSAddress";
+    //    column.Caption = "GPS Address";
+    //    column.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    column.Width = 200;
+    //});
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AchvVisit_Time";
+        column.Caption = "Visit Time";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+    
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Status";
+        column.Caption = "Status";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Ordervalue";
+        column.Caption = "Order Value";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+        column.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "AchvRemarks";
+        column.Caption = "Feedback/Remarks";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()
+

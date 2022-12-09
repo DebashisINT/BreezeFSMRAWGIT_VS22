@@ -1,0 +1,144 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridHomeColationList";
+
+    settings.CallbackRouteValues = new { Action = "GetHomelistPartial", Controller = "HomeLocation" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Emp_Name";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 1;
+        // x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "address";
+     x.Caption = "Address";
+     x.VisibleIndex = 2;
+     //x.Width = 120;
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+ });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "cityname";
+        x.Caption = "City";
+        x.VisibleIndex = 3;
+        x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "statename";
+        x.Caption = "State";
+        x.VisibleIndex = 4;
+        x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "pin_code";
+          x.Caption = "Pincode";
+          x.VisibleIndex = 5;
+          x.Width = 60;
+          x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+
+      });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Latitude";
+        x.Caption = "Latitude";
+        x.VisibleIndex = 6;
+        // x.Width = 300;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "longatude";
+       x.Caption = "Longatude";
+       x.VisibleIndex = 7;
+       // x.Width = 300;
+       x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+       x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+       x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+   });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UpdateDate";
+        x.Caption = "Update Date";
+        x.VisibleIndex = 8;
+        x.Width = 120;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Action";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.SetDataItemTemplateContent(c =>
+        {
+            // ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenHomeLocationforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "UserID")) + "')\">Modify</a>");
+
+            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"OpenHomeLocationforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "UserID")) + "')\"><img src='/assests/images/Edit.png' /></a>");
+
+
+            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteHomeLocation('" + Convert.ToString(DataBinder.Eval(c.DataItem, "UserID")) + "')\"><img src='/assests/images/Delete.png' </a>");
+
+        });
+
+    });
+
+    ///Summary
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "Shoptype"); ;
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE");
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "countactivity").DisplayFormat = "0";
+
+}).Bind(Model).GetHtml()
+
+
+
+
+

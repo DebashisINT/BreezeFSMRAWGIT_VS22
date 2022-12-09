@@ -1,0 +1,284 @@
+﻿@{
+    ViewBag.Title = "Time Sheet Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">*@
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>*@
+<link href="~/assests/css/custom/jquery.confirm.css" rel="stylesheet" />
+<script src="~/assests/js/jquery.confirm.min.js"></script>
+
+<script>
+
+
+    $(document).ready(function () {
+        var employeeUrl = '@Url.Action("GetUserData", "DashboardMenu")'
+        $.ajax({
+            type: "POST",
+            url: employeeUrl,
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                //console.log(msg);
+                if (msg.length > 0) {
+                    var obj = "<option value='0'>Select</option>";
+                    for (i = 0; i < msg.length; i++) {
+                        obj += "<option value='" + msg[i].USER_ID + "'>" + msg[i].NAME + "</option>"
+                    }
+                    obj += "";
+                    //console.log(obj)
+                    $("#userID").html(obj);
+                }
+            }
+        });
+
+
+    })
+
+
+
+    function OnMoreInfoClick(id) {
+
+
+        $.confirm({
+            title: 'Approve/Reject',
+            content: 'Please Approve or reject.',
+            autoClose: 'Cancel|10000',
+            buttons: {
+
+                approve: {
+                    text: 'Approve',
+                    btnClass: 'btn-success',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        approvrreject(id, "APPROVETIMESHEET");
+                    }
+                },
+                reject: {
+                    text: 'Reject',
+                    btnClass: 'btn-danger',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        approvrreject(id, "REJECTTIMESHEET");
+                    }
+                },
+                Cancel: {
+                    text: 'Cancel',
+                    btnClass: 'btn',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        // massapprovrreject( "REJECTTIMESHEET");
+                    }
+                }
+            }
+        });
+    }
+
+    function approvrreject(id, status) {
+        var surl = '@Url.Action("ApproveReject", "TimeSheet")';
+        $.ajax({
+            url: surl,
+            //async: false,
+            data: {
+                timesheet_id: id,
+                status: status
+            },
+            type: 'POST',
+
+            success: function (data) {
+                jAlert(data);
+                gridTimeSheet.Refresh()
+                gridTimeSheet.Refresh()
+
+
+            },
+            error: function () {
+
+            },
+
+
+        });
+
+    }
+
+    function TimeGridBeginCallback(s, e) {
+        e.customArgs["isMassDeleteClicked"] = true;
+        e.customArgs["fromdate"] = dtFrom.GetText();
+        e.customArgs["todate"] = dtTo.GetText();
+        e.customArgs["userid"] = $("#userID").val();
+
+
+
+    }
+    var selectallclick = false;
+    function onSelectAllCheckBoxCheckedChanged(s, e) {
+        selectallclick = true;
+        gridTimeSheet.PerformCallback({ isMassDeleteClicked: s.GetChecked(), fromdate: dtFrom.GetText() });
+    }
+
+    function RefreshGrid() {
+        gridTimeSheet.Refresh();
+        gridTimeSheet.Refresh();
+    }
+
+    function ShowCheckBox() {
+        $.confirm({
+            title: 'Approve/Reject',
+            content: 'Please Approve or reject.',
+            autoClose: 'Cancel|10000',
+            buttons: {
+
+                approve: {
+                    text: 'Approve',
+                    btnClass: 'btn-success',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        massapprovrreject("APPROVETIMESHEET");
+                    }
+                },
+                reject: {
+                    text: 'Reject',
+                    btnClass: 'btn-danger',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        massapprovrreject("REJECTTIMESHEET");
+                    }
+                },
+                Cancel: {
+                    text: 'Cancel',
+                    btnClass: 'btn',
+                    keys: ['enter', 'shift'],
+                    action: function () {
+                        // massapprovrreject( "REJECTTIMESHEET");
+                    }
+                }
+            }
+        });
+    }
+
+
+    function massapprovrreject(status) {
+        var strTimeSheet = "";
+
+        gridTimeSheet.GetSelectedFieldValues("id", function (str) {
+            strTimeSheet = str.join(",");
+
+
+            if (str == "") {
+                jAlert(' Please select atleast one entry to proceed.', 'Alert');
+            }
+            else {
+                var surl = '@Url.Action("MassApproveReject", "TimeSheet")';
+                $.ajax({
+                    url: surl,
+                    //async: false,
+                    data: {
+                        timesheet_id: strTimeSheet,
+                        status: status
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        jAlert(data);
+                        gridTimeSheet.Refresh()
+                        gridTimeSheet.Refresh()
+
+
+                    },
+                    error: function () {
+
+                    }
+
+
+                });
+            }
+        });
+    }
+
+</script>
+<div class="breadCumb">
+    <span>Time Sheet Approval/Rejection</span>
+</div>
+<div class="container">
+    <div class="backBox p-3 mt-5">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <table class="eqpadtbl  mb-3">
+                            <tr>
+                                <td class="w150">
+                                    <label>From Date</label>
+                                    <div>
+                                        @Html.DevExpress().DateEdit(
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+
+                                    </div>
+                                </td>
+                                <td class="w150">
+                                    <label>To Date</label>
+                                    <div>
+                                        @Html.DevExpress().DateEdit(
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                                    </div>
+                                </td>
+                                <td>
+                                    <label>Employee</label>
+                                    <div class="sltemp">
+                                        <select id="userID">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td style="padding-top: 22px; width: 360px;">
+                                    <label></label>
+                                    <button type="button" id="btnshow" class="btn btn-success btnwidth" onclick="RefreshGrid();" tabindex=4>Show</button>
+                                    <button type="button" id="btnMassApprove" class="btn btn-warning btnwidth" onclick="ShowCheckBox();" tabindex=4>Mass Approve/Reject</button>
+
+                                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                        <option value="0">Export to</option>
+                                        <option value="1">PDF</option>
+                                        <option value="2">XLSX</option>
+                                        <option value="3">XLS</option>
+                                        <option value="2">RTF</option>
+                                        <option value="2">CSV</option>
+
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div>
+                            @{
+                                Html.RenderAction("_PartialSheetApprovalGrid", "TimeSheet", new { isMassDeleteClicked = false, fromdate = "", todate = "", userid = "" });
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,256 @@
+﻿@{
+    ViewBag.Title = "Group/Beat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function AddBeat() {
+        $("#hdnID").val('0');
+        $("#beatModal").modal('show')
+    }
+
+
+    function EditClick(ID) {
+        $("#hdnID").val(ID);
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditGroupBeat", "Beat")",
+            data: { id: ID },
+            success: function (response) {
+
+                if (response.code == "") {
+                    jAlert('No data found');
+                }
+                else {
+                    $("#txtCode").val(response.code)
+                    $("#txtName").val(response.name)
+                    $("#beatModal").modal('show')
+                }
+            }
+        });
+    }
+
+    function SaveBeat() {
+        var id = $("#hdnID").val();
+        if ($("#txtCode").val().trim() == "") {
+            jAlert('Enter code to proceed.');
+            return false;
+        }
+        else if ($("#txtName").val().trim() == "") {
+            jAlert("Enter name to proceed.");
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveGroupBeat", "Beat")",
+                data: { code: $("#txtCode").val(), name: $("#txtName").val(), id: id },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        jAlert('Saved successfully.');
+                        $("#beatModal").modal('hide');
+                        gridList.Refresh();
+                    }
+                    else if (parseInt(response) == -1)
+                        jAlert('Code already exists.')
+                }
+            });
+        }
+    }
+
+    function beginUsergridcallback(s, e) {
+        e.customArgs["id"] = $("#hdnID").val();
+    }
+    function AssignUserClick(ID) {
+        $("#hdnID").val(ID);
+        $("#usermapModal").modal('show');
+        // Mantis Issue 25160
+        //gridUserList.Refresh();
+        //var unselect = [];
+        //gridUserList.SelectRowsByKey(unselect)
+        gridUserList.UnselectRows();
+        // End of Mantis Issue 25160
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SetUsers", "Beat")",
+            data: { ID: ID },
+            success: function (response) {
+                if (response.length > 0) {
+                    // Mantis Issue 25160
+                    //gridUserList.SelectRowsByKey(response)
+                    setTimeout(function () {
+                        gridUserList.SelectRowsByKey(response)
+                    }, 2000)
+                    // End of Mantis Issue 25160
+                }
+            }
+        });
+
+
+    }
+
+    function SaveUserBeat() {
+        var id = $("#hdnID").val();
+        gridUserList.GetSelectedFieldValues("user_id", function (str) {
+            var selected = str.join(",");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveGroupBeatUser", "Beat")",
+                data: { selected: selected, id: id },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        jAlert('Saved successfully.');
+                        $("#beatModal").modal('hide');
+                        gridList.Refresh();
+                    }
+                    else if (parseInt(response) == -1)
+                        jAlert('Code already exists.')
+                }
+            });
+        });
+    }
+
+
+    function DeleteClick(ID) {
+        $("#hdnID").val(ID);
+
+        jConfirm('Delete ?', 'Alert', function (r) {
+            if (r == true)
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "Beat")",
+                    data: { ID: ID },
+                    success: function (response) {
+                        jAlert('Deleted successfully.')
+                    }
+                });
+        });
+
+
+
+    }
+
+</script>
+
+<style>
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .modal-footer {
+        padding: 10px 20px 10px;
+    }
+    .dxgvLoadingPanel_PlasticBlue {
+        left: 42% !important;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>Group/Beat</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+        <table class="pull-left tblspace smblock mt-4 mb-3 ">
+            <tr>
+                <td style="">
+                    <button type="button" id="btnAdd" class="btn btn-success btnwidth" onclick="AddBeat()">Add</button>
+                </td>
+            </tr>
+            <tr></tr>
+        </table>
+        <br />
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                    Html.RenderAction("PartialGrid", "Beat");
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="beatModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add/Modify Group/Beat</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                <div id="divModalBody">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div><label>Code</label></div>
+                            <div>
+                                <input type="text" id="txtCode" maxlength="100" class="form-control" />
+                            </div>
+                            <div><label>Name</label></div>
+                            <div>
+                                <input type="text" id="txtName" maxlength="100" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="width: 476px;">
+
+                <div>
+                    <button type="button" id="btnSave" class="btn btn-success" onclick="SaveBeat()">Save</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" id="hdnID" />
+</div>
+
+
+<div id="usermapModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 750px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Map</h4>
+            </div>
+            <div class="modal-body" style="width: auto">
+                <div id="divModalBody">
+                    @{
+                        Html.RenderAction("PartialUserGrid", "Beat", new { id = "0" });
+                    }
+                </div>
+            </div>
+            <div class="modal-footer" style="width: auto">
+
+                <div>
+                    <button type="button" id="btnSave" class="btn btn-success" onclick="SaveUserBeat()">Map User</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" id="hdnID" />
+</div>

@@ -1,0 +1,233 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridreimbursementregister";
+
+    settings.CallbackRouteValues = new { Action = "GetReimbursementList", Controller = "Reimbursement" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+    settings.KeyFieldName = "SEQ";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 200;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "EMPCODE";
+    //    x.Caption = "Employee Code";
+    //    x.VisibleIndex = 1;
+    //    x.Width = 140;
+    //    //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    //    x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+    //});
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACT";
+        x.Caption = "User Id";
+        x.VisibleIndex = 1;
+        x.Width = 80;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        x.Width = 200;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+    });
+
+  settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPLOYEE_GRADE";
+        x.Caption = "Grade";
+        x.VisibleIndex = 3;
+        x.Width = 40;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+    });
+
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "STATE";
+     x.Caption = "State";
+     x.VisibleIndex = 4;
+     x.Width = 100;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DEG_DESIGNATION";
+        x.Caption = "Designation";
+        x.VisibleIndex = 5;
+        x.Width = 120;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AMOUNT";
+        x.Caption = "Applied Amount";
+        x.VisibleIndex = 6;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+   settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVED_AMOUNT";
+        x.Caption = "Approved Amount";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+ settings.Columns.Add(x =>
+    {
+        x.FieldName = "PENDING_COUNT";
+        x.Caption = "Tot. Pending";
+        x.VisibleIndex = 8;
+        x.Width = 80;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+ settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVED_COUNT";
+        x.Caption = "Tot. Approved";
+        x.VisibleIndex = 9;
+        x.Width = 85;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+ settings.Columns.Add(x =>
+    {
+        x.FieldName = "REJECTED_COUNT";
+        x.Caption = "Tot. Reject";
+        x.VisibleIndex = 10;
+        x.Width = 70;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "REPORTTO";
+          x.Caption = "Supervisor";
+          x.VisibleIndex = 11;
+          x.Width = 140;
+          x.ColumnType = MVCxGridViewColumnType.TextBox;
+          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+
+      });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORTCONTACT";
+        x.Caption = "Contact";
+        x.VisibleIndex = 12;
+        x.Width = 80;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+
+    });
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "RPTTODESG";
+    //    x.Caption = "Designation";
+    //    x.VisibleIndex = 9;
+    //    x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+
+    //});
+
+
+    settings.Columns.Add(x =>
+  {
+      x.FieldName = "STATUS";
+      x.Caption = "Status";
+      x.VisibleIndex = 13;
+      x.Width = 100;
+      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+  });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UPDATEDBY";
+        x.Caption = "Updated By";
+        x.VisibleIndex = 14;
+        x.Width = 80;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LASTUPDATED_ON";
+        x.Caption = "Last Updated On";
+        x.VisibleIndex = 15;
+        x.Width = 110;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Approved";
+        x.VisibleIndex = 16;
+        x.Width = 80;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenReimbursementListEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "SEQ")) + "')\">Modify</a>");
+            ViewContext.Writer.Write(
+                       "<a style='cursor:pointer' onclick=\"OpenReimbursementListEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "USER_ID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPNAME")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "DEG_DESIGNATION")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "REPORTTO")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "STATE")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "STATUS")) + "')\"> <img src='/assests/images/document.png' title='Click to Approved' /></a>"
+                   );
+        });
+
+    });
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "AMOUNT").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "APPROVED_AMOUNT").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "PENDING_COUNT").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "APPROVED_COUNT").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "REJECTED_COUNT").DisplayFormat = "0.00"; 
+    
+}).Bind(Model).GetHtml()
+
+

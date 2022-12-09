@@ -1,0 +1,93 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridEmployeesTargetList";
+
+    settings.CallbackRouteValues = new { Action = "GetEmployeesTargetList", Controller = "EmployeesTarget" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EmployeeCode";
+        x.Caption = "EMP CODE";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(16); 
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employeename";
+        x.Caption = "NAME";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(16); 
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Designation";
+        x.Caption = "DESIGNATION";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(16); 
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ContactNo";
+        x.Caption = "CONTACT NO.";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(16); 
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Supervisor";
+        x.Caption = "SUPERVISOR";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(16); 
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Actions";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                //"<a style='cursor:pointer' onclick=\"SetEmployeesTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','Visits','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Employeename")) + "')\"><img src='/assests/images/eye.png' title='Visits' class='mright8' /> </a>" +
+                //"<a style='cursor:pointer' onclick=\"SetEmployeesTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','Sales Order Value','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Employeename")) + "')\"> <img src='/assests/images/bill.png' title='Sales Order Value' class='mright8' /> </a>" +
+                //"<a style='cursor:pointer' onclick=\"SetEmployeesTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','Collection','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Employeename")) + "')\"> <img src='/assests/images/document.png' title='Collection' /></a>"
+                "<a style='cursor:pointer' onclick=\"SetEmployeesTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','Collection','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Employeename")) + "')\"> <img src='/assests/images/document.png' title='Collection' /></a>"
+                );
+        });
+
+
+    });
+
+}).Bind(Model).GetHtml()

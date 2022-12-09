@@ -1,0 +1,664 @@
+﻿@model MyShop.Models.HomeLocationModel
+
+
+@{
+    ViewBag.Title = "Home Location";
+
+    //  var purl = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
+}
+
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+
+
+    #maskmap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #maskmap.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxesmap {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    #popupfootmap {
+        font-size: 16pt;
+    }
+</style>
+
+
+<style>
+    .modal-content {
+        border-radius: 0px;
+    }
+
+    .modal-header {
+        background-color: #007DB4;
+        color: white;
+    }
+
+    .modal-body {
+        height: 440px;
+    }
+</style>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif3telvlrJn61kkLXDQA0ViQdDVJWifk"></script>
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+
+
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<link href="~/Content/media.css" rel="stylesheet" />
+<script type="text/javascript">
+    function OnChangeCheckbox(checkbox) {
+        if (checkbox.checked) {
+            EmpGridLookup.SetEnabled(false);
+        }
+        else {
+            EmpGridLookup.SetEnabled(true);
+        }
+    }
+</script>
+
+<script>
+    var arr = [];
+    var typeId;
+    var Ispageload = "0";
+    var checkBox = null;
+    $(function () {
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("EmpGridLookup");
+        //lookup.GetGridView().Refresh();
+        // gridHomeColationList.Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+        $("#drpstate").chosen({
+            width: "100%"
+        });
+
+        $('body').on('click', '#btnshow', function () {
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+            if (document.getElementById("chkAll").checked) {
+                checkBox = "All";
+                Ispageload = "1"
+            }
+            else {
+                checkBox = "";
+                Ispageload = "1"
+            }
+            //alert(checkBox);
+            gridHomeColationList.Refresh();
+        });
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').removeClass('showing');
+            $('#maskmap').removeClass('showing');
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportLocationlist", "HomeLocation", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+    });
+
+
+    function OpenHomeLocationforEdit(EmpID) {
+
+        // alert(EmpID);
+        var surl = '@Url.Action("HomeLocationModify", "HomeLocation")';
+        var usr = $("#drpuser").val();
+        $.ajax({
+            url: surl,
+            async: false,
+            data: {
+                EmployeeId: EmpID
+            },
+            type: 'POST',
+            success: function (data) {
+                //alert(data);
+                $("#divModalBody").html(data);
+                $("#myModal").modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = null;
+        e.customArgs["desgid"] = null;
+    }
+    function LookupValChange() {
+      //  EmpGridLookup.GetGridView().Refresh()
+        //EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["Employee"] = empId;
+        e.customArgs["allEmployee"] = checkBox;
+        e.customArgs["Ispageload"] = 1;
+    }
+
+    function DeleteHomeLocation(UserId) {
+
+        jConfirm('Confirm delete?', 'Confirmation Dialog', function (r) {
+            if (r == true) {
+                var surl = '@Url.Action("DeleteHomeLocation", "HomeLocation")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        User_ID: UserId
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'Deleted Successfully',
+                            'theme': 'dark_blue'
+                        });
+                        gridHomeColationList.Refresh();
+                    },
+                    error: function () {
+
+                    },
+                });
+            }
+            else {
+                return false;
+            }
+        });
+    }
+
+    $('body').on('click', '#btnmodify', function () {
+        //if( $("#drpState option:selected").text())=='')
+        if ($("#txtaddress").val() != '') {
+            if ($("#drpCity option:selected").text() != '') {
+                if ($("#drpState option:selected").text() != '') {
+                    var surl = '@Url.Action("LocationSubmit", "HomeLocation")';
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            address: $("#txtaddress").val(),
+                            Latitude: $("#txtLatitude").val(),
+                            longatude: $("#txtlongatude").val(),
+                            UserID: $("#hdnshpid").val(),
+                            cityName: $("#drpCity option:selected").text(),
+                            stateName: $("#drpState option:selected").text(),
+                            PinCode: $("#txtPinCode").val()
+                        },
+                        type: 'POST',
+                        success: function (data) {
+                            // alert(data);
+                            if (data == true) {
+                                // alert(data);
+                                $("#myModal").modal('hide');
+                                $.jAlert({
+                                    'title': 'Alert!',
+                                    'content': 'Home Location Modified successfully',
+                                    'theme': 'dark_blue'
+                                });
+
+                                gridHomeColationList.Refresh();
+
+                            }
+                            else {
+                                $.jAlert({
+                                    'title': 'Alert!',
+                                    'content': 'Please enter all required fields ',
+                                    'theme': 'dark_blue'
+                                });
+                            }
+                        },
+                        error: function () {
+
+                        },
+                    });
+                }
+                else {
+
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'Select State to Update',
+                        'theme': 'dark_blue'
+                    });
+                }
+            }
+            else {
+
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select City to Update',
+                    'theme': 'dark_blue'
+                });
+            }
+        }
+        else {
+
+            $.jAlert({
+                'title': 'Alert!',
+                'content': 'Please enter Address to Update',
+                'theme': 'dark_blue'
+            });
+        }
+    });
+
+</script>
+
+
+<style>
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist thead > tr > th, #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .tblspace > tbody > tr > td {
+        padding-right: 15px;
+    }
+
+    .acheckbox {
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 6px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #ddlshotype input[type="checkbox"]
+    {
+        margin-right: 4px !important;
+    }
+</style>
+
+<script>
+    function onCompleteModifyshop() {
+        //  alert();
+        $("#myModal").modal('hide');
+        alert('success');
+    }
+    function onBeginModifyshop() {
+        alert();
+
+    }
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+<div class="breadCumb">
+    <span>Home Location</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+        <table class="pull-left tblspace smblock mt-4 mb-3 ">
+            <tr>
+                <td class="w1" id="dtstate"><h5>Employee(s) : </h5></td>
+                <td id="dtdesg2" style="width:200px;">
+                    @*@Html.Action("GetEmpList", "MasterPopulate")*@
+                    @Html.DevExpress().ButtonEdit(
+                    settings =>
+                    {
+                        settings.Name = "EmployeeTxt";
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        //settings.Text = Model.AssignedTo;
+                        settings.ReadOnly = true;
+                        settings.Properties.Buttons.Add("...");
+                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                    }).GetHtml()
+                </td>
+                <td class="w1" id="dtstate"><h5>&nbsp;</h5></td>
+                <td id="ddlshotype">
+                    <input id="chkAll" class="acheckbox" type="checkbox" onclick="OnChangeCheckbox (this)" value="All" />All @*checked="chkAll.IsChecked"*@
+                </td>
+                <td style="">
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+                        <option value="1">PDF</option>
+                        <option value="2">XLSX</option>
+                        <option value="3">XLS</option>
+                        <option value="4">RTF</option>
+                        <option value="5">CSV</option>
+
+                    </select>
+                </td>
+            </tr>
+            <tr></tr>
+        </table>
+        <br />
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                Html.RenderAction("GetHomelistPartial", "HomeLocation", new { Employee = Model.Employee, allEmployee = Model.allEmployee, Ispageload = "0" });
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Home Location Modify</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                <div id="divModalBody" style="padding-left:20px;">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div id="mask">
+    <div id="boxes">
+        <div class="inner">
+            <div id="dialog" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfoot">
+
+                    <img src="#" class="image" alt="Loading..."></img>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="maskmap">
+    <div id="boxesmap">
+        <div class="inner">
+            <div id="dialogmap" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfootmap">
+
+                    <div id="map" style="width: 100%; height: 450px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable" class="mt-3">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->

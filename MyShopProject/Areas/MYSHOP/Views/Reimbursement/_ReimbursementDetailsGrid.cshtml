@@ -1,0 +1,357 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridreimbursementdetails";
+
+    settings.CallbackRouteValues = new { Action = "GetViewReimbursementGrid", Controller = "Reimbursement" };
+    settings.ClientSideEvents.BeginCallback = "OnDetStartCallback";
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    settings.KeyFieldName = "ApplicationID";
+    //settings.KeyFieldName = "ApplicationID";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.ClientSideEvents.SelectionChanged = "ReimbursementSelectionChanged";
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
+    settings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+    settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "Reimbursement", Action = "BatchEditingUpdateReimbursement" };
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "20","50","100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 5;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.CommandColumn.Visible = true;
+    settings.Settings.ShowFooter = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.CommandColumn.Width = 40;
+
+    settings.CommandColumn.VisibleIndex = 0;
+    settings.CommandColumn.FixedStyle = GridViewColumnFixedStyle.Left;;
+    settings.CommandColumn.ShowClearFilterButton = true;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.ClientSideEvents.RowClick = "rowClick";
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Date";
+        x.Caption = "Date";
+        x.VisibleIndex = 1;
+        x.Width = 80;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Name";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        x.Width = 0;
+//x.ColumnType = MVCxGridViewColumnType.TextBox;
+       // x.EditFormSettings.Visible = DefaultBoolean.False;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "deg_designation";
+        x.Caption = "Designation";
+        x.VisibleIndex = 3;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+     x.FieldName = "Employee_Grade";
+     x.Caption = "Grade";
+     x.VisibleIndex = 4;
+     x.Width = 60;
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     x.EditFormSettings.Visible = DefaultBoolean.False;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+     x.FixedStyle = GridViewColumnFixedStyle.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "status";
+        x.Caption = "Status";
+        x.VisibleIndex = 5;
+        x.Width = 70;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Visit_Location";
+        x.Caption = "Visit Location";
+        x.VisibleIndex = 6;
+        x.Width = 110;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Expense_Type";
+        x.Caption = "Expense Type";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "TravelMode";
+          x.Caption = "Mode of Travel";
+          x.VisibleIndex = 8;
+          x.Width = 110;
+          x.ColumnType = MVCxGridViewColumnType.TextBox;
+          x.EditFormSettings.Visible = DefaultBoolean.False;
+          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+      });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "FuelType";
+        x.Caption = "Fuel Type";
+        x.VisibleIndex = 9;
+        x.Width = 80;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "From_location";
+        x.Caption = "From location";
+        x.VisibleIndex = 10;
+        x.Width = 110;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+
+    settings.Columns.Add(x =>
+  {
+      x.FieldName = "To_location";
+      x.Caption = "To location";
+      x.VisibleIndex = 11;
+      x.Width = 90;
+      x.ColumnType = MVCxGridViewColumnType.TextBox;
+      x.EditFormSettings.Visible = DefaultBoolean.False;
+      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+  });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Hotel_name";
+        x.Caption = "Hotel";
+        x.VisibleIndex = 12;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Eligible_Dist";
+        x.Caption = "Eligible Distance(KM)";
+        x.VisibleIndex = 13;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Eligible_Amt";
+        x.Caption = "Eligible Amt";
+        x.VisibleIndex = 14;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Applied_Dist";
+        x.Caption = "Applied Distance(KM)";
+        x.VisibleIndex = 15;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Applied_Amt";
+        x.Caption = "Applied Amt";
+        x.VisibleIndex = 16;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Apprvd_Dist";
+        x.Caption = "Approved Distance(KM)";
+        x.VisibleIndex = 17;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+        x.ReadOnly = false;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Apprvd_Amt";
+        x.Caption = "Approved Amt";
+        x.VisibleIndex = 18;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Remark";
+        x.Caption = "Applied Remarks";
+        x.VisibleIndex = 19;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+    });
+
+   settings.Columns.Add(x =>
+    {
+        x.FieldName = "App_Rej_Remarks";
+        x.Caption = "App/Rej Remarks";
+        x.VisibleIndex = 20;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Approve/Reject";
+        x.FieldName = "";
+        x.VisibleIndex = 21;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+       x.SetDataItemTemplateContent(c =>
+        {
+            if(Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_ApprovedPermision")) == 1){
+                        ViewContext.Writer.Write(
+                                   "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"OpenReimbursementDetailsGridApprovedData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "user_contactId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "ApplicationID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Dist")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Amt")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "App_Rej_Remarks")) + "')\"> <img src='/assests/images/document.png' title='Click to Edit' /></a>"
+                              );
+            }
+            else{
+                ViewContext.Writer.Write(
+                                     "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"CheckApprovedPermission('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Checked_Message")) + "')\"> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
+                              );
+            }
+        });
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "See Attached";
+        x.VisibleIndex = 22;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            if(Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_Image")) == 1){
+                    ViewContext.Writer.Write(
+                          "<a style='cursor:pointer' onclick=\"OpenReimbursementImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "MapExpenseID")) + "')\"> <img src='/assests/images/document.png' title='Click to View' /></a>"
+                      );
+
+             }
+            else
+            {
+                 ViewContext.Writer.Write(
+                                   "<a style='cursor:pointer' class='disableHref'> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
+                              );
+            }
+
+            });
+
+
+    });
+
+
+settings.Columns.Add(x =>
+    {
+        x.FieldName = "user_contactId";
+        x.Caption = "";
+        x.VisibleIndex = 0;
+        x.Visible = false;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+    });
+
+
+
+
+
+    settings.CellEditorInitialize = (s, e) =>
+    {
+        if (e.Column.FieldName == "Apprvd_Dist")
+        {
+            e.Editor.ClientEnabled = false;
+        }
+        if (e.Column.FieldName == "Apprvd_Amt")
+        {
+            e.Editor.ClientEnabled = false;
+        }
+    };
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Eligible_Dist").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Eligible_Amt").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Applied_Dist").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Applied_Amt").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Apprvd_Dist").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Apprvd_Amt").DisplayFormat = "0.00";
+    
+
+}).Bind(Model).GetHtml()
+
+<input type="hidden" value="@ViewBag.Message" id="hdnUpdateMessage" />
+

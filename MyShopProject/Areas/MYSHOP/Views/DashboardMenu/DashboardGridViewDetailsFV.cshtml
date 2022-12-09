@@ -1,0 +1,152 @@
+﻿@model System.Data.DataTable
+
+@Html.DevExpress().GridView(
+   settings =>
+   {
+       settings.Name = "griddashboarddetailsFV";
+
+       settings.CallbackRouteValues = new { Controller = "DashboardMenu", Action = "DashboardGridViewDetailsFV" };
+       settings.ClientSideEvents.BeginCallback = "OnStartdetailsCallback";
+
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+       settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+       settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+       //settings.SettingsSearchPanel.Visible = true;
+       settings.Settings.ShowFilterRow = true;
+       settings.Settings.ShowGroupPanel = false;
+       settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+       settings.Settings.ShowFooter = true;
+       settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+       settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+       settings.SettingsPager.PageSizeItemSettings.Visible = true;
+       settings.SettingsPager.PageSize = 10;
+       settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+       settings.Settings.ShowFilterRowMenu = true;
+       settings.Columns.Clear();
+
+
+
+
+       if (Model != null)
+       {
+
+           double ColumnWidth = Model.Columns.Count;
+
+           if (Model.Columns.Contains("shopvisit_image"))
+           {
+               ColumnWidth = ColumnWidth - 1;
+           }
+
+
+           if (Model.Columns.Count > 0)
+
+               foreach (System.Data.DataColumn column in Model.Columns)
+               {
+                   if (column.ColumnName == "shopvisit_image")
+                   {
+                       //ColumnWidth = ColumnWidth - 1;
+                       settings.Columns.Add(x =>
+                       {
+                           x.FieldName = column.ColumnName;
+                           x.Caption = column.ColumnName;
+                           x.Width = System.Web.UI.WebControls.Unit.Percentage(0);
+                           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                       });
+
+
+                   }
+                   else if (column.ColumnName == "Party Status")
+                   {
+                       settings.Columns.Add(x =>
+                       {
+                           x.FieldName = column.ColumnName;
+                           x.Caption = column.ColumnName;
+                           x.Width = System.Web.UI.WebControls.Unit.Percentage(100 / ColumnWidth);
+                           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                       });
+
+
+                   }
+                   else
+                   {
+                       settings.Columns.Add(x =>
+                       {
+                           x.FieldName = column.ColumnName;
+                           x.Caption = column.ColumnName;
+                           x.Width = System.Web.UI.WebControls.Unit.Percentage(100 / ColumnWidth);
+                           if (column.DataType.FullName == "System.Decimal" || column.DataType.FullName == "System.Int32" || column.DataType.FullName == "System.Int64")
+                           {
+                               x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                               x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                           }
+                           else if (column.DataType.FullName == "System.DateTime")
+                           {
+                               x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                               x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           }
+                           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                       });
+
+                   }
+
+               }
+           settings.HtmlDataCellPrepared += (s, e) =>
+           {
+
+               if (e.DataColumn.Caption == "Image")
+               {
+                   MVCxGridView grid = (MVCxGridView)s;
+                   var IMG_PATH = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "shopvisit_image" });
+                   var Type = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Type" });
+
+                   var buttonHtml = "";
+                   var img_folder = System.Configuration.ConfigurationSettings.AppSettings["img_folder_path"];
+                   var img_folder_newvisit = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
+
+                   if (IMG_PATH != "")
+                   {
+                       if (Type == "Re-Visit")
+                       {
+                           buttonHtml = string.Format(" <a class='example-image-link' href='{0}' data-lightbox='example-1'><img src='{0}' data-lightbox='{0}' alt='No Image Found' height='42' width='42'></a>", img_folder + IMG_PATH);
+                       }
+                       else
+                       {
+                           buttonHtml = string.Format(" <a class='example-image-link' href='{0}' data-lightbox='example-1'><img src='{0}' data-lightbox='{0}' alt='No Image Found' height='42' width='42'></a>", img_folder_newvisit + IMG_PATH);
+
+                       }
+                   }
+                   else
+                   {
+                       buttonHtml = string.Format("<span>No Image Found </span>", IMG_PATH);
+                   }
+
+                   e.Cell.Text = buttonHtml;
+               }
+           };
+
+
+       }
+       if (Model != null && Model.Rows.Count > 0)
+       {
+           settings.HtmlRowPrepared = (s, e) =>
+           {
+               if (Convert.ToString(e.GetValue("Party Status")) == "Rhino")
+               {
+                   e.Row.ForeColor = System.Drawing.Color.Green;
+               }
+               else if (Convert.ToString(e.GetValue("Party Status")) == "Non-Rhino")
+               {
+                   e.Row.ForeColor = System.Drawing.Color.Red;
+               }
+           };
+       }
+
+       settings.ClientSideEvents.EndCallback = "griddashboarddetailsEndcallback";
+
+   }).Bind(Model).GetHtml()
+
+

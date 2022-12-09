@@ -1,0 +1,305 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridorderrsummary";
+
+    settings.CallbackRouteValues = new { Action = "PartialOrderSummary", Controller = "OrderSummary" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    //settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    //Rev Debashis
+    if (TempData["IsPaitentDetails"].ToString() == "0")
+    {
+        //End of Rev Debashis
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "EmployeeName";
+            x.Caption = "Employee Name";
+            x.VisibleIndex = 1;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "BRANCHDESC";
+            x.Caption = "Branch";
+            x.VisibleIndex = 2;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        });
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "shop_name";
+            x.Caption = "Shop Name";
+            x.VisibleIndex = 3;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "ENTITYCODE";
+            x.Caption = "Code";
+            x.VisibleIndex = 4;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "address";
+            x.Caption = "Address";
+            x.VisibleIndex = 5;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "owner_contact_no";
+            x.Caption = "Contact";
+            x.VisibleIndex = 6;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Shoptype";
+            x.Caption = "Shop type";
+            x.VisibleIndex = 7;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        });
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "date";
+            x.Caption = "Order Date";
+            x.VisibleIndex = 8;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        });
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "OrderCode";
+            x.Caption = "Order Number";
+            x.VisibleIndex = 9;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        });
+
+        settings.Columns.Add(x =>
+      {
+          x.FieldName = "order_amount";
+          x.Caption = "Order Value";
+          x.VisibleIndex = 10;
+          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+          x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+      });
+
+        settings.Columns.Add(x =>
+        {
+            x.Caption = "Product Details";
+            x.VisibleIndex = 11;
+            x.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">View</a>");
+            });
+
+
+        });
+        settings.Columns.Add(x =>
+        {
+            x.Caption = "Delete";
+            x.VisibleIndex = 12;
+            x.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Delete</a>");
+            });
+
+        });
+        //Rev Debashis
+        //Mantis Issue 24944
+        if (ViewBag.CanPrint == true)
+        {
+            settings.Columns.Add(x =>
+            {
+                x.Caption = "Action";
+                x.VisibleIndex = 18;
+                x.SetDataItemTemplateContent(c =>
+                {
+                    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"PrintOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Print</a>");
+                });
+
+            });
+        }
+        
+        //End of Mantis Issue 24944
+    }
+    if (TempData["IsPaitentDetails"].ToString() == "1")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "EmployeeName";
+            x.Caption = "Employee Name";
+            x.VisibleIndex = 1;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "BRANCHDESC";
+            x.Caption = "Branch";
+            x.VisibleIndex = 2;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "shop_name";
+            x.Caption = "Shop Name";
+            x.VisibleIndex = 3;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "ENTITYCODE";
+            x.Caption = "Code";
+            x.VisibleIndex = 4;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "address";
+            x.Caption = "Address";
+            x.VisibleIndex = 5;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "owner_contact_no";
+            x.Caption = "Contact";
+            x.VisibleIndex = 6;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Shoptype";
+            x.Caption = "Shop type";
+            x.VisibleIndex = 7;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Patient_Name";
+            x.Caption = "Patient Name";
+            x.VisibleIndex = 8;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Patient_Phone_No";
+            x.Caption = "Patient Phone No.";
+            x.VisibleIndex = 9;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Patient_Address";
+            x.Caption = "Patient Address";
+            x.VisibleIndex = 10;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Hospital";
+            x.Caption = "Patient Hospital";
+            x.VisibleIndex = 11;
+           // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Email_Address";
+            x.Caption = "Patient Email Address";
+            x.VisibleIndex = 12;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+        
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "date";
+            x.Caption = "Order Date";
+            x.VisibleIndex = 13;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "OrderCode";
+            x.Caption = "Order Number";
+            x.VisibleIndex = 14;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "order_amount";
+            x.Caption = "Order Value";
+            x.VisibleIndex = 15;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.Caption = "Product Details";
+            x.VisibleIndex = 16;
+            x.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">View</a>");
+            });
+
+
+        });
+        settings.Columns.Add(x =>
+        {
+            x.Caption = "Delete";
+            x.VisibleIndex = 17;
+            x.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Delete</a>");
+            });
+
+        });
+        
+    }
+    //End of Rev Debashis
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "order_amount").DisplayFormat = "0.00";
+    
+    
+    
+}).Bind(Model).GetHtml()

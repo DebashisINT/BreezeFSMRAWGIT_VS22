@@ -1,0 +1,234 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridTimeSheet";
+
+    settings.CallbackRouteValues = new { Action = "_PartialSheetApprovalGrid", Controller = "TimeSheet" };
+
+
+
+    settings.KeyFieldName = "id";
+
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+
+
+    settings.SettingsPager.PageSize = 10;
+    settings.Settings.ShowPreview = true;
+    settings.ClientSideEvents.BeginCallback = "TimeGridBeginCallback";
+
+    if (ViewBag.IsAll)
+    {
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.SetHeaderTemplateContent(t =>
+        {
+            Html.DevExpress().Label(settingsCheckBox =>
+            {
+                settingsCheckBox.Name = "SelectAllCheckBox";
+                settings.Caption = "Select";
+                
+                //settingsCheckBox.Properties.ClientSideEvents.CheckedChanged = "onSelectAllCheckBoxCheckedChanged";
+                
+            }).Render();
+        }); 
+    }
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMP_NAME";
+        x.Caption = "Name";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.EditFormSettings.Caption = "Name";
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "date";
+        x.Caption = "Date";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.EditFormSettings.Caption = "Description";
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "time";
+        x.Caption = "Time";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.EditFormSettings.Caption = "Description";
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "client_name";
+        x.Caption = "Client Name";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        
+        
+
+    });
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "product_name";
+     x.Caption = "Product Name";
+     x.VisibleIndex = 5;
+     x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     
+
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "project_name";
+        x.Caption = "Project Name";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "activity_name";
+        x.Caption = "Activity Name";
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        
+
+    });
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "comments";
+     x.Caption = "Comment";
+     x.VisibleIndex = 8;
+     x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     
+
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Approved_By";
+        x.Caption = "Approved By";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Approved_On";
+        x.Caption = "Approved On";
+        x.VisibleIndex = 10;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Rejected_By";
+        x.Caption = "Rejected By";
+        x.VisibleIndex = 11;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        
+
+    });
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "Rejected_On";
+    x.Caption = "Rejected On";
+    x.VisibleIndex = 12;
+    x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    
+
+});
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Actions";
+        x.VisibleIndex = 13;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            string id = Convert.ToString(DataBinder.Eval(c.DataItem, "id")).Trim();
+            bool iseditable = Convert.ToBoolean(DataBinder.Eval(c.DataItem, "isUpdateable"));
+
+            if (iseditable)
+                ViewContext.Writer.Write(
+                    "<a href='javascript:void(0);' onclick=OnMoreInfoClick('" + id + "') class='pad' title='Edit'><img src='/assests/images/info.png' /></i></a>"
+                  );
+        });
+
+
+
+    });
+
+    settings.CommandButtonInitialize = (s, e) => {  
+    MVCxGridView gridView = (MVCxGridView)s;
+
+   // gridView.Selection.UnselectAll();
+    if (e.ButtonType == ColumnCommandButtonType.SelectCheckbox) {  
+        bool value =(bool) gridView.GetRowValues(e.VisibleIndex, "isUpdateable");
+        if (!value)
+            e.Enabled = false;
+    }
+    };
+
+    settings.DataBinding = (s, e) =>
+    {
+        MVCxGridView gridView = (MVCxGridView)s;
+        gridView.Selection.UnselectAll();
+
+    };  
+
+
+
+
+
+
+    //settings.ClientSideEvents.EndCallback = "EndGridCallback";
+
+
+}).Bind(Model).GetHtml()
+
+
+

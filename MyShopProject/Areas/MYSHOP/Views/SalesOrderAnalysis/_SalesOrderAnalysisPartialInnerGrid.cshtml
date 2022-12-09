@@ -1,0 +1,52 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "detailsSalesAnalysisGrid";
+
+    settings.CallbackRouteValues = new { Action = "PartialDetailsList", Controller = "SalesOrderAnalysis" };
+    settings.ClientSideEvents.BeginCallback = "OnDetailsStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ORDDATE";
+        x.Caption = "Date";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_NAME";
+        x.Caption = "Shop Name";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(40);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ORDVALUE";
+        x.Caption = "Order Value";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(40);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+ 
+}).Bind(Model).GetHtml()
+
+
+

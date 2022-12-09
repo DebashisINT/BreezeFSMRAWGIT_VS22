@@ -1,0 +1,156 @@
+﻿
+@Html.DevExpress().TreeList(
+    settings =>
+    {
+        settings.Name = "treeList";
+        settings.CallbackRouteValues = new { Controller = "EmployeeList", Action = "PartialEmployeeListcallback" };
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+        settings.AutoGenerateColumns = false;
+        settings.KeyFieldName = "UserID";
+        settings.ParentFieldName = "UserIDParent";
+
+        settings.SettingsPager.AlwaysShowPager = true;
+        settings.SettingsPager.Mode = DevExpress.Web.ASPxTreeList.TreeListPagerMode.ShowPager;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true; 
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "20", "40", "80" };
+        
+        settings.Columns.Add(
+            column =>
+            {
+                column.FieldName = "username";
+                column.Caption = "User";
+            }
+        );
+
+
+
+        settings.SettingsBehavior.ExpandCollapseAction = DevExpress.Web.ASPxTreeList.TreeListExpandCollapseAction.NodeClick;
+      
+        settings.SettingsCookies.StoreExpandedNodes = true;
+
+
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "Track salsman";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetTrackingIndex", "TrackSalesman", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Track Salesman" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+        
+        
+        
+        
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "View Shop";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetshopIndex", "ShopList", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Shop List" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+        
+        
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "View Location";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetlocationIndex", "LocationDetails", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Location List" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "View Attendance";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetAttendanceIndex", "Attendance", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Attendance List" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "View Daily Activity List";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetActivityIndex", "Activity", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Activity List" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+
+
+        settings.PreRender = (sender, e) =>
+        {
+            ((DevExpress.Web.Mvc.MVCxTreeList)sender).ExpandToLevel(1);
+        };
+
+        //settings.Init = (s, e) =>
+        //{
+        //    DevExpress.Web.Mvc.MVCxTreeList tree = s as DevExpress.Web.Mvc.MVCxTreeList;
+
+        //  //  tree.ExpandAll();
+
+           
+        //};
+        
+    }
+).Bind(Model).GetHtml()
+
+
+

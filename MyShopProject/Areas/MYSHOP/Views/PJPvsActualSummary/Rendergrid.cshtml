@@ -1,0 +1,117 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "PJPvsActualSummary", Action = "Rendergrid" };
+    settings.KeyFieldName = "SEQ";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Date";
+        column.FieldName = "Date";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Employee Name";
+        column.FieldName = "Employee";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Designation";
+        column.Caption = "Designation";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Phone";
+        column.FieldName = "Phone";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Supervisor";
+        column.Caption = "Supervisor";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "State";
+        column.FieldName = "State";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "PJP Count";
+        column.FieldName = "PJPCount";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ActualVisit";
+        column.Caption = "Actual Visit";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Order Value";
+        column.FieldName = "OrderValue";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+        column.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Productivity";
+        column.Caption = "Productivity";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+        column.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()

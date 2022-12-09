@@ -1,0 +1,87 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridgpsstatusshoplist";
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    // settings.KeyFieldName = "UserName";
+
+    //settings.SetDataItemTemplateContent(cell =>
+    //{
+    //    ViewContext.Writer.Write("<span style=\"color:red\">" + cell.Text + "</span>");
+    //});
+
+    settings.CallbackRouteValues = new { Action = "ShopListActivityList", Controller = "GPSStatus" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallbackshop";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    //settings.Columns.Add("UserName");
+    //settings.Columns.Add("total_shop_visited");
+    //settings.Columns.Add("total_time_spent_at_shop");
+    //settings.Columns.Add("gps");
+    //settings.Columns.Add("Ratio");
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UserName";
+        x.Caption = "User Name";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "shop_name";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "visited_time";
+        x.Caption = "Date with In-time";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+        x.SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+
+    });
+
+    
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "duration_spent";
+        x.Caption = "Duration Spent(HH:MM)";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+  
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+
+}).Bind(Model).GetHtml()
+
+
+
+

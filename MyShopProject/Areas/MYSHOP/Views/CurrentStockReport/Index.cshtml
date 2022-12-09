@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Current Stock Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadCumb">
+    <span>Current Stock Register</span>
+</div>
+
+
+
+
+<div class="container">
+    <div class="backBox p-3 mt-5">
+
+        <div class="col-md-12">
+
+            @{
+                Html.RenderAction("Rendermainpage", "CurrentStockReport");
+            }
+
+        </div>
+    </div>
+</div>

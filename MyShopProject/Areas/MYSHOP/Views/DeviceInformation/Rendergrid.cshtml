@@ -1,0 +1,183 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "DeviceInformation", Action = "Rendergrid" };
+    settings.KeyFieldName = "SEQ";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Party";
+        column.FieldName = "Shop_Name";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Activity Date";
+        column.FieldName = "Activity_Date";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Activity Time";
+        column.FieldName = "Activity_Time";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        //column.PropertiesEdit.DisplayFormatString = "HH:MM t";
+        //(column.PropertiesEdit as DateEditProperties).EditFormatString = "HH:MM t";
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Contact Name";
+        column.FieldName = "ContactName";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Activity";
+        column.FieldName = "ActivityName";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ActivityTypeName";
+        column.Caption = "Type";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Product_Name";
+        column.Caption = "Product";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Subject";
+        column.FieldName = "ActivitySubject";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ActivityDetails";
+        column.Caption = "Details";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 250;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Duration";
+        column.Caption = "Duration";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        //column.PropertiesEdit.DisplayFormatString = "hh:mm";
+        //(column.PropertiesEdit as DateEditProperties).EditFormatString = "hh:mm";
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Priority";
+        column.FieldName = "PriorityName";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Due Date";
+        column.FieldName = "Due_Date";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Due Time";
+        column.FieldName = "Due_Time";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        //column.PropertiesEdit.DisplayFormatString = "hh:mm tt";
+        //(column.PropertiesEdit as DateEditProperties).EditFormatString = "hh:mm tt";
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATE_BY";
+        column.Caption = "Created By";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Created On";
+        column.FieldName = "CREATED_DATE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+        column.Width = 150;
+    });
+
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MODIFIED_BY";
+        column.Caption = "Modified By";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 120;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Modified On";
+        column.FieldName = "MODIFIED_DATE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+        column.Width = 150;
+    });
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()

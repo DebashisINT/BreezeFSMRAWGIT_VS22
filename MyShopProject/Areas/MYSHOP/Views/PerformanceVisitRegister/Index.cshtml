@@ -1,0 +1,346 @@
+﻿@model Models.SalesSummaryReport
+
+@{
+    ViewBag.Title = "Performance Visit Register";
+    /// Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel-heading">
+    <div class="panel-title">
+        <h3>Performance Visit Register</h3>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<script>
+    var is_pageload = "0";
+    $(function () {
+        var d = new Date();
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var mindt = new Date(selectedDate.getTime() + 1);
+                $("#txttoDate").daterangepicker("option", "minDate", mindt);
+
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var maxdt = new Date(selectedDate.getTime() - 1);
+                $("#txtfromDate").daterangepicker("option", "maxDate", maxdt);
+
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+
+            var flag = true;
+
+            if (dtFrom.GetDate() == null) {
+                $('#MandatoryFromDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryFromDate').attr('style', 'display:none');
+            }
+
+            if (dtTo.GetDate() == null) {
+                $('#MandatoryToDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryToDate').attr('style', 'display:none');
+            }
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+
+            else {
+                if (flag == true) {
+                    is_pageload = "1";
+                    gridperformancevisitreg.Refresh();
+                }
+            }
+
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportPerformanceVisitList", "PerformanceVisitRegister", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+    })
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+    }
+
+    var desigId = [];
+    function DesigSelectionChanged(s, e) {
+        DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    }
+    function GetDesigSelectedFieldValuesCallback(values) {
+        try {
+            desigId = [];
+            for (var i = 0; i < values.length; i++) {
+                desigId.push(values[i]);
+            }
+        } finally {
+            console.log(desigId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+    }
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+</script>
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+</style>
+<link href="~/Content/media.css" rel="stylesheet" />
+<div class="form_main">
+    <div class="row">
+        <div class="col-md-12">
+            <table class="eqpadtbl">
+                <tr>
+                    <td class="w150 relative">
+                        <label>From Date</label>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                                }).GetHtml()
+                            <span id="MandatoryFromDate" style="display: none" class="validclass">
+                                <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>
+                        </div>
+                    </td>
+                    <td class="w150 relative">
+                        <label>To Date</label>
+                        <div>
+                            @*@Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true, @tabindex = 3 })*@
+                            @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+
+                                }).GetHtml()
+                            <span id="MandatoryToDate" style="display: none" class="validclass">
+                                <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>
+                        </div>
+                    </td>
+
+
+
+                    <td class="w150">
+                        <label>State</label>
+                        <div>
+                            @Html.Action("GetStateList", "MasterPopulate")
+                        </div>
+                    </td>
+                    <td class="w150">
+                        <label>Designation</label>
+                        <div>
+                            @Html.Action("GetDesigList", "SalesReportSummary")
+                        </div>
+                    </td>
+                    <td class="w150">
+                        <label>Employee(s)</label>
+                        <div>
+                            @Html.Action("GetEmpList", "MasterPopulate")
+                        </div>
+                    </td>
+
+                    <td style="padding-top: 22px;width:170px;">
+                        <label></label>
+                        <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                        <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                            <option value="0">Export to</option>
+                            <option value="1">PDF</option>
+                            <option value="2">XLSX</option>
+                            <option value="3">XLS</option>
+                            <option value="4">RTF</option>
+                            <option value="5">CSV</option>
+
+                        </select>
+
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+    <input type="hidden" id="hdnuser_id" />
+    <input type="hidden" id="hdnuser_state" />
+    <input type="hidden" id="hdnuser_shop" />
+</div>
+<div style="clear: both;"><br /></div>
+<div id="refreshgridsalessummary">
+
+    @{
+        Html.RenderAction("GetPerformanceVisitList", "PerformanceVisitRegister", new { Fromdate = Model.Fromdate, Todate = Model.Todate, StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0" });
+    }
+    @*change for design*@
+
+</div>

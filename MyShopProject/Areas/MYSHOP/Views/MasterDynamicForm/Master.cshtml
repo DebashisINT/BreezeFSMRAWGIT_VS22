@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Title = "Master";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    function OnBeginCallback(s, e) {
+
+    }
+
+    function Save() {
+        var obj = {};
+        obj.type = $("#ddlType").val();
+        obj.header = $("#txtHeader").val();
+        obj.description = $("#txtDesc").val();
+        obj.items = $("#txtItems").val();
+        obj.Lenght = $("#txtLenth").val();
+        obj.datatype = $("#ddldataType").val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Save", "MasterDynamicForm")",
+            data: JSON.stringify(obj),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                ListGrid.Refresh();
+                ListGrid.Refresh();
+
+            }
+        });
+
+    }
+
+    function FinalSave() {
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("FinalSave", "MasterDynamicForm")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+            ListGrid.Refresh();
+            ListGrid.Refresh();
+
+        }
+    });
+
+    }
+
+
+</script>
+<div class="breadCumb">
+    <span>Edit</span>
+</div>
+<div class="container">
+    <div class="backBox mt-4 mb-4 p-4">
+        <div class="row">
+            <div class="col-md-2">
+                <label>Type</label>
+                <div>
+                    <select id="ddlType" class="form-control">
+                        <option value="dropdown">Drop Down</option>
+                        <option value="check">Check Box</option>
+                        <option value="edit">Edit</option>
+                        <option value="radio">Radio Button</option>
+                        <option value="Customer">Customer</option>
+                        <option value="date">Date</option>
+                        <option value="attachment">Attachment</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Header Name</label>
+                <div>
+                    <input type="text" id="txtHeader" maxlength="100" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Description</label>
+                <div>
+                    <input type="text" id="txtDesc" maxlength="100" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Item(s)</label>
+                <div>
+                    <input type="text" id="txtItems" maxlength="500" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Length</label>
+                <div>
+                    <input type="text" id="txtLenth" maxlength="10" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label>Data Type</label>
+                <div>
+                    <select id="ddldataType" class="form-control">
+                        <option value="">None</option>
+                        <option value="text">Text</option>
+                        <option value="number">Number</option>
+                        <option value="numberdecimel">Number Decimel</option>
+                        <option value="email">email</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2 mt-3 mb-3">
+                <button type="button" id="btnSave" onclick="Save();" class="btn btn-success">Save</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="refreshgridstatusinvoiceorderreportregister">
+                    @{
+                        Html.RenderAction("_partialGrid", "MasterDynamicForm");
+                    }
+                </div>
+                <div class="mt-3"><button type="button" id="btnSave" onclick="FinalSave();" class="btn btn-success">Final Save</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        
+
+        
+
+
+

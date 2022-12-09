@@ -1,0 +1,596 @@
+﻿@model Models.TerritorySalesInchargeWisePerformanceModel
+
+@{
+    ViewBag.Title = "TerritorySalesInchargeWisePerformance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+
+        for (var i = 0; i <= gridtsiwiseperformance.GetColumnsCount() ; i++) {
+            if (gridtsiwiseperformance.GetColumn(i) != null) {
+                if (gridtsiwiseperformance.GetColumn(i).visible == false) {
+                    console.log(gridtsiwiseperformance.GetColumn(i).fieldName);
+                    visibleColumn.push(gridtsiwiseperformance.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridtsiwiseperformance.IsCustomizationWindowVisible())
+            gridtsiwiseperformance.HideCustomizationWindow();
+        else
+            gridtsiwiseperformance.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridtsiwiseperformance.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "Performance")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                gridtsiwiseperformance.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+</script>
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<script>
+    var is_pageload = "0";
+    var is_procfirst = "0";
+    // Required for speed-up of call backs (http://www.devexpress.com/Support/Center/Question/Details/Q569354)
+    function RemoveElementFromArray(array, element) {
+        var index = array.indexOf(element);
+        if (index < 0) return array;
+        array[index] = null;
+        var result = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] === null)
+                continue;
+            result.push(array[i]);
+        }
+        return result;
+    }
+
+
+    $(function () {
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        $('body').on('click', '#btnshow', function () {
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+            var flag = true;
+
+            if ($("#hdnStateMandatory").val() == "True") {
+                if (StateId == "") {
+                    //  $('#MandatoryState').attr('style', 'display:block');
+                    jAlert("Please select State.");
+                    flag = false;
+                }
+                else {
+                    //   $('#MandatoryState').attr('style', 'display:none');
+                }
+            }
+
+            if (flag == true) {
+                is_pageload = "1";
+                is_procfirst = "1";
+                gridtsiwiseperformance.Refresh();
+            }
+        });
+
+        $('#ddlSumExport').on('change', function () {
+            if ($("#ddlSumExport option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlSumExport').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporTSIWisePerformanceList", "TerritorySalesInchargeWisePerformance", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+    })
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Month"] = $("#ddlMonth").val();
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+        e.customArgs["is_procfirst"] = is_procfirst;
+        e.customArgs["Year"] = $("#ddlYear").val();
+    }
+
+    function OnEndCallback(s, e) {
+        var message = $('#hdnUpdateMessage').val();
+        if (message != "" && message != null && message != "null") {
+            jAlert(message);
+            $('#hdnUpdateMessage').val('');
+        }
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+    }
+
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+<style>
+    .expTypeImg {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .expTypeImg > li {
+            display: inline-block;
+        }
+
+            .expTypeImg > li > div {
+                position: relative;
+            }
+
+                .expTypeImg > li > div > img {
+                }
+
+                .expTypeImg > li > div .imageCap {
+                    position: absolute;
+                    bottom: 0;
+                    z-index: 5;
+                    width: 100%;
+                    color: #fff;
+                    background: #bd9f9f;
+                    padding: 5px 10px;
+                    text-align: center;
+                }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .disableHref {
+        opacity: 0.3;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    #myAssignTargetpopup {
+        padding: 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    .linerHd {
+        background: #dedede;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+    }
+
+    .popheader {
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 8px;
+        padding-left: 7px;
+    }
+
+    .lightbox {
+        z-index: 10000000;
+    }
+
+    .lightboxOverlay {
+        z-index: 9999999;
+    }
+
+    .btn-excel {
+        position: absolute;
+        right: 6px;
+        top: 8px;
+    }
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+</style>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<div class="breadCumb">
+    <span>Territory Sales Incharge Wise Performance </span>
+</div>
+<div class="container">
+    <div class="backBox mt-5  p-3">
+        <div class="row ">
+            <div class="col-md-2" id="mnthIntro">
+                <label>Month</label>
+                <div>
+                    @Html.DropDownList("ddlMonth", new SelectList(Model.MonthList, "TMID", "TMonthName"), new { @name = "from", @class = "full form-control" })
+
+                </div>
+            </div>
+            <div class="col-md-2" id="YersIntro">
+                <label>Year</label>
+                <div>
+                    @Html.DropDownList("ddlYear", new SelectList(Model.YearList, "TID", "TYearName"), new { @name = "from", @class = "full form-control" })
+
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2" id="stateIntro">
+                <label>State</label>
+                <div>
+                    @Html.Action("GetStateList", "MasterPopulate")
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2" id="empIntro">
+                <label>Employee(s)</label>
+                <div>
+                    @Html.DevExpress().ButtonEdit(
+                    settings =>
+                    {
+                        settings.Name = "EmployeeTxt";
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        //settings.Text = Model.AssignedTo;
+                        settings.ReadOnly = true;
+                        settings.Properties.Buttons.Add("...");
+                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                    }).GetHtml()
+                </div>
+            </div>
+            <div class="col-md-4 pad-md-18 mb-3">
+                <label></label>
+                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+            </div>
+            <input type="hidden" id="hdnuser_id" />
+            <input type="hidden" id="hdnuser_state" />
+            <input type="hidden" id="hdnuser_shop" />
+            <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
+            <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="backBox mt-4 p-3 ">
+        <div class="mx-4 ">
+            <div class="options">
+                <div class="options-item">
+                    @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                    // settings.Theme = "MaterialCompactOrange";
+                }).GetHtml()
+                </div>
+            </div>
+            <div class="row">
+                <div id="refreshgridtsiwiseperformance">
+                    @{
+                        Html.RenderAction("PartialTerritorySalesInchargeWisePerformance", "TerritorySalesInchargeWisePerformance", new { Month = Model.MonthList, StateId = Model.StateId, empcode = Model.empcode, is_pageload = "0", Year = "2019" });
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->
+<div style="clear: both;"><br /></div>

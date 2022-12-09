@@ -1,0 +1,227 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridsalessummaryregister";
+
+    settings.CallbackRouteValues = new { Action = "GetSalesSummaryList", Controller = "SalesReportSummary" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+
+
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "USER_LOGINID";
+       x.Caption = "Login ID";
+       x.VisibleIndex = 1;
+       x.Width = 180;
+       // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+   });
+
+ settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employee_ID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 2;
+        x.Width = 120;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee(s)";
+        x.VisibleIndex = 3;
+        x.Width = 180;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "STATE";
+     x.Caption = "State";
+     x.VisibleIndex = 4;
+     x.Width = 180;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+ });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "BRANCHDESC";
+     x.Caption = "Branch";
+     x.VisibleIndex = 5;
+     x.Width = 140;
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DESIGNATION";
+        x.Caption = "Designation";
+        x.VisibleIndex = 6;
+        x.Width = 180;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "REPORTTO";
+          x.Caption = "Supervisor";
+          x.VisibleIndex = 7;
+          x.Width = 140;
+          x.ColumnType = MVCxGridViewColumnType.TextBox;
+          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+      });
+
+
+    settings.Columns.Add(x =>
+  {
+      x.FieldName = "ATTEN_STATUS";
+      x.Caption = "Attendance Type";
+      x.VisibleIndex = 8;
+      x.Width = 180;
+      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+  });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "WORK_LEAVE_TYPE";
+        x.Caption = "Work/Leave Type";
+        x.VisibleIndex = 9;
+        x.Width = 180;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGGEDIN";
+        x.Caption = "Login Time";
+        x.VisibleIndex = 10;
+        x.Width = 160;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "LOGEDOUT";
+       x.Caption = "Logout Time";
+       x.VisibleIndex = 11;
+       x.Width = 160;
+       // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+   });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_HRS_WORKED";
+        x.Caption = "Working Duration (HH:MM)";
+        x.VisibleIndex = 12;
+        x.Width = 200;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UNDERTIME";
+        x.Caption = "Undertime (HH:MM)";
+        x.VisibleIndex = 13;
+        x.Width = 150;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "GPS_INACTIVE_DURATION";
+        x.Caption = "GPS Inactive Duration (HH:MM)";
+        x.VisibleIndex = 14;
+        x.Width = 180;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "IDEAL_TIME";
+        x.Caption = "Idle Time (HH:MM)";
+        x.VisibleIndex = 15;
+        x.Width = 120;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "IDEALTIME_CNT";
+        x.Caption = "Idle Time Count";
+        x.VisibleIndex = 16;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPS_VISITED";
+        x.Caption = "Shop Visited";
+        x.VisibleIndex = 17;
+        x.Width = 140;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
+        x.Caption = "Order Value";
+        x.VisibleIndex = 18;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_COLLECTION";
+        x.Caption = "Collection Amount";
+        x.VisibleIndex = 19;
+        x.Width = 120;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+    
+    ///Summary
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "IDEALTIME_CNT").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "SHOPS_VISITED").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE").DisplayFormat = "0.00"; ;
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_COLLECTION").DisplayFormat = "0.00"; ;
+
+
+}).Bind(Model).GetHtml()
+
+

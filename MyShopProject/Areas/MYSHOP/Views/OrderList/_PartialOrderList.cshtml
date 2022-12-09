@@ -1,0 +1,102 @@
+﻿
+@model IEnumerable<Models.OrderDetailsListOutput>
+
+<script type="text/javascript">
+    $(function () {
+
+
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "ordering": false,
+            searching: false
+        });
+
+
+
+
+
+    });
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+</style>
+
+<div class="x_content">
+    <div class="rTable">
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+
+                    <th>User Name</th>
+                    <th>Shop</th>
+                    <th>Shop Type</th>
+                    <th>Address</th>
+                    <th>Owner</th>
+                    <th>Contact</th>
+                    <th>State</th>
+                    <th>Order Date</th>
+                    <th>Order Value</th>
+                    <th>Collection</th>
+                    <th>Order Description</th>
+
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.UserName</td>
+                            <td>@item.shop_name</td>
+                            <td>@item.Shoptype</td>
+                            <td>@item.address</td>
+                            <td>@item.owner_name</td>
+                            <td>@item.owner_contact_no</td>
+                            <td>@item.State</td>
+
+                            <td>@(Convert.ToString(item.Orderdate) == "" ? "" : Convert.ToDateTime(item.Orderdate).ToString("dd-MM-yyyy") )</td>
+
+                            <td>@item.order_amount</td>
+                            <td>@item.collection</td>
+                            <td>@item.Order_Description</td>
+                       
+
+
+
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+</div>

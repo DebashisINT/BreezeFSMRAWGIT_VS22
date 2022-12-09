@@ -1,0 +1,376 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridTemplateImportLogList";
+    settings.CallbackRouteValues = new { Action = "GetPartyImportLog", Controller = "partyDetails" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(480);
+    settings.Settings.VerticalScrollableHeight = 230;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    //settings.ClientSideEvents.BeginCallback = "OnStartLogGridCallback";
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = false;
+    settings.Settings.ShowGroupPanel = false;
+    settings.CommandColumn.Visible = false;
+    settings.Settings.ShowFooter = false;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Visible = false;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSize = 10;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "State";
+        x.Caption = "State";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+    });
+
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "City";
+        x.Caption = "City";
+        x.VisibleIndex = 3;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Area";
+        x.Caption = "Area";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+    });
+    //Mantis Issue 24572
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Cluster";
+        x.Caption = "Cluster";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+    });
+    //End of Mantis Issue 24572
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Type";
+        x.Caption = "Type";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AssignedToPP";
+        x.Caption = "Assigned To PP";
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AssignedToDD";
+        x.Caption = "Assigned To DD";
+        x.VisibleIndex = 8;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PartyName";
+        x.Caption = "Party Name";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PartyCode";
+        x.Caption = "Party Code";
+        x.VisibleIndex = 10;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Address";
+        x.Caption = "Address";
+        x.VisibleIndex = 11;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PinCode";
+        x.Caption = "Pin Code";
+        x.VisibleIndex = 12;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Owner";
+        x.Caption = "Owner";
+        x.VisibleIndex = 13;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Anniversary";
+        x.Caption = "Anniversary";
+        x.VisibleIndex = 14;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Contact";
+        x.Caption = "Contact";
+        x.VisibleIndex = 15;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AlternateContact";
+        x.Caption = "Alternate Contact";
+        x.VisibleIndex = 16;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    //Mantis Issue 24572
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AlternateContact1";
+        x.Caption = "Alternate Contact 1";
+        x.VisibleIndex = 17;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+    });
+    //End of Mantis Issue 24572
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Email";
+        x.Caption = "Email";
+        x.VisibleIndex = 18;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    //Mantis Issue 24572
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AlternateEmail";
+        x.Caption = "Alternate Email";
+        x.VisibleIndex = 19;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+    });
+    //End of Mantis Issue 24572
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Status";
+        x.Caption = "Party Status";
+        x.VisibleIndex = 20;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EntityType";
+        x.Caption = "Entity Type";
+        x.VisibleIndex = 21;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OwnerPAN";
+        x.Caption = "Owner PAN";
+        x.VisibleIndex = 22;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OwnerAadhaar";
+        x.Caption = "Owner Aadhaar";
+        x.VisibleIndex = 23;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+    //Mantis Issue 24572
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "GSTIN";
+        x.Caption = "GSTIN";
+        x.VisibleIndex = 24;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TradeLicense";
+        x.Caption = "Trade License";
+        x.VisibleIndex = 25;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+    });
+    //End of Mantis Issue 24572
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Remarks";
+        x.Caption = "Remarks";
+        x.VisibleIndex = 26;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AssigntoUser";
+        x.Caption = "Assign to User";
+        x.VisibleIndex = 27;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PartyLocationLat";
+        x.Caption = "Party Location Lat";
+        x.VisibleIndex = 28;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PartyLocationLang";
+        x.Caption = "Party Location Long";
+        x.VisibleIndex = 29;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Location";
+        x.Caption = "Location";
+        x.VisibleIndex = 30;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "STATUS";
+        x.VisibleIndex = 31;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.SetDataItemTemplateContent(c =>
+        {
+            if (Convert.ToString(DataBinder.Eval(c.DataItem, "ImportStatus")) == "Sucess")
+            {
+                ViewContext.Writer.Write(
+                        "<i class='fa fa-check green' aria-hidden='true'></i>"
+                    );
+            }
+            else
+            {
+                ViewContext.Writer.Write(
+                        "<i class='fa fa-close red' aria-hidden='true'></i>"
+                    );
+            }
+        });
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ImportMsg";
+        x.Caption = "Reason";
+        x.VisibleIndex = 32;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ImportDate";
+        x.Caption = "Import Date & Time";
+        x.VisibleIndex = 33;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+    });
+
+
+}).Bind(Model).GetHtml()

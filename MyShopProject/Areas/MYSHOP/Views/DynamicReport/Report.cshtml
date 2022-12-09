@@ -1,0 +1,90 @@
+﻿@{
+    ViewBag.Title = "Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+
+    function OnBeginCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+    }
+
+    function ShowRecord()
+    {
+        ListGrid.Refresh();
+        ListGrid.Refresh();
+
+    }
+
+</script>
+
+<div class="">
+    <div class="">
+        <div class="row mt-2 mb-3">
+            <div class="col-md-2 col-lg-2">
+                <label>From Date</label>
+                <div>
+                    @Html.DevExpress().DateEdit(
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                }).GetHtml()
+                    <span id="MandatoryFromDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+                <label>To Date</label>
+                <div>
+
+                    @Html.DevExpress().DateEdit(
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+
+                                }).GetHtml()
+                    <span id="MandatoryToDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="col-md-4 col-lg-4 pad-md-18">
+            <label></label>
+            <button type="button" id="btnshow" onclick="ShowRecord()" class="btn btn-success btnwidth" tabindex=4>Show</button>
+            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                <option value="0">Export to</option>
+                <option value="1">PDF</option>
+                <option value="2">XLSX</option>
+                <option value="3">XLS</option>
+                <option value="4">RTF</option>
+                <option value="5">CSV</option>
+
+            </select>
+        </div>
+    </div>
+</div>
+
+<div id="refreshgridstatusinvoiceorderreportregister">
+    @{
+        Html.RenderAction("ShowGrid", "DynamicReport", new { fromdate = DateTime.Now.ToString("dd-MM-yyyy"), todate = DateTime.Now.ToString("dd-MM-yyyy") });
+    }
+</div>

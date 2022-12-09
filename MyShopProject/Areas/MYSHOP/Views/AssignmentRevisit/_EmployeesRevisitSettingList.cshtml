@@ -1,0 +1,173 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridEmployeesTargetList";
+
+    settings.CallbackRouteValues = new { Action = "GetEmployeesTargetList", Controller = "AssignmentRevisit" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+   // settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(480);
+    settings.Settings.VerticalScrollableHeight = 300;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+   // settings.ClientSideEvents.BeginCallback = "OnStartLogGridCallback";
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = false;
+    settings.Settings.ShowGroupPanel = false;
+
+    settings.CommandColumn.Visible = false;
+
+    settings.Settings.ShowFooter = false;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.False;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.SettingsPager.PageSizeItemSettings.Visible = false;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "FOR_MONTH";
+        x.Caption = "For the Month";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+
+      //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REVISITDATE";
+        x.Caption = "Re-Visit Date";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(110);
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGIN_ID";
+        x.Caption = "Login ID";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+
+       // x.FixedStyle = GridViewColumnFixedStyle.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPLOYEE_NAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+
+       // x.FixedStyle = GridViewColumnFixedStyle.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPPIN";
+        x.Caption = "Area Pin";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+
+        //x.FixedStyle = GridViewColumnFixedStyle.Left;
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_ID";
+        x.Caption = "Shop ID";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+
+      //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_NAME";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_CONTACT";
+        x.Caption = "Shop Contact";
+        x.VisibleIndex = 8;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_ADDRESS";
+        x.Caption = "Address";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(410);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_STATE";
+        x.Caption = "Shop State";
+        x.VisibleIndex = 10;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_TYPE";
+        x.Caption = "Shop Type";
+        x.VisibleIndex = 11;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.True;
+    });
+
+   
+
+    //settings.ClientSideEvents.BatchEditConfirmShowing = "function(s, e) { if(firsttime>0){ e.cancel = true;} else{ e.cancel = false; firsttime++;}}";
+
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Collection").DisplayFormat = "Total: {0}";
+
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OrderValue").DisplayFormat = "Total: {0}";
+
+}).Bind(Model).GetHtml()
+
+<input type="hidden" value="@Model.Count" id="hdnExportGridListCount" />
+
+<input type="hidden" value="@ViewBag.Success" id="hdnExportGridListMessage" />
+
+
+

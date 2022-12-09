@@ -1,0 +1,144 @@
+﻿@model MyShop.Models.ModelContentmanagement
+
+@{
+    ViewBag.Title = "Template";
+}
+
+
+
+<link href="~/Scripts/ckeditor/contents.css" rel="stylesheet" />
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script src="~/assests/js/frmCDN/jquery.unobtrusive-ajax.min.js"></script>
+@*<script src="https://cdn.jsdelivr.net/npm/jquery-ajax-unobtrusive@3.2.6/dist/jquery.unobtrusive-ajax.min.js"></script>*@
+<script>
+
+
+
+    $(document).ready(function () {
+
+        CKEDITOR.replace('templatetext');
+
+
+        $('body').on('change', '#drptemplate', function () {
+
+            //alert($("#drptemplate").val());
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetTemplate", "ContentManagement")",
+                data: { TemplateID: $("#drptemplate").val() },
+                success: function (response) {
+                   // alert(response);
+                    //if (response == "200") {
+                    //    jAlert('Notification sent successfully.');
+                    //}
+                    //else {
+                    //    jAlert('Please try again later.');
+                    //}
+                    CKEDITOR.instances['templatetext'].setData(response);
+
+                }
+            });
+
+
+        });
+
+        $('body').on('click', '#btnsubmit', function () {
+
+            if ($("#drptemplate").val() == '') {
+
+                jAlert('Please choose Template');
+                return false;
+            }
+
+            else {
+
+                addtemplate.submit();
+
+            }
+
+
+        });
+
+    });
+
+
+
+
+    function GenerateKeyWords() {
+
+
+        var config = {};
+        config.extraPlugins = 'Insert Field Code';
+        CKEDITOR.plugins.add('Insert Field Code',
+        {
+            requires: ['richcombo'],
+            init: function (editor) {
+
+                var strings = [];
+                //$.each(EmailTags, function (index, value) {
+                //strings.push([value]);
+                //});
+
+                // add the menu to the editor
+                editor.ui.addRichCombo('keywords',
+                {
+                    label: 'Insert Field Code',
+                    title: 'Insert Field Code',
+                    voiceLabel: 'Insert Content',
+                    className: 'cke_format',
+                    multiSelect: false,
+                    panel:
+                    {
+                        css: [editor.config.contentsCss, CKEDITOR.skin.getPath('editor')],
+                        voiceLabel: editor.lang.panelVoiceLabel
+                    },
+
+                    init: function () {
+                        this.startGroup("Insert Field Code");
+                        for (var i in strings) {
+                            this.add(strings[i]);
+                        }
+                    },
+
+                    onClick: function (value) {
+                        editor.focus();
+                        editor.fire('saveSnapshot');
+                        editor.insertHtml(value);
+                        editor.fire('saveSnapshot');
+                    }
+                });
+            }
+        });
+
+
+
+        CKEDITOR.replace('TemplateFormat');
+    }
+
+
+    function OnSuccess(data) {
+        jAlert("Template Content Saved Successfully.");
+    }
+</script>
+<div class="breadCumb">
+    <span>Content Template</span>
+</div>
+<div class="container mt-5">
+    <div class="backBox mt-5 p-3 ">
+        @using (Ajax.BeginForm("SubmitContent", "ContentManagement", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccess" }))
+        {
+            <div>
+                <div>
+                    <span>Choose Template</span>
+                    @Html.DropDownListFor(m => m.TemplateID, new SelectList(Model.templates, "Id", "Name", Model.TemplateID), "-Select-", new { @id = "drptemplate", @class = "whclass", @tabindex = 1 })
+                </div>
+                <br />
+                @Html.TextAreaFor(t => t.templatetext)
+                <br />
+                <button type="submit" id="btnsubmit" class="btn btn-success btnwidth">Save</button>
+            </div>
+
+        }
+    </div>
+    </div>

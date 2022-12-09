@@ -1,0 +1,78 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ThirdStageListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "SecondarySalesOrder", Action = "RenderThirdStagegrid" };
+    settings.KeyFieldName = "SEQ";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Date";
+        column.FieldName = "DATE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        column.VisibleIndex = 1;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Customer Name";
+        column.FieldName = "Shop_Name";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a data-toggle='tooltip' data-placement='top' title='Click here to get customer wise order wise product details' style='cursor:pointer' onclick=\"Open4thStage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "SHOP_CODE")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_Name")) + "</a>");
+        });
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        column.VisibleIndex = 2;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OrderCode";
+        x.Caption = "Order Number";
+        x.VisibleIndex = 3;
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a data-toggle='tooltip' data-placement='top' title='Click here to get order wise product details report' style='cursor:pointer' onclick=\"Open4thStage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderCode")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderCode")) + "</a>");
+        });
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Order Value";
+        column.FieldName = "ORDERAMOUNT";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        column.VisibleIndex = 4;
+    });
+    //settings.ClientSideEvents.BeginCallback = "OnBeginSecondStageCallback";
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ORDERAMOUNT").DisplayFormat = "0.00";
+    
+}).Bind(Model).GetHtml()
+
+
+
+

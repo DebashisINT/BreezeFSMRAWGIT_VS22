@@ -1,0 +1,829 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridDSSummary";
+    settings.CallbackRouteValues = new { Action = "GetDSSummaryList", Controller = "DSSummary" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "Orderdate";
+    //    x.Caption = "Date";
+    //    x.VisibleIndex = 1;
+    //    x.Width = 120;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    x.ColumnType = MVCxGridViewColumnType.DateEdit;
+    //    x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+    //    (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    //    // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    //});
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 1;
+        //x.Width = 180;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+    settings.Columns.Add(x =>
+    {
+        //Rev Debashis 0024715
+        //x.FieldName = "HREPORTTO";
+        x.FieldName = "HREPORTTOUID";
+        //End of Rev Debashis 0024715
+        x.Caption = "AE ID";
+        x.VisibleIndex = 2;
+        //rev Pratik
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+        //End of rev Pratik
+        //x.Width = 180;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='HREPORTTO'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        //Rev Debashis 0024715
+        //x.FieldName = "REPORTTO";
+        x.FieldName = "REPORTTOUID";
+        //End of Rev Debashis 0024715
+        x.Caption = "WD ID";
+        x.VisibleIndex = 3;
+        //x.Width = 180;
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='REPORTTO'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPID";
+        //Rev Debashis 0024715
+        //x.Caption = "DS ID";
+        x.Caption = "DS/TL ID";
+        //End of Rev Debashis 0024715
+        x.VisibleIndex = 4;
+        //x.Width = 120;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPID'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 120;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 120;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        //Rev Debashis 0024715
+        //x.Caption = "DS Name";
+        x.Caption = "DS/TL Name";
+        //End of Rev Debashis 0024715
+        x.VisibleIndex = 5;
+        //x.Width = 180;
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DATERANGE";
+        x.Caption = "From-To Date";
+        x.VisibleIndex = 6;
+        //x.Width = 150;
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DATERANGE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 150;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 150;
+        }
+
+    });
+    
+    //Rev Debashis 0024905
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OUTLETSMAPPED";
+        x.Caption = "Outlets Mapped";        
+        x.VisibleIndex = 7;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETSMAPPED'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 140;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 140;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    //End of Rev Debashis 0024905
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NEWSHOP_VISITED";
+        //Rev Debashis 0024905
+        //x.Caption = "Outlets Mapped(Added)";
+        x.Caption = "New Outlet Visit";
+        //End of Rev Debashis 0024905
+        x.VisibleIndex = 8;
+        //x.Width = 140;
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='NEWSHOP_VISITED'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 140;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 140;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "RE_VISITED";
+        x.Caption = "Outlets Re-Visited";
+        x.VisibleIndex = 9;
+        //x.Width = 120;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RE_VISITED'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 120;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 120;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_VISIT";
+        x.Caption = "Total Outlets Visited";
+        x.VisibleIndex = 10;
+        //x.Width = 150;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTAL_VISIT'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 150;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 150;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DISTANCE_TRAVELLED";
+        x.Caption = "Distance Travelled(Km.Mtr)";
+        x.VisibleIndex = 11;
+        //rev Pratik
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+        //End of rev Pratik
+        //x.Width = 180;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DISTANCE_TRAVELLED'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGTIMESPENTINMARKET";
+        x.Caption = "Avg time spent in the market(HH:MM)";
+        x.VisibleIndex = 12;
+        //x.Width = 220;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AVGTIMESPENTINMARKET'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 220;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 220;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGSPENTDURATION";
+        x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
+        x.VisibleIndex = 13;
+        //x.Width = 320;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AVGSPENTDURATION'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 320;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 320;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    //rev Pratik
+    
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "USERID";
+    //    x.Caption = "User Id";
+    //    x.VisibleIndex = 13;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='USERID'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "SEQ";
+    //    x.Caption = "SEQ";
+    //    x.VisibleIndex = 14;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SEQ'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "BRANCH_ID";
+    //    x.Caption = "BRANCH ID";
+    //    x.VisibleIndex = 15;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCH_ID'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "EMPCODE";
+    //    x.Caption = "Employee Code";
+    //    x.VisibleIndex = 16;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPCODE'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "STATEID";
+    //    x.Caption = "State Id";
+    //    x.VisibleIndex = 17;
+    //    //rev Pratik
+    //    x.PropertiesEdit.DisplayFormatString = "0.00";
+    //    //End of rev Pratik
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATEID'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "STATE";
+    //    x.Caption = "State";
+    //    x.VisibleIndex = 18;
+        
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATE'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "DEG_ID";
+    //    x.Caption = "Designation Id";
+    //    x.VisibleIndex = 19;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DEG_ID'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "DESIGNATION";
+    //    x.Caption = "Designation";
+    //    x.VisibleIndex = 20;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DESIGNATION'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "DATEOFJOINING";
+    //    x.Caption = "DOJ";
+    //    x.VisibleIndex = 21;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DATEOFJOINING'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "CONTACTNO";
+    //    x.Caption = "Contact No.";
+    //    x.VisibleIndex = 22;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACTNO'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "REPORTTOID";
+    //    x.Caption = "WD ID.";
+    //    x.VisibleIndex = 23;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='REPORTTOID'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "RPTTODESG";
+    //    x.Caption = "WD Designation";
+    //    x.VisibleIndex = 24;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RPTTODESG'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "HREPORTTOID";
+    //    x.Caption = "AE ID";
+    //    x.VisibleIndex = 25;
+    //    //rev Pratik
+    //    x.PropertiesEdit.DisplayFormatString = "0.00";
+    //    //End of rev Pratik
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='HREPORTTOID'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "HRPTTODESG";
+    //    x.Caption = "AE Designation";
+    //    x.VisibleIndex = 26;
+    //    //x.Width = 180;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    if (ViewBag.RetentionColumn != null)
+    //    {
+    //        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='HRPTTODESG'");
+    //        if (row != null && row.Length > 0)  /// Check now
+    //        {
+    //            x.Visible = false;
+    //        }
+    //        else
+    //        {
+    //            x.Visible = true;
+    //            x.Width = 100;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        x.Visible = true;
+    //        x.Width = 100;
+    //    }
+
+    //});
+    //End of rev Pratik
+    ///Summary
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Ordervalue");
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Total_invoiceamt");
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Product_Price");
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Value").DisplayFormat = "0";
+
+}).Bind(Model).GetHtml()
+

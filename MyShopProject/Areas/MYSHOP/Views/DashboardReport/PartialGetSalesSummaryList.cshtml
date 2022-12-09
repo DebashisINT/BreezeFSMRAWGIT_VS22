@@ -1,0 +1,54 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridsalessummaryregister";
+
+    settings.CallbackRouteValues = new { Action = "GetSalesSummaryList", Controller = "DashboardReport" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DESIGNATION";
+        x.Caption = "Designation";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORTTO";
+        x.Caption = "Supervisor";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACTNO";
+        x.Caption = "Contact No.";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+}).Bind(Model).GetHtml()
+
+

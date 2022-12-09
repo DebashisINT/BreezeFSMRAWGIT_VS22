@@ -1,0 +1,2259 @@
+﻿@using MyShop.Models;
+@model EmployeesTargetSetting
+@{
+    ViewBag.Title = "Employees Target Setting";
+}
+
+<div class="breadCumb">
+    <span>Employees Target Setting</span>
+    
+</div>
+
+<div class="container">
+    <div class="pull-right clearfix" style="background: #fff; margin-top: 15px; padding: 7px 10px 3px; border-radius: 10px;">
+        <ul class="myAssignTarget">
+            <li class="mainHeadCenter">
+                Assigned Target
+            </li>
+            <li class="mainCircle">
+                <div class="heading">New Customer</div>
+                <div id="lblNewCounter" class="Num">0</div>
+            </li>
+            <li class="mainCircle">
+                <div class="heading">Re-Visit</div>
+                <div id="lblRevisit" class="Num">0</div>
+            </li>
+            <li class="mainCircle">
+                <div class="heading">Target Value</div>
+                <div id="lblOrderValue" class="Num">0</div>
+            </li>
+            <li class="mainCircle">
+                <div class="heading">Target Collection</div>
+                <div id="lblCollection" class="Num">0</div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="panel-heading ">
+    <div class="panel-title clearfix">
+        
+
+
+    </div>
+
+    <input type="hidden" id="hdnddlState" value="" />
+    <input type="hidden" id="hdnddlDesignation" value="" />
+    <input type="hidden" id="hdnddlMonth" value="" />
+    <input type="hidden" id="hdnddlYear" value="" />
+    <input type="hidden" id="hdnddlEmpType" value="" />
+    <input type="hidden" id="hdnddlCounterType" value="" />
+    <input type="hidden" id="hdnddlEmployeeUserID" value="" />
+
+    <input type="hidden" id="hdnemployeescountertargetid" value="0" />
+</div>
+
+
+<script>
+    var TotalTargetValue = 0;
+    var TotalTargetCollection = 0;
+    var RowTargetValue = 0;
+    var RowTargetCollection = 0;
+    var GlobalRowIndex = 0;
+    var firsttime = 0;
+    var Ischange = 0;
+
+    var FistLoad = 0;
+
+    var element = '';
+    var EmployeesCounterTargetList = [];
+
+    var empcode = [];
+    function EmployeesSelectionChanged(s, e) {
+        EmployeesListGridLookup.GetSelectedFieldValues("EmployeeCode", GetEmployeesSelectedFieldValuesCallback);
+    }
+    function GetEmployeesSelectedFieldValuesCallback(values) {
+        try {
+            empcode = [];
+            for (var i = 0; i < values.length; i++) {
+                empcode.push(values[i]);
+            }
+        } finally {
+            console.log(empcode);
+            $('#EmployeesListGridLookup_DXFooterRow td:eq(2)').text("Total: " + empcode.length);
+        }
+    }
+
+    function CalculateLength() {
+        $('#EmployeesListGridLookup_DXFooterRow td:eq(2)').text("Total: " + empcode.length);
+        if (FistLoad == 0) {
+            //pcModalEmployeelistMode.Show();
+            FistLoad = 1;
+        }
+    }
+
+    function grdrowclick(s, e) {
+        GlobalRowIndex = e.visibleIndex;
+    }
+
+    function OnStartCallback(s, e) {
+        var ddlState = $('#hdnddlState').val();
+        var ddlDesignation = $('#hdnddlDesignation').val();
+
+        var ddlMonth = $('#hdnddlMonth').val();
+        var ddlYear = $('#ddlYear').val();
+        var ddlEmpType = $('#hdnddlEmpType').val();
+        var ddlCounterType = $('#hdnddlCounterType').val();
+
+        if (ddlState == "Select") {
+            ddlState = "";
+        }
+        if (ddlDesignation == "Select") {
+            ddlDesignation = "";
+        }
+        var SettingMonthYear = ddlMonth + '-' + ddlYear;
+
+        e.customArgs["EmpTypeID"] = ddlEmpType;
+        e.customArgs["CounterType"] = ddlCounterType;
+        e.customArgs["State"] = ddlState;
+        e.customArgs["Designation"] = ddlDesignation;
+
+        e.customArgs["SettingYear"] = ddlYear;
+        e.customArgs["SettingMonth"] = ddlMonth;
+        e.customArgs["EmpCodeList"] = EmployeesCounterTargetList.join("|"); //EmployeesCounterTargetList
+
+    }
+
+    var todate = null;
+    var fromdate = null;
+
+    function OnStartLogGridCallback(s, e) {
+        //var todate = GetServerDateFormat(new Date(txttoDate.GetDate()));
+        //var fromdate = GetServerDateFormat(new Date(txtfromDate.GetDate()));
+        e.customArgs["fromdate"] = fromdate;
+        e.customArgs["todate"] = todate;
+    }
+
+    function OnStartCounterTargetCallback(s, e) {
+        var employeecode = $('#hdnemployeecode').val();
+        var employeetargetsettingid = $('#hdnemployeetargetsettingid').val();
+        e.customArgs["EmployeeCode"] = employeecode;
+        e.customArgs["EmployeeTargetSettingID"] = employeetargetsettingid;
+    }
+
+    function OnEndCallback(s, e) {
+
+        if (s.cpBatchUpdate == "1") {
+            s.cpBatchUpdate = "0";
+            gridEmployeesTargetList.Refresh();
+        }
+        if ($('#hdnExportGridListMessage').val() != '') {
+            jAlert($('#hdnExportGridListMessage').val());
+            $('#hdnExportGridListMessage').val('');
+
+        }
+
+        var count = $('#hdnExportGridListCount').val();
+        if (count > 0) {
+            $('.btn-excel').show();
+        }
+        else {
+            $('.btn-excel').hide();
+        }
+
+        //var UserOrderValue = $('#hdnUserOrderValue').val();
+        //var UserNewCounter = $('#hdnUserNewCounter').val();
+        //var UserRevisit = $('#hdnUserRevisit').val();
+        //var UserCollection = $('#hdnUserCollection').val();
+
+        //if (UserNewCounter != undefined && UserNewCounter != "" && UserNewCounter != null && UserNewCounter != "0") {
+        //    $('#lblNewCounter').text(UserNewCounter);
+        //}
+        //else {
+        //    $('#lblNewCounter').text("0");
+        //}
+        //if (UserOrderValue != undefined && UserOrderValue != "" && UserOrderValue != null && UserOrderValue != "0") {
+        //    $('#lblOrderValue').text(UserOrderValue);
+        //}
+        //else {
+        //    $('#lblOrderValue').text("0.00");
+        //}
+        //if (UserRevisit != undefined && UserRevisit != "" && UserRevisit != null && UserRevisit != "0") {
+        //    $('#lblRevisit').text(UserRevisit);
+        //}
+        //else {
+        //    $('#lblRevisit').text("0");
+        //}
+        //if (UserCollection != undefined && UserCollection != "" && UserCollection != null && UserCollection != "0") {
+        //    $('#lblCollection').text(UserCollection);
+        //}
+        //else {
+        //    $('#lblCollection').text("0.00");
+        //}
+    }
+
+    function OnTargetListStartCallback(s, e) {
+        var EmployeeCode = $('#hdnEmployeeCode').val();
+        var SettingType = $('#hdnSettingType').val();
+
+        e.customArgs["employeecode"] = EmployeeCode;
+        e.customArgs["settingtype"] = SettingType;
+    }
+
+    function batchupdatestarting(s, e) {
+        // gridEmployeesTargetList.batchEditApi.StartEdit(e.visibleindex);
+    }
+
+    function EmpTargetTypeChange() {
+        var ddlEmpType = $('#ddlEmpType option:selected').val();
+        if (ddlEmpType == 1) {
+            $("#ddlCounterType option[value=" + 6 + "]").hide();
+            $("#ddlCounterType option[value=" + 4 + "]").show();
+            $("#ddlCounterType option[value=" + 5 + "]").show();
+            $('#ddlCounterType option').each(function () {
+                currentItem = parseInt($(this).attr("value"), 10);
+                if (currentItem > 1000) {
+                    $(this).hide();
+                }
+
+            });
+        }
+        else if (ddlEmpType == 2) {
+            $("#ddlCounterType option[value=" + 5 + "]").hide();
+            $("#ddlCounterType option[value=" + 4 + "]").show();
+            $("#ddlCounterType option[value=" + 6 + "]").show();
+            $('#ddlCounterType option').each(function () {
+                currentItem = parseInt($(this).attr("value"), 10);
+                if (currentItem > 1000) {
+                    $(this).hide();
+                }
+
+            });
+        }
+        else if (ddlEmpType == 7) {
+            $("#ddlCounterType option[value=" + 5 + "]").show();
+            $("#ddlCounterType option[value=" + 4 + "]").show();
+            $("#ddlCounterType option[value=" + 6 + "]").show();
+
+
+            $('#ddlCounterType option').each(function () {
+                //better use parseInt to avoid unexpected bahavour
+                currentItem = parseInt($(this).attr("value"), 10);
+                //your condition
+                if (currentItem > 1000) {
+                    $(this).show();
+                }
+                else{
+                    $(this).hide();
+                }
+
+            });
+
+        }
+        else {
+            $("#ddlCounterType option[value=" + 5 + "]").show();
+            $("#ddlCounterType option[value=" + 4 + "]").show();
+            $("#ddlCounterType option[value=" + 6 + "]").show();
+
+
+            $('#ddlCounterType option').each(function () {
+                currentItem = parseInt($(this).attr("value"), 10);
+                if (currentItem > 1000) {
+                    $(this).hide();
+                }
+
+            });
+        }
+    }
+
+    function GetEmpListChange() {
+        var ddlState = $('#ddlState option:selected').val();
+        var ddlDesignation = $('#ddlDesignation option:selected').val();
+
+        if (ddlState == "Select") {
+            return false;
+        }
+        else if (ddlDesignation == "Select") {
+            return false;
+        }
+        else {
+            var lblshow = ddlDesignation;
+            if (ddlDesignation.length > 22) {
+                lblshow = ddlDesignation.slice(0, 22);
+                lblshow = lblshow + "...";
+            }
+            $('#lblListName').text(lblshow);
+            $('#lblListName').attr('title', ddlDesignation);
+            var defaulthtml = "<option value='" + 0 + "'>Select</option>";
+            $('#ddlEmployeeList').html(defaulthtml);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetEmployeesListByStateDesignation", "EmployeesTarget")",
+                data: { State: ddlState, Designation: ddlDesignation },
+                success: function (response) {
+                    var html = "<option value='" + 0 + "'>Select</option>";
+                    for (var i = 0; i < response.length; i++) {
+                        html = html + "<option value='" + response[i].UserID + "'>" + response[i].DisplayEmployee + "</option>";
+                    }
+                    $('#ddlEmployeeList').html(html);
+                    var HierarchywiseTargetSettings = $('#hdnHierarchywiseTargetSettings').val();
+                    if (HierarchywiseTargetSettings == "1" && FistLoad == 0) {
+                        
+                        $('#ddlEmployeeList').val($('#hdnUserID').val());
+                        //$('#btnSearch').click();
+                        getEmployeesTargetSettingList();
+                    }
+                    else {
+                        FistLoad = 1;
+                    }
+                }
+            });
+        }
+    }
+
+
+    function DateValidateFrom() {
+        if (txttoDate.GetDate()) {
+            if (txttoDate.GetDate() < txtfromDate.GetDate()) {
+                txttoDate.SetValue(txtfromDate.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (txtfromDate.GetDate()) {
+            if (txttoDate.GetDate() < txtfromDate.GetDate()) {
+                txttoDate.SetValue(txtfromDate.GetDate());
+            }
+        }
+    }
+
+
+</script>
+
+<style>
+    .mtop8 {
+        margin-top: 8px;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    .mright8 {
+        margin-right: 8px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+    .dxgvStatusBar_PlasticBlue a {
+        display: none;
+    }
+
+    #gridEmployeesTargetList_DXMainTable .dxgvBatchEditModifiedCell_PlasticBlue {
+        background: #fff;
+    }
+
+    .secboxback {
+        background: #f3f3f3;
+        padding: 9px 0px;
+        border-radius: 5px;
+        padding-top: 0;
+        overflow: hidden;
+    }
+
+    #pcModalTargetMode_PW-1 .form_main {
+        border-top: none;
+    }
+
+    .gridbinded {
+        position: absolute;
+        right: 15px;
+        top: 11px;
+    }
+
+    #myAssignTargetpopup {
+        padding: 0 0 15px 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px 0;
+        }
+
+    .green {
+        color: green;
+    }
+
+    .linerHd {
+        background: #9da9c3;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    .ppHeader {
+        font-size: 16px;
+    }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .padtop28 {
+        padding-top: 28px;
+    }
+
+
+    /*multiselect*/
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+        min-width: 340px;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+           
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .iminentSpan > span {
+        display: block;
+    }
+
+    .btn-excel {
+        float: right;
+        margin-right: 38px;
+        margin-top: -4px;
+    }
+
+    .gridbinded {
+        position: absolute;
+        right: 15px;
+        top: 11px;
+    }
+
+    .validationDiv {
+        padding-right: 35px;
+        position: relative;
+    }
+
+        .validationDiv .validclass {
+            top: 23px;
+            position: absolute;
+            right: 11px;
+        }
+
+    .secboxback {
+        box-shadow: 1px 1px 10px #00000040;
+    }
+</style>
+<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+<script>
+    $(function () {
+        var hasstate = false;
+        var hasdsg = false;
+        var HierarchywiseTargetSettings = $('#hdnHierarchywiseTargetSettings').val();
+        if (HierarchywiseTargetSettings == "1") {
+            
+            $("#ddlState option").each(function () {
+                if ($(this).val() == $('#hdnUserState').val()) {
+                    hasstate = true;
+                }
+            });
+            $("#ddlDesignation option").each(function () {
+                if ($(this).val() == $('#hdnUserDsg').val()) {
+                    hasdsg = true;
+                }
+            });
+            if (hasstate) {
+                $('#ddlState').val($('#hdnUserState').val());
+            }
+            if (hasdsg) {
+                $('#ddlDesignation').val($('#hdnUserDsg').val());
+            }
+            if (hasstate && hasdsg) {
+                $('#ddlEmpType').val(3);
+                GetEmpListChange();
+            }
+
+        }
+        else {
+            FistLoad = 1;
+        }
+    });
+
+</script>
+<div class="container">
+    <div class="backBox mt-3 p-3 ">
+        @if (Model.IsHierarchywiseTargetSettings == true)
+        {
+            <input type="hidden" value="1" id="hdnHierarchywiseTargetSettings" />
+            if (Model.UserState != null)
+            {
+                <input type="hidden" value="@Model.UserState.StateName" id="hdnUserState" />
+            }
+            if (Model.UserDesg != null)
+            {
+                <input type="hidden" value="@Model.UserDesg.DesignationName" id="hdnUserDsg" />
+            }
+
+            <input type="hidden" value="@Model.UserID" id="hdnUserID" />
+
+            @*<input type="hidden" value="1700" id="hdnUserID" />*@
+        }
+        else
+        {
+            <input type="hidden" value="0" id="hdnHierarchywiseTargetSettings" />
+        }
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="clearfix secboxback">
+                    <div class="col-md-12 linerHd"><b>Select Type</b></div>
+                    <div class="col-lg-5">
+                        <label><b> Target</b></label>
+                        @Html.DropDownList("ddlEmpType", new SelectList(Model.TypeList, "EmployeesTargetSettingEmpTypeID", "TypeName"), new { @id = "ddlEmpType", @class = "form-control", @onChange = "EmpTargetTypeChange()" })
+                    </div>
+
+                    <div class="col-lg-7">
+                        <label><b> Customer</b></label>
+                        @Html.DropDownList("ddlCounterType", new SelectList(Model.CounterTypeList, "EmployeesTargetSettingEmpTypeID", "TypeName"), new { @id = "ddlCounterType", @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+
+                <div class="clearfix secboxback">
+                    <div class="col-md-12 linerHd"><b>Filter data for</b></div>
+                    <div class="col-lg-4">
+                        <label><b>State</b></label>
+                        @Html.DropDownList("ddlState", new SelectList(Model.StateList, "StateName", "StateName"), new { @id = "ddlState", @class = "form-control", @onChange = "GetEmpListChange()" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label><b>Designation</b></label>
+                        @Html.DropDownList("ddlDesignation", new SelectList(Model.DesignationList, "DesignationName", "DesignationName"), new { @id = "ddlDesignation", @class = "form-control", @onChange = "GetEmpListChange()" })
+                    </div>
+                    <div class="col-lg-4">
+                        <label><b id="lblListName">Employee List</b></label>
+                        <select id="ddlEmployeeList" class="form-control">
+                            <option value="0">Select</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="clearfix secboxback">
+                    <div class="col-md-12 linerHd"><b>Period</b></div>
+                    <div class="col-lg-6">
+                        <label><b>Month</b></label>
+                        <select class="form-control" id="ddlMonth">
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <label><b>Year</b></label>
+                        <select class="form-control" id="ddlYear">
+                            <option value="@(DateTime.Now.Year - 1)">@(DateTime.Now.Year - 1)</option>
+                            <option value="@(DateTime.Now.Year)" selected="selected">@(DateTime.Now.Year)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-12  mt-3 mb-3">
+                <button type="button" onclick="getEmployeesTargetSettingList();" id="btnSearch" class="btn btn-success">Search</button>
+
+                <button type="button" onclick="getDownloadTemplateSettings();" class="btn btn-info">Download Template</button>
+
+                <button type="button" onclick="ImportUpdatePopOpenEmployeesTarget();" class="btn btn-danger">Import (Add/Update)</button>
+
+                <button type="button" onclick="ImportLogView();" class="btn btn-warning">View Log</button>
+            </div>
+        </div>
+
+        <div class="scrooler mTop5">
+            <div id="refreshgrid" class="relative">
+                <span class="btn-excel gridbinded"><img src="~/assests/images/excel.png" style="width: 24px; cursor:pointer;" title="Export To Excel" onclick="gridemployeestargetlistexport()" /></span>
+                @{
+                    Html.RenderAction("GetEmployeesTargetList", "EmployeesTarget", new { State = "", EmpTypeID = 0, CounterType = 0, Designation = "", SettingMonth = 0, SettingYear = 0, EmpCodeList = "" });
+                }
+            </div>
+
+            <div class=" mTop5" style="margin-top:10px">
+                <button type="button" class="btn btn-primary" onclick="EmployeesTargetSave();">Save</button>
+                <button type="button" class="btn btn-danger" onclick="EmployeesTargetCancel();">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="hdnDivExportTemplate" style="display:none;">
+
+</div>
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalMode";
+        settings.Width = 1250;
+        settings.Height = 600;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Employees Target Setting";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalTargetMode";
+        settings.Width = 1000;
+        settings.Height = 600;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Counter Wise Target Setting";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);SelectedEmployeeMaintarget(); }";
+    }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalEmployeelistMode";
+        settings.Width = 600;
+        settings.Height = 480;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Employee List";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+
+            Html.RenderPartial("_EmployeesListByReportTo", new List<EmployeesTargetSetting>());
+            ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' onclick='SelectedEmployee();'>Ok</button>");
+        });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalTemplateExcelMode";
+        settings.Width = 400;
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Download Template";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+
+        });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalTemplateImportMode";
+        settings.Width = 300;
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Select File to Import (Add/Update)";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+
+        });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalTemplateImportLogMode";
+        settings.Width = 800;
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Import Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("_ShowEmployeesTargetSettingLog", new List<EmployeesTargetSettingImportLog>());
+            ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportLogGrid();'>Export</button>");
+        });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalImportLogViewMode";
+        settings.Width = 300;
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Select Date Range View Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("_EmployeesTargetImportLogView");
+        });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+
+
+<script>
+    var stateids = [];
+    var degids = [];
+    function ExportLogGrid() {
+        var url = '@Url.Action("ExportEmployeesTargetLogList", "EmployeesTarget", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+
+
+    function getLogByDate() {
+        var flag = true;
+        if (txtfromDate.GetDate() == null) {
+            $('#MandatoryFromDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryFromDate').attr('style', 'display:none');
+        }
+
+        if (txttoDate.GetDate() == null) {
+            $('#MandatoryToDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryToDate').attr('style', 'display:none');
+        }
+
+        if (flag) {
+            todate = GetServerDateFormat(new Date(txttoDate.GetDate()));
+            fromdate = GetServerDateFormat(new Date(txtfromDate.GetDate()));
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetEmployeesTargetSettingImportLog", "EmployeesTarget")",
+                data: { fromdate: fromdate, todate: todate },
+                success: function (response) {
+                    if (response) {
+                        pcModalImportLogViewMode.Hide();
+                        //pcModalTemplateImportLogMode.SetContentHtml(response);
+                        pcModalTemplateImportLogMode.Show();
+                        gridTemplateImportLogList.Refresh();
+                        gridTemplateImportLogList.Refresh();
+
+                        //pcModalImportLogViewMode.Hide();
+                    }
+                }
+            });
+        }
+    }
+
+    function GetServerDateFormat(today) {
+        if (today != "" && today != null) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+
+    function ImportLogView() {
+        pcModalImportLogViewMode.Show();
+
+        $('#MandatoryFromDate').attr('style', 'display:none');
+        $('#MandatoryToDate').attr('style', 'display:none');
+        @*$.ajax({
+            type: "POST",
+            url: "@Url.Action("GetEmployeesTargetSettingImportLog", "EmployeesTarget")",
+            success: function (response) {
+                if (response) {
+
+                    pcModalTemplateImportLogMode.Show();
+                    gridTemplateImportLogList.Refresh();
+                    gridTemplateImportLogList.Refresh();
+                }
+            }
+        });*@
+    }
+
+    function ChekEmpSettingsUpload() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("GetUploadFilesEmployeeSettings", "EmployeesTarget")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result);
+                    pcModalTemplateImportMode.Hide();
+                    if (result == "File Uploaded Successfully!") {
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetEmployeesTargetSettingImportLog", "EmployeesTarget")",
+                            success: function (response) {
+                                if (response) {
+
+                                    //pcModalTemplateImportLogMode.SetContentHtml(response);
+                                    pcModalTemplateImportLogMode.Show();
+                                    gridTemplateImportLogList.Refresh();
+                                    gridTemplateImportLogList.Refresh();
+                                }
+                            }
+                        });
+                    }
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+
+    function ImportUpdatePopOpenEmployeesTarget() {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetImportTemplateEmployeeSettings", "EmployeesTarget")",
+            success: function (response) {
+                if (response) {
+                    pcModalTemplateImportMode.SetContentHtml(response);
+                    pcModalTemplateImportMode.Show();
+                }
+            }
+        });
+    }
+
+    function getTemplateByStateDesignation() {
+
+        stateids = $('#ddlTempState').val();
+        degids = $('#ddlTempDesignation').val();
+
+        if (stateids == null) {
+            jAlert("Please select state!");
+        }
+        else if (degids == null) {
+            jAlert("Please select designation!");
+        }
+        else {
+            var ddlTempState = stateids.join(',');
+            var ddlTempDesignation = degids.join(',');
+            //var ddlTempState = stateids;
+            //var ddlTempDesignation = degids;
+
+            @*$.ajax({
+                type: "POST",
+                url: "@Url.Action("GetEmployeesListTemplateByStateDesignation", "EmployeesTarget")",
+                data: { State: ddlTempState, Designation: ddlTempDesignation},
+                success: function (response) {
+                    $('#hdnDivExportTemplate').html(response);
+                    gridhiddenExportTemplate.
+                }
+            });*@
+            ddlTempState = ddlTempState.replace('&', '|');
+            var url = "@Url.Action("GetEmployeesListTemplateByStateDesignation", "EmployeesTarget")" + "?State=" + ddlTempState + "&Designation=" + ddlTempDesignation;
+            window.location.href = url;
+            pcModalTemplateExcelMode.Hide();
+        }
+    }
+
+    function getDownloadTemplateSettings() {
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetDownloadTemplateSettings", "EmployeesTarget")",
+            success: function (response) {
+                if (response) {
+                    pcModalTemplateExcelMode.SetContentHtml(response);
+                    pcModalTemplateExcelMode.Show();
+
+                    // multiselect
+                    $('.multiselect').multiselect({
+                        includeSelectAllOption: true,
+                        enableFiltering: true,
+                        enableCaseInsensitiveFiltering: true,
+                        buttonWidth: '100%',
+
+                        onDropdownHide: function (event) {
+
+                        }
+                    }).multiselect('selectAll', false).multiselect('updateButtonText');
+                    stateids = $('.multiselect').val();
+                }
+            }
+        });
+    }
+
+
+
+    function SelectedEmployeeMaintarget() {
+        //if ($(element).parent('td').parent('tr').find('td:eq(7) div:eq(0)').html() == "") {
+        //    $(element).parent('td').parent('tr').find('td:eq(7) div:eq(0)').text(TotalTargetCollection);
+        //}
+        //else {
+        //    $(element).parent('td').parent('tr').find('td:eq(7)').html(TotalTargetCollection);
+        //}
+
+        //if ($(element).parent('td').parent('tr').find('td:eq(6) div:eq(0)').html() == "") {
+        //    $(element).parent('td').parent('tr').find('td:eq(6) div:eq(0)').text(TotalTargetValue);
+        //}
+        //else {
+        //    $(element).parent('td').parent('tr').find('td:eq(6)').html(TotalTargetValue);
+        //}
+    }
+
+    $(function () {
+        $('.btn-excel').hide();
+        //EmployeesTargetCancel();
+    });
+
+    function DeleteEmployeesCounterWiseTarget(employeecode, shop_code, type) {
+        if (shop_code != "") {
+            jConfirm('Are you sure to delete this target?', 'Confirmation Dialog', function (r) {
+                if (r == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("EmployeesCounterWiseTargetDelete", "EmployeesTarget")",
+                        data: { employeecode: employeecode, shop_code: shop_code, type: type },
+                        success: function (response) {
+                            if (response) {
+                                jAlert("Target deleted for this employee!");
+                                gridEmployeesCounterTargetList.Refresh();
+                                //getEmployeesTargetSettingList();
+                                //SelectedEmployee();
+                                ////if (type == "EmployeesTargetSettingCounterTarget") {
+                                ////    gridEmployeesCounterTargetList.Refresh();
+                                ////}
+                                ////else {
+                                ////    gridEmployeesTargetList.Refresh();
+                                ////    gridEmployeesTargetList.Refresh();
+                                ////}
+
+                                //var count = $('#hdnExportGridListCount').val();
+                                //if (count > 0) {
+                                //    $('.btn-excel').show();
+                                //}
+                                //else {
+                                //    $('.btn-excel').hide();
+                                //}
+                            }
+                            else {
+                                jAlert("Please try agin later!");
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+    }
+
+    function RemoveEmployeesCounterWiseTarget(employeecode, employeetargetsettingid, type) {
+        if (employeetargetsettingid > 0) {
+            jConfirm('Are you sure to delete this target?', 'Confirmation Dialog', function (r) {
+                if (r == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("EmployeesCounterWiseTargetRemove", "EmployeesTarget")",
+                        data: { employeecode: employeecode, employeetargetsettingid: employeetargetsettingid, type: type },
+                        success: function (response) {
+                            if (response) {
+                                jAlert("Target deleted for this employee!");
+                                getEmployeesTargetSettingList();
+                                SelectedEmployee();
+                                //if (type == "EmployeesTargetSettingCounterTarget") {
+                                //    gridEmployeesCounterTargetList.Refresh();
+                                //}
+                                //else {
+                                //    gridEmployeesTargetList.Refresh();
+                                //    gridEmployeesTargetList.Refresh();
+                                //}
+
+                                var count = $('#hdnExportGridListCount').val();
+                                if (count > 0) {
+                                    $('.btn-excel').show();
+                                }
+                                else {
+                                    $('.btn-excel').hide();
+                                }
+                            }
+                            else {
+                                jAlert("Please try agin later!");
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            jAlert("Target not set for this employee!");
+        }
+    }
+
+    function SetEmployeesCounterWiseTarget(employeecode, employeetargetsettingid, CounterType, s, visibleindex) {
+        element = s;
+        GlobalRowIndex = visibleindex;
+        RowTargetValue = gridEmployeesTargetList.batchEditApi.GetCellValue(GlobalRowIndex, "OrderValue");
+        RowTargetCollection = gridEmployeesTargetList.batchEditApi.GetCellValue(GlobalRowIndex, "Collection");
+        //if ($(e).parent('td').parent('tr').find('td:eq(7) div:eq(0)').html() != "" && $(e).parent('td').parent('tr').find('td:eq(7) div:eq(0)').html() != undefined) {
+        //    RowTargetValue = parseFloat($(e).parent('td').parent('tr').find('td:eq(7) div:eq(0)').html()).toFixed(2);
+        //}
+        //else {
+        //    RowTargetValue = parseFloat($(e).parent('td').parent('tr').find('td:eq(7)').html()).toFixed(2);
+        //}
+        //if ($(e).parent('td').parent('tr').find('td:eq(12) div:eq(0)').html() == undefined) {
+        //    if ($(e).parent('td').parent('tr').find('td:eq(8) div:eq(0)').html() != "" && $(e).parent('td').parent('tr').find('td:eq(8) div:eq(0)').html() != undefined) {
+        //        RowTargetCollection = parseFloat($(e).parent('td').parent('tr').find('td:eq(8) div:eq(0)').html()).toFixed(2);
+        //    }
+        //    else {
+        //        RowTargetCollection = parseFloat($(e).parent('td').parent('tr').find('td:eq(8)').html()).toFixed(2);
+        //    }
+        //}
+        //else {
+        //    if ($(e).parent('td').parent('tr').find('td:eq(12) div:eq(0)').html() != "") {
+        //        RowTargetCollection = parseFloat($(e).parent('td').parent('tr').find('td:eq(12) div:eq(0)').html()).toFixed(2);
+        //    }
+        //    else {
+        //        RowTargetCollection = parseFloat($(e).parent('td').parent('tr').find('td:eq(12)').html()).toFixed(2);
+        //    }
+        //}
+
+
+        //$(e).parent('td').parent('tr').find('td:eq(7)').html();
+        if (RowTargetValue > 0 || RowTargetCollection > 0) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetEmployeesCounterWiseTargetByCode", "EmployeesTarget")",
+                data: { employeecode: employeecode, employeetargetsettingid: employeetargetsettingid, CounterType: CounterType },
+                success: function (response) {
+                    if (response) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetEmployeesCounterTargetListSet", "EmployeesTarget")",
+                            data: { EmployeeCode: employeecode, EmployeeTargetSettingID: employeetargetsettingid, CounterType: CounterType },
+                            success: function (data) {
+                                if (data) {
+                                    //EmployeesCounterTargetList = response.EmployeeCode;
+                                    if (jQuery.inArray(employeecode, EmployeesCounterTargetList) < 0) {
+                                        EmployeesCounterTargetList.push(employeecode);
+                                    }
+                                    pcModalTargetMode.SetContentHtml(response);
+                                    MVCxClientUtils.FinalizeCallback();
+                                    pcModalTargetMode.Show();
+                                    $('#lblTotalTargetValue').text(RowTargetValue);
+                                    $('#lblTotalTargetCollection').text(RowTargetCollection);
+                                    $('#hdnemployeecode').val(employeecode);
+                                    $('#hdnemployeetargetsettingid').val(employeetargetsettingid);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        else {
+            if (CounterType == 5) {
+                jAlert("Please set any target value before PP target distribution!");
+            }
+            else {
+                jAlert("Please set any target value before DD target distribution!");
+            }
+        }
+    }
+
+
+
+    function CounterTargetSave() {
+        var ddlEmpPPType = $('#ddlEmpPPType option:selected').val();
+        var ddlEmpType = $('#hdnddlEmpType').val();
+        var idOrderValue = $('#idOrderValue').val();
+        var idCollectionValue = $('#idCollectionValue').val();
+        var employeecode = $('#hdnemployeecode').val();
+        var employeetargetsettingid = $('#hdnemployeetargetsettingid').val();
+        var CounterType = $('#hdnddlCounterType').val();
+        var employeescountertargetid = $('#hdnemployeescountertargetid').val();
+        //var ddlCounterType = $('#hdnddlCounterType').val();
+
+        var ddlMonth = $('#hdnddlMonth').val();
+        var ddlYear = $('#ddlYear').val();
+        if (idOrderValue == "" && idCollectionValue == "") {
+            jAlert("Please enter target value!");
+            return false;
+        }
+            //else if (idCollectionValue == "") {
+            //    jAlert("Please enter collection value!");
+            //    return false;
+            //}
+        else if (idCollectionValue == 0 && idOrderValue == 0) {
+            jAlert("Please enter target value!");
+            return false;
+        }
+        else {
+            if (idCollectionValue == "") {
+                idCollectionValue = 0;
+            }
+
+            if (idOrderValue == "") {
+                idOrderValue = 0;
+            }
+            var isprocess = true;
+
+            TotalTargetValue = TotalTargetValue + parseFloat(idOrderValue);
+            TotalTargetCollection = TotalTargetCollection + parseFloat(idCollectionValue);
+
+            //Calculate Row wise assign value grater than Total value
+            //if (TotalTargetValue > RowTargetValue) {
+            //    jConfirm("Your assign target value for this employee " + RowTargetValue + " but your counter target is " + TotalTargetValue + " Do you want to process?", 'Confirmation Dialog', function (r) {
+            //        if (r == false) {
+            //            isprocess = false;
+            //        }
+            //        else {
+            //            if ($(e).parent('td').parent('tr').find('td:eq(6) div:eq(0)').html() == "") {
+            //                $(e).parent('td').parent('tr').find('td:eq(6) div:eq(0)').text(TotalTargetValue);
+            //            }
+            //            else {
+            //                $(e).parent('td').parent('tr').find('td:eq(6)').html(TotalTargetValue);
+            //            }
+            //        }
+            //    });
+            //    //jAlert("Your assign target for this employee " + RowTargetValue + " but your counter target is " + TotalTargetValue + " Do you want to process?");
+            //}
+            if (TotalTargetCollection > RowTargetCollection || TotalTargetValue > RowTargetValue) {
+                jConfirm("Current Target/Collection value is greater then assigned values. Do you wish to continue with current target value?", 'Confirmation Dialog', function (r) {
+                    if (r == false) {
+                        isprocess = false;
+                    }
+                    else {
+                        if ($(element).parent('td').parent('tr').find('td:eq(7) div:eq(0)').html() == "") {
+                            $(element).parent('td').parent('tr').find('td:eq(7) div:eq(0)').text(TotalTargetCollection);
+                        }
+                        else {
+                            $(element).parent('td').parent('tr').find('td:eq(7)').html(TotalTargetCollection);
+                        }
+
+                        if ($(element).parent('td').parent('tr').find('td:eq(6) div:eq(0)').html() == "") {
+                            $(element).parent('td').parent('tr').find('td:eq(6) div:eq(0)').text(TotalTargetValue);
+                        }
+                        else {
+                            $(element).parent('td').parent('tr').find('td:eq(6)').html(TotalTargetValue);
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("CounterTargetInsertUpdate", "EmployeesTarget")",
+                            data: { EmpPPType: ddlEmpPPType, OrderValue: idOrderValue, CollectionValue: idCollectionValue, employeecode: employeecode, employeetargetsettingid: employeetargetsettingid, employeescountertargetid: employeescountertargetid, FKEmployeesTargetSettingEmpTypeID: ddlEmpType, fkemployeescountertype: CounterType, SettingMonth: ddlMonth, SettingYear: ddlYear },
+                            success: function (response) {
+                                if (response.Message != "") {
+                                    jAlert(response.Message);
+                                    $('#hdnemployeetargetsettingid').val(response.FKEmployeeTargetSettingID);
+                                    gridEmployeesTargetList.Refresh();
+                                    gridEmployeesCounterTargetList.Refresh();
+                                    gridEmployeesCounterTargetList.Refresh();
+                                    $('#ddlEmpPPType').val($("#ddlEmpPPType option:first").val());
+                                    $('#idOrderValue').val(0.0);
+                                    $('#idCollectionValue').val(0.0);
+                                    $('#hdnemployeescountertargetid').val(0);
+                                    if (response.OrderUpdate) {
+                                        $('#lblTotalTargetValue').text(response.NewOrderValue);
+                                    }
+                                    if (response.CollectionUpdate) {
+                                        $('#lblTotalTargetCollection').text(response.NewCollectionValue);
+                                    }
+                                }
+                                else {
+                                    jAlert("Please try again later!");
+                                }
+
+                            }
+                        });
+                    }
+                });
+
+            }
+            //Calculate Row wise assign value grater than Total value
+
+        }
+    }
+
+    function CounterTargetAdd() {
+        var ddlEmpPPType = $('#ddlEmpPPType option:selected').val();
+        var ddlEmpPPTypeText = $('#ddlEmpPPType option:selected').text();
+        var ddlEmpType = $('#hdnddlEmpType').val();
+        var idOrderValue = $('#idOrderValue').val();
+        var idCollectionValue = $('#idCollectionValue').val();
+        var employeecode = $('#hdnemployeecode').val();
+        var employeetargetsettingid = $('#hdnemployeetargetsettingid').val();
+        var CounterType = $('#hdnddlCounterType').val();
+        var employeescountertargetid = $('#hdnemployeescountertargetid').val();
+        //var ddlCounterType = $('#hdnddlCounterType').val();
+
+        var ddlMonth = $('#hdnddlMonth').val();
+        var ddlYear = $('#ddlYear').val();
+        if (idOrderValue == "" && idCollectionValue == "") {
+            jAlert("Please enter target value!");
+            return false;
+        }
+            //else if (idCollectionValue == "") {
+            //    jAlert("Please enter collection value!");
+            //    return false;
+            //}
+        else if (idCollectionValue == 0 && idOrderValue == 0) {
+            jAlert("Please enter target value!");
+            return false;
+        }
+        else {
+            if (idCollectionValue == "") {
+                idCollectionValue = 0;
+            }
+
+            if (idOrderValue == "") {
+                idOrderValue = 0;
+            }
+            var isprocess = true;
+
+            TotalTargetValue = TotalTargetValue + parseFloat(idOrderValue);
+            TotalTargetCollection = TotalTargetCollection + parseFloat(idCollectionValue);
+
+            //Calculate Row wise assign value grater than Total value
+            //if (TotalTargetValue > RowTargetValue) {
+            //    jConfirm("Your assign target value for this employee " + RowTargetValue + " but your counter target is " + TotalTargetValue + " Do you want to process?", 'Confirmation Dialog', function (r) {
+            //        if (r == false) {
+            //            isprocess = false;
+            //        }
+            //        else {
+            //            if ($(e).parent('td').parent('tr').find('td:eq(6) div:eq(0)').html() == "") {
+            //                $(e).parent('td').parent('tr').find('td:eq(6) div:eq(0)').text(TotalTargetValue);
+            //            }
+            //            else {
+            //                $(e).parent('td').parent('tr').find('td:eq(6)').html(TotalTargetValue);
+            //            }
+            //        }
+            //    });
+            //    //jAlert("Your assign target for this employee " + RowTargetValue + " but your counter target is " + TotalTargetValue + " Do you want to process?");
+            //}
+            if (TotalTargetCollection > RowTargetCollection || TotalTargetValue > RowTargetValue) {
+                jConfirm("Current Target/Collection value is greater then assigned values. Do you wish to continue with current target value?", 'Confirmation Dialog', function (r) {
+                    if (r == false) {
+                        isprocess = false;
+                    }
+                    else {
+                        //if ($(element).parent('td').parent('tr').find('td:eq(7) div:eq(0)').html() == "") {
+                        //    $(element).parent('td').parent('tr').find('td:eq(7) div:eq(0)').text(TotalTargetCollection);
+                        //}
+                        //else {
+                        //    $(element).parent('td').parent('tr').find('td:eq(7)').html(TotalTargetCollection);
+                        //}
+
+                        //if ($(element).parent('td').parent('tr').find('td:eq(6) div:eq(0)').html() == "") {
+                        //    $(element).parent('td').parent('tr').find('td:eq(6) div:eq(0)').text(TotalTargetValue);
+                        //}
+                        //else {
+                        //    $(element).parent('td').parent('tr').find('td:eq(6)').html(TotalTargetValue);
+                        //}
+
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("CounterTargetAdd", "EmployeesTarget")",
+                            //data: { EmpPPType: ddlEmpPPType, OrderValue: idOrderValue, CollectionValue: idCollectionValue, employeecode: employeecode, employeetargetsettingid: employeetargetsettingid, employeescountertargetid: employeescountertargetid, FKEmployeesTargetSettingEmpTypeID: ddlEmpType, fkemployeescountertype: CounterType, SettingMonth: ddlMonth, SettingYear: ddlYear },
+                            data: {
+                                EmpPPType: ddlEmpPPType, OrderValue: idOrderValue, CollectionValue: idCollectionValue, employeecode: employeecode, EmpPPTypeText: ddlEmpPPTypeText
+                            },
+                            success: function (response) {
+                                if (response.Message != "") {
+                                    jAlert(response.Message);
+                                    Ischange = 1;
+                                    if (jQuery.inArray(response.EmployeeCode, EmployeesCounterTargetList) < 0) {
+                                        EmployeesCounterTargetList.push(response.EmployeeCode);
+                                    }
+
+
+                                    //$('#hdnemployeetargetsettingid').val(response.FKEmployeeTargetSettingID);
+                                    //gridEmployeesTargetList.Refresh();
+                                    gridEmployeesCounterTargetList.Refresh();
+                                    gridEmployeesCounterTargetList.Refresh();
+                                    $('#ddlEmpPPType').val($("#ddlEmpPPType option:first").val());
+                                    $('#idOrderValue').val(0.0);
+                                    $('#idCollectionValue').val(0.0);
+                                    $('#hdnemployeescountertargetid').val(0);
+                                    if (response.OrderUpdate) {
+                                        $('#lblTotalTargetValue').text(response.NewOrderValue);
+                                    }
+                                    if (response.CollectionUpdate) {
+                                        $('#lblTotalTargetCollection').text(response.NewCollectionValue);
+                                    }
+                                }
+                                else {
+                                    jAlert("Please try again later!");
+                                }
+
+                            }
+                        });
+                    }
+                });
+
+            }
+            else {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("CounterTargetAdd", "EmployeesTarget")",
+                    //data: { EmpPPType: ddlEmpPPType, OrderValue: idOrderValue, CollectionValue: idCollectionValue, employeecode: employeecode, employeetargetsettingid: employeetargetsettingid, employeescountertargetid: employeescountertargetid, FKEmployeesTargetSettingEmpTypeID: ddlEmpType, fkemployeescountertype: CounterType, SettingMonth: ddlMonth, SettingYear: ddlYear },
+                    data: {
+                        EmpPPType: ddlEmpPPType, OrderValue: idOrderValue, CollectionValue: idCollectionValue, employeecode: employeecode, EmpPPTypeText: ddlEmpPPTypeText
+                    },
+                    success: function (response) {
+                        if (response.Message != "") {
+                            jAlert(response.Message);
+                            if (jQuery.inArray(response.EmployeeCode, EmployeesCounterTargetList) < 0) {
+                                EmployeesCounterTargetList.push(response.EmployeeCode);
+                            }
+
+
+                            //$('#hdnemployeetargetsettingid').val(response.FKEmployeeTargetSettingID);
+                            //gridEmployeesTargetList.Refresh();
+                            gridEmployeesCounterTargetList.Refresh();
+                            gridEmployeesCounterTargetList.Refresh();
+                            $('#ddlEmpPPType').val($("#ddlEmpPPType option:first").val());
+                            $('#idOrderValue').val(0.0);
+                            $('#idCollectionValue').val(0.0);
+                            $('#hdnemployeescountertargetid').val(0);
+                            if (response.OrderUpdate) {
+                                $('#lblTotalTargetValue').text(response.NewOrderValue);
+                            }
+                            if (response.CollectionUpdate) {
+                                $('#lblTotalTargetCollection').text(response.NewCollectionValue);
+                            }
+                        }
+                        else {
+                            jAlert("Please try again later!");
+                        }
+
+                    }
+                });
+            }
+            //Calculate Row wise assign value grater than Total value
+
+        }
+    }
+
+    function EmployeesCounterTargetOk(employeecode) {
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetTotalOrderCollectionValue", "EmployeesTarget")",
+            data: {
+                employeecode: employeecode
+            },
+            success: function (response) {
+                pcModalTargetMode.Hide();
+                if (Ischange > 0) {
+                    firsttime = 0;
+                    gridEmployeesTargetList.batchEditApi.SetCellValue(GlobalRowIndex, "user_id", GlobalRowIndex);
+                }
+                else {
+                    firsttime = 1;
+                }
+                if (response) {
+
+                    var rowOderValue = gridEmployeesTargetList.batchEditApi.GetCellValue(GlobalRowIndex, "OrderValue");
+                    var rowCollection = gridEmployeesTargetList.batchEditApi.GetCellValue(GlobalRowIndex, "Collection");
+                    if (response.NewOrderValue > 0 && rowOderValue < response.NewOrderValue) {
+                        gridEmployeesTargetList.batchEditApi.SetCellValue(GlobalRowIndex, "OrderValue", response.NewOrderValue);
+                    }
+                    else {
+                        gridEmployeesTargetList.batchEditApi.SetCellValue(GlobalRowIndex, "OrderValue", '0.00');
+                        gridEmployeesTargetList.batchEditApi.SetCellValue(GlobalRowIndex, "OrderValue", rowOderValue);
+                    }
+                    if (response.NewCollectionValue > 0 && rowCollection < response.NewCollectionValue) {
+                        gridEmployeesTargetList.batchEditApi.SetCellValue(GlobalRowIndex, "Collection", response.NewCollectionValue);
+                    }
+                    else {
+                        gridEmployeesTargetList.batchEditApi.SetCellValue(GlobalRowIndex, "Collection", '0.00');
+                        gridEmployeesTargetList.batchEditApi.SetCellValue(GlobalRowIndex, "Collection", rowCollection);
+                    }
+                }
+
+            }
+        });
+    }
+
+    function gridemployeestargetlistexport() {
+        var url = '@Url.Action("ExportEmployeesTargetList", "EmployeesTarget", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function EmployeesTargetSave() {
+
+        var NewCounter = parseInt($('#lblNewCounter').text());
+        var OrderValue = parseFloat($('#lblOrderValue').text());
+        var Revisit = parseInt($('#lblRevisit').text());
+        var Collection = parseFloat($('#lblCollection').text());
+
+        var total = gridEmployeesTargetList.GetDataItemCountOnPage();
+        var totalNewCounter = 0;
+        var totalOrderValue = 0;
+        var totalRevisit = 0;
+        var totalCollection = 0;
+        gridEmployeesTargetList.UpdateEdit();
+        //gridEmployeesTargetList.batchUpdateCallBack();
+        //for (var item = 0 ; i < total; item++) {
+        //    debugger;
+        //    var item = gridEmployeesTargetList.GetDataRow(0);
+        //    try {
+        //        if ($(item).find('td:eq(4)').text() != "") {
+        //            totalNewCounter = totalNewCounter + parseInt($(item).find('td:eq(4)').text());
+        //        }
+        //        else {
+        //            totalNewCounter = totalNewCounter + parseInt($(item).find('td:eq(4) div:eq(0)').text());
+        //        }
+        //    }
+        //    catch (ex) { }
+        //    try {
+        //        if ($(item).find('td:eq(5)').text() != "") {
+        //            totalRevisit = totalRevisit + parseInt($(item).find('td:eq(5)').text());
+        //        }
+        //        else {
+        //            totalRevisit = totalRevisit + parseInt($(item).find('td:eq(5) div:eq(0)').text());
+        //        }
+        //    }
+        //    catch (ex) { }
+        //    try {
+        //        if ($(item).find('td:eq(6)').text() != "") {
+        //            totalOrderValue = totalOrderValue + parseInt($(item).find('td:eq(6)').text());
+        //        }
+        //        else {
+        //            totalOrderValue = totalOrderValue + parseInt($(item).find('td:eq(6) div:eq(0)').text());
+        //        }
+        //    }
+        //    catch (ex) { }
+        //    try {
+        //        if ($(item).find('td:eq(7)').text() != "") {
+        //            totalCollection = totalCollection + parseInt($(item).find('td:eq(7)').text());
+        //        }
+        //        else {
+        //            totalCollection = totalCollection + parseInt($(item).find('td:eq(7) div:eq(0)').text());
+        //        }
+        //    }
+        //    catch (ex) { }
+
+
+        //}
+        //if (totalNewCounter <= NewCounter && totalRevisit <= Revisit && totalOrderValue <= OrderValue && totalCollection <= Collection) {
+
+
+        //}
+        //else {
+        //    jAlert("Your assign target value grater than your target distribution target value.");
+        //}
+    }
+
+
+
+    function getEmployeesTargetSettingList() {
+        var ddlState = $('#ddlState option:selected').val();
+        var ddlDesignation = $('#ddlDesignation option:selected').val();
+        var ddlEmpType = $('#ddlEmpType option:selected').val();
+
+        var ddlMonth = $('#ddlMonth option:selected').val();
+        var ddlYear = $('#ddlYear option:selected').val();
+        var ddlEmpType = $('#ddlEmpType option:selected').val();
+        var ddlCounterType = $('#ddlCounterType option:selected').val();
+        var ddlEmployeeList = $('#ddlEmployeeList option:selected').val();
+
+        if (ddlEmpType == 0) {
+            jAlert("Please select target type!");
+        }
+        else if (ddlState == "Select") {
+            jAlert("Please select state!");
+        }
+        else if (ddlDesignation == "Select") {
+            jAlert("Please select designation!");
+        }
+        else if (ddlEmployeeList == "0") {
+            jAlert("Please select employee!");
+        }
+
+        else {
+            $('#hdnddlState').val(ddlState);
+            $('#hdnddlDesignation').val(ddlDesignation);
+
+            $('#hdnddlMonth').val(ddlMonth);
+            $('#ddlYear').val(ddlYear);
+            $('#hdnddlEmpType').val(ddlEmpType);
+            $('#hdnddlCounterType').val(ddlCounterType);
+
+            $('#hdnddlEmployeeUserID').val(ddlEmployeeList);
+
+            if (FistLoad != 0) {
+                pcModalEmployeelistMode.Show();
+            }
+            EmployeesListGridLookup.Refresh();
+            EmployeesListGridLookup.Refresh();
+            SetEmployeeTargerHeader(ddlEmployeeList, ddlMonth, ddlYear);
+
+
+            @*$.ajax({
+                type: "POST",
+                url: "@Url.Action("GetEmployeesListByReportTo", "EmployeesTarget")",
+                data: { State: ddlState, UserID: ddlEmployeeList, EmpTypeID: ddlEmpType, CounterType: ddlCounterType, Designation: ddlDesignation, SettingMonth: ddlMonth, SettingYear: ddlYear },
+                success: function (response) {
+                    pcModalEmployeelistMode.SetContentHtml(response);
+                    //MVCxClientUtils.FinalizeCallback();
+                    pcModalEmployeelistMode.Show();
+                    //$('#multiselect').multiselect();
+                    //$('#hdnemployeecode').val(employeecode);
+                    //$('#hdnemployeetargetsettingid').val(employeetargetsettingid);
+
+                }
+            });*@
+
+            //gridEmployeesTargetList.Refresh();
+            //gridEmployeesTargetList.Refresh();
+            //var count = $('#hdnExportGridListCount').val();
+            //if (count > 0) {
+            //    $('.btn-excel').show();
+            //}
+            //else {
+            //    $('.btn-excel').hide();
+            //}
+        }
+    }
+
+    function SetEmployeeTargerHeader(userid, month, year) {
+        $.ajax({
+            type: "POST",
+            //url: "Url.Action("GetEmployeesTargetByCode", "EmployeesTarget")",
+            url: "@Url.Action("GetEmployeesTargetByID", "EmployeesTarget")",
+            data: { userid: userid, month: month, year: year },
+            success: function (response) {
+                if (response) {
+                    if (response.NewCounter != undefined && response.NewCounter != "" && response.NewCounter != null && response.NewCounter != 0) {
+                        $('#lblNewCounter').text(parseInt(response.NewCounter));
+                    }
+                    else {
+                        $('#lblNewCounter').text("0");
+                    }
+                    if (response.OrderValue != undefined && response.OrderValue != "" && response.OrderValue != null && response.OrderValue != 0) {
+                        $('#lblOrderValue').text(parseFloat(response.OrderValue));
+                    }
+                    else {
+                        $('#lblOrderValue').text("0");
+                    }
+                    if (response.Revisit != undefined && response.Revisit != "" && response.Revisit != null && response.Revisit != 0) {
+                        $('#lblRevisit').text(parseInt(response.Revisit));
+                    }
+                    else {
+                        $('#lblRevisit').text("0");
+                    }
+                    if (response.Collection != undefined && response.Collection != "" && response.Collection != null && response.Collection != 0) {
+                        $('#lblCollection').text(parseFloat(response.Collection));
+                    }
+                    else {
+                        $('#lblCollection').text("0");
+                    }
+                }
+            }
+        });
+    }
+
+    function SetEmployeesTarget(employeecode, settingtype, employeename) {
+        $.ajax({
+            type: "POST",
+            //url: "Url.Action("GetEmployeesTargetByCode", "EmployeesTarget")",
+            url: "@Url.Action("GetEmployeesTargetByCode", "EmployeesTarget")",
+            data: { employeecode: employeecode, settingtype: settingtype, employeename: employeename },
+            success: function (response) {
+                pcModalMode.SetContentHtml(response);
+                MVCxClientUtils.FinalizeCallback();
+                pcModalMode.Show();
+                dtValidUpto.SetDate(new Date());
+                dtApplicablefrom.SetDate(new Date());
+                if (settingtype != "Visits") {
+                    $('.footerarea').removeClass("ptop34");
+                }
+                else {
+                    $('.footerarea').addClass("ptop34");
+                }
+            }
+        });
+    }
+
+    function datediff(first, second) {
+        return Math.round((second - first) / (1000 * 60 * 60 * 24));
+    }
+
+    function parseDate(str) {
+        var mdy = str.split('-');
+        return new Date(mdy[2], mdy[1] - 1, mdy[0]);
+    }
+
+    function InsertEmployeesTargetSetting() {
+        var EmployeeTargetSettingID = $('#hdnEmployeeTargetSettingID').val();
+        var EmployeeCode = $('#hdnEmployeeCode').val();
+        var SettingType = $('#hdnSettingType').val();
+        var SettingYear = $('#drpYear option:selected').val();
+        var Brand = $('#ddlBrand option:selected').val();
+        var Category = $('#ddlCategory option:selected').val();
+        var Items = $('#ddlItemsList option:selected').val();
+        var Basis = $('#drpBasis option:selected').val();
+        var ApplicableFrom = dtApplicablefrom.GetText();
+        var ValidUpto = dtValidUpto.GetText();
+        var Value = $('#value').val();
+        var VisitType = $('#ddlVisitType option:selected').val();
+
+        var ApplicableFromRange = dtApplicablefrom.GetDate();
+        var ValidUptoRange = dtValidUpto.GetDate();
+        if (datediff(parseDate(ApplicableFrom), parseDate(ValidUpto)) < 0) {
+            jAlert("Valid upto date not less than applicable from date!");
+            return false;
+        }
+        //if (Value == "" || Value == null) {
+        //    jAlert("Value cannot be blank!");
+        //    return false;
+        //}
+
+        if (Basis == 0 || Basis == "") {
+            jAlert("Please select basis!");
+            return false;
+        }
+
+        if (VisitType == 0 || VisitType == "") {
+            jAlert("Please select visit type!");
+            return false;
+        }
+        //var xml = "<SettingDetails>";
+        var valid = true;
+        var xml = "";
+        $(".sec-Visittarget").each(function () {
+            // xml = xml + '<Data>';
+            if ($(this).find("input[type='checkbox']").is(':checked')) {
+                if ($(this).find("input[type='text']").val() != "") {
+                    var EmployeesTargetSettingTypeID = $(this).find("input[type='checkbox']").val();
+                    var value = $(this).find("input[type='text']").val();
+                    //xml = xml + '<FKEmployeesTargetSettingID>' + EmployeesTargetSettingTypeID + '</FKEmployeesTargetSettingID>';
+                    //xml = xml + '<Value>' + value + '</Value>';
+                    xml = xml + EmployeesTargetSettingTypeID + ':' + value + '|'
+                }
+                else {
+                    valid = false;
+                    jAlert("Please enter target value!");
+                    return false;
+                }
+            }
+            else {
+                valid = false;
+                jAlert("Please enter all target!");
+                return false;
+            }
+            //xml = xml + '</Data>';
+        });
+        //xml = xml + "</SettingDetails>";
+        //xml = "";
+        if (valid == true) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("EmployeesTargetByCodeInsertUpdate", "EmployeesTarget")",
+                data: {
+                    EmployeeTargetSettingID: EmployeeTargetSettingID, EmployeeCode: EmployeeCode, SettingType: SettingType, SettingYear: SettingYear,
+                    Brand: Brand, Category: Category, Items: Items, Basis: Basis, ApplicableFromTxt: ApplicableFrom, ValidUptoTxt: ValidUpto, VisitType: VisitType, xml: xml
+                },
+                success: function (response) {
+                    if (response) {
+                        ClearForms();
+                        jAlert("Data saved!");
+                        gridEmployeesTargetListByCode.Refresh();
+                    }
+                    else {
+                        jAlert("Please try again!");
+                    }
+                }
+            });
+        }
+    }
+
+    function GetEmployeesTargetSettings(employeetargetsettingid, settingtype) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetEmployeesTargetByID", "EmployeesTarget")",
+            data: {
+                EmployeeTargetSettingID: employeetargetsettingid, settingtype: settingtype
+            },
+            success: function (response) {
+
+                if (response != null) {
+                    $('#hdnEmployeeTargetSettingID').val(response.EmployeeTargetSettingID);
+                    $('#hdnEmployeeCode').val(response.EmployeeCode);
+                    $('#hdnSettingType').val(response.SettingType);
+                    if ($("#drpYear option[value='" + response.SettingYear + "']").length > 0) {
+                        $('#drpYear').val(response.SettingYear);
+                    }
+                    else {
+                        $('#drpYear').append('<option value="' + response.SettingYear + '" selected="selected">' + response.SettingYear + '</option>');
+                        $("#drpYear").prop("disabled", true);
+                    }
+                    $('#ddlBrand').val(response.Brand);
+                    $('#ddlCategory').val(response.Category);
+                    $('#ddlItemsList').val(response.Items);
+                    $('#drpBasis').val(response.Basis);
+                    dtApplicablefrom.SetDate(new Date(response.ApplicableFromTxt));
+                    dtValidUpto.SetDate(new Date(response.ValidUptoTxt));
+                    //dtApplicablefrom.SetMinDate(new Date(response.ApplicableFromTxt));
+                    //dtValidUpto.SetDate(new Date(response.ValidUptoTxt));
+
+                    $(".sec-Visittarget").each(function () {
+                        if (response.SettingType == "Visits") {
+                            if ($(this).find(".clsTypeName").val() == "New Visit" && response.NewVisit > 0) {
+                                $(this).find("input[type='checkbox']").prop("checked", true);
+                                $(this).find("input[type='text']").val(response.NewVisit);
+                                $(this).find("input[type='text']").removeClass("disabled");
+                                $(this).find("input[type='text']").removeAttr("disabled");
+                            }
+                            if ($(this).find(".clsTypeName").val() == "Re-visit" && response.ReVisit > 0) {
+                                $(this).find("input[type='checkbox']").prop("checked", true);
+                                $(this).find("input[type='text']").val(response.ReVisit);
+                                $(this).find("input[type='text']").removeClass("disabled");
+                                $(this).find("input[type='text']").removeAttr("disabled");
+                            }
+                        }
+                        if (response.SettingType == "Sales Order Value") {
+                            if ($(this).find(".clsTypeName").val() == "Sales Order Value" && response.SalesOrderValue > 0) {
+                                $(this).find("input[type='checkbox']").prop("checked", true);
+                                $(this).find("input[type='text']").val(response.SalesOrderValue);
+                                $(this).find("input[type='text']").removeClass("disabled");
+                                $(this).find("input[type='text']").removeAttr("disabled");
+                            }
+                        }
+                        if (response.SettingType == "Collection") {
+                            if ($(this).find(".clsTypeName").val() == "New Visit" && response.Collection > 0) {
+                                $(this).find("input[type='checkbox']").prop("checked", true);
+                                $(this).find("input[type='text']").val(response.Collection);
+                                $(this).find("input[type='text']").removeClass("disabled");
+                                $(this).find("input[type='text']").removeAttr("disabled");
+                            }
+                        }
+                    });
+
+
+                    $('#value').val(response.Value);
+                }
+            }
+        });
+    }
+
+    @*function GetEmployeesTargetSettings(employeetargetsettingid) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetEmployeesTargetByID", "EmployeesTarget")",
+            data: {
+                EmployeeTargetSettingID: employeetargetsettingid
+            },
+            success: function (response) {
+                if (response != null) {
+                    $('#hdnEmployeeTargetSettingID').val(response.EmployeeTargetSettingID);
+                    $('#hdnEmployeeCode').val(response.EmployeeCode);
+                    $('#hdnSettingType').val(response.SettingType);
+                    $('#drpYear').val(response.SettingYear);
+                    $('#ddlBrand').val(response.Brand);
+                    $('#ddlCategory').val(response.Category);
+                    $('#ddlItemsList').val(response.Items);
+                    $('#drpBasis').val(response.Basis);
+                    dtApplicablefrom.SetText(response.ApplicableFromTxt);
+                    dtValidUpto.SetText(response.ValidUptoTxt);
+                    $('#value').val(response.Value);
+                }
+            }
+        });
+    }*@
+
+    function CancelEmployeesTargetSetting() {
+        ClearForms();
+    }
+
+    function ClearForms() {
+        $('#hdnEmployeeTargetSettingID').val(0);
+        $('#ddlBrand').val(0);
+        $('#ddlItemsList').val(0);
+        $('#ddlCategory').val(0);
+        $('#drpBasis').val(0);
+        $('#value').val("");
+        $('#drpYear').html('');
+        $('#drpYear').append('<option value="' + new Date().getFullYear() + '">' + (new Date().getFullYear()) + '</option>');
+        $('#drpYear').append('<option value="' + (new Date().getFullYear() + 1) + '">' + (new Date().getFullYear() + 1) + '</option>');
+        $('#drpYear').val($("#drpYear option:first").val());
+        $("#drpYear").prop("disabled", false);
+        $(".sec-Visittarget").each(function () {
+            if ($(this).find("input[type='checkbox']").is(':checked')) {
+                $(this).find("input[type='checkbox']").prop("checked", false);
+                $(this).find("input[type='text']").attr("disabled", "disabled");
+            }
+            $(this).find("input[type='text']").val('');
+        });
+        $('.sec-Visittarget .value').attr("disabled", "disabled");
+    }
+
+    function EmployeesTargetSettingsRemove(employeetargetsettingid) {
+        if (confirm("Are you sure to delete?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("EmployeesTargetRemove", "EmployeesTarget")",
+                data: {
+                    EmployeeTargetSettingID: employeetargetsettingid
+                },
+                success: function (response) {
+                    if (response != null) {
+                        jAlert("Data delete!");
+                        gridEmployeesTargetListByCode.Refresh();
+                    }
+                }
+            });
+        }
+    }
+
+    function GetProductItemsListByCategory() {
+        var Category = $('#ddlCategory option:selected').val();
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EmployeesTargetItemsList", "EmployeesTarget")",
+            data: {
+                Category: Category
+            },
+            success: function (response) {
+
+                if (response.length > 0) {
+                    var html = "";
+                    for (var i = 0; i < response.length; i++) {
+                        html = html + "<option value='" + response[i].ProductID + "'>" + response[i].ProductName + "</option>";
+                    }
+                    $('#ddlItemsList').html(html);
+
+                }
+            }
+        });
+    }
+
+    function getDataRange(e) {
+        if ($(e).is(':checked')) {
+
+            var divarea = $(e).parent('.sec-Visittarget');
+            $(divarea).find('.value').removeAttr("disabled");
+
+            var TypeName = $(divarea).find('clsTypeName').val();
+            var TypeID = $(e).attr('value');
+            var EmployeeCode = $('#hdnEmployeeCode').val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetEmployeeTargetDateRange", "EmployeesTarget")",
+                data: {
+                    EmployeeCode: EmployeeCode, TypeID: TypeID
+                },
+                success: function (response) {
+                    if (response != null) {
+                        var newdate = new Date(response.ValidUptoTxt);
+                        newdate.setDate(newdate.getDate() + 1);
+                        dtApplicablefrom.SetDate(newdate);
+                        dtValidUpto.SetDate(newdate);
+                        dtApplicablefrom.SetMinDate(newdate);
+                        dtValidUpto.SetMinDate(newdate);
+                    }
+
+                }
+            });
+        }
+        $(".sec-Visittarget").each(function () {
+            if ($(this).find("input[type='checkbox']").is(':checked')) {
+                $(this).find("input[type='text']").removeAttr("disabled");
+                $(this).find("input[type='text']").removeClass("disabled");
+            }
+            else {
+                $(this).find("input[type='text']").val('');
+                $(this).find("input[type='text']").attr("disabled", "disabled");
+                $(this).find("input[type='text']").addClass("disabled");
+            }
+        });
+
+    }
+
+    function isNumberKey(evt, e) {
+        var $this = $(e);
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+
+        //if ((evt.which != 46 || $this.val().indexOf('.') != -1) &&
+        //   ((evt.which < 48 || evt.which > 57) &&
+        //   (evt.which != 0 && evt.which != 8))) {
+        //    evt.preventDefault();
+        //}
+
+        return true;
+    }
+
+    function GetEmployeesCounterTarget(employeescountertargetid) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetEmployeesCounterTargetByID", "EmployeesTarget")",
+            data: {
+                EmployeesCounterTargetID: employeescountertargetid
+            },
+            success: function (response) {
+                if (response != null) {
+                    $('#idOrderValue').val(response.OrderValue);
+                    $('#idCollectionValue').val(response.CollectionValue);
+                    // $('#ddlEmpPPType option:selected').val();
+                    $('#ddlEmpPPType').val(response.Shop_Code);
+                    $('#hdnemployeescountertargetid').val(response.EmployeesCounterTargetID);
+                }
+
+            }
+        });
+    }
+
+    function SelectedEmployee() {
+        if (empcode.length > 0) {
+            var empcodelist = empcode.join("|");
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetEmployeesFilterByCode", "EmployeesTarget")",
+                data: {
+                    empcodelist: empcodelist
+                },
+                success: function (response) {
+                    if (response) {
+                        $('#ddlEmpType').prop('disabled', true);
+                        $('#ddlCounterType').prop('disabled', true);
+                        $('#ddlState').prop('disabled', true);
+                        $('#ddlDesignation').prop('disabled', true);
+                        $('#ddlEmployeeList').prop('disabled', true);
+                        gridEmployeesTargetList.Refresh();
+                        gridEmployeesTargetList.Refresh();
+                        pcModalEmployeelistMode.Hide();
+                    }
+
+                }
+            });
+        }
+        else {
+            jAlert("Please select employee to set target!");
+        }
+    }
+
+    function OnBegingridCallback(s, e) {
+
+
+        e.customArgs["EmpTypeID"] = $('#hdnddlEmpType').val();
+        e.customArgs["CounterType"] = $('#hdnddlCounterType').val();
+        e.customArgs["State"] = $('#hdnddlState').val();;
+        e.customArgs["Designation"] = $('#hdnddlDesignation').val();
+
+        e.customArgs["SettingYear"] = $('#ddlYear').val();
+        e.customArgs["SettingMonth"] = $('#hdnddlMonth').val();
+        e.customArgs["UserID"] = $('#hdnddlEmployeeUserID').val();
+        //e.customArgs["UserID"] = '378'; //$('#hdnddlEmployeeUserID').val();
+
+
+
+    }
+
+    //function OnEndgridCallback(s, e, OrderValue, NewCounter, Revisit, NewCounter, Collection) {
+    //function OnEndgridCallback(s, e) {
+
+    //    var UserOrderValue = $('#hdnUserOrderValue').val();
+    //    var UserNewCounter = $('#hdnUserNewCounter').val();
+    //    var UserRevisit = $('#hdnUserRevisit').val();
+    //    var UserCollection = $('#hdnUserCollection').val();
+
+    //    if (UserNewCounter != undefined && UserNewCounter != "" && UserNewCounter != null && UserNewCounter != "0") {
+    //        $('#lblNewCounter').text(UserNewCounter);
+    //    }
+    //    else {
+    //        $('#lblNewCounter').text("0");
+    //    }
+    //    if (UserOrderValue != undefined && UserOrderValue != "" && UserOrderValue != null && UserOrderValue != "0") {
+    //        $('#lblOrderValue').text(UserOrderValue);
+    //    }
+    //    else {
+    //        $('#lblOrderValue').text("0.00");
+    //    }
+    //    if (UserRevisit != undefined && UserRevisit != "" && UserRevisit != null && UserRevisit != "0") {
+    //        $('#lblRevisit').text(UserRevisit);
+    //    }
+    //    else {
+    //        $('#lblRevisit').text("0");
+    //    }
+    //    if (UserCollection != undefined && UserCollection != "" && UserCollection != null && UserCollection != "0") {
+    //        $('#lblCollection').text(UserCollection);
+    //    }
+    //    else {
+    //        $('#lblCollection').text("0.00");
+    //    }
+    //}
+
+    function EmployeesTargetCancel() {
+        $('#ddlEmpType').prop('disabled', false);
+        $('#ddlCounterType').prop('disabled', false);
+        $('#ddlState').prop('disabled', false);
+        $('#ddlDesignation').prop('disabled', false);
+        $('#ddlEmployeeList').prop('disabled', false);
+
+        $('#hdnddlEmpType').val('');
+        $('#hdnddlCounterType').val('');
+        $('#hdnddlState').val('');;
+        $('#hdnddlDesignation').val('');
+
+        //$('#ddlYear').val('');
+        $('#hdnddlMonth').val('');
+        $('#hdnddlEmployeeUserID').val('');
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetClearEmployeeList", "EmployeesTarget")",
+            success: function (response) {
+                if (response) {
+                    gridEmployeesTargetList.Refresh();
+
+                    $("#ddlEmpType").val($("#ddlEmpType option:first").val());
+                    $("#ddlCounterType").val($("#ddlCounterType option:first").val());
+                    $("#ddlState").val($("#ddlState option:first").val());
+                    $("#ddlDesignation").val($("#ddlDesignation option:first").val());
+                    $("#ddlEmployeeList").val($("#ddlEmployeeList option:first").val());
+                    $("#ddlMonth").val($("#ddlMonth option:first").val());
+                    $("#ddlYear").val($("#ddlYear option:second").val());
+                    GetEmpListChange();
+                    $('#lblListName').text('Employee List');
+
+                }
+
+            }
+        });
+
+
+    }
+
+
+</script>

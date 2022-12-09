@@ -1,0 +1,197 @@
+﻿@model System.Data.DataTable
+
+@Html.DevExpress().GridView(
+   settings =>
+   {
+       settings.Name = "gridsummarydashboard";
+
+       settings.CallbackRouteValues = new { Controller = "DashboardMenu", Action = "DashboardSummaryGridView" };
+       settings.ClientSideEvents.BeginCallback = "GSOnStartCallback";
+
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       // settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+       settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+       settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+       //settings.SettingsSearchPanel.Visible = true;
+       settings.Settings.ShowFilterRow = true;
+       settings.Settings.ShowGroupPanel = true;
+       settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+       settings.Styles.Row.Cursor = "pointer";
+       settings.Settings.ShowFooter = true;
+
+       settings.Settings.ShowGroupFooter = GridViewGroupFooterMode.VisibleIfExpanded;
+       settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+       settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+       settings.SettingsPager.PageSizeItemSettings.Visible = true;
+       settings.SettingsPager.PageSize = 20;
+       settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+       settings.Settings.ShowFilterRowMenu = true;
+
+       //settings.ClientSideEvents.RowClick = "gridsummarydashboardclick";
+
+
+       settings.Columns.Clear();
+
+       int visibleindex = 1;
+       String GroupByKey = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["GridEmployeeAttendanceSummaryGroupBy"]);
+
+       if (Model != null)
+       {
+
+           double ColumnWidth = Model.Columns.Count;
+
+           if (Model.Columns.Count > 0)
+
+               foreach (System.Data.DataColumn column in Model.Columns)
+               {
+                   settings.Columns.Add(x =>
+                   {
+                       visibleindex = visibleindex + 1;
+                       x.FieldName = column.ColumnName;
+                       x.Caption = column.ColumnName;
+                       x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+                       x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                       if (column.DataType.FullName == "System.Decimal" || column.DataType.FullName == "System.Int32" || column.DataType.FullName == "System.Int64")
+                       {
+                           x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           x.PropertiesEdit.DisplayFormatString = "0.00";
+                       }
+                       else if (column.DataType.FullName == "System.DateTime")
+                       {
+                           x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           x.PropertiesEdit.DisplayFormatString = "0.00";
+                       }
+
+                       if (column.ColumnName == GroupByKey)
+                       {
+                           x.GroupIndex = 0;
+                       }
+
+                   });
+
+
+
+               }
+       }
+       
+
+       settings.HtmlDataCellPrepared += (s, e) =>
+           {
+               String Type = Convert.ToString(ViewBag.Type);
+               if (e.DataColumn.Caption == "State" && Type == "Attendance")
+               {
+                   try
+                   {
+
+                       MVCxGridView grid = (MVCxGridView)s;
+                       var Designation = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Designation" });
+                       var State = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "State" });
+                       var buttonHtml = "";
+                       if (Designation.ToString() != "" && State.ToString() != "")
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"\" onclick=\"gridsummarydashboardclick('" + Designation + "','" + State + "');\" title=\"\">{0}</a>", State);
+                       }
+                       else
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", State);
+                       }
+                       e.Cell.Text = buttonHtml;
+                   }
+                   catch { }
+               }
+
+               if (e.DataColumn.Caption == "Designation" && Type == "Attendance")
+               {
+                   try
+                   {
+
+                       MVCxGridView grid = (MVCxGridView)s;
+                       var Designation = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Designation" });
+                       var State = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "State" });
+                       var buttonHtml = "";
+                       if (Designation.ToString() != "" && State.ToString() != "")
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"\" onclick=\"gridsummarydashboardclick('" + Designation + "','" + State + "');\" title=\"\">{0}</a>", Designation);
+                       }
+                       else
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", Designation);
+                       }
+                       e.Cell.Text = buttonHtml;
+                   }
+                   catch { }
+               }
+
+               if (e.DataColumn.Caption == "Count" && Type == "Attendance")
+               {
+                   try
+                   {
+
+                       MVCxGridView grid = (MVCxGridView)s;
+                       var Designation = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Designation" });
+                       var State = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "State" });
+                       var Count = (int)grid.GetRowValues(e.VisibleIndex, new string[] { "Count" });
+                       var buttonHtml = "";
+                       if (Designation.ToString() != "" && State.ToString() != "")
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<a class=\"infoButton\" onclick=\"gridsummarydashboardclick('" + Designation + "','" + State + "');\" title=\"\">{0}</a>", Count);
+                       }
+                       else
+                       {
+                           buttonHtml = string.Format("&nbsp;&nbsp;<span>{0}</span>", Count);
+                       }
+                       e.Cell.Text = buttonHtml;
+                   }
+                   catch { }
+               }
+           };
+
+
+       settings.BeforeGetCallbackResult = (s, e) =>
+       {
+           MVCxGridView g = (MVCxGridView)s;
+           g.ExpandAll();
+       };
+
+       settings.DataBound = (sender, e) =>
+       {
+           MVCxGridView grid = (MVCxGridView)sender;
+
+           if (grid.AllColumns.Count > 0)
+           {
+               foreach (MVCxGridViewColumn column in grid.Columns)
+               {
+                   if (column.FieldName != GroupByKey)
+                   {
+                       grid.UnGroup(column);
+                   }
+                   else
+                   {
+                       grid.GroupBy(column);
+                   }
+               }
+               //if (grid.Columns[GroupByKey] != null)
+               //{
+               //    grid.GroupBy(grid.Columns[GroupByKey]);
+               //    grid.CollapseAll();
+               //}
+              
+           }
+       };
+
+
+       settings.ClientSideEvents.EndCallback = "gridsummarydashboardEndcallback";
+       settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Count").DisplayFormat = "Total Count: {0}";
+
+       settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Count").DisplayFormat = "Total: {0}";
+
+   }).Bind(Model).GetHtml()
+
+<input type="hidden" value="@ViewBag.ExportDashboardSummaryGridListCount" id="hdnExportDashboardSummaryGridListCount" />
+
+
+

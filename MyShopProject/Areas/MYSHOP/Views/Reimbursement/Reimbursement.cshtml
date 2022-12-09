@@ -1,0 +1,641 @@
+﻿@model Models.ReimbursementReport
+
+@{
+    ViewBag.Title = "Travelling Allowance";
+    /// Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<script>
+    var is_pageload = "0";
+
+    //function ReimbursementSelectionChanged(s, e) {
+       
+    //    s.GetSelectedFieldValues("Name", GetReimbursementSelectedFieldValuesCallback);
+    //}
+    function GetReimbursementSelectedFieldValuesCallback(values) {
+        try {
+            appcode = [];
+            for (var i = 0; i < values.length; i++) {
+                appcode.push(values[i]);
+            }
+        } finally {
+            console.log(appcode);
+
+        }
+    }
+    var globalindexcheck = 0;
+    var cpSelectedKeys = [];
+    function ReimbursementSelectionChanged(s, e) {
+        if (e.isChangedOnServer) return;
+        globalindexcheck = e.visibleIndex;
+        var key = s.GetRowKey(e.visibleIndex);
+        if (e.isSelected) {
+            cpSelectedKeys.push(key);
+            gridreimbursementdetails.batchEditApi.SetCellValue(e.visibleIndex, "user_contactId", 111);
+            var row = gridreimbursementdetails.GetRow(e.visibleIndex);
+            $(row).find("td a.clsReimbursementDetailsGridApprovedData").removeClass("disableHref");
+         
+        }
+        else{
+            cpSelectedKeys = RemoveElementFromArray(cpSelectedKeys, key);
+            var row = gridreimbursementdetails.GetRow(e.visibleIndex);
+            $(row).find("td a.clsReimbursementDetailsGridApprovedData").addClass("disableHref");
+        }
+
+        // do custom action with the s.cpSelectedKeys
+
+        appcode = cpSelectedKeys;
+        //for (var index = 0; index < cpSelectedKeys.length; index++) {
+        //    appcode += cpSelectedKeys[index] + ",";
+        //}
+        //if (appcode.length > 0) {
+        //    appcode = appcode.substring(0, appcode.length - 1);
+        //}
+    }
+
+    // Required for speed-up of call backs (http://www.devexpress.com/Support/Center/Question/Details/Q569354)
+    function RemoveElementFromArray(array, element) {
+        var index = array.indexOf(element);
+        if (index < 0) return array;
+        array[index] = null;
+        var result = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] === null)
+                continue;
+            result.push(array[i]);
+        }
+        return result;
+    }
+
+
+    $(function () {
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+
+        $('body').on('click', '#btnshow', function () {
+                    is_pageload = "1";
+                    gridreimbursementregister.Refresh();
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporReimbursementList", "Reimbursement", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+    })
+   
+    function OnStartCallback(s, e) {
+        e.customArgs["Month"] = $("#ddlMonth").val();
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+        e.customArgs["Year"] = $("#ddlYear").val();
+    }
+
+    function OnEndCallback(s, e) {
+        var message = $('#hdnUpdateMessage').val();
+        if (message != "" && message != null && message != "null") {
+            jAlert(message);
+            $('#hdnUpdateMessage').val('');
+            var row = gridreimbursementdetails.GetRow(glovalrowIndex);
+            $(row).find("td a.clsReimbursementDetailsGridApprovedData").removeClass("disableHref");
+        }
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    var desigId = [];
+    function DesigSelectionChanged(s, e) {
+        DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    }
+    function GetDesigSelectedFieldValuesCallback(values) {
+        try {
+            desigId = [];
+            for (var i = 0; i < values.length; i++) {
+                desigId.push(values[i]);
+            }
+        } finally {
+            console.log(desigId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+    }
+
+
+</script>
+
+@*Main Grid*@
+
+<script>
+
+    function OpenReimbursementListEdit(USER_ID, EMPNAME, DEG_DESIGNATION, REPORTTO, STATE, STATUS) {
+        //element = s;
+        //GlobalRowIndex = visibleindex;
+        //RowTargetValue = gridEmployeesTargetList.batchEditApi.GetCellValue(GlobalRowIndex, "OrderValue");
+
+        if (STATUS != "Not Applied") {
+            Userid =USER_ID;
+            month = $("#ddlMonth").val();
+            year = $("#ddlYear").val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetReimbursementView", "Reimbursement")",
+                data: { Userid: USER_ID, EmpName: EMPNAME, Designation: DEG_DESIGNATION, Reportto: REPORTTO, State: STATE, Month: $("#ddlMonth").val(), Year: $("#ddlYear").val() },
+                success: function (response) {
+                    if (response) {
+                        pcModalReimbursement.SetContentHtml(response);
+                        MVCxClientUtils.FinalizeCallback();
+                        pcModalReimbursement.Show();
+                        appcode = [];
+                    }
+                }
+            });
+        }
+        else {
+            jAlert("Travelling Allowance Record Not Found!");
+        }
+    }
+</script>
+@*Main Grid*@
+
+@*Details Grid*@
+<script>
+    var usercontactId = '';
+    var applicationid = '';
+    var Userid = 0;
+    var month = '';
+    var year = '';
+    var globalApprovedorReject = 0;
+    var appcode = [];
+    function OnDetStartCallback(s, e) {
+
+        e.customArgs["user_contactId"] = usercontactId;
+        e.customArgs["ApplicationID"] = applicationid;
+        e.customArgs["Userid"] = Userid;
+        e.customArgs["Month"] = month;
+        e.customArgs["is_ApprovedReject"] = globalApprovedorReject;
+        e.customArgs["ListAppCode"] = appcode.join("|");
+        e.customArgs["Year"] = year;
+    }
+
+
+
+    var glovalrowIndex = 0;
+    function rowClick(s, e) {
+        glovalrowIndex = e.visibleIndex;
+
+    }
+
+    function OpenReimbursementDetailsGridApprovedData(user_contactId, ApplicationID, Apprvd_Dist, Apprvd_Amt,App_Rej_Remarks) {
+        usercontactId = user_contactId;
+        applicationid = ApplicationID;
+        if(jQuery.inArray(applicationid, appcode) !== -1){
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetReimbursementDetailsDataEdit", "Reimbursement")",
+            data: { user_contactId: user_contactId, Apprvd_Dist: Apprvd_Dist, Apprvd_Amt: Apprvd_Amt, App_Rej_Remarks: App_Rej_Remarks },
+            success: function (response) {
+                if (response) {
+                    pcModalReimbursementDetails.SetContentHtml(response);
+                    MVCxClientUtils.FinalizeCallback();
+                    pcModalReimbursementDetails.Show();
+                    $('#idApprovedDist').val(gridreimbursementdetails.batchEditApi.GetCellValue(glovalrowIndex, "Apprvd_Dist"));
+                    $('#idApprovedAmt').val(gridreimbursementdetails.batchEditApi.GetCellValue(glovalrowIndex, "Apprvd_Amt"));
+                    $('#idApprovedRejectRemarks').val(gridreimbursementdetails.batchEditApi.GetCellValue(glovalrowIndex, "App_Rej_Remarks"));
+                }
+            }
+        });
+    }
+    
+
+    }
+
+    function CheckApprovedPermission(Checked_Message) {
+        jAlert(Checked_Message);
+
+    }
+    
+    function Cancel() {
+        pcModalReimbursementDetails.Hide();
+    }
+    function OKSaved() {
+        var idApprovedDist = $('#idApprovedDist').val();
+        var idApprovedAmt = $('#idApprovedAmt').val();
+        var idApprovedRejectRemarks = $('#idApprovedRejectRemarks').val();
+        gridreimbursementdetails.batchEditApi.SetCellValue(glovalrowIndex, "Apprvd_Dist", idApprovedDist);
+        gridreimbursementdetails.batchEditApi.SetCellValue(glovalrowIndex, "Apprvd_Amt", idApprovedAmt);
+        gridreimbursementdetails.batchEditApi.SetCellValue(glovalrowIndex, "App_Rej_Remarks", idApprovedRejectRemarks);
+        pcModalReimbursementDetails.Hide();
+        //var row = gridreimbursementdetails.GetRow(glovalrowIndex);
+        //$(row).find("td a.clsReimbursementDetailsGridApprovedData").removeClass("disableHref");
+    }
+    function ReimbursementOk() {
+        if (appcode.length > 0) {
+            globalApprovedorReject = 1;
+            gridreimbursementdetails.UpdateEdit();
+           
+        }
+        else {
+            jAlert("Please check atleast one record!");
+        }
+    }
+    function ReimbursementReject() {
+        if (appcode.length > 0) {
+            globalApprovedorReject = 2;
+            gridreimbursementdetails.UpdateEdit();
+        }
+        else {
+            jAlert("Please check atleast one record!");
+        }
+    }
+    function ReimbursementCancel() {
+        pcModalReimbursement.Hide();
+    }
+
+    function isNumberKey(evt, e) {
+        var $this = $(e);
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31
+          && (charCode < 48 || charCode > 57))
+            return false;
+
+
+
+        return true;
+    }
+
+    function OpenReimbursementImage(MapExpenseID) {
+      
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("LoadImageDocument", "Reimbursement")",
+            data: { MapExpenseID: MapExpenseID},
+        success: function (response) {
+            if (response) {
+                pcModalImage.SetContentHtml(response);
+                MVCxClientUtils.FinalizeCallback();
+                pcModalImage.Show();
+            }
+        }
+    });
+
+    }
+    function closedetailpopup() {
+        gridreimbursementregister.Refresh();
+    }
+</script>
+@*Details Grid*@
+<style>
+    .expTypeImg {
+        list-style-type: none;
+        padding: 0;
+    }
+        .expTypeImg > li {
+            display: inline-block;
+        } .expTypeImg > li > div {
+            position: relative;
+        }
+        .expTypeImg > li > div>img {
+        }
+        .expTypeImg > li > div .imageCap {
+            position: absolute;
+            bottom: 0;
+            z-index: 5;
+            width: 100%;
+            color: #fff;
+            background: #bd9f9f;
+            padding: 5px 10px;
+            text-align: center;
+        } 
+    #gridreimbursementdetails_DXCBtn0, #gridreimbursementdetails_DXCBtn1 {
+        display: none;
+    }
+    .mTop10 {
+        margin-top:10px;
+    } 
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+    .disableHref {
+        opacity:0.3;
+    } 
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    #myAssignTargetpopup {
+        padding: 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    .linerHd {
+        background: #dedede;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+    }
+    .popheader {
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 8px;
+        padding-left: 7px;
+    }
+    /*lightbox*/
+    .lightbox {
+        z-index: 10000000;
+    }
+    .lightboxOverlay {
+        z-index: 9999999;
+    }
+</style>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<div class="breadCumb">
+    <span>Travelling Allowance</span>
+</div>
+<div class="container">
+    <div class="backBox mt-5 p-3 ">
+        <div class="row">
+
+            <div class="col-md-2">
+                <label>Month</label>
+                <div>
+                    @Html.DropDownList("ddlMonth", new SelectList(Model.MonthList, "ID", "MonthName"), new { @name = "from", @class = "full form-control" })
+
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <label>Year</label>
+                <div>
+                    @Html.DropDownList("ddlYear", new SelectList(Model.YearList, "ID", "YearName"), new { @name = "from", @class = "full form-control" })
+
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-2">
+                <label>State</label>
+                <div>
+                    @Html.Action("GetStateList", "MasterPopulate")
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <label>Designation</label>
+                <div>
+
+                    @Html.Action("GetDesigList", "Reimbursement")
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <label>Employee(s)</label>
+                <div>
+                    @Html.Action("GetEmpList", "MasterPopulate")
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2 pad-md-18">
+                <label></label>
+                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div style="clear: both;"></div>
+<div id="refreshgridreimbursement " class="container">
+    <div class="backBox mt-3 p-3 ">
+        @{
+            Html.RenderAction("GetReimbursementList", "Reimbursement", new { Month = "JAN", StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0", Year = "2018" });
+        }
+    </div>
+</div>
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalReimbursement";
+        settings.Width = 1250;
+        settings.Height = 600;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Travelling Allowance";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); closedetailpopup();  }";
+    }).GetHtml()
+
+   @Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalReimbursementDetails";
+        settings.Width = 280;
+        //settings.Height = 400;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Travelling Allowance Details";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);}";
+    }).GetHtml()
+
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalImage";
+        settings.Width = 600;
+        settings.Height = 400;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "View Documents";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+

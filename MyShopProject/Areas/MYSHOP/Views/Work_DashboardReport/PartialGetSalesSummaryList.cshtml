@@ -1,0 +1,101 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridsalessummaryregister";
+
+    settings.CallbackRouteValues = new { Action = "GetSalesSummaryList", Controller = "Work_DashboardReport" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee";
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DESIGNATION";
+        x.Caption = "Designation";
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGGEDIN";
+        x.Caption = "Login Time";
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGEDOUT";
+        x.Caption = "Logout Time";
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "GPS_INACTIVE_DURATION";
+        x.Caption = "GPS Inactive Duration (HH:MM)";
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DISTANCE_COVERED";
+        x.Caption = "K.M. Travelled";
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPS_VISITED";
+        x.Caption = "Total Shop Visited";
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
+        x.Caption = "Order Value";
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_COLLECTION";
+        x.Caption = "Collection Amount";
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+    });
+}).Bind(Model).GetHtml()
+
+

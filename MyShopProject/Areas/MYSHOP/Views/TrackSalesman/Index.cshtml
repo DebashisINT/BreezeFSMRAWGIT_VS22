@@ -1,0 +1,647 @@
+﻿@model Models.UserListTrackModel
+
+@{
+    ViewBag.Title = "Salesman Tracking";
+    //    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var weburl = System.Configuration.ConfigurationSettings.AppSettings["Weburlmarker"];
+}
+
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif3telvlrJn61kkLXDQA0ViQdDVJWifk"></script>
+
+@*<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>*@
+@*<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+
+
+<script>
+    var map;
+    $(function () {
+        $('#map').hide();
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+
+        if ('@Model.selectedusrid' != '') {
+            $("#drpuser").val('@Model.selectedusrid');
+            refresh();
+        }
+
+
+
+        $('body').on('click', '#btnshow', function () {
+            //setInterval(refresh, 3000);
+            //     refresh();
+
+            /////22/01/2018
+
+            var Url = '@Url.Action("GetSalesmanLocation", "TrackSalesman")'
+
+            $.ajax({
+                url: Url,
+                async: false,
+                type: 'POST',
+                data: {
+                    selectedusrid: $("#drpuser").val(),
+                    Date: $('#txtDate').val(),
+
+                },
+                error: function () {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+
+                success: function (markers) {
+                    document.getElementById('directions_panel').innerHTML = '';
+                    if (markers != '') 
+                    {
+
+                        // alert(markers.Fullresponse);
+
+                        var directionsDisplay;
+                        var directionsService = new google.maps.DirectionsService();
+
+                        directionsDisplay = new google.maps.DirectionsRenderer(
+                            //{
+                            //suppressMarkers: true
+                            //}
+                            );
+
+                        var infoWindow = new google.maps.InfoWindow();
+                        //////// 22/01/2018
+                        var waypts = [];
+
+
+
+
+
+                        var latlng = new google.maps.LatLng(28.535516, 77.391026);
+                        // var latlng = new google.maps.LatLng(lat, long);
+
+
+                        map = new google.maps.Map(document.getElementById('map'), {
+                            // center: latlng,
+                            zoom: 16,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+
+                        });
+
+
+                        //////// 22/01/18
+                        //directionsDisplay.setMap(map);
+                        directionsDisplay = new google.maps.DirectionsRenderer({ map: map, suppressMarkers: true, suppressInfoWindows: false });
+
+                        for (i = 0; i < markers.salesmanarea.length; i++) {
+                            var data = markers.salesmanarea[i];
+
+
+
+
+                            waypts.push({
+                                location: data.location,
+                                stopover: true,
+
+
+                            });
+
+                            //createMarker(data.location);
+                        }
+
+
+                        //////// 22/01/18
+                        var start = markers.latlanLogin;
+                        var end = markers.latlanLogout;
+
+                        var request = {
+                            origin: start,
+                            destination: end,
+                            waypoints: waypts,
+                            optimizeWaypoints: true,
+                            travelMode: google.maps.TravelMode.DRIVING
+                        };
+
+
+                        var infowindow_forRoutedMarker = new google.maps.InfoWindow({
+                            content: '22'
+                        });
+
+                        if (markers.Fullresponse != null) {
+
+                            directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+                            //alert(JSON.stringify(response));
+                            // objToString(response)
+                            directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+
+
+                            var route = $.parseJSON(markers.Fullresponse).routes[0];
+                            var summaryPanel = document.getElementById('directions_panel');
+
+
+                            var infowindow = new google.maps.InfoWindow();
+                            var drivingdistancesave = '';
+                            var drivingdistance = '';
+                            summaryPanel.innerHTML = '';
+                            var distance = 0.0000;
+                            var distancecount = 0;
+                            // For each route, display summary information.
+                            $("#lbltotaldistancecovered").html('');
+
+
+                            for (var i = 0; i < route.legs.length; i++) {
+                                var routeSegment = i + 1;
+
+                                var x = route.legs[i].distance.text;
+                                // alert(x);
+                                if (x.includes('km')) {
+
+                                    //alert(parseFloat(x.replace('km', '').trim()));
+                                    distance = parseFloat(x.replace('km', '').trim());
+
+                                }
+                                else {
+
+                                    // alert(parseFloat(x.replace('m', '').trim()) / 1000.0000);
+                                    distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+
+                                }
+                                distancecount = distancecount + distance;
+                                //summaryPanel.innerHTML += '<b>Travel Point: ' + routeSegment + '</b><br>';
+                                //summaryPanel.innerHTML += '<b style="color:green">From: ' + route.legs[i].start_address + ' </b> <br><b>To</b> <br> ';
+                                //summaryPanel.innerHTML += '<b style="color:crimson">' + route.legs[i].end_address + '</b><br>';
+                                //summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                                if (i == 0) {
+                                    summaryPanel.innerHTML += '<b>Travel Point: ' + routeSegment + '</b><br>';
+                                    summaryPanel.innerHTML += '<b style="color:green">' + route.legs[i].start_address + ' </b>  ';
+
+                                    summaryPanel.innerHTML += '0 km' + '<br><br>';
+
+                                    drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+
+                                    var marker = new google.maps.Marker({
+                                        position: route.legs[i].start_location,
+                                        label: "" + (i + 1),
+                                        map: map,
+                                        icon: '@weburl' + 'markerloginlogout.png'
+
+                                    });
+                                }
+                                else {
+
+                                    summaryPanel.innerHTML += '<b>Travel Point: ' + routeSegment + '</b><br>';
+                                    summaryPanel.innerHTML += '<b style="color:green">' + route.legs[i].start_address + ' </b>  ';
+
+                                    summaryPanel.innerHTML += route.legs[i - 1].distance.text + '<br><br>';
+
+                                    drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                                    var marker = new google.maps.Marker({
+                                        position: route.legs[i].start_location,
+                                        label: "" + (i + 1),
+                                        map: map
+
+                                    });
+                                }
+
+
+
+                                drivingdistance = drivingdistance + drivingdistancesave;
+
+
+
+                            }
+
+                            summaryPanel.innerHTML += '<b>Travel Point: ' + (i + 1) + '</b><br>' +
+                               ' <b style="color:green">' + route.legs[i - 1].end_address + ' </b>' + route.legs[i - 1].distance.text + '<br/><br/>  ';
+
+                            summaryPanel.innerHTML += '<div><b>Total Distance covered: </b> ' + distancecount.toFixed(2) + ' km' + '</div>'
+
+                            var marker = new google.maps.Marker({
+                                position: route.legs[i - 1].end_location,
+                                label: "" + (i + 1),
+                                map: map,
+                                animation: google.maps.Animation.DROP,
+                                icon: '@weburl' + 'markerloginlogout.png'
+                            });
+
+
+                            drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+
+                            drivingdistance = drivingdistance + drivingdistancesave;
+                            //marker.addListener('click', function () {
+                            //    infowindow.open(map, marker);
+                            //});
+                            drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                            //  SubmitRequestedLocation(drivingdistance, JSON.stringify(response));
+                            $("#lbltotaldistancecovered").val(drivingdistance);
+                            //$("#lbltotaldistancecovered").html('Distance Covered: ' + distancecount+' km');
+
+
+                        }
+
+                        else {
+
+
+                            directionsService.route(request, function (response, status) {
+                                if (status == google.maps.DirectionsStatus.OK) {
+
+
+                                    //alert(JSON.stringify(response));
+                                    // objToString(response)
+                                    directionsDisplay.setDirections(response);
+
+
+                                    var route = response.routes[0];
+                                    var summaryPanel = document.getElementById('directions_panel');
+
+                                    var infowindow = new google.maps.InfoWindow();
+                                    var drivingdistancesave = '';
+                                    var drivingdistance = '';
+                                    summaryPanel.innerHTML = '';
+                                    var distance = 0;
+                                    var distancecount = 0;
+                                    // For each route, display summary information.
+                                    $("#lbltotaldistancecovered").html('');
+                                    for (var i = 0; i < route.legs.length; i++) {
+                                        var routeSegment = i + 1;
+
+
+                                        var x = route.legs[i].distance.text;
+                                        // alert(x);
+                                        if (x.includes('km')) {
+
+                                            //  alert(parseFloat(x.replace('km', '').trim()));
+                                            distance = parseFloat(x.replace('km', '').trim());
+                                        }
+                                        else {
+                                            // alert(parseFloat(x.replace('m', '').trim()) / 1000.0000);
+                                            distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+
+                                        }
+                                        distancecount = distancecount + distance;
+
+                                        //summaryPanel.innerHTML += '<b>Travel Point: ' + routeSegment + '</b><br>';
+                                        //summaryPanel.innerHTML += '<b style="color:green">From: ' + route.legs[i].start_address + ' </b> <br><b>To</b> <br> ';
+                                        //summaryPanel.innerHTML += '<b style="color:crimson">' + route.legs[i].end_address + '</b><br>';
+                                        //summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+                                        if (i == 0) {
+                                            summaryPanel.innerHTML += '<b>Travel Point: ' + routeSegment + '</b><br>';
+                                            summaryPanel.innerHTML += '<b style="color:green">' + route.legs[i].start_address + ' </b>  ';
+
+                                            summaryPanel.innerHTML += '0 km' + '<br><br>';
+
+                                            drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+
+                                            var marker = new google.maps.Marker({
+                                                position: route.legs[i].start_location,
+                                                label: "" + (i + 1),
+                                                map: map,
+                                                icon: '@weburl' + 'markerloginlogout.png'
+
+                                            });
+                                        }
+                                        else {
+
+                                            summaryPanel.innerHTML += '<b>Travel Point: ' + routeSegment + '</b><br>';
+                                            summaryPanel.innerHTML += '<b style="color:green">' + route.legs[i].start_address + ' </b>  ';
+
+                                            summaryPanel.innerHTML += route.legs[i - 1].distance.text + '<br><br>';
+
+                                            drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+
+
+
+                                            var marker = new google.maps.Marker({
+                                                position: route.legs[i].start_location,
+                                                label: "" + (i + 1),
+                                                map: map
+
+                                            });
+                                        }
+
+
+
+                                        drivingdistance = drivingdistance + drivingdistancesave;
+
+
+                                    }
+
+                                    summaryPanel.innerHTML += '<b>Travel Point: ' + (i + 1) + '</b><br>' +
+                                       ' <b style="color:green">' + route.legs[i - 1].end_address + ' </b>' + route.legs[i - 1].distance.text + '<br/><br/>  ';
+
+                                    summaryPanel.innerHTML += '<div><b>Total Distance covered: </b> ' + distancecount.toFixed(2) + ' km' + '</div>'
+
+                                    var marker = new google.maps.Marker({
+                                        position: route.legs[i - 1].end_location,
+                                        label: "" + (i + 1),
+                                        map: map,
+                                        animation: google.maps.Animation.DROP,
+                                        icon: '@weburl' + 'markerloginlogout.png'
+                                    });
+
+
+                                    drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+
+                                    drivingdistance = drivingdistance + drivingdistancesave;
+                                    //marker.addListener('click', function () {
+                                    //    infowindow.open(map, marker);
+                                    //});
+                                    drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                                    SubmitRequestedLocation(drivingdistance, JSON.stringify(response));
+                                    $("#lbltotaldistancecovered").val(drivingdistance);
+                                    //$("#lbltotaldistancecovered").html('Distance Covered: ' + distancecount+' km');
+
+                                    //alert(distancecount);
+                                }
+                            });
+
+
+
+                        }
+
+                    }
+
+                    else
+                    {
+                        summaryPanel.innerHTML = '';
+                        jAlert('No data');
+                    }
+
+                },
+
+            });
+            /////22/01/2018
+
+        });
+
+
+
+
+        $('body').on('click', '#btnrefresh', function () {
+
+
+            setInterval(refresh, 300000);
+
+            //refresh()
+
+        });
+
+        $('body').on('change', '#ddltypes', function () {
+
+
+
+            var Url = '@Url.Action("GetUsers", "TrackSalesman")'
+
+
+            $.ajax({
+                url: Url,
+                async: true,
+                type: 'POST',
+                data: { "typeid": $("#ddltypes").val() },
+                error: function () {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+
+                success: function (result) {
+                    $('#drpuser').empty();
+                    $('#drpuser').val('').trigger('chosen:updated');
+
+
+                    $.each(result, function (index, value) {
+                        $('#drpuser').append('<option value="' + value.UserID + '">' + value.username + '</option>');
+                    });
+
+
+                    $('#drpuser').trigger('chosen:updated');
+
+                },
+
+            });
+
+
+
+
+        });
+
+
+        $('#txtDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+
+    });
+
+    function refresh() {
+
+        if ($("#drpuser").val() != '') {
+
+            var usr = $("#drpuser").val();
+            var Url = '@Url.Action("GetSalesmanLocation", "TrackSalesman")'
+            //$.get(Url, function (result) {
+            //    $('#refreshme').html(result);
+            //});
+
+
+            $.ajax({
+                url: Url,
+                async: true,
+                data: {
+                    "selectedusrid": usr,
+                    Date: $('#txtDate').val()
+                },
+                error: function () {
+                    $('#info').html('<p>An error has occurred</p>');
+                },
+
+                success: function (data) {
+
+                    $('#refresh').html(data);
+
+                },
+                type: 'GET'
+            });
+
+        }
+
+        else {
+
+            $('#refresh').html('');
+            $.jAlert({
+                'title': 'Alert!',
+                'content': 'Select User to show',
+                'theme': 'dark_blue'
+            });
+
+        }
+
+
+    }
+
+    //$(function () {
+
+    //    setInterval(refresh, 3000);
+
+    //});
+
+
+    function createMarker(latlng) {
+
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map
+        });
+    }
+
+
+    function SubmitRequestedLocation(datloaction, responseget) {
+
+        var Url = '@Url.Action("InserSalesmanLocationforMonthlyReport", "TrackSalesman")'
+        var data = { "locationdetail": datloaction, selectedusrid: $("#drpuser").val(), Date: $('#txtDate').val(), response: responseget };
+        $.ajax({
+            type: "POST",
+            url: Url,
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (r) {
+
+            }
+        });
+
+    }
+    function objToString(obj) {
+        var str = '';
+        for (var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+                str += p + '::' + obj[p] + '\n';
+            }
+        }
+        /// return str;
+
+        alert(str);
+    }
+
+</script>
+
+<style>
+    .w1 {
+        width: 85px;
+    }
+
+    .whclass {
+        width: 160px;
+        height: 29px !important;
+    }
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #directions_panel {
+        height: 600px;
+        overflow-y: auto;
+        padding: 15px 25px;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>Salesman Tracking</span>
+</div>
+<div class="container pt-3">
+    <div class="form_main backBox p-3">
+
+        @using (Html.BeginForm("GetSalesmanLocation", "TrackSalesman", FormMethod.Post, new { @id = "fromsalesman" }))
+    {
+            <table class="pull-left padTabl">
+
+
+                <tr>
+                    <td class="w1"><h5>Type: </h5></td>
+
+                    <td style="width:160px;">
+
+
+                        <select id="ddltypes" style="width:100%">
+                            <option value="0" selected="selected">All</option>
+                            <option value="1">Login Users</option>
+                            <option value="2">Logout Users</option>
+                        </select>
+
+
+
+                    </td>
+                    <td class="w1"><h5>User List: </h5></td>
+
+                    <td style="width:200px;">
+
+                        @*@Html.DropDownListFor(m => m.selectedusrid, new SelectList(Model.userlsit, "UserID", "username", Model.selectedusrid), "-Select-", new { @id = "drpuser", @class = "whclass" })*@
+                        <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
+                            @foreach (var item in Model.userlsit)
+                        {
+                            if (Model.selectedusrid == item.UserID)
+                            {
+                                <option value="@item.UserID" selected="selected">@item.username</option>
+                            }
+                            else
+                            {
+                                <option value="@item.UserID">@item.username</option>
+                            }
+                        }
+                        </select>
+
+                    </td>
+
+                    <td class="w1"><h5> Date : </h5></td>
+
+                    <td>
+                        @Html.TextBoxFor(m => m.Date, new { @class = "form-control", @id = "txtDate" })
+                    </td>
+
+
+                    <td style="width:220px">
+                        <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                        <button type="button" id="btnrefresh" class="btn btn-warning">Refresh</button>
+                        <input type="hidden" id="lbltotaldistancecovered" />
+                    </td>
+
+                </tr>
+
+
+
+            </table>
+
+    }
+
+        <br />
+
+
+        <div id="refresh">
+
+
+        </div>
+        <div>
+            <div id="map" style="width: 100%; height: 600px;"></div>
+        </div>
+    </div>
+</div>
+@*<div id="dvMap" style="width: 100%; height: 600px;"></div>*@
+
+
+<div class="row">
+    <div class="col-md-8">
+        
+    </div>
+    <div class="col-md-4 hide">
+        <div id="directions_panel" style="background-color: #fffad3;"></div>
+    </div>
+</div>
+
+
+@*<div id="map-canvas"></div>
+<div id="dvMap" style="width: 500px; height: 500px"></div>*@
+

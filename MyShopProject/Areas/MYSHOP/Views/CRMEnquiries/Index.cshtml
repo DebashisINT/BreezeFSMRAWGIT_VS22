@@ -1,0 +1,2039 @@
+﻿@using MyShop.Models;
+@model MyShop.Models.CRMEnquiriesModel
+@{
+    ViewBag.Title = "Enquiries";
+}
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+<script>
+    var Is_PageLoad = "Ispageload";
+    var Is_PageLoadBulkAssign = "Ispageload"
+    $(function () {
+
+        $("#ddlStatus").val(1);
+        var d = new Date();
+
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        gridCRMEnquiries.Refresh();
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("EnquiryFromGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("EnquiryFromGridLookup");
+        lookup.GetGridView().Refresh();
+
+        //dtLogFrom.SetValue(d);
+        //dtLogTo.SetValue(d);
+
+        //$("#drpuser").chosen({
+        //    width: "100%"
+        //})
+        //$("#drpstate").chosen({
+        //    width: "100%"
+        //})
+        //$("#drpshop").chosen({
+        //    width: "100%"
+        //})
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+
+            // GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+
+            //var IS_ReAssignedDate = "0";
+            //if ($('#chkIsAssignDate').is(":checked")) {
+            //    IS_ReAssignedDate = "1";
+            //}
+            var flag = true;
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            else if ((EnquiryFromDesc.includes("IndiaMart") || EnquiryFromDesc.includes("MccoyMart")) && (Math.ceil((endDate - startdate) / (1000 * 60 * 60 * 24)) > 7)) {
+                jAlert('Difference of From Date and To Date cannot be more than 7 Days when Enquiries From includes IndiaMart or MccoyMart.');
+            }
+            else if (EnquiryFromDesc.length == 0) {
+                jAlert('Select Enquiry From.');
+            }
+            else {
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                Is_PageLoad = "1";
+                gridCRMEnquiries.Refresh();
+
+                //Rev Debashis
+                //var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+                //if (dayse <= 30) {
+                //End of Rev Debashis
+                @*Is_PageLoad = "1";
+
+                    $.ajax({
+                        url: "@Url.Action("GetPartyDetailsList", "partyDetails")",
+                        async: false,
+                        data: {
+                            Fromdate: dtFrom.GetText(),
+                            Todate: dtTo.GetText(),
+                            empcode: empId,
+                            StateIds: StateId,
+                            Is_PageLoad: Is_PageLoad,
+                            IS_ReAssignedDate: IS_ReAssignedDate
+                        },
+                        type: 'POST',
+                        success: function (data) {
+                            gridPartyDetails.Refresh();
+                            gridPartyDetails.Refresh();
+                        },
+                        error: function () {
+                        },
+                    });*@
+                //Rev Debashis
+                //    }
+                //        else {
+                //            jAlert("Searching days must be within One month.");
+                //}
+                //End of Rev Debashis
+            }
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporRegisterList", "CRMEnquiries", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
+
+        $(".allow_decimal").on("input", function (evt) {
+            var self = $(this);
+            self.val(self.val().replace(/[^0-9\.]/g, ''));
+            if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                evt.preventDefault();
+            }
+        });
+
+    });
+
+    @*function ExportLogGrid() {
+        var url = '@Url.Action("ExportPartyLogList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }*@
+
+    function datevalidate() {
+        //appcbl_to_dt.SetMinDate(appcbl_frm_dt.GetDate());
+    }
+
+    function GridShow() {
+        //GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+        Is_PageLoad = "";
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+
+        var startdate = new Date(Date.parse(newdatefrom));
+        //  alert(startdate);
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            //Rev Debashis
+            //var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+            //if (dayse <= 30) {
+            //End of Rev Debashis
+            //Is_PageLoad = "1";
+            gridCRMEnquiries.Refresh();
+
+            @*$.ajax({
+                    url: "@Url.Action("GetPartyDetailsList", "partyDetails")",
+                    async: false,
+                    data: {
+                        Fromdate: dtFrom.GetText(),
+                        Todate: dtTo.GetText(),
+                        empcode: empId,
+                        StateIds: StateId,
+                        Is_PageLoad: Is_PageLoad
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        gridPartyDetails.Refresh();
+                        gridPartyDetails.Refresh();
+                    },
+                    error: function () {
+                    },
+                });*@
+            //Rev Debashis
+            //}
+            //else {
+            //    jAlert("Searching days must be within One month.");
+            //}
+            //End of Rev Debashis
+        }
+    }
+
+    function DeSelectAllGridLookup(s, e) {
+        EnquiryFromGridLookup.gridView.UnselectRows();
+
+        EnquiryFromDesc = [];
+        EnquiryFrom_Desc = "";
+
+    }
+    function SelectAllGridLookup(s, e) {
+        EnquiryFromGridLookup.gridView.SelectRows();
+
+        EnquiryFromDesc = "";
+        EnquiryFromGridLookup.SetText("");
+        //rev Pratik
+
+        $.ajax({
+            type: 'POST',
+            url: "/CRMEnquiries/GetEnquiryFromListSelectAll",
+            //data: { "Hoid": Hoid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                EnquiryFromDesc = [];
+                EnquiryFrom_Desc = "";
+                $.each(data, function (i, data) {
+                    EnquiryFromDesc.push(data.EnquiryFromDesc);
+                    EnquiryFrom_Desc += data.EnquiryFromDesc + ',';
+                });
+                EnquiryFromGridLookup.gridView.SelectRows();
+            },
+            error: function () {
+
+            }
+        });
+
+
+    }
+
+    function EnquiryFromStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+    function EnquiryFromLookupValChange() {
+        EnquiryFromGridLookup.GetGridView().Refresh();
+    }
+
+    var EnquiryFromDesc = [];
+    var EnquiryFrom_Desc = "";
+    function EnquiryFromSelectionChanged(s, e) {
+        EnquiryFromGridLookup.gridView.GetSelectedFieldValues("EnquiryFromDesc", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            EnquiryFromDesc = [];
+            EnquiryFrom_Desc = "";
+            for (var i = 0; i < values.length; i++) {
+                EnquiryFromDesc.push(values[i]);
+                EnquiryFrom_Desc += values[i] + ',';
+            }
+        } finally {
+            console.log(EnquiryFromDesc);
+        }
+    }
+
+    //var empId = [];
+    //function EmpSelectionChanged(s, e) {
+    //    EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    //}
+    //function GetEmpSelectedFieldValuesCallback(values) {
+    //    try {
+    //        empId = [];
+    //        for (var i = 0; i < values.length; i++) {
+    //            empId.push(values[i]);
+    //        }
+    //    } finally {
+    //        console.log(empId);
+    //    }
+    //}
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        //e.customArgs["empcode"] = empId;
+        e.customArgs["EnquiryFromDesc"] = EnquiryFromDesc;
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh();
+        EmpGridLookup.GetGridView().Refresh();
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateIds"] = StateId;
+    }
+    //Mantis Issue 24571
+    $(document).ready(function () {
+        $("#txtcluster").val("N/A")
+    });
+    //End of Mantis Issue 24571
+
+    function save_new() {
+        if (validateForm()) {
+            save("N");
+        }
+    }
+
+    function save_exit() {
+        if (validateForm()) {
+            save("E");
+        }
+    }
+
+
+    function validateForm() {
+        var x = true;
+        var applicbl_frm = appcbl_frm_dt.GetDate();
+        if (applicbl_frm == "" || applicbl_frm == null) {
+            jAlert("Please select Date!");
+            x = false;
+            $("#appcbl_frm_dt").focus();
+            return false;
+        }
+
+
+        var applicbl_Customer = $("#txt_custname").val();
+        if (applicbl_Customer == "" || applicbl_Customer == null) {
+            jAlert("Please select Customer!");
+            x = false;
+            $("#txt_custname").focus();
+            return false;
+        }
+
+
+        var applicbl_Email = $("#txt_email").val();
+
+        if (applicbl_Email != "") {
+            var expr = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            if (!expr.test(applicbl_Email)) {
+                jAlert("Please Enter Valid Email.", "Alert", function () {
+                    $("#txt_email").focus();
+                    x = false;
+                    return false;
+                });
+                return
+            }
+        }
+
+        if (ddlProvidedBy.selectedIndex == 0) {
+            jAlert("Please select Provided By!");
+            x = false;
+            $("#ddlProvidedBy").focus();
+            return false;
+        }
+
+        if (x == true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    function save(actionType) {
+        var action = "";
+        if ($("#hdnAction").val() == "Add") {
+            action = "ADD";
+        }
+        else if ($("#hdnAction").val() == "Edit") {
+            action = "MOD";
+        }
+        var _enquriesheader = {
+
+            Date: appcbl_frm_dt.GetDate(),
+            Customer_Name: $('#txt_custname').val(),
+            Contact_Person: $('#txt_contactpersn').val(),
+            PhoneNo: $('#txt_phoneno').val(),
+            Email: $('#txt_email').val(),
+            Location: $('#txt_location').val(),
+            Product_Required: $('#txt_productrequired').val(),
+            Qty: $('#txt_qty').val(),
+            Order_Value: $('#txt_ordervalue').val(),
+            Provided_By: $('#ddlProvidedBy').val(),
+            Enq_Details: $('#txt_enq_detls').val(),
+            UOM: $('#txt_UOM').val(),
+            Action_type: action
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/CRMEnquiries/Apply",
+            data: "{apply:" + JSON.stringify(_enquriesheader) + ",uniqueid:" + JSON.stringify($('#hdnuniqueid').val()) + "}",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response.response_msg == "Success") {
+
+                    jAlert("Saved Successfully", "Alert", function () {
+                        if (actionType == "N") {
+
+                            $('#txt_custname').val('');
+                            $('#txt_contactpersn').val('');
+                            $('#txt_phoneno').val('');
+                            $('#txt_email').val('');
+                            $('#txt_location').val('');
+                            $('#txt_productrequired').val('');
+                            $('#txt_qty').val('');
+                            $('#txt_ordervalue').val('');
+                            $('#txt_enq_detls').val('');
+                            $('#ddlProvidedBy').val('');
+                            appcbl_frm_dt.SetDate(null);
+                        }
+                        else {
+                            var url = '@Url.Action("Index", "CRMEnquiries")'
+                            window.location.href = url;
+                        }
+                    });
+                }
+                else {
+                    jAlert(response.response_msg);
+                }
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+
+    }
+
+    var cpSelectedKeys = [];
+
+    function OnStartCallbackBulkAssign(s, e) {
+        e.customArgs["Is_PageLoadBulkAssign"] = Is_PageLoadBulkAssign;
+    }
+
+    //Mantis Issue 24776
+    function OnStartCallbackBulkReAssign(s, e) {
+        e.customArgs["Is_PageLoadBulkReAssign"] = Is_PageLoadBulkReAssign;
+    }
+
+    //End of Mantis Issue 24776
+
+
+    function OnClickAssignSalesman(CRM_ID) {
+        $.ajax({
+            type: "POST",
+            url: "/CRMEnquiries/CheckAssignSalesman",
+            data: JSON.stringify({ 'CRM_ID': CRM_ID }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                
+                if (response.response_msg == "NotExist") {
+                    $("#ddlSalesman1").val('');
+                    ddlSalesman1.selectedIndex = 0;
+                    $("#hdnuniqueid").val(CRM_ID);
+
+                    $('#myModalAssignSalesman').modal('show');
+                }
+                else {
+                    jAlert("Salesman already assigned.");
+                }
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+
+
+
+        
+
+    }
+    //Mantis Issue 24776
+    function OnClickReAssignSalesman(CRM_ID) {
+        $.ajax({
+            type: "POST",
+            url: "/CRMEnquiries/GetOldAssignedSalesman",
+            data: JSON.stringify({ 'CRM_ID': CRM_ID }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data) {
+                //alert(response.user_id)
+                //alert(response.user_name)
+                //if (response.response_msg == "NotExist") {
+                //    jAlert("Salesman is not assigned.");
+                //}
+                //else {
+
+                //    $("#ddlSalesman2").val('');
+                //    ddlSalesman1.selectedIndex = 0;
+                //    $("#hdnuniqueid").val(CRM_ID);
+
+                //    $('#myModalReAssignSalesman').modal('show');
+                //}
+                $.each(data, function (i,data) {
+                    //alert(data.user_name)
+                    $("#hdnuniqueid").val(CRM_ID);
+                    $("#txtAssignedSalesman").val(data.user_name);
+                    $('#myModalReAssignSalesman').modal('show');
+                })
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        })
+    }
+    function ReAssignSalesman() {
+        if ($("#ddlSalesman2").val() != "0") {
+            $.ajax({
+                type: "POST",
+                url: "/CRMEnquiries/BulkAssignSalesman",
+                //Mantis Issue 24810
+                //data: JSON.stringify({ 'ActionType': 'BULKASSIGN', 'Uniqueid': $("#hdnuniqueid").val(), 'SalesmanId': $("#ddlSalesmanRe").val() }),
+                data: JSON.stringify({ 'ActionType': 'ReBULKASSIGN', 'Uniqueid': $("#hdnuniqueid").val(), 'SalesmanId': $("#ddlSalesmanRe").val() }),
+                //End of Mantis Issue 24810
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.response_msg == "Success") {
+                        $('#myModalReAssignSalesman').modal('hide');
+                        jAlert("Successfully Re-Assigned", "Alert", function () {
+                            cpSelectedKeys = [];
+                            appcode = [];
+                            gridCRMEnquiries.Refresh();
+                        });
+                    }
+                    else {
+                        jAlert(response.response_msg);
+                    }
+                },
+                error: function (response) {
+                    jAlert("Please try again later");
+                }
+            });
+        }
+    }
+    function BulkReAssign() {
+
+        $('#myModalBulkReAssign').modal('show');
+        Is_PageLoadBulkReAssign = "";
+        gvEnqMassDelRe.Refresh();
+
+        @*//$('#hdnsalesmanuniqueid').value = Unique_ID;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("PartialBulkAssign", "CRMEnquiries")",
+            success: function (response) {
+                pcModalMassDelete.SetContentHtml(response);
+                MVCxClientUtils.FinalizeCallback();
+                pcModalMassDelete.Show();
+            }
+    });*@
+    }
+    //End of Mantis Issue 24776
+
+    function AssignSalesman() {
+        if ($("#ddlSalesman1").val() != "0") {
+            $.ajax({
+                type: "POST",
+                url: "/CRMEnquiries/BulkAssignSalesman",
+                data: JSON.stringify({ 'ActionType': 'BULKASSIGN', 'Uniqueid': $("#hdnuniqueid").val(), 'SalesmanId': $("#ddlSalesman1").val() }),
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.response_msg == "Success") {
+                        $('#myModalAssignSalesman').modal('hide');
+                        jAlert("Successfully Assigned", "Alert", function () {
+                            cpSelectedKeys = [];
+                            appcode = [];
+                            gridCRMEnquiries.Refresh();
+                        });
+                    }
+                    else {
+                        jAlert(response.response_msg);
+                    }
+                },
+                error: function (response) {
+                    jAlert("Please try again later");
+                }
+            });
+        }
+    }
+
+    function BulkAssign() {
+
+        $('#myModalBulkAssign').modal('show');
+        Is_PageLoadBulkAssign = "";
+        gvEnqMassDel.Refresh();
+
+        @*//$('#hdnsalesmanuniqueid').value = Unique_ID;
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("PartialBulkAssign", "CRMEnquiries")",
+            success: function (response) {
+                pcModalMassDelete.SetContentHtml(response);
+                MVCxClientUtils.FinalizeCallback();
+                pcModalMassDelete.Show();
+            }
+        });*@
+    }
+
+    function BulkAssignSalesman() {
+        if ($("#ddlSalesman").val() == "0") {
+            jAlert("Please select Salesman");
+        }
+        else if (appcode.join('|').length == 0) {
+            jAlert("Please select Enquiries.");
+        }
+        else {
+
+            $.ajax({
+                type: "POST",
+                url: "/CRMEnquiries/BulkAssignSalesman",
+                data: JSON.stringify({ 'ActionType': 'BULKASSIGN', 'Uniqueid': appcode.join('|'), 'SalesmanId': $("#ddlSalesman").val() }),
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.response_msg == "Success") {
+                        $('#myModalBulkAssign').modal('hide');
+                        jAlert("Successfully Assigned", "Alert", function () {
+                            cpSelectedKeys = [];
+                            appcode = [];
+                            gridCRMEnquiries.Refresh();
+                        });
+                    }
+                    else {
+                        jAlert(response.response_msg);
+                    }
+                },
+                error: function (response) {
+                    jAlert("Please try again later");
+                }
+            });
+        }
+
+    }
+
+    function EnqBulkAssignSelectionChanged(s, e) {
+        if (e.isChangedOnServer) {
+            //return;
+            s.GetSelectedFieldValues("CRM_ID", GetSelectedBulkAssignFieldValuesCallback);
+
+        }
+        else {
+            globalindexcheck = e.visibleIndex;
+            var key = s.GetRowKey(e.visibleIndex);
+            if (e.isSelected) {
+                s.GetRowValues(e.visibleIndex, 'CRM_ID', OnGetRowValues);
+            }
+            else {
+                s.GetRowValues(e.visibleIndex, 'CRM_ID', OnDelGetRowValues);
+
+            }
+        }
+    }
+    //Mantis Issue 24776
+    function EnqBulkReAssignSelectionChanged(s, e) {
+        if (e.isChangedOnServer) {
+            //return;
+            s.GetSelectedFieldValues("CRM_ID", GetSelectedBulkAssignFieldValuesCallback);
+
+        }
+        else {
+            globalindexcheck = e.visibleIndex;
+            var key = s.GetRowKey(e.visibleIndex);
+            if (e.isSelected) {
+                s.GetRowValues(e.visibleIndex, 'CRM_ID', OnGetRowValues);
+            }
+            else {
+                s.GetRowValues(e.visibleIndex, 'CRM_ID', OnDelGetRowValues);
+
+            }
+        }
+    }
+    function BulkReAssignSalesman() {
+        if ($("#ddlSalesmanReAssign").val() == "0") {
+            jAlert("Please select Salesman");
+        }
+        else if (appcode.join('|').length == 0) {
+            jAlert("Please select Enquiries.");
+        }
+        else {
+
+            $.ajax({
+                type: "POST",
+                url: "/CRMEnquiries/BulkAssignSalesman",
+                //Mantis Issue 24810
+                //data: JSON.stringify({ 'ActionType': 'BULKASSIGN', 'Uniqueid': appcode.join('|'), 'SalesmanId': $("#ddlSalesmanReAssign").val() }),
+                data: JSON.stringify({ 'ActionType': 'ReBULKASSIGN', 'Uniqueid': appcode.join('|'), 'SalesmanId': $("#ddlSalesmanReAssign").val() }),
+                //End of Mantis Issue 24810
+                async: false,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.response_msg == "Success") {
+                        $('#myModalBulkReAssign').modal('hide');
+                        jAlert("Successfully Re Assigned", "Alert", function () {
+                            cpSelectedKeys = [];
+                            appcode = [];
+                            gridCRMEnquiries.Refresh();
+                            gvEnqMassDelRe.Refresh();
+                        });
+                    }
+                    else {
+                        jAlert(response.response_msg);
+                    }
+                },
+                error: function (response) {
+                    jAlert("Please try again later");
+                }
+            });
+        }
+
+    }
+    //End of Mantis Issue 24776
+    function GetSelectedBulkAssignFieldValuesCallback(values) {
+        selectedValues = '';
+
+        for (var i = 0; i < values.length; i++) {
+            if (selectedValues.length == 0) {
+                selectedValues += values[i];
+            }
+            else {
+                selectedValues += '|' + values[i];
+            }
+        }
+        cpSelectedKeys.push(selectedValues);
+        appcode = cpSelectedKeys;
+    }
+    function OnGetRowValues(values) {
+        enq_ids = values;
+        cpSelectedKeys.push(enq_ids);
+        appcode = cpSelectedKeys;
+    }
+    function OnDelGetRowValues(key) {
+        cpSelectedKeys = cpSelectedKeys.filter(function (item) {
+            return item !== key
+        })
+        appcode = appcode.filter(function (item) {
+            return item !== key
+        })
+
+    }
+
+
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+
+        return true;
+    }
+
+    function OpenEnquiriesforEdit(EnquiriesCode) {
+        $.ajax({
+            url: "@Url.Action("ShowEnquiriesDetails", "CRMEnquiries")",
+            async: false,
+            data: { _enquiryId: EnquiriesCode },
+            type: 'POST',
+            success: function (data) {
+
+                $("#hdnAction").val('Edit');
+                $("#myModalLabel").text("Edit Enquiries");
+                $("#hdnuniqueid").val(data.CRM_ID);
+
+
+                $("#ddlCountry").val(data.CountryID);
+                $("#txt_custname").val(data.Customer_Name);
+                $("#txt_contactpersn").val(data.Contact_Person);
+                $("#txt_phoneno").val(data.PhoneNo);
+                $("#txt_email").val(data.Email);
+                $("#txt_location").val(data.Location);
+                $('#txt_productrequired').val(data.Product_Required);
+                $('#txt_qty').val(data.Qty);
+                $("#txt_ordervalue").val(data.Order_Value);
+                $("#ddlProvidedBy").val(data.Provided_By);
+                $("#txt_enq_detls").val(data.Enq_Details);
+                $("#txt_UOM").val(data.UOM);
+                //ddlProvidedBy.selectedIndex = 0;
+
+                $('#myModal').modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+
+
+
+
+    function ClearData() {
+        $("#hdnAction").val('Add');
+        $("#hdnuniqueid").val('');
+
+        $("#myModalLabel").val("Add Enquiry");
+
+        $("#txt_custname").val('');
+        $("#txt_contactpersn").val('');
+        $("#txt_phoneno").val('');
+        $("#txt_email").val('');
+        $("#txt_location").val('');
+        $('#txt_productrequired').val('');
+        //PPTxt.SetText('');
+        $('#txt_qty').val('');
+        //DDTxt.SetText('');
+        $("#txt_ordervalue").val('');
+        $("#ddlProvidedBy").val('');
+        $("#txt_enq_detls").val('');
+        $("#txt_UOM").val('');
+        ddlProvidedBy.selectedIndex = 0;
+
+
+
+    }
+
+    @*function DownloadFormat() {
+        var url = '@Url.Action("DownloadFormat", "partyDetails")'
+        window.location.href = url;
+    }*@
+
+    function ChekEmpSettingsUpload() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("ImportExcel", "partyDetails")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        //$("#myImportModal").toggle();
+                        $("#myImportModal").modal('hide');
+                        GridShow();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetPartyImportLog", "partyDetails")",
+                            success: function (response) {
+                                if (response) {
+                                    pcModalTemplateImportLogMode.Show();
+                                    gridTemplateImportLogList.Refresh();
+                                    gridTemplateImportLogList.Refresh();
+                                }
+                            }
+                        });
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+
+    function OnClickDeleteForm(CRM_ID) {
+        var url = '/CRMEnquiries/EnquiryDelete/';
+
+        jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+            if (ret == true) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'uniqueCode': CRM_ID }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "Deleted") {
+                            jAlert("Successfully Deleted.");
+                            GridShow();
+                        }
+                        else {
+                            jAlert(response);
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    }
+
+    //function ImportPartyPopOpen() {
+    //    $("#myImportModal").modal('show');
+    //}
+
+    function ReAssignUserPopOpen() {
+        $("#ReAssignedModal").modal('show');
+    }
+
+    function ReAssignUserLogPopOpen() {
+        //$("#ReAssignedLogModal").modal('show');
+        var d = new Date();
+
+        dtLogFrom.SetValue(d);
+        dtLogTo.SetValue(d);
+
+        pcModalImportLogViewMode.Show();
+    }
+
+    function RetailerButnClick(s, e) {
+        $('#RetailerModel').modal('show');
+    }
+
+    function Retailer_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#RetailerModel').modal('show');
+            $("#txtRetailerSearch").focus();
+        }
+    }
+
+    function Retailerkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtRetailerSearch").val()) == "" || $.trim($("#txtRetailerSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtRetailerSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Name");
+            HeaderCaption.push("Retailer Code");
+            HeaderCaption.push("Location");
+
+            if ($("#txtRetailerSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetRetailerShop", OtherDetails, "RetailerTable", HeaderCaption, "RetailerIndex", "SetRetailer");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[RetailerIndex=0]"))
+                $("input[RetailerIndex=0]").focus();
+        }
+    }
+
+    function SetRetailer(id, Name) {
+        var key = id;
+        $('#RetailerShopCode').val(id)
+        if (key != null && key != '') {
+            $('#RetailerModel').modal('hide');
+            RetailerTxt.SetText(Name);
+            RetailerTxt.SetFocus();
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+@*Mantis Issue 24816*@
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+
+        for (var i = 0; i <= gridCRMEnquiries.GetColumnsCount() ; i++) {
+            if (gridCRMEnquiries.GetColumn(i) != null) {
+                if (gridCRMEnquiries.GetColumn(i).visible == false) {
+                    console.log(gridCRMEnquiries.GetColumn(i).fieldName);
+                    visibleColumn.push(gridCRMEnquiries.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridCRMEnquiries.IsCustomizationWindowVisible())
+            gridCRMEnquiries.HideCustomizationWindow();
+        else
+            gridCRMEnquiries.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridCRMEnquiries.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "CRMEnquiries")",
+            async: false,
+        data: { Columns: visibleColumn },
+        type: 'POST',
+        success: function (data) {
+            gridCRMEnquiries.Refresh();
+        },
+        error: function () {
+        },
+        });
+
+    }
+
+</script>
+@*End of Mantis Issue 24816*@
+<script>
+    @*function ShopReAssignUser() {
+        if (ShopCodeS != "") {
+            var data = {
+                OldUser: $("#ddlOldUser").val(),
+                //NewUser: $("#ddlNewAssignUser").val(),
+                NewUser: $("#hdnNewAssignUserID").val(),
+                ShopCode: ShopCodeS
+            }
+            // var url = '/partyDetails/ShopReAssignUser/';
+            $.ajax({
+                //type: "POST",
+                //url: url,
+                ////data: JSON.stringify({ 'OldUser': $("#ddlOldUser").val(), 'NewUser': $("#ddlNewAssignUser").val() }),
+                //data: { data: data },
+                //async: false,
+                //contentType: "application/json; charset=utf-8",
+                //dataType: "json",
+                url: "@Url.Action("ShopReAssignUser", "partyDetails")",
+                async: false,
+                data: { data: data },
+                type: 'POST',
+                success: function (response) {
+                    console.log(response);
+                    if (response == "Update Succesfully.") {
+                        jAlert("Successfully Updated.");
+                        ShopCodeS = [];
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetReAssignShopUserLog", "partyDetails")",
+                            success: function (response) {
+                                if (response) {
+                                    $("#ReAssignedModal").modal('hide');
+                                    pcModalTemplateReAssignShopLogMode.Show();
+                                    gridReAssignShopLogList.Refresh();
+                                    gridReAssignShopLogList.Refresh();
+                                }
+                            }
+                        });
+                    }
+                    else {
+                        jAlert(response);
+                        ShopCodeS = [];
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                    ShopCodeS = [];
+                }
+            });
+        }
+        else {
+            jAlert("Please generate and select shops");
+        }
+    }
+
+    function ExportReAssignLogGrid() {
+        var url = '@Url.Action("ExportReAssignLogList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function ShopReAssignUserLog() {
+        var url = '/partyDetails/ShopReAssignUserLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogFrom.GetText(), 'ToDate': dtLogTo.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ReAssignShopUserManualLog", "partyDetails")",
+                        success: function (response) {
+                            if (response) {
+                                $("#ReAssignedModal").modal('hide');
+                                pcModalTemplateReAssignShopManualLogMode.Show();
+                                gridReAssignShopManualLogList.Refresh();
+                                gridReAssignShopManualLogList.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    function ExportReAssignManualLogGrid() {
+        var url = '@Url.Action("ExportReAssignManualLogList", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function GenerateShopList() {
+        var url = '/partyDetails/GenerateReAssignShopList/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'userid': $("#ddlOldUser").val() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ReAssignShopList", "partyDetails")",
+                        success: function (response) {
+                            if (response) {
+                                $("#ReAssignedShopListModal").modal('show');
+
+                                gridReAssignShopList.Refresh();
+                                gridReAssignShopList.Refresh();
+                                setTimeout(function () {
+                                    gridReAssignShopList.UnselectRows();
+                                }, 1000);
+                                ShopCodeS = [];
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    var ShopCodeS = [];
+    function SelectShopCodes() {
+        gridReAssignShopList.GetSelectedFieldValues("SHOP_CODE", GetShopCodeSelectedFieldValuesCallback);
+    }
+
+    function GetShopCodeSelectedFieldValuesCallback(values) {
+        try {
+            ShopCodeS = [];
+            for (var i = 0; i < values.length; i++) {
+                ShopCodeS.push(values[i]);
+            }
+        } finally {
+            console.log(ShopCodeS);
+        }
+    }*@
+
+    $(document).ready(function () {
+        if ($("#hdnIsAutoCodificationRequiredViewbag").val() == "1") {
+            $("#txtPartyCode").attr("readonly", true);
+            $("#txtPartyCode").val("Auto");
+        }
+    })
+
+</script>
+
+
+<style>
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 20px 20px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 70%;
+    }
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 30px;
+        padding: 3px 12px;
+    }
+
+    .modalScroll .modal-body {
+        max-height: 75vh !important;
+        overflow-y: auto;
+    }
+    .bulAssignTbl>tbody>tr>td {
+        padding-right:15px;
+        padding-bottom:15px;
+    }
+    .mHead {
+        margin: 0;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+        color: #415ed2;
+        margin-bottom: 13px;
+    }
+</style>
+
+<script>
+    function Userkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtUserSearch").val()) == "" || $.trim($("#txtUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtUserSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("User Name");
+            HeaderCaption.push("User Login Id");
+            // Mantis Issue 24450,24451
+            HeaderCaption.push("Employee Id");
+            // End of Mantis Issue 24450,24451
+
+            if ($("#txtUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetUserList", OtherDetails, "UserTable", HeaderCaption, "UserIndex", "SetUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+        }
+    }
+
+    function SetUser(id, Name) {
+        var key = id;
+        $('#hdnUserID').val(id)
+        if (key != null && key != '') {
+            $('#UserSearchModel').modal('hide');
+            UserTxt.SetText(Name);
+            UserTxt.SetFocus();
+        }
+    }
+
+    function UserButnClick(s, e) {
+        $('#UserSearchModel').modal('show');
+    }
+
+    function User_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#UserSearchModel').modal('show');
+            $("#txtUserSearch").focus();
+        }
+    }
+
+    function OldUserkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtOldUserSearch").val()) == "" || $.trim($("#txtOldUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtOldUserSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("User Name");
+            HeaderCaption.push("User Login Id");
+            // Mantis Issue 24450,24451
+            HeaderCaption.push("Employee Id");
+            // End of Mantis Issue 24450,24451
+
+            if ($("#txtOldUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetUserList", OtherDetails, "OldUserTable", HeaderCaption, "OldUserIndex", "SetOldUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+            else if ($("input[OldUserIndex=0]"))
+                $("input[OldUserIndex=0]").focus();
+        }
+    }
+
+    function SetOldUser(id, Name) {
+        var key = id;
+        $('#hdnOldUserID').val(id)
+        if (key != null && key != '') {
+            $('#OldUserSearchModel').modal('hide');
+            OldUserTxt.SetText(Name);
+            OldUserTxt.SetFocus();
+        }
+    }
+
+    function OldUserButnClick(s, e) {
+        $('#OldUserSearchModel').modal('show');
+    }
+
+    function OldUser_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#OldUserSearchModel').modal('show');
+            $("#txtOldUserSearch").focus();
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+</script>
+
+<script>
+    function NewAssignUserkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtNewAssignUserSearch").val()) == "" || $.trim($("#txtNewAssignUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtNewAssignUserSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("User Name");
+            HeaderCaption.push("User Login Id");
+            // Mantis Issue 24450,24451
+            HeaderCaption.push("Employee Id");
+            // End of Mantis Issue 24450,24451
+
+            if ($("#txtNewAssignUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetUserList", OtherDetails, "NewAssignUserTable", HeaderCaption, "NewAssignUserIndex", "SetNewAssignUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+        }
+    }
+
+    function SetNewAssignUser(id, Name) {
+        var key = id;
+        $('#hdnNewAssignUserID').val(id)
+        if (key != null && key != '') {
+            $('#NewAssignUserSearchModel').modal('hide');
+            NewAssignUserTxt.SetText(Name);
+            NewAssignUserTxt.SetFocus();
+        }
+    }
+
+    function NewAssignUserButnClick(s, e) {
+        $('#NewAssignUserSearchModel').modal('show');
+    }
+
+    function NewAssignUser_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#NewAssignUserSearchModel').modal('show');
+            $("#txtNewAssignUserSearch").focus();
+        }
+    }
+
+</script>
+<div class="breadCumb">
+    <span>Enquiries</span>
+</div>
+
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 px-5">
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                        <!-- Button trigger modal -->
+                        @if(ViewBag.CanAdd){
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                                Add New
+                            </button>
+                        }
+                        @*Mantis Issue 24832*@
+                        @*@if(ViewBag.CanReassign){
+                            <button type="button" class="btn btn-info" onclick="BulkAssign();">
+                                Bulk Assign
+                            </button>
+                            //Mantis Issue 24776
+                            <button type="button" class="btn btn-info" onclick="BulkReAssign();">
+                                Bulk Re-Assign
+                            </button>
+                            //End of Mantis Issue 24776
+                        }*@
+                            @*<button type="button" class="btn btn-info" onclick="BulkAssign();">
+                                Bulk Assign
+                            </button>
+                            
+                            <button type="button" class="btn btn-info" onclick="BulkReAssign();">
+                                Bulk Re-Assign
+                            </button>*@
+                        @if (ViewBag.CanAssign)
+                        {
+                            <button type="button" class="btn btn-info" onclick="BulkAssign();">
+                                Bulk Assign
+                            </button>
+                        }
+                        @if (ViewBag.CanReassign)
+                        {
+                            <button type="button" class="btn btn-info" onclick="BulkReAssign();">
+                                Bulk Re-Assign
+                            </button>
+                            
+                        }
+                        @*End of Mantis Issue 24832*@
+                       
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-2">
+                        <span>From Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtFrom";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        }).GetHtml()
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <span>To Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Todate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtTo";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        }).GetHtml()
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="margin-bottom: 16px;">
+                        <span>Enquiry From</span>
+                        <div>
+                            @Html.Action("GetEnquiryFrom", "CRMEnquiries")
+                        </div>
+                    </div>
+                    @*<div class="col-md-2">
+                        <span>Employee</span>
+                        <div>
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "EmployeeTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                            }).GetHtml()
+                        </div>
+                    </div>*@
+
+                    
+                    @*<div class="col-md-2" style="padding-top: 13px;">
+                        <span>&nbsp;</span>
+                        <input type="checkbox" id="chkIsAssignDate" /> Re-assigned Date
+                    </div>*@
+                    <div class="col-md-4" style="padding-top: 13px;">
+                        <span></span>
+                        <div>
+                            @if (ViewBag.CanView){
+                                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            }
+                            
+                            @if (ViewBag.CanExport){
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                    <option value="0">Export to</option>
+                                    <option value="2">XLSX</option>
+                                </select>
+                            }
+                            
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="clearfix"></div>
+                @*Mantis Issue 24816*@
+                <div class="options">
+                    <div class="options-item">
+                        @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                    // settings.Theme = "MaterialCompactOrange";
+                }).GetHtml()
+                    </div>
+                </div>
+                @*End of Mantis Issue 24816*@
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialCRMEnquiriesGridList", "CRMEnquiries", new { Fromdate = Model.Fromdate, Todate = Model.Todate, EnquiryFromDesc = Model.EnquiryFromDesc, Is_PageLoad = "Ispageload" });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnAction" />
+<input type="hidden" id="hdnuniqueid" />
+
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade pmsModal w70 font-pp modalScroll" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Enquiry</h4>
+            </div>
+            @*<input type="hidden" id="hdnuniqueid" value="" />*@
+            <div class="modal-body inputShrink">
+                <div class="row">
+
+                    <div class="col-md-3">
+                        <label>Date <span class="red">*</span></label>
+                        <div>
+                            @Html.DevExpress().DateEdit(
+                                     settings =>
+                                     {
+                                         settings.Name = "appcbl_frm_dt";
+                                         settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                         settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                         settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                         settings.Properties.ClientSideEvents.DateChanged = "datevalidate";
+                                         //settings.Date = Convert.ToDateTime(@Model.Date);
+                                         settings.Date = DateTime.Now;
+                                     }
+                            ).GetHtml()
+                            @*<span id="Mandatoryfrm_dt" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Customer Name <span class="red">*</span></label>
+                        <div>
+                            <input type="text" id="txt_custname" class="form-control" value="@Model.Customer_Name" />
+                            @*<span id="MandatoryCustomer" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Contact Person</label>
+                        <div>
+                            <input type="text" id="txt_contactpersn" class="form-control" value="@Model.Contact_Person" />
+                            @*<span id="Mandatoryshrt_nm" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Phone No</label>
+                        <div>
+                            <input type="text" id="txt_phoneno" class="form-control" maxlength="10" value="@Model.PhoneNo" />
+                            @*<span id="Mandatoryshrt_nm" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Email</label>
+                        <div>
+                            <input type="text" id="txt_email" class="form-control" value="@Model.Email" />
+                            @*<span id="Mandatoryshrt_Email" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Location</label>
+                        <div>
+                            <input type="text" id="txt_location" class="form-control" value="@Model.Location" />
+                            @*<span id="Mandatoryshrt_nm" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Provided By <span class="red">*</span></label>
+                        <div>
+                            <select class="form-control" id="ddlProvidedBy">
+                                <option value="Select">Select</option>
+                                <option value="Website">Website</option>
+                                <option value="Direct Call">Direct Call</option>
+                                <option value="Exhibition">Exhibition</option>
+                                <option value="Twak">Twak</option>
+                                <option value="MccoyMart">Mccoy Mart</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-3 ">
+                        <label>Product Required</label>
+                        <div>
+                            <input type="text" id="txt_productrequired" class="form-control" value="@Model.Product_Required" />
+                            @*<span id="Mandatoryshrt_nm" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Quantity</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.Qty, new { @class = "form-control allow_decimal numbersOnly", @id = "txt_qty" })
+
+                            @*<input type="text" id="txt_qty" class="text-right form-control" value="@Model.Qty" />*@
+                            @*<span id="Mandatoryshrt_nm" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>UOM</label>
+                        <div>
+                            <input type="text" id="txt_UOM" class="form-control" value="@Model.UOM" />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Order Value</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.Order_Value, new { @class = "form-control allow_decimal numbersOnly", @id = "txt_ordervalue" })
+
+                            @*<input type="text" id="txt_ordervalue" class="form-control" onkeypress="return isNumberKey(event)" class="text-right" value="@Model.Order_Value" />*@
+                            @*<span id="Mandatoryshrt_nm" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        <label>Enquiry Details</label>
+                        <div>
+                            @*<input type="text" id="txt_enq_detls" value="@Model.Enq_Details" />*@
+                            <textarea rows="10" class="form-control" style="height:140px" cols="100" id="txt_enq_detls">@Model.Enq_Details</textarea>
+                            @*<span id="Mandatoryshrt_nm" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>*@
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="save_exit();">Save & Exit</button>
+                <button type="button" class="btn btn-success" onclick="save_new();">Save & New</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearData();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade pmsModal w90 font-pp modalScroll" id="myModalBulkAssign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="close()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Bulk Assign</h4>
+            </div>
+            @*<input type="hidden" id="hdnuniqueid" value="" />*@
+            <div class="modal-body inputShrink">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="bulAssignTbl">
+                            <tr>
+                                <td><strong>Select Salesman</strong> <spna class="red">*</spna> </td>
+                                <td>
+                                    @Html.DropDownListFor(m => m.SalesmanUser, new SelectList(Model.SalesmanUserList, "UserID", "username", Model.SalesmanUserId), new { @id = "ddlSalesman", @class = "form-control" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        @{
+                            Html.RenderAction("PartialBulkAssign", "CRMEnquiries", new { Is_PageLoadBulkAssign = "Ispageload" });
+                        }
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="BulkAssignSalesman();">Confirm</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" >Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModalAssignSalesman" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Assign Salesman </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Select Salesman <span class="red">*</span></label>
+                        <div>
+                            @Html.DropDownListFor(m => m.SalesmanUser, new SelectList(Model.SalesmanUserList, "UserID", "username", Model.SalesmanUserId), new { @id = "ddlSalesman1", @class = "form-control" })
+                        </div>
+                    </div>
+                  </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="AssignSalesman();">Assign</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*Mantis Issue 24776*@
+<div class="modal fade pmsModal w90 font-pp modalScroll" id="myModalBulkReAssign" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="close()"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Bulk Re-Assign</h4>
+            </div>
+            @*<input type="hidden" id="hdnuniqueid" value="" />*@
+            <div class="modal-body inputShrink">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="bulAssignTbl">
+                            <tr>
+                                <td><strong>Select Salesman</strong> <spna class="red">*</spna> </td>
+                                <td>
+                                    @Html.DropDownListFor(m => m.SalesmanUser, new SelectList(Model.SalesmanUserList, "UserID", "username", Model.SalesmanUserId), new { @id = "ddlSalesmanReAssign", @class = "form-control" })
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12">
+                        @{
+                            Html.RenderAction("PartialBulkReAssign", "CRMEnquiries", new { Is_PageLoadBulkReAssign = "Ispageload" });
+                        }
+                    </div>
+                    <div class="clear"></div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="BulkReAssignSalesman();">Confirm</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModalReAssignSalesman" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Re-Assign Salesman </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <label>Assigned Salesman:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" id="txtAssignedSalesman" readonly="readonly"/>
+                            @*<label id="txtAssignedSalesman"></label>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Select Salesman <span class="red">*</span></label>
+                        <div>
+                            @Html.DropDownListFor(m => m.SalesmanUser, new SelectList(Model.SalesmanUserList, "UserID", "username", Model.SalesmanUserId), new { @id = "ddlSalesmanRe", @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="ReAssignSalesman();">Re-Assign</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+@*End of Mantis Issue 24776*@
+@*@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalMassDelete";
+        settings.Width = 1000;
+        settings.Height = System.Web.UI.WebControls.Unit.Percentage(90);
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Bulk Assign";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()*@

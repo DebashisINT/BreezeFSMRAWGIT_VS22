@@ -1,0 +1,296 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridInvoceorderregister";
+
+    settings.CallbackRouteValues = new { Action = "GetInvoiceRegisterreporttatusList", Controller = "InvoiceDeliveryRegister" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employee_ID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 1;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employee_Name";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        x.Width = 150;
+    });
+
+    //Rev Debashis -- 0025198
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 3;
+        x.Width = 150;
+    });
+    //End of Rev Debashis -- 0025198
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "State_name";
+        x.Caption = "State";
+        x.VisibleIndex = 4;
+        x.Width = 150;
+    });
+
+    //Rev Debashis -- 0024575
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_DISTRICT";
+        x.Caption = "District";
+        x.VisibleIndex = 5;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_PINCODE";
+        x.Caption = "Pincode";
+        x.VisibleIndex = 6;
+        x.Width = 120;
+    });
+    //End of Rev Debashis -- 0024575
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENTITYCODE";
+        x.Caption = "Code";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Address";
+        x.Caption = "Address";
+        x.VisibleIndex = 9;
+        x.Width = 300;
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Contact";
+        x.Caption = "Contact";
+        x.VisibleIndex = 10;
+        x.Width = 100;
+    });
+
+    //Rev Debashis -- 0024577
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ALT_MOBILENO1";
+        x.Caption = "Alternate Phone No.";
+        x.VisibleIndex = 11;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_OWNER_EMAIL2";
+        x.Caption = "Alternate Email ID";
+        x.VisibleIndex = 12;
+        x.Width = 150;
+    });
+    //End of Rev Debashis -- 0024577
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Type";
+        x.Caption = "Shop type";
+        x.VisibleIndex = 13;
+        x.Width = 100;
+    });
+
+    //Rev Debashis -- 0024575
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_CLUSTER";
+        x.Caption = "Cluster";
+        x.VisibleIndex = 14;
+        x.Width = 100;
+    });
+    //End of Rev Debashis -- 0024575
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PPName";
+        x.Caption = "PP Name";
+        x.VisibleIndex = 15;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DDName";
+        x.Caption = "DD Name";
+        x.VisibleIndex = 16;
+        x.Width = 100;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Order_Number";
+        x.Caption = "Order No.";
+        x.VisibleIndex = 17;
+        x.Width = 100;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Order_Date";
+        x.Caption = "Order Date";
+        x.VisibleIndex = 18;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Order_Create_Date";
+        x.Caption = "Order Entered On";
+        x.VisibleIndex = 19;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Invoice_Date";
+        x.Caption = "Inv. Date";
+        x.VisibleIndex = 20;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Invoice_Number";
+        x.Caption = "Inv. Number";
+        x.VisibleIndex = 21;
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenReimbursementImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Invoice_Id")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "Invoice_Number")) + "</a>");
+        });
+
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Invoice_Create_Date";
+        x.Caption = "Inv. Entered On";
+        x.VisibleIndex = 22;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+    });
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "ORDDATE";
+    //    x.Caption = "Order Date";
+    //    x.VisibleIndex = 3;
+    //    x.Width = 100;
+    //});
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "ORDRNO";
+    //    x.Caption = "Order Number";
+    //    x.VisibleIndex = 3;
+    //    x.Width = 200;
+
+    //});
+
+
+    
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "PRODNAME";
+       x.Caption = "Product";
+       x.VisibleIndex = 23;
+       x.Width = 200;
+   });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Product_Qty";
+        x.Caption = "Quantity";
+        x.VisibleIndex = 24;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "Product_Rate";
+    x.Caption = "Rate";
+    x.VisibleIndex = 25;
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    x.Width = 100;
+});
+//    settings.Columns.Add(x =>
+//{
+//    x.FieldName = "VALUE";
+//    x.Caption = "Value";
+//    x.VisibleIndex = 3;
+//    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+//    x.Width = 100;
+//});
+
+    settings.Columns.Add(x =>
+  {
+      x.FieldName = "Product_TotalAmount";
+      x.Caption = "Value";
+      x.VisibleIndex = 26;
+      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+      x.Width = 100;
+  });
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Product_TotalAmount").DisplayFormat = "0.00";
+   // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RATE").DisplayFormat = "0.00";
+   // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ORDVALUE").DisplayFormat = "0.00";
+
+
+    settings.CustomJSProperties = (s, e) =>
+    {
+        ASPxGridView grid = (ASPxGridView)s;
+        e.Properties["cpGridFilterExpression"] = grid.FilterExpression;
+    };
+}).Bind(Model).GetHtml()
+
+

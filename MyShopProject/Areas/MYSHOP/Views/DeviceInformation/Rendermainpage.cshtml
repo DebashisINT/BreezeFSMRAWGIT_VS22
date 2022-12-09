@@ -1,0 +1,391 @@
+﻿@model MyShop.Models.ActivityReportModel
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<script>
+    var is_pageload = "0";
+    $(function () {
+
+        var d = new Date();
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        // employeeGridLookup.PerformCallback();
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+
+
+        $('#dtFrom').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+                var selectedDate = new Date(date);
+                var mindt = new Date(selectedDate.getTime() + 1);
+                $("#dtTo").daterangepicker("option", "minDate", mindt);
+            }
+        });
+
+        $('#dtTo').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+                var selectedDate = new Date(date);
+                var maxdt = new Date(selectedDate.getTime() - 1);
+                $("#dtFrom").daterangepicker("option", "maxDate", maxdt);
+            }
+        });
+
+
+
+        $('body').on('click', '#btnshow', function () {
+
+            var flag = true;
+
+            if (dtFrom.GetDate() == null) {
+                $('#MandatoryFromDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryFromDate').attr('style', 'display:none');
+            }
+
+            if (dtTo.GetDate() == null) {
+                $('#MandatoryToDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryToDate').attr('style', 'display:none');
+            }
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            else {
+                //$("#refreshgridsalessummary").show();
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+                if (dayse <= 7) {
+                    if (flag == true) {
+                        is_pageload = "1";
+                        $.ajax({
+                            url: "@Url.Action("GenerateTable", "DeviceInformation")",
+                            async: false,
+                            data: {
+                                Fromdate: dtFrom.GetText(),
+                                Todate: dtTo.GetText(),
+                                empcode: empId,
+                                StateId: StateId,
+                                is_pageload: is_pageload,
+                                desgid: desigId
+                            },
+                            type: 'POST',
+                            success: function (data) {
+                                ListGrid.Refresh();
+                                ListGrid.Refresh();
+                            },
+                            error: function () {
+                            },
+                        });
+                    }
+                }
+                else {
+                    jAlert("Searching days must be within 7 Days.");
+                    // gridsalessummaryregister.Refresh();
+                }
+            }
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportMeetingDetailsReport", "DeviceInformation", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue) + "&IsPageload=" + IsPageload;
+            }
+        });
+    });
+
+    var IsPageload = 1;
+    function OnBeginCallback(s, e) {
+        IsPageload = 0;
+        e.customArgs["ispageload"] = "0";
+    }
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+
+    }
+
+    var StateId = [];
+    //function StateSelectionChanged(s, e) {
+    //    StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    //}
+    //function GetSelectedFieldValuesCallback(values) {
+
+    //    try {
+    //        StateId = [];
+    //        for (var i = 0; i < values.length; i++) {
+    //            StateId.push(values[i]);
+    //        }
+    //    } finally {
+    //        console.log(StateId);
+    //    }
+    //}
+
+    var desigId = [];
+    //function DesigSelectionChanged(s, e) {
+    //    DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    //}
+    //function GetDesigSelectedFieldValuesCallback(values) {
+    //    try {
+    //        desigId = [];
+    //        for (var i = 0; i < values.length; i++) {
+    //            desigId.push(values[i]);
+    //        }
+    //    } finally {
+    //        console.log(desigId);
+    //    }
+    //}
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+        //EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+       // e.customArgs["userId"] = $("#hdnUserID").val();
+    }
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+</script>
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    label {
+        font-weight: 500;
+    }
+</style>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<div class="">
+    <div class="">
+        <div class="row mt-2 mb-3">
+            <div class="col-md-2 col-lg-2">
+                <label>From Date</label>
+                <div>
+                    @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                                }).GetHtml()
+                    <span id="MandatoryFromDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+                <label>To Date</label>
+                <div>
+
+                    @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+
+                                }).GetHtml()
+                    <span id="MandatoryToDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            @*<div class="col-md-4 col-lg-2">
+                    <label>State</label>
+                    <div>
+
+                        @Html.Action("GetStateList", "MasterPopulate")
+
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    <label>Designation</label>
+                    <div>
+
+                        @Html.Action("GetDesigList", "SalesReportSummary")
+
+                    </div>
+                </div>*@
+            <div class="col-md-3 col-lg-2">
+                <label>Employee(s)</label>
+                <div>
+                    @Html.Action("GetEmpList", "MasterPopulate")
+
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-4 pad-md-18">
+                <label></label>
+                <button type="button" id="btnshow" class="btn btn-success btnwidth" style="margin-right: 8px;">Show</button>
+                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnuser_id" />
+<input type="hidden" id="hdnuser_state" />
+<input type="hidden" id="hdnuser_shop" />
+<div class="row">
+    <div class="form_main backBox p-3">
+        <div style="clear: both;"></div>
+        <div class="">
+            <div id="refreshgridsalessummary">
+                @{
+                    Html.RenderAction("Rendergrid", "DeviceInformation", new { ispageload = "1" });
+                }
+            </div>
+        </div>
+    </div>
+</div>
