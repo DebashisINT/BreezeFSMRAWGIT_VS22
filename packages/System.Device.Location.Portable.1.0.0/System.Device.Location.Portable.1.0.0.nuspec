@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>System.Device.Location.Portable</id>
+    <version>1.0.0</version>
+    <title>System.Device.Location.Portable</title>
+    <authors>Muhammad Rehan Saeed</authors>
+    <owners>Muhammad Rehan Saeed</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Portable Class Library (PCL) Version of the CivicAddress, GeoCoordinate and GeoPosition classes in the System.Device.Location namespace of the .NET framework.</description>
+    <summary>Portable Class Library (PCL) Version of the CivicAddress, GeoCoordinate and GeoPosition classes in the System.Device.Location namespace of the .NET framework.</summary>
+    <copyright>© Muhammad Rehan Saeed</copyright>
+    <tags>Portable Class Library PCL CivicAddress GeoCoordinate GeoPosition System Device Location</tags>
+  </metadata>
+</package>
