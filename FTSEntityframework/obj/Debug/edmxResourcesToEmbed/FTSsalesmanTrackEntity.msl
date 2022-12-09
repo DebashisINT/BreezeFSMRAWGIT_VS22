@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SalesTrackerModelStoreContainer" CdmEntityContainer="SalesTrackerEntities">
+    <EntitySetMapping Name="tbl_Master_shop">
+      <EntityTypeMapping TypeName="SalesTrackerModel.tbl_Master_shop">
+        <MappingFragment StoreEntitySet="tbl_Master_shop">
+          <ScalarProperty Name="Shop_ID" ColumnName="Shop_ID" />
+          <ScalarProperty Name="Shop_Code" ColumnName="Shop_Code" />
+          <ScalarProperty Name="Shop_Name" ColumnName="Shop_Name" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Pincode" ColumnName="Pincode" />
+          <ScalarProperty Name="Shop_Lat" ColumnName="Shop_Lat" />
+          <ScalarProperty Name="Shop_Long" ColumnName="Shop_Long" />
+          <ScalarProperty Name="Shop_City" ColumnName="Shop_City" />
+          <ScalarProperty Name="Shop_Owner" ColumnName="Shop_Owner" />
+          <ScalarProperty Name="Shop_WebSite" ColumnName="Shop_WebSite" />
+          <ScalarProperty Name="Shop_Owner_Email" ColumnName="Shop_Owner_Email" />
+          <ScalarProperty Name="Shop_Owner_Contact" ColumnName="Shop_Owner_Contact" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+          <ScalarProperty Name="date_aniversary" ColumnName="date_aniversary" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="Shop_CreateUser" ColumnName="Shop_CreateUser" />
+          <ScalarProperty Name="Shop_CreateTime" ColumnName="Shop_CreateTime" />
+          <ScalarProperty Name="Shop_ModifyUser" ColumnName="Shop_ModifyUser" />
+          <ScalarProperty Name="Shop_ModifyTime" ColumnName="Shop_ModifyTime" />
+          <ScalarProperty Name="Shop_Image" ColumnName="Shop_Image" />
+          <ScalarProperty Name="total_visitcount" ColumnName="total_visitcount" />
+          <ScalarProperty Name="Lastvisit_date" ColumnName="Lastvisit_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
