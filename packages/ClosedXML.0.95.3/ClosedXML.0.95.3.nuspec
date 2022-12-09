@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ClosedXML</id>
+    <version>0.95.3</version>
+    <title>ClosedXML</title>
+    <authors>Francois Botha,Aleksei Pankratev,Manuel de Leon,Amir Ghezelbash</authors>
+    <owners>Francois Botha,Aleksei Pankratev,Manuel de Leon,Amir Ghezelbash</owners>
+    <licenseUrl>https://www.nuget.org/packages/ClosedXML/0.95.3/license</licenseUrl>
+    <projectUrl>https://github.com/ClosedXML/ClosedXML</projectUrl>
+    <iconUrl>https://api.nuget.org/v3-flatcontainer/closedxml/0.95.3/icon</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ClosedXML is a .NET library for reading, manipulating and writing Excel 2007+ (.xlsx, .xlsm) files. It aims to provide an intuitive and user-friendly interface to dealing with the underlying OpenXML API.</description>
+    <summary />
+    <releaseNotes>See https://github.com/ClosedXML/ClosedXML/releases/tag/0.95.3</releaseNotes>
+    <copyright>MIT</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.0">
+        <dependency id="DocumentFormat.OpenXml" version="2.7.2" />
+        <dependency id="ExcelNumberFormat" version="1.0.10" />
+      </group>
+      <group targetFramework=".NETFramework4.6">
+        <dependency id="DocumentFormat.OpenXml" version="2.7.2" />
+        <dependency id="ExcelNumberFormat" version="1.0.10" />
+        <dependency id="Microsoft.CSharp" version="4.7.0" />
+      </group>
+      <group targetFramework="Unsupported0.0">
+        <dependency id="DocumentFormat.OpenXml" version="2.7.2" />
+        <dependency id="ExcelNumberFormat" version="1.0.10" />
+        <dependency id="Microsoft.CSharp" version="4.7.0" />
+        <dependency id="System.Drawing.Common" version="4.5.0" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework=".NETFramework4.0" />
+      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>
