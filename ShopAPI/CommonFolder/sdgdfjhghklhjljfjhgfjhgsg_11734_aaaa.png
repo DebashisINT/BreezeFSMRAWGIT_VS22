@@ -1,0 +1,8 @@
+1. All unit name is not appearing in the listing page dropdown of Approved sales order. ---not find
+2. Tooltip required in the colouring filter tab as "Click to see the <Category name> details. ---Done
+3. Action option text will be "Ready For Invoice" instead of "Ready to Invoice" ---Done
+4. If click on Print (select the design & click OK), "Ready For Invoice" column value will be updated as "Printed (In Process)". 
+Once update the stage to "Ready for Invoice", thereafter the column value will be Yes always even take the print multiple times.
+5. If click on "Ready for Invoice" for an Approved Order, it shows, previous Order stage with remarks which should not be ---Done
+6. Terms & conditions are blank in view mode of the order
+7. Only those Order will be appeared for making the Invoice in Invoice cum challan with SO module which having the stage "Ready for Invoice" completed. ---Done
