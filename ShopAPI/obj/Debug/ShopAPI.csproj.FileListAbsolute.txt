@@ -1,0 +1,11 @@
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\obj\Debug\ShopAPI.csproj.AssemblyReference.cache
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\obj\Debug\ShopAPI.csproj.CoreCompileInputs.cache
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\bin\ShopAPI.dll.config
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\bin\ShopAPI.dll
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\bin\ShopAPI.pdb
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\bin\Microsoft.Web.Infrastructure.dll
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\bin\Newtonsoft.Json.dll
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\bin\Microsoft.Web.Infrastructure.xml
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\obj\Debug\ShopAPI.csproj.CopyComplete
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\obj\Debug\ShopAPI.dll
+E:\PROJECTS\BreezeFSMRAWGIT_VS22\ShopAPI\obj\Debug\ShopAPI.pdb

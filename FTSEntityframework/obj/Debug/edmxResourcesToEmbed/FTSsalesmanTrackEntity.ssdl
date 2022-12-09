@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SalesTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tbl_Master_shop">
+    <Key>
+      <PropertyRef Name="Shop_ID" />
+    </Key>
+    <Property Name="Shop_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Shop_Code" Type="varchar(max)" />
+    <Property Name="Shop_Name" Type="varchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar(max)" />
+    <Property Name="Pincode" Type="varchar" MaxLength="120" />
+    <Property Name="Shop_Lat" Type="varchar(max)" />
+    <Property Name="Shop_Long" Type="varchar(max)" />
+    <Property Name="Shop_City" Type="int" />
+    <Property Name="Shop_Owner" Type="varchar" MaxLength="100" />
+    <Property Name="Shop_WebSite" Type="varchar" MaxLength="100" />
+    <Property Name="Shop_Owner_Email" Type="varchar" MaxLength="300" />
+    <Property Name="Shop_Owner_Contact" Type="varchar" MaxLength="100" />
+    <Property Name="dob" Type="datetime" />
+    <Property Name="date_aniversary" Type="datetime" />
+    <Property Name="type" Type="int" />
+    <Property Name="Shop_CreateUser" Type="int" />
+    <Property Name="Shop_CreateTime" Type="datetime" />
+    <Property Name="Shop_ModifyUser" Type="int" />
+    <Property Name="Shop_ModifyTime" Type="datetime" />
+    <Property Name="Shop_Image" Type="nvarchar(max)" />
+    <Property Name="total_visitcount" Type="int" />
+    <Property Name="Lastvisit_date" Type="datetime" />
+  </EntityType>
+  <EntityContainer Name="SalesTrackerModelStoreContainer">
+    <EntitySet Name="tbl_Master_shop" EntityType="Self.tbl_Master_shop" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>
