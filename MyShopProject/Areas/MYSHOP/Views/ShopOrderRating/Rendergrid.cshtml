@@ -1,0 +1,55 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "ShoporderRating", Action = "Rendergrid" };
+    settings.KeyFieldName = "Code";
+    settings.EnableRowsCache = true;
+    settings.Settings.ShowFilterRow = true;
+
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Month and Year";
+        column.FieldName = "MonthYear";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Shop Name";
+        column.FieldName = "Name";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Type";
+        column.Caption = "Type";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Order Value";
+        column.FieldName = "Order_Value";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Rating";
+        column.Caption = "Rating";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+
+    });
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()
+
+
+

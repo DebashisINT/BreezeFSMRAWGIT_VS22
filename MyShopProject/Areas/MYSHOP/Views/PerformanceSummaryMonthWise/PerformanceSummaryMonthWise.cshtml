@@ -1,0 +1,461 @@
+﻿@model Models.PerformanceSummaryMonthWiseReportModel
+
+@{
+    ViewBag.Title = "PerformanceSummaryMonthWise";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/assests/pluggins/driver/driver.min.css" rel="stylesheet" />
+<script src="~/assests/pluggins/driver/driver.min.js"></script>
+@*<script src="https://unpkg.com/driver.js/dist/driver.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/driver.js/dist/driver.min.css">*@
+
+
+<script>
+    $(document).ready(function () {
+        //var driver = new Driver();
+
+        // Define the steps for introduction
+       
+
+
+        $('#circle-rip').click(function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            var driver = new Driver();
+            driver.defineSteps([
+              {
+                  element: '#mnthIntro',
+                  popover: {
+                      className: 'first-step-popover-class',
+                      title: 'Step by Step Guide',
+                      description: 'Select Month by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#YersIntro',
+                  popover: {
+                      className: 'first-step-popover-class',
+                      title: 'Step by Step Guide',
+                      description: 'Select Year by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#stateIntro',
+                  popover: {
+                      title: 'Step by Step Guide',
+                      description: 'Select State by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#desigIntro',
+                  popover: {
+                      title: 'Step by Step Guide',
+                      description: 'Select Designation by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#empIntro',
+                  popover: {
+                      title: 'Step by Step Guide',
+                      description: 'Select Employee by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#btnshow',
+                  popover: {
+                      title: 'Step by Step Guide',
+                      description: 'Click on this button to display data in this report.',
+                      position: 'bottom'
+                  }
+              },
+                ]);
+            driver.start();
+        });
+
+        
+        // Start the introduction
+        
+    });
+</script>
+
+
+
+
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<script>
+    var is_pageload = "0";
+    var is_procfirst = "0";
+    // Required for speed-up of call backs (http://www.devexpress.com/Support/Center/Question/Details/Q569354)
+    function RemoveElementFromArray(array, element) {
+        var index = array.indexOf(element);
+        if (index < 0) return array;
+        array[index] = null;
+        var result = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] === null)
+                continue;
+            result.push(array[i]);
+        }
+        return result;
+    }
+
+
+    $(function () {
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+
+        $('body').on('click', '#btnshow', function () {
+            is_pageload = "1";
+            is_procfirst = "1";
+            gridperformancewisemonth.Refresh();
+        });
+
+
+        $('#ddlSumExport').on('change', function () {
+            if ($("#ddlSumExport option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlSumExport').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporPerformanceMonthWiseList", "PerformanceSummaryMonthWise", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+    })
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Month"] = $("#ddlMonth").val();
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+        e.customArgs["is_procfirst"] = is_procfirst;
+        e.customArgs["Year"] = $("#ddlYear").val();
+    }
+
+    function OnEndCallback(s, e) {
+        var message = $('#hdnUpdateMessage').val();
+        if (message != "" && message != null && message != "null") {
+            jAlert(message);
+            $('#hdnUpdateMessage').val('');
+        }
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    var desigId = [];
+    function DesigSelectionChanged(s, e) {
+        DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    }
+    function GetDesigSelectedFieldValuesCallback(values) {
+        try {
+            desigId = [];
+            for (var i = 0; i < values.length; i++) {
+                desigId.push(values[i]);
+            }
+        } finally {
+            console.log(desigId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+    }
+
+
+</script>
+
+<style>
+
+    .expTypeImg {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .expTypeImg > li {
+            display: inline-block;
+        }
+
+            .expTypeImg > li > div {
+                position: relative;
+            }
+
+                .expTypeImg > li > div > img {
+                }
+
+                .expTypeImg > li > div .imageCap {
+                    position: absolute;
+                    bottom: 0;
+                    z-index: 5;
+                    width: 100%;
+                    color: #fff;
+                    background: #bd9f9f;
+                    padding: 5px 10px;
+                    text-align: center;
+                }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .disableHref {
+        opacity: 0.3;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    #myAssignTargetpopup {
+        padding: 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    .linerHd {
+        background: #dedede;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+    }
+
+    .popheader {
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 8px;
+        padding-left: 7px;
+    }
+
+    .lightbox {
+        z-index: 10000000;
+    }
+
+    .lightboxOverlay {
+        z-index: 9999999;
+    }
+
+    .btn-excel {
+        position: absolute;
+        right: 6px;
+        top: 8px;
+    }
+</style>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<div class="breadCumb">
+    <span>Performance Summary Month Wise </span>
+</div>
+<div class="container">
+    <div class="backBox mt-5  p-3">
+        <div class="row ">
+            <div class="col-md-2" id="mnthIntro">
+                <label>Month</label>
+                <div>
+                    @Html.DropDownList("ddlMonth", new SelectList(Model.MonthList, "PID", "PMonthName"), new { @name = "from", @class = "full form-control" })
+
+                </div>
+            </div>
+            <div class="col-md-2" id="YersIntro">
+                <label>Year</label>
+                <div>
+                    @Html.DropDownList("ddlYear", new SelectList(Model.YearList, "ID", "YearName"), new { @name = "from", @class = "full form-control" })
+
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2" id="stateIntro">
+                <label>State</label>
+                <div>
+                    @Html.Action("GetStateList", "MasterPopulate")
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2" id="desigIntro">
+                <label>Designation</label>
+                <div>
+
+                    @Html.Action("GetDesigList", "Reimbursement")
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2" id="empIntro">
+                <label>Employee(s)</label>
+                <div>
+                    @Html.Action("GetEmpList", "MasterPopulate")
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-5 pad-md-18 mb-3">
+                <label></label>
+                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+            </div>
+
+        </div>
+        <div id="refreshgridperformancewisemonth">
+
+            @{
+                Html.RenderAction("PartialPerformanceSummaryMonthWise", "PerformanceSummaryMonthWise", new { Month = "JAN", StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0", Year = "2019" });
+            }
+        </div>
+    </div>
+</div>
+<div style="clear: both;"><br /></div>
+

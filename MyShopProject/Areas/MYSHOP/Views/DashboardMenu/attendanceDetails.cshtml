@@ -1,0 +1,1337 @@
+﻿
+<link href="~/assests/css/pignose.calendar.min.css" rel="stylesheet" />
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+
+<script src="~/assests/js/frmCDN/moment.js"></script>
+<script src="~/assests/pluggins/pignose.calendar.min.js"></script>
+
+<script src="~/assests/pluggins/amchart/core.js"></script>
+<script src="~/assests/pluggins/amchart/charts.js"></script>
+<script src="~/assests/pluggins/amchart/themes/animated.js"></script>
+
+
+
+<script type="text/javascript">
+    $(function () {
+     
+        $('#userID').on('change', function () {
+            var usr = $(this).val();
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; 
+            var day = dateObj.getUTCDate();
+            var year = dateObj.getUTCFullYear();
+            //console.log(month+ ',' + year)
+            generateCalender(usr, month, year)
+
+        });
+        $(".calendar").pignoseCalendar({
+            
+        });
+
+        $('#tbsP').click(function () {
+
+            @*Mantis Issue 25455*@
+            @*var Url = '@Url.Action("GetAttendanceResults", "DashboardMenu")'
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log('box data', msg);
+                    if(msg.TOTAL_EMPLOYEE == null ){
+                        $("#Total_Emp").text('0');
+                    } else if(msg.TOTAL_ABSENT == null){
+                        $("#TOTAL_ABSENT").text('0');
+                    } else if(msg.TOTAL_LATETODAY == null){
+                        $("#TOTAL_LATETODAY").text('0');
+                    } else if(msg.TOTAL_ONTIME == null){
+                        $("#TOTAL_ONTIME").text('0');
+                    } else if (msg.TOTAL_ONTIME_PERCENTAGE == null) {
+                        $("#TOTAL_ONTIME_PERCENTAGE").text('0');
+                    } else {
+                    };
+                    $("#Total_Emp").text(msg.TOTAL_EMPLOYEE);
+                    $("#TOTAL_ABSENT").text(msg.TOTAL_ABSENT);
+                    $("#TOTAL_LATETODAY").text(msg.TOTAL_LATETODAY);
+                    $("#TOTAL_ONTIME").text(msg.TOTAL_ONTIME);
+                    $("#TOTAL_ONTIME_PERCENTAGE").text(msg.TOTAL_ONTIME_PERCENTAGE);
+                }
+            });
+            // Get Leave data
+            var Url = '@Url.Action("GetLeaveData", "DashboardMenu")'
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log('leaves');
+                    console.log(msg);
+                    if (msg.length > 0) {
+                        var Ltable = "";
+                        for (i = 0; i < msg.length; i++) {
+                            Ltable += "<tr>"
+                            Ltable += "<td>" + msg[i].name + "</td>"
+                            Ltable += "<td>" + msg[i].LeaveStartdate + "</td>"
+                            Ltable += "<td>" + msg[i].LeaveEnddate + "</td>"
+                            Ltable += "<td>" + msg[i].LEAVETYPE + "</td>"
+                            Ltable += "<td>" + msg[i].LEAVE_REASON + "</td>"
+                            Ltable += "<td>" + msg[i].CURRENT_STATUS + "</td>"
+                            Ltable += "</tr>"
+                        }
+                        Ltable += "";
+                        //console.log(obj)
+                        $('#leavesS').html(Ltable)
+                    } else {
+                        $('#leavesS').html("<tr><td colspan='6' class='text-center'>No Data Found</td></tr>")
+                    }
+
+                }
+            });
+
+            
+            // Monthly attendance
+            var mnthUrl = '@Url.Action("GetMonthlyAttendance", "DashboardMenu")';
+            $.ajax({
+                type: "POST",
+                url: mnthUrl,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log('chartdiv', msg);
+                    am4core.ready(function () {
+                        // Themes begin
+                        am4core.useTheme(am4themes_animated);
+                        // Themes end
+
+                        // Create chart instance
+                        var chart = am4core.create("chartdiv", am4charts.XYChart);
+                        chart.scrollbarX = new am4core.Scrollbar();
+                        // Export
+                        chart.exporting.menu = new am4core.ExportMenu();
+                        chart.logo.disabled = true;
+                        // Data for both series
+                        var data = msg;
+
+                        /* Create axes */
+                        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                        categoryAxis.dataFields.category = "MONTH";
+                        categoryAxis.renderer.minGridDistance = 30;
+                        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+                        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+                        categoryAxis.renderer.labels.template.rotation = 270;
+                        categoryAxis.tooltip.disabled = true;
+                        categoryAxis.renderer.minHeight = 110;
+                        /* Create value axis */
+                        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+                        /* Create series */
+                        var columnSeries = chart.series.push(new am4charts.ColumnSeries());
+                        columnSeries.name = "Attendance";
+                        columnSeries.dataFields.valueY = "EMP_COUNT";
+                        columnSeries.dataFields.categoryX = "MONTH";
+
+                        columnSeries.columns.template.tooltipText =
+                          "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+                        columnSeries.columns.template.propertyFields.fillOpacity =
+                          "fillOpacity";
+                        columnSeries.columns.template.propertyFields.stroke = "stroke";
+                        columnSeries.columns.template.propertyFields.strokeWidth =
+                          "strokeWidth";
+                        columnSeries.columns.template.propertyFields.strokeDasharray =
+                          "columnDash";
+                        columnSeries.tooltip.label.textAlign = "middle";
+                        columnSeries.columns.template.events.on("hit", function (ev) {
+                            subAttChart(ev.target.dataItem._dataContext.ord);
+                        });
+
+                        var lineSeries = chart.series.push(new am4charts.LineSeries());
+                        lineSeries.name = "Expenses";
+                        lineSeries.dataFields.valueY = "expenses";
+                        lineSeries.dataFields.categoryX = "year";
+
+                        lineSeries.stroke = am4core.color("#fdd400");
+                        lineSeries.strokeWidth = 3;
+                        lineSeries.propertyFields.strokeDasharray = "lineDash";
+                        lineSeries.tooltip.label.textAlign = "middle";
+
+                        var bullet = lineSeries.bullets.push(new am4charts.Bullet());
+                        bullet.fill = am4core.color("#fdd400"); // tooltips grab fill from parent by default
+                        bullet.tooltipText =
+                          "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+                        var circle = bullet.createChild(am4core.Circle);
+                        circle.radius = 4;
+                        circle.fill = am4core.color("#fff");
+                        circle.strokeWidth = 3;
+
+                        chart.data = data;
+                    }); // end am4core.ready()
+
+                }
+            });
+              var employeeUrl = '@Url.Action("GetUserData", "DashboardMenu")'
+                $.ajax({
+                    type: "POST",
+                    url: employeeUrl,
+                    processData: false,
+                    contentType: 'application/json',
+                    success: function (msg) {
+                        //console.log(msg);
+                        if (msg.length > 0) {
+                            var obj = "<option>Select</option>";
+                            for (i = 0; i < msg.length; i++) {
+                                obj += "<option value='" + msg[i].USER_ID + "'>" + msg[i].NAME + "</option>"
+                            }
+                            obj += "";
+                            //console.log(obj)
+                            $("#userID").html(obj);
+                        }
+                    }
+                });*@
+            @*End of Mantis Issue 25455*@
+        });
+    });
+    function subAttChart(ord) {
+        $('#subChartModal').modal('show');
+        var Url = '@Url.Action("GetSubattendaceChart", "Attendance")';
+        var obj = {};
+        obj.ord = ord;
+        $.ajax({
+            type: "POST",
+            url: Url,
+            data: JSON.stringify(obj),
+            processData: false,
+            contentType: 'application/json',
+            success: function (data) {
+                console.log('GetSubattendaceChart', data)
+                $('#fMonth').text(data[0].month_name);
+                $('#subChartTble').DataTable().destroy();
+                $('#subChartTble').DataTable({
+                    //scrollX: true,
+                    //fixedColumns: {
+                    //    rightColumns: 2
+                    //},
+                    data: data,
+                    columns: [
+                       { 'data': 'Employee' },
+                       { 'data': 'Desg' },
+                       { 'data': 'Dept' },
+                       { 'data': 'Supervisor' },
+                       { 'data': 'Contact' },
+                       { 'data': 'Att_Date' },
+                       { 'data': 'att_Given' } 
+                    ],
+
+                    error: function (error) {
+                        alert(error);
+                    }
+                });
+            }
+        });
+    }
+
+    function generateCalender(usr, month, year) {
+
+
+        var Url = '@Url.Action("GetCalenderData", "DashboardMenu")';
+        var d = new Date();
+        var n = d.getDate();
+
+        var obj = {};
+        obj.userId = usr;
+        obj.Month = month;
+        obj.Year = year;
+        var sdate = '0' + month + '-' + n + '-' + year;
+
+        $.ajax({
+            type: "POST",
+            url: Url,
+            data: JSON.stringify(obj),
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                //console.log(msg);
+                $(".calendar").pignoseCalendar({
+                    date: sdate,
+                    format: 'DD-MM-YYYY',
+                    scheduleOptions: {
+                        colors: {
+                            Absent: "#e83636",
+                            Present: "#2bc167",
+                            OnLeave: "#757272",
+                            seminar: "#dc3545",
+                            meetup: "#28a745"
+                        }
+                    },
+                    schedules: msg,
+                    page: function (info, context) {
+                        // This is clicked arrow button element.
+                        var $this = $(this);
+
+                        // `info` parameter gives useful information of current date.
+                        var type = info.type; // it will be one of `next`, `prev`, `unkown`.
+                        var year = info.year; // current year (number type), ex: 2017
+                        var month = info.month; // current month (number type), ex: 6
+                        var day = info.day; // current day (number type), ex: 22
+
+                        var usrId = $('#userID').val();
+                        generateCalender(usrId, month, year);
+                    },
+                    select: function (date, context) {
+                        var usrId = $('#userID').val();
+                        //var date = date[0]._i;
+                        var text = '';
+
+                        if (date[0] !== null) {
+                            text += date[0].format('YYYY-MM-DD');
+                        }
+                        //console.log(text);
+                        openCalClick(usrId, text);
+                        $('.calPopup, .calBackdrop').addClass('in');
+                    }
+                });
+            }
+        });
+    }
+    function openCalClick(userid, date){
+        var Url = '@Url.Action("GetCalenderClick", "Attendance")';
+        var d = new Date();
+        var n = d.getDate();
+
+        var obj = {};
+           obj.date = date;
+           obj.userid = userid;
+        $.ajax({
+            type: "POST",
+            url: Url,
+            data: JSON.stringify(obj),
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                console.log(msg);
+                $('.smilies').addClass('hide');
+                $('#clName').text(msg[0].NAME);
+                $('#inStatus').text(msg[0].STATUS);
+
+                $('#STATE').text(msg[0].STATE);
+                $('#STATUS').text(msg[0].STATUS);
+                $('#SUPERVISOR').text(msg[0].SUPERVISOR);
+                $('#LOGIN_TIME').text(msg[0].LOGIN_TIME);
+                if(msg[0].STATUS == 'Absent'){
+                    $('#inStatus').css({'background': '#e23b3b'});
+                    $('.smSad').removeClass('hide');
+                }else if(msg[0].STATUS == 'Late') {
+                    $('#inStatus').css({'background': '#e89923'});
+                    $('.smLate').removeClass('hide');
+                }else if(msg[0].STATUS == 'Present') {
+                    $('#inStatus').css({'background': '#30a755'});
+                    $('.smHappy').removeClass('hide');
+                }else if(msg[0].STATUS == 'On Leave') {
+                    $('#inStatus').css({'background': '#e89923'});
+                    $('.smSad').removeClass('hide');
+                }else{
+    
+                }
+                 
+                if(msg[0].LOGIN_TIME != ''){
+                    $('#LOGIN_TIME_td').removeClass('hide');
+                }else {
+                     $('#LOGIN_TIME_td').addClass('hide');
+                }
+            }
+         });
+    }
+    @*Mantis Issue 25455*@
+    function ShowAttendanceData(){
+        var Url = '@Url.Action("GetAttendanceResults", "DashboardMenu")'
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log('box data', msg);
+                    if(msg.TOTAL_EMPLOYEE == null ){
+                        $("#Total_Emp").text('0');
+                    } else if(msg.TOTAL_ABSENT == null){
+                        $("#TOTAL_ABSENT").text('0');
+                    } else if(msg.TOTAL_LATETODAY == null){
+                        $("#TOTAL_LATETODAY").text('0');
+                    } else if(msg.TOTAL_ONTIME == null){
+                        $("#TOTAL_ONTIME").text('0');
+                    } else if (msg.TOTAL_ONTIME_PERCENTAGE == null) {
+                        $("#TOTAL_ONTIME_PERCENTAGE").text('0');
+                    } else {
+                    };
+                    $("#Total_Emp").text(msg.TOTAL_EMPLOYEE);
+                    $("#TOTAL_ABSENT").text(msg.TOTAL_ABSENT);
+                    $("#TOTAL_LATETODAY").text(msg.TOTAL_LATETODAY);
+                    $("#TOTAL_ONTIME").text(msg.TOTAL_ONTIME);
+                    $("#TOTAL_ONTIME_PERCENTAGE").text(msg.TOTAL_ONTIME_PERCENTAGE);
+                }
+            });
+            // Get Leave data
+            var Url = '@Url.Action("GetLeaveData", "DashboardMenu")'
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log('leaves');
+                    console.log(msg);
+                    if (msg.length > 0) {
+                        var Ltable = "";
+                        for (i = 0; i < msg.length; i++) {
+                            Ltable += "<tr>"
+                            Ltable += "<td>" + msg[i].name + "</td>"
+                            Ltable += "<td>" + msg[i].LeaveStartdate + "</td>"
+                            Ltable += "<td>" + msg[i].LeaveEnddate + "</td>"
+                            Ltable += "<td>" + msg[i].LEAVETYPE + "</td>"
+                            Ltable += "<td>" + msg[i].LEAVE_REASON + "</td>"
+                            Ltable += "<td>" + msg[i].CURRENT_STATUS + "</td>"
+                            Ltable += "</tr>"
+                        }
+                        Ltable += "";
+                        //console.log(obj)
+                        $('#leavesS').html(Ltable)
+                    } else {
+                        $('#leavesS').html("<tr><td colspan='6' class='text-center'>No Data Found</td></tr>")
+                    }
+
+                }
+            });
+
+
+            // Monthly attendance
+            var mnthUrl = '@Url.Action("GetMonthlyAttendance", "DashboardMenu")';
+            $.ajax({
+                type: "POST",
+                url: mnthUrl,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log('chartdiv', msg);
+                    am4core.ready(function () {
+                        // Themes begin
+                        am4core.useTheme(am4themes_animated);
+                        // Themes end
+
+                        // Create chart instance
+                        var chart = am4core.create("chartdiv", am4charts.XYChart);
+                        chart.scrollbarX = new am4core.Scrollbar();
+                        // Export
+                        chart.exporting.menu = new am4core.ExportMenu();
+                        chart.logo.disabled = true;
+                        // Data for both series
+                        var data = msg;
+
+                        /* Create axes */
+                        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                        categoryAxis.dataFields.category = "MONTH";
+                        categoryAxis.renderer.minGridDistance = 30;
+                        categoryAxis.renderer.labels.template.horizontalCenter = "right";
+                        categoryAxis.renderer.labels.template.verticalCenter = "middle";
+                        categoryAxis.renderer.labels.template.rotation = 270;
+                        categoryAxis.tooltip.disabled = true;
+                        categoryAxis.renderer.minHeight = 110;
+                        /* Create value axis */
+                        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+                        /* Create series */
+                        var columnSeries = chart.series.push(new am4charts.ColumnSeries());
+                        columnSeries.name = "Attendance";
+                        columnSeries.dataFields.valueY = "EMP_COUNT";
+                        columnSeries.dataFields.categoryX = "MONTH";
+
+                        columnSeries.columns.template.tooltipText =
+                          "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+                        columnSeries.columns.template.propertyFields.fillOpacity =
+                          "fillOpacity";
+                        columnSeries.columns.template.propertyFields.stroke = "stroke";
+                        columnSeries.columns.template.propertyFields.strokeWidth =
+                          "strokeWidth";
+                        columnSeries.columns.template.propertyFields.strokeDasharray =
+                          "columnDash";
+                        columnSeries.tooltip.label.textAlign = "middle";
+                        columnSeries.columns.template.events.on("hit", function (ev) {
+                            subAttChart(ev.target.dataItem._dataContext.ord);
+                        });
+
+                        var lineSeries = chart.series.push(new am4charts.LineSeries());
+                        lineSeries.name = "Expenses";
+                        lineSeries.dataFields.valueY = "expenses";
+                        lineSeries.dataFields.categoryX = "year";
+
+                        lineSeries.stroke = am4core.color("#fdd400");
+                        lineSeries.strokeWidth = 3;
+                        lineSeries.propertyFields.strokeDasharray = "lineDash";
+                        lineSeries.tooltip.label.textAlign = "middle";
+
+                        var bullet = lineSeries.bullets.push(new am4charts.Bullet());
+                        bullet.fill = am4core.color("#fdd400"); // tooltips grab fill from parent by default
+                        bullet.tooltipText =
+                          "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+                        var circle = bullet.createChild(am4core.Circle);
+                        circle.radius = 4;
+                        circle.fill = am4core.color("#fff");
+                        circle.strokeWidth = 3;
+
+                        chart.data = data;
+                    }); // end am4core.ready()
+
+                }
+            });
+              var employeeUrl = '@Url.Action("GetUserData", "DashboardMenu")'
+                $.ajax({
+                    type: "POST",
+                    url: employeeUrl,
+                    processData: false,
+                    contentType: 'application/json',
+                    success: function (msg) {
+                        //console.log(msg);
+                        if (msg.length > 0) {
+                            var obj = "<option>Select</option>";
+                            for (i = 0; i < msg.length; i++) {
+                                obj += "<option value='" + msg[i].USER_ID + "'>" + msg[i].NAME + "</option>"
+                            }
+                            obj += "";
+                            //console.log(obj)
+                            $("#userID").html(obj);
+                        }
+                    }
+                });
+    }
+@*End of Mantis Issue 25455*@
+</script>
+<script>
+    $(document).ready(function () {
+        $('.calPopup .closbtn').click(function () {
+            $('.calPopup, .calBackdrop').removeClass('in');
+        })
+        $("#getTotalA").click(function () {
+            var Url = '@Url.Action("GetTotalAttendance", "Attendance")'
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                //processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log('Emp data', msg);
+                    $('#example').DataTable().destroy();
+                    $("#totalEmployee").modal('show');
+                    $('#example').DataTable({
+                        //scrollX: true,
+                        //fixedColumns: {
+                        //    rightColumns: 2
+                        //},
+                        data: msg,
+                        columns: [
+                           { 'data': 'Employee' },
+                           { 'data': 'Desg' },
+                           { 'data': 'Dept' },
+                           { 'data': 'Supervisor' },
+                           { 'data': 'Contact' }
+                        ],
+
+                        error: function (error) {
+                            alert(error);
+                        }
+                    });
+                }
+            });
+        })
+        $("#getAbsentToday").click(function () {
+            var Url = '@Url.Action("GetAbsentToday", "Attendance")'
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log(msg)
+                    $('#absentTble').DataTable().destroy();
+                    $("#absentToday").modal('show');
+                    $('#absentTble').DataTable({
+                        //scrollX: true,
+                        //fixedColumns: {
+                        //    rightColumns: 2
+                        //},
+                        data: msg,
+                        columns: [
+                           { 'data': 'Employee' },
+                           { 'data': 'Desg' },
+                           { 'data': 'Dept' },
+                           { 'data': 'Supervisor' },
+                           { 'data': 'Contact' }
+                        ],
+
+                        error: function (error) {
+                            alert(error);
+                        }
+                    });
+                }
+            });
+        });
+        $("#getOnTimeToday").click(function () {
+            var Url = '@Url.Action("GetOntime", "Attendance")'
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log(msg)
+                    $('#ontimeTble').DataTable().destroy();
+                    $("#onTime").modal('show');
+                    $('#ontimeTble').DataTable({
+                        //scrollX: true,
+                        //fixedColumns: {
+                        //    rightColumns: 2
+                        //},
+                        data: msg,
+                        columns: [
+                           { 'data': 'Employee' },
+                           { 'data': 'Desg' },
+                           { 'data': 'Dept' },
+                           { 'data': 'Supervisor' },
+                           { 'data': 'Contact' }
+                        ],
+
+                        error: function (error) {
+                            alert(error);
+                        }
+                    });
+                }
+            });
+        });
+        $("#getLateToday").click(function () {
+            var Url = '@Url.Action("GetLateToday", "Attendance")'
+
+            $.ajax({
+                type: "POST",
+                url: Url,
+                processData: false,
+                contentType: 'application/json',
+                success: function (msg) {
+                    console.log('lateTble', msg)
+                    $('#lateTble').DataTable().destroy();
+                    $("#LateToday").modal('show');
+                    $('#lateTble').DataTable({
+                        
+                        //scrollX: true,
+                        //fixedColumns: {
+                        //    rightColumns: 2
+                        //},
+                        data: msg,
+                        columns: [
+                           { 'data': 'Employee'},
+                           { 'data': 'Desg'  },
+                           { 'data': 'Dept' },
+                           { 'data': 'Supervisor' },
+                           { 'data': 'Contact' },
+                           { 'data': 'Att_Time' },
+                           { 'data': 'att_Given' },
+                           { 'data': 'Diff' }
+                        ],
+
+                        error: function (error) {
+                            alert(error);
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+<style>
+
+    ul.nopad {
+    list-style-type: none;
+    padding: 0;
+    }
+
+    ul.nopad > li {
+    display: inline-block;
+    min-width: 18.4%;
+    }
+
+    ul.nopad > li:not(:last-child) {
+    margin-right: 1%;
+    }
+
+    .colorBox {
+    background: #4f4e94;
+    color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height:80px;
+    }
+
+    .colorBox.c1 {
+    background: #309b60;
+    }
+
+    .colorBox.c2 {
+    background: #3798c5;
+    }
+
+    .colorBox.c3 {
+    background: #e68929;
+    }
+
+    .colorBox.c4 {
+    background: #882626;
+    }
+
+    .infoWrp {
+    padding: 12px 15px;
+    position: relative;
+    }
+
+    .infoWrp > .nums {
+    font-size: 34px;
+    font-weight: 600;
+    }
+
+    .infoWrp > .txts {
+    font-size: 80%;
+    }
+
+    .mrLinks {
+    /*cursor: pointer;*/
+    background: rgba(0, 0, 0, 0.34);
+    padding: 5px 10px;
+    font-size: 80%;
+    }
+
+    .mrLinks > .fa {
+    float: right;
+    margin-top: 4px;
+    }
+
+    .fltd {
+    position: absolute;
+    right: 20px;
+    top: 9px;
+    font-size: 37px !important;
+    color: rgba(0, 0, 0, 0.54);
+    }
+
+    .box-holder {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    border-top: 4px solid rgb(13, 105, 67);
+    background:#fff;
+    }
+
+    .box-holder .hdd-rp {
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 15px;
+    }
+
+    .box-holder .bxd-cont {
+    padding: 15px;
+    }
+
+    .table {
+    width: 100%;
+    }
+
+    .table .thead-light th {
+    color: #495057;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+    }
+
+    .badge {
+    font-weight: 500;
+    font-size: 12px;
+    }
+
+    .badge-warning {
+    color: #212529;
+    background-color: #ffc107;
+    }
+
+    .badge-success {
+    color: #fff;
+    background-color: #28a745;
+    }
+
+    .badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+    }
+
+    #chartdiv {
+    width: 100%;
+    height: 450px;
+    }
+
+    .mTop10 {
+    margin-top: 10px;
+    }
+
+    .pignose-calendar {
+    width: 100%;
+    max-width: 100% !important;
+    }
+
+    .pignose-calendar .pignose-calendar-top,
+    .pignose-calendar {
+    box-shadow: none !important;
+    }
+</style>
+<style>
+    .modal-title{
+        color:#fff
+    } #getTotalA, #getAbsentToday, #getOnTimeToday, #getLateToday {
+        cursor: pointer;
+    } 
+    .font-normal {
+        font-size: 14px !important;
+    }
+    .pignose-calendar{
+        width:100% !important
+    }
+    .pignose-calendar .pignose-calendar-body {
+        padding: 0.3em;
+    }
+    .pignose-calendar .pignose-calendar-header{
+        margin-top:0;
+    }
+    .pignose-calendar .pignose-calendar-top {
+        padding: 0.5em 0;
+    }
+    .pignose-calendar .pignose-calendar-top .pignose-calendar-top-date {
+        padding: 0.5em 0;
+    }
+    .pignose-calendar .pignose-calendar-top .pignose-calendar-top-month, .pignose-calendar .pignose-calendar-top .pignose-calendar-top-year{
+        display:inline-block;
+    }
+    .sltemp {
+        padding: 5px 10px 0 15px;
+        /* margin-top: 5px; */
+        max-width: 150px;
+    }
+    .lagendInfo {
+        font-size: 14px;
+        margin: 10px 0;
+    } 
+    .lagendInfo .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 15px;
+        display: inline-block;
+        margin-right: 7px;
+    }
+    .lagendInfo .dot.Present {
+        background: #50c36e;
+    }
+    .lagendInfo .dot.Leave {
+        background: #757272;
+    }
+     .separt {
+        width: 20px;
+        text-align: center;
+        display: inline-block;
+    }
+    .lagendInfo .dot.Absent {
+        background: #da3131;
+    }
+
+    .tableStyle > thead > tr > th {
+        font-size: 14px !important;
+        background: #5568f1;
+        border-top: 1px solid #5568ef;
+        color: #fff;
+        font-weight: 400;
+        border-bottom: 1px solid #1f32b5;
+        padding: 10px 12px;
+    }
+    .tableStyle > tbody > tr > td, .dataTables_info, .pagination a {
+        font-size: 14px;
+    }
+    #chartdiv .amcharts-amexport-menu {
+        margin-top: -22px;
+    }
+
+    #subChartTble>tbody>tr>td {
+        white-space:nowrap
+    }
+    .calBackdrop {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        background: #333;
+        left: 0;
+        opacity: 0.5;
+        z-index:9998;
+        display:none;
+    }
+    .calPopup {
+        position: fixed;
+        top: 50%;
+        background: #fff;
+        width: 430px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding-top: 20px;
+        z-index: 9999;
+        display: none;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.15), 7px 5px 5px rgba(0,0,0,0.05);
+    }
+    .calPopup.in, .calBackdrop.in {
+        display:block;
+    }
+    .calPopup .closbtn {
+        cursor:pointer;
+        font-size: 13px;
+        /* padding: 10px; */
+        position: absolute;
+        right: 9px;
+        top: 6px;
+    }
+    .calPopup .closbtn:hover {
+        color:red;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-12">
+        <ul class="nopad">
+            <li >
+                <div class="colorBox" id="getTotalA" title="Click here to get detail report" data-toggle="tooltip">
+                    <div class="infoWrp">
+                        <i class="fa fa-users fltd" aria-hidden="true"></i>
+                        <div class="nums" id="Total_Emp">0</div>
+                        <div class="txts">Total Employees</div>
+                    </div>
+                    <div class="mrLinks hide">
+                        More info
+                        <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="colorBox c1" >
+                    <div class="infoWrp">
+                        <i class="fa fa-pie-chart fltd" aria-hidden="true"></i>
+                        <div class="nums"><span id="TOTAL_ONTIME_PERCENTAGE">0</span> <span style="font-size: 20px;">%</span></div>
+                        <div class="txts">On Time Percentage</div>
+                    </div>
+                    <div class="mrLinks hide">
+                        More info
+                        <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="colorBox c2" id="getOnTimeToday" title="Click here to get detail report" data-toggle="tooltip">
+                    <div class="infoWrp">
+                        <i class="fa fa-clock-o fltd" aria-hidden="true"></i>
+                        <div class="nums" id="TOTAL_ONTIME">0</div>
+                        <div class="txts">On Time Today</div>
+                    </div>
+                    <div class="mrLinks hide">
+                        More info
+                        <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="colorBox c3" id="getLateToday" title="Click here to get detail report" data-toggle="tooltip">
+                    <div class="infoWrp">
+                        <i class="fa fa-exclamation-circle fltd"
+                           aria-hidden="true"></i>
+                        <div class="nums" id="TOTAL_LATETODAY">0</div>
+                        <div class="txts">Late Today</div>
+                    </div>
+                    <div class="mrLinks hide">
+                        More info
+                        <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="colorBox c4" id="getAbsentToday" title="Click here to get detail report" data-toggle="tooltip">
+                    <div class="infoWrp">
+                        <i class="fa fa-user-times fltd" aria-hidden="true"></i>
+                        <div class="nums" id="TOTAL_ABSENT">0</div>
+                        <div class="txts">Absent Today</div>
+                    </div>
+                    <div class="mrLinks hide">
+                        More info
+                        <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    
+    
+    <div class="col-md-5">
+        <div class="box-holder mTop10">
+            
+            <div class="clearfix">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="hdd-rp" style="margin-top: 5px;">
+                            Calendar 
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <table style="width: 100%; margin-top: 5px;">
+                            <tr>
+                                <td class="emp-dropdown-title"><span class="font-normal">Employee</span></td>
+                                <td class="sltemp">
+                                    <select id="userID">
+                                        <option></option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="bxd-cont">
+                <div class="calendar"></div>
+                <div class="lagendInfo">
+                    <span><span class="dot Present" ></span>Present</span> <i class="separt">|</i> <span><span class="dot Absent"></span>Absent</span><i class="separt">|</i> <span><span class="dot Leave"></span>On Leave</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="box-holder mTop10 box-full">
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
+                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            </span>
+            <div class="clearfix">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hdd-rp">
+                            Monthly Attendance Summary
+                        </div>
+                    </div>
+                    <div class="col-md-5"></div>
+                </div>
+            </div>
+            <div class="bxd-cont">
+                <div class="att-chart" id="chartdiv" style="height:484px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box-holder mTop10">
+            <div class="clearfix">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="hdd-rp">
+                            Recent Leaves
+                        </div>
+                    </div>
+                    <div class="col-md-5"></div>
+                </div>
+            </div>
+            <div class="bxd-cont">
+                <table class="table font-normal">
+                    <thead class="thead-light">
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">From Date</th>
+                            <th scope="col">To Date</th>
+                            <th scope="col">Leave Type</th>
+                            <th scope="col">Reason</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leavesS"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+
+
+<!-- Modal TotalEmp -->
+<div class="modal fade pmsModal w80" id="totalEmployee" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Total Employee</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="example" class="display table table-striped table-bordered tableStyle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Dept.</th>
+                            <th>Supervisor</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+               
+            </div>
+        </div>
+    </div>
+</div>
+<div class="calBackdrop"></div>
+<div class="calPopup">
+    <div class="closbtn"><i class="fa fa-close"></i></div>
+    <div class="contentr">
+        <table style="width: 100%; margin-bottom: 14px;">
+            <tr>
+                <td style="width: 30%; padding: 0 25px 25px 25px;text-align:center">
+                    <div class="smilies smHappy hide">
+                        @*<?xml version="1.0" encoding="iso-8859-1" ?>*@
+                        <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                        <circle style="fill:#FFD93B;" cx="256" cy="256" r="256" />
+                        <path style="fill:#3E4347;" d="M256,420.544c-74.864,0-140.096-50.704-158.624-123.28c-1.456-5.712,1.984-11.52,7.696-12.976
+	                        c5.68-1.488,11.504,1.984,12.96,7.696c16.128,63.136,72.848,107.232,137.952,107.232s121.84-44.096,137.952-107.232
+	                        c1.44-5.712,7.248-9.184,12.976-7.696c5.712,1.456,9.152,7.264,7.696,12.976C396.096,369.84,330.864,420.544,256,420.544z" />
+                        <path style="fill:#F4C534;" d="M512,256c0,141.44-114.64,256-256,256c-80.48,0-152.32-37.12-199.28-95.28
+	                        c43.92,35.52,99.84,56.72,160.72,56.72c141.36,0,256-114.56,256-256c0-60.88-21.2-116.8-56.72-160.72
+	                        C474.8,103.68,512,175.52,512,256z" />
+                        <ellipse style="fill:#3E4347;" cx="173.328" cy="220.304" rx="39.232" ry="46.624" />
+                        <path style="fill:#5A5F63;" d="M191.024,210.272c-3.056,2.4-8.08,1.216-11.296-2.688s-3.376-9.136-0.32-11.536
+	                        c3.04-2.512,8.08-1.328,11.28,2.576C193.92,202.64,193.952,207.776,191.024,210.272z" />
+                        <ellipse style="fill:#3E4347;" cx="338.72" cy="220.304" rx="39.232" ry="46.624" />
+                        <path style="fill:#5A5F63;" d="M356.384,210.272c-3.056,2.4-8.08,1.216-11.296-2.688s-3.376-9.136-0.32-11.536
+	                        c3.04-2.512,8.064-1.328,11.28,2.576C359.28,202.64,359.312,207.776,356.384,210.272z" />
+                        </svg>
+                    </div>
+                    <div class="smilies smSad hide">
+                        @*<?xml version="1.0" encoding="iso-8859-1" ?>*@
+                        <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                        <circle style="fill:#FFD93B;" cx="256" cy="256" r="256" />
+                        <path style="fill:#F4C534;" d="M512,256c0,141.44-114.64,256-256,256c-80.48,0-152.32-37.12-199.28-95.28
+	                        c43.92,35.52,99.84,56.72,160.72,56.72c141.36,0,256-114.56,256-256c0-60.88-21.2-116.8-56.72-160.72
+	                        C474.8,103.68,512,175.52,512,256z" />
+                        <g>
+                                                <path style="fill:#3E4347;" d="M332.432,384.8c0,7.472-5.968,13.328-13.328,13.328H192.912c-7.36,0-13.328-5.872-13.328-13.328
+		                        c0-7.36,5.968-13.328,13.328-13.328h126.192C326.448,371.472,332.432,377.44,332.432,384.8z" />
+                                                <path style="fill:#3E4347;" d="M111.808,261.68c6.256-3.68,24.768,16.16,53.84,17.248c30.096,1.12,47.584-20.928,53.84-17.248
+		                        c7.792,2.672-2.832,53.552-53.84,53.744C114.656,315.232,104.016,264.352,111.808,261.68z" />
+                        </g>
+                        <path style="fill:#E9B02C;" d="M99.808,239.312c-5.808-0.928-9.776-6.4-8.832-12.224c0.944-5.808,6.32-9.792,12.224-8.832
+	                        c59.968,9.632,78.192-33.2,78.368-33.632c2.208-5.456,8.416-8.08,13.904-5.856c5.456,2.224,8.08,8.448,5.856,13.904
+	                        C189.296,222.144,151.504,247.616,99.808,239.312z" />
+                        <path style="fill:#3E4347;" d="M400.192,261.68c-6.256-3.68-24.768,16.16-53.84,17.248c-30.096,1.12-47.584-20.928-53.84-17.248
+	                        c-7.792,2.672,2.832,53.552,53.84,53.744C397.344,315.232,407.984,264.352,400.192,261.68z" />
+                        <path style="fill:#E9B02C;" d="M310.672,192.656c-2.224-5.456,0.4-11.68,5.856-13.904c5.44-2.224,11.648,0.384,13.888,5.808
+	                        c0.8,1.92,19.12,43.216,78.384,33.696c5.872-0.96,11.296,3.024,12.224,8.832c0.928,5.824-3.024,11.296-8.832,12.224
+	                        C360.864,247.568,322.8,222.4,310.672,192.656z" />
+                        </svg>
+                    </div>
+                    <div class="smilies smLate hide">
+                        @*<?xml version="1.0" encoding="iso-8859-1" ?>*@
+                        <!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+                        <circle style="fill:#FFD93B;" cx="256" cy="256" r="256" />
+                        <path style="fill:#F4C534;" d="M512,256c0,141.44-114.64,256-256,256c-80.48,0-152.32-37.12-199.28-95.28
+	                            c43.92,35.52,99.84,56.72,160.72,56.72c141.36,0,256-114.56,256-256c0-60.88-21.2-116.8-56.72-160.72
+	                            C474.8,103.68,512,175.52,512,256z" />
+                        <g>
+                        <path style="fill:#3E4347;" d="M354.592,407.184c-12.736,7.68-47.008-26.496-94.24-26.912
+		                            c-46.544-0.416-81.504,34.608-94.24,26.912c-15.248-6.208,10.832-80.608,94.24-81.056
+		                            C343.76,326.576,369.84,400.992,354.592,407.184z" />
+                        <path style="fill:#3E4347;" d="M390.336,221.52c0,22.544-18.448,40.992-41.088,40.992c-22.656,0-41.088-18.448-41.088-40.992
+		                            c0-22.752,18.448-41.088,41.088-41.088C371.904,180.432,390.336,198.768,390.336,221.52z" />
+                            </g>
+                        <ellipse transform="matrix(-0.7551 -0.6556 0.6556 -0.7551 503.256 596.3099)" style="fill:#5A5F63;" cx="363.001" cy="204.161" rx="12.112" ry="7.712" />
+                        <path style="fill:#3E4347;" d="M203.84,221.52c0,22.544-18.448,40.992-41.088,40.992s-41.088-18.448-41.088-40.992
+	                            c0-22.752,18.448-41.088,41.088-41.088C185.392,180.432,203.84,198.768,203.84,221.52z" />
+                        <ellipse transform="matrix(-0.7551 -0.6556 0.6556 -0.7551 175.8983 474.0588)" style="fill:#5A5F63;" cx="176.489" cy="204.177" rx="12.112" ry="7.712" />
+                            </svg>
+                    </div>
+                    <div style="display: inline-block; margin: auto; background: #30a755; font-size: 12px; color: #fff; padding: 4px 8px; border-radius: 7px;" id="inStatus"></div>
+                </td>
+                <td>
+                    <div id="clName" style="margin-bottom: 10px;"></div>
+                    <table style="width: 100%; font-size: 13px; ">
+                        <tr>
+                            <td>
+                                <div><b>State</b></div>
+                                <div id="STATE"></div>
+                            </td>
+                            <td>
+                                <div><b>Status</b></div>
+                                <div id="STATUS">2:10 AM</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-top: 10px">
+                                <div><b>Supervisor</b></div>
+                                <div id="SUPERVISOR"></div>
+                            </td>
+                            <td style="padding-top: 10px">
+                                <div><b>Login Time</b></div>
+                                <div id="LOGIN_TIME"></div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!-- Modal TotalEmp -->
+<div class="modal fade pmsModal w80" id="onTime" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">On Time Today</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="ontimeTble" class="display table table-striped table-bordered tableStyle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Dept.</th>
+                            <th>Supervisor</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal TotalEmp -->
+<div class="modal fade pmsModal w80" id="LateToday" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Late Today</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="lateTble" class="display table table-striped table-bordered tableStyle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Dept.</th>
+                            <th>Supervisor</th>
+                            <th>Contact</th>
+                            <th>Attendance time </th>
+                            <th>Attendance Given</th>
+                            <th>Late Duration</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal TotalEmp -->
+<div class="modal fade pmsModal w80" id="absentToday" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Absent Today</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="absentTble" class="display table table-striped table-bordered tableStyle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Designation</th>
+                            <th>Dept.</th>
+                            <th>Supervisor</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal TotalEmp -->
+<div class="modal fade pmsModal w90" id="subChartModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Attendance Indormation for <span id="fMonth"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table id="subChartTble" class="display table table-striped table-bordered tableStyle" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Designation</th>
+                            <th>Dept.</th>
+                            <th>Supervisor</th>
+                            <th>Contact</th>
+                            <th>Att. Date</th>
+                            <th>Att. Time</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

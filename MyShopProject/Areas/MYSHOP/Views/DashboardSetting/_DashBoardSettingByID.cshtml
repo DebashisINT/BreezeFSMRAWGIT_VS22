@@ -1,0 +1,203 @@
+﻿@using MyShop.Models;
+@model DashBoardSetting
+
+@{
+    var DashboardSettingMappedObj = Model.DashboardSettingMappedList;
+}
+<style>
+    #divDashboardHeaderList .panel:last-child {
+        margin-bottom: 0;
+    }
+
+    ul.inline-list {
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+
+    .inline-list > li {
+        display: inline-block;
+        list-style-type: none;
+        margin-right: 20px;
+        margin-bottom: 8px;
+    }
+
+        .inline-list > li > input {
+            -webkit-transform: translateY(3px);
+            -moz-transform: translateY(3px);
+            transform: translateY(3px);
+            margin-right: 4px;
+        }
+
+    .panel-title > a {
+        font-size: 13px !important;
+        display: inline-block;
+        padding-left: 10px;
+    }
+
+    #list2 option,
+    #list1 option {
+        padding: 5px 3px;
+    }
+
+    .padTbl > tbody > tr > td {
+        padding-right: 20px;
+        vertical-align: central;
+    }
+
+        .padTbl > tbody > tr > td > label {
+            margin-bottom: 0px !important;
+        }
+
+    #divDashboardHeaderList .panel-title {
+        position: relative;
+    }
+
+        #divDashboardHeaderList .panel-title > a:focus {
+            text-decoration: none;
+        }
+
+        #divDashboardHeaderList .panel-title > a:after {
+            content: '\f056';
+            font-family: FontAwesome;
+            font-size: 18px;
+            position: absolute;
+            right: 10px;
+            top: 6px;
+        }
+
+        #divDashboardHeaderList .panel-title > a + input[type="checkbox"] {
+            -webkit-transform: translateY(2px);
+            -moz-transform: translateY(2px);
+            transform: translateY(2px);
+        }
+
+        #divDashboardHeaderList .panel-title > a.collapsed:after {
+            content: '\f055';
+        }
+
+    .errorField {
+        position: absolute;
+        right: -17px;
+        top: 3px;
+    }
+
+    #multiselect_to option, #multiselect option {
+        padding: 5px 3px;
+    }
+
+    .min3 {
+        min-height: 150px;
+    }
+
+    .pad28 {
+        padding-top: 26px;
+    }
+</style>
+<div class="mainArea clearfix pTop10" style="background-color: white;height:80vh;overflow-y:auto">
+
+    @Html.HiddenFor(x => x.DashboardSettingID)
+    <div class="clearfix">
+        <div class="col-lg-4">
+            <label><b>Settings Name</b><span style="color: red">*</span></label>
+            @Html.TextBoxFor(m => m.SettingName, new { @class = "form-control" })
+        </div>
+        <div class="col-lg-4">
+            <label><b>User Group</b></label>
+            @Html.DropDownList("ddlUserGroup", new SelectList(Model.UserGroupList, "grp_id", "grp_name"), new { @id = "ddlUserGroup", @class = "form-control", @onChange = "UserGroupChange(this)" })
+        </div>
+
+        <div class="col-lg-4">
+            <label><b>Permission Level</b></label>
+            <div>
+                <input type="radio" name="PermissionLevel" value="0" @(Model.PermissionLevel == 0 ? "checked='checked'" : "")  /> All
+                <input type="radio" name="PermissionLevel" value="1" @(Model.PermissionLevel == 1 ? "checked='checked'" : "") /> Only Hierarchy
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="clearfix">
+        <div class="col-md-12"> </div>
+        <div class="col-xs-5">
+            <label><b>Users</b></label>
+            <div>
+                @Html.DropDownList("ddlUser", new SelectList(Model.UserList, "UserID", "username"), new { @id = "multiselect", @class = "form-control min3", @multiple = "multiple", @name = "from" })
+            </div>
+
+        </div>
+        <div class="col-xs-2 text-center pad28">
+            
+            <button type="button" id="multiselect_rightAll" class="btn btn-primary"><i class="glyphicon glyphicon-forward"></i></button><br />
+            <button type="button" id="multiselect_rightSelected" class="btn btn-primary"><i class="glyphicon glyphicon-chevron-right"></i></button><br />
+            <button type="button" id="multiselect_leftSelected" class="btn btn-primary"><i class="glyphicon glyphicon-chevron-left"></i></button><br />
+            <button type="button" id="multiselect_leftAll" class="btn btn-primary"><i class="glyphicon glyphicon-backward"></i></button>
+        </div>
+        <div class="col-xs-5">
+            <label><b>Selected Users</b></label>
+            <select name="to" id="multiselect_to" class="form-control min3" multiple="multiple">
+                @if (DashboardSettingMappedObj != null)
+                {
+                    foreach (var item in DashboardSettingMappedObj.GroupBy(x => x.FKuser_id).Select(x => x.FirstOrDefault()).ToList())
+                    {
+                        <option value="@item.FKuser_id">@item.User_Name</option>
+                    }
+                }
+            </select>
+
+        </div>
+    </div>
+
+    <div class="" id="divDashboardHeaderList" style="padding:15px;">
+        @foreach (var item in Model.DashboardHeaderList)
+        {
+            <div class="panel panel-default clsListheader">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#divDashboardHeaderList" class="" href="#collapse_@item.DashboardHeaderID" aria-expanded="true">@item.HeaderName</a>
+                        <input type="checkbox" class="chkHeaderSelect" value="@item.DashboardHeaderID" onchange="chkSubListCheckAll(this)" />
+                    </h4>
+                </div>
+                <div id="collapse_@item.DashboardHeaderID" class="panel-collapse collapse in" aria-expanded="true" style="">
+                    <div class="panel-body SelectSubList">
+                        <ul class="inline-list">
+
+                            @foreach (var subitem in Model.DashboardDetailsList.Where(x => x.FKDashboardHeaderID == item.DashboardHeaderID))
+                            {
+                                if (DashboardSettingMappedObj != null)
+                                {
+                                    if (DashboardSettingMappedObj.Where(x => x.FKDashboardDetailsID == subitem.DashboardDetailsID).Count() > 0)
+                                    {
+                                        <li><input type="checkbox" value="@subitem.DashboardDetailsID" checked="checked" class="chkHeaderSelectSubList_@item.DashboardHeaderID" /> @subitem.DetailsName</li>
+
+                                    }
+                                    else
+                                    {
+                                        <li><input type="checkbox" value="@subitem.DashboardDetailsID" class="chkHeaderSelectSubList_@item.DashboardHeaderID" /> @subitem.DetailsName</li>
+
+                                    }
+                                }
+                                else
+                                {
+                                    <li><input type="checkbox" value="@subitem.DashboardDetailsID" class="chkHeaderSelectSubList_@item.DashboardHeaderID" /> @subitem.DetailsName</li>
+
+                                }
+
+                            }
+
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        }
+
+    </div>
+
+    <div class="col-md-12 text-center">
+        <button type="button" class="btn btn-success" onclick="DashboardSettingSave()">Create Setting</button>
+        <button type="button" class="btn btn-danger" onclick="DashboardSettingCancel()">Cancel</button>
+    </div>
+
+</div>

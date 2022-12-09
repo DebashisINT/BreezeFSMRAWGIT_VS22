@@ -1,0 +1,176 @@
+﻿@model System.Data.DataSet
+
+@Html.DevExpress().GridView(settings =>
+   {
+       settings.Name = "gridsalesmanView";
+       settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+       settings.CallbackRouteValues = new { Controller = "StatewisePerformanceofSalesman", Action = "PerformanceGridView" };
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+       //settings.SettingsSearchPanel.Visible = true;
+       settings.Settings.ShowFilterRow = true;
+       settings.Settings.ShowGroupPanel = false;
+       settings.Settings.ShowFooter = true;
+       settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+       settings.SettingsPager.PageSizeItemSettings.Visible = true;
+       settings.SettingsPager.PageSize = 10;
+
+       settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+       settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+
+       settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+       //settings.Settings.ShowFilterRowMenu = true;
+       settings.Styles.Header.Cursor = "default";
+       settings.SettingsBehavior.AllowSort = false;
+       settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+
+       settings.Columns.Clear();
+
+
+       System.Data.DataTable dtColumnTable = new System.Data.DataTable();
+
+       if (Model != null && Model.Tables.Count > 0)
+       {
+
+           dtColumnTable = Model.Tables[0];
+           if (dtColumnTable != null && dtColumnTable.Rows.Count > 0)
+           {
+               System.Data.DataRow[] drr = dtColumnTable.Select("PARRENTID=0");
+               int i = 0;
+               foreach (System.Data.DataRow dr in drr)
+               {
+                   i = i + 1;
+                   System.Data.DataRow[] drrRow = dtColumnTable.Select("PARRENTID='" + Convert.ToString(dr["HEADID"]) + "'");
+
+                   if (drrRow.Length > 0)
+                   {
+
+                       settings.Columns.AddBand(x =>
+                       {
+                           //x.FieldName = Convert.ToString(dr["HEADNAME"]);
+                           x.Caption = Convert.ToString(dr["HEADNAME"]).Trim();
+                           x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           x.VisibleIndex = i;
+                           //x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+
+                           foreach (System.Data.DataRow drrs in drrRow)
+                           {
+                               System.Data.DataRow[] drrRows = dtColumnTable.Select("PARRENTID='" + Convert.ToString(drrs["HEADID"]) + "'");
+
+                               if (drrRows.Length > 0)
+                               {
+                                   x.Columns.AddBand(xSecond =>
+                                   {
+                                       xSecond.Caption = Convert.ToString(drrs["HEADNAME"]).Trim();
+                                       xSecond.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                                       foreach (System.Data.DataRow drrss in drrRows)
+                                       {
+                                           System.Data.DataRow[] drrRowss = dtColumnTable.Select("PARRENTID='" + Convert.ToString(drrss["HEADID"]) + "'");
+                                           if (drrRowss.Length > 0)
+                                           {
+
+                                               xSecond.Columns.AddBand(xThird =>
+                                               {
+                                                   xThird.Caption = Convert.ToString(drrss["HEADNAME"]).Trim();
+                                                   xThird.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                                                   foreach (System.Data.DataRow drrrrs in drrRowss)
+                                                   {
+                                                       xThird.Columns.Add(xFourth =>
+                                                       {
+                                                           xFourth.Caption = Convert.ToString(drrrrs["HEADNAME"]).Trim();
+                                                           xFourth.FieldName = Convert.ToString(drrrrs["HEADSHRTNAME"]).Trim();
+                                                           xFourth.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                                                           xFourth.Width = 200;
+
+                                                       });
+                                                   }
+
+                                               });
+
+
+                                           }
+                                           else
+                                           {
+                                               xSecond.Columns.Add(xThird =>
+                                               {
+                                                   xThird.Caption = Convert.ToString(drrss["HEADNAME"]).Trim();
+                                                   xThird.FieldName = Convert.ToString(drrss["HEADSHRTNAME"]).Trim();
+                                                   xThird.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                                                   xThird.Width = 200;
+
+                                               });
+                                           }
+
+                                       }
+
+
+                                   });
+
+                               }
+                               else
+                               {
+                                   x.Columns.Add(xSecond =>
+                                   {
+                                       xSecond.Caption = Convert.ToString(drrs["HEADNAME"]).Trim();
+                                       xSecond.FieldName = Convert.ToString(drrs["HEADSHRTNAME"]).Trim();
+                                       xSecond.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                                       xSecond.Width = 200;
+
+                                   });
+                               }
+
+                           }
+
+                       });
+
+
+
+                   }
+                   else
+                   {
+                       settings.Columns.Add(x =>
+                       {
+                           x.Caption = Convert.ToString(dr["HEADNAME"]).Trim();
+                           x.FieldName = Convert.ToString(dr["HEADSHRTNAME"]).Trim();
+                           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                           x.VisibleIndex = i;
+                           x.Width = 150;
+
+                       });
+                   }
+                   settings.HtmlDataCellPrepared = (sender, e) =>
+                   {
+                       if (e.VisibleIndex >= 0)
+                       {
+                           if (e.CellValue.ToString().Contains("TOTAL"))
+                           {
+                               // e.Cell.BackColor = System.Drawing.Color.DarkSeaGreen;
+                               e.Cell.Font.Name = "Bold";
+                           }
+                       }
+                   };
+
+
+                   settings.HtmlRowPrepared = (s, e) =>
+                   {
+                       if (e.RowType != GridViewRowType.Data) return;
+
+                       string name = e.GetValue("NAME OF THE STOCKIST").ToString();
+                       if (name.Contains("TOTAL"))
+                       {
+                           e.Row.BackColor = System.Drawing.Color.DarkSeaGreen;
+                           e.Row.Font.Name = "Bold";
+                           e.Row.Font.Size = 10;
+                       }
+                   };
+
+
+
+               }
+           }
+
+       }
+
+   }).Bind((System.Data.DataTable)Model.Tables[1]).GetHtml()
+
+

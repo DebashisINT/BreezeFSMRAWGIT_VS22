@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Device Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadCumb">
+    <span>Device Information</span>
+</div>
+
+
+
+
+<div class="container">
+    <div class="backBox p-3 mt-5">
+
+        <div class="col-md-12">
+
+            @{
+                Html.RenderAction("Rendermainpage", "DeviceInformation");
+            }
+
+        </div>
+    </div>
+</div>

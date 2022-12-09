@@ -1,0 +1,386 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridShoListList";
+
+    settings.CallbackRouteValues = new { Action = "Getshoplist", Controller = "ShopList" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "EMPCODE";
+     x.Caption = "Emp ID";
+     x.VisibleIndex = 1;
+  
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+
+ });
+
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "EMPNAME";
+     x.Caption = "Emp Name";
+     x.VisibleIndex = 2;
+     
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+
+ });
+
+    //Rev Debashis 0025198
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 3;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    //End of Rev Debashis 0025198
+
+    settings.Columns.Add(x =>
+{
+    x.FieldName = "user_loginId";
+    x.Caption = "Contact No.";
+    x.VisibleIndex = 4;
+
+    x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+    //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+
+});
+    
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "shop_name";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 5;
+       
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EntityCode";
+        x.Caption = "Code";
+        x.VisibleIndex = 6;
+
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shoptype";
+        x.Caption = "Type";
+        x.VisibleIndex = 7;
+       
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+
+    });
+
+    // Mantis Issue 25421
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Beat";
+        x.Caption = "Beat";
+        x.VisibleIndex = 8;
+
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+    // End of Mantis Issue 25421
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "owner_contact_no";
+        x.Caption = "Owner Contact No.";
+        x.VisibleIndex = 9;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+    //Rev Debashis -- 0024577
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Alt_MobileNo1";
+        x.Caption = "Alternate Phone No.";
+        x.VisibleIndex = 10;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Owner_Email2";
+        x.Caption = "Alternate Email ID";
+        x.VisibleIndex = 11;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    //End of Rev Debashis -- 0024577
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORTTO";
+        x.Caption = "Report To";
+        x.VisibleIndex = 12;
+
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 13;
+       
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+
+    //Rev Debashis
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "District";
+        x.Caption = "District";
+        x.VisibleIndex = 14;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "pin_code";
+        x.Caption = "Pincode";
+        x.VisibleIndex = 15;
+        x.Width = 60;
+      });
+
+    //End of Rev Debashis
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "address";
+        x.Caption = "Address/Location";
+        x.VisibleIndex = 16;       
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });  
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PP";
+        x.Caption = "Prime Partner";
+        x.VisibleIndex = 17;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DD";
+        x.Caption = "Direct Distributor";
+        x.VisibleIndex = 18;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Entity_Location";
+        x.Caption = "Outlet Location";
+        x.VisibleIndex = 19;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Entity_Status";
+        x.Caption = "Outlet Status";
+        x.VisibleIndex = 20;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Specification";
+        x.Caption = "Specification";
+        x.VisibleIndex = 21;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "dob";
+        x.Caption = "Owner DOB";
+        x.VisibleIndex = 22;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "date_aniversary";
+        x.Caption = "Owner Anniversary";
+        x.VisibleIndex = 23;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ShopOwner_PAN";
+        x.Caption = "Pan Card";
+        x.VisibleIndex = 24;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ShopOwner_Aadhar";
+        x.Caption = "Aadhar Card";
+        x.VisibleIndex = 25;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_CreateTime";
+        x.Caption = "Added Date";
+        x.VisibleIndex = 26;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+      
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    
+    });
+
+    //Rev Debashis
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Cluster";
+        x.Caption = "Cluster";
+        x.VisibleIndex = 27;
+        x.Width = 140;
+    });
+    //End of Rev Debashis
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "countactivity";
+    //    x.Caption = "Shop Visit";
+    //    x.VisibleIndex = 12;
+      
+
+    //});
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "Lastactivitydate";
+    //    x.Caption = "Last Visited Date";
+    //    x.VisibleIndex = 13;
+    //    x.ColumnType = MVCxGridViewColumnType.DateEdit;
+    //    x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+    //    (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+
+    //});
+
+    //settings.Columns.Add(x =>
+    //{
+    //  //  x.FieldName = "Lastactivitydate";
+    //    x.Caption = "OTP Verification Status";
+    //    x.VisibleIndex = 14;
+    //    x.ColumnType = MVCxGridViewColumnType.DateEdit;
+     
+
+
+    //});
+
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Image";
+        x.VisibleIndex = 28;
+     
+        x.SetDataItemTemplateContent(c =>
+        {
+            //rev Pallab
+            //var IMG3_URL_PATH = Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage3"));
+            var IMG_URL_PATH = Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_Image"));
+            if (IMG_URL_PATH != "")
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_Image")) + "')\">Show Image</a>");
+            }
+            else
+            {
+                ViewContext.Writer.Write("<span>No Image Found</span>");
+            }
+            //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_Image")) + "')\">Show Image</a>");
+            //rev end Pallab
+        });
+
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Location";
+        x.VisibleIndex = 29;
+     
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopforLocation('" + Convert.ToString(DataBinder.Eval(c.DataItem, "shop_lat")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "shop_long")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "address")) + "')\">Map View</a>");
+        });
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Modify";
+        x.VisibleIndex = 30;
+     
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "shop_Auto")) + "')\">Modify</a>");
+        });
+
+    });
+
+
+}).Bind(Model).GetHtml()
+
+

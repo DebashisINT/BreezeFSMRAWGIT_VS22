@@ -1,0 +1,133 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridEmployeesTargetListByCode";
+
+    settings.CallbackRouteValues = new { Action = "GetEmployeesTargetListByCode", Controller = "EmployeesTarget" };
+    settings.ClientSideEvents.BeginCallback = "OnTargetListStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Basis";
+        x.Caption = "Select Basis";
+        x.VisibleIndex = 1;
+        x.Width = 220;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ApplicableFrom";
+        x.Caption = "Applicable from";
+        x.VisibleIndex = 2;
+        x.Width = 250;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ValidUpto";
+        x.Caption = "Valid Upto";
+        x.VisibleIndex = 3;
+        x.Width = 250;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    if (ViewBag.SettingType == "Visits")
+    {
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "NewVisit";
+            x.Caption = "New Visit";
+            x.VisibleIndex = 4;
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 150;
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "ReVisit";
+            x.Caption = "Re Visit";
+            x.VisibleIndex = 4;
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 150;
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+        });
+    }
+    else if (ViewBag.SettingType == "Sales Order Value")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "SalesOrderValue";
+            x.Caption = "Sales Order Value";
+            x.VisibleIndex = 4;
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 300;
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+        });
+    }
+    else if (ViewBag.SettingType == "Collection")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Collection";
+            x.Caption = "Collection";
+            x.VisibleIndex = 4;
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 300;
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+        });
+    }
+
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Actions";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                "<a style='cursor:pointer' onclick=\"GetEmployeesTargetSettings('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeTargetSettingID")) + "','" + ViewBag.SettingType + "')\"><img src='/assests/images/edit.png' title='Edit' class='mright8' /> </a>" +
+                "<a style='cursor:pointer' onclick=\"EmployeesTargetSettingsRemove('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeTargetSettingID")) + "')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
+                );
+        });
+
+
+    });
+
+}).Bind(Model).GetHtml()

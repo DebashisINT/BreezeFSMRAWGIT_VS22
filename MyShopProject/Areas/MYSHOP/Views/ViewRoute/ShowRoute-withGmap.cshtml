@@ -1,0 +1,499 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShowRoute</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700,800,900&display=swap" rel="stylesheet">
+    <!-- Required by smooth scrolling -->
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>*@
+    <script src="~/assests/js/jquery3.3.1.min.js"></script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCnT4LaIBF8iYIFQX_vVQ_F5bt6gPq5Q"></script>
+    @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy - L3SIYyrQ"></script>*@
+    <script src="~/assests/pluggins/gmapCustomize/infobox.js"></script>
+    <script src="~/assests/pluggins/gmapCustomize/markerclusterer_packed.js"></script>
+    <script src="~/assests/pluggins/gmapCustomize/markerwithlabel_packed.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #mapid {
+            height: 400px;
+        }
+
+        .leaflet-routing-container.leaflet-bar {
+            display: none;
+        }
+        table td {
+            vertical-align:top;
+        }
+        #listDirec {
+            height: 400px;
+            overflow-y: auto;
+            font-size: 13px;
+            color: #134480;
+            padding: 0;
+            padding-left: 20px;
+        }
+        #listDirec>li {
+            margin-bottom:8px
+        }
+        .rTime {
+            font-size: 10px;
+            color: #24b572;
+        }
+        .lmVal {
+            font-size: 10px;
+            color: #c32828;
+        }
+        .rPop {
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .adr {
+            text-decoration: none;
+            color: #716d6d;
+            margin-top: 11px;
+        }
+        .dt {
+            color:#458cad;
+            font-size:12px;
+            margin-top:10px;
+        }
+        .infoLegend > span {
+            display: inline-block;
+            
+            vertical-align: middle;
+        }
+        .infoLegend > span.spaceSpan {
+            width:20px;
+        }
+            .infoLegend > span.colorEX {
+                width: 25px;
+                height: 15px;
+                background: #3fb265;
+                margin-right: 10px;
+                border-radius: 2px;
+            }
+
+            .infoLegend > span.colorEX.inBetween {
+                background: #9a62c7;
+            }
+
+            .infoLegend > span.colorEX.logout {
+                background: #177d95;
+            }
+        .infobox-wrapper {
+            background: #fff;
+            padding: 15px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.23);
+            border-radius: 5px;
+        }
+        .marker-link {
+            cursor:pointer;
+        }
+        
+    </style>
+
+</head>
+<body>
+    <table style="width:100%">
+        <tr>
+            <td>
+                <p class="text-center" id="msgArea"></p>
+                <div id="mapid" ></div>
+            </td>
+            <td style="width:300px">
+                <div>
+                    <ul id="listDirec"></ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="infoLegend">
+                <span class="colorEX"></span><span>Login</span><span class="spaceSpan"></span>
+                <span class="colorEX inBetween"></span><span>Shop Visits</span><span class="spaceSpan"></span>
+                <span class="colorEX logout"></span><span>Logout</span><span class="spaceSpan"></span>
+            </td>
+            <td></td>
+        </tr>
+    </table>
+    <div id="lbltotaldistancecovered"></div>
+
+
+
+    <script type="text/javascript">
+        //$(document).ready(function () {
+       
+        var Url = '@Url.Action("GetSalesmanLocation", "ViewRoute")'
+        var d = new Date();
+        var userid = '@ViewBag.id';
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        //var output = d.getFullYear() + '/' +
+        //    (month < 10 ? '0' : '') + month + '/' +
+        //    (day < 10 ? '0' : '') + day;
+
+        var output = '@ViewBag.Date';
+
+        $.ajax({
+            url: Url,
+            async: false,
+            type: 'POST',
+            data: {
+                selectedusrid: userid,
+                Date: output,
+
+            },
+            error: function () {
+                $('#info').html('<p>An error has occurred</p>');
+            },
+
+            success: function (markers) {
+                console.log(markers.salesmanarea);
+                //var MarkerData = markers
+                
+                
+                // start new Route
+                document.getElementById('listDirec').innerHTML = '';
+                //$("#directionname").html("<b>Name : " + username + "</b>");
+                if (markers != '') {
+                    var directionsDisplay;
+                    var directionsService = new google.maps.DirectionsService();
+                    directionsDisplay = new google.maps.DirectionsRenderer(
+                        );
+                    var infoWindow = new google.maps.InfoWindow();
+                    //////// 22/01/2018
+                    var waypts = [];
+                    var latlng = new google.maps.LatLng(28.535516, 77.391026);
+                    // var latlng = new google.maps.LatLng(lat, long);
+                    map = new google.maps.Map(document.getElementById('mapid'), {
+                        // center: latlng,
+                        zoom: 16,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    });
+                    //////// 22/01/18
+                    //directionsDisplay.setMap(map);
+                    directionsDisplay = new google.maps.DirectionsRenderer({ map: map, suppressMarkers: true, suppressInfoWindows: false });
+                    for (i = 0; i < markers.salesmanarea.length; i++) {
+                        var data = markers.salesmanarea[i];
+                        waypts.push({
+                            location: data.location,
+                            stopover: true,
+                        });
+                        //createMarker(data.location);
+                    }
+                    //////// 22/01/18
+                    var start = markers.latlanLogin;
+                    var end = markers.latlanLogout;
+                    var request = {
+                        origin: start,
+                        destination: end,
+                        waypoints: waypts,
+                        optimizeWaypoints: true,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+                    var infowindow_forRoutedMarker = new google.maps.InfoWindow({
+                        content: '22'
+                    });
+                    if (markers.Fullresponse != null) {
+                        directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+                        directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+                        var route = $.parseJSON(markers.Fullresponse).routes[0];
+                        var summaryPanel = document.getElementById('listDirec');
+                        var infowindow = new google.maps.InfoWindow();
+                        var drivingdistancesave = '';
+                        var drivingdistance = '';
+                        summaryPanel.innerHTML = '';
+                        var distance = 0.0000;
+                        var distancecount = 0;
+                        // For each route, display summary information.
+                        $("#lbltotaldistancecovered").html('');
+                        for (var i = 0; i < route.legs.length; i++) {
+                            var routeSegment = i + 1;
+                            var x = route.legs[i].distance.text;
+                            // alert(x);
+                            if (x.includes('km')) {
+                                //alert(parseFloat(x.replace('km', '').trim()));
+                                distance = parseFloat(x.replace('km', '').trim());
+                            }
+                            else {
+                                distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+                            }
+                            distancecount = distancecount + distance;
+                            if (i == 0) {
+                                summaryPanel.innerHTML += '<div class="mainLabel"> Travel Point: ' + routeSegment + '</div>';
+                                summaryPanel.innerHTML += '<p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i].start_address + ' </p>  ';
+
+                                summaryPanel.innerHTML += '0 km' + '<br><br>';
+
+                                drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i].start_location,
+                                    label: "" + (i + 1),
+                                    map: map,
+                                    icon: '/assests/images/lightbox/location-pinStart.png'
+                                });
+                            }
+                            else {
+
+                                summaryPanel.innerHTML += '<div class="mainLabel">Travel Point: ' + routeSegment + '</div>';
+                                summaryPanel.innerHTML += '<p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i].start_address + ' </p>  ';
+
+                                summaryPanel.innerHTML += route.legs[i - 1].distance.text + '<br><br>';
+
+                                drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i].start_location,
+                                    label: "" + (i + 1),
+                                    map: map,
+                                    icon: '/assests/images/lightbox/location-pin.png'
+
+                                });
+                            }
+                            drivingdistance = drivingdistance + drivingdistancesave;
+                        }
+                        summaryPanel.innerHTML += '<b>Travel Point: ' + (i + 1) + '</b><br>' +
+                           ' <b style="color:green">' + route.legs[i - 1].end_address + ' </b>' + route.legs[i - 1].distance.text + '<br/><br/>  ';
+
+                        summaryPanel.innerHTML += '<div><b>Total Distance covered: </b> ' + distancecount.toFixed(2) + ' km' + '</div>'
+
+                        var marker = new google.maps.Marker({
+                            position: route.legs[i - 1].end_location,
+                            label: "" + (i + 1),
+                            map: map,
+                            animation: google.maps.Animation.DROP,
+                            icon: '/assests/images/lightbox/location-pinEnd.png'
+                        });
+
+
+                        drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+
+                        drivingdistance = drivingdistance + drivingdistancesave;
+                        //marker.addListener('click', function () {
+                        //    infowindow.open(map, marker);
+                        //});
+                        drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                        //  SubmitRequestedLocation(drivingdistance, JSON.stringify(response));
+                        $("#lbltotaldistancecovered").val(drivingdistance);
+                        //$("#lbltotaldistancecovered").html('Distance Covered: ' + distancecount+' km');
+                    }
+                    else {
+                        
+                        directionsService.route(request, function (response, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                //alert(JSON.stringify(response));
+                                // objToString(response)
+                                directionsDisplay.setDirections(response);
+                                var route = response.routes[0];
+                                var summaryPanel = document.getElementById('listDirec');
+                                var infowindow = new google.maps.InfoWindow();
+                                var drivingdistancesave = '';
+                                var drivingdistance = '';
+                                summaryPanel.innerHTML = '';
+                                var distance = 0;
+                                var distancecount = 0;
+                                console.log(route.legs);
+                                // For each route, display summary information.
+                                $("#lbltotaldistancecovered").html('');
+                                var i;
+                                var newMarkers = [];
+
+
+                                for (var i = 0; i < route.legs.length; i++) {
+
+
+                                    var boxText = document.createElement("div");
+                                    infoboxOptions = {
+                                        content: boxText,
+                                        disableAutoPan: false,
+                                        //maxWidth: 150,
+                                        pixelOffset: new google.maps.Size(-200, -50),
+                                        zIndex: null,
+                                        alignBottom: true,
+                                        boxClass: "infobox-wrapper",
+                                        enableEventPropagation: true,
+                                        closeBoxMargin: "0px 0px -8px 0px",
+                                        closeBoxURL: "/assests/pluggins/images/close-btn.png",
+                                        infoBoxClearance: new google.maps.Size(1, 1)
+                                    };
+
+
+                                    var routeSegment = i + 1;
+                                    var x = route.legs[i].distance.text;
+                                    // alert(x);
+                                    if (x.includes('km')) {
+                                        //  alert(parseFloat(x.replace('km', '').trim()));
+                                        distance = parseFloat(x.replace('km', '').trim());
+                                    }
+                                    else {
+                                        // alert(parseFloat(x.replace('m', '').trim()) / 1000.0000);
+                                        distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+                                    }
+                                    distancecount = distancecount + distance;
+                                    if (i == 0) {
+                                        debugger
+                                        console.log('set First')
+                                        summaryPanel.innerHTML += '<div class="mainLabel">Travel Point: ' + routeSegment + '</div>';
+                                        summaryPanel.innerHTML += '<p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i].start_address + ' </p>  ';
+                                        summaryPanel.innerHTML += '0 km' + '<br><br>';
+                                        drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+                                        var marker = new google.maps.Marker({
+                                            position: route.legs[i].start_location,
+                                            label: "",
+                                            map: map,
+                                            icon: '/assests/images/lightbox/location-pinStart.png'
+                                        });
+                                    }
+                                    else {
+
+                                        summaryPanel.innerHTML += '<div class="mainLabel">Travel Point: ' + routeSegment + '</div>';
+                                        summaryPanel.innerHTML += '<p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i].start_address + ' </p>  ';
+                                        summaryPanel.innerHTML += route.legs[i - 1].distance.text + '<br><br>';
+                                        drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                                        var marker = new google.maps.Marker({
+                                            position: route.legs[i].start_location,
+                                            label: "",
+                                            map: map,
+                                            icon: '/assests/images/lightbox/location-pin.png'
+
+                                        });
+                                    }
+
+                                    newMarkers.push(marker);
+                                    // susanta 04.01.2019
+                                    var current_count = i + 1;
+                                    boxText.innerHTML = '<div >' +
+                                                            '<div>' +
+                                                                '<div class="rPop">Step ' + current_count + ' </div>' +
+                                                                '<div class="adr">' + route.legs[i].start_address + ' </div>' +
+                                                            '</a>' +
+                                                        '</div>';
+
+                                    //Define the infobox
+                                    newMarkers[i].infobox = new InfoBox(infoboxOptions);
+                                    google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                                        return function () {
+                                            for (h = 0; h < newMarkers.length; h++) {
+                                                newMarkers[h].infobox.close();
+                                            }
+                                            newMarkers[i].infobox.open(map, this);
+                                        }
+                                    })(marker, i));
+
+                                    drivingdistance = drivingdistance + drivingdistancesave;
+                                }
+                                summaryPanel.innerHTML += '<div class="mainLabel">Travel Point: ' + (i + 1) + '</div>' +
+                                   ' <p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i - 1].end_address + ' </p>' + route.legs[i - 1].distance.text + '<br/><br/>  ';
+
+                                summaryPanel.innerHTML += '<div><b>Total Distance covered: </b> ' + distancecount.toFixed(2) + ' km' + '</div>'
+
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i - 1].end_location,
+                                    label: "",
+                                    map: map,
+                                    animation: google.maps.Animation.DROP,
+                                    icon: '/assests/images/lightbox/location-pinEnd.png'
+                                });
+                                drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+
+                                drivingdistance = drivingdistance + drivingdistancesave;
+                                //marker.addListener('click', function () {
+                                //    infowindow.open(map, marker);
+                                //});
+                                drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                                //SubmitRequestedLocation(drivingdistance, JSON.stringify(response));
+                                $("#lbltotaldistancecovered").val(drivingdistance);
+                                //$("#lbltotaldistancecovered").html('Distance Covered: ' + distancecount+' km');
+                            }
+                        });
+                    }
+                }
+                else {
+                    summaryPanel.innerHTML = '';
+                    jAlert('No data');
+                }
+                // End Route
+            },
+        });
+
+
+
+
+        //var data = [
+
+        //        {
+        //            "title": 'Chennai',
+        //            "lat": '22.570153',
+        //            "lng": '88.431541',
+        //            "description": '',
+        //            "flag": '1'
+        //        }
+        //      ,
+        //      {
+        //          "title": 'Ramapuram',
+        //          "lat": '22.584697',
+        //          "lng": '88.422772',
+        //          "description": ''
+
+        //      }
+        //      ,
+        //        {
+        //            "title": 'Kanchipuram',
+        //            "lat": '22.583184',
+        //            "lng": '88.409112',
+        //            "description": '',
+        //            "flag": '1'
+        //        },
+
+        //        ];
+        //   // alert('hi');
+        //    var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+        //    var tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+        //    var tiles = L.tileLayer(tileUrl, { attribution: attribution });
+
+        //    var mymap = L.map('mapid').setView([22.570153, 88.431541], 14);
+        //    tiles.addTo(mymap);
+
+        //    var control = L.Routing.control({waypoints:[]});
+
+        //    var routeControl = L.Routing.control({
+
+        //    }).addTo(mymap);
+
+        //    routeControl.setWaypoints(data);
+        //L.Routing.control({
+        ////    waypoints: function () {
+        ////        [
+        ////          L.latLng(22.570153, 88.431541),
+        ////          L.latLng(22.584697, 88.422772),
+        ////          L.latLng(22.583184, 88.409112)
+        ////        ]
+        ////    }
+
+
+        //}).addTo(mymap);
+        //})
+
+    </script>
+</body>
+</html>
+

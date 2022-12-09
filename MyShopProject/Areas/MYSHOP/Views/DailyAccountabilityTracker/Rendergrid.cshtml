@@ -1,0 +1,526 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "DailyAccountabilityTracker", Action = "Rendergrid" };
+    settings.KeyFieldName = "SEQ";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Date";
+        column.FieldName = "DATE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        //column.Width = 100;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DATE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Employee";
+        column.FieldName = "Employee";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Employee'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Doctor/Lab (Visited)";
+        column.FieldName = "Doctors_Visited";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Doctors_Visited'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Topic of Discussion";
+        column.FieldName = "TopicOfDiscussion";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TopicOfDiscussion'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Doctor/Lab (Phone)";
+        column.FieldName = "Doctors_Phone";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Doctors_Phone'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Topic of Discussion";
+        column.FieldName = "Doctors_PhoneTopicOfDiscussion";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Doctors_PhoneTopicOfDiscussion'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DoctorsWhatsApp";
+        column.Caption = "Doctor/Lab (Social Media)";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorsWhatsApp'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DoctorsWhatsApp_TopicOfDiscussion";
+        column.Caption = "Topic of Discussion";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 200;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorsWhatsApp_TopicOfDiscussion'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 200;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 200;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Doctor/Lab (Others)";
+        column.FieldName = "DoctorsOthers";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 180;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorsOthers'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 180;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 180;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DoctorsOthers_TopicOfDiscussion";
+        column.Caption = "Topic of Discussion";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 250;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorsOthers_TopicOfDiscussion'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 250;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 250;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DoctorLead";
+        column.Caption = "Doctor/Lab - Lead";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorLead'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DoctorSamplePickedUp";
+        column.Caption = "Doctor/Lab (Sample Picked Up)";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorSamplePickedUp'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Order Amount";
+        column.FieldName = "OrderAmount";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OrderAmount'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Doctor/Lab (Sample Actual)";
+        column.FieldName = "DoctorSampleActual";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorSampleActual'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Inv. Amount";
+        column.FieldName = "InvAmount";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='InvAmount'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Doctor/Lab Amount Rec.";
+        column.FieldName = "DoctorLabAmountRec";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorLabAmountRec'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Collection Amt.";
+        column.FieldName = "CollectionAmt";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CollectionAmt'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+
+    settings.SummaryDisplayText = (sender, e) =>
+    {
+        settings.Styles.Cell.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        if (e.Item.FieldName == "Doctors_Visited")
+        {
+            e.Text = "Visit Count ( " + @ViewBag.VisitCount+" )";
+        }
+        else if (e.Item.FieldName == "Doctors_Phone")
+        {
+            e.Text = "Activity Count ( " + @ViewBag.PhnActivityCount + " )";
+        }
+        else if (e.Item.FieldName == "DoctorsWhatsApp")
+        {
+            e.Text = "Activity Count ( " + @ViewBag.SocialMediaActivityCount + " )";
+        }
+        else if (e.Item.FieldName == "DoctorsOthers")
+        {
+            e.Text = "Activity Count ( " + @ViewBag.OthersActivityCount + " )";
+        }
+        else if (e.Item.FieldName == "DoctorLead")
+        {
+            e.Text = "Doctor Lead Count ( " + @ViewBag.DoctorLeadCount + " )";
+        }
+        else if (e.Item.FieldName == "DoctorSamplePickedUp")
+        {
+            e.Text = "Order Count ( " + @ViewBag.OrderCount + " )";
+        }
+        else if (e.Item.FieldName == "DoctorSampleActual")
+        {
+            e.Text = "Inv. Update Count ( " + @ViewBag.InvUpdateCount + " )";
+        }
+        else if (e.Item.FieldName == "DoctorLabAmountRec")
+        {
+            e.Text = "Collection Count ( " + @ViewBag.CollectionCount + " )";
+        }
+    };
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "Doctors_Visited");
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "Doctors_Phone");
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "DoctorsWhatsApp"); ;
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "DoctorsOthers");
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "DoctorLead");
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "DoctorSamplePickedUp"); ;
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "DoctorSampleActual");
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "DoctorLabAmountRec"); ;
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OrderAmount");
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "InvAmount"); ;
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "CollectionAmt");
+
+}).Bind(Model).GetHtml()

@@ -1,0 +1,118 @@
+﻿@model MyShop.Models.DistanceReportOutput
+
+
+<script type="text/javascript">
+    $(function () {
+
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "searching": false,
+            "ordering": false
+        });
+
+
+    });
+
+
+
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    #tblshoplist2 {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist2 > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+    /*tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            box-sizing: border-box;
+        }*/
+</style>
+
+<div class="x_content">
+
+    <div class="rTable">
+
+        <table id="tblshoplist2" class="table table-bordered table-bordered">
+            <tbody>
+                <tr>
+                    <td>Name</td>
+                    <td>Designation</td>
+
+                    @if (Model != null && Model.dates.Count() > 0)
+                    {
+                        foreach (var item in Model.dates)
+                        {
+                            <td>@Convert.ToDateTime(item.datevisit).ToString("dd-MM-yyyy");</td>
+                        }
+
+                    }
+
+                    <td>Distance</td>
+                </tr>
+            </tbody>
+
+
+        </table>
+
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+
+            <tbody>
+
+                @foreach (var itemuser in Model.users)
+                {
+                    var s = Model.distance.Where(x => x.User_Id == itemuser.user_id);
+                    <tr>
+
+                        @foreach (var item in Model.dates)
+                        {
+                            @foreach (var item2 in s)
+                            {
+                                if (item2.Date == item.datevisit)
+                                {
+                                    <td> @item2.Distance</td>
+                                }
+                                else
+                                {
+
+                                    <td></td>
+                                }
+
+                            }
+
+                        }
+                    </tr>
+
+
+
+                }
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

@@ -1,0 +1,19 @@
+﻿@model List<Models.ReimbursementApplicationbills>
+
+
+<h3 class="popheader">Attached Document </h3>
+<div class="form_main">
+    <ul class="expTypeImg">
+        @foreach(var item in Model){
+            <li>
+                <div >
+                    <a class="example-image-link clearfix" href="@item.Bills" data-lightbox="example-1" data-title="@item.Image_Name">
+                        <img src="@item.Bills" data-lightbox="@item.Bills" height="120" width="120">
+                    </a>
+                        <div class="imageCap">@item.Image_Name</div>
+</div>
+               
+            </li>
+        }
+    </ul>
+</div>

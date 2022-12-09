@@ -1,0 +1,383 @@
+﻿@using MyShop.Models;
+@model ReimbursementAllowanceReportViewModel
+@{
+    ViewBag.Title = "Travel Allowance Report ";
+}
+
+<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+<style>
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover,
+         .multiselect-container > li.active > a:hover, .multiselect-container li>a:focus,
+          .multiselect-container .li.active a:focus{ 
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+        
+      
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .iminentSpan > span {
+        display: block;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 33px;
+        padding: 0;
+        font-size: 12px !important;
+        box-shadow: none;
+        text-align: left;
+        padding-left: 15px;
+    }
+
+        .iminentSpan button.multiselect.dropdown-toggle .caret {
+            float: right;
+            margin: 7px;
+        }
+
+    .clickerstyle {
+        margin: 10px 0;
+        margin-bottom: 10px;
+    }
+
+    #var2 {
+        margin-left: 30px;
+    }
+
+    #var3 {
+        margin-left: 60px;
+    }
+
+    #var4 {
+        margin-left: 90px;
+    }
+
+    #var5 {
+        margin-left: 120px;
+    }
+
+    #var5 {
+        margin-left: 150px;
+    }
+
+    .arrowline {
+        position: relative;
+    }
+
+        .arrowline:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -30px;
+            width: 3px;
+            height: 62%;
+            background: #415698;
+        }
+
+        .arrowline:after {
+            content: '';
+            position: absolute;
+            top: calc(62% - 10px);
+            left: -30px;
+            width: 30px;
+            height: 3px;
+            background: #415698;
+        }
+
+    .btn-excel {
+        margin-top: 23px;
+    }
+
+    .pdTop24 {
+        padding-top: 24px;
+    }
+
+    .btn-excel {
+        float: right;
+        margin-right: 1px;
+        margin-top: -4px;
+    }
+    
+    .btnshortcls {
+        padding: 9px 15px !important;
+    }
+    span.multiselect-native-select button.multiselect {
+        border: 1px solid #c9c9c9 !important;
+        border-radius: 5px !important;
+    }
+    label {
+        margin-top: 5px;
+    }
+</style>
+
+<script>
+
+    function checkFuelType() {
+        var ddlModeOfTravel = $('#ddlModeOfTravel').val();
+        if (jQuery.inArray("2", ddlModeOfTravel) !== -1) {
+            $('.clsFuelType').show();
+        }
+        else {
+            $('.clsFuelType').hide();
+        }
+    }
+
+    $(function () {
+
+        $('.clsModeofTravel').show();
+        $('.clsFuelType').show();
+        $('.clsSeacrhbtndiv').removeClass('btnshortcls');
+
+        $("#ddlModeOfTravel").change(function () {
+            var ddlModeOfTravel = $('#ddlModeOfTravel').val();
+            if (jQuery.inArray("2", ddlModeOfTravel) !== -1) {
+                $('.clsFuelType').show();
+               
+            }
+            else {
+                $('.clsFuelType').hide();
+               
+            }
+        });
+
+        $("#ddlExpenseType").change(function () {
+            var ddlExpenseType = $('#ddlExpenseType').val();
+            if (jQuery.inArray("1", ddlExpenseType) !== -1) {
+                $('.clsModeofTravel').show();
+                $('.clsFuelType').show();
+                $('.clsSeacrhbtndiv').removeClass('btnshortcls');
+                checkFuelType();
+            }
+            else {
+                $('.clsModeofTravel').hide();
+                $('.clsFuelType').hide();
+                $('.clsSeacrhbtndiv').addClass('btnshortcls');
+                //checkFuelType();
+            }
+        });
+
+        $('.multiselect').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            buttonWidth: '100%',
+            maxHeight: 200,
+
+            onDropdownHide: function (event) {
+
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+        //stateids = $('.multiselect').val();
+    });
+
+    function getReimbursementAllowanceReport() {
+        var ddlState = $('#ddlState').val();
+        if (ddlState == null || ddlState == "") {
+            jAlert("Please select state!");
+        }
+        else {
+            gridAllowanceReportList.Refresh();
+            gridAllowanceReportList.Refresh();
+        }
+    }
+
+    function OnStartCallback(s, e) {
+
+        var ddlState = $('#ddlState').val();
+        var ddlExpenseType = $('#ddlExpenseType').val();
+
+        var ddlVisitLocation = $('#ddlVisitLocation').val();
+        var ddlEmployeeGrade = $('#ddlEmployeeGrade').val();
+        var ddlModeOfTravel = $('#ddlModeOfTravel').val();
+        var ddlFuelType = $('#ddlFuelType').val();
+
+        if (ddlState != "" && ddlState != null) {
+            ddlState = ddlState.join(",");
+        }
+        else {
+            ddlState = "";
+        }
+        if (ddlExpenseType != "" && ddlExpenseType != null) {
+            ddlExpenseType = ddlExpenseType.join(",");
+        }
+        else {
+            ddlExpenseType = "";
+        }
+        if (ddlVisitLocation != "" && ddlVisitLocation != null) {
+            ddlVisitLocation = ddlVisitLocation.join(",");
+        }
+        else {
+            ddlVisitLocation = "";
+        }
+        if (ddlEmployeeGrade != "" && ddlEmployeeGrade != null) {
+            ddlEmployeeGrade = ddlEmployeeGrade.join(",");
+        }
+        else {
+            ddlEmployeeGrade = "";
+        }
+        if (ddlModeOfTravel != "" && ddlModeOfTravel != null) {
+            ddlModeOfTravel = ddlModeOfTravel.join(",");
+        }
+        else {
+            ddlModeOfTravel = "";
+        }
+        if (ddlFuelType != "" && ddlFuelType != null) {
+            ddlFuelType = ddlFuelType.join(",");
+        }
+        else {
+            ddlFuelType = "";
+        }
+
+
+        if (jQuery.inArray("2", ddlModeOfTravel) == -1) {
+            ddlFuelType = "";
+
+        }
+
+        if (jQuery.inArray("1", ddlExpenseType) == -1) {
+            ddlFuelType = "";
+            ddlModeOfTravel = "";
+
+        }
+
+        e.customArgs["stateid"] = ddlState;
+        e.customArgs["expensetype"] = ddlExpenseType;
+        e.customArgs["visitlocation"] = ddlVisitLocation;
+        e.customArgs["employeegrade"] = ddlEmployeeGrade;
+
+        e.customArgs["modeoftravel"] = ddlModeOfTravel;
+        e.customArgs["fueltype"] = ddlFuelType;
+        // e.customArgs["EmpCodeList"] = EmployeesCounterTargetList.join("|"); //EmployeesCounterTargetList
+
+    }
+
+    function gridReimbursementAllowanceReportexport() {
+        var url = '@Url.Action("ExportReimbursementAllowanceReportList", "ReimbursementAllowanceReport", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+</script>
+
+
+    <div class="breadCumb">
+        <span>Travel Allowance </span>
+    </div>
+
+
+<div class="container">
+    <div class="backBox mt-5 p-3">
+        <div class="row ">
+            <div class="col-lg-3">
+                <label><b> State</b></label>
+                <div class="iminentSpan">
+                    @Html.DropDownList("ddlState", new SelectList(Model.StateList, "Value", "Text"), new { @id = "ddlState", @class = "form-control multiselect ", @multiple = "multiple" })
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <label><b> Expense Type</b></label>
+                <div class="iminentSpan">
+                    @Html.DropDownList("ddlExpenseType", new SelectList(Model.ExpenseTypeList, "Value", "Text"), new { @id = "ddlExpenseType", @class = "form-control multiselect", @multiple = "multiple" })
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <label><b> Travel Location</b></label>
+                <div class="iminentSpan">
+                    @Html.DropDownList("ddlState", new SelectList(Model.VisitLocationList, "Value", "Text"), new { @id = "ddlVisitLocation", @class = "form-control multiselect ", @multiple = "multiple" })
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <label><b> Employee Grade</b></label>
+                <div class="iminentSpan">
+                    @Html.DropDownList("ddlEmployeeGrade", new SelectList(Model.EmployeeGradeList, "Value", "Text"), new { @id = "ddlEmployeeGrade", @class = "form-control multiselect ", @multiple = "multiple" })
+                </div>
+            </div>
+
+            <div class="col-lg-3 lblmTop8 clsModeofTravel">
+                <label><b> Mode of Travel</b></label>
+                <div class="iminentSpan">
+                    @Html.DropDownList("ddlModeOfTravel", new SelectList(Model.ModeOfTravelList, "Value", "Text"), new { @id = "ddlModeOfTravel", @class = "form-control multiselect ", @multiple = "multiple" })
+                </div>
+            </div>
+
+            <div class="col-lg-3 lblmTop8 clsFuelType">
+                <label><b> Fuel Type</b></label>
+                <div class="iminentSpan">
+                    @Html.DropDownList("ddlFuelType", new SelectList(Model.FuelTypeList, "Value", "Text"), new { @id = "ddlFuelType", @class = "form-control multiselect ", @multiple = "multiple" })
+                </div>
+            </div>
+
+            <div class="col-md-3 pdTop24 lblmTop8 clsSeacrhbtndiv">
+
+                <button type="button" onclick="getReimbursementAllowanceReport();" class="btn btn-success">Search</button>
+            </div>
+        </div>
+
+
+        <div class="clear"></div>
+        <div id="refreshgrid" class="relative">
+            <span class="btn-excel" style="cursor:pointer">
+                <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="gridReimbursementAllowanceReportexport()" /></span>
+            </span>
+
+            @{
+                Html.RenderAction("GetReimbursementAllowanceReport", "ReimbursementAllowanceReport", new { stateid = "", expensetype = "", visitlocation = "", employeegrade = "", modeoftravel = "", fueltype = "" });
+            }
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,437 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridCounterList";
+
+    settings.CallbackRouteValues = new { Action = "GetCounterlistPartial", Controller = "CounterList" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;    
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shoptype";
+        x.Caption = "Type";
+        x.VisibleIndex = 1;
+        x.Width =200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;       
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+
+    //Rev Debashis -- 0024576
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SubType";
+        x.Caption = "Sub Type";
+        x.VisibleIndex = 2;
+        x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    //End of Rev Debashis -- 0024576
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "shop_name";
+     x.Caption = "Shop Name";
+     x.VisibleIndex = 3;
+     x.Width = 120;
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+ });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EntityCode";
+        x.Caption = "Code";
+        x.VisibleIndex = 4;
+
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    
+    // Mantis Issue 25421
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Beat";
+        x.Caption = "Beat";
+        x.VisibleIndex = 5;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    // End of Mantis Issue 25421
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "address";
+        x.Caption = "Address";
+        x.VisibleIndex = 6;
+        x.Width = 300;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "statename";
+        x.Caption = "State";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    //Rev Debashis -- 0024575
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "District";
+        x.Caption = "District";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+    });
+    //End of Rev Debashis -- 0024575
+    
+    settings.Columns.Add(x =>
+      {
+          x.FieldName = "pin_code";
+          x.Caption = "Pincode";
+          x.VisibleIndex = 9;
+          x.Width =60;
+          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+      });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "owner_name";
+        x.Caption = "Owner Name";
+        x.VisibleIndex = 10;
+       // x.Width = 300;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "owner_contact_no";
+       x.Caption = "Contact Number";
+       x.VisibleIndex = 11;
+      // x.Width = 300;
+       // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+       x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+       x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+   });
+
+    //Rev Debashis -- 0024577
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "Alt_MobileNo1";
+       x.Caption = "Alternate Phone No.";
+       x.VisibleIndex = 12;
+       x.Width = 150;
+       x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+       x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+   });
+    //End of Rev Debashis -- 0024577
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "owner_email";
+        x.Caption = "Email ID";
+        x.VisibleIndex = 13;
+        x.Width =170;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    //Rev Debashis -- 0024577
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Owner_Email2";
+        x.Caption = "Alternate Email ID";
+        x.VisibleIndex = 14;
+        x.Width = 170;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    //End of Rev Debashis -- 0024577
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PP";
+        x.Caption = "Prime Partner";
+        x.VisibleIndex = 15;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+       // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+       // x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DD";
+        x.Caption = "Direct Distributor";
+        x.VisibleIndex = 16;
+        x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+       // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Entity_Location";
+        x.Caption = "Outlet Location";
+        x.VisibleIndex = 17;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Entity_Status";
+        x.Caption = "Outlet Status";
+        x.VisibleIndex = 18;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Specification";
+        x.Caption = "Specification";
+        x.VisibleIndex = 19;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ShopOwner_PAN";
+        x.Caption = "Pan Card";
+        x.VisibleIndex = 20;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ShopOwner_Aadhar";
+        x.Caption = "Aadhar Card";
+        x.VisibleIndex = 21;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "user_name";
+        x.Caption = "Created By";
+        x.VisibleIndex = 22;
+        x.Width =140;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_CreateTime";
+        x.Caption = "Created Date";
+        x.VisibleIndex = 23;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        x.Width = 140;
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+       // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "dob";
+        x.Caption = "Owner DOB";
+        x.VisibleIndex = 24;
+        x.Width = 120;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+       // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "date_aniversary";
+        x.Caption = "Owner Anniversary";
+        x.VisibleIndex = 25;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        //x.Width = 120;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    });
+
+    //Rev Debashis -- 0024575
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Cluster";
+        x.Caption = "Cluster";
+        x.VisibleIndex = 26;
+        x.Width = 140;
+    });
+    //End of Rev Debashis -- 0024575
+    //Rev work start 30.06.2022  Mantise no:0024573
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "gstn_number";
+        x.Caption = "GSTIN";
+        x.VisibleIndex = 27;
+        x.Width = 140;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "trade_licence_number";
+        x.Caption = "Trade License No.";
+        x.VisibleIndex = 28;
+        x.Width = 140;
+    });
+    //Rev Pallab 25448
+    settings.Columns.Add(x =>
+    {
+        //x.FieldName = "AttachmentImage1";
+        x.Caption = "Attachment 1";
+        x.VisibleIndex = 28;
+        x.Width = 140;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            var IMG1_URL_PATH = Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage1"));
+            //var IMG_URL_PATH = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "AttachmentImage1" });
+            if (IMG1_URL_PATH != "")
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage1")) + "')\">Show Image</a>");
+                //ViewContext.Writer.Write("<span>No Image Found 1</span>");
+
+            }
+            else
+            {
+                ViewContext.Writer.Write("<span>No Image Found</span>");
+            }
+            //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage1")) + "')\">Show Image</a>");
+        });
+    });
+    settings.Columns.Add(x =>
+    {
+        //x.FieldName = "AttachmentImage2";
+        x.Caption = "Attachment 2";
+        x.VisibleIndex = 28;
+        x.Width = 140;
+        //x.UnboundType = DevExpress.Data.UnboundColumnType.String;
+        x.SetDataItemTemplateContent(c =>
+        {
+            var IMG2_URL_PATH = Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage2"));
+            if (IMG2_URL_PATH != "")
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage2")) + "')\">Show Image</a>");
+            }
+            else
+            {
+                ViewContext.Writer.Write("<span>No Image Found</span>");
+            }
+            //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage2")) + "')\">Show Image</a>");
+        });
+    });
+    settings.Columns.Add(x =>
+    {
+        //x.FieldName = "AttachmentImage3";
+        x.Caption = "Attachment 3";
+        x.VisibleIndex = 28;
+        x.Width = 140;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            var IMG3_URL_PATH = Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage3"));
+            if (IMG3_URL_PATH != "")
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage3")) + "')\">Show Image</a>");
+            }
+            else
+            {
+                ViewContext.Writer.Write("<span>No Image Found</span>");
+            }
+            //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage3")) + "')\">Show Image</a>");
+        });
+    });
+    settings.Columns.Add(x =>
+    {
+        //x.FieldName = "AttachmentImage4";
+        x.Caption = "Attachment 4";
+        x.VisibleIndex = 28;
+        x.Width = 140;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            var IMG4_URL_PATH = Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage4"));
+            if (IMG4_URL_PATH != "")
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage4")) + "')\">Show Image</a>");
+            }
+            else
+            {
+                ViewContext.Writer.Write("<span>No Image Found</span>");
+            }
+            //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "AttachmentImage4")) + "')\">Show Image</a>");
+        });
+    });
+
+    //Rev end Pallab 25448
+    
+    //Rev work start 30.06.2022  Mantise no:0024573  
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "countactivity";
+    //    x.Caption = "Shop Visit";
+    //    x.VisibleIndex = 14;
+    //    x.Width = 120;
+    //    //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    //    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    //    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    //});
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "Lastactivitydate";
+    //    x.Caption = "Last Visited Date";
+    //    x.VisibleIndex = 15;
+    //    x.ColumnType = MVCxGridViewColumnType.DateEdit;
+    //    x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+    //    x.Width = 120;
+    //    //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    //   // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    //});
+
+
+    ///Summary
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "Shoptype"); ;
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE");
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "countactivity").DisplayFormat="0";
+
+}).Bind(Model).GetHtml()
+
+
+

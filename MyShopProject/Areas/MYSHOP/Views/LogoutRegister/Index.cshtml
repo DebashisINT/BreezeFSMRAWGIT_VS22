@@ -1,0 +1,553 @@
+﻿@{
+    ViewBag.Title = "LOGOUT IN WORKING HOURS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+
+
+    #maskmap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #maskmap.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxesmap {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    #popupfootmap {
+        font-size: 16pt;
+    }
+</style>
+<style>
+    .modal-content {
+        border-radius: 0px;
+    }
+
+    .modal-header {
+        background-color: #007DB4;
+        color: white;
+    }
+
+    .modal-body {
+        height: 440px;
+    }
+</style>
+
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<script>
+    var arr = [];
+    var typeId;
+    var Ispageload = "0";
+    function addDays(date, daysToAdd) {
+        var _24HoursInMilliseconds = 86400000;
+        return new Date(date.getTime() + daysToAdd * _24HoursInMilliseconds);
+    };
+    $(function () {
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("EmpGridLookup");
+        lookup.GetGridView().Refresh();
+        // gridHomeColationList.Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+        $("#drpstate").chosen({
+            width: "100%"
+        });
+        var d = new Date();
+
+        var now = new Date();
+
+        var yesterday = addDays(now, -1);
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+        dtFrom.SetValue(yesterday);
+        dtTo.SetValue(yesterday);
+
+
+        dtFrom.SetMaxDate(yesterday);
+        dtTo.SetMaxDate(yesterday);
+
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+
+            $('#maskmap').removeClass('showing');
+        });
+
+
+
+        $('body').on('click', '#btnshow', function () {
+            var flag = true;
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            if ($("#hdnStateMandatory").val() == "True") {
+                if (StateId == "") {
+                    jAlert("Please select State.");
+                    flag = false;
+                    return;
+                }
+            }
+            if (flag) {
+                var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+                if (dayse <= 7) {
+
+                    gridEmployeeActivityList.Refresh();
+                }
+                else {
+                    jAlert("Searching days must be within 7 days");
+                }
+            }
+        });
+
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').removeClass('showing');
+            $('#maskmap').removeClass('showing');
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportActivitylist", "EmployeeActivity", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+
+    });
+
+    var desigId = [];
+    function DesigSelectionChanged(s, e) {
+        DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    }
+    function GetDesigSelectedFieldValuesCallback(values) {
+        try {
+            desigId = [];
+            for (var i = 0; i < values.length; i++) {
+                desigId.push(values[i]);
+            }
+        } finally {
+            console.log(desigId);
+        }
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        e.customArgs["userId"] = $("#hdnUserID").val();
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+        //EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["EmployeeID"] = empId;
+        e.customArgs["State"] = StateId;
+        e.customArgs["Designation_id"] = desigId;
+        e.customArgs["FromDate"] = dtFrom.GetText();
+        e.customArgs["ToDate"] = dtTo.GetText();
+        e.customArgs["Ispageload"] = 1;
+    }
+
+
+    function GetServerDateFormat(today) {
+        if (today != "" && today != null) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function StateStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function EmpStateLookupValChange() {
+        StateGridLookup.GetGridView().Refresh();
+        StateGridLookup.GetGridView().Refresh();
+    }
+
+
+
+</script>
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+
+        for (var i = 0; i <= gridEmployeeActivityList.GetColumnsCount() ; i++) {
+            if (gridEmployeeActivityList.GetColumn(i) != null) {
+                if (gridEmployeeActivityList.GetColumn(i).visible == false) {
+                    console.log(gridEmployeeActivityList.GetColumn(i).fieldName);
+                    visibleColumn.push(gridEmployeeActivityList.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridEmployeeActivityList.IsCustomizationWindowVisible())
+            gridEmployeeActivityList.HideCustomizationWindow();
+        else
+            gridEmployeeActivityList.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridEmployeeActivityList.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "EmployeeActivity")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                gridEmployeeActivityList.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+</script>
+<style>
+    #tblshoplist > thead > tr > th {
+        background: #26669e;
+        border-top: 1px solid #18476f;
+        color: #fff;
+        border-color: #18476f !important;
+    }
+
+    #tblshoplist thead > tr > th, #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .tblspace > tbody > tr > td {
+        padding-right: 15px;
+    }
+
+    .acheckbox {
+    }
+
+    /*#StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }*/
+    label {
+        font-weight: 500 !important;
+    }
+</style>
+
+
+
+<div class="breadCumb">
+    <span>LOGOUT IN WORKING HOURS</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+        <table class="pull-left tblspace smblock mb-3">
+            <tr>
+
+                <td id="dtdesg2" style="width:150px;">
+                    <label>State </label>
+                    @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
+                </td>
+
+                <td id="dtdesg2" style="width:190px;">
+                    <label>Designation  </label>
+                    @Html.Action("GetDesigList", "SalesReportSummary")
+                </td>
+
+                <td id="dtdesg2" style="width:190px;">
+                    <label>Employee(s) </label>
+                    @Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })
+                </td>
+
+
+                <td style="width:160px;">
+                    <label>From Date </label>
+                    @Html.DevExpress().DateEdit(deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                </td>
+
+                <td style="width:160px;">
+                    <label>To Date </label>
+                    @Html.DevExpress().DateEdit(
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                </td>
+                <td style="padding-top: 20px; width: 200px;">
+                    <button type="button" id="btnshow" class="btn btn-success btn-sm btnwidth">Show</button>
+
+                    <select name="ddlAppIds" class="btn btn-sm btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+                        <option value="1">PDF</option>
+                        <option value="2">XLSX</option>
+                        <option value="3">XLS</option>
+                        <option value="4">RTF</option>
+                        <option value="5">CSV</option>
+
+                    </select>
+                </td>
+            </tr>
+            <tr></tr>
+        </table>
+        <br /><br />
+        <div class="clear"></div>
+        <div class="options hide">
+            <div class="options-item">
+                @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                    // settings.Theme = "MaterialCompactOrange";
+                }).GetHtml()
+            </div>
+        </div>
+
+        <div class="">
+            @*scrooler*@
+            <div id="refreshgrid">
+                @{
+                    Html.RenderAction("GetLogoutlistPartial", "LogoutRegister", new { Employee = "", Fromdate ="", Todate = "", Ispageload = "0" });
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
+<input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+
+<div id="mask">
+    <div id="boxes">
+        <div class="inner">
+            <div id="dialog" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfoot">
+
+                    <img src="#" class="image" alt="Loading..."></img>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="maskmap">
+    <div id="boxesmap">
+        <div class="inner">
+            <div id="dialogmap" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfootmap">
+
+                    <div id="map" style="width: 100%; height: 450px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

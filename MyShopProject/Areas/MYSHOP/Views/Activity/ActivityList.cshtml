@@ -1,0 +1,369 @@
+﻿@model Models.ActivityInput
+@{
+    ViewBag.Title = "Day Wise Visit List";
+ 
+}
+
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(function () {
+
+
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+        if ('@Model.selectedusrid' != '') {
+
+            $("#drpuser").val('@Model.selectedusrid');
+
+            if ($("#drpuser").val() != '') {
+                var surl = '@Url.Action("GetActivityList", "Activity")';
+                var usr = $("#drpuser").val();
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    datatype: 'json',
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val()
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        if (data == 'nodata') {
+                            alert('No dat to be displayed', "Alert!");
+                        }
+                        else {
+
+
+                            $('#refreshgrid').html(data);
+
+
+                            // $('#refreshgrid').html(data);
+                        }
+                    },
+                    error: function (
+
+
+                        ) {
+                        alert('No dat to be displayed', "Alert!");
+                    },
+
+
+                });
+
+
+            }
+
+
+            else {
+
+                $('#refreshgrid').html('');
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+
+            }
+
+        }
+
+
+        $('#txtfromDate').daterangepicker({
+
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+
+        });
+
+        $('#txttoDate').daterangepicker({
+
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+
+            }
+
+        });
+
+
+
+        $('body').on('click', '#btnshow', function () {
+
+            if ($("#drpuser").val() != '') {
+                var surl = '@Url.Action("GetActivityList", "Activity")';
+                var usr = $("#drpuser").val();
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    datatype: 'json',
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val()
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        if (data == 'nodata') {
+                            alert('No dat to be displayed', "Alert!");
+                        }
+                        else {
+
+
+                            $('#refreshgrid').html(data);
+
+
+                            // $('#refreshgrid').html(data);
+                        }
+                    },
+                    error: function (
+
+
+                        ) {
+                        alert('No dat to be displayed', "Alert!");
+                    },
+
+
+                });
+
+
+            }
+
+
+            else {
+
+                $('#refreshgrid').html('');
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+            }
+        })
+
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                ///   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+                //window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+                var url = '@Url.Action("ExportActivity", "Activity", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+                ///  $('#type').val(selectedValue);
+                ///  $('#frmExportGrid').submit();
+
+                if ($("#drpuser").val() != '') {
+                    var surl = '@Url.Action("GetActivityList", "Activity")';
+                    var usr = $("#drpuser").val();
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        datatype: 'json',
+                        data: {
+                            selectedusrid: usr,
+                            Fromdate: $('#txtfromDate').val(),
+                            Todate: $('#txttoDate').val()
+
+                        },
+                        type: 'POST',
+
+                        success: function (data) {
+                            if (data == 'nodata') {
+                                alert('No dat to be displayed', "Alert!");
+                            }
+                            else {
+
+
+                                $('#refreshgrid').html(data);
+
+
+                                // $('#refreshgrid').html(data);
+                            }
+                        },
+                        error: function (
+
+
+                            ) {
+                            alert('No dat to be displayed', "Alert!");
+                        },
+
+
+                    });
+
+
+                }
+
+
+                else {
+
+                    $('#refreshgrid').html('');
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'Select User to show',
+                        'theme': 'dark_blue'
+                    });
+                }
+            }
+        });
+
+
+    });
+
+
+
+</script>
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+        opacity: 0.8 !important;
+        color: #fff !important;
+    }
+
+    #tblactivitylist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblactivitylist tbody > tr > th, #tblactivitylist tfoot > tr > th, #tblactivitylist thead > tr > td, #tblactivitylist tbody > tr > td, #tblactivitylist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>Day Wise Visit List</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+
+        @using (Html.BeginForm("GetActivityList", "Activity", FormMethod.Post, new { @id = "fromsalesman" }))
+    {
+
+            <div class="row mt-2 mb-3" >
+                <div class="col-md-2">
+                    <label>User List</label>
+                    <div>
+                        <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
+                            @foreach (var item in Model.userlsit)
+                        {
+                            if (Model.selectedusrid == item.UserID)
+                            {
+                                <option value="@item.UserID" selected="selected">@item.username</option>
+                            }
+                            else
+                            {
+                                <option value="@item.UserID">@item.username</option>
+                            }
+                        }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label>From Date </label>
+                    <div>
+                        @Html.TextBoxFor(m => m.Fromdate, new { @class = "form-control", @id = "txtfromDate" })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label>To Date</label>
+                    <div>
+                        @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true })
+                    </div>
+
+                </div>
+                <div class="col-md-4" style="padding-top:22px">
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+                        <option value="2">XLSX</option>
+                    </select>
+                </div>
+            </div>
+            @*<table class="pull-left">
+
+                <tr>
+                    <td class="w1"><h5>User List: *** </h5></td>
+
+                    <td style="width:200px;">*@
+
+            @*@Html.DropDownListFor(m => m.selectedusrid, new SelectList(Model.userlsit, "UserID", "username", Model.selectedusrid), "-Select-", new { @id = "drpuser", @class = "whclass" })*@
+
+
+
+
+            @*</td>
+
+
+
+
+                        <td class="w1"><h5>: </h5></td>
+
+                        <td>
+
+
+
+                        </td>
+
+                        <td class="w1"><h5> : </h5></td>
+
+                        <td>
+
+
+
+                        </td>
+
+
+                        <td></td>
+
+                    </tr>
+
+                    <tr>
+
+
+                    </tr>
+                </table>*@
+
+    }
+
+        <br />
+
+
+        <div id="refreshgrid">
+
+        </div>
+
+
+    </div>
+</div>
+

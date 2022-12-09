@@ -1,0 +1,246 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridChemistStockistDetails";
+
+    settings.CallbackRouteValues = new { Action = "ChemistStockistDetailslistGrid", Controller = "ChemistStockistDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPID";
+        x.Caption = "Emp ID";
+        x.VisibleIndex = 1;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPLOYEE_NAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DESIGNATION";
+        x.Caption = "Designation";
+        x.VisibleIndex = 3;
+        x.Width = 80;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORT_TO";
+        x.Caption = "Report To";
+        x.VisibleIndex = 4;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE_NAME";
+        x.Caption = "State";
+        x.VisibleIndex = 5;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        x.Caption = "Party Name";
+        x.VisibleIndex = 6;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_TYPE";
+        x.Caption = "Type";
+        x.VisibleIndex = 7;
+        x.Width = 50;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Address";
+        x.Caption = "Address";
+        x.VisibleIndex = 8;
+        x.Width = 300;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Owner";
+        x.Caption = "Contact Name";
+        x.VisibleIndex = 9;
+        x.Width = 200;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Owner_Contact";
+        x.Caption = "Contact No";
+        x.VisibleIndex = 10;
+        x.Width = 80;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Owner_Email";
+        x.Caption = "Contact Email";
+        x.VisibleIndex = 11;
+        x.Width = 100;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "dob";
+        x.Caption = "Contact DOB";
+        x.VisibleIndex = 12;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "date_aniversary";
+        x.Caption = "Contact Anniversary";
+        x.VisibleIndex = 13;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Partner_Name";
+        x.Caption = "Prop/Partner Name";
+        x.VisibleIndex = 14;
+        x.Width = 300;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "FamilyMember_DOB";
+        x.Caption = "Family DOB";
+        x.VisibleIndex = 15;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "KeyPerson_Name";
+        x.Caption = "Key Person Name";
+        x.VisibleIndex = 16;
+        x.Width = 300;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "phone_no";
+        x.Caption = "Phone No";
+        x.VisibleIndex = 17;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Addtional_DOB";
+        x.Caption = "DOB";
+        x.VisibleIndex = 18;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Addtional_DOA";
+        x.Caption = "Anniversary";
+        x.VisibleIndex = 19;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CREATE_DATE";
+        x.Caption = "Created On";
+        x.VisibleIndex = 20;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Image";
+        x.VisibleIndex = 31;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_Image")) + "')\">Show Image</a>");
+        });
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Location";
+        x.VisibleIndex = 32;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopforLocation('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_Lat")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_Long")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Address")) + "')\">Map View</a>");
+        });
+
+    });
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.Caption = "Modify";
+    //    x.VisibleIndex = 33;
+
+    //    x.SetDataItemTemplateContent(c =>
+    //    {
+    //        ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_ID")) + "')\">Modify</a>");
+    //    });
+
+    //});
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "AMOUNT").DisplayFormat = "0.00";
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RATE").DisplayFormat = "0.00";
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ORDVALUE").DisplayFormat = "0.00";
+
+
+    //settings.CustomJSProperties = (s, e) =>
+    //{
+    //    ASPxGridView grid = (ASPxGridView)s;
+    //    e.Properties["cpGridFilterExpression"] = grid.FilterExpression;
+    //};
+}).Bind(Model).GetHtml()

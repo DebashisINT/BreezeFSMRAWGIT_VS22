@@ -1,0 +1,180 @@
+﻿@model MyShop.Models.TargetVsAchivementClass
+@{
+    ViewBag.Title = "TargetVsAchivementSummary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+
+<style>
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+        min-width: 340px;
+    }
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+    .iminentSpan>span {
+        display:block;
+    }
+</style>
+<script>
+
+    function ShowButtonClick() {
+        gridtreeList.Refresh();
+        gridtreeList.Refresh();
+    }
+
+    function OnBeginCallback(s, e) {
+        stateids = $('#cmbState').val();
+        e.customArgs["Month"] = $("#ddlMonth").val();
+        e.customArgs["States"] = stateids.join(',');;
+    }
+
+
+
+    $(function () {
+        $('#cmbState').multiselect({
+            includeSelectAllOption: false,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            buttonWidth: '100%',
+            
+            onDropdownHide: function (event) {
+                
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+        stateids = $('#cmbState').val();
+    });
+
+
+    function gridEndCallBack() {
+        //$("#gridsalesman_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue").css({ 'background': divBGcolor });
+        //$("#gridsalesman_DXFooterRow").removeClass("dxgvFooter_PlasticBlue");
+        //$("#gridsalesman_DXFooterRow td:eq(3)").css({ 'text-align': 'center' });
+        //$("#gridsalesman_DXFooterRow td:eq(4)").css({ 'text-align': 'center' });
+        //$("#gridsalesman_DXFooterRow td:eq(6)").css({ 'text-align': 'center' });
+        //$("#gridsalesman_DXFooterRow td:eq(7)").css({ 'text-align': 'center' });
+        //$("#gridsalesman_DXFooterRow td:eq(8)").css({ 'text-align': 'center' });
+
+        //$("#gridsalesman_DXFooterRow td:eq(3)").css({ 'color': '#2443AA' });
+        //$("#gridsalesman_DXFooterRow td:eq(4)").css({ 'color': '#2443AA' });
+        //$("#gridsalesman_DXFooterRow td:eq(6)").css({ 'color': '#2443AA' });
+        //$("#gridsalesman_DXFooterRow td:eq(7)").css({ 'color': '#2443AA' });
+        //$("#gridsalesman_DXFooterRow td:eq(8)").css({ 'color': '#2443AA' });
+
+        //$("#gridsalesman_DXFooterRow td:eq(3)").css({ 'font-weight': 'bold' });
+        //$("#gridsalesman_DXFooterRow td:eq(4)").css({ 'font-weight': 'bold' });
+        //$("#gridsalesman_DXFooterRow td:eq(6)").css({ 'font-weight': 'bold' });
+        //$("#gridsalesman_DXFooterRow td:eq(7)").css({ 'font-weight': 'bold' });
+        //$("#gridsalesman_DXFooterRow td:eq(8)").css({ 'font-weight': 'bold' });
+
+        //$("#gridsalesman_DXFooterRow td:eq(3)").css({ 'padding': '6px 6px 7px' });
+        //$("#gridsalesman_DXFooterRow td:eq(4)").css({ 'padding': '6px 6px 7px' });
+        //$("#gridsalesman_DXFooterRow td:eq(6)").css({ 'padding': '6px 6px 7px' });
+        //$("#gridsalesman_DXFooterRow td:eq(7)").css({ 'padding': '6px 6px 7px' });
+        //$("#gridsalesman_DXFooterRow td:eq(8)").css({ 'padding': '6px 6px 7px' });
+    }
+
+</script>
+
+<div class="panel-title clearfix">
+    <h3 class="pull-left">
+        Month Wise Target vs Achievement
+    </h3>
+</div>
+
+
+
+<div>
+    
+
+    <div>
+        <div class="col-md-2">
+            <label>Select State(s)</label>
+            <div class="iminentSpan">
+                <select class="demo" multiple="multiple" id="cmbState">
+                    @foreach (var item in Model.StateListTarget)
+                    {
+                        <option value="@item.ID">@item.Name</option>
+                    }
+                </select>
+
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label>Select Month</label>
+            <div>
+                @Html.DropDownList("ddlMonth", new SelectList(Model.MonthList, "ID", "MonthName"), new { @name = "from", @class = "full form-control" })
+
+            </div>
+        </div>
+        <div class="col-md-2 hide">
+            <label>Select Year</label>
+            <div>
+                @Html.DropDownList("ddlYear", new SelectList(Model.YearList, "ID", "YearName"), new { @name = "from", @class = "full form-control" })
+
+            </div>
+        </div>    
+        <div class="col-md-2 ">
+            <div>&nbsp;</div>
+            <button class="btn btn-primary" onclick="ShowButtonClick()">Show</button>
+        </div>  
+    </div>
+    <div class="clear"></div>
+
+    <div class="col-md-12">
+        @Html.Partial("TargetVsAchivementTreeGrid", Model.TargetVsAchivementList)
+    </div>
+</div>

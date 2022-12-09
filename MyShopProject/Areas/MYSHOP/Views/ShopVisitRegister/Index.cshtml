@@ -1,0 +1,880 @@
+﻿@{
+    ViewBag.Title = "Employee Visit Analysis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assests/pluggins/driver/driver.min.css" rel="stylesheet" />
+<script src="~/assests/pluggins/driver/driver.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        //var driver = new Driver();
+
+        // Define the steps for introduction
+
+
+
+        $('#circle-rip').click(function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            var driver = new Driver();
+            driver.defineSteps([
+              {
+                  element: '#mnthIntro',
+                  popover: {
+                      className: 'first-step-popover-class',
+                      title: 'Step by Step Guide',
+                      description: 'Select Month by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#YersIntro',
+                  popover: {
+                      className: 'first-step-popover-class',
+                      title: 'Step by Step Guide',
+                      description: 'Select Year by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#stateIntro',
+                  popover: {
+                      title: 'Step by Step Guide',
+                      description: 'Select State by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#desigIntro',
+                  popover: {
+                      title: 'Step by Step Guide',
+                      description: 'Select Designation by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#empIntro',
+                  popover: {
+                      title: 'Step by Step Guide',
+                      description: 'Select Employee by clicking on the Down arrow button to filter the data in this report',
+                      position: 'bottom'
+                  }
+              },
+              {
+                  element: '#btnshow',
+                  popover: {
+                      title: 'Step by Step Guide',
+                      description: 'Click on this button to display data in this report.',
+                      position: 'bottom'
+                  }
+              },
+            ]);
+            driver.start();
+        });
+
+
+        // Start the introduction
+
+    });
+</script>
+
+
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+
+<script>
+    var is_pageload = "0";
+    var is_procfirst = "0";
+    // Required for speed-up of call backs (http://www.devexpress.com/Support/Center/Question/Details/Q569354)
+    function RemoveElementFromArray(array, element) {
+        var index = array.indexOf(element);
+        if (index < 0) return array;
+        array[index] = null;
+        var result = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] === null)
+                continue;
+            result.push(array[i]);
+        }
+        return result;
+    }
+
+
+    $(function () {
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        //Rev Debashis 0025198
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        lookup.GetGridView().Refresh();
+        //End of Rev Debashis 0025198
+
+
+        $('#ddlSumExport').on('change', function () {
+            if ($("#ddlSumExport option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlSumExport').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporSummaryList", "ShopVisitRegister", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+    })
+
+    function OnStartCallback(s, e) {
+        e.customArgs["ispageload"] = "0";
+        e.customArgs["starttime"] =FirstTime.GetText();
+        e.customArgs["endtime"] = LastTime.GetText();
+        //Rev Debashis 0025198
+        e.customArgs["BranchId"] = BranchId;
+        //End of Rev Debashis 0025198
+
+    }
+
+    function OnEndCallback(s, e) {
+        var message = $('#hdnUpdateMessage').val();
+        if (message != "" && message != null && message != "null") {
+            jAlert(message);
+            $('#hdnUpdateMessage').val('');
+        }
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    var desigId = [];
+    function DesigSelectionChanged(s, e) {
+        DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    }
+    function GetDesigSelectedFieldValuesCallback(values) {
+        try {
+            desigId = [];
+            for (var i = 0; i < values.length; i++) {
+                desigId.push(values[i]);
+            }
+        } finally {
+            console.log(desigId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+    }
+
+    //Rev Debashis 0025198
+    var BranchId = [];
+    var Branch_Id = "";
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
+
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+
+        BranchId = [];
+        Branch_Id = "";
+    }
+    
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+    //End of Rev Debashis 0025198
+
+    function GetData() {
+        GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+        var emp = empId.join(',');
+        var deg = desigId.join(',');
+        var state = StateId.join(',');
+        //Rev Debashis 0025198
+        var Branch = BranchId.join(',');
+        //End of Rev Debashis 0025198
+
+        var obj = {};
+        obj.emp = emp;
+        obj.deg = deg;
+        obj.state = state;
+        //Rev Debashis 0025198
+        obj.BranchId = Branch;
+        //End of Rev Debashis 0025198
+
+        obj.fromdate = StartDate.GetDate();
+        obj.todate = EndDate.GetDate();
+        obj.firsttime = FirstTime.GetDate();
+        obj.lasttime = LastTime.GetDate();
+
+        obj.inactive = chkInactive.GetChecked();
+        obj.notlogged = chkNotLoggedIn.GetChecked();
+        obj.duration = $("#ddlDuration").val();
+
+        //Rev Debashis 0025198
+        if (BranchId == "" || BranchId == null) {
+            jAlert("Please select Branch.");
+            flag = false;
+            return false;
+        }
+        else {
+            //End of Rev Debashis 0025198
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CreateLINQTable", "ShopVisitRegister")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(obj),
+                async: false,
+                success: function (response) {
+                    gridlatevisit.Refresh();
+                    gridlatevisit.Refresh();
+
+                }
+            });
+            //Rev Debashis 0025198
+        }
+        //End of Rev Debashis 0025198
+    }
+
+
+</script>
+
+<style>
+    .backBox label {
+        font-weight:500;
+        margin-top:10px;
+    } 
+    .expTypeImg {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .expTypeImg > li {
+        display: inline-block;
+    }
+
+    .expTypeImg > li > div {
+        position: relative;
+    }
+
+    .expTypeImg > li > div > img {
+    }
+
+    .expTypeImg > li > div .imageCap {
+        position: absolute;
+        bottom: 0;
+        z-index: 5;
+        width: 100%;
+        color: #fff;
+        background: #bd9f9f;
+        padding: 5px 10px;
+        text-align: center;
+    }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .disableHref {
+        opacity: 0.3;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #BranchGridLookup_ET > tbody > tr > td:first-child, #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    #myAssignTargetpopup {
+        padding: 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    .linerHd {
+        background: #dedede;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+    }
+
+    .popheader {
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 8px;
+        padding-left: 7px;
+    }
+
+    .lightbox {
+        z-index: 10000000;
+    }
+
+    .lightboxOverlay {
+        z-index: 9999999;
+    }
+
+    .btn-excel {
+        position: absolute;
+        right: 6px;
+        top: 8px;
+    }
+
+    .padding-top-30 {
+        padding-top: 30px !important;
+    }
+</style>
+@*Rev Debashis 0025198*@
+<style>
+    #BranchGridLookup_CC {
+        width: 100%;
+    }
+</style>
+@*End of Rev Debashis 0025198*@
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<div class="breadCumb">
+    <span class="relative">Employee Visit Analysis <span class="circle-rip hide" id="circle-rip" title="Click for Help">? </span></span>
+</div>
+
+
+<div class="container mt-5">
+    <div class="backBox mt-3 p-4">
+        <div class="row">
+            @*Rev Debashis 0025198*@
+            <div class="col-md-2" id="headbranch">
+                <label>Head Branch : </label>
+                @*<select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                    @foreach (var item in Model.modelbranch)
+                    {
+                        <option value="@item.BRANCH_ID">@item.CODE</option>
+                    }
+                </select>*@
+                @Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })
+             </div>
+            <div class="col-md-2" id="branch">
+                <label>Branch </label>
+                <div>
+                    @*@Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = "0" })*@
+                    @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                </div>
+            </div>
+                @*End of Rev Debashis 0025198*@
+                <div class="col-md-2" id="mnthIntro">
+                    <label>From Date</label>
+                    <div>
+                        @Html.DevExpress().DateEdit(
+                settings =>
+                {
+                    settings.Name = "StartDate";
+                    settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                    settings.Properties.EditFormatString = "dd-MM-yyyy";
+
+                    settings.Properties.EditFormat = EditFormat.DateTime;
+                    settings.Date = DateTime.Now;
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                }).GetHtml()
+
+                    </div>
+                </div>
+                <div class="col-md-2" id="YersIntro">
+                    <label>To Date</label>
+                    <div>
+                        @Html.DevExpress().DateEdit(
+                settings =>
+                {
+                    settings.Name = "EndDate";
+                    settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                    settings.Properties.EditFormat = EditFormat.DateTime;
+                    settings.Properties.EditFormatString = "dd-MM-yyyy";
+                    settings.Date = DateTime.Now;
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                }).GetHtml()
+
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2" id="stateIntro">
+                    <label>State</label>
+                    <div>
+                        @Html.Action("GetStateList", "MasterPopulate")
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2" id="desigIntro">
+                    <label>Designation</label>
+                    <div>
+
+                        @Html.Action("GetDesigList", "Reimbursement")
+                    </div>
+                </div>
+                <div class ="clear"></div>
+                <div class="col-md-4 col-lg-2" id="empIntro">
+                    <label>Employee(s)</label>
+                    <div>
+                        @*@Html.Action("GetEmpList", "MasterPopulate")*@
+                        @Html.DevExpress().ButtonEdit(
+                    settings =>
+                    {
+                        settings.Name = "EmployeeTxt";
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        //settings.Text = Model.AssignedTo;
+                        settings.ReadOnly = true;
+                        settings.Properties.Buttons.Add("...");
+                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                    }).GetHtml()
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-2" id="empIntro">
+                    <label>First Call Time</label>
+                    <div>
+                        @Html.DevExpress().TimeEdit(
+                settings =>
+                {
+                    settings.Name = "FirstTime";
+                    settings.Properties.DisplayFormatString = "h:mm tt";
+                    settings.Properties.EditFormatString = "h:mm tt";
+
+                    settings.Properties.EditFormat = EditFormat.DateTime;
+                    settings.DateTime = DateTime.Parse("2009/11/01 11:30:00");
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                }).GetHtml()
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-2" id="empIntro">
+                    <label>Last Call Time</label>
+                    <div>
+                        @Html.DevExpress().TimeEdit(
+                settings =>
+                {
+                    settings.Name = "LastTime";
+                    settings.Properties.DisplayFormatString = "h:mm tt";
+                    settings.Properties.EditFormatString = "h:mm tt";
+
+                    settings.Properties.EditFormat = EditFormat.DateTime;
+                    settings.DateTime = DateTime.Parse("2009/11/01 18:00:00");
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                }).GetHtml()
+                    </div>
+                </div>
+
+            <div class="col-md-3 col-lg-2" id=" empintro">
+                <table style="margin-top: 31px;">
+                    <tr>
+                        <td>
+                            @Html.DevExpress().CheckBox(
+                            settings =>
+                            {
+                                settings.Name = "chkInactive";
+
+                            }).GetHtml()
+                        </td>
+                        <td>Show Inactive User(s)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-md-3" id="empIntro">
+                <table style="margin-top: 31px;">
+                    <tr>
+                        <td>
+                            @Html.DevExpress().CheckBox(
+                            settings =>
+                            {
+                                settings.Name = "chkNotLoggedIn";
+
+                            }).GetHtml()
+                        </td>
+                        <td>include not logged in User(s)</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="clear"></div>
+                <div class="col-md-3" id="empIntro">
+                    <label>Time Spent in First/Last Call</label>
+                    <div>
+                        <select id="ddlDuration" class="form-control">
+                            <option value="5">> 5 Minutes</option>
+                            <option value="15">> 15 Minutes</option>
+                            <option value="30">> 30 Minutes</option>
+                            <option value="60">> 60 Minutes</option>
+                            <option value="90">> 90 Minutes</option>
+                            <option value="120">> 120 Minutes</option>
+                            <option value="150">> 150 Minutes</option>
+                            <option value="180">> 180 Minutes</option>
+
+                        </select>
+                    </div>
+                </div>
+                @*<div class="clear"></div>*@
+                <div class="col-md-4 col-lg-3 pad-md-18 padding-top-30">
+                    <label></label>
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth" onclick="GetData();" tabindex=4>Show</button>
+                    <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
+                        <option value="0">Export to</option>
+                        <option value="1">PDF</option>
+                        <option value="2">XLSX</option>
+                        <option value="3">XLS</option>
+                        @*<option value="4">RTF</option>*@
+                        <option value="5">CSV</option>
+
+                    </select>
+                </div>
+
+            </div>
+    </div>
+</div>
+<div class="container">
+    <div class="backBox p-3 mt-4">
+       
+        <div id="refreshgridperformancewisemonth">
+
+            @{
+                Html.RenderAction("_PartialLateVisitGrid", "ShopVisitRegister", new { ispageload = "1", starttime = DateTime.Parse("2009/11/01 11:30:00"), endtime = DateTime.Parse("2009/11/01 18:00:00") });
+            }
+        </div>
+    </div>
+</div>
+
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->

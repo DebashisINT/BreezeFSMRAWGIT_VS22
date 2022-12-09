@@ -1,0 +1,204 @@
+﻿@model  MyShop.Models.DurationshpsDate
+
+@{
+    ViewBag.Title = "Monthly Report Shop Visit Duration List";
+}
+
+
+
+<script src="~/assests/js/jquery-ui.min.js"></script>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<script type="text/javascript">
+    $(function () {
+
+        $('body').on('click', '#btnshow', function () {
+
+            //var month = $("#tdmonth").val();
+           
+            //var year = $("#tdyear").val();
+            var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
+
+            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            $("#divLoader").show();
+            var surl = '@Url.Action("GetDurationshopDetails", "Monthlyreportvisitduration")';
+            $.ajax({
+                url: surl,
+                async: true,
+                data: {
+                    Month: month,
+                    Year: year
+                },
+                type: 'POST',
+
+                success: function (data) {
+                    // alert(data);
+                    if (data == 'nodata') {
+                        //  alert('No dat to be displayed', "Alert!");
+                    }
+                    else {
+                        $('#refreshgrid').html(data);
+
+                    }
+                    $("#divLoader").hide();
+                },
+                error: function () {
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'No data to be displayed',
+                        'theme': 'dark_blue'
+                    });
+                    $("#divLoader").hide();
+                },
+            });
+
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("Exportdurationtlist", "Monthlyreportvisitduration", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+                var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
+
+                var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+
+                var surl = '@Url.Action("GetDurationshopDetails", "Monthlyreportvisitduration")';
+                $.ajax({
+                    url: surl,
+                    async: true,
+                    data: {
+
+                        Month: month,
+                        Year: year
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        // alert(data);
+                        if (data == 'nodata') {
+                            //  alert('No dat to be displayed', "Alert!");
+                        }
+                        else {
+                            $('#refreshgrid').html(data);
+
+                        }
+                        $("#divLoader").hide();
+                    },
+                    error: function () {
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'No data to be displayed',
+                            'theme': 'dark_blue'
+                        });
+
+                    },
+
+                });
+            };
+
+        });
+
+    });
+
+</script>
+
+<script>
+    $(function () {
+        $('#tdyear').datepicker({
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'MM yy',
+
+            onClose: function () {
+                var iMonth = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                var iYear = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+            },
+
+            beforeShow: function () {
+                if ((selDate = $(this).val()).length > 0) {
+                    iYear = selDate.substring(selDate.length - 4, selDate.length);
+                    iMonth = jQuery.inArray(selDate.substring(0, selDate.length - 5), $(this).datepicker('option', 'monthNames'));
+                    $(this).datepicker('option', 'defaultDate', new Date(iYear, iMonth, 1));
+                    $(this).datepicker('setDate', new Date(iYear, iMonth, 1));
+                }
+            }
+        });
+    });
+
+</script>
+
+<style>
+    .ui-datepicker-calendar {
+        display: none;
+    }
+
+</style>
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    /*table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+        opacity: 0.8 !important;
+        color: #fff !important;
+    }*/
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+    .ui-datepicker-calendar {
+        display: none;
+    }
+</style>
+<div class="breadCumb">
+    <span>Monthly Report Shop Visit Duration List</span>
+</div>
+
+<div class="container">
+    <div class="form_main backBox p-3">
+        <div class="row">
+            <div class="col-sm-3 col-md-2">
+                <label>Month/Year</label>
+                <div>
+                    <input type="text" id="tdyear" class="form-control" />
+                </div>
+            </div>
+            <div class="col-sm-3 col-md-3 " style="padding-top:23px">
+                <button type="button" id="btnshow" class="btn btn-success btnwidth" style="margin-right:8px">Show</button>
+                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="2">XLSX</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        <div id="refreshgrid"></div>
+    </div>
+</div>
+
+
+<div id="divLoader" style="margin:0 auto;color:black;text-align:center;display:none;">
+    <table id="imgLoader" border="0" style="position: absolute; left: 446.5px; top: 127px; z-index: 30000;border:none;background-color:transparent;">
+        <tbody>
+            <tr>
+                <td>
+
+                    <img src='~/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

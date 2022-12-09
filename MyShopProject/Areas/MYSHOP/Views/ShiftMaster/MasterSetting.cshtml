@@ -1,0 +1,793 @@
+﻿@model Models.ShiftApply
+
+@{
+    ViewBag.Title = "Shift";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<style>
+    .dxgvControl_PlasticBlue td.dxgvBatchEditModifiedCell_PlasticBlue {
+        background: #fff !important;
+    }
+
+    #grid_DXStatus a.dxbButton_PlasticBlue.dxbButtonSys {
+        display: none;
+    }
+
+    .tabTotal {
+        border: none;
+    }
+
+        .tabTotal .tabHead {
+            background: transparent !important;
+        }
+
+        .tabTotal .panel-body {
+            border: 1px solid #ccc;
+            border-top: 3px solid #3D5294;
+        }
+
+        .tabTotal .tabHead > ul > li > a {
+            height: 27px;
+            padding: 5px 10px 4px 10px;
+            border-radius: 0;
+            color: #333 !important;
+        }
+
+        .tabTotal .tabHead > ul > li > a {
+            border: 1px solid #d8d8d8;
+            border-bottom: 1px solid #002D96 !important;
+            background-color: #f9f9f9 !important;
+        }
+
+            .tabTotal .tabHead > ul > li > a:hover {
+                border: 1px solid #d8d8d8 !important;
+                border-bottom: 1px solid #002D96 !important;
+                background-color: #f1efef !important;
+            }
+
+        .tabTotal .tabHead > ul > li.active > a,
+        .tabTotal .tabHead > ul > li.active > a:hover {
+            border-top: 1px solid #002D96 !important;
+            border-right: 1px solid #002D96 !important;
+            border-bottom: 1px none #002D96 !important;
+            border-left: 1px solid #002D96 !important;
+            color: #fff !important;
+            background-color: #45599B !important;
+            -moz-box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
+            -webkit-box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.4);
+        }
+
+    .dynamicPopupTbl {
+        border: 1px solid #ccc;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td {
+            overflow: hidden;
+            border-bottom: 1px solid #d9d9d9;
+            border-right: 1px solid #d9d9d9;
+            /* border-top-width: 0; */
+            border-left-width: 0;
+            padding: 4px 6px 5px;
+            font: 12px Tahoma, Geneva, sans-serif;
+        }
+
+        .dynamicPopupTbl > tbody > tr > th {
+            font: 12px Tahoma, Geneva, sans-serif;
+            padding: 7px 6px 7px 6px;
+            border-right: 1px solid #2a2067;
+            border-top: 1px solid #2a2067;
+            border-bottom: 1px solid #2a2067;
+        }
+
+            .dynamicPopupTbl > tbody > tr > th:first-child {
+                border-left: 1px solid #2a2067;
+            }
+
+        .dynamicPopupTbl > tbody > tr > td {
+            cursor: pointer;
+        }
+
+            .dynamicPopupTbl > tbody > tr > td input {
+                border: none !important;
+                cursor: pointer;
+                background: transparent !important;
+                height: 14px;
+                margin-bottom: 0;
+                font: 12px Tahoma, Geneva, sans-serif;
+            }
+
+    #DetailsTable {
+        padding: 0 15px;
+    }
+
+    .HeaderStyle.newcol {
+        background-color: #45599b;
+    }
+
+    .dynamicPopupTbl > tbody > tr > th {
+        border-right: 1px solid #4f42a0;
+    }
+
+    .focusrow {
+        background-color: #3CA5DF;
+        color: #ffffff;
+    }
+
+        .focusrow > td input {
+            color: white;
+        }
+
+    .HeaderStyle {
+        background-color: #180771d9;
+        color: #f5f5f5;
+        height: 23px;
+        font-size: 15px;
+    }
+
+    .validclass {
+        position: absolute;
+        right: -1px;
+        top: 27px;
+    }
+
+    .dxeOutOfRWarnRight_PlasticBlue {
+        margin-left: -82px !important;
+    }
+
+    #grid_DXStatus {
+        display: none;
+    }
+</style>
+<script>
+    var globalRowIndex;
+
+    $(document).ready(function () {
+        if (getUrlParameter('EditFlag') == "I") {
+            btn_save_new.SetVisible(false);
+        }
+    });
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    function gridAdjustAmtValue(s, e) {
+        if (parseFloat(grid.GetEditor("OutTime").GetValue()) < parseFloat(grid.GetEditor("InTime").GetValue())) {
+            grid.batchEditApi.StartEdit(globalRowIndex, 3);
+            // jAlert("High Value can not be less than low value.", "Alert");
+
+        }
+    }
+
+    function gridAdjustAmtValueforlow(s, e) {
+        if (parseFloat(grid.GetEditor("InTime").GetValue()) > parseFloat(grid.GetEditor("OutTime").GetValue())) {
+            grid.batchEditApi.StartEdit(globalRowIndex, 3);
+            jAlert("In Time can not be greater than Out Time.", "Alert");
+        }
+    }
+
+    function AltgridAdjustAmtValue(s, e) {
+        if (parseFloat(grid.GetEditor("AltOutTime").GetValue()) < parseFloat(grid.GetEditor("AltInTime").GetValue())) {
+            grid.batchEditApi.StartEdit(globalRowIndex, 3);
+            // jAlert("High Value can not be less than low value.", "Alert");
+
+        }
+    }
+
+    function AltgridAdjustAmtValueforlow(s, e) {
+        if (parseFloat(grid.GetEditor("InTime").GetValue()) > parseFloat(grid.GetEditor("OutTime").GetValue())) {
+            grid.batchEditApi.StartEdit(globalRowIndex, 3);
+            jAlert("In Time can not be greater than Out Time.", "Alert");
+        }
+    }
+
+    function datevalidate() {
+        // appcbl_to_dt.SetMinDate(appcbl_frm_dt.GetDate());
+    }
+
+    function datevalidateTo() {
+        // appcbl_frm_dt.SetMaxDate(appcbl_to_dt.GetDate());
+    }
+    var TblFormulaCode;
+    function OnStartCallback(s, e) {
+        //alert(1)
+        e.customArgs["TblFormulaCode"] = TblFormulaCode;
+    }
+
+    function save_new() {
+        if (validateForm()) {
+            if (GridValidate()) {
+                save("N");
+
+            }
+
+        }
+    }
+
+    function save_exit() {
+        if (validateForm()) {
+            if (GridValidate()) {
+                save("E");
+
+            }
+
+        }
+    }
+
+
+    function validateForm() {
+
+        var x = true;
+        var Shift_Name = $("#Shift_Name").val().trim();
+        //var shrt_nm = $('#txt_shrt_nm').val().trim();
+
+        if (Shift_Name == "" || Shift_Name == null) {
+            $("#Mandatorytable").show();
+            x = false;
+        }
+        else {
+            $("#Mandatorytable").hide();
+        }
+        //if (shrt_nm == "" || shrt_nm == null) {
+        //    $("#Mandatoryshrt_nm").show();
+        //    x = false;
+        //}
+        //else {
+        //    $("#Mandatoryshrt_nm").hide();
+        //}
+
+
+        if (x == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function save(actionType) {
+        var _formulaheader = {
+            Shift_Name: $("#Shift_Name").val(),
+            Shift_Id: $("#hdn_id").val(),
+            //month: $("#month").val(),
+            //year: $("#year").val(),
+            //appl_for: $("#header_appl_for").val(),
+
+            //tableFormulaCode: $('#hdn_id').val(),
+            //TableBreakUpId: $('#hdn_tblbrkupid').val()
+        }
+
+        var zerocheck = true;
+
+
+        var formulaItems = [];
+        for (var i = 0; i < 10; i++) {
+            var formula_dtls = {};
+            if (grid.GetRow(i)) {
+                if (grid.GetRow(i).style.display != "none") {
+                    if (grid.GetEditor("InTime").GetValue() != "00:00" && grid.GetEditor("OutTime").GetValue() != "00:00" && grid.GetEditor("AltInTime").GetValue() != "00:00" && grid.GetEditor("AltOutTime").GetValue() != "00:00") {
+                        grid.batchEditApi.StartEdit(i, 2);
+                        //formula_dtls["ID"] = grid.GetEditor("ID").GetValue();
+                        // formula_dtls["ShiftDay"] = grid.GetEditor("ShiftDay").GetValue();
+                        formula_dtls["ShiftDay"] = "ShiftDay";
+                        formula_dtls["InTime"] = grid.GetEditor("InTime").GetValue();
+                        formula_dtls["OutTime"] = grid.GetEditor("OutTime").GetValue();
+                        formula_dtls["BreakTime"] = grid.GetEditor("BreakTime").GetValue();
+                        formula_dtls["grace"] = grid.GetEditor("grace").GetValue();
+                        formula_dtls["AltInTime"] = grid.GetEditor("AltInTime").GetValue();
+                        formula_dtls["AltOutTime"] = grid.GetEditor("AltOutTime").GetValue();
+                        formula_dtls["AltBreakTime"] = grid.GetEditor("AltBreakTime").GetValue();
+                        formula_dtls["Altgrace"] = grid.GetEditor("Altgrace").GetValue();
+                        //Mantis Issue 25112
+                        formula_dtls["FullDayWorkingHour"] = grid.GetEditor("FullDayWorkingHour").GetValue();
+                        formula_dtls["HalfDayWorkingHour"] = grid.GetEditor("HalfDayWorkingHour").GetValue();
+                        formula_dtls["AbsentWorkingHour"] = grid.GetEditor("AbsentWorkingHour").GetValue();
+                        //End of Mantis Issue 25112
+                        formulaItems.push(formula_dtls);
+                    }
+                    else {
+                        zerocheck = false;
+                    }
+                }
+            }
+        }
+
+        for (i = -1; i > -10; i--) {
+            if (grid.GetRow(i)) {
+                if (grid.GetRow(i).style.display != "none") {
+                    grid.batchEditApi.StartEdit(i, 2);
+                    if (grid.GetEditor("InTime").GetValue() != "00:00" && grid.GetEditor("OutTime").GetValue() != "00:00" && grid.GetEditor("AltInTime").GetValue() != "00:00" && grid.GetEditor("AltOutTime").GetValue() != "00:00") {
+                        var formula_dtls = {};
+                        //formula_dtls["ID"] = grid.GetEditor("ID").GetValue();
+                        // formula_dtls["ShiftDay"] = grid.GetEditor("ShiftDay").GetValue();
+                        formula_dtls["ShiftDay"] = "ShiftDay";
+                        formula_dtls["InTime"] = grid.GetEditor("InTime").GetValue();
+                        formula_dtls["OutTime"] = grid.GetEditor("OutTime").GetValue();
+                        formula_dtls["BreakTime"] = grid.GetEditor("BreakTime").GetValue();
+                        formula_dtls["grace"] = grid.GetEditor("grace").GetValue();
+                        formula_dtls["AltInTime"] = grid.GetEditor("AltInTime").GetValue();
+                        formula_dtls["AltOutTime"] = grid.GetEditor("AltOutTime").GetValue();
+                        formula_dtls["AltBreakTime"] = grid.GetEditor("AltBreakTime").GetValue();
+                        formula_dtls["Altgrace"] = grid.GetEditor("Altgrace").GetValue();
+                        //Mantis Issue 25112
+                        formula_dtls["FullDayWorkingHour"] = grid.GetEditor("FullDayWorkingHour").GetValue();
+                        formula_dtls["HalfDayWorkingHour"] = grid.GetEditor("HalfDayWorkingHour").GetValue();
+                        formula_dtls["AbsentWorkingHour"] = grid.GetEditor("AbsentWorkingHour").GetValue();
+                        //End of Mantis Issue 25112
+                        formulaItems.push(formula_dtls);
+                    }
+                    else {
+                        zerocheck = false;
+                    }
+                }
+            }
+        }
+
+        if (zerocheck == false) {
+            jAlert("Please enter IN OUT Time");
+            return;
+        }
+
+        var apply = {
+            header: _formulaheader,
+            dtls: formulaItems
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/ShiftMaster/Apply",
+            data: "{apply:" + JSON.stringify(apply) + "}",
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response.response_msg == "Success") {
+
+                    jAlert("Saved Successfully", "Alert", function () {
+                        if (actionType == "N") {
+                            //if ($('#hdn_id').val() == '' || $('#hdn_id').val() == null) {
+                            //    $('#hdn_id').val(response.header.tableFormulaCode);
+                            //}
+                            //$('#hdn_tblbrkupid').val('');
+                            //$("#txt_tbl").attr("disabled", "disabled");
+                            //$("#txt_shrt_nm").attr("disabled", "disabled");
+
+
+                            //TblFormulaCode = $('#hdn_id').val();
+                            for (var i = 0; i < 1000; i++) {
+
+                                if (grid.GetRow(i)) {
+                                    if (grid.GetRow(i).style.display != "none") {
+                                        grid.DeleteRow(i);
+                                    }
+                                }
+                            }
+
+                            for (i = -1; i > -1000; i--) {
+                                if (grid.GetRow(i)) {
+                                    if (grid.GetRow(i).style.display != "none") {
+                                        grid.DeleteRow(i);
+                                    }
+                                }
+                            }
+
+                            AddNewRowWithSl();
+                            GVPartialShift.Refresh();
+                        }
+                        else {
+                            var url = '/mySHOP/ShiftMaster/Dashboard';
+                            window.location.href = url;
+                        }
+                    });
+                }
+                else {
+                    jAlert(response.response_msg);
+                }
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+
+    }
+
+    $(document).ready(function () {
+
+        var code = "";
+        @*var month = '@Model.header.month';
+        var year = '@Model.header.year';
+        var appl_for = '@Model.header.appl_for';*@
+
+
+        //if (month != "") {
+        //    $("#txt_tbl").attr("disabled", "disabled");
+        //    $("#txt_shrt_nm").attr("disabled", "disabled");
+
+        //    $("#year").val(year)
+        //    $("#month").val(month)
+        //    $("#appl_for").val(appl_for)
+
+
+
+
+        //}
+
+
+        //AddNewRowWithSl();
+        //setTimeout(function () { $("#txt_tbl").focus() }, 450);
+        //  setTimeout(function () { AddNewRowWithSl(); }, 200);
+        setTimeout(function () { $("#Shift_Name").focus() }, 800);
+    });
+
+    function AddNewRowWithSl() {
+
+        grid.AddNewRow();
+        index = globalRowIndex;
+        resuffleSerial();
+
+        setTimeout(function () {
+            grid.batchEditApi.EndEdit();
+            grid.batchEditApi.StartEdit(index, 1);
+        }, 200);
+    }
+
+    function GridValidate() {
+        var x = true;
+
+        for (var i = 0; i < 1000; i++) {
+
+            if (grid.GetRow(i)) {
+                if (grid.GetRow(i).style.display != "none") {
+                    grid.batchEditApi.StartEdit(i, 2);
+                    if (parseFloat(grid.GetEditor("OutTime").GetValue()) < parseFloat(grid.GetEditor("InTime").GetValue())) {
+                        if (x) {
+                            jAlert("Out Time can not be less than In Time.", "Alert");
+                            x = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        for (i = -1; i > -1000; i--) {
+            if (grid.GetRow(i)) {
+                if (grid.GetRow(i).style.display != "none") {
+                    grid.batchEditApi.StartEdit(i, 2);
+                    if (parseFloat(grid.GetEditor("OutTime").GetValue()) < parseFloat(grid.GetEditor("InTime").GetValue())) {
+                        if (x) {
+                            jAlert("Out Valu can not be less than In Time.", "Alert");
+                            x = false;
+                        }
+                    }
+                }
+            }
+        }
+        if (x == false) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function resuffleSerial() {
+        var sl = 1;
+        for (var i = -1; i > -500; i--) {
+            if (grid.GetRow(i)) {
+                grid.batchEditApi.StartEdit(i, 1);
+                //grid.GetEditor('Sl').SetText(sl);
+                //if (grid.GetEditor('low').GetText() == "") {
+                //    grid.GetEditor('low').SetText(0);
+                //    grid.GetEditor('high').SetText(0);
+                //    grid.GetEditor('value').SetText(0);
+                //}
+                grid.batchEditApi.StartEdit(i, 1);
+                sl = sl + 1;
+            }
+        }
+    }
+
+    function key_value(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            AddNewRowWithSl();
+            index = globalRowIndex;
+
+
+            setTimeout(function () {
+                grid.batchEditApi.EndEdit();
+                grid.batchEditApi.StartEdit(index, 1);
+            }, 200);
+        }
+    }
+
+    function BatchStartEditing(s, e) {
+        globalRowIndex = e.visibleIndex;
+    }
+
+    function grid_CustomButtonClick(s, e) {
+        if (e.buttonID == "Delete") {
+            var noofvisiblerows = grid.GetVisibleRowsOnPage();
+
+            if (noofvisiblerows != 1) {
+                grid.DeleteRow(e.visibleIndex);
+                resuffleSerial();
+            }
+        }
+        e.processOnServer = false;
+    }
+</script>
+
+<div class="breadCumb">
+    <span>Shift Master Add</span>
+    <div id="ApprovalCross" class="crossBtnN "><a href="/mySHOP/ShiftMaster/Dashboard"><i class="fa fa-times"></i></a></div>
+</div>
+
+<div class="container">
+    <div class="form_main backBox px-3 py-3">
+        <div class="clearfix">
+            <div class="">
+                <div class="row clearfix">
+                    <div class="col-md-2">
+                        <label>Shift Name</label>
+                        <div>
+                            <input type="text" id="Shift_Name" class="form-control" value="@Model.header.Shift_Name" />
+                            <span id="Mandatorytable" style="display: none" class="validclass">
+                                <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>
+                        </div>
+                    </div>
+                    <input type="hidden" name="hdn_id" id="hdn_id" value="@Model.header.Shift_Id" />
+                </div>
+
+
+                <div style="clear: both;"><br /></div>
+                <div class="row">
+                    <div id="DetailsTable">
+                        @Html.DevExpress().GridView(
+            settings =>
+            {
+                settings.Name = "grid";
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+                settings.SettingsEditing.NewItemRowPosition = GridViewNewItemRowPosition.Bottom;
+                settings.SettingsEditing.BatchEditSettings.ShowConfirmOnLosingChanges = false;
+                settings.ClientSideEvents.BatchEditStartEditing = "BatchStartEditing";
+                settings.SettingsBehavior.AllowSort = false;
+                settings.KeyFieldName = "ID";
+                settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Row;
+                settings.ClientSideEvents.CustomButtonClick = "grid_CustomButtonClick";
+
+                //var del = new GridViewCommandColumnCustomButton();
+                //del.Text = " ";
+                //del.Image.Url = "/assests/images/crs.png";
+                //del.ID = "Delete";
+
+                //settings.CommandColumn.CustomButtons.Add(del);
+                //settings.CommandColumn.Caption = "Action";
+                //settings.CommandColumn.Visible = true;
+                //settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+                //settings.CommandColumn.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                //settings.CommandColumn.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+                settings.Columns.Add(column =>
+                {
+                    column.FieldName = "ShiftDay";
+                    column.Caption = "Shift Day";
+                    column.Width = 100;
+                    column.FixedStyle = GridViewColumnFixedStyle.Left;
+                    // column.ReadOnly = true;
+                    column.Visible = false;
+                });
+
+                var InTime = settings.Columns.Add("txt_InTime", MVCxGridViewColumnType.ButtonEdit);
+                InTime.Caption = "In Time";
+                InTime.FieldName = "InTime";
+                var l_InTime = (ButtonEditProperties)InTime.PropertiesEdit;
+                l_InTime.MaskSettings.Mask = "<HH>:<mm>";
+                l_InTime.MaskSettings.AllowMouseWheel = false;
+                l_InTime.DisplayFormatString = "HH:mm";
+                l_InTime.ValidationSettings.RequiredField.IsRequired = false;
+                l_InTime.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+
+                var OutTime = settings.Columns.Add("txt_OutTime", MVCxGridViewColumnType.ButtonEdit);
+                OutTime.Caption = "Out Time";
+                OutTime.FieldName = "OutTime";
+                var h_OutTime = (ButtonEditProperties)OutTime.PropertiesEdit;
+                h_OutTime.MaskSettings.Mask = "<HH>:<mm>";
+                h_OutTime.MaskSettings.AllowMouseWheel = false;
+                h_OutTime.DisplayFormatString = "HH:mm";
+                h_OutTime.ValidationSettings.RequiredField.IsRequired = false;
+                h_OutTime.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                h_OutTime.ClientSideEvents.LostFocus = "gridAdjustAmtValue";
+
+                var Break = settings.Columns.Add("txt_Break", MVCxGridViewColumnType.ButtonEdit);
+                Break.Caption = "Break Time";
+                Break.FieldName = "BreakTime";
+                var l_break = (ButtonEditProperties)Break.PropertiesEdit;
+                l_break.MaskSettings.Mask = "<HH>:<mm>";
+                l_break.MaskSettings.AllowMouseWheel = false;
+                l_break.DisplayFormatString = "HH:mm";
+                l_break.ValidationSettings.RequiredField.IsRequired = false;
+                l_break.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+
+                //var grace = settings.Columns.Add("txt_Grace", MVCxGridViewColumnType.ButtonEdit);
+                //grace.Caption = "Grace";
+                //grace.FieldName = "Grace";
+                //var h_grace = (ButtonEditProperties)grace.PropertiesEdit;
+                //h_grace.MaskSettings.Mask = "<mm>";
+                //h_grace.MaskSettings.AllowMouseWheel = false;
+                //h_grace.DisplayFormatString = "mm";
+                //h_grace.ValidationSettings.RequiredField.IsRequired = false;
+                //h_grace.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                //h_grace.ClientSideEvents.LostFocus = "gridAdjustAmtValue";
+
+                var grace = settings.Columns.Add("txt_grace", MVCxGridViewColumnType.ButtonEdit);
+                grace.Caption = "Grace";
+                grace.FieldName = "grace";
+                var v_grace = (ButtonEditProperties)grace.PropertiesEdit;
+                //v_grace.MaxLength = 50;
+                v_grace.MaskSettings.Mask = "<0..99>";
+                v_grace.MaskSettings.AllowMouseWheel = false;
+                v_grace.DisplayFormatString = "00";
+                v_grace.ValidationSettings.RequiredField.IsRequired = false;
+                v_grace.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+
+
+
+                var AltInTime = settings.Columns.Add("txt_AltInTime", MVCxGridViewColumnType.ButtonEdit);
+                AltInTime.Caption = "Alt In Time";
+                AltInTime.FieldName = "AltInTime";
+                var Alt_InTime = (ButtonEditProperties)AltInTime.PropertiesEdit;
+                Alt_InTime.MaskSettings.Mask = "<HH>:<mm>";
+                Alt_InTime.MaskSettings.AllowMouseWheel = false;
+                Alt_InTime.DisplayFormatString = "HH:mm";
+                Alt_InTime.ValidationSettings.RequiredField.IsRequired = false;
+                Alt_InTime.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+
+                var AltOutTime = settings.Columns.Add("txt_AltOutTime", MVCxGridViewColumnType.ButtonEdit);
+                AltOutTime.Caption = "Alt Out Time";
+                AltOutTime.FieldName = "AltOutTime";
+                var Alt_OutTime = (ButtonEditProperties)AltOutTime.PropertiesEdit;
+                Alt_OutTime.MaskSettings.Mask = "<HH>:<mm>";
+                Alt_OutTime.MaskSettings.AllowMouseWheel = false;
+                Alt_OutTime.DisplayFormatString = "HH:mm";
+                Alt_OutTime.ValidationSettings.RequiredField.IsRequired = false;
+                Alt_OutTime.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                Alt_OutTime.ClientSideEvents.LostFocus = "AltgridAdjustAmtValue";
+
+                var AltBreak = settings.Columns.Add("txt_AltBreak", MVCxGridViewColumnType.ButtonEdit);
+                AltBreak.Caption = "Alt Break Time";
+                AltBreak.FieldName = "AltBreakTime";
+                var Alt_break = (ButtonEditProperties)AltBreak.PropertiesEdit;
+                Alt_break.MaskSettings.Mask = "<HH>:<mm>";
+                Alt_break.MaskSettings.AllowMouseWheel = false;
+                Alt_break.DisplayFormatString = "HH:mm";
+                Alt_break.ValidationSettings.RequiredField.IsRequired = false;
+                Alt_break.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+
+                //var Altgrace = settings.Columns.Add("txt_AltGrace", MVCxGridViewColumnType.ButtonEdit);
+                //Altgrace.Caption = "Alt Grace";
+                //Altgrace.FieldName = "AltGrace";
+                //var Alt_grace = (ButtonEditProperties)Altgrace.PropertiesEdit;
+                //Alt_grace.MaskSettings.Mask = "<mm>";
+                //Alt_grace.MaskSettings.AllowMouseWheel = false;
+                //Alt_grace.DisplayFormatString = "mm";
+                //Alt_grace.ValidationSettings.RequiredField.IsRequired = false;
+                //Alt_grace.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                //Alt_grace.ClientSideEvents.LostFocus = "gridAdjustAmtValue";
+
+                var Altgrace = settings.Columns.Add("txt_altgrace", MVCxGridViewColumnType.ButtonEdit);
+                Altgrace.Caption = "Alt Grace";
+                Altgrace.FieldName = "Altgrace";
+                var v_AltGrace = (ButtonEditProperties)Altgrace.PropertiesEdit;
+                //v_AltGrace.MaxLength = 50;
+                v_AltGrace.MaskSettings.Mask = "<0..99>";
+                v_AltGrace.MaskSettings.AllowMouseWheel = false;
+                v_AltGrace.DisplayFormatString = "00";
+                v_AltGrace.ValidationSettings.RequiredField.IsRequired = false;
+                v_AltGrace.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+
+                //Mantis Issue 25112
+                var FullDayWorkingHour = settings.Columns.Add("txt_FullDayWorkingHour", MVCxGridViewColumnType.ButtonEdit);
+                FullDayWorkingHour.Caption = "Full Day Working Hour";
+                FullDayWorkingHour.FieldName = "FullDayWorkingHour";
+                var Full_DayWorkingHour = (ButtonEditProperties)FullDayWorkingHour.PropertiesEdit;
+                Full_DayWorkingHour.MaskSettings.Mask = "<HH>:<mm>:<ss>";
+                Full_DayWorkingHour.MaskSettings.AllowMouseWheel = false;
+                Full_DayWorkingHour.DisplayFormatString = "HH:mm:ss";
+                Full_DayWorkingHour.ValidationSettings.RequiredField.IsRequired = false;
+                Full_DayWorkingHour.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+
+                var HalfDayWorkingHour = settings.Columns.Add("txt_HalfDayWorkingHour", MVCxGridViewColumnType.ButtonEdit);
+                HalfDayWorkingHour.Caption = "Half Day Working Hour";
+                HalfDayWorkingHour.FieldName = "HalfDayWorkingHour";
+                var Half_DayWorkingHour = (ButtonEditProperties)HalfDayWorkingHour.PropertiesEdit;
+                Half_DayWorkingHour.MaskSettings.Mask = "<HH>:<mm>:<ss>";
+                Half_DayWorkingHour.MaskSettings.AllowMouseWheel = false;
+                Half_DayWorkingHour.DisplayFormatString = "HH:mm:ss";
+                Half_DayWorkingHour.ValidationSettings.RequiredField.IsRequired = false;
+                Half_DayWorkingHour.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+
+                var AbsentWorkingHour = settings.Columns.Add("txt_AbsentWorkingHour", MVCxGridViewColumnType.ButtonEdit);
+                AbsentWorkingHour.Caption = "Absent Working Hour";
+                AbsentWorkingHour.FieldName = "AbsentWorkingHour";
+                var Absent_WorkingHour = (ButtonEditProperties)AbsentWorkingHour.PropertiesEdit;
+                Absent_WorkingHour.MaskSettings.Mask = "<HH>:<mm>:<ss>";
+                Absent_WorkingHour.MaskSettings.AllowMouseWheel = false;
+                Absent_WorkingHour.DisplayFormatString = "HH:mm:ss";
+                Absent_WorkingHour.ValidationSettings.RequiredField.IsRequired = false;
+                Absent_WorkingHour.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.None;
+                //End of Mantis Issue 25112
+
+                settings.CellEditorInitialize = (s, e) =>
+                {
+                    if (e.Column.Caption == "Value")
+                    {
+                        e.Editor.SetClientSideEventHandler("KeyDown", "key_value");
+                    }
+
+                    if (e.Column.FieldName != "ShiftDay")
+                    {
+                        e.Editor.Enabled = true;
+                        e.Editor.ReadOnly = false;
+
+                    }
+                    else
+                    {
+                        //  e.Editor.Enabled = false;
+                        e.Editor.ReadOnly = true;
+                        e.Editor.ClientEnabled = false;
+                    }
+
+                };
+
+            }
+                        ).Bind(Model.dtls).GetHtml()
+                    </div>
+                    <div style="clear: both;"><br /></div>
+                    <div class="col-md-12 " style="padding-top: 10px;">
+                        @Html.DevExpress().Button(
+        settings =>
+        {
+            settings.Name = "btn_save_new";
+            settings.Text = "Save & New";
+            settings.RenderMode = ButtonRenderMode.Button;
+            settings.ControlStyle.CssClass = "btn btn-primary";
+            settings.UseSubmitBehavior = false;
+            settings.ClientSideEvents.Click = "save_new";
+            settings.ClientVisible = false;
+        }
+        ).GetHtml()
+
+                        @Html.DevExpress().Button(
+        settings =>
+        {
+            settings.Name = "btn_save_Exit";
+            settings.Text = "Save & Exit";
+            settings.RenderMode = ButtonRenderMode.Button;
+            settings.ControlStyle.CssClass = "btn btn-primary";
+            settings.UseSubmitBehavior = false;
+            settings.ClientSideEvents.Click = "save_exit";
+        }
+        ).GetHtml()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="panel-title clearfix" id="myDiv">
+    <h3 class="pull-left"></h3>
+
+</div>
+

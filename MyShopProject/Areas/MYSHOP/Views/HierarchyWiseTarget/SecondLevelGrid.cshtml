@@ -1,0 +1,148 @@
+﻿@{
+    bool showServiceColumns = false;
+}
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "grid2";
+    settings.ClientSideEvents.RowClick = "rowclickgrid2";
+    settings.CallbackRouteValues = new { Controller = "HierarchyWiseTarget", Action = "SecondLevelGrid" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    //username,Id,iddeg,user_name,ParentId,parentgeg
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 180;
+    settings.Settings.ShowFilterRow = true;
+   // settings.Settings.ShowGroupPanel = true;
+    //settings.AutoGenerateColumns = false;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsContextMenu.EnableGroupPanelMenu = DefaultBoolean.True;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+
+    settings.Styles.Table.CssClass += " flatGrid ";
+    settings.StylesPager.Pager.CssClass += " flatFooter ";
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "5", "10", "20", "30", "40", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 50;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.ShowFooter = true;
+    //settings.
+    settings.KeyFieldName = "EMPCODE";
+    //settings.ParentFieldName = "RPTTOEMPCODE";
+    settings.Columns.Add("REPORTTO", "Supervisor").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("EMPNAME", "Employee").Width = System.Web.UI.WebControls.Unit.Pixel(170);
+    settings.Columns.Add("CONTACTNO", "Login ID.").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("DESIGNATION", "Designation").Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+    settings.Styles.Row.Cursor = "pointer";
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        // x.GroupIndex = 0;
+
+    });
+
+
+    //settings.Columns.Add("SEQ", "SL").Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    settings.Columns.Add("TGT_NC", "Tgt. NC").Width = System.Web.UI.WebControls.Unit.Pixel(50);
+    settings.Columns.Add("ACHV_NC", "Achv. NC").Width = System.Web.UI.WebControls.Unit.Pixel(50);
+    settings.Columns.Add("TGT_RV", "Tgt. Re-Visit").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("ACHV_RV", "Achv. Re-Visit").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+    settings.Columns.Add("TGT_ORDERVALUE", "Tgt. Value").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("ACHV_ORDERVALUE", "Achv. Value").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("TGT_COLLECTION", "Tgt. Collection").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("ACHV_COLLECTION", "Achv. Collection").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+
+    // settings.Columns.Add("ACHV_COLLECTION", "Achivement Collection").Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+
+
+
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "EMPCODE";
+        c.Visible = showServiceColumns;
+        //c.CellStyle.BackColor = Color.FromArgb(0xffebb1);
+    });
+    settings.Columns.Add(c =>
+    {
+        c.FieldName = "RPTTOEMPCODE";
+        c.Visible = showServiceColumns;
+        //c.CellStyle.BackColor = Color.FromArgb(0xffebb1);
+    });
+
+    //settings.SettingsBehavior.ExpandCollapseAction = TreeListExpandCollapseAction.NodeDblClick;
+    // settings.SettingsCookies.StoreExpandedNodes = true;
+    settings.CustomColumnSort = settings.CustomColumnGroup;
+
+
+
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_NC").DisplayFormat = "Total of [New Counter ={0}";
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_NC").DisplayFormat = "Achv. New Counter ={0}";
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_RV").DisplayFormat = "Tgt. Re-Visit ={0}";
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_RV").DisplayFormat = "Achv. Re-Visit={0}";
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_ORDERVALUE").DisplayFormat = "Tgt. Value ={0}";
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_ORDERVALUE").DisplayFormat = "Achv. Value ={0}";
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_COLLECTION").DisplayFormat = "Tgt. Collection ={0}";
+    settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_COLLECTION").DisplayFormat = "Achv Collection ={0}]";
+
+
+
+
+    settings.Settings.ShowGroupFooter = GridViewGroupFooterMode.VisibleAlways;
+    settings.Settings.GridLines = System.Web.UI.WebControls.GridLines.Both;
+    //settings.SettingsBehavior.ExpandCollapseAction = TreeListExpandCollapseAction.NodeDblClick;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_NC").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_NC").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_RV").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_RV").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_ORDERVALUE").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_ORDERVALUE").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TGT_COLLECTION").DisplayFormat = "Total: {0}";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHV_COLLECTION").DisplayFormat = "Total: {0}";
+
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback2";
+    settings.Styles.Row.Cursor = "pointer";
+
+    //settings.PreRender = (sender, e) =>
+    //{
+    //    ((MVCxTreeList)sender).ExpandToLevel(2);
+    //};
+
+    //settings.ClientLayout = (s, e) =>
+    //{
+    //    if (e.LayoutMode == ClientLayoutMode.Loading)
+    //    {
+    //        if (Session["TreeListState"] != null)
+    //            e.LayoutData = (string)Session["TreeListState"];
+    //    }
+    //    else
+    //        Session["TreeListState"] = e.LayoutData;
+    //};
+
+    //settings.PreRender = (sender, e) =>
+    //{
+    //    if (Session["TreeListState"] == null)
+    //        ((MVCxTreeList)sender).ExpandToLevel(2);
+    //};
+    settings.DataBinding = (s, e) =>
+    {
+        MVCxGridView g = (MVCxGridView)s;
+        g.ExpandAll();
+    };
+
+
+}
+).Bind(Model).GetHtml()
+
+
+

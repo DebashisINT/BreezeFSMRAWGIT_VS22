@@ -1,0 +1,91 @@
+﻿@model MyShop.Models.DynamicLayoutReport
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    function ShowReportPage(id) {
+        var url = '@Url.Action("Report", "DynamicReport")' + '?key=' + id;
+        window.location.href = url;
+    }
+
+
+</script>
+
+<style>
+    .loopBox {
+        background: #FAFAFA;
+        border-radius: 3px;
+        border: 1px solid #ddd;
+        overflow: hidden;
+        cursor: pointer;
+        -webkit-transition: transform 0.2s ease-in-out;
+        transition: transform 0.2s ease-in-out;
+    }
+    .infoWrp {
+        padding: 12px 15px;
+        position: relative;
+    }
+    .infoWrp > i {
+        float: left;
+        width: 40px;
+        height: 40px;
+        background: #eee;
+        display: inline-block;
+        text-align: center;
+        line-height: 40px;
+        /* min-height: 45px; */
+        border-radius: 50%;
+        margin-bottom: 10px;
+        border: 1px solid #774ae2;
+        color: #774ae2;
+    }
+    .infoWrp > .txts {
+        float: left;
+        margin-left: 12px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 36px;
+        color: #484545;
+    }
+    .loopBox:hover {
+        border-color:#fff;
+        box-shadow: 0 3px 16px rgba(0,0,0,0.11);
+        -webkit-transform: scale(1.05);
+        transform: scale(1.05);
+    }
+        .loopBox:hover .infoWrp > i {
+            background: #ffe2e2;
+        }
+</style>
+<div class="breadCumb">
+    <span>Report </span>
+</div>
+<div class="container">
+    <div class="backBox mt-4 mb-4 p-4">
+        <div class="row">
+            @{
+                foreach (var item in Model.layout_list)
+                {
+                    <script type="text/javascript">
+                        var randomColor = Math.floor(Math.random() * 16777215).toString(16);
+                        //document.querySelector('.fltd').style.backgroundColor = "#" + randomColor;
+                    </script>
+                    <div class="col-md-3" onclick="ShowReportPage('@item.ID')">
+                        <div class="loopBox mb-3">
+                            <div class="infoWrp">
+                                <i class="fa fa-file-o fltd" aria-hidden="true"></i>
+                                <div class="txts">@item.LAYOUT_NAME</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>
+
+
+
+

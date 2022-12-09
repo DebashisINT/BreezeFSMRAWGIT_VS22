@@ -1,0 +1,726 @@
+﻿@model MyShop.Models.PJPListModel
+@using MyShop.Models;
+@{
+    ViewBag.Title = "PJP Details";
+}
+
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<script>
+    var Is_PageLoad = "Ispageload";
+    $(function () {
+
+        $("#divEmployee").addClass("disabledbutton");
+
+        var d = new Date();
+
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        $("#drpuser").chosen({
+            width: "100%"
+        })
+        $("#drpstate").chosen({
+            width: "100%"
+        })
+        $("#drpshop").chosen({
+            width: "100%"
+        })
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            else {
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+                if (dayse <= 30) {
+                    Is_PageLoad = "1";
+
+                    $.ajax({
+                        url: "@Url.Action("GetPJPDetailsList", "PJPDetailsList")",
+                        async: false,
+                        data: {
+                            Fromdate: dtFrom.GetText(),
+                            Todate: dtTo.GetText(),
+                            empcode: empId,
+                            StateId: StateId,
+                            Is_PageLoad: Is_PageLoad
+                        },
+                        type: 'POST',
+                        success: function (data) {
+                            gridPJPDetails.Refresh();
+                            gridPJPDetails.Refresh();
+                        },
+                        error: function () {
+                        },
+                    });
+                }
+                else {
+                    jAlert("Searching days must be within One month.");
+                }
+            }
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporRegisterList", "PJPDetailsList", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+    });
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+
+    var CountryStateId = [];
+    function CountryStateSelectionChanged(s, e) {
+        CountryStateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            CountryStateId = [];
+            for (var i = 0; i < values.length; i++) {
+                CountryStateId.push(values[i]);
+            }
+        } finally {
+            console.log(CountryStateId);
+        }
+    }
+
+    var CityId = [];
+    function CitySelectionChanged(s, e) {
+        CityGridLookup.gridView.GetSelectedFieldValues("CityID", GetCitySelectedFieldValuesCallback);
+    }
+    function GetCitySelectedFieldValuesCallback(values) {
+        try {
+            CityId = [];
+            for (var i = 0; i < values.length; i++) {
+                CityId.push(values[i]);
+            }
+        } finally {
+            console.log(CityId);
+        }
+    }
+
+    var AreaId = [];
+    function AreaSelectionChanged(s, e) {
+        AreaGridLookup.gridView.GetSelectedFieldValues("AreaID", GetAreaSelectedFieldValuesCallback);
+    }
+    function GetAreaSelectedFieldValuesCallback(values) {
+        try {
+            AreaId = [];
+            for (var i = 0; i < values.length; i++) {
+                AreaId.push(values[i]);
+            }
+        } finally {
+            console.log(AreaId);
+        }
+    }
+
+    var CountryId = [];
+    function SingleCountrySelectionChanged(s, e) {
+        SingleCountryGridLookup.gridView.GetSelectedFieldValues("cou_id", GetCountrySelectedFieldValuesCallback);
+    }
+    function GetCountrySelectedFieldValuesCallback(values) {
+        try {
+            CountryId = [];
+            for (var i = 0; i < values.length; i++) {
+                CountryId.push(values[i]);
+            }
+        } finally {
+            console.log(CountryId);
+        }
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["empcode"] = empId;
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function LookupCityValChange() {
+        CityGridLookup.GetGridView().Refresh()
+    }
+
+    function LookupAreaValChange() {
+        AreaGridLookup.GetGridView().Refresh()
+    }
+
+    function CountryStateLookupValChange() {
+        CountryStateGridLookup.GetGridView().Refresh()
+    }
+
+    //function SingleCountryLookupValChange() {
+    //    SingleCountryGridLookup.GetGridView().Refresh()
+    //}
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+    }
+
+    function AreaStartCallback(s, e) {
+        e.customArgs["CityId"] = CityId;
+    }
+
+    function CityStartCallback(s, e) {
+        e.customArgs["StateId"] = CountryStateId;
+    }
+
+    function CountryStateStartCallback(s, e) {
+        e.customArgs["CountryId"] = SingleCountryGridLookup.GetSelectedKeyFieldValues();
+    }
+
+    function DownloadFormat() {
+        $("#myModal").modal('show');
+    }
+
+    var ActiveEmpId = [];
+    function ActiveEmpSelectionChanged(s, e) {
+        ActiveEmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetActiveEmpSelectedFieldValuesCallback);
+    }
+    function GetActiveEmpSelectedFieldValuesCallback(values) {
+        try {
+            ActiveEmpId = [];
+            for (var i = 0; i < values.length; i++) {
+                ActiveEmpId.push(values[i]);
+            }
+        } finally {
+            console.log(ActiveEmpId);
+        }
+    }
+
+    function ActiveEmpStartCallback(s, e) {
+        e.customArgs["StateId"] = CountryStateId;
+        e.customArgs["desgid"] = null;
+    }
+    function ActiveLookupValChange() {
+        ActiveEmpGridLookup.GetGridView().Refresh()
+        //EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function chkDownloadFor_Change() {
+        ActiveEmpId = [];
+        AreaId = [];
+        CityId = [];
+        AreaGridLookup.GetGridView().SelectAllRowsOnPage(false);
+        CityGridLookup.GetGridView().SelectAllRowsOnPage(false);
+        ActiveEmpGridLookup.GetGridView().SelectAllRowsOnPage(false);
+        if ($("#chkDownloadFor").prop("checked") == true) {
+           
+            $("#divEmployee").removeClass("disabledbutton");
+            $("#divCity").addClass("disabledbutton");
+            $("#divArea").addClass("disabledbutton");
+        }
+        else {
+            $("#divEmployee").addClass("disabledbutton");
+            $("#divCity").removeClass("disabledbutton");
+            $("#divArea").removeClass("disabledbutton");
+        }
+    }
+
+    function ExportLogGrid() {
+        var url = '@Url.Action("ExportEmployeesPJPLogList", "PJPDetailsList", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+</script>
+
+<script>
+    function ImportPartyPopOpen() {
+        $("#myImportModal").modal('show');
+    }
+
+    function ChekEmpSettingsUpload() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("ImportExcel", "PJPDetailsList")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        //$("#myImportModal").toggle();
+                        $("#myImportModal").modal('hide');
+                        //gridPJPDetails.Refresh();
+                        //gridPJPDetails.Refresh();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("GetPJPDetailsImportLog", "PJPDetailsList")",
+                            success: function (response) {
+                                if (response) {
+                                    pcModalTemplateImportLogMode.Show();
+                                    gridTemplateImportLogList.Refresh();
+                                    gridTemplateImportLogList.Refresh();
+                                }
+                            }
+                        });
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+
+
+    function getTemplateByStateDesignation() {
+        var stus = true;
+        var data = {
+            AreaId: AreaId,
+            EmpId: ActiveEmpId
+        }
+
+        if ($("#chkDownloadFor").prop("checked") == true) {
+            if (ActiveEmpId == "") {
+                jAlert("Please select Employee.");
+                stus = false;
+            }
+        }
+        else {
+            if (AreaId == "") {
+                jAlert("Please select Area.");
+                stus = false;
+            }
+        }
+
+        if (stus) {
+            $.ajax({
+                url: "@Url.Action("GetShopListTemplateByArea", "PJPDetailsList")",
+                type: "POST",
+                async: false,
+                data: { model: data },
+                success: function (result) {
+                    var url = "@Url.Action("getExportPJP", "PJPDetailsList")";
+                    window.location.href = url;
+                 //   jAlert(result, 'Alert', function () {
+                        $("#myModal").modal('hide');
+                  //  });
+                },
+                error: function (err) {
+                    // jAlert(err.statusText);
+                }
+            });
+        }
+        else {
+          //  jAlert("Please select Area");
+
+        }
+    }
+
+   
+
+</script>
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .disabledbutton {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+</style>
+
+<style>
+    #ActiveEmpGridLookup_DDD_PW-1, #PJPListIndex, #CountryStateGridLookup_DDD_PW-1, #SingleCountryGridLookup_DDD_PW-1, #AreaGridLookup_DDD_PW-1, #CityGridLookup_DDD_PW-1, #ActiveEmpGridLookup_DDD_gv {
+        left: 15px !important;
+    }
+    .w40 .modal-dialog {
+        width: 40%;
+    }
+
+    .pmsModal .modal-header h4 {
+        font-size: 16px;
+    }
+
+</style>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<div class="breadCumb">
+    <span>PJP Details</span>
+</div>
+<div class="container">
+    <div class="bdPad mt-2">
+        <div class="">
+            <div class="col-md-12">
+                <div class="row">
+                    <table class="eqpadtbl  mb-3">
+                        <tr>
+                            <td class="w150">
+                                <label>State</label>
+                                <div>
+                                    @Html.Action("GetStateList", "MasterPopulate")
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>Employee</label>
+                                <div>
+                                    @Html.Action("GetEmpList", "MasterPopulate")
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>From Date</label>
+                                <div>
+                                    @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>To Date</label>
+                                <div>
+                                    @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                                </div>
+                            </td>
+                            <td style="padding-top: 22px;width:430px !important;">
+                                <label></label>
+                                @if (ViewBag.CanView)
+                                {
+                                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                                }
+                                @if (ViewBag.CanExport)
+                                {
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                    <option value="0">Export to</option>
+                                    <option value="1">PDF</option>
+                                    <option value="2">XLSX</option>
+                                    <option value="3">XLS</option>
+                                    <option value="2">RTF</option>
+                                    <option value="2">CSV</option>
+
+                                </select>
+                                }
+                                <button type="button" class="btn btn-info mr-1" onclick="DownloadFormat();">
+                                    Download Format
+                                </button>
+                                <button type="button" class="btn btn-primary" onclick="ImportPartyPopOpen();">
+                                    Import File
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form_main">
+                <div class="clear"></div>
+                <div id="refreshgrid">
+                </div>
+                <div id="refreshgridstatusinvoiceorderreportregister">
+                    @{
+                        Html.RenderAction("PartialPJPDetailsGridList", "PJPDetailsList", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
+                    }
+                    @*change for design*@
+
+                </div>
+
+
+                <input type="hidden" id="hdnuser_id" />
+                <input type="hidden" id="hdnuser_state" />
+                <input type="hidden" id="hdnuser_shop" />
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myImportModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Import Excel Template For PJP</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5" style="margin-top:10px"><input type="submit" value="Import (Add/Update)" onclick="return ChekEmpSettingsUpload();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Download Excel Template For PJP Assignment</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div>
+
+                                <div class="clearfix ">
+                                    <div class="col-lg-12 lblmTop8">
+                                       <input type="checkbox" id="chkDownloadFor" onchange="chkDownloadFor_Change();" /> PJP for Employee
+                                    </div>
+                                    <div class="col-lg-12 lblmTop8">
+                                        <label><b>Country</b></label>
+                                        <div class="iminentSpan">
+                                            @Html.Action("GetCountryList", "MasterPopulate")
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 lblmTop8">
+                                        <label><b>State</b></label>
+                                        <div class="iminentSpan">
+                                            @Html.Action("GetStateListByCountry", "MasterPopulate")
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 lblmTop8">
+                                        <label><b>Employee(s)</b></label>
+                                        <div class="iminentSpan" id="divEmployee">
+                                            @Html.Action("GetEmpListActive", "MasterPopulate")
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 lblmTop8">
+                                        <label><b>City</b></label>
+                                        <div class="iminentSpan" id="divCity">
+                                            @Html.Action("GetCityList", "MasterPopulate")
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-12 lblmTop8">
+                                        <label><b>Area</b></label>
+                                        <div class="iminentSpan" id="divArea">
+                                            @Html.Action("GetAreaList", "MasterPopulate")
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 mTop5" style="margin-top:10px">
+                                        <button type="button" onclick="getTemplateByStateDesignation();" class="btn btn-success mTop5">Download Now</button>
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalTemplateImportLogMode";
+            settings.Width = 1200; //System.Web.UI.WebControls.Unit.Percentage(80);
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Import Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("GetPJPDetailsImportLog", new List<PJPImportLog>());
+                ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportLogGrid();'>Export</button>");
+            });
+
+            settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+        }).GetHtml()
+

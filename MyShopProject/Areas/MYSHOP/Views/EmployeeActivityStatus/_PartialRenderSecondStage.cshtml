@@ -1,0 +1,159 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "SecondStageListGrid";
+    settings.CallbackRouteValues = new { Action = "RenderSecondStagegrid", Controller = "EmployeeActivityStatus" };
+    settings.ClientSideEvents.BeginCallback = "OnStart2ndCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    //Rev Pallab
+    settings.Settings.VerticalScrollableHeight = 200;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    //Rev End Pallab
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "EMPLOYEE_ID";
+           x.Caption = "Employee ID";
+           x.VisibleIndex = 1;
+           x.Width = 150;
+           x.ColumnType = MVCxGridViewColumnType.TextBox;
+       });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "STATE_NAME";
+           x.Caption = "State Name";
+           x.VisibleIndex = 3;
+           x.Width = 100;
+       });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 4;
+        x.Width = 180;
+    });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "DESIGNATION";
+           x.Caption = "Designation";
+           x.VisibleIndex = 5;
+           x.Width = 100;
+       });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_NAME";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 6;
+        x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENTITYCODE";
+        x.Caption = "Code";
+        x.VisibleIndex = 7;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "SHOP_TYPE";
+     x.Caption = "Shop Type";
+     x.VisibleIndex = 8;
+     x.Width = 150;
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "MOBILE_NO";
+        x.Caption = "Mobile No.";
+        x.VisibleIndex = 9;
+        x.Width = 100;
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITLOCATION";
+        x.Caption = "Location";
+        x.VisibleIndex = 10;
+        x.Width = 300;
+    });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "VISIT_DATETIME";
+           x.Caption = "Visit Time";
+           x.VisibleIndex = 11;
+           x.Width = 180;
+           x.ColumnType = MVCxGridViewColumnType.DateEdit;
+           x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+           (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+       });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DURATION";
+        x.Caption = "Duration";
+        x.VisibleIndex = 12;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+     {
+         x.FieldName = "VISIT_TYPE";
+         x.Caption = "Visit Type";
+         x.VisibleIndex = 13;
+         x.Width = 150;
+     });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DISTANCE";
+        x.Caption = "Distance";
+        x.VisibleIndex = 14;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REMARKS";
+        x.Caption = "Remarks";
+        x.VisibleIndex = 15;
+        x.Width = 300;
+    });
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "DISTANCE").DisplayFormat = "0.00";
+
+}).Bind(Model).GetHtml()

@@ -1,0 +1,429 @@
+﻿@model Models.UserwiseattendanceInput
+@{
+    ViewBag.Title = "Attendance List";
+}
+
+<h2>Attendance Userwise</h2>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+
+
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<script>
+
+    $(function () {
+
+        $("#drpuser").chosen({
+            width: "100%"
+        })
+
+        $("#drpdesignation").chosen({
+            width: "100%"
+        })
+
+
+
+        $("#ddltypes").val(2);
+
+        $("#dt").css("display", "none");
+        //$("#dt1").css("display", "none");
+
+        $("#dt2").css("display", "table-cell");
+
+        $("#dt3").css("display", "none");
+        $("#dt4").css("display", "none");
+        $("#dt5").css("display", "none");
+
+        //$("#dttype").css("display", "none");
+        //$("#dttype1").css("display", "none");
+
+
+
+        $("#dt1").html('<h5> Date : </h5>');
+        $("#dt1").attr('style', 'width:62px;');
+
+
+
+        if ($("#drpuser").val() != '') {
+            var surl = '@Url.Action("GetAttendanceList", "AttendanceList")';
+            var usr = $("#drpuser").val();
+            var desg = $("#drpdesignation").val();
+            var usrtype = $("#ddlusertypes").val();
+            $.ajax({
+                url: surl,
+                async: false,
+                data: {
+                    selectedusrid: usr,
+                    Fromdate: $('#txtfromDate').val(),
+                    Todate: $('#txttoDate').val(),
+                    type: $("#ddltypes").val(),
+                    DesgId: desg,
+                    usertype: usrtype
+                },
+                type: 'POST',
+
+                success: function (data) {
+
+                    $('#refreshgrid').html(data);
+                },
+                error: function () {
+                    // alert('error');
+                },
+
+
+            });
+
+
+        }
+
+
+        else {
+
+            $('#refreshgrid').html('');
+            $.jAlert({
+                'title': 'Alert!',
+                'content': 'Select User to show',
+                'theme': 'dark_blue'
+            });
+        }
+
+
+
+
+        $('#txtfromDate').daterangepicker({
+
+            singleDatePicker: true,
+            showDropdowns: true,
+
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+
+
+
+        });
+
+        $('#txttoDate').daterangepicker({
+
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+
+                format: 'DD-MM-YYYY'
+
+            }
+
+        });
+
+
+        $('body').on('change', '#ddltypes', function () {
+
+
+            if ($("#ddltypes").val() == "1") {
+
+                $("#dt").css("display", "table-cell");
+                //$("#dt1").css("display", "table-cell");
+                $("#dt2").css("display", "table-cell");
+                $("#dt3").css("display", "table-cell");
+                $("#dt4").css("display", "table-cell");
+                $("#dt5").css("display", "table-cell");
+
+                $("#dtdesg").css("display", "none");
+                $("#dtdesg2").css("display", "none");
+                $("#dt1").html('<h5>From Date : </h5>');
+                $("#dt1").removeAttr("style");
+
+                //$("#dttype").css("display", "table-cell");
+                //$("#dttype1").css("display", "table-cell");
+            }
+
+
+            else if ($("#ddltypes").val() == "2") {
+
+                $("#dt").css("display", "none");
+                //$("#dt1").css("display", "none");
+
+                $("#dt2").css("display", "table-cell");
+                $("#dt3").css("display", "none");
+                $("#dt4").css("display", "none");
+                $("#dt5").css("display", "none");
+                $("#dtdesg").css("display", "table-cell");
+                $("#dtdesg2").css("display", "table-cell");
+                $("#dt1").html('<h5> Date : </h5>');
+                $("#dt1").attr('style', 'width:62px;');
+
+                //$("#dttype").css("display", "none");
+                //$("#dttype1").css("display", "none");
+
+            }
+
+
+        });
+
+        $('body').on('click', '#btnshow', function () {
+
+
+            if ($("#drpuser").val() != '') {
+
+                var surl = '@Url.Action("GetAttendanceList", "AttendanceList")';
+                    var usr = $("#drpuser").val();
+                    var desg = $("#drpdesignation").val();
+                    var usrtype = $("#ddlusertypes").val();
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            selectedusrid: usr,
+                            Fromdate: $('#txtfromDate').val(),
+                            Todate: $('#txttoDate').val(),
+                            type: $("#ddltypes").val(),
+                            DesgId: desg,
+                            usertype: usrtype
+                        },
+                        type: 'POST',
+
+                        success: function (data) {
+
+                            $('#refreshgrid').html(data);
+                        },
+                        error: function () {
+                            // alert('error');
+                        },
+
+
+                    });
+
+
+                }
+
+
+                else {
+
+                    $('#refreshgrid').html('');
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'Select User to show',
+                        'theme': 'dark_blue'
+                    });
+                }
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                ///   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+                //window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+                var url = '@Url.Action("ExportAttendanceList", "AttendanceList", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+
+                ///  $('#type').val(selectedValue);
+                ///  $('#frmExportGrid').submit();
+
+
+                if ($("#drpuser").val() != '') {
+                    var surl = '@Url.Action("GetAttendanceList", "AttendanceList")';
+                    var usr = $("#drpuser").val();
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            selectedusrid: usr,
+                            Fromdate: $('#txtfromDate').val(),
+                            Todate: $('#txttoDate').val(),
+                            type: $("#ddltypes").val(),
+                            DesgId: desg,
+                            usertype: usrtype
+                        },
+                        type: 'POST',
+
+                        success: function (data) {
+
+                            $('#refreshgrid').html(data);
+                        },
+                        error: function () {
+                            // alert('error');
+                        },
+
+
+                    });
+
+
+                }
+
+
+                else {
+
+                    $('#refreshgrid').html('');
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'Select User to show',
+                        'theme': 'dark_blue'
+                    });
+                }
+            }
+        });
+
+
+
+
+
+
+    });
+
+
+
+</script>
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    /*table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+        opacity: 0.8 !important;
+        color: #fff !important;
+    }*/
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+</style>
+
+<div class="form_main">
+
+    @using (Html.BeginForm("GetAttendanceList", "Attendance", FormMethod.Post, new { @id = "fromsalesman" }))
+    {
+        <table class="pull-left padTabl">
+
+            <tr>
+
+                <td class="w1" style="padding-left:0px"><h5>Report Type: </h5></td>
+
+                <td style="width:200px;">
+                    <select id="ddltypes" style="width:100%">
+                        <option value="1">Single User Date Wise</option>
+                        <option value="2">Multiple User </option>
+                    </select>
+
+                </td>
+
+                <td class="w1" id="dtdesg" style="width:110px;"><h5>Designation : </h5></td>
+
+                <td id="dtdesg2" style="width:150px;">
+                    <select id="drpdesignation" name="drpdesignation" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
+                        <option value="">Select</option>
+                        @foreach (var item in Model.designation)
+                        {
+                            if (Model.DesgId == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.DesgName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.DesgName</option>
+                            }
+                        }
+                    </select>
+
+                </td>
+
+
+
+
+                <td class="w1" id="dt"><h5>User List: </h5></td>
+
+                <td id="dt5" style="width:200px;">
+                    @*@Html.DropDownListFor(m => m.selectedusrid, new SelectList(Model.userlsit, "UserID", "username", Model.selectedusrid), "-Select-", new { @id = "drpuser", @class = "whclass", @tabindex = 1 })*@
+
+                    <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
+                        @foreach (var item in Model.userlsit)
+                        {
+                            if (Model.selectedusrid == item.UserID)
+                            {
+                                <option value="@item.UserID" selected="selected">@item.username</option>
+                            }
+                            else
+                            {
+                                <option value="@item.UserID">@item.username</option>
+                            }
+                        }
+                    </select>
+
+                </td>
+
+                <td class="w1" id="dt1"><h5>From Date : </h5></td>
+
+                <td id="dt2" style="width:200px">
+                    @Html.TextBoxFor(m => m.Fromdate, new { @class = "form-control", @id = "txtfromDate", @tabindex = 2 })
+                </td>
+
+
+            </tr>
+
+            <tr>
+                <td class="w1" id="dt3" style="padding-left: 0;"><h5>To Date : </h5></td>
+
+                <td id="dt4" style="width:200px;">
+                    @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true, @tabindex = 3 })
+                </td>
+
+
+                <td style="width: 180px" colspan="3">
+
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+
+                        <option value="2">XLSX</option>
+
+                    </select>
+                </td>
+
+
+
+
+
+
+            </tr>
+        </table>
+
+    }
+
+    <br />
+
+    <div class="clear"></div>
+    <div id="refreshgrid">
+
+    </div>
+
+
+</div>
+

@@ -1,0 +1,80 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "salesordersummaryanalysisgrid";
+
+    settings.CallbackRouteValues = new { Action = "PartialSaleAnalysisOuterList", Controller = "SalesOrderAnalysis" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+    //settings.KeyFieldName = "EMPCODE";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+   settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+   settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.EnableRowsCache = true;
+   settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee";
+        x.Visible = false;
+       x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPCODE";
+        x.Caption = "EMPCODE";
+        x.Visible = false;
+        x.SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+    });
+
+    settings.Columns.Add(x =>
+    {
+       
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OnClickSummaryGrid('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPCODE")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPNAME")) + "</a>");
+        });
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.True;
+        x.Settings.FilterMode = ColumnFilterMode.DisplayText;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Caption = "Member Name";
+        x.FieldName = "EMPNAME";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+        //x.Width =100;
+        
+    });
+
+
+    
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ORDVALUE";
+        x.Caption = "Order Value";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ORDVALUE").DisplayFormat = "0.00";
+    
+    
+}).Bind(Model).GetHtml()
+
+
+
+

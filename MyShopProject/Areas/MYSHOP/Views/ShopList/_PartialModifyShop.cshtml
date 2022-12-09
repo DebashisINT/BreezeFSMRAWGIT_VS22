@@ -1,0 +1,164 @@
+﻿@model Models.Shopslists
+<script>
+
+
+
+    $('#txtDOB,#txtAnniversary').daterangepicker({
+
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'DD-MM-YYYY'
+        }
+
+    });
+
+    function onCompleteModifyshop() {
+      //  alert();
+        $("#myModal").modal('hide');
+        alert('success');
+    }
+    function onBeginModifyshop() {
+        alert();
+
+    }
+
+
+</script>
+
+
+<div class="form_main clearfix" style="border-top:none">
+
+    @using (Html.BeginForm())
+    {
+
+        <table class="pull-left">
+
+            <tr >
+                <td class="w1 pb-3"><h5>Type: </h5></td>
+
+                <td class="pb-3">
+                    @Html.DropDownListFor(m => m.type, new SelectList(Model.shptypes, "ID", "Name", Model.Shoptype), new { @id = "drpshoptypesr", @class = "whclass mx324" })
+                </td>
+
+            </tr>
+            
+            <tr>
+                <td class="w1 pb-3"><h5>Shop Name:<span style="color:red">*</span> </h5></td>
+
+                <td class="pb-3">
+                    @Html.TextBoxFor(m => m.shop_name, new { @class = "form-control mx324", @id = "txtshpname", @readonly = true })
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="w1 pb-3"><h5>Address : <span style="color:red">*</span> </h5></td>
+
+                <td class="pb-3">
+                    @Html.TextAreaFor(m => m.address, new { @class = "form-control mx324", @id = "txtaddress" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1 pb-3"><h5>Pin Code : <span style="color:red">*</span> </h5></td>
+
+                <td class="pb-3">
+                    @Html.TextBoxFor(m => m.pin_code, new { @class = "form-control mx324", @id = "txtpincode" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1 pb-3"><h5>Owner : <span style="color:red">*</span> </h5></td>
+
+                <td class="pb-3">
+                    @Html.TextBoxFor(m => m.owner_name, new { @class = "form-control mx324", @id = "txtowner" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1 pb-3"><h5>DOB : </h5></td>
+
+                <td class="pb-3">
+                    @Html.TextBoxFor(m => m.dobstr, new { @class = "form-control mx324", @id = "txtDOB" })
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td class="w1 pb-3"><h5>Anniversary : </h5></td>
+
+                <td class="pb-3">
+                    @Html.TextBoxFor(m => m.date_aniversarystr, new { @class = "form-control mx324", @id = "txtAnniversary" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1 pb-3"><h5>Contact : <span style="color:red">*</span> </h5></td>
+
+                <td class="pb-3">
+                    @Html.TextBoxFor(m => m.owner_contact_no, new { @class = "form-control mx324", @id = "txtcontact", @readonly = true })
+                </td>
+
+            </tr>
+
+
+
+            <tr>
+                <td class="w1 pb-3"><h5>Email : </h5></td>
+
+                <td class="pb-3">
+                    @Html.TextBoxFor(m => m.owner_email, new { @class = "form-control mx324", @id = "txtEmail" })
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td class="w1 pb-3"><h5>Assign To: </h5></td>
+
+                <td class="pb-3">
+                    @Html.DropDownListFor(m => m.Assign_To, new SelectList(Model.userslist, "UserID", "username", Model.userslist), "", new { @id = "drpassignto", @class = "whclass mx324" })
+                </td>
+
+
+            </tr>
+
+            @*<tr>
+                <td class="w1"><h5>Image : </h5></td>
+                <td>
+
+                    <input name="shopName" type="file" style="border:1px solid #ccc; width:215px; float:left;" id="ShopileName"  accept="" />
+             
+                
+                   </td>
+            </tr>*@
+            <tr>
+                <td>
+
+                    @Html.HiddenFor(m => m.shop_Auto, new { @id = "hdnshpid" })
+                    @Html.HiddenFor(m => m.Shop_Image, new { @id = "hdnshimage" })
+                </td>
+                <td>
+
+                    <button type="button" id="btnmodify" class="btn btn-success btnwidth">Modify</button>
+                </td>
+            </tr>
+
+
+        </table>
+
+    }
+
+
+
+
+
+
+
+</div>

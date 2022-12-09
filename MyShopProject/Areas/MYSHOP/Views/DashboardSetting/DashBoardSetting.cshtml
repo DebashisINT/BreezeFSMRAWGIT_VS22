@@ -1,0 +1,204 @@
+﻿@{
+    ViewBag.Title = "DashBoard Settings";
+}
+
+<link href="~/assests/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<script src="~/assests/bootstrap/js/bootstrap.min.js"></script>
+<script src="~/Scripts/multiselect.min.js"></script>
+
+<style>
+    .mainWraper .dxpc-contentWrapper {
+        background-color: #fff;
+    }
+
+    .mainWraper select[multiple], select[size] {
+        height: auto !important;
+    }
+</style>
+
+    <div class="breadCumb">
+        <span>Dashboard Settings</span>
+
+        @*<div class="crossBtn hide"><a href="DashBoardSettingList.aspx"><i class="fa fa-times"></i></a></div>*@
+    </div>
+
+
+
+<div class="container">
+    <div class="backBox mt-5 p-3 ">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <button type="button" class="btn btn-success" onclick="OpenDashboardSetting(0);">New</button>
+            </div>
+        </div>
+        <div class="scrooler mTop5">
+            <div id="refreshgrid">
+                @{
+                    Html.RenderAction("GetDashBoardSettingList", "DashboardSetting");
+                }
+            </div>
+        </div>
+    </div>
+    </div>
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalMode";
+        settings.Width = 900;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Dashboard Settings";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+<script>
+
+    function OpenDashboardSetting(dashboardsettingid) {
+        $('#SettingName').val('');
+        $('#multiselect_to').html('');
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetDashBoardSettingByID", "DashboardSetting")",
+            data: { dashboardsettingid: dashboardsettingid },
+            success: function (response) {
+                pcModalMode.SetContentHtml(response);
+                MVCxClientUtils.FinalizeCallback();
+                pcModalMode.Show();
+                $('#multiselect').multiselect();
+                //If All checked then header checked
+                $("#divDashboardHeaderList .clsListheader").each(function () {
+                    var fullcheck = true;
+                    $(this).find(".SelectSubList input[type='checkbox']").each(function () {
+                        if (!$(this).is(':checked')) {
+                            fullcheck = false;
+                        }
+                    });
+                    if (fullcheck) {
+                        $(this).find("input[type='checkbox']").prop('checked', true);
+                    }
+                });
+                //If All checked then header checked
+            }
+        });
+    }
+
+    function DashboardSettingCancel() {
+        $('#SettingName').val('');
+        $('#multiselect_to').html('');
+        pcModalMode.Hide();
+        gridDashBoardSettingList.Refresh();
+    }
+
+    function chkSubListCheckAll(e) {
+        var id = $(e).attr('value');
+        if ($(e).prop('checked')) {
+            $('.chkHeaderSelectSubList_' + id).prop('checked', true);
+        }
+        else {
+            $('.chkHeaderSelectSubList_' + id).prop('checked', false);
+        }
+    }
+
+    function DashboardSettingSave() {
+        var DashboardSettingID = $('#DashboardSettingID').val();
+        var SettingName = $('#SettingName').val();
+        var usergroup = $('#ddlUserGroup option:selected').val();
+        var permissionlevel = $("input[name='PermissionLevel']:checked").val();
+        var seletedUser = "";
+        $("#multiselect_to option").each(function () {
+            seletedUser = seletedUser + $(this).val() + "|";
+        });
+        //var headerList = "";
+        var SubList = "";
+        $("#divDashboardHeaderList .clsListheader").each(function () {
+            //if ($(this).find(".chkHeaderSelect").is(':checked')) {
+            //var value = $(this).find(".chkHeaderSelect").attr('value');
+            //headerList = value + "$";
+            $(this).find(".SelectSubList input[type='checkbox']").each(function () {
+                if ($(this).is(':checked')) {
+                    SubList = SubList + $(this).attr('value') + "|";
+                }
+            });
+            //}
+        });
+
+        if (SettingName == "" || SettingName == null) {
+            jAlert("Please enter setting name!");
+            return;
+        }
+
+        //Insert Data into DB
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("DashBoardSettingInsertUpdate", "DashboardSetting")",
+            data: { DashboardSettingID: DashboardSettingID, SettingName: SettingName, usergroup: usergroup, seletedUser: seletedUser, SubList: SubList, PermissionLevel: permissionlevel },
+            success: function (response) {
+                if (response) {
+                    jAlert("Data Saved");
+                    pcModalMode.Hide();
+                    gridDashBoardSettingList.Refresh();
+                }
+                else {
+                    jAlert("Try again");
+                }
+            }
+        });
+
+        //Insert Data into DB
+    }
+
+    function UserGroupChange(e) {
+        var usergroup = $(e).val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetUserListByGroupID", "DashboardSetting")",
+            data: { usergroup: usergroup },
+            success: function (response) {
+                var SubList = [];
+                i = 0;
+                $("#multiselect_to option").each(function () {
+                    if ($(this).val()) {
+                        SubList[i++] = $(this).val();
+                    }
+                });
+                var html = "";
+                for (var i = 0; i < response.length; i++) {
+                    if (jQuery.inArray(response[i].UserID, SubList) == -1 ) {
+                        html = html + "<option value=" + response[i].UserID + ">" + response[i].username + "</option>";
+                    }
+                }
+                $('#multiselect').html(html);
+            }
+        });
+    }
+
+    function RemoveDashboardSetting(dashboardsettingid) {
+        if (jConfirm("Are you sure to delete?")) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("RemoveDashBoardSettingByID", "DashboardSetting")",
+                data: { dashboardsettingid: dashboardsettingid },
+                success: function (response) {
+                    if (response != null) {
+                        jAlert("Data delete!");
+                        gridDashBoardSettingList.Refresh();
+                        gridDashBoardSettingList.Refresh();
+                    }
+                }
+            });
+        }
+    }
+
+</script>

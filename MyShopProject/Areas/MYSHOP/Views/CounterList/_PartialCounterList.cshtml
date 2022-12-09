@@ -1,0 +1,168 @@
+﻿@model IEnumerable<Models.Shopslists>
+
+<script type="text/javascript">
+    $(function () {
+
+        //$('#tblshoplist tfoot th').each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        //});
+
+
+        //   var table = $("#tblshoplist").dataTable();
+
+
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "bFilter": true,
+            "ordering": false
+
+        });
+
+        //$('#tblshoplist tfoot th').each(function (i) {
+
+        //    var title = $('#tblactivitylist thead th').eq($(this).index()).text();
+        //    // or just var title = $('#sample_3 thead th').text();
+        //    var serach = '<input type="text" placeholder="Search ' + title + '" />';
+        //    $(this).html('');
+        //    $(serach).appendTo(this).keyup(function () { table.fnFilter($(this).val(), i) })
+        //});
+
+
+
+
+    });
+
+
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    /*tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+
+            margin-bottom:2px !important;
+            box-sizing: border-box;
+        }*/
+</style>
+
+<div class="x_content">
+
+
+    <div class="rTable" id="dvData">
+
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+            <thead>
+
+
+                <tr>
+
+                    @*<th style="width:80px;">User</th>*@
+                    <th style="width:100px;">Type</th>
+                    <th style="width:90px;">Shop Name</th>
+                    <th style="width:150px;">Address</th>
+                    <th style="width:80px;">Pincode</th>
+                    <th style="width:150px;">Owner Name</th>
+                    <th style="width:90px;">Contact Number</th>
+                    <th style="width:80px;">Email ID</th>
+
+                    <th style="width:90px;">PP</th>
+                    <th style="width:90px;">DD</th>
+
+
+                    <th style="width:110px;">Added Date</th>
+                    <th style="width:80px;">DOB</th>
+                    <th style="width:80px;">Anniversary Date</th>
+                    <th style="width:80px;">Shop Visit</th>
+                    <th style="width:80px;">Last Visited Date</th>
+             
+
+
+                    @*<th style="width:80px;">Delete</th>*@
+
+                </tr>
+            </thead>
+
+            @*<tfoot>
+                    <tr>
+
+                        <th>User</th>
+                        <th>Type</th>
+                        <th>Shop Name</th>
+                        <th>Address</th>
+                        <th>Pincode</th>
+                        <th>Owner Name</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Created Date</th>
+                        <th>DOB</th>
+                        <th>Marriage Anniversary</th>
+                        <th>Shop Visit</th>
+
+
+                    </tr>
+                </tfoot>*@
+
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            @*<td>@item.UserName</td>*@
+                            <td>@item.Shoptype</td>
+                            <td>@item.shop_name</td>
+                            @*<td style="text-align:center;">@item.address</td>*@
+                            <td style="width:250px;">@item.address</td>
+                            <td>@item.pin_code</td>
+                            <td>@item.owner_name</td>
+                            <td>@item.owner_contact_no</td>
+                            <td>@item.owner_email</td>
+
+                            <td>@item.PP</td>
+                            <td>@item.DD</td>
+
+
+
+                            <td>@Convert.ToDateTime(item.Shop_CreateTime).ToString("dd-MM-yyyy") @item.time_shop</td>
+
+                            <td>@(Convert.ToString(item.dob) == "" ? "" : Convert.ToDateTime(item.dob).ToString("dd-MM-yyyy"))</td>
+                            @*<td>@Convert.ToDateTime(item.date_aniversary).ToString("dd-MM-yyyy")</td>*@
+
+                            <td>@(Convert.ToString(item.date_aniversary) == "" ? "" : Convert.ToDateTime(item.date_aniversary).ToString("dd-MM-yyyy"))</td>
+
+                            <td>@item.countactivity</td>
+
+                            <td>@item.Lastactivitydate</td>
+                         
+
+
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+
+
+
+
+
+
+    </div>
+</div>

@@ -1,0 +1,207 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridPrimaryFundPlan";
+
+    settings.CallbackRouteValues = new { Action = "GetFundPlanList", Controller = "PrimaryFundPlan" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+
+    settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "PrimaryFundPlan", Action = "FundPlanAddNew" };
+    settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "PrimaryFundPlan", Action = "FundPlanUpdate" };
+    
+    settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "PrimaryFundPlan", Action = "FundPlanDelete" };
+    settings.SettingsText.ConfirmDelete = "wanna delete ?";
+    
+    
+    
+    settings.KeyFieldName = "PLAN_ID";
+    
+    
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+
+
+
+    settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+    settings.SettingsBehavior.ConfirmDelete = true;
+    settings.Width =System.Web.UI.WebControls.Unit.Percentage(100);
+
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowNewButtonInHeader = true;
+    settings.CommandColumn.ShowDeleteButton = true;
+    settings.CommandColumn.ShowEditButton = true;
+    settings.SettingsBehavior.ConfirmDelete = true;
+
+    settings.SettingsPager.PageSize = 10;
+    settings.Settings.ShowPreview = true;
+
+
+
+    
+    
+    
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE_NAME";
+        x.Caption = "State Name";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //(x.PropertiesEdit as MVCxTextBoxProperties).ClientSideEvents.LostFocus = "StateName_lostFocus";        
+        
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TYPE";
+        x.Caption = "Type";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PARTY_NAME";
+        x.Caption = "Party Name";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACT_NO";
+        x.Caption = "Contact No";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOCATION";
+        x.Caption = "Location";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+    });
+
+
+    settings.CustomJSProperties = (s, e) =>
+    {
+        if (!string.IsNullOrEmpty(ViewBag.ErrorText))
+        {
+            DevExpress.Web.Mvc.MVCxGridView grid = s as DevExpress.Web.Mvc.MVCxGridView;
+            grid.JSProperties["cpErrorText"] = ViewBag.ErrorText;
+        }
+    };
+
+
+    settings.ClientSideEvents.EndCallback = "EndGridCallback";
+    
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "EMP_NAME";
+    //    x.Caption = "Employee Name";
+    //    x.VisibleIndex = 3;
+    //    x.Width = 100;
+    //});
+
+//    settings.Columns.Add(x =>
+//    {
+//        x.FieldName = "PPName";
+//        x.Caption = "PP Name";
+//        x.VisibleIndex = 3;
+//        x.Width = 100;
+//    });
+
+//    settings.Columns.Add(x =>
+//    {
+//        x.FieldName = "DDName";
+//        x.Caption = "DD Name";
+//        x.VisibleIndex = 3;
+//        x.Width = 100;
+//    });
+//    settings.Columns.Add(x =>
+//    {
+//        x.FieldName = "Order_Number";
+//        x.Caption = "Order No.";
+//        x.VisibleIndex = 3;
+//        x.Width = 100;
+//    });
+//    settings.Columns.Add(x =>
+//    {
+//        x.FieldName = "Order_Date";
+//        x.Caption = "Order Date";
+//        x.VisibleIndex = 3;
+//        x.Width = 100;
+//    });
+//    settings.Columns.Add(x =>
+//    {
+//        x.FieldName = "Invoice_Date";
+//        x.Caption = "Inv. Date";
+//        x.VisibleIndex = 3;
+//        x.Width = 100;
+//    });
+
+//    settings.Columns.Add(x =>
+//   {
+//       x.FieldName = "PRODNAME";
+//       x.Caption = "Product";
+//       x.VisibleIndex = 3;
+//       x.Width = 200;
+//   });
+
+//    settings.Columns.Add(x =>
+//    {
+//        x.FieldName = "Product_Qty";
+//        x.Caption = "Quantity";
+//        x.VisibleIndex = 3;
+//        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+//        x.Width = 100;
+//    });
+
+//    settings.Columns.Add(x =>
+//{
+//    x.FieldName = "Product_Rate";
+//    x.Caption = "Rate";
+//    x.VisibleIndex = 3;
+//    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+//    x.Width = 100;
+//});
+  
+//    settings.Columns.Add(x =>
+//  {
+//      x.FieldName = "Product_TotalAmount";
+//      x.Caption = "Value";
+//      x.VisibleIndex = 3;
+//      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+//      x.Width = 100;
+//  });
+
+    
+}).Bind(Model).GetHtml()
+
+
+<script>
+    $(document).ready(function () {
+
+        
+    })
+</script>

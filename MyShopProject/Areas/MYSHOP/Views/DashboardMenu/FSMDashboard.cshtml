@@ -1,0 +1,3928 @@
+﻿@model MyShop.Models.FSMDashBoardFilter
+@{
+    ViewBag.Title = "Field Sales Management Dashboard";
+    var weburl = System.Configuration.ConfigurationSettings.AppSettings["Weburlmarker"];
+    System.Data.DataTable db = new System.Data.DataTable();
+    db = null;
+}
+<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy-L3SIYyrQ"></script>*@
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy - L3SIYyrQ"></script>*@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy - L3SIYyrQ"></script>
+
+<link href="~/Scripts/Charts/styles.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+@*<script src="~/Scripts/Charts/apexcharts.min.js"></script>*@
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+@*<link href="https://cdn.lineicons.com/2.0/LineIcons.css" rel="stylesheet">*@
+<link href="~/assests/pluggins/LineIcons/font-css/LineIcons.css" rel="stylesheet" />
+
+
+<link href="~/assests/css/FsmDashboard.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Fira+Sans:200,300,400,500,600|Montserrat:300,400,500,600,700|Open+Sans+Condensed:300,700|Open+Sans:300,400,600,700" rel="stylesheet">
+
+<script>
+
+
+    $(document).ready(function () {
+        var isTargetvsAch = $("#isTargetvsAch").val();
+
+        if (isTargetvsAch == 1) {
+            console.log("target Available");
+            GetAchivment();
+        }
+    });
+    function GetAchivment() {
+        var Url = '@Url.Action("TrgtAchiement", "DashboardMenu")'
+        $.ajax({
+            url: Url,
+            async: false,
+            type: 'POST',
+            error: function (err) {
+                jAlert(err);
+            },
+
+            success: function (respose) {
+                if (respose != null) {
+                    //Box DATA
+                    for (var i = 0; i < respose.boxdata.length; i++) {
+
+                        var data = respose.boxdata[i];
+
+                        if (data.Stage == "Enquiry") {
+                            $("#inq_tgt").text(data.target);
+                            $("#inq_Ach").text(data.Achievement);
+
+                        }
+                        else if (data.Stage == "Lead") {
+                            $("#lead_tgt").text(data.target);
+                            $("#lead_Ach").text(data.Achievement);
+
+                        }
+                        else if (data.Stage == "Test Drive") {
+                            $("#td_tgt").text(data.target);
+                            $("#td_Ach").text(data.Achievement);
+
+                        }
+                        else if (data.Stage == "Booking") {
+                            $("#booking_tgt").text(data.target);
+                            $("#booking_Ach").text(data.Achievement);
+
+                        }
+                        else if (data.Stage == "Retail") {
+                            $("#rt_tgt").text(data.target);
+                            $("#rt_Ach").text(data.Achievement);
+
+                        }
+                    }
+
+                    var str = "";
+                    //Month DATA
+                    for (var i = 0; i < respose.monthwisedata.length; i++) {
+
+                        str = str + '<tr>';
+                        str = str + '<td>' + respose.monthwisedata[i].MONTHYEAR + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].ENQ_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].ENQ_ACH + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].LEAD_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].LEAD_ACH + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].TD_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].TD_ACH + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].BOOKING_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].BOOKING_ACH + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].RT_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].RT_ACH + '</td>';
+                        str = str + '</tr>';
+
+                    }
+
+                    $("#tgtbody").html("");
+                    $("#tgtbody").html(str);
+
+
+                    var str = "";
+                    //Month DATA
+                    for (var i = 0; i < respose.employeewisedata.length; i++) {
+
+                        str = str + '<tr>';
+                        str = str + '<td>' + respose.employeewisedata[i].EMP_NAME + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].DESIG + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].DEPT + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].ENQ_TGT + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].ENQ_ACH + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].LEAD_TGT + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].LEAD_ACH + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].TD_TGT + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].TD_ACH + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].BOOKING_TGT + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].BOOKING_ACH + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].RT_TGT + '</td>';
+                        str = str + '<td>' + respose.employeewisedata[i].RT_ACH + '</td>';
+                        str = str + '</tr>';
+
+                    }
+
+
+                    $("#empbody").html("");
+                    $("#empbody").html(str);
+
+
+                }
+            }
+        });
+    }
+
+    function Refreshmonthwisesummary() {
+        var obj = {};
+        obj.monthyear = $("#ddlmonthyear").val();
+
+        var Url = '@Url.Action("RefreshMonthwiseSummary", "DashboardMenu")'
+
+        $.ajax({
+            url: Url,
+            async: false,
+            type: 'POST',
+            data: obj,
+            error: function (err) {
+                jAlert(err);
+            },
+
+            success: function (respose) {
+                if (respose != null) {
+                    var str = "";
+                    //Month DATA
+                    for (var i = 0; i < respose.monthwisedata.length; i++) {
+
+                        str = str + '<tr>';
+                        str = str + '<td>' + respose.monthwisedata[i].MONTHYEAR + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].ENQ_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].ENQ_ACH + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].LEAD_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].LEAD_ACH + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].TD_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].TD_ACH + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].BOOKING_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].BOOKING_ACH + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].RT_TGT + '</td>';
+                        str = str + '<td>' + respose.monthwisedata[i].RT_ACH + '</td>';
+                        str = str + '</tr>';
+
+                    }
+
+                    $("#tgtbody").html("");
+                    $("#tgtbody").html(str);
+                }
+            }
+        });
+    }
+
+
+
+
+    var stateids = [];
+    // Mantis Issue 24729
+    var branchids = [];
+   
+
+    function GetSateValue() {
+        console.log("state value");
+        stateids = [];
+
+        var datalist = $('#cmbState').val();
+        if (datalist != null) {
+            stateids = datalist;
+        }
+        else {
+            stateids.push('999999');
+        }
+        cmbStatechange();
+    }
+    //function GetSateValueTV() {
+    //    stateidsTV = [];
+    //    var datalistTV = $('#cmbStateTV').val();
+    //    if (datalistTV != null) {
+    //        stateidsTV = datalistTV;
+    //    }
+    //    else {
+    //        stateidsTV.push('999999');
+    //    }
+    //    cmbStatechangeTV();
+    //}
+    // Mantis Issue 24729
+    function GetBranchValue() {
+        branchids = [];
+
+        var datalist = $('#cmbBranch').val();
+        if (datalist != null) {
+            branchids = datalist;
+        }
+        else {
+            branchids.push('999999');
+        }
+        cmbBranchChange();
+    }
+    
+    //function cmbBranchChange() {
+    //    let newBranch = $('#cmbBranch').val();
+
+    //    var isObject = typeof newBranch
+    //    if (isObject == "object") {
+    //        if (newBranch != null && newBranch.length > 0) {
+    //            branchids = newBranch.join(',');
+    //        } else {
+    //            branchids = "";
+
+    //        }
+    //    } else {
+    //        if (newBranch != null && newBranch.length > 0) {
+    //            branchids = newBranch;
+    //        }
+    //        else {
+    //            branchids = "";
+    //        }
+    //    }
+
+    //    //if (newBranch != null) {
+    //    //    branchids = newBranch.join(',');
+    //    //}
+    //    //else {
+    //    //    branchids = "";
+    //    //}
+    //    //console.log("cmbBranchChange", branchids);
+    //    reloadBoxData(branchids);
+    //}
+
+    //function getbranchvaluetv() {
+    //    branchidstv = [];
+
+    //    var datalist = $('#cmbbranchtv').val();
+    //    if (datalist != null) {
+    //        branchidstv = datalist;
+    //    }
+    //    else {
+    //        branchidstv.push('999999');
+    //    }
+    //    cmbbranchchangetv();
+    //}
+    //function cmbbranchchangetv() {
+    //    let newbranch = $('#cmbbranchtv').val();
+
+    //    var isobject = typeof newbranch
+    //    if (isobject == "object") {
+    //        if (newbranch != null && newbranch.length > 0) {
+    //            branchidstv = newbranch.join(',');
+    //        } else {
+    //            branchidstv = "";
+
+    //        }
+    //    } else {
+    //        if (newbranch != null && newbranch.length > 0) {
+    //            branchidstv = newbranch;
+    //        }
+    //        else {
+    //            branchidstv = "";
+    //        }
+    //    }
+    //    reloadboxdatatv(branchidstv);
+    //}
+    function cmbBranchChange() {
+        let newBranch = $('#cmbBranch').val();
+
+        var isObject = typeof newBranch
+        if (isObject == "object") {
+            if (newBranch != null && newBranch.length > 0) {
+                branchids = newBranch.join(',');
+            } else {
+                branchids = "";
+
+            }
+        } else {
+            if (newBranch != null && newBranch.length > 0) {
+                branchids = newBranch;
+            }
+            else {
+                branchids = "";
+            }
+        }
+        reloadBoxData(branchids);
+    }
+    // End of Mantis Issue 24729
+    // Susanta
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true
+    });
+
+
+    var stateid = "";
+    var designation = "";
+    var statefilterid = "";
+    var EMPCODE = "";
+    var WindowSize = 0;
+
+    function GSOnStartCallback(s, e) {
+        e.customArgs["Type"] = Type;
+        e.customArgs["FilterName"] = FilterName;
+        e.customArgs["StateId"] = stateid;
+        e.customArgs["designation"] = designation;
+        e.customArgs["statefilterid"] = statefilterid;
+        e.customArgs["WindowSize"] = WindowSize;
+    }
+
+    function OnStartdetailsCallback(s, e) {
+        e.customArgs["Type"] = Type;
+        e.customArgs["FilterName"] = FilterName;
+        e.customArgs["StateId"] = stateid;
+        e.customArgs["designation"] = designation;
+        e.customArgs["statefilterid"] = statefilterid;
+        e.customArgs["EMPCODE"] = Salesman_EMPCODE;
+        e.customArgs["WindowSize"] = WindowSize;
+    }
+
+
+    function griddashboarddetailsEndcallback() {
+        $("#griddashboarddetails_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue").css({ 'background': divBGcolor });
+    }
+
+
+
+    var objsettings = [];
+    var obj = {};
+    obj.ID = "1";
+    obj.action = "AT_WORK";
+    obj.rptype = "Summary";
+    obj.empid = "";
+    obj.stateid = "15";
+    obj.designid = "";
+
+    objsettings.push(obj);
+
+
+    var obj = {};
+    obj.ID = "2";
+    obj.action = "";
+    obj.rptype = "";
+    obj.empid = "bbb";
+    obj.stateid = "bbb";
+    obj.designid = "bbb";
+    objsettings.push(obj);
+
+
+    var obj = {};
+    obj.ID = "3";
+    obj.action = "ccc";
+    obj.rptype = "ccc";
+    obj.empid = "ccc";
+    obj.stateid = "ccc";
+    obj.designid = "ccc";
+    objsettings.push(obj);
+
+    var settingsid = "1";
+
+
+
+    function gridsalesmanOnStartCallback(s, e) {
+
+        var searchdetails = $.grep(objsettings, function (e) { return e.ID == settingsid });
+        e.customArgs["ID"] = searchdetails[0].ID;
+        e.customArgs["action"] = searchdetails[0].action;
+        e.customArgs["rptype"] = searchdetails[0].rptype;
+        e.customArgs["empid"] = searchdetails[0].empid;
+        e.customArgs["stateid"] = searchdetails[0].stateid;
+        e.customArgs["designid"] = searchdetails[0].designid;
+        e.customArgs["WindowSize"] = WindowSize;
+
+    }
+    function gridsalesmanEndcallback() {
+        $("#gridsalesman_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue").css({ 'background': divBGcolor });
+        $("#gridsalesman_DXFooterRow").removeClass("dxgvFooter_PlasticBlue");
+        $("#gridsalesman_DXFooterRow td:eq(3)").css({ 'text-align': 'center' });
+        $("#gridsalesman_DXFooterRow td:eq(4)").css({ 'text-align': 'center' });
+        $("#gridsalesman_DXFooterRow td:eq(6)").css({ 'text-align': 'center' });
+        $("#gridsalesman_DXFooterRow td:eq(7)").css({ 'text-align': 'center' });
+        $("#gridsalesman_DXFooterRow td:eq(8)").css({ 'text-align': 'center' });
+
+        $("#gridsalesman_DXFooterRow td:eq(3)").css({ 'color': '#2443AA' });
+        $("#gridsalesman_DXFooterRow td:eq(4)").css({ 'color': '#2443AA' });
+        $("#gridsalesman_DXFooterRow td:eq(6)").css({ 'color': '#2443AA' });
+        $("#gridsalesman_DXFooterRow td:eq(7)").css({ 'color': '#2443AA' });
+        $("#gridsalesman_DXFooterRow td:eq(8)").css({ 'color': '#2443AA' });
+
+        $("#gridsalesman_DXFooterRow td:eq(3)").css({ 'font-weight': 'bold' });
+        $("#gridsalesman_DXFooterRow td:eq(4)").css({ 'font-weight': 'bold' });
+        $("#gridsalesman_DXFooterRow td:eq(6)").css({ 'font-weight': 'bold' });
+        $("#gridsalesman_DXFooterRow td:eq(7)").css({ 'font-weight': 'bold' });
+        $("#gridsalesman_DXFooterRow td:eq(8)").css({ 'font-weight': 'bold' });
+
+        $("#gridsalesman_DXFooterRow td:eq(3)").css({ 'padding': '6px 6px 7px' });
+        $("#gridsalesman_DXFooterRow td:eq(4)").css({ 'padding': '6px 6px 7px' });
+        $("#gridsalesman_DXFooterRow td:eq(6)").css({ 'padding': '6px 6px 7px' });
+        $("#gridsalesman_DXFooterRow td:eq(7)").css({ 'padding': '6px 6px 7px' });
+        $("#gridsalesman_DXFooterRow td:eq(8)").css({ 'padding': '6px 6px 7px' });
+
+        if (settingsid == "2" || settingsid == "3") {
+            $("#spanClose").removeClass("hide");
+        }
+        else {
+            $("#spanClose").addClass("hide");
+        }
+        var ele = $("#gridsalesman_DXMainTable")[0].children[0].children[0];
+        if (settingsid == "1") { }
+        else if (settingsid == "2") { }
+        else if (settingsid == "3") { }
+
+    }
+
+    function salesbackclick() {
+        var GroupBy = $('#hdnGridStatewiseSummaryGroupBy').val();
+        settingsid = parseInt(settingsid) - 1;
+
+        if (settingsid == "1") {
+            $("#salesmanheader, #salesmanheaderTeam").html("State wise Summary");
+            $('.salesExport').addClass('mr0');
+            //setTimeout(function () { gridsalesman.GroupBy(GroupBy); }, 2000);
+        }
+        else if (settingsid == "2") {
+            $("#salesmanheader, #salesmanheaderTeam").html("Employee wise Summary");
+            //setTimeout(function () { gridsalesman.GroupBy(GroupBy); }, 2000);
+        }
+        else if (settingsid == "3") {
+            $("#salesmanheader, #salesmanheaderTeam").html("Details Of: " + Salesmanname);
+        }
+        //  gridsalesman.ClearFilter();
+        // gridsalesman.Refresh();
+        // gridsalesman.Refresh();
+    }
+
+    function gridsalesmanclick(degsi) {
+        if (settingsid == "1") {
+
+            settingsid = parseInt(settingsid) + 1;
+
+
+            for (var i = objsettings.length - 1; i >= 0; i--) {
+                if (objsettings[i].ID == settingsid) {
+                    objsettings.splice(i, 1);
+                }
+            }
+            degid = degsi;
+            //var grid = MVCxClientGridView.Cast(s);
+
+            //degid = grid.GetRow(e.visibleIndex).children[0].innerHTML.trim();
+
+
+
+
+            $("#salesmanheader, #salesmanheaderTeam").html("Employee wise Summary");
+
+            if (settingsid == "2") {
+                var obj = {};
+                obj.ID = "2";
+                obj.action = "AT_WORK";
+                obj.rptype = "Detail";
+                obj.empid = "";
+                obj.stateid = stateids.join(','); //cmbState.GetValue();
+                // Mantis Issue 24729
+
+                var isObject = typeof branchids
+                if (isObject == "object") {
+                    if (branchids != null && branchids.length > 0) {
+                        obj.branchid = branchids.join(',');
+                    } else {
+                        obj.branchid = "";
+
+                    }
+                } else {
+                    if (branchids != null && branchids.length > 0) {
+                        obj.branchid = branchids;
+                    }
+                    else {
+                        obj.branchid = "";
+                    }
+                }
+
+                //if (branchids != null && branchids.length > 0) {
+                //    obj.branchid = branchids.join(',');
+                //}
+                //else {
+                //    obj.branchid = "";
+                //}
+                // End of Mantis Issue 24729
+                obj.designid = degid;
+                objsettings.push(obj);
+            }
+            //  gridsalesman.ClearFilter();
+            $('.salesExport').removeClass('mr0');
+            // gridsalesman.Refresh();
+            // gridsalesman.Refresh();
+
+        }
+    }
+
+    function assignedclick(id, EMPNAME) {
+
+        Salesmanname = EMPNAME;
+        if (settingsid == "3") {
+            return;
+        }
+        $("#salesmanheader, #salesmanheaderTeam").html("Details Of: " + Salesmanname);
+        settingsid = parseInt(settingsid) + 1;
+
+
+        for (var i = objsettings.length - 1; i >= 0; i--) {
+            if (objsettings[i].ID == settingsid) {
+                objsettings.splice(i, 1);
+            }
+        }
+
+
+
+
+        if (settingsid == "3") {
+            var obj = {};
+            obj.ID = "3";
+            obj.action = "VISITTODAY";
+            obj.rptype = "Detail";
+            obj.empid = id;
+            obj.stateid = stateids.join(',');//cmbState.GetValue();
+
+            var isObject = typeof branchids
+            if (isObject == "object") {
+                if (branchids != null && branchids.length > 0) {
+                    obj.branchid = branchids.join(',');
+                } else {
+                    obj.branchid = "";
+
+                }
+            } else {
+                if (branchids != null && branchids.length > 0) {
+                    obj.branchid = branchids;
+                }
+                else {
+                    obj.branchid = "";
+                }
+            }
+
+            //if (branchids != null && branchids.length > 0) {
+            //    obj.branchid = branchids.join(',');
+            //}
+            //else {
+            //    obj.branchid = "";
+            //}
+            obj.designid = "";
+            objsettings.push(obj);
+        }
+        // gridsalesman.ClearFilter();
+        // gridsalesman.Refresh();
+        // gridsalesman.Refresh();
+
+    }
+
+    function salesgridint() {
+        // gridsalesman.ClearFilter();
+    }
+
+    function shopclick(id, EMPNAME) {
+        Salesman_EMPCODE = id;
+        $("#gridshoptext").text("Todays visit of " + EMPNAME);
+        $('#dashDetails1').addClass('hide');
+        $('#gridthirdlevel').removeClass('hide');
+        griddashboarddetails.Refresh();
+        // griddashboarddetails.Refresh();
+
+
+    }
+    //Team visit
+    //function shopclickTeam(id, EMPNAME) {
+    //    Salesman_EMPCODE = id;
+    //    $("#gridshoptextTeam").text("Todays visit of " + EMPNAME);
+    //    $('#dashDetails1Team').addClass('hide');
+    //    $('#gridthirdlevelTeam').removeClass('hide');
+    //    griddashboarddetailsTeamVisit.Refresh();
+    //}
+    // Team visit End
+
+    function gridsummarydashboardEndcallback() {
+        $("#gridsummarydashboard_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue").css({ 'background': divBGcolor });
+        $("#gridsummarydashboard_DXFooterRow").removeClass("dxgvFooter_PlasticBlue");
+        $("#gridsummarydashboard_DXFooterRow td:eq(2)").css({ 'text-align': 'center' });
+
+        $("#gridsummarydashboard_DXFooterRow td:eq(2)").css({ 'color': '#2443AA' });
+        $("#gridsummarydashboard_DXFooterRow td:eq(2)").css({ 'font-weight': 'bold' });
+
+        $("#gridsummarydashboard_DXFooterRow td:eq(2)").css({ 'padding': '6px 6px 7px' });
+
+        if ($("#hdnExportDashboardSummaryGridListCount").val() == '0') {
+
+
+            $('#imgexport').hide();
+        }
+        else {
+
+            $('#imgexport').show();
+        }
+
+
+
+    }
+
+    function locationclick(userid, username) {
+
+        if (!$('#dashDetails1').hasClass('hide')) {
+            $('#dashDetails1').addClass('hide');
+        }
+        if (!$('#dashDetails2').hasClass('hide')) {
+            $('#dashDetails2').addClass('hide');
+        }
+        if (!$('#gridthirdlevel').hasClass('hide')) {
+            $('#gridthirdlevel').addClass('hide');
+        }
+
+        $('#mapdeatsils').show();
+        $('#map').hide();
+        var d = new Date();
+
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+
+        var output = d.getFullYear() + '/' +
+            (month < 10 ? '0' : '') + month + '/' +
+            (day < 10 ? '0' : '') + day;
+
+        var Url = '@Url.Action("GetSalesmanLocation", "DashboardMenu")'
+
+        $.ajax({
+            url: Url,
+            async: false,
+            type: 'POST',
+            data: {
+                selectedusrid: userid,
+                Date: output,
+                IsGmap: "true"
+            },
+            error: function () {
+                $('#info').html('<p>An error has occurred</p>');
+            },
+
+            success: function (markers) {
+
+                document.getElementById('directions_panel').innerHTML = '';
+                $("#directionname").html("<b>Name : " + username + "</b>");
+                if (markers != '') {
+                    var directionsDisplay;
+                    var directionsService = new google.maps.DirectionsService();
+                    directionsDisplay = new google.maps.DirectionsRenderer(
+                        );
+                    var infoWindow = new google.maps.InfoWindow();
+                    //////// 22/01/2018
+                    var waypts = [];
+                    var latlng = new google.maps.LatLng(28.535516, 77.391026);
+                    // var latlng = new google.maps.LatLng(lat, long);
+                    map = new google.maps.Map(document.getElementById('mapdetailsshow'), {
+                        // center: latlng,
+                        zoom: 16,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    });
+                    //////// 22/01/18
+                    //directionsDisplay.setMap(map);
+                    directionsDisplay = new google.maps.DirectionsRenderer({ map: map, suppressMarkers: true, suppressInfoWindows: false });
+                    for (i = 0; i < markers.salesmanarea.length; i++) {
+                        var data = markers.salesmanarea[i];
+                        waypts.push({
+                            location: data.location,
+                            stopover: true,
+                        });
+                        //createMarker(data.location);
+                    }
+                    //////// 22/01/18
+                    var start = markers.latlanLogin;
+                    var end = markers.latlanLogout;
+                    var request = {
+                        origin: start,
+                        destination: end,
+                        waypoints: waypts,
+                        optimizeWaypoints: true,
+                        travelMode: google.maps.TravelMode.DRIVING
+                    };
+                    var infowindow_forRoutedMarker = new google.maps.InfoWindow({
+                        content: '22'
+                    });
+                    if (markers.Fullresponse != null) {
+                        directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+                        directionsDisplay.setDirections($.parseJSON(markers.Fullresponse));
+                        var route = $.parseJSON(markers.Fullresponse).routes[0];
+                        var summaryPanel = document.getElementById('directions_panel');
+                        var infowindow = new google.maps.InfoWindow();
+                        var drivingdistancesave = '';
+                        var drivingdistance = '';
+                        summaryPanel.innerHTML = '';
+                        var distance = 0.0000;
+                        var distancecount = 0;
+                        // For each route, display summary information.
+                        $("#lbltotaldistancecovered").html('');
+                        for (var i = 0; i < route.legs.length; i++) {
+                            var routeSegment = i + 1;
+                            var x = route.legs[i].distance.text;
+                            // alert(x);
+                            if (x.includes('km')) {
+                                //alert(parseFloat(x.replace('km', '').trim()));
+                                distance = parseFloat(x.replace('km', '').trim());
+                            }
+                            else {
+                                distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+                            }
+                            distancecount = distancecount + distance;
+                            if (i == 0) {
+                                summaryPanel.innerHTML += '<div class="mainLabel"> Travel Point: ' + routeSegment + '</div>';
+                                summaryPanel.innerHTML += '<p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i].start_address + ' </p>  ';
+
+                                summaryPanel.innerHTML += '0 km' + '<br><br>';
+
+                                drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i].start_location,
+                                    label: "" + (i + 1),
+                                    map: map,
+                                    icon: '@weburl' + 'markerloginlogout.png'
+
+                                });
+                            }
+                            else {
+
+                                summaryPanel.innerHTML += '<div class="mainLabel">Travel Point: ' + routeSegment + '</div>';
+                                summaryPanel.innerHTML += '<p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i].start_address + ' </p>  ';
+
+                                summaryPanel.innerHTML += route.legs[i - 1].distance.text + '<br><br>';
+
+                                drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i].start_location,
+                                    label: "" + (i + 1),
+                                    map: map
+
+                                });
+                            }
+                            drivingdistance = drivingdistance + drivingdistancesave;
+                        }
+                        summaryPanel.innerHTML += '<b>Travel Point: ' + (i + 1) + '</b><br>' +
+                           ' <b style="color:green">' + route.legs[i - 1].end_address + ' </b>' + route.legs[i - 1].distance.text + '<br/><br/>  ';
+
+                        summaryPanel.innerHTML += '<div><b>Total Distance covered: </b> ' + distancecount.toFixed(2) + ' km' + '</div>'
+
+                        var marker = new google.maps.Marker({
+                            position: route.legs[i - 1].end_location,
+                            label: "" + (i + 1),
+                            map: map,
+                            animation: google.maps.Animation.DROP,
+                            icon: '@weburl' + 'markerloginlogout.png'
+                        });
+
+
+                        drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+
+                        drivingdistance = drivingdistance + drivingdistancesave;
+                        //marker.addListener('click', function () {
+                        //    infowindow.open(map, marker);
+                        //});
+                        drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                        //  SubmitRequestedLocation(drivingdistance, JSON.stringify(response));
+                        $("#lbltotaldistancecovered").val(drivingdistance);
+                        //$("#lbltotaldistancecovered").html('Distance Covered: ' + distancecount+' km');
+                    }
+                    else {
+                        directionsService.route(request, function (response, status) {
+                            if (status == google.maps.DirectionsStatus.OK) {
+                                //alert(JSON.stringify(response));
+                                // objToString(response)
+                                directionsDisplay.setDirections(response);
+                                var route = response.routes[0];
+                                var summaryPanel = document.getElementById('directions_panel');
+                                var infowindow = new google.maps.InfoWindow();
+                                var drivingdistancesave = '';
+                                var drivingdistance = '';
+                                summaryPanel.innerHTML = '';
+                                var distance = 0;
+                                var distancecount = 0;
+                                // For each route, display summary information.
+                                $("#lbltotaldistancecovered").html('');
+                                for (var i = 0; i < route.legs.length; i++) {
+                                    var routeSegment = i + 1;
+                                    var x = route.legs[i].distance.text;
+                                    // alert(x);
+                                    if (x.includes('km')) {
+                                        //  alert(parseFloat(x.replace('km', '').trim()));
+                                        distance = parseFloat(x.replace('km', '').trim());
+                                    }
+                                    else {
+                                        // alert(parseFloat(x.replace('m', '').trim()) / 1000.0000);
+                                        distance = parseFloat(x.replace('m', '').trim()) / 1000.0000;
+                                    }
+                                    distancecount = distancecount + distance;
+                                    if (i == 0) {
+                                        summaryPanel.innerHTML += '<div class="mainLabel">Travel Point: ' + routeSegment + '</div>';
+                                        summaryPanel.innerHTML += '<p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i].start_address + ' </p>  ';
+                                        summaryPanel.innerHTML += '0 km' + '<br><br>';
+                                        drivingdistancesave = route.legs[i].start_location + '|' + '0' + '^';
+                                        var marker = new google.maps.Marker({
+                                            position: route.legs[i].start_location,
+                                            label: "" + (i + 1),
+                                            map: map,
+                                            icon: '@weburl' + 'markerloginlogout.png'
+                                        });
+                                    }
+                                    else {
+
+                                        summaryPanel.innerHTML += '<div class="mainLabel">Travel Point: ' + routeSegment + '</div>';
+                                        summaryPanel.innerHTML += '<p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i].start_address + ' </p>  ';
+                                        summaryPanel.innerHTML += route.legs[i - 1].distance.text + '<br><br>';
+                                        drivingdistancesave = route.legs[i].start_location + '|' + route.legs[i - 1].distance.text + '^';
+                                        var marker = new google.maps.Marker({
+                                            position: route.legs[i].start_location,
+                                            label: "" + (i + 1),
+                                            map: map
+
+                                        });
+                                    }
+                                    drivingdistance = drivingdistance + drivingdistancesave;
+                                }
+                                summaryPanel.innerHTML += '<div class="mainLabel">Travel Point: ' + (i + 1) + '</div>' +
+                                   ' <p style="color:#1f941f;font-family: Montserrat, sans-serif !important;font-size: 11px;font-weight: 600;">' + route.legs[i - 1].end_address + ' </p>' + route.legs[i - 1].distance.text + '<br/><br/>  ';
+
+                                summaryPanel.innerHTML += '<div><b>Total Distance covered: </b> ' + distancecount.toFixed(2) + ' km' + '</div>'
+
+                                var marker = new google.maps.Marker({
+                                    position: route.legs[i - 1].end_location,
+                                    label: "" + (i + 1),
+                                    map: map,
+                                    animation: google.maps.Animation.DROP,
+                                    icon: '@weburl' + 'markerloginlogout.png'
+                                });
+                                drivingdistancesave = route.legs[i - 1].end_location + '|' + route.legs[i - 1].distance.text + '^';
+
+                                drivingdistance = drivingdistance + drivingdistancesave;
+                                //marker.addListener('click', function () {
+                                //    infowindow.open(map, marker);
+                                //});
+                                drivingdistance = drivingdistance.substring(0, drivingdistance.length - 1);
+                                SubmitRequestedLocation(drivingdistance, JSON.stringify(response));
+                                $("#lbltotaldistancecovered").val(drivingdistance);
+                                //$("#lbltotaldistancecovered").html('Distance Covered: ' + distancecount+' km');
+                            }
+                        });
+                    }
+                }
+
+                else {
+                    summaryPanel.innerHTML = '';
+                    jAlert('No data');
+                }
+
+            },
+
+        });
+
+
+
+    }
+
+    function createMarker(latlng) {
+
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map
+        });
+    }
+
+
+    function SubmitRequestedLocation(datloaction, responseget) {
+
+        var Url = '@Url.Action("InserSalesmanLocationforMonthlyReport", "DashboardMenu")'
+        var data = { "locationdetail": datloaction, selectedusrid: $("#drpuser").val(), Date: $('#txtDate').val(), response: responseget };
+        $.ajax({
+            type: "POST",
+            url: Url,
+            processData: false,
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (r) {
+
+            }
+        });
+
+    }
+    function objToString(obj) {
+        var str = '';
+        for (var p in obj) {
+            if (obj.hasOwnProperty(p)) {
+                str += p + '::' + obj[p] + '\n';
+            }
+        }
+        /// return str;
+
+        alert(str);
+    }
+
+    function gridsummarydashboardclick(desig, state) {
+
+        if (Type == "Tracking") {
+            return;
+        }
+
+
+        document.getElementById("griddetails").style.display = "block";
+        document.getElementById("gridsummary").style.display = "none";
+        designation = desig;
+        statefilterid = state;
+        //var grid = MVCxClientGridView.Cast(s);
+
+        //designation = grid.GetRow(e.visibleIndex).children[1].innerText.trim();
+        //statefilterid = grid.GetRow(e.visibleIndex).children[0].innerText.trim();
+
+        $('#dashDetails1').removeClass('hide');
+        $('#dashDetails2').addClass('hide');
+        //$('.boxWidget').removeClass('activeW');
+
+
+        $('#collapseTwo').addClass('in');
+
+        var summaryof = "";
+        if (FilterName == "AT_WORK")
+            summaryof = "Employees At Work";
+        else if (FilterName == "ON_LEAVE")
+            summaryof = "Employees On Leave";
+        else if (FilterName == "NOT_LOGIN")
+            summaryof = "Employees Not Logged In";
+        else if (FilterName == "EMP")
+            summaryof = "Total Employees";
+
+
+        $("#griddetailsHeadedtext").text("Employee Attendance details - " + summaryof + "");
+        griddashboard.Refresh();
+        griddashboard.Refresh();
+
+
+    }
+
+
+
+
+
+
+    function cmbStatechange() {
+        settingsid = "1";
+
+        for (var i = objsettings.length - 1; i >= 0; i--) {
+            if (objsettings[i].ID == settingsid) {
+                objsettings.splice(i, 1);
+            }
+        }
+        if (settingsid == "1") {
+            var obj = {};
+            obj.ID = "1";
+            obj.action = "AT_WORK";
+            obj.rptype = "Summary";
+            obj.empid = "";
+            obj.stateid = stateids.join(',');//cmbState.GetValue();
+            obj.designid = "";
+            // Mantis Issue 24729
+            var isObject = typeof branchids
+            if (isObject == "object") {
+                if (branchids != null && branchids.length > 0) {
+                    obj.branchid = branchids.join(',');
+                } else {
+                    obj.branchid = "";
+
+                }
+            } else {
+                if (branchids != null && branchids.length > 0) {
+                    obj.branchid = branchids;
+                }
+                else {
+                    obj.branchid = "";
+                }
+            }
+            
+            
+            // End of Mantis Issue 24729
+            objsettings.push(obj);
+        }
+        //  gridsalesman.ClearFilter();
+        if (!$('#dashDetails1').hasClass('hide')) {
+            $('#dashDetails1').addClass('hide');
+        }
+        if (!$('#dashDetails2').hasClass('hide')) {
+            $('#dashDetails2').addClass('hide');
+        }
+        if (!$('#gridthirdlevel').hasClass('hide')) {
+            $('#gridthirdlevel').addClass('hide');
+        }
+        $('.boxWidget').removeClass('activeW');
+
+        stateid = stateids.join(','); //;cmbState.GetValue();
+        // Mantis Issue 24729
+        var obj1 = {};
+        obj1.stateid = stateid;
+
+        $.ajax({
+            type: "POST",
+            url: "/DashboardMenu/DashboardBranchCombobox",
+            data: JSON.stringify(obj1),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                //console.log("res branch", response);
+                const mainData = response.map(function (item) {
+                    return {
+                        label: item.name, 
+                        title: item.name, 
+                        value: item.BranchID,
+                        selected: true
+                    }
+                    // arr.push(obj)
+                })
+                
+                $("#cmbBranch").multiselect('dataprovider', mainData);
+                var newBranch = $('#cmbBranch').val();
+
+                var isObject = typeof newBranch
+                if (isObject == "object") {
+                    if (newBranch != null && newBranch.length > 0) {
+                        branchids = newBranch.join(',');
+                    } else {
+                        branchids = "";
+
+                    }
+                } else {
+                    if (newBranch != null && newBranch.length > 0) {
+                        branchids = newBranch;
+                    }
+                    else {
+                        branchids = "";
+                    }
+                }
+
+                //if (newBranch != null) {
+                //    branchids = newBranch.join(',');
+                //}
+                //else {
+                //    branchids = "";
+                //}
+                //console.log("branchids", branchids);
+                reloadBoxData(branchids);
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+       
+        
+    }
+    function reloadBoxDataTV(branchids) {
+        branchid = branchids;
+
+
+        //GetAddress(stateid);
+        //gridsalesman.ClearFilter();
+        objData = {};
+        $('#mapdeatsils').hide();
+        $('#map').show();
+
+        var obj = {};
+        obj.stateid = stateid;
+        // Mantis Issue 24729
+        obj.branchid = branchid;
+        // End of Mantis Issue 24729
+        $.ajax({
+            type: "POST",
+            url: "/DashboardMenu/GetDashboardDataVisit",
+            data: JSON.stringify(obj),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                $("#EAWTV").text(response.lblAtWork);
+                $("#EOLTV").text(response.lblOnLeave);
+                $("#NLITV").text(response.lblNotLoggedIn);
+                $("#EMPTV").text(response.lblTotal);
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+    }
+    function reloadBoxData(branchids) {
+        branchid = branchids;
+        
+
+        //GetAddress(stateid);
+        //gridsalesman.ClearFilter();
+        objData = {};
+        $('#mapdeatsils').hide();
+        $('#map').show();
+
+        var obj = {};
+        obj.stateid = stateid;
+        // Mantis Issue 24729
+        obj.branchid = branchid;
+        // End of Mantis Issue 24729
+        $.ajax({
+            type: "POST",
+            url: "/DashboardMenu/GetDashboardData",
+            data: JSON.stringify(obj),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                $("#lblAtWork").text(response.lblAtWork);
+                $("#lblOnLeave").text(response.lblOnLeave);
+                $("#lblNotLoggedIn").text(response.lblNotLoggedIn);
+                $("#lblTotal").text(response.lblTotal);
+                $("#lbltotalshop").text(response.TotalVisit);
+                $("#lblnewvisit").text(response.NewVisit);
+                $("#lblrevisit").text(response.ReVisit);
+
+                $("#lblavgvisits").text(response.AvgPerDay);
+                $("#lblavgduration").text(response.AvgDurationPerShop);
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+    }
+    // End of Mantis Issue 24729
+    ///Team Visit
+    function cmbStatechangeTV() {
+        settingsid = "1";
+
+        for (var i = objsettings.length - 1; i >= 0; i--) {
+            if (objsettings[i].ID == settingsid) {
+                objsettings.splice(i, 1);
+            }
+        }
+
+        if (settingsid == "1") {
+            var obj = {};
+            obj.ID = "1";
+            obj.action = "AT_WORK";
+            obj.rptype = "Summary";
+            obj.empid = "";
+            obj.stateid = stateidsTV.join(',');//cmbState.GetValue();
+            obj.designid = "";
+
+            // Mantis Issue 24729	
+            var isObject = typeof branchidsTV
+            if (isObject == "object") {
+                if (branchidsTV != null && branchidsTV.length > 0) {
+                    obj.branchid = branchidsTV.join(',');
+                } else {
+                    obj.branchid = "";
+                }
+            } else {
+                if (branchidsTV != null && branchidsTV.length > 0) {
+                    obj.branchid = branchidsTV;
+                }
+                else {
+                    obj.branchid = "";
+                }
+            }
+
+
+            // End of Mantis Issue 24729
+
+
+            objsettings.push(obj);
+        }
+        //  gridsalesman.ClearFilter();
+        if (!$('#dashDetails1').hasClass('hide')) {
+            $('#dashDetails1').addClass('hide');
+        }
+        if (!$('#dashDetails2').hasClass('hide')) {
+            $('#dashDetails2').addClass('hide');
+        }
+        if (!$('#gridthirdlevel').hasClass('hide')) {
+            $('#gridthirdlevel').addClass('hide');
+        }
+        $('.boxWidget').removeClass('activeW');
+
+        stateid = stateidsTV.join(','); //;
+        
+        //GetAddress(stateid);
+        //gridsalesman.ClearFilter();
+        objData = {};
+        $('#mapdeatsils').hide();
+        $('#map').show();
+
+        var obj = {};
+        obj.stateid = stateid;
+        // Mantis Issue 24729
+
+        // susanta 05-04-22
+        $.ajax({
+            type: "POST",
+            url: "/DashboardMenu/DashboardBranchCombobox",
+            data: JSON.stringify(obj),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                //console.log("res branch", response);
+                const mainData = response.map(function (item) {
+                    return {
+                        label: item.name,
+                        title: item.name,
+                        value: item.BranchID,
+                        selected: true
+                    }
+                    // arr.push(obj)
+                })
+
+                $("#cmbBranchTV").multiselect('dataprovider', mainData);
+                var newBranch = $('#cmbBranchTV').val();
+
+                var isObject = typeof newBranch
+                if (isObject == "object") {
+                    if (newBranch != null && newBranch.length > 0) {
+                        branchidsTV = newBranch.join(',');
+                    } else {
+                        branchidsTV = "";
+
+                    }
+                } else {
+                    if (newBranch != null && newBranch.length > 0) {
+                        branchidsTV = newBranch;
+                    }
+                    else {
+                        branchidsTV = "";
+                    }
+                }
+                reloadBoxDataTV(branchidsTV);
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+        //
+       
+    }
+
+
+
+
+
+
+
+    var divBGcolor = "transparent";
+
+    //$(document).ready(function () {
+    //    dtPayFrom.SetDate(new Date());
+    //    document.getElementById('lblDate').innerHTML = GetClientDateFormat(new Date());
+    //});
+
+    function GetClientDateFormat(today) {
+        if (today) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = dd + '-' + mm + '-' + yyyy;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Type"] = Type;
+        e.customArgs["FilterName"] = FilterName;
+        e.customArgs["StateId"] = stateid;
+        e.customArgs["designation"] = designation;
+        e.customArgs["statefilterid"] = statefilterid;
+        e.customArgs["WindowSize"] = WindowSize;
+        // Mantis Issue 24765
+        e.customArgs["BranchId"] = branchid;
+        e.customArgs["BranchIdTV"] = branchid;
+        // End of Mantis Issue 24765
+    }
+
+    var Type = "";
+    var FilterName = "";
+
+    function AtWorkClick(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+
+
+        $('#dashDetails2').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+
+        //divBGcolor = $(elem).css('background');
+
+        divBGcolor = "transparent";
+        $('#a1').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "AT_WORK";
+        stateid = stateids.join(',');// cmbState.GetValue();
+
+        //$("#gridHeadedtext").text("Employee Attendance Summary - Employees At Work");
+
+        //gridsummarydashboard.Refresh();
+        //gridsummarydashboard.Refresh();
+        gridsummarydashboardclick(null, null);
+        $('#backSpn').attr("Style", "Display:none;");
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+        griddashboard.Refresh();
+        griddashboard.Refresh();
+    }
+
+    function NotLoggedInClick(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        //divBGcolor = $(elem).css('background');
+
+        divBGcolor = "transparent";
+
+        $('#dashDetails2').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a3').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "NOT_LOGIN";
+        stateid = stateids.join(',');//cmbState.GetValue();
+
+        //$("#gridHeadedtext").text("Employee Attendance Summary - Employees Not Logged In");
+
+        //gridsummarydashboard.Refresh();
+        //gridsummarydashboard.Refresh();
+        gridsummarydashboardclick(null, null);
+        $('#backSpn').attr("Style", "Display:none;");
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+        griddashboard.Refresh();
+        griddashboard.Refresh();
+    }
+
+    function OnLeaveClick(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        // divBGcolor = $(elem).css('background');
+        divBGcolor = "transparent";
+
+
+        $('#dashDetails2').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a2').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "ON_LEAVE";
+        stateid = stateids.join(',');// cmbState.GetValue();
+
+        //$("#gridHeadedtext").text("Employee Attendance Summary - Employees On Leave");
+        //gridsummarydashboard.Refresh();
+        //gridsummarydashboard.Refresh();
+        gridsummarydashboardclick(null, null);
+        $('#backSpn').attr("Style", "Display:none;");
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+        griddashboard.Refresh();
+        setTimeout(function () {
+            griddashboard.Refresh();
+        }, 100)
+    }
+
+    function OnTotalClick(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        //divBGcolor = $(elem).css('background');
+        divBGcolor = "transparent";
+
+        $('#dashDetails2').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a4').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "EMP";
+        stateid = stateids.join(',');// cmbState.GetValue();
+
+        //$("#gridHeadedtext").text("Employee Attendance Summary - Total Employees");
+        //gridsummarydashboard.Refresh();
+        //gridsummarydashboard.Refresh();
+        gridsummarydashboardclick(null, null);
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+        $('#backSpn').attr("Style", "Display:none;");
+    }
+
+    //TeamVisit Section
+    function AtWorkClickTeamVisit(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+
+
+        $('#dashDetails2Team').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+
+        //divBGcolor = $(elem).css('background');
+
+        divBGcolor = "transparent";
+        $('#a1').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "AT_WORK";
+        stateid = stateidsTV.join(',');// cmbState.GetValue();
+
+        //$("#gridHeadedtext").text("Employee Attendance Summary - Employees At Work");
+
+        //gridsummarydashboard.Refresh();
+        //gridsummarydashboard.Refresh();
+        gridsummarydashboardclickTeamVisit(null, null);
+        $('#backSpnTeam').attr("Style", "Display:none;");
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+        griddashboardTeam.Refresh();
+        griddashboardTeam.Refresh();
+    }
+
+    function NotLoggedInClickTeamVisit(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        //divBGcolor = $(elem).css('background');
+
+        divBGcolor = "transparent";
+
+        $('#dashDetails2Team').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a3').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "NOT_LOGIN";
+        stateid = stateidsTV.join(',');//cmbState.GetValue();
+
+        //$("#gridHeadedtext").text("Employee Attendance Summary - Employees Not Logged In");
+
+        //gridsummarydashboard.Refresh();
+        //gridsummarydashboard.Refresh();
+        gridsummarydashboardclickTeamVisit(null, null);
+        $('#backSpnTeam').attr("Style", "Display:none;");
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+        griddashboardTeam.Refresh();
+        griddashboardTeam.Refresh();
+    }
+
+    function OnLeaveClickTeamVisit(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        // divBGcolor = $(elem).css('background');
+        divBGcolor = "transparent";
+
+
+        $('#dashDetails2Team').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a2').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "ON_LEAVE";
+        stateid = stateidsTV.join(',');// cmbState.GetValue();
+
+        //$("#gridHeadedtext").text("Employee Attendance Summary - Employees On Leave");
+        //gridsummarydashboard.Refresh();
+        //gridsummarydashboard.Refresh();
+        gridsummarydashboardclickTeamVisit(null, null);
+        $('#backSpnTeam').attr("Style", "Display:none;");
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+        griddashboardTeam.Refresh();
+        setTimeout(function () {
+            griddashboardTeam.Refresh();
+        }, 100)
+    }
+
+    function OnTotalClickTeamVisit(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByTeam').val();
+        document.getElementById("griddetailsTeam").style.display = "none";
+        //document.getElementById("gridsummaryTeam").style.display = "block";
+
+        //divBGcolor = $(elem).css('background');
+        divBGcolor = "transparent";
+
+        $('#dashDetails2Team').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a4').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "EMP";
+        stateid = stateidsTV.join(',');// cmbState.GetValue();
+
+        //$("#gridHeadedtext").text("Employee Attendance Summary - Total Employees");
+        //gridsummarydashboard.Refresh();
+        //gridsummarydashboard.Refresh();
+        gridsummarydashboardclickTeamVisit(null, null);
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+        $('#backSpnTeam').attr("Style", "Display:none;");
+    }
+    function TrackVisitClickTeamVisit() {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        divBGcolor = "transparent";
+
+
+        $('#dashDetails2Team').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#collapseTwo').addClass('in');
+
+        Type = "Tracking";
+        FilterName = "Summary";
+        stateid = stateidsTV.join(',');// cmbState.GetValue();
+
+        $("#gridHeadedtext").text("Live Tracking Summary");
+        gridsummarydashboard.Refresh();
+        // gridsummarydashboard.Refresh();
+
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+    }
+    //ENd Team visit
+    // Team Visit
+    function gridsummarydashboardclickTeamVisit(desig, state) {
+
+        if (Type == "Tracking") {
+            return;
+        }
+
+
+        document.getElementById("griddetailsTeam").style.display = "block";
+        // document.getElementById("gridsummaryTeam").style.display = "none";
+        designation = desig;
+        statefilterid = state;
+        //var grid = MVCxClientGridView.Cast(s);
+
+        //designation = grid.GetRow(e.visibleIndex).children[1].innerText.trim();
+        //statefilterid = grid.GetRow(e.visibleIndex).children[0].innerText.trim();
+
+        $('#dashDetails1Team').removeClass('hide');
+        $('#dashDetails2Team').addClass('hide');
+        //$('.boxWidget').removeClass('activeW');
+
+
+        $('#collapseTwoTeam').addClass('in');
+
+        var summaryof = "";
+        if (FilterName == "AT_WORK")
+            summaryof = "Employees At Work";
+        else if (FilterName == "ON_LEAVE")
+            summaryof = "Employees On Leave";
+        else if (FilterName == "NOT_LOGIN")
+            summaryof = "Employees Not Logged In";
+        else if (FilterName == "EMP")
+            summaryof = "Total Employees";
+
+
+        $("#griddetailsHeadedtextTeam").text("Employee Attendance details - " + summaryof + "");
+        griddashboardTeam.Refresh();
+        griddashboardTeam.Refresh();
+
+
+    }
+
+    //Team visit End
+
+    function TrackVisitClick() {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        divBGcolor = "transparent";
+
+
+        $('#dashDetails2').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#collapseTwo').addClass('in');
+
+        Type = "Tracking";
+        FilterName = "Summary";
+        stateid = stateids.join(',');// cmbState.GetValue();
+
+        $("#gridHeadedtext").text("Live Tracking Summary");
+        gridsummarydashboard.Refresh();
+        // gridsummarydashboard.Refresh();
+
+        //setTimeout(function () { gridsummarydashboard.GroupBy(GroupBy); }, 1000);
+    }
+    function griddashboardEndcallback() {
+
+        $("#griddashboard_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue").css({ 'background': divBGcolor });
+
+        $("#griddashboard_DXFooterRow").removeClass("dxgvFooter_PlasticBlue");
+        //$("#griddashboard_DXFooterRow td:eq(6)").css({ 'text-align': 'center' });
+        $("#griddashboard_DXFooterRow").css({ 'display': 'contents' });
+        $("#griddashboard_DXFooterRow td:eq(6)").css({ 'color': '#2443AA' });
+        $("#griddashboard_DXFooterRow td:eq(6)").css({ 'font-weight': 'bold' });
+        $("#griddashboard_DXFooterRow td:eq(6)").css({ 'padding': '6px 6px 7px' });
+
+    }
+    function showMap() {
+
+        stateid = stateids.join(',');// cmbState.GetValue();
+        GetAddress(stateid);
+        $('#map').removeClass('hide');
+    }
+
+    // Mantis Issue 25468
+    function OnTotalClickTeamVisitH(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByTeamH').val();
+        document.getElementById("griddetailsTeamH").style.display = "none";
+
+        divBGcolor = "transparent";
+
+        $('#dashDetails2TeamH').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a4').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+
+        Type = "Attendance";
+        FilterName = "EMP";
+        stateid = stateidsTVH.join(',');// cmbState.GetValue();
+
+        gridsummarydashboardclickTeamVisitH(null, null);
+        $('#backSpnTeamH').attr("Style", "Display:none;");
+        griddashboardTeamH.Refresh();
+        griddashboardTeamH.Refresh();
+    }
+
+    function AtWorkClickTeamVisitH(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByH').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        $('#dashDetails2Team').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+
+        divBGcolor = "transparent";
+        $('#a1').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "AT_WORK";
+        stateid = stateidsTV.join(',');// cmbState.GetValue();
+
+        gridsummarydashboardclickTeamVisitH(null, null);
+        $('#backSpnTeam').attr("Style", "Display:none;");
+        griddashboardTeamH.Refresh();
+        griddashboardTeamH.Refresh();
+    }
+
+    function OnLeaveClickTeamVisitH(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+        divBGcolor = "transparent";
+
+        $('#dashDetails2Team').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a2').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "ON_LEAVE";
+        stateid = stateidsTV.join(',');// cmbState.GetValue();
+
+        gridsummarydashboardclickTeamVisitH(null, null);
+        $('#backSpnTeam').attr("Style", "Display:none;");
+        griddashboardTeamH.Refresh();
+        setTimeout(function () {
+            griddashboardTeamH.Refresh();
+        }, 100)
+    }
+
+    function NotLoggedInClickTeamVisitH(elem) {
+        var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
+        document.getElementById("griddetails").style.display = "none";
+        document.getElementById("gridsummary").style.display = "block";
+
+        divBGcolor = "transparent";
+
+        $('#dashDetails2Team').removeClass('hide');
+        $('.boxWidget').removeClass('activeW');
+        $('#a3').addClass('activeW');
+        $('#collapseTwo').addClass('in');
+        Type = "Attendance";
+        FilterName = "NOT_LOGIN";
+        stateid = stateidsTV.join(',');//cmbState.GetValue();
+
+        gridsummarydashboardclickTeamVisitH(null, null);
+        $('#backSpnTeam').attr("Style", "Display:none;");
+        griddashboardTeamH.Refresh();
+        griddashboardTeamH.Refresh();
+    }
+
+    function gridsummarydashboardclickTeamVisitH(desig, state) {
+
+        if (Type == "Tracking") {
+            return;
+        }
+
+
+        document.getElementById("griddetailsTeamH").style.display = "block";
+        // document.getElementById("gridsummaryTeam").style.display = "none";
+        designation = desig;
+        statefilterid = state;
+        //var grid = MVCxClientGridView.Cast(s);
+
+        //designation = grid.GetRow(e.visibleIndex).children[1].innerText.trim();
+        //statefilterid = grid.GetRow(e.visibleIndex).children[0].innerText.trim();
+
+        $('#dashDetails1TeamH').removeClass('hide');
+        $('#dashDetails2TeamH').addClass('hide');
+        //$('.boxWidget').removeClass('activeW');
+
+
+        $('#collapseTwoTeam').addClass('in');
+
+        var summaryof = "";
+        if (FilterName == "AT_WORK")
+            summaryof = "Employees At Work";
+        else if (FilterName == "ON_LEAVE")
+            summaryof = "Employees On Leave";
+        else if (FilterName == "NOT_LOGIN")
+            summaryof = "Employees Not Logged In";
+        else if (FilterName == "EMP")
+            summaryof = "Total Employees";
+
+
+        $("#griddetailsHeadedtextTeamH").text("Employee Attendance details - " + summaryof + "");
+        griddashboardTeamH.Refresh();
+        griddashboardTeamH.Refresh();
+
+
+    }
+
+
+    function griddashboardgridviewexportTeamH() {
+        var url = '@Url.Action("ExportDashboardGridViewTVH", "DashboardMenu", new { type = "_type_" })';
+        // debugger;
+        var Headedtext = $("#griddetailsHeadedtextTeamH").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Name=" + Headedtext;
+        window.location.href = url;
+
+        //window.location.href = url.replace("_type_", 3, "_Name_", $("#griddetailsHeadedtext").text());
+    }
+    function gridsummarydashboardExportH() {
+        var url = '@Url.Action("ExportDashboardSummaryGridViewH", "DashboardMenu", new { type = "_type_" })';
+        var Headedtext = $("#gridHeadedtext").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Name=" + Headedtext;
+        window.location.href = url;
+        // window.location.href = url.replace("_type_", 3);
+
+
+    }
+    function griddashboardgridviewdetailsexportH() {
+        var url = '@Url.Action("ExportDashboardGridViewDetailsH", "DashboardMenu", new { type = "_type_" })';
+        var Headedtext = $("#gridshoptext").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Headedtext=" + Headedtext;
+        window.location.href = url;
+        // window.location.href = url.replace("_type_", 3);
+    }
+    function gridsalesmanExportH() {
+        var url = '@Url.Action("ExportDashboardGridViewSalesmanDetailH", "DashboardMenu", new { type = "_type_" })';
+        var Headedtext = $("#griddetailsHeadedtext").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Name=" + Headedtext;
+        window.location.href = url;
+        // window.location.href = url.replace("_type_", 3);
+    }
+
+    function TeamVisitDataH(obj) {
+        $.ajax({
+            type: "POST",
+            url: "/DashboardMenu/GetDashboardDataVisitH",
+            data: JSON.stringify(obj),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log("GetDashboardDataVisitH", response)
+                $("#NLITVH").text(response.lblNotLoggedIn)
+                $("#EOLTVH").text(response.lblOnLeave)
+                $("#EAWTVH").text(response.lblAtWork)
+                $("#EMPTVH").text(response.lblTotal)
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+    }
+    // End of Mantis Issue 25468
+
+    $(document).ready(function () {
+
+        $('#mapdeatsils').hide();
+        $('.closeAc').click(function () {
+            $('#dashDetails1').addClass('hide');
+            $('#dashDetails2').addClass('hide');
+            $('.boxWidget').removeClass('activeW');
+        });
+        $('.closeAcDetails').click(function () {
+            $('#dashDetails2').removeClass('hide');
+            $('#dashDetails1').addClass('hide');
+            $('#gridsummary').show('hide');
+        });
+        $('.closeAcDetailsTeam').click(function () {
+            $('#dashDetails2Team').removeClass('hide');
+            $('#dashDetails1Team').addClass('hide');
+            $('#gridsummaryTeam').show('hide');
+        });
+        $('.closeAcDetails2').click(function () {
+
+            $('#dashDetails1').removeClass('hide');
+            $('#gridthirdlevel').addClass('hide');
+            $('#gridsummary').show('hide');
+        });
+        $('.closeAcDetails2Team').click(function () {
+
+            $('#dashDetails1Team').removeClass('hide');
+            $('#gridthirdlevelTeam').addClass('hide');
+            $('#gridsummaryTeam').show('hide');
+        });
+        $('#close1').click(function () {
+            $('#mapdeatsils').hide();
+            $('#map').show();
+        });
+        // AtWorkClick(this);
+    })
+
+    function ShowViewRoute() {
+        //window.location.replace("../ViewRoute/Index");
+        var apiAccess = 0;
+        if (apiAccess == 0) {
+            window.location.href = '../ViewRoute/Index';
+        } else if (apiAccess == 1) {
+            //window.location.href = '../ViewRoute/Index';
+        }
+
+    }
+    function ShowViewParty() {
+        //window.location.replace("../ViewRoute/Index");
+        var apiAccess = 0;
+        if (apiAccess == 0) {
+            window.location.href = '../ViewParty/ViewParty';
+        } else if (apiAccess == 1) {
+            //window.location.href = '../ViewRoute/Index';
+        }
+
+    }
+    function ShowViewOutlet() {
+        //window.location.replace("../ViewRoute/Index");
+        var apiAccess = 0;
+        if (apiAccess == 0) {
+            window.location.href = '../Outlets/viewOutlets';
+        } else if (apiAccess == 1) {
+            //window.location.href = '../ViewRoute/Index';
+        }
+
+    }
+    function ShowViewEMPOutlet() {
+        var apiAccess = 0;
+        if (apiAccess == 0) {
+            window.location.href = '../OutletRoute/Index';
+        } else if (apiAccess == 1) {
+            //window.location.href = '../ViewRoute/Index';
+        }
+    }
+
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('body').on('click', '.panelAnchor', function () {
+            $('#panelRight').toggleClass('open');
+            //if( $('#panelRight').hasClass('open') ){
+            //    $('body').append('<div class="overlay"></div>');
+            //}else{
+            //    $('.overlay').remove();
+            //}
+        });
+        var options = {
+            chart: {
+                height: 350,
+                type: 'line',
+            },
+            series: [{
+                name: 'Website Blog',
+                type: 'bar',
+                columnWidth: '50%',
+                data: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160]
+            },
+            {
+                name: 'Website 2',
+                type: 'bar',
+                columnWidth: '50%',
+                data: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160]
+            },
+            {
+                name: 'Social Media',
+                type: 'line',
+                data: [250, 242, 335, 27, 443, 422, 117, 331, 222, 422, 212, 116]
+            }],
+            stroke: {
+                width: [0, 0, 4]
+            },
+            title: {
+                text: 'Traffic Sources'
+            },
+            // labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+            labels: ['01 Jan 2001', '02 Jan 2001', '03 Jan 2001', '04 Jan 2001', '05 Jan 2001', '06 Jan 2001', '07 Jan 2001', '08 Jan 2001', '09 Jan 2001', '10 Jan 2001', '11 Jan 2001', '12 Jan 2001'],
+            xaxis: {
+                type: 'datetime'
+            },
+            yaxis: [{
+                title: {
+                    text: 'Website Blog',
+                },
+
+            },
+            //{
+            //    opposite: true,
+            //}
+            ]
+
+        }
+
+        //var chart = new ApexCharts(
+        //  document.querySelector("#mixedChart"),
+        //  options
+        //);
+
+        //chart.render();
+    });
+
+
+    $(function () {
+        $("#tbsalesman").click(function () {
+            dbgridsalesman.Refresh();
+            dbgridsalesman.Refresh();
+        });
+        $("#tbdistributor").click(function () {
+            dbgriddistributor.Refresh();
+            dbgriddistributor.Refresh();
+        });
+    });
+
+</script>
+
+<script>
+    (function ($) {
+        $(window).on("load", function () {
+            $("#mscroll").DataTable({
+                "paging": false,
+                "searching": false,
+                "info": false,
+                "scrollY": "340px",
+                "scrollCollapse": true,
+            });
+        });
+
+
+    })(jQuery);
+    $(document).ready(function () {
+
+        // table data
+        var tb1 = '';
+        tb1 += '<tr class="selected"><td><img src="~/assests/images/bt3.jpg" class="img-circle mw90" /></td><td><span class="nme">Susanta Roy</span></td><td><span class="label label-success">1</span></td><td>90</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt5.jpg" class="img-circle mw90" /></td><td><span class="nme">Arun Mahato</span></td><td><span class="label label-info">2</span></td><td>82</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt2.jpg" class="img-circle mw90" /></td><td><span class="nme">Rajbir Sharma</span></td><td><span class="label label-warning">3</span></td><td>76</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt1.jpg" class="img-circle mw90" /></td><td><span class="nme">Bijay Thakur</span></td><td><span class="label label-primary">4</span></td><td>68</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt9.jpg" class="img-circle mw90" /></td><td><span class="nme">Ruby Sil</span></td><td>5</td><td>68</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt6.jpg" class="img-circle mw90" /> </td><td><span class="nme">Goutam Nandi</span></td><td>6</td><td>65</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt3.jpg" class="img-circle mw90" /></td><td><span class="nme">R Mohan</span></td><td>7</td><td>63</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt7.jpg" class="img-circle mw90" /></td><td><span class="nme">K Benugopal</span></td><td>8</td><td>57</td></tr>';
+        //
+        var tb1 = '';
+        tb1 += '<tr class="selected"><td><img src="~/assests/images/bt1.jpg" class="img-circle mw90" /></td><td><span class="nme">Mohit Roy</span></td><td><span class="label label-success">1</span></td><td>90</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt2.jpg" class="img-circle mw90" /></td><td><span class="nme">Gurucharan Mahato</span></td><td><span class="label label-info">2</span></td><td>82</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt3.jpg" class="img-circle mw90" /></td><td><span class="nme">Anand Sharma</span></td><td><span class="label label-warning">3</span></td><td>76</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt4.jpg" class="img-circle mw90" /></td><td><span class="nme">Rohit Thakur</span></td><td><span class="label label-primary">4</span></td><td>68</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt8.jpg" class="img-circle mw90" /></td><td><span class="nme">Ruby Sil</span></td><td>5</td><td>68</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt5.jpg" class="img-circle mw90" /> </td><td><span class="nme">Goutam Nandi</span></td><td>6</td><td>65</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt6.jpg" class="img-circle mw90" /></td><td><span class="nme">R Mohan</span></td><td>7</td><td>63</td></tr>';
+        tb1 += '<tr><td><img src="~/assests/images/bt7.jpg" class="img-circle mw90" /></td><td><span class="nme">K Benugopal</span></td><td>8</td><td>57</td></tr>';
+
+
+        var js1 = '<div class="statsHd sl1">24.4.2019</div><ul class="statsList cc1"><li><span class="blockage">Savings Max Account</span> <span class="blckNum">35</span></li><li><span class="blockage">Senior Citizen Account</span><span class="blckNum">40</span></li><li><span class="blockage">Two Wheeler Loan</span><span class="blckNum">15</span></li></ul><div class="statsHd sl2">23.4.2019</div><ul class="statsList cc2"><li><span class="blockage">Credit Cards</span> <span class="blckNum">26</span></li><li><span class="blockage">Health & Accident Insurance</span><span class="blckNum">35</span></li><li><span class="blockage">Personal Loan</span><span class="blckNum">19</span></li></ul>';
+
+        var js2 = '<div class="statsHd sl1">24.4.2019</div><ul class="statsList cc1"><li><span class="blockage">Savings Max Account</span> <span class="blckNum">38</span></li><li><span class="blockage">Senior Citizen Account</span><span class="blckNum">12</span></li><li><span class="blockage">Two Wheeler Loan</span><span class="blckNum">32</span></li></ul><div class="statsHd sl2">23.4.2019</div><ul class="statsList cc2"><li><span class="blockage">Credit Cards</span> <span class="blckNum">26</span></li><li><span class="blockage">Health & Accident Insurance</span><span class="blckNum">35</span></li><li><span class="blockage">Personal Loan</span><span class="blckNum">19</span></li></ul>';
+
+        var js3 = '<div class="statsHd sl1">24.4.2019</div><ul class="statsList cc1"><li><span class="blockage">Savings Max Account</span> <span class="blckNum">35</span></li><li><span class="blockage">Senior Citizen Account</span><span class="blckNum">30</span></li><li><span class="blockage">Two Wheeler Loan</span><span class="blckNum">11</span></li></ul><div class="statsHd sl2">23.4.2019</div><ul class="statsList cc2"><li><span class="blockage">Credit Cards</span> <span class="blckNum">26</span></li><li><span class="blockage">Health & Accident Insurance</span><span class="blckNum">35</span></li><li><span class="blockage">Personal Loan</span><span class="blckNum">19</span></li></ul>';
+
+        $('.leaderTbl > tbody > tr').click(function () {
+
+            var rowCount = $(this).index() + 1;
+
+            $('.leaderTbl>tbody>tr').removeClass('selected');
+            $(this).addClass('selected');
+
+            if (rowCount == 1) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js1);
+            } else if (rowCount == 2) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js2);
+            } else if (rowCount == 3) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js3);
+            } else if (rowCount == 4) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js2);
+            } else if (rowCount == 5) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js1);
+            } else if (rowCount == 6) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js3);
+            } else if (rowCount == 7) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js1);
+            } else if (rowCount == 8) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js2);
+            } else if (rowCount == 9) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js3);
+            } else if (rowCount == 10) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js2);
+            } else if (rowCount == 11) {
+                $('.statsWrap').html('');
+                $('.statsWrap').html(js1);
+            }
+        });
+
+
+
+        var options = {
+            chart: {
+                width: 480,
+                height: 350,
+                type: 'pie',
+            },
+            labels: ['LEADS', 'VISITS', 'CLOSED'],
+            fill: {
+                colors: ['#01b8aa', '#374649', '#fd625e']
+            },
+            colors: ['#01b8aa', '#374649', '#fd625e'],
+            label: {
+                position: 'bottom',
+            },
+            series: [250, 130, 24],
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }]
+        }
+
+        //var chart = new ApexCharts(
+        //    document.querySelector("#chartpie"),
+        //    options
+        //);
+
+        //chart.render();
+
+        //var options2 = {
+        //    chart: {
+        //        type: 'donut',
+        //        width: 480,
+        //        height: 350
+        //    },
+        //    labels: ['Qualify Lead', 'Develop', 'Propose', 'Close'],
+        //    fill: {
+        //        colors: ['#01b8aa', '#374649', '#f2c80f', '#fd625e']
+        //    },
+        //    colors: ['#01b8aa', '#374649', '#f2c80f', '#fd625e'],
+        //    label: {
+        //        position: 'bottom',
+        //    },
+        //    series: [250, 100, 30, 24],
+        //    responsive: [{
+        //        breakpoint: 480,
+        //        options: {
+        //            chart: {
+        //                width: 200
+        //            },
+        //            legend: {
+        //                position: 'bottom'
+        //            }
+        //        }
+        //    }]
+        //}
+
+        //var chart2 = new ApexCharts(
+        //     document.querySelector("#chartpie2"),
+        //     options2
+        // );
+
+        //chart2.render();
+
+        //$('.shLeader').click(function () {
+        //    $('#shLeaderView').css({ 'visibility': 'visible' });
+        //});
+
+        //$('#tbsSales').click(function () {
+        //    chart2.refresh();
+        //});
+
+    });
+    $(document).ready(function () {
+        var getTabDetail = $(".getTabDetail").val();
+        if (getTabDetail == "Visit") {
+            $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
+            $(".tab-pane#profile, #tbsalesman").addClass("active");
+
+            $(".tab-pane#profile").removeClass("hide");
+        } else if (getTabDetail == "Field Visit") {
+            $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
+            $(".tab-pane#FieldVisit").addClass("active");
+            $("#tbFieldVisit").addClass("active"); 
+            $(".tab-pane#profile").addClass("hide");
+        } else if (getTabDetail == "Team Visit") {
+            $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
+            $(".tab-pane#teamVisit, #tbteamVisit").addClass("active");
+            $(".tab-pane#profile").addClass("hide");
+            // Mantis Issue 25468
+        } else if (getTabDetail == "Team Visit - Hierarchy") {
+            $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
+            $(".tab-pane#teamVisit, #tbteamVisit").addClass("active");
+            $(".tab-pane#profile").addClass("hide");
+            // End of Mantis Issue 25468
+        } else {
+            $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
+            $(".tab-pane#profile, #tbsalesman").addClass("active");
+            $(".tab-pane#profile").removeClass("hide");
+        }
+    })
+</script>
+<style>
+    .multiselect-container.dropdown-menu > li > a {
+        text-align: left !important;
+        padding: 5px 0 !important;
+    }
+</style>
+<script src="~/assests/js/Leavelist.js"></script>
+
+
+<!--Leave list-->
+<script>
+
+
+    $(document).ready(function () {
+        var isLeaveList = $("#isLeaveList").val();
+        //var script = document.createElement('script');
+       // script.type = 'text/javascript'
+        if (isLeaveList == 1) {
+
+            //script.src = '/assests/js/Leavelist.js';
+        } else {
+            //script.src = '';
+        }
+        //document.getElementsByTagName('head')[0].appendChild(script);
+    })
+    $('body').on('click', '#btnshow', function () {
+
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+
+        var startdate = new Date(Date.parse(newdatefrom));
+        //  alert(startdate);
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+            if (dayse <= 30) {
+                // $("#refreshgridstatusinvoiceorderreportregister").show();
+                Is_PageLoad = "1";
+
+                $.ajax({
+                    url: "@Url.Action("GetDoctorDetailsList", "LeaveApplyList")",
+                    //url: 'InvoiceDeliveryRegister/GetOrderRegisterList',
+                    async: false,
+                data: {
+                    Fromdate: dtFrom.GetText(),
+                    Todate: dtTo.GetText(),
+                    //empcode: empId,
+                    //StateId: StateId,
+                    Is_PageLoad: Is_PageLoad
+                },
+                type: 'POST',
+                success: function (data) {
+                    gridLeaveDetailsDB.Refresh();
+                    gridLeaveDetailsDB.Refresh();
+                },
+                error: function () {
+                },
+                });
+        }
+    else {
+                    jAlert("Searching days must be within One month.");
+    }
+    }
+    });
+    
+</script>
+
+<style>
+    .tabs{
+        font-size:inherit !important
+    } .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+    .float-right
+    {
+        float: right;
+    }
+</style>
+<!--Leave list end-->
+
+<script src="~/assests/js/FieldVisit.js?v=1.2"></script>
+<script src="~/assests/js/TeamVisit.js?v=1.2"></script>
+@*Mantis Issue 25468*@
+<script src="~/assests/js/TeamVisitH.js?v=1.2"></script>
+@*End of Mantis Issue 25468*@
+
+@if (Model.DashboardSettingMappedList != null)
+{
+    if (Model.DashboardSettingMappedList.Count() > 0)
+    {
+
+        <div class="breadCumb">
+            <span>Dashboard</span>
+        </div>
+        <div class="panel-heading hide">
+            <div class="panel-title clearfix">
+                <h3 class="pull-left">  </h3>
+                <div class="pull-right">
+                    <table class="dateT">
+                        <tr class="hide">
+                            <td><span class="">Show For</span></td>
+                            <td><label id="lblDate"></label></td>
+                            <td style="display:none;">
+                                @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "dtPayFrom";
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.UseMaskBehavior = true;
+                            settings.Properties.ShowOutOfRangeWarning = false;
+                            settings.ClientEnabled = false;
+                        }).GetHtml()
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="">Select State</span></td>
+                            <td><label id="lblDate"></label></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<input type="hidden" id="hdnPermissionLevel" value="@(ViewBag.PermissionLevel == null ? "" : ViewBag.PermissionLevel)" />
+<input type="hidden" id="hdnGridEmployeeAttendanceSummaryGroupBy" value="@Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["GridEmployeeAttendanceSummaryGroupBy"])" />
+<input type="hidden" id="hdnGridStatewiseSummaryGroupBy" value="@Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["GridStatewiseSummaryGroupBy"])" />
+
+@if (Model.DashboardSettingMappedList != null)
+{
+    if (Model.DashboardSettingMappedList.Count() > 0)
+    {
+        if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Visit").Count() > 0)
+        {
+            <input type="hidden" class="getTabDetail" value="Visit" />
+        }
+        else if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Field Visit").Count() > 0)
+        {
+            <input type="hidden" class="getTabDetail" value="Field Visit" />
+        }
+        else if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count() > 0)
+        {
+            <input type="hidden" class="getTabDetail" value="Team Visit" />
+        }
+        // Mantis Issue 25468
+        else if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count() > 0)
+        {
+            <input type="hidden" class="getTabDetail" value="Team Visit - Hierarchy" />
+        }
+        // End of Mantis Issue 25468
+        else
+        {
+            <input type="hidden" class="getTabDetail" value="Visit" />
+        }
+
+        <input type="hidden" id="hdnTotalEmployees" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Total Employees").Count()" />
+        <input type="hidden" id="hdnAtWork" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "At Work").Count()" />
+        <input type="hidden" id="hdnOnLeave" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "On Leave").Count()" />
+        <input type="hidden" id="hdnNotLoggedIn" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Not Logged In").Count()" />
+        //Field visitAt Work for Field Visit
+        <input type="hidden" id="hdnTotalEmployeesFV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Total Employees for Field Visit").Count()" />
+        <input type="hidden" id="hdnAtWorkFV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "At Work for Field Visit").Count()" />
+        <input type="hidden" id="hdnOnLeaveFV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "On Leave for Field Visit").Count()" />
+        <input type="hidden" id="hdnNotLoggedInFV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Not Logged In for Field Visit").Count()" />
+    
+    
+    
+        <input type="hidden" id="hdnTotalEmployeesTV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Total Employees for Team Visit").Count()" />
+        <input type="hidden" id="hdnAtWorkTV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "At Work for Team Visit").Count()" />
+        <input type="hidden" id="hdnOnLeaveTV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "On Leave for Team Visit").Count()" />
+        <input type="hidden" id="hdnNotLoggedInTV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Not Logged In for Team Visit").Count()" />
+    
+        // Mantis Issue 25468
+        <input type="hidden" id="hdnTotalEmployeesTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Total Employees for Team Visit - Hierarchy").Count()" />
+            <input type="hidden" id="hdnAtWorkTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "At Work for Team Visit - Hierarchy").Count()" />
+            <input type="hidden" id="hdnOnLeaveTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "On Leave for Team Visit - Hierarchy").Count()" />
+            <input type="hidden" id="hdnNotLoggedInTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Not Logged In for Team Visit - Hierarchy").Count()" />
+        // End of Mantis Issue 25468
+
+        <input type="hidden" id="hdnStatewiseSummary" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count()" />
+        <input type="hidden" id="hdnStatewiseSummaryTeam" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count()" />
+        <input type="hidden" id="hdnStatewiseSummaryTeamTab" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count()" />
+    // Mantis Issue 25468
+    <input type="hidden" id="hdnStatewiseSummaryTeamTabH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count()" />
+    // End of Mantis Issue 25468
+        <input type="hidden" id="hdnStatewiseSummaryFVTab" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Field Visit").Count()" />
+    
+        <input type="hidden" id="isTargetvsAch" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Target / Achievement").Count()" />
+    
+    <input type="hidden" id="isLeaveList" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Leave List").Count()" />
+     
+        //new Layout ContentControl area
+        <div class="container">
+
+            <section class="clearfix">
+                <div class="tabs tabs-style-shape">
+                    <nav>
+                        <ul role="tablist" class="tabItemsLI">
+                            @*<li class="active" role="presentation">
+                                    <a href="#home" class="" aria-controls="home" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Attendance </span>
+                                    </a>
+                                </li>*@
+
+                            <!-- please uncomment this section for static dashboard value salesman & distributor-->
+                            @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Visit").Count() > 0)
+                                {
+                            <li role="presentation" id="tbsalesman" class="active" 
+                                data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
+                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                    <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                    <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                    <span>Visit</span>
+                                </a>
+                            </li>
+                            }
+                            @*susanta 0024866*@
+                            @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Field Visit").Count() > 0)
+                                {
+                            <li role="presentation" id="tbFieldVisit" class=""
+                            data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
+                                <a href="#FieldVisit" aria-controls="FieldVisit" role="tab" data-toggle="tab">
+                                    <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                    <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                    <span>Field  Visit</span>
+                                </a>
+                        </li>
+                            }
+                        @*susanta 0024866*@
+
+                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count() > 0)
+                                {
+                                    <li role="presentation" id="tbteamVisit" class=""
+                                        data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
+                                        <a href="#teamVisit" aria-controls="profile" role="tab" data-toggle="tab">
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <span>Team Visit</span>
+                                        </a>
+                                    </li>
+                                }
+                                @*Mantis Issue 25468*@
+                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count() > 0)
+                                {
+                                    <li role="presentation" id="tbteamVisitH" class=""
+                                        data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
+                                        <a href="#teamVisitH" aria-controls="profile" role="tab" data-toggle="tab">
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <span>Team Visit - Hierarchy</span>
+                                        </a>
+                                    </li>
+                                }
+                                @*End of Mantis Issue 25468*@
+                            @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Attendance Analytics").Count() > 0)
+                            {
+                                    <li role="presentation" id="tbsP" class="shLeader" data-toggle="tooltip" title="Get the attendance Details in calender, charts, recent leaves, on time and late employees count" data-placement="top">
+                                        <a href="#attendanceTB" class="" aria-controls="attendanceTB" role="tab" data-toggle="tab">
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <span class="shLeader">Attendance </span>
+                                        </a>
+                                    </li>
+                            }
+                                 @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Order Analytics").Count() > 0)
+                                 {
+                                    <li role="presentation" id="tbsO" class="shLeader " data-toggle="tooltip" title="Get the Details of Orders , Top 10 items on Order value/quantity , Top parties by order value statewise" data-placement="top">
+                                        <a href="#orderAnalyt" class="" aria-controls="orderAnalyt" role="tab" data-toggle="tab">
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <span class="shLeader">Order </span>
+                                        </a>
+                                    </li>
+                                 }
+                                @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Reimbursement").Count() > 0)
+                                {
+                                    <li role="presentation" id="tbs4" class="shLeader" data-toggle="tooltip" title="Get the Reimbursement analysis based on amount per month, Expense type , Last vs current month" data-placement="top">
+                                        <a href="#ReimbursementAnalyt" class="" aria-controls="ReimbursementAnalyt" role="tab" data-toggle="tab">
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                            <span class="shLeader">Reimbursement </span>
+                                        </a>
+                                    </li>
+                                }
+                                @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Target / Achievement").Count() > 0)
+                                {
+                                <li role="presentation" id="tbs5" class="shLeader" data-toggle="tooltip" title="Get the details of various targets and achivement on entities, monthwise, employeewise" data-placement="top">
+                                    <a href="#targetAnalyt" class="" aria-controls="targetAnalyt" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span class="shLeader">Target/Achievement</span>
+                                    </a>
+                                </li>
+                                }
+                                 @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Leave List").Count() > 0)
+                                {
+                                <li role="presentation" id="tbs6" class="shLeader" >
+                                    <a href="#leaveList" class="" aria-controls="leaveList" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span class="shLeader">Leave List</span>
+                                    </a>
+                                </li>
+                                }
+                                <li></li>
+                        </ul>
+                    </nav>
+                    <div class="tab-content mainAreaTAb">
+                        @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Field Visit").Count() > 0)
+                        {
+                        <div role="tabpanel" class="tab-pane" id="FieldVisit">
+                            @*rev Mantis Issue 25455*@
+                            <div class="row">
+                                <div class="col-md-12 text-right clearfix py-0">
+                                    <table class="float-right">
+                                        <tr>
+
+                                            <td><button type="button" class="btn btn-success" onclick="ShowFieldVisitData()">Show</button></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            @*rev end Mantis Issue 25455*@
+                            <div class="">
+                                @Html.Action("DashboardAttendanceFV", new { list = Model.DashboardSettingMappedList })
+                            </div>
+                            <div class="clearfix">
+                                <div class="row " id="griddetailsFV">
+                                    <div class="col-md-12">
+                                        <div class=" hide noShaded" id="dashDetails1FV">
+                                            <div class="" id="" role="tablist" aria-multiselectable="true">
+                                                <div class="">
+                                                    <div class="panel-heading row" role="tab" id="headingOneFV">
+                                                      
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
+
+                                                            <span id="griddetailsHeadedtextFV" class="f6 translate-y-big"></span>
+
+                                                            <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                <span class="translate-y hide">Export To Excel</span>
+                                                                <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexportFV()" /></span>
+                                                            </span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span id="backSpnFV" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseOneFV" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div class="overflx">
+                                                            @Html.Partial("DashboardGridViewFV", new System.Data.DataTable())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row " id="gridsummaryFV">
+                                    <div class=" col-md-12">
+                                        <div class="boxWidget hide noShaded mtop20" id="dashDetails2FV">
+                                            <div class="" id="">
+                                                <div class="">
+                                                    <div class="panel-heading" role="tab" id="headingOneFV">
+
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+
+                                                            <span id="gridHeadedtextFV"></span>
+                                                            <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexportFV" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseTwoFV" class="">
+                                                        <div class="overflx" id="dsGridWrapFV">
+                                                            @Html.Partial("DashboardSummaryGridViewFV", new System.Data.DataTable())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row hide" id="gridthirdlevelFV">
+                                    <div class=" col-md-12">
+                                        <div class="boxWidget  noShaded mtop20" id="dashDetails3FV">
+                                            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                <div class="">
+                                                    <div class="panel-heading" role="tab" id="">
+                                                        
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
+
+                                                            <span id="gridshoptextFV"></span>
+                                                            <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexportFV()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closeAcDetails2FV clstyle" style="margin-top: 5px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="" class="" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div class="overflx">
+                                                            @Html.Partial("DashboardGridViewDetailsFV", new System.Data.DataTable())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" id="mapdeatsilsFV">
+                                    <div class="col-md-12">
+                                        <div class="boxWidget">
+                                            <h3 class="Widgheading relative"> User Indivisual Tracking <span class="closer clstyle" id="close1"><i class="fa fa-arrow-left"></i> </span></h3>
+
+                                            <div class="mapContainer">
+                                                <div class="row">
+                                                    <div class="col-md-8 pdright0">
+                                                        <div id="mapdetailsshowFV" style="width: 100%; height: 400px;"></div>
+                                                    </div>
+                                                    <div class="col-md-4 pdleft0">
+                                                        <h2 id="directionnameFV"></h2>
+                                                        <div id="directions_panelFV" style="background-color: #FFFFFF;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="lbltotaldistancecovered" />
+                                <div class="row hide" id="mapFV">
+                                    <div class="col-md-12 ">
+                                        <div class="boxWidget noShaded ">
+                                            <h1 class="Widgheading relative">
+                                                Live Track  Employees At Work On Map
+                                                <span class="closerCss clstyle" id="spanClosemapFV" onclick="mapcloseclickFV();"><i class="fa fa-close"></i> </span>
+                                                <i class="fa fa-search" id="showMapSearchFV" style="float: right;"></i>
+                                            </h1>
+
+                                            <div class="mapContainer ">
+                                                @Html.Action("DashboardNewFV")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="boxWidget noShaded mtop20">
+                                                <div class="panel-heading" role="tab" id="">
+
+                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
+
+                                                        <span id="salesmanheaderFV"></span>
+                                                        <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
+                                                        <span class="btn-prime">REFRESH</span>
+                                                        <span class="closerCss hide clstyle" id="spanCloseFV" onclick="salesbackclickFV();"><i class="fa fa-arrow-left"></i> </span>
+                                                    </h4>
+                                                </div>
+                                                @Html.Partial("DashboardGridViewSalesmanDetailFV", new System.Data.DataTable())
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+                            </div>
+                        </div>
+                        }
+                        
+                        <div role="tabpanel" class="tab-pane active" id="profile">
+                            @*rev Mantis Issue 25455*@
+                            <div class="row">
+                                <div class="col-md-12 text-right clearfix py-0">
+                                    <table class="float-right">
+                                        <tr>
+                                            
+                                            <td><button type="button" class="btn btn-success" onclick="ShowVisitData()">Show</button></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            @*rev end Mantis Issue 25455*@
+                            <div class="">
+                                @Html.Action("DashboardAttendance", new { list = Model.DashboardSettingMappedList })
+                            </div>
+                            <div class="">
+                                <div class="row " id="griddetails">
+                                    <div class="col-md-12">
+                                        <div class=" hide noShaded" id="dashDetails1">
+                                            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                <div class="">
+                                                    <div class="panel-heading row" role="tab" id="headingOne">
+                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
+
+                                                            <span id="griddetailsHeadedtext" class="f6 translate-y-big"></span>
+
+                                                            <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                <span class="translate-y hide">Export To Excel</span>
+                                                                <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexport()" /></span>
+                                                            </span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span id="backSpn" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div class="overflx">
+                                                            @Html.Partial("DashboardGridView", new System.Data.DataTable())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row " id="gridsummary">
+                                    <div class=" col-md-12">
+                                        <div class="boxWidget hide noShaded mtop20" id="dashDetails2">
+                                            <div class="" id="accordion">
+                                                <div class="">
+                                                    <div class="panel-heading" role="tab" id="headingOne">
+                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+
+                                                            <span id="gridHeadedtext"></span>
+                                                            <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexport" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseTwo" class="">
+                                                        <div class="overflx" id="dsGridWrap">
+                                                            @Html.Partial("DashboardSummaryGridView", new System.Data.DataTable())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row hide" id="gridthirdlevel">
+                                    <div class=" col-md-12">
+                                        <div class="boxWidget  noShaded mtop20" id="dashDetails3">
+                                            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                <div class="">
+                                                    <div class="panel-heading" role="tab" id="headingOne">
+                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
+
+                                                            <span id="gridshoptext"></span>
+                                                            <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexport()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closeAcDetails2 clstyle" style="margin-top: 5px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseTwo" class="" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div class="overflx">
+                                                            @Html.Partial("DashboardGridViewDetails", new System.Data.DataTable())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="mapdeatsils">
+                                    <div class="col-md-12">
+                                        <div class="boxWidget">
+                                            <h3 class="Widgheading relative"> User Indivisual Tracking <span class="closer clstyle" id="close1"><i class="fa fa-arrow-left"></i> </span></h3>
+
+                                            <div class="mapContainer">
+                                                <div class="row">
+                                                    <div class="col-md-8 pdright0">
+                                                        <div id="mapdetailsshow" style="width: 100%; height: 400px;"></div>
+                                                    </div>
+                                                    <div class="col-md-4 pdleft0">
+                                                        <h2 id="directionname"></h2>
+                                                        <div id="directions_panel" style="background-color: #FFFFFF;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="lbltotaldistancecovered" />
+
+                                <div class="row hide" id="map">
+                                    <div class="col-md-12 ">
+                                        <div class="boxWidget noShaded ">
+                                            <h1 class="Widgheading relative">
+                                                Live Track  Employees At Work On Map
+                                                <span class="closerCss clstyle" id="spanClosemap" onclick="mapcloseclick();"><i class="fa fa-close"></i> </span>
+                                                <i class="fa fa-search" id="showMapSearch" style="float: right;"></i>
+
+                                            </h1>
+
+                                            <div class="mapContainer ">
+                                                @Html.Action("DashboardNew")
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="boxWidget noShaded mtop20">
+                                                <div class="panel-heading" role="tab" id="headingOne">
+
+                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
+
+                                                        <span id="salesmanheader"></span>
+                                                        <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
+                                                        <span class="btn-prime">REFRESH</span>
+                                                        <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
+                                                    </h4>
+                                                </div>
+                                                @Html.Partial("DashboardGridViewSalesmanDetail", new System.Data.DataTable())
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div><!--End of container -->
+                        </div>
+                        
+                        @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count() > 0)
+                                {
+                        <div role="tabpanel" class="tab-pane " id="teamVisit">
+                            @*rev Mantis Issue 25455*@
+                            <div class="row">
+                                <div class="col-md-12 text-right clearfix py-0">
+                                    <table class="float-right">
+                                        <tr>
+
+                                            <td><button type="button" class="btn btn-success" onclick="ShowTeamVisitData()">Show</button></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            @*rev end Mantis Issue 25455*@
+                                <div class="">
+                                    @Html.Action("DashboardAttendanceTV", new { list = Model.DashboardSettingMappedList })
+                                </div>
+                                <div class="">
+                               
+                                
+                                <!--Grid Details team visit-->
+                                <div class="row " id="griddetailsTeam">
+                                    <div class="col-md-12">
+                                        <div class=" hide noShaded" id="dashDetails1Team">
+                                            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                <div class="">
+                                                    <div class="panel-heading row" role="tab" id="">
+                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
+
+                                                            <span id="griddetailsHeadedtextTeam" class="f6 translate-y-big"></span>
+
+                                                            <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                <span class="translate-y hide">Export To Excel</span>
+                                                                <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexportTeam()" /></span>
+                                                            </span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span id="backSpnTeam" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseOneTeam" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div class="overflx">
+                                                            @Html.Partial("DashboardGridViewTeam", new System.Data.DataTable())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Grid Details team visit End-->
+                                <!---->
+                                <div class="row " id="gridsummaryTeam">
+                                    <div class=" col-md-12">
+                                        <div class="boxWidget hide noShaded mtop20" id="dashDetails2Team">
+                                            <div class="" id="accordionTeam">
+                                                <div class="">
+                                                    <div class="panel-heading" role="tab" id="headingOneTeam">
+                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+
+                                                            <span id="gridHeadedtextTeam"></span>
+                                                            <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexportTeam" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+
+                                                        </h4>
+                                                    </div>
+                                                    <div id="collapseTwoTeam" class="">
+                                                        <div class="overflx" id="dsGridWrapTeam">
+                                                            @*@Html.Partial("DashboardSummaryGridViewTeam", new System.Data.DataTable())*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--gridsummary Team-->
+
+                                <!--Third level Team-->
+                                <div class="row hide" id="gridthirdlevelTeam">
+                                    <div class=" col-md-12">
+                                        <div class="boxWidget  noShaded mtop20" id="dashDetails3Team">
+                                            <div class=""  role="tablist" aria-multiselectable="true">
+                                                <div class="">
+                                                    <div class="panel-heading" role="tab" >
+                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
+
+                                                            <span id="gridshoptextTeam"></span>
+                                                            <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexport()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closeAcDetails2Team clstyle" style="margin-top: 5px; position: absolute; right: 0; top: -9px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    <div  class="" role="tabpanel" aria-labelledby="headingOne">
+                                                        <div class="overflx">
+                                                            @Html.Partial("DashboardGridViewDetailsTeamVisit", new System.Data.DataTable())
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Third level Team-->
+
+                                <!--State Wise -->
+                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
+                                {
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="boxWidget noShaded mtop20">
+                                                <div class="panel-heading" role="tab" id="headingOne">
+
+                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
+
+                                                        <span id="salesmanheaderTeam"></span>
+                                                        <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
+                                                        <span class="btn-prime">REFRESH</span>
+                                                        <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
+                                                    </h4>
+                                                </div>
+                                                @Html.Partial("DashboardGridViewSalesmanDetailTeam", new System.Data.DataTable())
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div><!--Team visit End-->
+                        }
+                        @*Mantis Issue 25468*@
+                        @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count() > 0)
+                        {
+                            <div role="tabpanel" class="tab-pane " id="teamVisitH">
+                                <div class="row">
+                                    <div class="col-md-12 text-right clearfix py-0">
+                                        <table class="float-right">
+                                            <tr>
+
+                                                <td><button type="button" class="btn btn-success" onclick="ShowTeamVisitHData()">Show</button></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    @Html.Action("DashboardAttendanceTVH", new { list = Model.DashboardSettingMappedList })
+                                </div>
+                                <div class="">
+
+
+                                    <!--Grid Details Team Visit - Hierarchy & Channel Wise-->
+                                    <div class="row " id="griddetailsTeamH">
+                                        <div class="col-md-12">
+                                            <div class=" hide noShaded" id="dashDetails1TeamH">
+                                                <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading row" role="tab" id="">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
+
+                                                                <span id="griddetailsHeadedtextTeamH" class="f6 translate-y-big"></span>
+
+                                                                <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                    <span class="translate-y hide">Export To Excel</span>
+                                                                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexportTeamH()" /></span>
+                                                                </span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span id="backSpnTeamH" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOneTeamH" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="overflx">
+                                                                @Html.Partial("DashboardGridViewTeamH", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--Grid Details Team Visit - Hierarchy & Channel Wise End-->
+                                    <!---->
+                                    <div class="row " id="gridsummaryTeam">
+                                        <div class=" col-md-12">
+                                            <div class="boxWidget hide noShaded mtop20" id="dashDetails2TeamH">
+                                                <div class="" id="accordionTeam">
+                                                    <div class="">
+                                                        <div class="panel-heading" role="tab" id="headingOneTeam">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+
+                                                                <span id="gridHeadedtextTeam"></span>
+                                                                <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexportTeam" title="Export To Excel" onclick="gridsummarydashboardExportH()" /></span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwoTeam" class="">
+                                                            <div class="overflx" id="dsGridWrapTeam">
+                                                                @*@Html.Partial("DashboardSummaryGridViewTeam", new System.Data.DataTable())*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--gridsummary Team-->
+                                    <!--Third level Team-->
+                                    <div class="row hide" id="gridthirdlevelTeam">
+                                        <div class=" col-md-12">
+                                            <div class="boxWidget  noShaded mtop20" id="dashDetails3Team">
+                                                <div class="" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading" role="tab">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
+
+                                                                <span id="gridshoptextTeam"></span>
+                                                                <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexportH()" /></span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span class="closeAcDetails2Team clstyle" style="margin-top: 5px; position: absolute; right: 0; top: -9px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div class="" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="overflx">
+                                                                @Html.Partial("DashboardGridViewDetailsTeamVisitH", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Third level Team-->
+                                    <!--State Wise -->
+                                    @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="boxWidget noShaded mtop20">
+                                                    <div class="panel-heading" role="tab" id="headingOne">
+
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
+
+                                                            <span id="salesmanheaderTeamH"></span>
+                                                            <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExportH()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    @Html.Partial("DashboardGridViewSalesmanDetailTeamH", new System.Data.DataTable())
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div><!--Team Visit - Hierarchy & Channel Wise End-->
+                        }
+                        @*End of Mantis Issue 25468*@
+                        @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Attendance Analytics").Count() > 0)
+                        {
+                        <div role="tabpanel" class="tab-pane" id="attendanceTB">
+                           @*rev Mantis Issue 25455*@
+                            <div class="row">
+                                <div class="col-md-12 text-right clearfix py-0 mb-4">
+                                    <table class="float-right">
+                                        <tr>
+
+                                            <td><button type="button" class="btn btn-success" onclick="ShowAttendanceData()">Show</button></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            @*rev end Mantis Issue 25455*@
+                            <div>@Html.Action("attendanceDetails")</div>
+                        </div>
+                        }
+                        @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Order Analytics").Count() > 0)
+                        {
+                        <div role="tabpanel" class="tab-pane" id="orderAnalyt">
+                            <div>@Html.Action("orderAnalytics")</div>
+                        </div>
+                        }
+                        @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Reimbursement").Count() > 0)
+                        {
+                        <div role="tabpanel" class="tab-pane" id="ReimbursementAnalyt">
+                            <div>@Html.Action("reimbursementAnalytics")</div>
+                        </div>
+                        }
+                        @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Target / Achievement").Count() > 0)
+                        {
+                        <div role="tabpanel" class="tab-pane" id="targetAnalyt">
+                            <div>@Html.Action("TargetAchievementAnalytics")</div>
+                        </div>
+                        }
+                        
+                        <div role="tabpanel" class="tab-pane" id="leaveList">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <table class="eqpadtbl mb-2">
+                                            <tr>
+                                                <td class="w150">
+                                                    <div>From Date</div>
+                                                    <div>
+                                                        @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                                        deSettings =>
+                                                        {
+                                                            deSettings.Name = "dtFrom";
+                                                            deSettings.Date = DateTime.Now;
+                                                            deSettings.Properties.UseMaskBehavior = true;
+                                                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                                                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                                        }).GetHtml()
+
+                                                    </div>
+                                                </td>
+                                                <td class="w150">
+                                                    <div>To Date</div>
+                                                    <div>
+                                                        @Html.DevExpress().DateEditFor(x => x.Todate,
+                                                        deSettings =>
+                                                        {
+                                                            deSettings.Name = "dtTo";
+                                                            deSettings.Date = DateTime.Now;
+                                                            deSettings.Properties.UseMaskBehavior = true;
+                                                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                                                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                                        }).GetHtml()
+                                                    </div>
+                                                </td>
+                                                <td style="padding-top: 22px;width:170px;">
+                                                    <label></label>
+                                                    <button type="button" id="btnshow" class="btn btn-success btnwidth" >Show</button>  
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="form_main">
+                                    <div class="clear"></div>
+                                    <div id="refreshgrid">
+                                    </div>
+                                    <div id="refreshgridstatusinvoiceorderreportregister">
+                                        @{
+                                        Html.RenderAction("LeaveDetailslistGridDB", "LeaveApplyList", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
+                                        }
+                                        @*change for design*@
+
+                                    </div>
+
+
+                                    <input type="hidden" id="hdnuser_id" />
+                                    <input type="hidden" id="hdnuser_state" />
+                                    <input type="hidden" id="hdnuser_shop" />
+
+                                    @Html.DevExpress().PopupControl(
+                                    settings =>
+                                    {
+                                        settings.Name = "pcModalImage";
+                                        settings.Width = 600;
+                                        settings.Height = 400;
+                                        //settings.ScrollBars.v
+                                        settings.AllowDragging = true;
+                                        settings.CloseAction = CloseAction.CloseButton;
+                                        settings.CloseOnEscape = true;
+                                        settings.PopupAnimationType = AnimationType.None;
+                                        settings.HeaderText = "View Documents";
+                                        settings.Modal = true;
+                                        settings.AutoUpdatePosition = true;
+                                        settings.Top = 50;
+                                        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                                        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+                                        settings.SetContent(() =>
+                                        { });
+
+                                        // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                                    }).GetHtml()
+
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="hide">
+            <svg class="hidden">
+                <defs>
+                    <path id="tabshape" d="M80,60C34,53.5,64.417,0,0,0v60H80z" />
+                </defs>
+            </svg>
+            <section class="clearfix">
+                <div class="tabs tabs-style-shape">
+                    <nav>
+                        <ul role="tablist">
+                            @*<li class="active" role="presentation">
+                                    <a href="#home" class="" aria-controls="home" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Attendance </span>
+                                    </a>
+                                </li>*@
+
+                            <!-- please uncomment this section for static dashboard value salesman & distributor-->
+                            @*<li role="presentation" id="tbsalesman">
+                                    <a href="#profile" class="" aria-controls="profile" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Sales Person</span>
+                                    </a>
+                                </li>
+                                <li role="presentation" id="tbsP" class="shLeader">
+                                    <a href="#Leaderboard" class="" aria-controls="Leaderboard" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span class="shLeader">Leaderboard</span>
+                                    </a>
+                                </li>
+
+                                <li role="presentation" id="tbsSales">
+                                    <a href="#salesmanPerformance" class="" aria-controls="salesmanPerformance" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Salesman Performance</span>
+                                    </a>
+                                </li>
+                                <li role="presentation" id="productPerf">
+                                    <a href="#productPerformance" class="" aria-controls="productPerformance" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Product Performance</span>
+                                    </a>
+                                </li>
+                                <li role="presentation" id="customerAna">
+                                    <a href="#customerAnalytics" class="" aria-controls="customerAnalytics" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Customer Analytics</span>
+                                    </a>
+                                </li>
+                                <li role="presentation" id="competitorAna">
+                                    <a href="#competitorAnalytics" class="" aria-controls="competitorAnalytics" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Competitor Analytics</span>
+                                    </a>
+                                </li>*@
+                            @*<li role="presentation" id="tbdistributor">
+                                    <a href="#messages" class="" aria-controls="messages" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Distributor</span>
+                                    </a>
+                                </li>*@
+                            @*<li role="presentation">
+                                    <a href="#mis" class="" aria-controls="messages" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>MIS</span>
+                                    </a>
+                                </li>*@
+                            <!-- please uncomment this section for static dashboard value salesman & distributor End -->
+                        </ul>
+                    </nav>
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <section id="panelRight" class="hide">
+                                <span class="panelAnchor"><i class="fa fa-cog"></i></span>
+                            </section>
+                            <div class="row ">
+                                <div class="col-md-12">
+                                    <h3 class="Widgheading clearfix">
+                                        <ul class="list-inline mapShowlist">
+                                            <li>
+                                                <span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;">View Map </span>
+                                            </li>
+
+                                            <li class="separate-left">
+                                                <span class=" greenTrack" style="cursor:pointer;">Live Track Salesman </span>
+                                            </li>
+
+                                        </ul>
+                                    </h3>
+                                    <div class="d-flex ">
+                                        <div class="flex-item flex1">
+                                            <div class="d-flex flex-column">
+
+                                                <div class="flex-item">
+                                                    <div class="d-flex">
+
+                                                        <div class="flex-item flex1 boxWidget cl2rd5 text-white min115 mr8 maxisize" id="">
+                                                            <div class=" heightFull">
+                                                                <div class="mainLabel ">
+                                                                    Total Leads
+                                                                </div>
+                                                                <div class="subLabel ">AS ON TODAY</div>
+                                                                @*<div class="subLabel">BY SALES PERSON</div>*@
+                                                                <div class="wdgContent text-center "><span id="" class="WdgLetter text-white">600</span></div>
+                                                                <span class="showD">Show Details</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-item boxWidget flex1 text-white cl3rd2 mr8 min115 maxisize" id="">
+                                                            <div class="mainLabel ">
+                                                                Converted Leads
+                                                            </div>
+                                                            <div class="subLabel ">THIS MONTH</div>
+
+                                                            <div class="wdgContent text-center"><span id="" class="WdgLetter">250</span></div>
+                                                            <span class="showD">Show Details</span>
+                                                        </div>
+                                                        <div class="flex-item boxWidget flex1 text-white cl2rd2 mr8 min115 maxisize" id="">
+                                                            <div class="mainLabel ">
+                                                                Open Leads
+                                                            </div>
+                                                            <div class="subLabel ">AS ON TODAY</div>
+                                                            @*<div class="subLabel">BY SALES PERSON</div>*@
+                                                            <div class="wdgContent text-center"><span id="" class="WdgLetter">275</span></div>
+                                                            <span class="showD">Show Details</span>
+                                                        </div>
+
+                                                        <div class="flex-item flex1 boxWidget text-white cl2rd3 mr8 min115 maxisize" id="">
+                                                            <div class="mainLabel ">
+                                                                Total Close Leads
+                                                            </div>
+                                                            <div class="subLabel ">AS ON TODAY</div>
+                                                            @*<div class="subLabel">BY SALES PERSON</div>*@
+                                                            <div class="wdgContent text-center"><span id="" class="WdgLetter text-white">325</span></div>
+                                                            <span class="showD">Show Details</span>
+                                                        </div>
+
+                                                        <div class="flex-item flex1 boxWidget text-white  cl2rd4 min115 maxisize mr8" id="">
+                                                            <div class="mainLabel">
+                                                                Target Leads
+                                                            </div>
+                                                            <div class="subLabel ">AS ON TODAY</div>
+
+                                                            <div class="wdgContent text-center"><span id="" class="WdgLetter text-white">1325</span></div>
+                                                            <span class="showD">Show Details</span>
+                                                        </div>
+                                                        <div class="flex-item flex1 boxWidget cl2rd6 text-white min115  " id="">
+                                                            <div class=" heightFull">
+                                                                <div class="mainLabel ">
+                                                                    Total Sales Person
+                                                                </div>
+                                                                <div class="subLabel ">AS ON TODAY</div>
+                                                                @*<div class="subLabel">BY SALES PERSON</div>*@
+                                                                <div class="wdgContent text-center "><span id="" class="WdgLetter text-white">150</span></div>
+                                                                <span class="showD">Show Details</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-item flex2 hide">
+                                                    <div class="d-flex">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex " style="display:none !important">
+                                        <div class="flex-item flex1">
+                                            <div class="d-flex flex-column">
+                                                <div class="flex-item">
+                                                    <div class="d-flex">
+                                                        <div class="flex-item flex1 boxWidget text-white cl3rd3 mr8 min115 " id="">
+                                                            <div class="mainLabel ">
+                                                                Target Value
+                                                            </div>
+                                                            <div class="subLabel ">THIS MONTH</div>
+                                                            @*<div class="subLabel">BY SALES PERSON</div>*@
+                                                            <div class="wdgContent text-center"><span id="" class="WdgLetter text-white"><i class="fa fa-inr" aria-hidden="true"></i> 37,00,000  </span></div>
+                                                            <span class="showD">Show Details</span>
+                                                        </div>
+
+                                                        <div class="flex-item flex1 boxWidget text-white  cl2rd7 min115 " id="">
+                                                            <div class="mainLabel">
+                                                                Achivement
+                                                            </div>
+                                                            <div class="subLabel ">AS ON TODAY</div>
+                                                            @*<div class="subLabel">BY SALES PERSON</div>*@
+                                                            <div class="wdgContent text-center"><span id="" class="WdgLetter text-white"><i class="fa fa-inr" aria-hidden="true"></i> 1,20,000 </span></div>
+                                                            <span class="showD">Show Details</span>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div id="dvgridsalesman">
+                                        @Html.Partial("DashboardGridSalesMan", new System.Data.DataTable())
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                    </div><!-- /content -->
+                </div><!-- /tabs -->
+            </section>
+            <div class="clear"></div>
+
+
+        </div>
+    }
+}
+
+<script>
+
+    function NoFileAlert() {
+
+        jAlert('No data for export');
+    }
+
+    function mapcloseclick() {
+        $("#map").addClass("hide");
+    }
+
+
+
+    var objData = {};
+    $(document).ready(function () {
+        //Surojit
+        $('#cmbState').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            maxHeight: 400,
+            enableCaseInsensitiveFiltering: true,
+            onDropdownHide: function (event) {
+                console.log("on hide");
+                GetSateValue();
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+        
+        // Mantis Issue 24729
+        $('#cmbBranch').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            maxHeight: 400,
+            enableCaseInsensitiveFiltering: true,
+            onDropdownHide: function (event) {
+                 GetBranchValue();
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+
+        branchids = $('#cmbBranch').val();
+
+    
+        // End of Mantis Issue 24729
+        stateids = $('#cmbState').val();
+        
+        var statelistcount = $('#hdnStateListCount').val();
+        if (statelistcount > 0) {
+            var GroupBy = $('#hdnGridStatewiseSummaryGroupBy').val();
+            for (var i = objsettings.length - 1; i >= 0; i--) {
+                if (objsettings[i].ID == settingsid) {
+                    objsettings.splice(i, 1);
+                }
+            }
+
+            // Mantis Issue 25455
+            //if (settingsid == "1") {
+            //    var obj = {};
+            //    obj.ID = "1";
+            //    obj.action = "AT_WORK";
+            //    obj.rptype = "Summary";
+            //    obj.empid = "";
+            //    obj.stateid = stateids.join(',');// cmbState.GetValue();
+
+            //    var isObject = typeof branchids
+            //    if (isObject == "object") {
+            //        if (branchids != null && branchids.length > 0) {
+            //            obj.branchid = branchids.join(',');
+            //        } else {
+            //            obj.branchid = "";
+
+            //        }
+            //    } else {
+            //        if (branchids != null && branchids.length > 0) {
+            //            obj.branchid = branchids;
+            //        }
+            //        else {
+            //            obj.branchid = "";
+            //        }
+            //    }
+
+            //    //if (branchids != null && branchids.length > 0) {
+            //    //    obj.branchid = branchids.join(',');
+            //    //}
+            //    //else {s
+            //    //    obj.branchid = "";
+            //    //}
+            //    obj.designid = "";
+            //    objsettings.push(obj);
+            //}
+
+            //WindowSize = $(window).width();
+
+
+            //$("#lblAtWork").html("<img src='/assests/images/Spinner.gif' />");
+            //$("#lblOnLeave").html("<img src='/assests/images/Spinner.gif' />");
+            //$("#lblNotLoggedIn").html("<img src='/assests/images/Spinner.gif' />");
+            //$("#lblTotal").html("<img src='/assests/images/Spinner.gif' />");
+            //stateid = stateids.join(',');// cmbState.GetValue();
+            //$("#salesmanheader").html("State wise Summary");
+            //$("#salesmanheaderTeam").html("State wise Summary");
+            //stateid = stateids.join(',');// cmbState.GetValue();
+            //// Mantis Issue 24729
+            //var isObject = typeof branchids
+            //if (isObject == "object") {
+            //    if (branchids != null && branchids.length > 0) {
+            //        branchid = branchids.join(',');
+            //    } else {
+            //        branchid = "";
+
+            //    }
+            //} else {
+            //    if (branchids != null && branchids.length > 0) {
+            //        branchid = branchids;
+            //    }
+            //    else {
+            //        branchid = "";
+            //    }
+            //}
+
+            ////if (branchids != null && branchids.length > 0) {
+            ////    branchid = branchids.join(',');
+            ////}
+            ////else {
+            ////    branchid = "";
+            ////}
+            //// End of Mantis Issue 24729
+            ////GetAddress(stateid);
+            //objData = {};
+
+            //var hdnTotalEmployees = $('#hdnTotalEmployees').val();
+            //var hdnAtWork = $('#hdnAtWork').val();
+            //var hdnOnLeave = $('#hdnOnLeave').val();
+            //var hdnNotLoggedIn = $('#hdnNotLoggedIn').val();
+            //var hdnStatewiseSummary = $('#hdnStatewiseSummary').val();
+            //var hdnStatewiseSummaryTeam = $('#hdnStatewiseSummaryTeam').val();
+
+            //var obj = {};
+            //obj.stateid = stateid;
+            //// Mantis Issue 24729
+            //obj.branchid = branchid;
+            //// End of Mantis Issue 24729
+
+            //if (hdnTotalEmployees > 0 || hdnAtWork > 0 || hdnOnLeave > 0 || hdnNotLoggedIn > 0) {
+            //    $.ajax({
+            //        type: "POST",
+            //        url: "/DashboardMenu/GetDashboardData",
+            //        data: JSON.stringify(obj),
+            //        async: true,
+            //        contentType: "application/json; charset=utf-8",
+            //        dataType: "json",
+            //        success: function (response) {
+            //            if (hdnAtWork > 0) {
+            //                $("#lblAtWork").html(response.lblAtWork);
+            //            }
+            //            if (hdnOnLeave > 0) {
+            //                $("#lblOnLeave").html(response.lblOnLeave);
+            //            }
+            //            if (hdnNotLoggedIn > 0) {
+            //                $("#lblNotLoggedIn").html(response.lblNotLoggedIn);
+            //            }
+            //            if (hdnTotalEmployees > 0) {
+            //                $("#lblTotal").html(response.lblTotal);
+            //            }
+
+
+            //            //$("#lbltotalshop").text(response.TotalVisit);
+            //            //$("#lblnewvisit").text(response.NewVisit);
+            //            //$("#lblrevisit").text(response.ReVisit);
+
+            //            //$("#lblavgvisits").text(response.AvgPerDay);
+            //            //$("#lblavgduration").text(response.AvgDurationPerShop);
+
+            //            //$("#lbltodaysale").text(response.TODAYSALES);
+            //            //$("#lblavgsale").text(response.AVGSALES);
+            //            //$("#lbltotalsale").text(response.TOTALSALES);
+
+
+
+
+            //        },
+            //        error: function (response) {
+            //            jAlert("Please try again later");
+            //        }
+            //    });
+            //    // ajax Team visit
+            //    if ($("#hdnStatewiseSummaryTeamTab").val() == 1) {
+            //        TeamVisitData(obj)
+            //    }
+            
+            //}
+            // End of Mantis Issue 25455
+            if (hdnStatewiseSummary > 0) {
+                //gridsalesman.ClearFilter();
+                //gridsalesman.Refresh();
+            }
+            //gridsalesman.Refresh();
+            // $("#gridsalesman_DXMainTable > tbody > tr > td.dxgvHeader_PlasticBlue").css({ 'background': divBGcolor });
+            //setTimeout(function () { gridsalesman.GroupBy(GroupBy); }, 2000);
+        }
+        else {
+            $('.bodymain_areastatewise').hide();
+        }
+
+    });
+    function TeamVisitData(obj) {
+        $.ajax({
+            type: "POST",
+            url: "/DashboardMenu/GetDashboardDataVisit",
+            data: JSON.stringify(obj),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log("GetDashboardDataVisit", response)
+                $("#NLITV").text(response.lblNotLoggedIn)
+                $("#EOLTV").text(response.lblOnLeave)
+                $("#EAWTV").text(response.lblAtWork)
+                $("#EMPTV").text(response.lblTotal)
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+    }
+    function gridsummarydashboardExport() {
+        var url = '@Url.Action("ExportDashboardSummaryGridView", "DashboardMenu", new { type = "_type_" })';
+        var Headedtext = $("#gridHeadedtext").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Name=" + Headedtext;
+        window.location.href = url;
+        // window.location.href = url.replace("_type_", 3);
+
+
+    }
+
+    function gridsalesmanExport() {
+        var url = '@Url.Action("ExportDashboardGridViewSalesmanDetail", "DashboardMenu", new { type = "_type_" })';
+        var Headedtext = $("#griddetailsHeadedtext").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Name=" + Headedtext;
+        window.location.href = url;
+        // window.location.href = url.replace("_type_", 3);
+    }
+
+    function griddashboardgridviewexport() {
+        var url = '@Url.Action("ExportDashboardGridView", "DashboardMenu", new { type = "_type_" })';
+        // debugger;
+        var Headedtext = $("#griddetailsHeadedtext").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Name=" + Headedtext;
+        window.location.href = url;
+
+        //window.location.href = url.replace("_type_", 3, "_Name_", $("#griddetailsHeadedtext").text());
+    }
+    function griddashboardgridviewexportFV() {
+        var url = '@Url.Action("ExportDashboardGridViewFV", "DashboardMenu", new { type = "_type_" })';
+        // debugger;
+        var Headedtext = $("#griddetailsHeadedtextFV").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Name=" + Headedtext;
+        window.location.href = url;
+
+        //window.location.href = url.replace("_type_", 3, "_Name_", $("#griddetailsHeadedtext").text());
+    }
+    function griddashboardgridviewexportTeam() {
+        var url = '@Url.Action("ExportDashboardGridViewTV", "DashboardMenu", new { type = "_type_" })';
+        // debugger;
+        var Headedtext = $("#griddetailsHeadedtextTeam").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Name=" + Headedtext;
+        window.location.href = url;
+
+        //window.location.href = url.replace("_type_", 3, "_Name_", $("#griddetailsHeadedtext").text());
+    }
+    function griddashboardgridviewdetailsexport() {
+        var url = '@Url.Action("ExportDashboardGridViewDetails", "DashboardMenu", new { type = "_type_" })';
+        var Headedtext = $("#gridshoptext").text();
+        url = url.replace("_type_", 3);
+        url = url + "&Headedtext=" + Headedtext;
+        window.location.href = url;
+        // window.location.href = url.replace("_type_", 3);
+    }
+    // Mantis Issue 25455
+    function ShowVisitData() {
+        if (settingsid == "1") {
+            var obj = {};
+            obj.ID = "1";
+            obj.action = "AT_WORK";
+            obj.rptype = "Summary";
+            obj.empid = "";
+            obj.stateid = stateids.join(',');// cmbState.GetValue();
+
+            var isObject = typeof branchids
+            if (isObject == "object") {
+                if (branchids != null && branchids.length > 0) {
+                    obj.branchid = branchids.join(',');
+                } else {
+                    obj.branchid = "";
+
+                }
+            } else {
+                if (branchids != null && branchids.length > 0) {
+                    obj.branchid = branchids;
+                }
+                else {
+                    obj.branchid = "";
+                }
+            }
+
+            //if (branchids != null && branchids.length > 0) {
+            //    obj.branchid = branchids.join(',');
+            //}
+            //else {s
+            //    obj.branchid = "";
+            //}
+            obj.designid = "";
+            objsettings.push(obj);
+        }
+
+        WindowSize = $(window).width();
+
+
+        $("#lblAtWork").html("<img src='/assests/images/Spinner.gif' />");
+        $("#lblOnLeave").html("<img src='/assests/images/Spinner.gif' />");
+        $("#lblNotLoggedIn").html("<img src='/assests/images/Spinner.gif' />");
+        $("#lblTotal").html("<img src='/assests/images/Spinner.gif' />");
+        stateid = stateids.join(',');// cmbState.GetValue();
+        $("#salesmanheader").html("State wise Summary");
+        $("#salesmanheaderTeam").html("State wise Summary");
+        $("#salesmanheaderTeamH").html("State wise Summary");
+        stateid = stateids.join(',');// cmbState.GetValue();
+        // Mantis Issue 24729
+        var isObject = typeof branchids
+        if (isObject == "object") {
+            if (branchids != null && branchids.length > 0) {
+                branchid = branchids.join(',');
+            } else {
+                branchid = "";
+
+            }
+        } else {
+            if (branchids != null && branchids.length > 0) {
+                branchid = branchids;
+            }
+            else {
+                branchid = "";
+            }
+        }
+
+        //if (branchids != null && branchids.length > 0) {
+        //    branchid = branchids.join(',');
+        //}
+        //else {
+        //    branchid = "";
+        //}
+        // End of Mantis Issue 24729
+        //GetAddress(stateid);
+        objData = {};
+
+        var hdnTotalEmployees = $('#hdnTotalEmployees').val();
+        var hdnAtWork = $('#hdnAtWork').val();
+        var hdnOnLeave = $('#hdnOnLeave').val();
+        var hdnNotLoggedIn = $('#hdnNotLoggedIn').val();
+        var hdnStatewiseSummary = $('#hdnStatewiseSummary').val();
+        var hdnStatewiseSummaryTeam = $('#hdnStatewiseSummaryTeam').val();
+
+        var obj = {};
+        obj.stateid = stateid;
+        // Mantis Issue 24729
+        obj.branchid = branchid;
+        // End of Mantis Issue 24729
+
+        if (hdnTotalEmployees > 0 || hdnAtWork > 0 || hdnOnLeave > 0 || hdnNotLoggedIn > 0) {
+            $.ajax({
+                type: "POST",
+                url: "/DashboardMenu/GetDashboardData",
+                data: JSON.stringify(obj),
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (hdnAtWork > 0) {
+                        $("#lblAtWork").html(response.lblAtWork);
+                    }
+                    if (hdnOnLeave > 0) {
+                        $("#lblOnLeave").html(response.lblOnLeave);
+                    }
+                    if (hdnNotLoggedIn > 0) {
+                        $("#lblNotLoggedIn").html(response.lblNotLoggedIn);
+                    }
+                    if (hdnTotalEmployees > 0) {
+                        $("#lblTotal").html(response.lblTotal);
+                    }
+
+
+                    //$("#lbltotalshop").text(response.TotalVisit);
+                    //$("#lblnewvisit").text(response.NewVisit);
+                    //$("#lblrevisit").text(response.ReVisit);
+
+                    //$("#lblavgvisits").text(response.AvgPerDay);
+                    //$("#lblavgduration").text(response.AvgDurationPerShop);
+
+                    //$("#lbltodaysale").text(response.TODAYSALES);
+                    //$("#lblavgsale").text(response.AVGSALES);
+                    //$("#lbltotalsale").text(response.TOTALSALES);
+
+
+
+
+                },
+                error: function (response) {
+                    jAlert("Please try again later");
+                }
+            });
+            //// ajax Team visit
+            //if ($("#hdnStatewiseSummaryTeamTab").val() == 1) {
+            //    TeamVisitData(obj)
+            //}
+
+        }
+    }
+    // End of Mantis Issue 25455
+</script>

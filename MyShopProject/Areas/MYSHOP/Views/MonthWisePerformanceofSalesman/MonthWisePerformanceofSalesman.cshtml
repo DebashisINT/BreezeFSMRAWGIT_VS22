@@ -1,0 +1,408 @@
+﻿@model System.Data.DataSet
+@{
+    ViewBag.Title = "MonthWisePerformanceofSalesman";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script>
+    var is_pageload = "0";
+   
+    $(function () {
+
+        $('body').on('click', '#btnshow', function () {
+            var flag = true;
+          var monthID=  $("#ddlMonth").val();
+            //$("#refreshgridsalessummary").show();
+          if (monthID=="") {
+              flag = false;
+              jAlert("Please Select Month.");
+              $("#ddlMonth").focus();
+          }
+          if (SingleEmpGridLookup.GetSelectedKeyFieldValues() == "") {
+              flag = false;
+              jAlert("Please Select Employee.");
+              SingleEmpGridLookup.focus();
+          }
+            if (flag == true) {
+                is_pageload = "1";
+                gridMonthsalesmanView.Refresh();
+            }
+        });
+
+        $('#ddlSumExport').on('change', function () {
+            if ($("#ddlSumExport option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                //var desg = $("#drpdesignation").val();
+                //var usrtype = $("#ddlusertypes").val();
+                $('#ddlSumExport').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportSalesGridView", "MonthWisePerformanceofSalesman", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+    })
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["MonthID"] = $("#ddlMonth").val();
+        e.customArgs["ProductID"] = ProductId;
+        e.customArgs["empcode"] = SingleEmpGridLookup.GetSelectedKeyFieldValues();
+        e.customArgs["is_pageload"] = is_pageload;
+        e.customArgs["PageName"] = "MonthWisePerformanceofSalesman";
+        e.customArgs["YearID"] = $("#ddlYear").val();
+    }
+
+
+
+    function SingleEmpStartCallback(s, e) {
+        e.customArgs["StateId"] = "";
+        e.customArgs["desgid"] = "";
+    }
+
+    var empId = [];
+    function SingleEmpSelectionChanged(s, e) {
+       // debugger;
+        SingleEmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function SingleEmpLookupValChange() {
+        SingleEmpGridLookup.GetGridView().Refresh()
+    }
+
+    function ProductStartCallback(s, e) {
+
+    }
+
+    var ProductId = [];
+    function ProductSelectionChanged(s, e) {
+        ProductGridLookup.gridView.GetSelectedFieldValues("Productcode", GetProductSelectedFieldValuesCallback);
+    }
+    function GetProductSelectedFieldValuesCallback(values) {
+        try {
+            ProductId = [];
+            for (var i = 0; i < values.length; i++) {
+                ProductId.push(values[i]);
+            }
+        } finally {
+            console.log(ProductId);
+        }
+    }
+
+    function ProductLookupValChange() {
+        ProductGridLookup.GetGridView().Refresh()
+    }
+</script>
+<style>
+    ol.lList {
+        counter-reset: item;
+        list-style-type: none;
+        line-height: 2.2;
+        margin-left: -40px;
+    }
+
+        ol.lList li {
+            display: block;
+            position: relative;
+            border-bottom:1px dashed #ddd
+        }
+
+            ol.lList li span {
+                margin-left: 40px;
+                display: inherit;
+            }
+
+            ol.lList li:before {
+                content: counter(item) " ";
+                counter-increment: item;
+                color: #7eb4e2;
+                position: absolute;
+                top: 31%;
+                margin-top: -1em;
+                background: #f9dd94;
+                height: 2em;
+                width: 2em;
+                line-height: 2em;
+                text-align: center;
+                border-radius: 2em;
+                font-weight: 700;
+            }
+    .expTypeImg {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .expTypeImg > li {
+            display: inline-block;
+        }
+
+            .expTypeImg > li > div {
+                position: relative;
+            }
+
+                .expTypeImg > li > div > img {
+                }
+
+                .expTypeImg > li > div .imageCap {
+                    position: absolute;
+                    bottom: 0;
+                    z-index: 5;
+                    width: 100%;
+                    color: #fff;
+                    background: #bd9f9f;
+                    padding: 5px 10px;
+                    text-align: center;
+                }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .disableHref {
+        opacity: 0.3;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    #myAssignTargetpopup {
+        padding: 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    .linerHd {
+        background: #dedede;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+    }
+
+    .popheader {
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 8px;
+        padding-left: 7px;
+    }
+
+    .lightbox {
+        z-index: 10000000;
+    }
+
+    .lightboxOverlay {
+        z-index: 9999999;
+    }
+
+    .btn-excel {
+        position: absolute;
+        right: 6px;
+        top: 8px;
+    }
+    #gridMonthsalesmanView_DXEmptyRow > td:last-child, #gridMonthsalesmanView_DXFooterRow > td:last-child {
+        display: none;
+    }
+</style>
+<div class="breadCumb">
+    <span>Monthly Performance Report of Sales Personnel </span>
+</div>
+<div class="container">
+    <div class="backBox p-3 mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="eqpadtbl">
+                    <tr>
+                        <td class="w150 col-md-3" id="mnthIntro">
+                            <label>Month</label>
+                            <div>
+                                <select name="ddlMonths" class="full form-control" id="ddlMonth">
+                                    <option value="JAN">January</option>
+                                    <option value="FEB">February</option>
+                                    <option value="MAR">March</option>
+                                    <option value="APR">April</option>
+                                    <option value="MAY">May</option>
+                                    <option value="JUN">June</option>
+                                    <option value="JUL">July</option>
+                                    <option value="AUG">August</option>
+                                    <option value="SEP">September</option>
+                                    <option value="OCT">October</option>
+                                    <option value="NOV">November</option>
+                                    <option value="DEC">December</option>
+                                </select>
+
+                            </div>
+                        </td>
+                        <td class="w150 col-md-3" id="YearIntro">
+                            <label>Year</label>
+                            <div>
+                                <select name="ddlYears" class="full form-control" id="ddlYear">
+                                    <option value="2018">2018</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                            </div>
+                        </td>
+
+                        <td class="w150 col-md-3" id="empIntro">
+                            <label>Employee(s)</label>
+                            <div>
+                                @Html.Action("GetEmpListSingleSelectActive", "MasterPopulate")
+                            </div>
+                        </td>
+                        <td class="w150 col-md-3 hidden" id="empIntro">
+                            <label>Product(s)</label>
+                            <div>
+                                @Html.Action("GetProductList", "MasterPopulate")
+                            </div>
+                        </td>
+                        <td style="padding-top: 22px;width:250px;" class="col-md-3">
+                            <label></label>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                            <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
+                                <option value="0">Export to</option>
+                                <option value="2">XLSX</option>
+                            </select>
+                            <img src="~/assests/images/infoIcon.png" style="width:32px;margin-left:4px;cursor:pointer" data-toggle="modal" data-target="#infoSecModal" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="clear: both;"><br /></div>
+        <div id="refreshgridperformancewisemonth">
+
+            @Html.Partial("PartialMonthWiseSalesGridView", Model)
+        </div>
+    </div>
+</div>
+
+
+<!-- infoSecModal Modal -->
+<div class="modal fade pmsModal w30" id="infoSecModal" tabindex="-1" role="dialog" aria-labelledby="infoSecModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="border-radius: 18px 18px 0 0;">
+                <h4 class="modal-title" style="color: #fff;">INFO</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ol class="list lList">
+                    <li class="list-item one"><span>  This report depends on Distributer Visit to show closing stock data.</span></li>
+                    <li class="list-item two"><span>  If the Distributor visits showing, please check for Duplicate
+                        Distributor names where the Closing Stock may have entered.</span></li>
+                </ol>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

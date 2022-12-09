@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "Sales Order Analysis";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/media.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+<style>
+    .validclass {
+        position: absolute;
+        right: -4px;
+        top: 35px;
+    }
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+</style>
+<script>
+    var E_Code = "";
+    var is_pageload = "0";
+    $(function () {
+
+       
+       salesordersummaryanalysisgrid.Refresh();
+       salesordersummaryanalysisgrid.Refresh();
+        txtfromDate.SetDate(new Date());
+        txttoDate.SetDate(new Date());
+
+        $('body').on('click', '#btnshow', function () {
+            var flag = true;
+
+            if (txtfromDate.GetDate() == null) {
+                $('#MandatoryFromDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryFromDate').attr('style', 'display:none');
+            }
+
+            if (txttoDate.GetDate() == null) {
+                $('#MandatoryToDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryToDate').attr('style', 'display:none');
+            }
+
+           // E_Code = "";
+            if (flag == true) {
+                is_pageload="1"
+                salesordersummaryanalysisgrid.Refresh();
+                salesordersummaryanalysisgrid.Refresh();
+            }
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+
+                var url = '@Url.Action("ExportSummaryList", "SalesOrderAnalysis", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+    });
+
+    function GetServerDateFormat(today) {
+        if (today != "" && today != null) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+
+    function DateValidateFrom() {
+        if (txttoDate.GetDate()) {
+            if (txttoDate.GetDate() < txtfromDate.GetDate()) {
+                txttoDate.SetValue(txtfromDate.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (txtfromDate.GetDate()) {
+            if (txttoDate.GetDate() < txtfromDate.GetDate()) {
+                txttoDate.SetValue(txtfromDate.GetDate());
+            }
+        }
+    }
+   
+    function OnClickSummaryGrid(EmployeeCode) {
+        $("#myModal").modal('show');
+        E_Code = EmployeeCode;
+        detailsSalesAnalysisGrid.Refresh();
+        detailsSalesAnalysisGrid.Refresh();
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = GetServerDateFormat(new Date(txtfromDate.GetDate()));
+        e.customArgs["Todate"] = GetServerDateFormat(new Date(txttoDate.GetDate()));
+        e.customArgs["is_pageload"] = is_pageload;
+        e.customArgs["EmployeeCode"] = E_Code;
+    }
+    function OnDetailsStartCallback(s, e) {
+        e.customArgs["Fromdate"] = GetServerDateFormat(new Date(txtfromDate.GetDate()));
+        e.customArgs["Todate"] = GetServerDateFormat(new Date(txttoDate.GetDate()));
+        e.customArgs["EmployeeCode"] = E_Code;
+        e.customArgs["is_pageload"] = is_pageload;
+    }
+</script>
+
+
+<div class="breadCumb">
+    <span>
+        Sales Order Analysis
+    </span>
+</div>
+<div class="container">
+    <div class="backBox mt-5 p-3 ">
+        <div class="row ">
+            <div class="col-md-3">
+                <label>From Date</label>
+                <div>
+                    @Html.DevExpress().DateEdit(
+                settings =>
+                {
+                    settings.Name = "txtfromDate";
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                    settings.Properties.EditFormatString = "dd-MM-yyyy";
+                    settings.Properties.EditFormat = EditFormat.Custom;
+                    settings.Properties.UseMaskBehavior = true;
+                    settings.Properties.ShowOutOfRangeWarning = false;
+                    settings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                }).GetHtml()
+                    <span id="MandatoryFromDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label>To Date</label>
+                <div>
+                    @Html.DevExpress().DateEdit(
+                settings =>
+                {
+                    settings.Name = "txttoDate";
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                    settings.Properties.EditFormatString = "dd-MM-yyyy";
+                    settings.Properties.EditFormat = EditFormat.Custom;
+                    settings.Properties.UseMaskBehavior = true;
+                    settings.Properties.ShowOutOfRangeWarning = false;
+                    settings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+                }).GetHtml()
+                    <span id="MandatoryToDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3" style="padding-top: 18px;">
+                <label></label>
+                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+                </select>
+            </div>
+            <div class="clear"></div>
+            <div class="col-md-12">
+                <div class="GridViewArea">
+                    @{
+                    Html.RenderAction("PartialSaleAnalysisOuterList", "SalesOrderAnalysis", new { Fromdate = Model.FromDate, Todate = Model.ToDate, is_pageload = "0" });
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+            <div class="modal-dialog modal-lg" style="width:1000px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Sales Order Analysis Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="divModalBody" style="padding-left:20px;">
+                            <div>
+                                @{
+                                Html.RenderAction("PartialDetailsList", "SalesOrderAnalysis", new { Fromdate = Model.FromDate, Todate = Model.ToDate, is_pageload = "0", EmployeeCode = Model.EmployeeCode });
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <input type="hidden" id="hdnuser_id" />
+            <input type="hidden" id="hdnuser_state" />
+            <input type="hidden" id="hdnuser_shop" />
+        </div>
+    </div>
+</div>

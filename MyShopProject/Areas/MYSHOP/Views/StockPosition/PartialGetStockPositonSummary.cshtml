@@ -1,0 +1,191 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridStockPosition";
+
+    settings.CallbackRouteValues = new { Action = "GetStockPositionList", Controller = "StockPosition" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PRODNAME";
+        x.Caption = "Product Name";
+        x.VisibleIndex = 1;
+        //x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15); PRODNAME
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRODNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                //x.Width = 120;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            //x.Width = 120;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PRODCLASS";
+        x.Caption = "Product Class";
+        x.VisibleIndex = 2;
+        //x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRODCLASS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                //x.Width = 120;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            //x.Width = 120;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        }
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "OPSTK";
+     x.Caption = "Opening Stock";
+     x.VisibleIndex = 3;
+     //x.Width = 100;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+     if (ViewBag.RetentionColumn != null)
+     {
+         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OPSTK'");
+         if (row != null && row.Length > 0)  /// Check now
+         {
+             x.Visible = false;
+         }
+         else
+         {
+             x.Visible = true;
+            // x.Width = 120;
+             x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+         }
+     }
+     else
+     {
+         x.Visible = true;
+         //x.Width = 120;
+         x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+     }
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "INVQTY";
+        x.Caption = "Invoiced";
+        x.VisibleIndex = 4;
+        //x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a data-toggle='tooltip' data-placement='top' title='Click here to get detail report' style='cursor:pointer' onclick=\"Open2ndStage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "PRODID")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "INVQTY")) + "</a>");
+        });
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='INVQTY'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                //x.Width = 120;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+           // x.Width = 120;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BALQTY";
+        x.Caption = "Balance Stock";
+        x.VisibleIndex = 5;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BALQTY'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+                //x.Width = 120;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+            }
+            else
+            {
+                x.Visible = true;
+               // x.Width = 120;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            //x.Width = 120;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        }
+    });
+
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "DISTANCE_TRAVELLED").DisplayFormat = "0.00";
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE").DisplayFormat = "0.00";
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_COLLECTION").DisplayFormat = "0.00";
+}).Bind(Model).GetHtml()
+

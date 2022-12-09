@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.Title = "Report1";
+    
+}
+
+<script>
+
+    $(document).ready(function () {
+        $('a .white').click(function (e) {
+            e.preventDefault();
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+        $('[data-toggle="popover"]').popover({ html: true });
+
+
+        $('.zoom').click(function (e) {
+            $('.arrowPointer').remove();
+            $('.widget').removeClass('DisableClass');
+            var divid = $(this).attr('data-click');
+            this.className = this.className + ' DisableClass';
+            $('.panelClass').hide();
+            $('.panelClass').css({ top: '50px', opacity: '0' });
+            $('#' + divid).show();
+            $('#' + divid).animate({ top: '0px', opacity: '1' });
+
+            this.children[0].children[0].innerHTML = this.children[0].children[0].innerHTML + '<i class="far fa-hand-point-left arrowPointer"></i>';
+
+
+
+            if (divid == "CallDiv") {
+                cgridPhone.Refresh();
+            } else if (divid == "SVDiv") {
+                cgridSV.Refresh();
+            } else if (divid == "totEntDiv") {
+                cgridTE.Refresh();
+            } else if (divid == "pendingActDiv") {
+                cgridpact.Refresh();
+            } else if (divid == "OrderCntdiv") {
+                cgridOCount.Refresh();
+            } else if (divid == "QuoteCountdiv") {
+                cgridQt.Refresh();
+            } else if (divid == "EFDiv") {
+                cgridEF.Refresh();
+            }
+
+
+
+        });
+
+    });
+
+
+    function showCustomNewNotify(text) {
+        var x = document.getElementById("CustomNewNotify");
+        x.innerHTML = text;
+        x.className = "show";
+        setTimeout(function () { x.className = x.className.replace("show", ""); }, 6000);
+    }
+
+
+</script>
+
+<link href="~/Content/report1.css" rel="stylesheet" />
+
+<form id="form1" runat="server">
+    <script src="../Js/moment.min.js"></script>
+    <script src="../Js/SearchPopup.js"></script>
+
+
+
+
+
+    <div class="clearfix">
+        <div class="col-md-12 clearfix padding bdBot hdBoder">
+            <h3 class="pull-left HeaderStyleCRM">MIS</h3>
+            <span class="pull-right closeBtn">  <a href="#" onclick="reloadParent()"><i class="fa fa-times"></i></a></span>
+        </div>
+    </div>
+
+    <div id="CustomNewNotify">Some text some message..</div>
+
+
+
+    <div class="clearfix pdright15">
+        <div class="col-md-2 scroller">
+            <div class="">
+                <div class="col-md-12 zoom widget c1" runat="server" id="CallDivbtn" data-click="CallDiv">
+                    <div class="">
+                        <label class="wdgLabel">Call Log</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 zoom widget c2" runat="server" id="SVDivbtn" data-click="SVDiv">
+                    <div>
+                        <label class="wdgLabel">Visit Log</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 zoom widget c3" runat="server" id="totEntDivbtn" data-click="totEntDiv">
+                    <div>
+                        <label class="wdgLabel">Activities<br />Salesmen Wise</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 zoom widget c4" runat="server" id="pendingActDivbtn" data-click="pendingActDiv">
+                    <div>
+                        <label class="wdgLabel">Pending Activities</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 zoom widget c5" runat="server" id="OrderCntdivbtn" data-click="OrderCntdiv">
+                    <div>
+                        <label class="wdgLabel">Order Count<br /> Salesmen Wise</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 zoom widget c6" runat="server" id="QuoteCountdivbtn" data-click="QuoteCountdiv">
+                    <div>
+                        <label class="wdgLabel">Proforma/Quotation Salesman Wise</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 zoom widget c7" runat="server" id="EFDivbtn" data-click="EFDiv">
+                    <div>
+                        <label class="wdgLabel">Efficiency Ratio <br /> Salesmen Wise</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 zoom widget c8" runat="server" id="AhDivbtn" data-click="AhDiv">
+                    <div>
+                        <label class="wdgLabel">Activity History</label>
+                    </div>
+                </div>
+
+                <div class="col-md-12 zoom widget c9" runat="server" id="nrDivbtn" data-click="nrDiv">
+                    <div class="">
+                        <label class="wdgLabel">New Vs Repeat Sale</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="col-md-10 rightPanel" style="padding-top:15px;">
+            <div class="col-md-12 panelClass " runat="server" id="CallDiv" style="">
+
+                one
+
+
+            </div>
+
+            <div class="col-md-12 panelClass" runat="server" id="SVDiv">
+
+
+                two
+
+            </div>
+
+            <div class="col-md-12 panelClass" runat="server" id="totEntDiv">
+
+                three
+
+
+            </div>
+
+            <div class="col-md-12 panelClass" runat="server" id="pendingActDiv">
+
+
+                four
+
+            </div>
+
+            <div class="col-md-12 panelClass" runat="server" id="OrderCntdiv">
+
+
+                five
+
+            </div>
+
+            <div class="col-md-12 panelClass" runat="server" id="QuoteCountdiv">
+
+                six
+
+
+            </div>
+
+            <div class="col-md-12 panelClass" runat="server" id="EFDiv">
+
+                seven
+
+            </div>
+
+            <div class="col-md-12 panelClass" runat="server" id="AhDiv">
+
+                eight
+
+            </div>
+
+            <div class="col-md-12 panelClass" runat="server" id="nrDiv">
+
+                nine
+
+
+            </div>
+        </div>
+    </div>
+</form>
+

@@ -1,0 +1,464 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridDSVisitDetails";
+    settings.CallbackRouteValues = new { Action = "GetDSVisitDetailsList", Controller = "DSVisitDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "Orderdate";
+    //    x.Caption = "Date";
+    //    x.VisibleIndex = 1;
+    //    x.Width = 120;
+    //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //    x.ColumnType = MVCxGridViewColumnType.DateEdit;
+    //    x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+    //    (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    //    // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    //});
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 1;
+        //x.Width = 180;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+    //Rev Debashis Mantis:0025218
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CIRCLE";
+        x.Caption = "Circle";
+        x.VisibleIndex = 2;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CIRCLE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+    //End of Rev Debashis Mantis:0025218
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "HREPORTTOUID";
+
+        x.Caption = "AE ID";
+        x.VisibleIndex = 3;
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='HREPORTTOUID'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+
+        x.FieldName = "REPORTTOUID";
+
+        x.Caption = "WD ID";
+        x.VisibleIndex = 4;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='REPORTTOUID'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPID";
+        //Rev Debashis Mantis:0025218
+        //x.Caption = "DS/TL ID";
+        x.Caption = "DS ID";
+        //End of Rev Debashis Mantis:0025218
+        x.VisibleIndex = 5;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPID'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 120;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 120;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        //Rev Debashis Mantis:0025218
+        //x.Caption = "DS/TL Name";
+        x.Caption = "DS Name";
+        //End of Rev Debashis Mantis:0025218
+        x.VisibleIndex = 6;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+    //Rev Debashis Mantis:0025218
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DSTYPE";
+        x.Caption = "DS Type";
+        x.VisibleIndex = 7;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DSTYPE'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+    //End of Rev Debashis Mantis:0025218
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGIN_DATETIME";
+        x.Caption = "Visit Date";
+        x.VisibleIndex = 8;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGIN_DATETIME'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 150;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 150;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OUTLETSMAPPED";
+        x.Caption = "Outlets Mapped(Added)";
+        x.VisibleIndex = 9;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETSMAPPED'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 140;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 140;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "RE_VISITED";
+        x.Caption = "Outlets Re-Visited";
+        x.VisibleIndex = 10;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RE_VISITED'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 120;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 120;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DISTANCE_TRAVELLED";
+        x.Caption = "Distance Travelled(Km.Mtr)";
+        x.VisibleIndex = 11;
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DISTANCE_TRAVELLED'");
+            if (row != null && row.Length > 0) 
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGTIMESPENTINMARKET";
+        //Rev Debashis 0024906
+        //x.Caption = "Avg time spent in the market(HH:MM)";
+        x.Caption = "Total time spent in the market(HH:MM)";
+        //End of Rev Debashis 0024906
+        x.VisibleIndex = 12;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AVGTIMESPENTINMARKET'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 220;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 220;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    //Rev Debashis 0024956
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DAYSTTIME";
+        x.Caption = "Day Start(HH:MM)";
+        x.VisibleIndex = 13;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DAYSTTIME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 130;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 130;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DAYENDTIME";
+        x.Caption = "Day End(HH:MM)";
+        x.VisibleIndex = 14;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DAYENDTIME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 130;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 130;
+        }
+    });    
+    //End of Rev Debashis 0024956
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AVGSPENTDURATION";
+        //Rev Debashis 0024906
+        //x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
+        x.Caption = "Avg time spent in OL(CFT-New&Revisit)(HH:MM)";
+        //End of Rev Debashis 0024906
+        x.VisibleIndex = 15;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AVGSPENTDURATION'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 320;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 320;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+    
+}).Bind(Model).GetHtml()
+
+
+

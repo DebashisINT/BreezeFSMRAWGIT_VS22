@@ -1,0 +1,105 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridEmployeesCounterTargetList";
+
+    settings.CallbackRouteValues = new { Action = "GetEmployeesCounterTargetList", Controller = "EmployeesTarget" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCounterTargetCallback";
+    //settings.ClientSideEvents.SelectionChanged = "gridEmployeesCounterTargetList";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        if (Convert.ToInt32(ViewBag.CounterType) == 6)
+        {
+            x.Caption = "DD Name";
+        }
+        else
+        {
+            x.Caption = "PP Name";
+        }
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(33);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OrderValue";
+        x.Caption = "Target Value";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(33);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CollectionValue";
+        x.Caption = "Target Collection";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(34);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Action";
+        x.VisibleIndex = 11;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(130);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write(
+                //"<a style='cursor:pointer' onclick=\"GetEmployeesCounterTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeesCounterTargetID")) + "')\"> <img src='/assests/images/edit.png' title='Edit' /></a>" +
+                 //"<a style='cursor:pointer; margin-left: 12px;' onclick=\"RemoveEmployeesCounterWiseTarget('','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeesCounterTargetID")) + "','EmployeesTargetSettingCounterTarget')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
+                 "<a style='cursor:pointer; margin-left: 12px;' onclick=\"DeleteEmployeesCounterWiseTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Shop_Code")) + "','EmployeesTargetSettingCounterTarget')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
+                );
+        });
+    });
+
+    //settings.CustomJSProperties = (s, e) =>
+    //{
+    //    if (ViewData["UpdateGrid"] != null)
+    //    {
+    //        e.Properties["cpUpdateGrid"] = "1";
+    //    }
+    //    else
+    //    {
+    //        e.Properties["cpUpdateGrid"] = "0";
+    //    }
+    //};
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+

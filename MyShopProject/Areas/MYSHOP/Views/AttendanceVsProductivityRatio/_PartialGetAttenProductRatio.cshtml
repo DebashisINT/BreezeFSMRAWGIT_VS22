@@ -1,0 +1,380 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridattenvsproductratio";
+
+    settings.CallbackRouteValues = new { Action = "GetAttenProductRatioList", Controller = "AttendanceVsProductivityRatio" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGIN_DATE";
+        x.Caption = "Login Date";
+        x.VisibleIndex = 1;
+        x.Width = 90;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACTNO";
+        x.Caption = "Login ID";
+        x.VisibleIndex = 2;
+        x.Width = 90;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 3;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee(s)";
+        x.VisibleIndex = 4;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 5;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OFFICE_ADDRESS";
+        x.Caption = "Office Address";
+        x.VisibleIndex = 6;
+        x.Width = 180;
+    });
+
+    settings.Columns.Add(x =>
+   {
+       x.FieldName = "DESIGNATION";
+       x.Caption = "Designation";
+       x.VisibleIndex = 7;
+       x.Width = 100;
+   });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORTTO";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 8;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "RPTTODESG";
+        x.Caption = "Supervisor Desg.";
+        x.VisibleIndex = 9;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ATTEN_STATUS";
+        x.Caption = "Attendance Type";
+        x.VisibleIndex = 10;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "WORK_LEAVE_TYPE";
+        x.Caption = "Work/Leave Type";
+        x.VisibleIndex = 11;
+        x.Width = 150;
+    });
+
+   settings.Columns.Add(x =>
+    {
+        x.FieldName = "REMARKS";
+        x.Caption = "Remarks";
+        x.VisibleIndex = 12;
+        x.Width = 150;
+    });
+
+   settings.Columns.Add(x =>
+    {
+        x.FieldName = "ACTINTIME";
+        x.Caption = "Actual Attendance time";
+        x.VisibleIndex = 13;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ACTGRACEINTIME";
+        x.Caption = "Grace Time";
+        x.VisibleIndex = 14;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ALTINTIME";
+        x.Caption = "Alt. Attendance time";
+        x.VisibleIndex = 15;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ALTGRACEINTIME";
+        x.Caption = "Alt. Grace Time";
+        x.VisibleIndex = 16;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPLOGGEDIN";
+        x.Caption = "App Login Time";
+        x.VisibleIndex = 17;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "FIRSTCALLTIME";
+        x.Caption = "First Call Time";
+        x.VisibleIndex = 18;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LASTCALLTIME";
+        x.Caption = "Last Call time";
+        x.VisibleIndex = 19;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPLOGEDOUT";
+        x.Caption = "App Logout Time";
+        x.VisibleIndex = 20;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ATTENDANCETYPE";
+        x.Caption = "Attendance Type";
+        x.VisibleIndex = 21;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ATTENDANCESTATUS";
+        x.Caption = "Attendance Status";
+        x.VisibleIndex = 22;
+        x.Width = 120;
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "WORKINGDURATION";
+        x.Caption = "Working Duration (HH:MM)";
+        x.VisibleIndex = 23;
+        x.Width = 170;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UNDERTIME";
+        x.Caption = "Undertime (HH:MM)";
+        x.VisibleIndex = 24;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "GPS_INACTIVE_DURATION";
+        x.Caption = "GPS Inactive Duration (HH:MM)";
+        x.VisibleIndex = 25;
+        x.Width = 190;
+    });
+    
+    settings.Columns.Add(x =>
+    {
+    x.FieldName = "GPSINACTIVECNT";
+    x.Caption = "GPS Inactive Count";
+    x.VisibleIndex = 26;
+    x.Width = 120;
+    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "IDEAL_TIME";
+        x.Caption = "Idle Time (HH:MM)";
+        x.VisibleIndex = 27;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "IDEALTIME_CNT";
+        x.Caption = "Idle Time Count";
+        x.VisibleIndex = 28;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NEWSHOP_VISITED";
+        x.Caption = "Total New Visit";
+        x.VisibleIndex = 29;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "RE_VISITED";
+        x.Caption = "Total Revisit";
+        x.VisibleIndex = 30;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTMETTING";
+        x.Caption = "Total Meeting";
+        x.VisibleIndex = 31;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTALORDER";
+        x.Caption = "Total Order";
+        x.VisibleIndex = 32;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTALDELV";
+        x.Caption = "Total Delv.";
+        x.VisibleIndex = 33;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTALCOLLECTION";
+        x.Caption = "Total Collection";
+        x.VisibleIndex = 34;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TC";
+        x.Caption = "TC (Total call)";
+        x.VisibleIndex = 35;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PC";
+        x.Caption = "PC(Productive Call)";
+        x.VisibleIndex = 36;
+        x.Width = 120;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PRATIO";
+        x.Caption = "Productive Ratio";
+        x.VisibleIndex = 37;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DROPSIZE";
+        x.Caption = "Drop Size";
+        x.VisibleIndex = 38;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "COVERAGE";
+        x.Caption = "Coverage %";
+        x.VisibleIndex = 39;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    ///Summary
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "GPSINACTIVECNT").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "IDEALTIME_CNT").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "NEWSHOP_VISITED").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RE_VISITED").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTMETTING").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTALORDER").DisplayFormat = "0.00"; ;
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTALDELV").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTALCOLLECTION").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TC").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "PC").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "DROPSIZE").DisplayFormat = "0.00";
+    
+}).Bind(Model).GetHtml()
+

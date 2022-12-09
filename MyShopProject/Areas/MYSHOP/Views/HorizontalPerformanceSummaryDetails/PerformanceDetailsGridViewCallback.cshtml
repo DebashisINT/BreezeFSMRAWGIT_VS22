@@ -1,0 +1,251 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridPerformanceDetails";
+
+    settings.CallbackRouteValues = new { Action = "PerformanceDetailsGridViewCallback", Controller = "HorizontalPerformanceSummaryDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    //settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CUSTNAME";
+        x.Caption = "Customer Name";
+        x.VisibleIndex = 1;
+        x.Visible = true;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        //if (ViewBag.RetentionColumn != null)
+        //{
+        //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='WORK_DATE'");
+        //    if (row != null && row.Length > 0)  /// Check now
+        //    {
+        //        x.Visible = false;
+        //    }
+        //    else
+        //    {
+        //        x.Visible = true;
+        //        x.Width = 100;
+        //    }
+        //}
+        //else
+        //{
+        //    x.Visible = true;
+        //    x.Width = 100;
+        //}
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ADDRESS";
+        x.Caption = "Address";
+        x.VisibleIndex = 2;
+        x.Visible = true;
+        //x.Width = 180;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        //if (ViewBag.RetentionColumn != null)
+        //{
+        //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGGEDIN'");
+        //    if (row != null && row.Length > 0)  /// Check now
+        //    {
+        //        x.Visible = false;
+        //    }
+        //    else
+        //    {
+        //        x.Visible = true;
+        //        x.Width = 100;
+        //    }
+        //}
+        //else
+        //{
+        //    x.Visible = true;
+        //    x.Width = 100;
+        //}
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "MOBILENO";
+     x.Caption = "Customer Mobile";
+     x.VisibleIndex = 3;
+     x.Visible = true;
+     //x.Width = 100;
+     x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+     //if (ViewBag.RetentionColumn != null)
+     //{
+     //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGEDOUT'");
+     //    if (row != null && row.Length > 0)  /// Check now
+     //    {
+     //        x.Visible = false;
+     //    }
+     //    else
+     //    {
+     //        x.Visible = true;
+     //        x.Width = 100;
+     //    }
+     //}
+     //else
+     //{
+     //    x.Visible = true;
+     //    x.Width = 100;
+     //}
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOPTYPE";
+        x.Caption = "Type (Shop type)";
+        x.VisibleIndex = 4;
+        x.Visible = true;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        //if (ViewBag.RetentionColumn != null)
+        //{
+        //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACTNO'");
+        //    if (row != null && row.Length > 0)  /// Check now
+        //    {
+        //        x.Visible = false;
+        //        //x.Width = 0;
+        //    }
+        //    else
+        //    {
+        //        x.Visible = true;
+        //        x.Width = 100;
+        //    }
+        //}
+        //else
+        //{
+        //    x.Visible = true;
+        //    x.Width = 100;
+        //}
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITDATE";
+        x.Caption = "Visited Date";
+        x.VisibleIndex = 5;
+        x.Visible = true;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        //if (ViewBag.RetentionColumn != null)
+        //{
+        //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATE'");
+        //    if (row != null && row.Length > 0)  /// Check now
+        //    {
+        //        x.Visible = false;
+        //        //x.Width = 0;
+        //    }
+        //    else
+        //    {
+        //        x.Visible = true;
+        //        x.Width = 120;
+        //    }
+        //}
+        //else
+        //{
+        //    x.Visible = true;
+        //    x.Width = 120;
+        //}
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITTIME";
+        x.Caption = "Visited Time";
+        x.VisibleIndex = 6;
+        x.Visible = true;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        //if (ViewBag.RetentionColumn != null)
+        //{
+        //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_DISTRICT'");
+        //    if (row != null && row.Length > 0)  /// Check now
+        //    {
+        //        x.Visible = false;
+        //        //x.Width = 0;
+        //    }
+        //    else
+        //    {
+        //        x.Visible = true;
+        //        x.Width = 120;
+        //    }
+        //}
+        //else
+        //{
+        //    x.Visible = true;
+        //    x.Width = 120;
+        //}
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SPENTDURATION";
+        x.Caption = "Duration Spent";
+        x.Visible = true;
+        //x.Width = 100;
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        //if (ViewBag.RetentionColumn != null)
+        //{
+        //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_PINCODE'");
+        //    if (row != null && row.Length > 0)  /// Check now
+        //    {
+        //        x.Visible = false;
+        //        //x.Width = 0;
+        //    }
+        //    else
+        //    {
+        //        x.Visible = true;
+        //        x.Width = 120;
+        //    }
+        //}
+        //else
+        //{
+        //    x.Visible = true;
+        //    x.Width = 120;
+        //}
+    });
+
+    
+
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_VISIT").DisplayFormat = "0";
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RE_VISITED").DisplayFormat = "0";
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "NEWSHOP_VISITED").DisplayFormat = "0";
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTMETTING").DisplayFormat = "0";
+    ////settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "SHOPS_VISITED").DisplayFormat = "0";
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "DISTANCE_TRAVELLED").DisplayFormat = "0.00";
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE").DisplayFormat = "0.00";
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_COLLECTION").DisplayFormat = "0.00";
+}).Bind(Model).GetHtml()
+
+
+
+
+
+

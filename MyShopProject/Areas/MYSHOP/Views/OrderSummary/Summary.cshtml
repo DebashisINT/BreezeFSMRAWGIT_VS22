@@ -1,0 +1,832 @@
+﻿@model Models.Reportorderregisterinput
+@{
+    ViewBag.Title = "Order Summary ";
+
+
+}
+
+
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+<script>
+    var Is_PageLoad = "0";
+    $(function () {
+
+        $("#btnEdit").attr('style', 'display:none;');
+        var d = new Date();
+
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        lookup.GetGridView().Refresh();
+
+        //  $("#refreshgridstatusreportregister").hide();
+
+        $("#drpuser").chosen({
+            width: "100%"
+        })
+        $("#drpstate").chosen({
+            width: "100%"
+        })
+        $("#drpshop").chosen({
+            width: "100%"
+        })
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+            var flag = true;
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+            var startdate = new Date(Date.parse(newdatefrom));
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if ($("#hdnStateMandatory").val() == "True") {
+                if (StateId == "") {
+                    jAlert("Please select State.");
+                    flag = false;
+                    return;
+                }
+            }
+
+            if (endDate < startdate) {
+                jAlert('From date should be before/equal To date');
+            }
+            else {
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+                if (flag) {
+                    if (dayse <= 30) {
+                        gridorderrsummary.Refresh();
+                    }
+                    else {
+                        jAlert("Searching days must be within One month.");
+                    }
+                }
+            }
+        });
+
+        $('body').on('click', '#btnclear', function () {
+            Clearall();
+        });
+
+        $('body').on('click', '#btnEdit', function () {
+            var flag = false;
+
+            if ($("#idproduct").val() == "") {
+                alert(flag);
+
+            }
+            else if ($("#txtprod_qty").val() == "" || parseInt($("#txtprod_qty").val()) == 0) {
+                alert(flag);
+
+            }
+
+            else if ($("#txtprod_rate").val() == "" || parseInt($("#txtprod_rate").val()) == 0) {
+                alert(flag);
+            }
+
+            else {
+                flag = true;
+                var surl = '@Url.Action("UpdateOrderProduct", "OrderSummary")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        Order_ID: $("#hdnorder").val(),
+                        Order_ProdId: $("#hdnproductorderid").val(),
+                        Product_Id: $("#idproduct").val(),
+                        Product_Qty: $("#txtprod_qty").val(),
+                        Product_Rate: $("#txtprod_rate").val()
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        jAlert('Updated Successfully');
+                        gridProductlist.Refresh();
+                        gridorderrsummary.Refresh();
+                    },
+                    error: function () {
+
+                    },
+                });
+
+            }
+
+
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporOrdrSummaryList", "OrderSummary", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+
+
+    });
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    var ShopId = [];
+    function ShopSelectionChanged(s, e) {
+        ShopGridLookup.gridView.GetSelectedFieldValues("ID", GetShopSelectedFieldValuesCallback);
+    }
+    function GetShopSelectedFieldValuesCallback(values) {
+        try {
+            ShopId = [];
+            for (var i = 0; i < values.length; i++) {
+                ShopId.push(values[i]);
+            }
+        } finally {
+            console.log(ShopId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        //e.customArgs["selectedusrid"] = empId
+        e.customArgs["empcode"] = empId;
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["shopId"] = ShopId;
+        //Rev Debashis
+        if ($('#IsPaitentDetails').prop('checked')) {
+            e.customArgs["IsPaitentDetails"] = 1;
+        }
+        else {
+            e.customArgs["IsPaitentDetails"] = 0;
+        }
+        //End of Rev Debashis
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        // e.customArgs["desgid"] = desigId;
+        e.customArgs["userId"] = $("#hdnUserID").val();
+    }
+
+    function LookupShopValChange() {
+        ShopGridLookup.GetGridView().Refresh()
+    }
+
+    function ShopStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        //e.customArgs["desgid"] = desigId;
+    }
+
+    function OnStartCallbackshop(s, e) {
+        //   gridgpsstatus.Refresh();
+
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        // e.customArgs["Fromdate"] = $('#txtfromDate').val();
+        e.customArgs["Todate"] = $('#txttoDate').val();
+        e.customArgs["selectedusrid"] = $("#hdnuser_id").val();
+        e.customArgs["StateId"] = $("#hdnuser_state").val();
+        e.customArgs["shopId"] = $("#hdnuser_shop").val();
+        //Rev Debashis
+        if ($('#IsPaitentDetails').prop('checked')) {
+            e.customArgs["IsPaitentDetails"] = 1;
+        }
+        else {
+            e.customArgs["IsPaitentDetails"] = 0;
+        }
+        //End of Rev Debashis
+    }
+
+
+    function isNumber(txt, evt) {
+
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                 && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+
+
+    //Mantis Issue 24944
+    function PrintOrder(orderid) {
+        var $select = $('#ddl_design');
+        $select.empty();
+        $select.append("<option value='0'>--Select Design--</option>");
+        //$('#DesignModel').show()
+        $("#DesignModel").modal('show')
+        $("#Order_Id").val(orderid)
+        var surl = '@Url.Action("PrintSalesOrder", "OrderSummary")';
+        $.ajax({
+            url: surl,
+            async: false,
+            data: {
+                OrderId: orderid,
+            },
+            type: 'POST',
+            success: function (data) {
+                //data.reportValue
+                
+                $.each(data, function (i, data) {
+                    //alert(data.reportValue)
+                    $('<option>', {
+                        value: data.reportValue
+                    }).append(data.name).appendTo($select);
+                });
+                
+            },
+            error: function () {
+
+            },
+        });
+    }
+    //End of Mantis Issue 24944
+
+
+
+    function OpenProductWindow(orderid) {
+
+        $("#hdnorder").val(orderid);
+        $("#myModal").modal('show');
+        Clearall();
+        gridProductlist.Refresh();
+    }
+
+
+    function OnStartCallbackProduct(s, e) {
+        e.customArgs["OrderId"] = $("#hdnorder").val();
+    }
+
+    function DeleteOrder(Id) {
+        $.jAlert({
+            'type': 'confirm',
+            'confirmQuestion': 'Do you want to delete the Order?',
+            'onConfirm': function (e, btn) {
+                var surl = '@Url.Action("DeleteOrder", "OrderSummary")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        OrderId: Id,
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        jAlert('Deleted Successfully');
+                        gridorderrsummary.Refresh();
+                    },
+                    error: function () {
+
+                    },
+                });
+            },
+            'onDeny': function (e, btn) {
+                return false;
+            }
+        });
+    }
+
+    function DeleteProduct(ProdID, OrderID) {
+        $.jAlert({
+            'type': 'confirm',
+            'confirmQuestion': 'Do you want to delete the Product?',
+            'onConfirm': function (e, btn) {
+                var surl = '@Url.Action("DeleteProduct", "OrderSummary")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        OrderId: OrderID,
+                        ProdID: ProdID
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        jAlert('Deleted Successfully');
+                        gridProductlist.Refresh();
+                    },
+                    error: function () {
+                    },
+                });
+            },
+            'onDeny': function (e, btn) {
+                return false;
+            }
+        });
+    }
+
+    function EditProduct(ProdID, OrderID) {
+
+        var surl = '@Url.Action("EditOrderProducts", "OrderSummary")';
+        $.ajax({
+            async: false,
+            url: surl,
+            data: {
+                OrderId: OrderID,
+                ProdID: ProdID
+            },
+            type: 'POST',
+
+            success: function (data) {
+                $("#idproduct").val(data.Product_Id);
+                $("#txtprod_qty").val(data.Product_Qty);
+                $("#txtprod_rate").val(data.Product_Rate);
+                $("#txtprod_price").val(data.Product_Price);
+
+                $("#hdnorder").val(data.Order_ID);
+                $("#hdnproductorderid").val(data.Order_ProdId);
+
+                $("#btnEdit").attr('style', 'display:inline-block;');
+            },
+            error: function () {
+                alert('No dat to be displayed', "Alert!");
+            },
+
+
+        });
+        // Mantis Issue 25478
+        //empgradeGridLookup.SetEnabled(false);
+        // End of Mantis Issue 25478
+        StateGridLookup.SetEnabled(false);
+    }
+    function calculation() {
+
+        if ($("#txtprod_rate").val() == "") {
+            $("#txtprod_rate").val(0);
+
+
+        }
+        if ($("#txtprod_qty").val() == "") {
+            $("#txtprod_qty").val(0);
+
+
+        }
+
+        $("#txtprod_price").val(parseInt($("#txtprod_qty").val()) * parseInt($("#txtprod_rate").val()));
+
+
+    }
+
+    function Clearall() {
+
+        $("#btnEdit").attr('style', 'display:none;');
+        $("#txtprod_rate").val(0);
+        $("#txtprod_qty").val(0);
+        $("#txtprod_price").val(0);
+        $("#hdnproductorderid").val(0);
+    }
+
+    function StateStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function EmpStateLookupValChange() {
+        StateGridLookup.GetGridView().Refresh();
+        StateGridLookup.GetGridView().Refresh();
+    }
+
+</script>
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+</style>
+
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+    //Mantis Issue 24944
+    $(document).ready(function () {
+        $("#DesignModel").modal('hide')
+    })
+    // Mantis Issue 25360 
+    //function OKPopup() {
+    function PrintOKPopup() {
+        // End of Mantis Issue 25360
+        var reportName = $("#ddl_design").val();
+        var module = 'OrderSummary';
+        var orderid = $("#Order_Id").val()
+        if (reportName=='0') {
+            jAlert("Please select Design.");
+        }
+        else {
+            window.open("/Reports/REPXReports/RepxDocumentViewer.aspx?Previewrpt=" + reportName + '&modulename=' + module + '&id=' + orderid, '_blank')
+        }
+        
+    }
+    //End of Mantis Issue 24944
+</script>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<div class="breadCumb">
+    <span>Order Summary </span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3 clearfix">
+        <div class="clearfix">
+            <div class="col-md-12">
+                <div class="row">
+                    <table class="eqpadtbl mb-4">
+                        <tr>
+                            <td class="w150">
+                                <label>State</label>
+                                <div>
+                                    @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
+
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>Shop List</label>
+                                <div>
+                                    @Html.Action("GetShopList", "MasterPopulate")
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>Employee</label>
+                                <div>
+                                    @Html.DevExpress().ButtonEdit(
+                                    settings =>
+                                    {
+                                        settings.Name = "EmployeeTxt";
+                                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        //settings.Text = Model.AssignedTo;
+                                        settings.ReadOnly = true;
+                                        settings.Properties.Buttons.Add("...");
+                                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                                    }).GetHtml()
+                                    @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>From Date</label>
+                                <div>
+
+                                    @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>To Date</label>
+                                <div>
+                                    @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                                </div>
+                            </td>
+                            @*Rev Debashis*@
+                            <td class="w10 inputSpacer" style="padding-top: 21px; width: 150px;">
+                                <input type="checkbox" id="IsPaitentDetails" name="IsPaitentDetails" value="0" style="margin-right:5px"><span class="w100">Paitent Details</span>
+                            </td>
+                            @*End of Rev Debashis*@
+                            <td style="padding-top: 22px;width:180px;">
+                                <label></label>
+                                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                    <option value="0">Export to</option>
+                                    <option value="1">PDF</option>
+                                    <option value="2">XLSX</option>
+                                    <option value="3">XLS</option>
+                                    <option value="2">RTF</option>
+                                    <option value="2">CSV</option>
+
+                                </select>
+
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+
+            <div class="form_main ">
+
+                <div class="clear"></div>
+                <div id="refreshgrid">
+                </div>
+
+                <div id="refreshgridstatusreportregister">
+                    @{
+                        Html.RenderAction("PartialOrderSummary", "OrderSummary", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId });
+                    }
+                </div>
+                @*Mantis Issue 24944*@
+                <input type="hidden" id="Order_Id" />
+                @*End of Mantis Issue 24944*@
+                <input type="hidden" id="hdnuser_id" />
+                <input type="hidden" id="hdnuser_state" />
+                <input type="hidden" id="hdnuser_shop" />
+                <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
+                <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+
+                <div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+                    <div class="modal-dialog modal-lg" style="width: 1045px">
+
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Product List</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="divModalBody" style="padding-left:20px;">
+                                    <div>
+                                        @{
+                                            Html.RenderAction("PartialOrderProductDetails", "OrderSummary");
+                                        }
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <input id="hdnorder" type="hidden" />
+            <input id="hdnproductorderid" type="hidden" />
+
+        </div>
+    </div>
+</div>
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->
+@*Mantis Issue 24944*@
+<div class="modal fade pmsModal w50" id="DesignModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+                <h4 class="modal-title">Select Design</h4>
+            </div>
+            <div class="modal-body">
+                @*<input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />*@
+                <div id="DesignTable">
+                    <label class="required">Select Design:</label>
+                    <select class="form-control" @*onchange="PresentAddressCheck()"*@ id="ddl_design">
+                        <option value="0">--Select Design--</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                @*<button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>*@
+                @*Mantis Issue 25360*@
+                @*<button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup()">OK</button>*@
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="PrintOKPopup()">OK</button>
+                @*End of Mantis Issue 25360*@
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+@*End of Mantis Issue 24944*@

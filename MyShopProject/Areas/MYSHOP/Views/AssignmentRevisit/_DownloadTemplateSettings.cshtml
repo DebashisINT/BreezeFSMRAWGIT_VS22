@@ -1,0 +1,70 @@
+﻿@using MyShop.Models;
+@model EmployeesTargetSetting
+
+
+<div class="">
+
+    <div><h3 class="ppHeader">Download Excel Template For Assignment of Revisitg</h3></div>
+    <hr class="mTop10" />
+    <div class="row">
+        <div>
+
+            <div class="clearfix ">
+                <div class="col-lg-12 lblmTop8">
+                    <label><b>Month</b></label>
+                    <div class="iminentSpan">
+                        <select class="form-control" id="ddlMonth">
+                            <option value="01">January</option>
+                            <option value="02">February</option>
+                            <option value="03">March</option>
+                            <option value="04">April</option>
+                            <option value="05">May</option>
+                            <option value="06">June</option>
+                            <option value="07">July</option>
+                            <option value="08">August</option>
+                            <option value="09">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-12 lblmTop8">
+                    <label><b>State</b></label>
+                    <div class="iminentSpan">
+                        @Html.DropDownList("ddlTempState", new SelectList(Model.StateList, "StateName", "StateName"), new { @id = "ddlTempState",  @class = "demo multiselect" })
+                        @*@Html.Action("GetStateList", "MasterPopulate")*@
+                        @*@Html.DropDownList("ddlTempState", new SelectList(Model.StateList, "StateName", "StateName"), new { @id = "ddlTempState",  @class = "form-control" })@multiple = "multiple",*@
+                    </div>
+
+
+                </div>
+                <div class="col-lg-12 lblmTop8">
+                    <label><b>Designation</b></label>
+                    <div class="iminentSpan">
+                        @Html.DropDownList("ddlTempDesignation", new SelectList(Model.DesignationList, "DesignationName", "DesignationName"), new {  @id = "ddlTempDesignation", @class = "demo multiselect" })
+                        @*@Html.Action("GetDesigList", "SalesReportSummary")*@
+                        @*@Html.DropDownList("ddlTempDesignation", new SelectList(Model.DesignationList, "DesignationName", "DesignationName"), new {  @id = "ddlTempDesignation", @class = "form-control" })@multiple = "multiple",*@
+                    </div>
+
+                </div>
+                <div class="col-lg-12 lblmTop8">
+                    <label><b>Employee's</b></label>
+                    <div class="iminentSpan">
+                        @Html.DropDownList("ddlTempDesignation", new SelectList(Model.DesignationList, "DesignationName", "DesignationName"), new {  @id = "ddlTempDesignation", @class = "demo multiselect" })
+                        @*@Html.Action("GetEmpList", "MasterPopulate")*@
+                        @*@Html.DropDownList("ddlTempDesignation", new SelectList(Model.DesignationList, "DesignationName", "DesignationName"), new {  @id = "ddlTempDesignation", @class = "form-control" })@multiple = "multiple",*@
+                    </div>
+
+                </div>
+                <div class="col-md-12 mTop5">
+                    <button type="button" onclick="getTemplateByStateDesignation();" class="btn btn-success mTop5">Download Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+</div>
+

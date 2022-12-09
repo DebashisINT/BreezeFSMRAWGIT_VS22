@@ -1,0 +1,938 @@
+﻿
+@{
+    //ViewBag.Title = "KnowYourStateIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<h2>KnowYourStateIndex</h2>*@
+<script type="text/javascript">
+
+    $(function () {
+        //txtfromDate.SetDate(new Date());
+        //txttoDate.SetDate(new Date());
+    });
+   function gridImportTargetListOnStartCallback(s, e)
+    {
+       var ddlMonth = $('#ddlMonthid option:selected').val();
+       var ddlYear = $('#ddlYear option:selected').val();
+       e.customArgs["Month"] = ddlMonth;
+       e.customArgs["Year"] = ddlYear;
+        e.customArgs["flag"] = 1;
+    }
+    function ExportLogGrid() {
+        var url = '@Url.Action("ExportEmployeesTargetLogList", "AssignmentRevisit", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function close() {
+        $("#fileprod").val('');
+    }
+    function OnEndCallback(s, e) {
+
+        if (s.cpBatchUpdate == "1") {
+            s.cpBatchUpdate = "0";
+            gridImportTargetList.Refresh();
+        }
+        if ($('#hdnExportGridListMessage').val() != '') {
+            jAlert($('#hdnExportGridListMessage').val());
+            $('#hdnExportGridListMessage').val('');
+
+        }
+
+        var count = $('#hdnExportGridListCount').val();
+        if (count > 0) {
+            $('.btn-excel').show();
+        }
+        else {
+            $('.btn-excel').hide();
+        }
+
+    }
+
+    function grdrowclick(s, e) {
+        GlobalRowIndex = e.visibleIndex;
+    }
+
+
+
+    function getDownloadTemplateSettings() {
+        $("#myModal").modal('show');
+        $("#ddlMonths").focus();
+    }
+
+    function OnStartCallback(s, e) {
+        //var ddlState = $('#hdnddlState').val();
+        //var ddlDesignation = $('#hdnddlDesignation').val();
+
+        var ddlMonth = $('#hdnddlMonth').val();
+        var ddlYear = $('#ddlYear').val();
+        //var ddlEmpType = $('#hdnddlEmpType').val();
+        //var ddlCounterType = $('#hdnddlCounterType').val();
+
+        //if (ddlState == "Select") {
+        //    ddlState = "";
+        //}
+        //if (ddlDesignation == "Select") {
+        //    ddlDesignation = "";
+        //}
+        var SettingMonthYear = ddlMonth + '-' + ddlYear;
+
+        //e.customArgs["EmpTypeID"] = ddlEmpType;
+        //e.customArgs["CounterType"] = ddlCounterType;
+        //e.customArgs["State"] = ddlState;
+        //e.customArgs["Designation"] = ddlDesignation;
+
+        e.customArgs["SettingYear"] = ddlYear;
+        e.customArgs["SettingMonth"] = ddlMonth;
+        // e.customArgs["EmpCodeList"] = EmployeesCounterTargetList.join("|"); //EmployeesCounterTargetList
+
+    }
+
+    function EmployeesSelectionChanged(s, e) {
+        EmployeesListGridLookup.GetSelectedFieldValues("EmployeeCode", GetEmployeesSelectedFieldValuesCallback);
+    }
+
+    function OnStartLogGridCallback(s, e) {
+        //var todate = GetServerDateFormat(new Date(txttoDate.GetDate()));
+        //var fromdate = GetServerDateFormat(new Date(txtfromDate.GetDate()));
+        e.customArgs["fromdate"] = fromdate;
+        e.customArgs["todate"] = todate;
+    }
+
+    function DateValidateFrom() {
+        if (txttoDate.GetDate()) {
+            if (txttoDate.GetDate() < txtfromDate.GetDate()) {
+                txttoDate.SetValue(txtfromDate.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (txtfromDate.GetDate()) {
+            if (txttoDate.GetDate() < txtfromDate.GetDate()) {
+                txttoDate.SetValue(txtfromDate.GetDate());
+            }
+        }
+    }
+
+    function ActiveEmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            if (values.length <= 1) {
+                for (var i = 0; i < values.length; i++) {
+                    StateId.push(values[i]);
+                }
+            }
+            else {
+                jAlert("Please select only one State");
+                StateGridLookup.GetGridView().SelectAllRowsOnPage(false);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+    }
+
+    var desigId = [];
+    function DesigSelectionChanged(s, e) {
+        DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    }
+
+
+    function GetDesigSelectedFieldValuesCallback(values) {
+        try {
+            desigId = [];
+            for (var i = 0; i < values.length; i++) {
+                desigId.push(values[i]);
+            }
+        } finally {
+            console.log(desigId);
+        }
+    }
+
+
+    var empId = [];
+    function ActiveEmpSelectionChanged(s, e) {
+        ActiveEmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function ActiveLookupValChange() {
+        ActiveEmpGridLookup.GetGridView().Refresh()
+        //EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function getTemplateByStateDesignation() {
+
+
+        //if (StateId != "") {
+            //var selector = document.getElementById('ddlMonths');
+            //var value = selector[selector.selectedIndex].value;
+            //var monthh = $("#ddlMonths option:selected").val();
+            //var monthName = $("#ddlMonths option:selected").text();
+            //var empIDs = empId;
+            // alert($("#ddlYear").val());
+        @*var url = "@Url.Action("GetEmployeesListTemplateByStateDesignation", "AssignmentRevisit")" + "?State=" + StateId + "&Designation=" + desigId + "&Employees=" + empIDs + "&month=" + monthh + "&Year=" + $("#ddlYear").val() + "&monthName=" + monthName;*@
+        var url = "@Url.Action("GetEmployeesListTemplateByStateDesignation", "KnowYourState")";
+            window.location.href = url;
+           // pcModalTemplateExcelMode.Hide();
+        //}
+        //else {
+        //    jAlert("Please select State");
+
+        //}
+    }
+
+    function ImportUpdatePopOpenEmployeesRevisit() {
+        $("#myImportModal").modal('show');
+        @*$.ajax({
+            type: "POST",
+            url: "@Url.Action("GetImportTemplateEmployeeSettings", "AssignmentRevisit")",
+            success: function (response) {
+                if (response) {
+                    pcModalTemplateImportMode.SetContentHtml(response);
+                    pcModalTemplateImportMode.Show();
+                }
+            }
+    });*@
+
+    }
+
+
+    function ChekEmpSettingsUpload() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+            var month = document.getElementById("ddlMonthforimport").value; 
+            var Yearforimport = document.getElementById("dropdownyear").value;
+
+            $.ajax({
+                url: "@Url.Action("GetUploadFilesEmployeeSettings", "KnowYourState")" + "?month=" + month + "&Year=" + Yearforimport,
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result,'Alert', function () {
+
+                        if (result == "Import Process Completed!") {
+                            $("#myImportModal").modal('hide');
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("GetEmployeesTargetSettingImportLog", "AssignmentRevisit")",
+                                success: function (response) {
+                                    if (response) {
+
+                                        //pcModalTemplateImportLogMode.SetContentHtml(response);
+                                     //   pcModalTemplateImportLogMode.Show();
+                                        //gridImportTargetList.Refresh();
+                                        //gridImportTargetList.Refresh();
+                                    }
+                                }
+                            });
+                        }
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+
+    function ImportLogView() {
+        pcModalImportLogViewMode.Show();
+
+        $('#MandatoryFromDate').attr('style', 'display:none');
+        $('#MandatoryToDate').attr('style', 'display:none');
+        txtfromDate.SetDate(new Date());
+        txttoDate.SetDate(new Date());
+        @*$.ajax({
+          type: "POST",
+          url: "@Url.Action("GetEmployeesTargetSettingImportLog", "EmployeesTarget")",
+            success: function (response) {
+                if (response) {
+
+                    pcModalTemplateImportLogMode.Show();
+                    gridTemplateImportLogList.Refresh();
+                    gridTemplateImportLogList.Refresh();
+                }
+            }
+    });*@
+    }
+
+
+    function getLogByDate() {
+        var flag = true;
+        if (txtfromDate.GetDate() == null) {
+            $('#MandatoryFromDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryFromDate').attr('style', 'display:none');
+        }
+
+        if (txttoDate.GetDate() == null) {
+            $('#MandatoryToDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryToDate').attr('style', 'display:none');
+        }
+
+        if (flag) {
+            todate = GetServerDateFormat(new Date(txttoDate.GetDate()));
+            fromdate = GetServerDateFormat(new Date(txtfromDate.GetDate()));
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetEmployeesTargetSettingImportLog", "AssignmentRevisit")",
+                data: { fromdate: fromdate, todate: todate },
+                success: function (response) {
+                    if (response) {
+                        pcModalImportLogViewMode.Hide();
+                        //pcModalTemplateImportLogMode.SetContentHtml(response);
+                        pcModalTemplateImportLogMode.Show();
+                        gridImportTargetList.Refresh();
+                        gridImportTargetList.Refresh();
+
+                        //pcModalImportLogViewMode.Hide();
+                    }
+                }
+            });
+        }
+    }
+
+
+    function DateValidateFrom() {
+        if (txttoDate.GetDate()) {
+            if (txttoDate.GetDate() < txtfromDate.GetDate()) {
+                txttoDate.SetValue(txtfromDate.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (txtfromDate.GetDate()) {
+            if (txttoDate.GetDate() < txtfromDate.GetDate()) {
+                txttoDate.SetValue(txtfromDate.GetDate());
+            }
+        }
+    }
+
+    function OnStartLogGridCallback(s, e) {
+        e.customArgs["fromdate"] = fromdate;
+        e.customArgs["todate"] = todate;
+    }
+
+    function GetServerDateFormat(today) {
+        if (today != "" && today != null) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+
+    function getEmployeesTargetSettingList() {
+
+        var ddlMonth = $('#ddlMonthid option:selected').val();
+        var ddlYear = $('#ddlYear option:selected').val();
+        //alert(ddlMonth);
+        //alert(ddlyear);
+        $('#hdnddlMonth').val(ddlMonth);
+        $('#ddlYear').val(ddlYear);
+        @*url: "@Url.Action("GetImportTargetList", "KnowYourState")" + "?month=" + month + "&Year=" + Yearforimport,*@
+        $.ajax({
+            url: "@Url.Action("GetImportTargetList", "KnowYourState")" ,//+ "?month=" + ddlMonth + "&Year=" + ddlYear + "&flag=" + 1, 
+            type: "POST",
+        contentType: false,
+        processData: false,
+       // data: fileData,
+        success: function (result) {
+            //jAlert(result,'Alert', function () {
+
+                if (result == "Import Process Completed!") {
+                    $("#myImportModal").modal('hide');
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("GetImportTargetList", "KnowYourState")",
+                        success: function (response) {
+                            if (response) {
+
+                                //pcModalTemplateImportLogMode.SetContentHtml(response);
+                                //   pcModalTemplateImportLogMode.Show();
+                                gridImportTargetList.Refresh();
+                                gridImportTargetList.Refresh();
+                            }
+                        }
+                });
+            }
+            //});
+
+    },
+    error: function (err) {
+        jAlert(err.statusText);
+    }
+    });
+        SetEmployeeTargerHeader(ddlMonth, ddlYear);
+    }
+
+    function SetEmployeeTargerHeader(month, year) {
+        //gridEmployeesTargetList.Refresh();
+    }
+
+    function gridemployeestargetlistexport() {
+        var url = '@Url.Action("ExportEmployeesTargetList", "AssignmentRevisit", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 2);
+    }
+</script>
+
+
+<style>
+    .mtop8 {
+        margin-top: 8px;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    .mright8 {
+        margin-right: 8px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+    .dxgvStatusBar_PlasticBlue a {
+        display: none;
+    }
+
+    #gridEmployeesTargetList_DXMainTable .dxgvBatchEditModifiedCell_PlasticBlue {
+        background: #fff;
+    }
+
+    .secboxback {
+        background: #f3f3f3;
+        padding: 9px 0px;
+        border-radius: 5px;
+        padding-top: 0;
+        overflow: hidden;
+    }
+
+    #pcModalTargetMode_PW-1 .form_main {
+        border-top: none;
+    }
+
+    .gridbinded {
+        position: absolute;
+        right: 15px;
+        top: 11px;
+        margin-right:0 !important;
+    }
+
+    #myAssignTargetpopup {
+        padding: 0 0 15px 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px 0;
+        }
+
+    .green {
+        color: green;
+    }
+
+    .linerHd {
+        background: #9da9c3;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    .ppHeader {
+        font-size: 16px;
+    }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .padtop28 {
+        padding-top: 28px;
+    }
+
+
+    /*multiselect*/
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+        min-width: 340px;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .iminentSpan > span {
+        display: block;
+    }
+
+    .btn-excel {
+        float: right;
+        margin-top: 0px;
+    }
+
+    .gridbinded {
+        position: absolute;
+        right: 15px;
+        top: 11px;
+    }
+
+    .validationDiv {
+        padding-right: 35px;
+        position: relative;
+    }
+
+    .validationDiv .validclass {
+        top: 23px;
+        position: absolute;
+        right: 11px;
+    }
+
+
+    .devpopupStyle {
+        border-radius: 15px;
+    }
+
+        .devpopupStyle .dxpc-header {
+            background: #3ca1e8;
+            background-image: none !important;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .devpopupStyle .dxpc-contentWrapper, .devpopupStyle .dxpc-content {
+            background: #fff;
+            border-radius: 0 0 15px 15px;
+        }
+
+        .devpopupStyle .dxpc-mainDiv {
+            background-color: transparent !important;
+        }
+
+        .devpopupStyle .modal-footer {
+            text-align: left;
+        }
+
+        .devpopupStyle .dxpc-shadow {
+            box-shadow: none;
+        }
+        .marginTop10 {
+            margin-top:10px;
+        }
+        .colorGrid1 .dxgvHeader_PlasticBlue, .colorGrid1 .dxgvFooter_PlasticBlue {
+            border-top: 1px none #c06517;
+            border: 1px solid #ad5910;
+            background: #d0701e !important;
+        }
+        .c1{
+            color: #d0701e;
+        }
+        .colorGrid2 .dxgvHeader_PlasticBlue, .colorGrid2 .dxgvFooter_PlasticBlue {
+            border-top: 1px none #39393c;
+            border: 1px solid #47474b;
+            background: #49494d !important;
+        }
+        .c2{
+            color: #283dd0;
+        }
+        .colorGrid3 .dxgvHeader_PlasticBlue, .colorGrid3 .dxgvFooter_PlasticBlue {
+            border-top: 1px none #289ad0;
+            border: 1px solid #156e99;
+            background: #289ad0 !important;
+        }
+        .c3{
+            color: #289ad0;
+        }
+        .colorGrid4 .dxgvHeader_PlasticBlue, .colorGrid4 .dxgvFooter_PlasticBlue{
+            border-top: 1px none #583b86;
+            border: 1px solid #44217c;
+            background: #583b86 !important;
+        }
+        .c4{
+            color: #583b86;
+        }
+        #gridImportTargetList_DXMainTable>tbody>tr.dxgvDataRow_PlasticBlue:nth-child(odd) td {
+            background-color:#e8f5f2;
+        }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.navbar-minimalize').click(function () {
+            if ($('body').hasClass('mini-navbar')) {
+                var windowWidth = $(window).width();
+                var cntWidth = windowWidth - 220;
+                gridImportTargetList.SetWidth(cntWidth);
+            } else {
+                var windowWidth = $(window).width();
+                var cntWidth = windowWidth - 90;
+                gridImportTargetList.SetWidth(cntWidth);
+            }
+
+        });
+    });
+</script>
+
+
+    <div class="breadCumb">
+        <span>Know Your State</span>
+    </div>
+
+    <input type="hidden" id="hdnddlState" value="" />
+    <input type="hidden" id="hdnddlDesignation" value="" />
+    <input type="hidden" id="hdnddlMonth" value="" />
+    <input type="hidden" id="hdnddlYear" value="" />
+    <input type="hidden" id="hdnddlEmpType" value="" />
+    <input type="hidden" id="hdnddlCounterType" value="" />
+    <input type="hidden" id="hdnddlEmployeeUserID" value="" />
+
+    <input type="hidden" id="hdnemployeescountertargetid" value="0" />
+
+<div class="container">
+
+
+    @*<input type="hidden" id="hdnddlState" value="" />
+    <input type="hidden" id="hdnddlDesignation" value="" />
+    <input type="hidden" id="hdnddlMonth" value="" />
+    <input type="hidden" id="hdnddlYear" value="" />
+    <input type="hidden" id="hdnddlEmpType" value="" />
+    <input type="hidden" id="hdnddlCounterType" value="" />
+    <input type="hidden" id="hdnddlEmployeeUserID" value="" />
+
+    <input type="hidden" id="hdnemployeescountertargetid" value="0" />*@
+
+    @*@if (Model.IsHierarchywiseTargetSettings == true)
+        {
+            <input type="hidden" value="1" id="hdnHierarchywiseTargetSettings" />
+            if (Model.UserState != null)
+            {
+                <input type="hidden" value="@Model.UserState.StateName" id="hdnUserState" />
+            }
+            if (Model.UserDesg != null)
+            {
+                <input type="hidden" value="@Model.UserDesg.DesignationName" id="hdnUserDsg" />
+            }
+
+            <input type="hidden" value="@Model.UserID" id="hdnUserID" />
+
+           <input type="hidden" value="1700" id="hdnUserID" />
+        }
+        else
+            {*@
+    <input type="hidden" value="0" id="hdnHierarchywiseTargetSettings" />
+    @*}*@
+
+    <div class="clearfix pt-5">
+        <span class="btn-excel" data-toggle="tooltip" title="" data-original-title="Export To Excel">
+            <span class="translate-y hide">Export To Excel</span>
+            <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="gridemployeestargetlistexport()"></span>
+        </span>
+        
+    </div>
+    <div class="backBox mt-4 mb-4 p-4">
+        <div class="row mb-4">
+            <div class="col-md-2">
+                <label><b>Month</b></label>
+                <select class="form-control" id="ddlMonthid">
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label><b>Year</b></label>
+                <select class="form-control" id="ddlYear">
+                    <option value="@(DateTime.Now.Year + 1)">@(DateTime.Now.Year + 1)</option>
+                    <option value="@(DateTime.Now.Year)" selected="selected">@(DateTime.Now.Year)</option>
+                </select>
+            </div>
+
+            <div class="col-md-5" style="padding-top:23px;">
+                <label><b>&nbsp;</b></label>
+                @*<button type="button" onclick="getEmployeesTargetSettingList();" id="btnSearch" class="btn btn-success">Search</button>*@
+                <button type="button" onclick="gridload();" id="btnSearch" class="btn btn-success">Search</button>
+                @*<button type="button" onclick="getTemplateByStateDesignation();" class="btn btn-primary">Download Template</button>*@
+                <button type="button" onclick="ImportUpdatePopOpenEmployeesRevisit();" class="btn btn-primary">Import (Add/Update)</button>
+                <script>
+                function gridload() {
+                    gridImportTargetList.Refresh();
+                    gridImportTargetList.Refresh();
+                }
+                </script>
+            </div>
+
+            <div class="clear"></div>
+            <div class="col-md-12 ">
+
+
+
+
+                @*<button type="button" onclick="ImportLogView();" class="btn btn-primary">View Log</button>*@
+            </div>
+        </div>
+
+        <div class="scrooler mTop5">
+
+            <div id="refreshgrid" class="relative colorGrid2">
+                
+                
+                @{
+                Html.RenderAction("GetImportTargetList", "KnowYourState");
+                }
+            </div>
+
+            @*<div class="text-right mTop5">
+                , new { State = "", EmpTypeID = 0, CounterType = 0, Designation = "", SettingMonth = 0, SettingYear = 0, EmpCodeList = "" }
+                    <button type="button" class="btn btn-primary" onclick="EmployeesTargetSave();">Save</button>
+                    <button type="button" class="btn btn-danger" onclick="EmployeesTargetCancel();">Cancel</button>
+                </div>*@
+        </div>
+    </div>
+</div>
+<div id="myImportModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Know Your State - Data Import</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                        <div class="row">
+                                               <div class="col-lg-6">
+                                                <label><b>Month</b></label>
+                                                <select class="form-control" id="ddlMonthforimport">
+                                                    <option value="01">January</option>
+                                                    <option value="02">February</option>
+                                                    <option value="03">March</option>
+                                                    <option value="04">April</option>
+                                                    <option value="05">May</option>
+                                                    <option value="06">June</option>
+                                                    <option value="07">July</option>
+                                                    <option value="08">August</option>
+                                                    <option value="09">September</option>
+                                                    <option value="10">October</option>
+                                                    <option value="11">November</option>
+                                                    <option value="12">December</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label><b>Year</b></label>
+                                                <select class="form-control" id="dropdownyear">
+                                                     <option value="@(DateTime.Now.Year)">@(DateTime.Now.Year)</option>
+                                                    <option value="@(DateTime.Now.Year + 1)">@(DateTime.Now.Year + 1)</option>
+                                                </select>
+                                            </div>
+                            
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label class="uplabel mt-4">Select File to Import (Add/Update)</label>
+                                            <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                        </div>
+                                    </div>
+                                    <div class="clear"></div>  
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="pTop10  mt-4"><input type="submit" value="Import (Add/Update)" onclick="return ChekEmpSettingsUpload();" id="btnimportxls" class="btn btn-primary"></div>
+                                        </div>  
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+

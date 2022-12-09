@@ -1,0 +1,39 @@
+﻿@model Models.ReimbursementDetailsEdit
+
+<div class="">
+    <input type="hidden" id="hdnUserid" />
+
+    <div class="row">
+        <ul class="myAssignTarget" id="myAssignTargetpopup">
+
+            <div class="col-lg-12 ">
+                <label><b>Approved Distance</b></label>
+                <input type="text" class="form-control text-right shd" id="idApprovedDist" maxlength="10" value=@Model.Apprvd_Dist onkeypress="return isNumberKey(event,this)" />
+            </div>
+
+            <div class="col-lg-12 ">
+                <label><b>Approved Amount</b></label>
+                <input type="text" class="form-control text-right shd" id="idApprovedAmt" maxlength="10" value=@Model.Apprvd_Amt onkeypress="return isNumberKey(event,this)" />
+            </div>
+
+            <div class="col-lg-12 ">
+                <label><b>Approved/Reject Remarks</b></label>
+                <input type="text"  id="idApprovedRejectRemarks"  value=@Model.App_Rej_Remarks  />
+            </div>
+
+        </ul>
+
+
+
+
+        <div class=" col-md-12">
+
+            <div class=" mTop10">
+                <button type="button" class="btn btn-primary" onclick="OKSaved();">Ok</button>
+                <button type="button" class="btn btn-danger" onclick="Cancel();">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

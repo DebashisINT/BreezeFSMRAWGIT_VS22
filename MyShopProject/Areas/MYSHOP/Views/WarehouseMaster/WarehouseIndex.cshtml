@@ -1,0 +1,624 @@
+﻿@model MyShop.Models.WarehouseMasterModel
+@{
+    ViewBag.Title = "Warehouse Master";
+}
+
+
+
+<link href="~/Content/media.css" rel="stylesheet" />
+<style>
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+        min-width: 340px;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .iminentSpan > span {
+        display: block;
+    }
+
+    #errmsg {
+        color: red;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('#txtWarehouse').focus();
+        $("#divPage").addClass("hidden");
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportWarehouselist", "WarehouseMaster", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+
+        $("#txtContactPhone").keypress(function (e) {
+            //if the letter is not digit then display error and don't type anything
+            if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+                //display error message
+                $("#errmsg").html("Digits Only").show().fadeOut("slow");
+                return false;
+            }
+        });
+    });
+
+    function CoutryChange() {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("SatetListView", "WarehouseMaster")",
+            data: { countryID: $('#ddlCountry').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                var status = "<select id='ddlState' onchange=StateChage() class = 'full form-control'>";
+                status = status + '<option value="0">select</option>';
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].ID + '>' + data[i].Name + '</option>';
+                }
+                status = status + '</select>';
+                $('#divState').html(status);
+            }
+        });
+    }
+
+    function StateChage() {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("CityListView", "WarehouseMaster")",
+            data: { StateID: $('#ddlState').val() },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                var status = "<select id='ddlCityDistrict' class = 'full form-control'>";
+                status = status + '<option value="0">select</option>';
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].city_id + '>' + data[i].city_name + '</option>';
+                }
+                status = status + '</select>';
+                $('#divCity').html(status);
+            }
+        });
+        ShopGridLookup.gridView.Refresh();
+        ShopGridLookup.gridView.Refresh();
+    }
+
+    function SaveWareHouse() {
+        var falgs = true;
+        if ($('#txtWarehouse').val() == "") {
+            //jAlert("Enter Warehouse Name.");
+            jAlert("Enter Warehouse Name.", "alert", function () {
+                $('#txtWarehouse').focus();
+            });
+            falgs = false;
+        }
+        else if ($('#txtAddress1').val() == "") {
+            //jAlert("Enter Address.");
+            jAlert("Enter Address.", "alert", function () {
+                $('#txtAddress1').focus();
+            });
+            falgs = false;
+        }
+        else if ($('#ddlCountry').val() == "" || $('#ddlCountry').val() == "0") {
+            //jAlert("Select Country.");
+            jAlert("Select Country.", "alert", function () {
+                $('#ddlCountry').focus();
+            });
+            falgs = false;
+        }
+        else if ($('#ddlState').val() == "" || $('#ddlState').val() == "0") {
+            //jAlert("Select State.");
+            jAlert("Select State.", "alert", function () {
+                $('#ddlState').focus();
+            });
+            falgs = false;
+        }
+        else if ($('#ddlCityDistrict').val() == "" || $('#ddlCityDistrict').val() == "0") {
+            //jAlert("Select City/District.");
+            jAlert("Select City/District.", "alert", function () {
+                $('#ddlCityDistrict').focus();
+            });
+            falgs = false;
+        }
+        else if ($('#txtPin').val() == "") {
+            //jAlert("Enter Pin.");
+            jAlert("Enter Pin.", "alert", function () {
+                $('#txtPin').focus();
+            });
+            falgs = false;
+        }
+        else if ($('#txtContactName').val() == "") {
+            //jAlert("Enter Contact Person Name.");
+            jAlert("Enter Contact Person Name.", "alert", function () {
+                $('#txtContactName').focus();
+            });
+            falgs = false;
+        }
+        else if ($('#txtContactPhone').val() == "") {
+            //jAlert("Enter Contact Person Phone.");
+            jAlert("Enter Contact Person Phone.", "alert", function () {
+                $('#txtContactPhone').focus();
+            });
+            falgs = false;
+        }
+        else if (ShopId=="") {
+            jAlert("Select distributor.", "alert", function () {
+               
+            });
+            falgs = false;
+        }
+
+        //if ($('#ddlDistributer').val() == "" || $('#ddlDistributer').val() == "0") {
+        //    jAlert("Enter Contact Person Phone.");
+        //    $('#ddlDistributer').focus();
+        //}
+
+        var isdefault = "0";
+        if (document.getElementById("chkDefault").checked == true) {
+            isdefault = "1";
+        }
+
+        var action = "";
+        if ($("#WareHouse_ID").val() != "") {
+            action = "EDIT";
+        }
+        else {
+            action = "INSERT";
+        }
+       
+        if (falgs) {
+            $.ajax({
+                type: "post",
+                url: "@Url.Action("AddWarehouseMaster", "WarehouseMaster")",
+                data: {
+                    action: action, WareHouse_ID: $("#WareHouse_ID").val(), warehouseName: $('#txtWarehouse').val(), address1: $('#txtAddress1').val(), address2: $('#txtAddress2').val(), address3: $('#txtAddress3').val(), country: $('#ddlCountry').val(),
+                    State: $('#ddlState').val(), City: $('#ddlCityDistrict').val(), Pin: $('#txtPin').val(), contactPerson: $('#txtContactName').val(), ContactPhone: $('#txtContactPhone').val(), Distributor: ShopId,
+                    defaultvalue: isdefault
+                },
+                datatype: "json",
+                traditional: true,
+                success: function (data) {
+                    if (data == "Ware house added successfully.") {
+                        jAlert(data);
+                        Clear();
+                        gridWareHouseList.Refresh();
+                        gridWareHouseList.Refresh();
+                        $("#divPage").addClass("hidden");
+                        $("#divGrid").removeClass("hidden");
+                    }
+                    else if (data == "Ware house updated successfully.") {
+                        jAlert(data);
+                        Clear();
+                        gridWareHouseList.Refresh();
+                        gridWareHouseList.Refresh();
+                        $("#divPage").addClass("hidden");
+                        $("#divGrid").removeClass("hidden");
+                    }
+                    else {
+                        jAlert(data);
+                    }
+                }
+            });
+        }
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Is_PageLoad"] = "";
+    }
+
+    function NewWareHouse() {
+        $("#divPage").removeClass("hidden");
+        $("#divGrid").addClass("hidden");
+    }
+
+    function Cancel() {
+        $("#divPage").addClass("hidden");
+        $("#divGrid").removeClass("hidden");
+        Clear();
+    }
+
+    function CoutryChangePopulate(Value, Country) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("SatetListView", "WarehouseMaster")",
+            data: { countryID: Country },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                var status = "<select id='ddlState' onchange=StateChage() class = 'full form-control'>";
+                status = status + '<option value="0">select</option>';
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].ID + '>' + data[i].Name + '</option>';
+                }
+                status = status + '</select>';
+                $('#divState').html(status);
+            }
+        });
+        $("#ddlState").val(Value);
+    }
+
+    function StateChagePopulate(value, State) {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("CityListView", "WarehouseMaster")",
+            data: { StateID: State },
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                var status = "<select id='ddlCityDistrict' class = 'full form-control'>";
+                status = status + '<option value="0">select</option>';
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].city_id + '>' + data[i].city_name + '</option>';
+                }
+                status = status + '</select>';
+                $('#divCity').html(status);
+            }
+
+        });
+        $("#ddlCityDistrict").val(value);
+    }
+
+    function OpenWarehouseEdit(obj) {
+        //alert(obj);
+        $("#WareHouse_ID").val(obj);
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("WareHouseView", "WarehouseMaster")",
+            data: { WareHouse_ID: obj },
+            dataType: "json",
+            success: function (response) {
+                var status = response;
+                var str = "";
+
+                if (status != null) {
+                    CoutryChangePopulate(status.State, status.Country);
+
+                    $('#txtWarehouse').val(status.WarehouseName);
+                    $('#txtAddress1').val(status.Address1);
+                    $('#txtAddress2').val(status.Address2);
+                    $('#txtAddress3').val(status.Address3);
+                    $('#ddlCountry').val(status.Country);
+
+
+                    $('#txtPin').val(status.Pin);
+                    $('#txtContactName').val(status.ContactName);
+                    $('#txtContactPhone').val(status.ContactPhone);
+                    // $('#ddlDistributer').val(status.Distributer).change();
+
+                    if (status.isDefault == "True") {
+                        document.getElementById("chkDefault").checked = true;
+                    }
+                    else {
+                        document.getElementById("chkDefault").checked = false;
+                    }
+
+                    setTimeout(function () {
+                        $('#ddlState').val(status.State).change();
+                        setTimeout(function () {
+                            $('#ddlCityDistrict').val(status.CityDistrict).change();
+                        }, 600);
+                    }, 600);
+                    StateChagePopulate(status.CityDistrict, status.State);
+
+
+                    // $("#btnSave").addClass('hide');
+                    $("#divPage").removeClass("hidden");
+                    $("#divGrid").addClass("hidden");
+                }
+
+            },
+            error: function (response) {
+                // alert(response);
+                jAlert("Please try again later.");
+            }
+        });
+    }
+
+    function Clear() {
+        $("#WareHouse_ID").val("");
+        $('#txtWarehouse').val("");
+        $('#txtAddress1').val("");
+        $('#txtAddress2').val("");
+        $('#txtAddress3').val("");
+        $('#ddlCountry').val(0);
+        CoutryChange();
+        $('#ddlState').val(0).change();
+        StateChage();
+
+        $('#txtPin').val("");
+        $('#txtContactName').val("");
+        $('#txtContactPhone').val("");
+        $('#ddlDistributer').val(0).change();
+        $('#ddlCityDistrict').val(0).change();
+        document.getElementById("chkDefault").checked = false;
+    }
+
+    function WarehouseDeleet(obj) {
+        jConfirm('Confirm Delete?', 'Alert', function (r) {
+            if (r) {
+                $("#WareHouse_ID").val(obj);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("WareHouseDelete", "WarehouseMaster")",
+                    data: { WareHouse_ID: obj },
+                    dataType: "json",
+                    success: function (response) {
+                        var status = response;
+                        jAlert(status);
+                        gridWareHouseList.Refresh();
+                        gridWareHouseList.Refresh();
+                    },
+                    error: function (response) {
+                        //  alert(response);
+                        jAlert("Please try again later.");
+                    }
+                });
+            }
+            else {
+                // alert("false");
+            }
+        });
+    }
+
+    function WarehousePermission(obj) {
+
+        //  $("#hdnorder").val(orderid);
+        $("#myModal").modal('show');
+        //  Clearall();
+        //  gridProductlist.Refresh();
+    }
+
+    function OpenShopList() {
+        gridWareHouseShopList.Refresh();
+    }
+
+    function OnShopStartCallback() {
+
+    }
+
+    function ShopStartCallback(s, e) {
+        e.customArgs["StateId"] = $('#ddlState').val();
+    }
+
+    var ShopId = [];
+    function ShopSelectionChanged(s, e) {
+        ShopGridLookup.gridView.GetSelectedFieldValues("ID", GetShopSelectedFieldValuesCallback);
+    }
+    function GetShopSelectedFieldValuesCallback(values) {
+        try {
+            ShopId = [];
+            for (var i = 0; i < values.length; i++) {
+                ShopId.push(values[i]);
+            }
+        } finally {
+            console.log(ShopId);
+        }
+    }
+
+    function LookupShopValChange() {
+        ShopGridLookup.GetGridView().Refresh()
+    }
+</script>
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+
+
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<input type="hidden" id="WareHouse_ID" />
+<div id="divPage" class="hidden">
+    <div class="breadCumb">
+        <span>
+            Warehouse Master
+        </span>
+    </div>
+
+    <div class="container">
+        <div class="backBox mt-5 p-3 ">
+            <div class="form-group">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label>Name <span class="red">*</span></label>
+                        @*<input type="text" class="form-control" />*@
+                        @Html.TextBoxFor(m => m.WarehouseName, new { @class = "form-control", @id = "txtWarehouse" })
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label>Address 1 <span class="red">*</span></label>
+                        @*<input type="text" class="form-control" />*@
+                        @Html.TextBoxFor(m => m.Address1, new { @class = "form-control", @id = "txtAddress1" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Address 2 </label>
+                        @*<input type="text" class="form-control" />*@
+                        @Html.TextBoxFor(m => m.Address2, new { @class = "form-control", @id = "txtAddress2" })
+                    </div>
+                    <div class="col-md-4">
+                        <label>Address 3 </label>
+                        @*<input type="text" class="form-control" />*@
+                        @Html.TextBoxFor(m => m.Address3, new { @class = "form-control", @id = "txtAddress3" })
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <label>Country <span class="red">*</span></label>
+                        @*<input type="text" class="form-control" />*@
+                        @Html.DropDownList("ddlCountry", new SelectList(Model.Country_List, "cou_id", "cou_country"), new { @name = "from", @class = "full form-control", @Onchange = "CoutryChange()" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>State <span class="red">*</span></label>
+                        <div id="divState">
+                            @*<input type="text" class="form-control" />*@
+                            @Html.DropDownList("ddlState", new SelectList(Model.State_List, "id", "state"), new { @name = "from", @class = "full form-control" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>City/District <span class="red">*</span></label>
+                        <div id="divCity">
+                            @*<input type="text" class="form-control" />*@
+                            @Html.DropDownList("ddlCityDistrict", new SelectList(Model.CityDistrict_List, "city_id", "city_name"), new { @name = "from", @class = "full form-control" })
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Pin <span class="red">*</span></label>
+                        @*<input type="text" class="form-control" />*@
+                        @Html.TextBoxFor(m => m.Pin, new { @class = "form-control", @id = "txtPin" })
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label>Contact Person Name <span class="red">*</span></label>
+                        @*<input type="text" class="form-control" />*@
+                        @Html.TextBoxFor(m => m.ContactName, new { @class = "form-control", @id = "txtContactName" })
+                    </div>
+
+                    <div class="col-md-2">
+                        <label>Contact Person Phone <span class="red">*</span></label>
+                        @*<input type="text" class="form-control" />*@
+                        @Html.TextBoxFor(m => m.ContactPhone, new { @class = "form-control", @id = "txtContactPhone" })
+                    </div>
+                    <div class="col-md-2">
+                        <label>Distributor <span class="red">*</span></label>
+                        @*<input type="text" class="form-control" />*@
+                        @*@Html.DropDownList("ddlDistributer", new SelectList(Model.Distributer_List, "Shop_Code", "Shop_Name"), new { @name = "from", @class = "full form-control" })*@
+                        @Html.Action("GetShopList", "WarehouseMaster")
+                    </div>
+                    <div class="col-md-2 hidden">
+                        <label>&nbsp; </label>
+                        <input type="checkbox" id="chkDefault" class="hidden" /> Is Default
+                    </div>
+                </div>
+                <div class="row mx-1">
+                    <label>&nbsp;</label>
+                    <button id="btnSave" class="btn btn-success" onclick="SaveWareHouse()">Save</button>
+                    <button id="btnCancel" class="btn btn-danger" onclick="Cancel()">Cancel</button>
+                </div>
+
+                <div class="row">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="divGrid">
+    <div class="breadCumb">
+        <span>
+            Warehouse Master List
+        </span>
+    </div>
+
+
+    <div class="container">
+        <div class="backBox mt-5 p-3 ">
+            <div class="form-group mb-4">
+                <button id="btnNew" class="btn btn-success mr-2 mb-3" onclick="NewWareHouse()">Add New</button>
+
+                <select name="ddlAppIds" class="btn btn-primary btn-radius mb-3" id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+
+                @{
+                Html.RenderAction("WarehouseMasterGrid", "WarehouseMaster", new { Is_PageLoad = "Ispageload" });
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog modal-lg" style="width: 1045px">
+
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Permission</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="divModalBody" style="padding-left:20px;">
+                        <div>
+                            @{
+                                Html.RenderAction("PartialWarehousePermission", "WarehouseMaster");
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>*@

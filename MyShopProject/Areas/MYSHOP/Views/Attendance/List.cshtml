@@ -1,0 +1,332 @@
+﻿@model Models.AttendanceModelInput
+@{
+    ViewBag.Title = "Attendance List";
+}
+
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+
+
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+
+<script>
+
+    function addDays(date, daysToAdd) {
+        var _24HoursInMilliseconds = 86400000;
+        return new Date(date.getTime() + daysToAdd * _24HoursInMilliseconds);
+    };
+
+    $(function () {
+        var d = new Date();
+
+        var now = new Date();
+
+        var yesterday = addDays(now, -1);
+
+        //dtFrom.SetValue(d);
+        //dtTo.SetValue(d);
+
+
+        dtFrom.SetValue(yesterday);
+        dtTo.SetValue(yesterday);
+
+
+        dtFrom.SetMaxDate(yesterday);
+        dtTo.SetMaxDate(yesterday);
+
+        $("#drpuser").chosen({
+            width: "100%"
+        });
+
+
+        @*if ('@Model.selectedusrid' != '') {
+
+            $("#drpuser").val('@Model.selectedusrid');
+            if ($("#drpuser").val() != '') {
+                var surl = '@Url.Action("GetAttendanceList", "Attendance")';
+                var usr = $("#drpuser").val();
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {
+                        selectedusrid: usr,
+                        Fromdate: $('#txtfromDate').val(),
+                        Todate: $('#txttoDate').val()
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+
+                        $('#refreshgrid').html(data);
+                    },
+                    error: function () {
+                        // alert('error');
+                    },
+
+
+                });
+
+
+            }
+
+
+            else {
+
+                $('#refreshgrid').html('');
+                $.jAlert({
+                    'title': 'Alert!',
+                    'content': 'Select User to show',
+                    'theme': 'dark_blue'
+                });
+            }
+
+        }*@
+
+        //$('#txtfromDate').daterangepicker({
+
+        //    singleDatePicker: true,
+        //    showDropdowns: true,
+
+        //    locale: {
+        //        format: 'DD-MM-YYYY'
+        //    }
+
+
+
+        //});
+
+        //$('#txttoDate').daterangepicker({
+
+        //    singleDatePicker: true,
+        //    showDropdowns: true,
+        //    mask: true,
+        //    locale: {
+        //        format: 'DD-MM-YYYY'
+
+
+        //    }
+
+        //});
+
+
+
+
+
+        $('body').on('click', '#btnshow', function () {
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+            //if (dayse <= 7) {
+            if (dayse <= 30) {
+                if ($("#drpuser").val() != '') {
+                    var surl = '@Url.Action("GetAttendanceList", "Attendance")';
+                    var usr = $("#drpuser").val();
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            selectedusrid: usr,
+                            //Fromdate: $('#txtfromDate').val(),
+                            //Todate: $('#txttoDate').val()
+                            Fromdate: dtFrom.GetText(),
+                            Todate: dtTo.GetText()
+                        },
+                        type: 'POST',
+                        success: function (data) {
+                            $('#refreshgrid').html(data);
+                        },
+                        error: function () {
+                            // alert('error');
+                        },
+                    });
+                }
+                else {
+
+                    $('#refreshgrid').html('');
+                    $.jAlert({
+                        'title': 'Alert!',
+                        'content': 'Select User to show',
+                        'theme': 'dark_blue'
+                    });
+                }
+            }
+            else {
+                jAlert("Searching days must be within One month");
+            }
+
+        });
+
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                ///   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+                //window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+                var url = '@Url.Action("ExportAttendance", "Attendance", new {type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+                ///  $('#type').val(selectedValue);
+                ///  $('#frmExportGrid').submit();
+
+                if ($("#drpuser").val() != '') {
+                    var surl = '@Url.Action("GetAttendanceList", "Attendance")';
+                    var usr = $("#drpuser").val();
+                    $.ajax({
+                        url: surl,
+                        async: false,
+                        data: {
+                            selectedusrid: usr,
+                            //Fromdate: $('#txtfromDate').val(),
+                            //Todate: $('#txttoDate').val()
+                            Fromdate: dtFrom.GetText(),
+                            Todate: dtTo.GetText()
+                        },
+                        type: 'POST',
+
+                        success: function (data) {
+
+                            $('#refreshgrid').html(data);
+                        },
+                        error: function () {
+                            // alert('error');
+                        },
+
+
+                    });
+
+
+                }
+            }
+        });
+
+
+
+    });
+
+
+
+</script>
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:after {
+        opacity: 0.8 !important;
+        color: #fff !important;
+    }
+
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+    .font-pp {
+        font-family: 'Poppins', sans-serif;
+    } 
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+</style>
+<div class="breadCumb">
+    <span>Attendance List</span>
+</div>
+<div class="container">
+    <div class="backBox p-3 font-pp">
+         @using (Html.BeginForm("GetAttendanceList", "Attendance", FormMethod.Post, new { @id = "fromsalesman" }))
+{
+    <table class="tblspace mt-1 mb-3 responsive_Tbl">
+        <tr>
+            <td style="width:200px;">
+                <h5>User List: </h5> @*@Html.DropDownListFor(m => m.selectedusrid, new SelectList(Model.userlsit, "UserID", "username", Model.selectedusrid), "-Select-", new { @id = "drpuser", @class = "whclass", @tabindex = 1 })*@
+                <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
+                    <option value=0>ALL</option>
+
+                    @foreach (var item in Model.userlsit)
+                    {
+
+                        if (Model.selectedusrid == item.UserID)
+                        {
+                            <option value="@item.UserID" selected="selected">@item.username</option>
+                        }
+                        else
+                        {
+                            <option value="@item.UserID">@item.username</option>
+                        }
+                    }
+                </select>
+
+            </td>
+
+
+            <td>
+                <h5>From Date : </h5>
+                @*@Html.TextBoxFor(m => m.Fromdate, new { @class = "form-control", @id = "txtfromDate", @tabindex = 2 })*@
+                <div>
+                    @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                </div>
+            </td>
+
+            <td>
+                <h5>To Date : </h5>
+                @*@Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true, @tabindex = 3 })*@
+                <div>
+                    @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                </div>
+            </td>
+            <td>
+                <div style="padding-top: 30px;">
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+                        <option value="2">XLSX</option>
+                    </select>
+                </div>
+            </td>
+
+        </tr>
+    </table>
+
+}
+
+        <div id="refreshgrid">
+
+        </div>
+</div>
+
+
+
+</div>

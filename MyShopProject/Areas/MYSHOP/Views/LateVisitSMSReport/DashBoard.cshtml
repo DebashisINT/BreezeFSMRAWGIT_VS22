@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "SMS on Visit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadCumb">
+    <span>SMS on Visit</span>
+</div>
+
+<div class="container" >
+    <div class="backBox px-4 pb-4 font-pp mt-3">
+        <div class="row">
+            <div class="">
+                <div style="clear: both;"></div>
+                <div id="DetailsTable">
+
+                    @{
+                        Html.RenderAction("_PartialDashBoard", "LateVisitSMSReport");
+                    }
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

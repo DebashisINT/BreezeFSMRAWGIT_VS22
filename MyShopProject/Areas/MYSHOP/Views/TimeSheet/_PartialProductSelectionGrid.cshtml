@@ -1,0 +1,69 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridProductSelection";
+
+    settings.CallbackRouteValues = new { Action = "_PartialProductSelectionGrid", Controller = "TimeSheet" };
+
+
+    settings.KeyFieldName = "product_id";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+
+    settings.CommandColumn.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.Settings.ShowPreview = true;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "product_name";
+        x.Caption = "Name";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(80);
+        x.EditFormSettings.Caption = "Name";
+
+    });
+
+    settings.DataBinding = (s, e) =>
+    {
+        ASPxGridView grd = (ASPxGridView)s;
+        grd.Selection.UnselectAll();
+        
+        if (ViewBag.SelectedIds != null)
+        {
+            List<MyShop.Models.FTS_EMPLOYEE_PRODUCTMAP> obj = (List<MyShop.Models.FTS_EMPLOYEE_PRODUCTMAP>)ViewBag.SelectedIds;
+            foreach (MyShop.Models.FTS_EMPLOYEE_PRODUCTMAP item in obj)
+            {
+                grd.Selection.SelectRowByKey(item.EP_PRODUCT_ID);
+            }
+        }
+
+    };
+
+    settings.ClientSideEvents.BeginCallback = "selectiongridbegincallback";
+    
+
+}).Bind(Model).GetHtml()
+
+
+
+

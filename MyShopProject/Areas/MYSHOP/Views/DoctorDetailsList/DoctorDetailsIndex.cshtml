@@ -1,0 +1,561 @@
+﻿@model MyShop.Models.DoctorDetailsListModel
+@{
+    ViewBag.Title = "Doctor Details";
+}
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@Model.KeyId"></script>
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<script>
+    var Is_PageLoad = "Ispageload";
+    $(function () {
+
+        var d = new Date();
+
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+
+        //  $("#refreshgridstatusreportregister").hide();
+
+        $("#drpuser").chosen({
+            width: "100%"
+        })
+        $("#drpstate").chosen({
+            width: "100%"
+        })
+        $("#drpshop").chosen({
+            width: "100%"
+        })
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            else {
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+                if (dayse <= 30) {
+                    // $("#refreshgridstatusinvoiceorderreportregister").show();
+                    Is_PageLoad = "1";
+
+                    $.ajax({
+                        url: "@Url.Action("GetDoctorDetailsList", "DoctorDetailsList")",
+                        //url: 'InvoiceDeliveryRegister/GetOrderRegisterList',
+                        async: false,
+                        data: {
+                            Fromdate: dtFrom.GetText(),
+                            Todate: dtTo.GetText(),
+                            empcode: empId,
+                            StateId: StateId,
+                            Is_PageLoad: Is_PageLoad
+                        },
+                        type: 'POST',
+                        success: function (data) {
+                            gridDoctorDetails.Refresh();
+                            gridDoctorDetails.Refresh();
+                        },
+                        error: function () {
+                        },
+                    });
+                }
+                else {
+                    jAlert("Searching days must be within One month.");
+                }
+            }
+        });
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporRegisterList", "DoctorDetailsList", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+            }
+        });
+
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $('#mask').removeClass('showing');
+            $('#maskmap').removeClass('showing');
+        });
+
+    });
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+
+
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        //e.customArgs["selectedusrid"] = empId
+        e.customArgs["empcode"] = empId;
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        // e.customArgs["desgid"] = desigId;
+    }
+
+    $('#ddlAppIds').on('change', function () {
+        if ($("#ddlAppIds option:selected").index() > 0) {
+            var selectedValue = $(this).val();
+            $('#ddlAppIds').prop("selectedIndex", 0);
+            var url = '@Url.Action("ExporRegisterList", "Report", new { type = "_type_" })'
+            window.location.href = url.replace("_type_", selectedValue);
+        }
+    });
+
+    function OpenShopImage(imgfile) {
+
+        $('.image').attr({
+            'src': imgfile
+        });
+        $('#mask').addClass('showing');
+    }
+
+
+    function OpenShopforLocation(lat, long, locname) {
+        $('#maskmap').addClass('showing');
+        var latlng = new google.maps.LatLng(lat, long);
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: latlng,
+            zoom: 15
+        });
+
+        var content = '<div id="iw_container">' +
+        '<div class="iw_title"></div>' +
+        '<div class="iw-content"><b>Location</b>: ' + locname +
+        '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+            content: content,
+        });
+
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: "Porcelain Factory of Vista Alegre"
+        });
+
+        google.maps.event.addListener(marker, 'click', function () {
+            infowindow.open(map, marker);
+        });
+
+        // Event that closes the Info Window with a click on the map
+        google.maps.event.addListener(map, 'click', function () {
+            infowindow.close();
+        });
+    }
+
+    function OpenShopforEdit(shopid) {
+
+        var surl = '@Url.Action("ShopListModify", "ShopList")';
+        var usr = $("#drpuser").val();
+        $.ajax({
+            url: surl,
+            async: false,
+            data: {
+                ShopUniqueId: shopid
+            },
+            type: 'POST',
+            success: function (data) {
+                $("#divModalBody").html(data);
+                $("#myModal").modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+</script>
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+</style>
+
+<style>
+    #mask {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #mask.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxes {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    .window {
+        max-width: 780px;
+        z-index: 9999;
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        margin: auto;
+        background-color: #ffffff;
+        font-family: 'Segoe UI Light', sans-serif;
+        font-size: 15pt;
+    }
+
+        .window img {
+            width: 100%;
+            height: auto;
+        }
+
+    .inner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    #popupfoot {
+        font-size: 16pt;
+    }
+
+    .showImage {
+        margin: 0 0 3em;
+        display: table;
+        text-align: center;
+    }
+
+        .showImage img {
+            display: block;
+        }
+
+
+    #maskmap {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        visibility: hidden;
+        z-index: -2;
+        background: #000;
+        background: rgba(0,0,0,0.8);
+        overflow: hidden;
+        opacity: 0;
+        transition: all .5s ease-in-out;
+    }
+
+        #maskmap.showing {
+            opacity: 1;
+            z-index: 9000;
+            visibility: visible;
+            overflow: auto;
+            transition: all .5s ease-in-out;
+        }
+
+    #boxesmap {
+        display: table;
+        width: 100%;
+        height: 100%;
+    }
+
+    #popupfootmap {
+        font-size: 16pt;
+    }
+</style>
+
+<link href="~/Content/media.css" rel="stylesheet" />
+<div class="breadCumb">
+    <span>Doctor Details</span>
+</div>
+<div class="container pt-4">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <table class="eqpadtbl mb-3">
+                    <tr>
+                        <td class="w150">
+                            <label>State</label>
+                            <div>
+                                @Html.Action("GetStateList", "MasterPopulate")
+                            </div>
+                        </td>
+                        <td class="w150">
+                            <label>Employee</label>
+                            <div>
+                                @Html.Action("GetEmpList", "MasterPopulate")
+                            </div>
+                        </td>
+                        <td class="w150">
+                            <label>From Date</label>
+                            <div>
+                                @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+
+                            </div>
+                        </td>
+                        <td class="w150">
+                            <label>To Date</label>
+                            <div>
+                                @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                            </div>
+                        </td>
+                        <td style="padding-top: 22px;width:170px;">
+                            <label></label>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="1">PDF</option>
+                                <option value="2">XLSX</option>
+                                <option value="3">XLS</option>
+                                <option value="2">RTF</option>
+                                <option value="2">CSV</option>
+
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form_main">
+            <div class="clear"></div>
+            <div id="refreshgrid">
+            </div>
+            <div id="refreshgridstatusinvoiceorderreportregister">
+                @{
+                Html.RenderAction("DoctorDetailslistGrid", "DoctorDetailsList", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, Is_PageLoad = "Ispageload" });
+                }
+                @*change for design*@
+
+            </div>
+
+
+            <input type="hidden" id="hdnuser_id" />
+            <input type="hidden" id="hdnuser_state" />
+            <input type="hidden" id="hdnuser_shop" />
+
+            @Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalImage";
+        settings.Width = 600;
+        settings.Height = 400;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "View Documents";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        { });
+
+        // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+        </div>
+    </div>
+</div>
+<div id="mask">
+    <div id="boxes">
+        <div class="inner">
+            <div id="dialog" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfoot">
+                    <img src="#" class="image" alt="Loading..."></img>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="maskmap">
+    <div id="boxesmap">
+        <div class="inner">
+            <div id="dialogmap" class="window">
+                <a href="#" class="close">CLOSE</a>
+                <div id="popupfootmap">
+
+                    <div id="map" style="width: 100%; height: 450px;"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modify Doctor</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                <div id="divModalBody" style="padding-left:20px;">
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

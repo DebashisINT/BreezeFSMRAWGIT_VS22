@@ -1,0 +1,189 @@
+﻿                                                                                                                                                                                        `
+@model IEnumerable<MyShop.Models.InactiveUsersoutput>
+
+
+@{
+    ViewBag.Title = "Total Non Logged-In Users";
+}
+
+<script type="text/javascript">
+
+
+    $(function () {
+
+        //$('#tblshoplist tfoot th').each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        //});
+
+        //  var table = $("#tblshoplist").dataTable();
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "bFilter": true,
+            "ordering": false
+        });
+
+
+
+        //$('#tblshoplist tfoot th').each(function (i) {
+
+        //    var title = $('#tblshoplist thead th').eq($(this).index()).text();
+        //    // or just var title = $('#sample_3 thead th').text();
+        //    var serach = '<input type="text" placeholder="Search ' + title + '" />';
+        //    $(this).html('');
+        //    $(serach).appendTo(this).keyup(function () { table.fnFilter($(this).val(), i) })
+        //});
+
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                ///   $('#reportLink').prop('href', '/Attendance/ExportDesignation?type=' + selectedValue);
+                //window.location.href = "/JobDetailsSetup/ExportDesignation?type=" + selectedValue;
+                var url = '@Url.Action("ExportUsers", "InactiveUser", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+                ///  $('#type').val(selectedValue);
+                ///  $('#frmExportGrid').submit();
+
+
+
+                var surl = '@Url.Action("Users", "InactiveUser")';
+
+                $.ajax({
+                    url: surl,
+                    async: true,
+                    data: {
+
+
+
+                    },
+                    type: 'POST',
+
+                    success: function (data) {
+                        if (data == 'nodata') {
+                            //  alert('No dat to be displayed', "Alert!");
+                        }
+                        else {
+
+
+                        }
+
+                    },
+                    error: function (
+
+
+                        ) {
+                        $.jAlert({
+                            'title': 'Alert!',
+                            'content': 'No data to be displayed',
+                            'theme': 'dark_blue'
+                        });
+                        $("#divLoader").hide();
+                    },
+
+
+                });
+
+
+
+            }
+        });
+
+    });
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+</style>
+
+<h2>Inactive Users  List</h2>
+
+
+<div style="float:right">
+    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+        <option value="0">Export to</option>
+        <option value="2">XLSX</option>
+    </select>
+</div>
+
+
+<div class="form_main">
+
+
+    <div class="rTable">
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+
+                    <th>User</th>
+                    <th>Name</th>
+                    <th>User ID</th>
+                    <th>Designation</th>
+                    <th>State</th>
+                    @*<th>Contact Number</th>
+                        <th>Email</th>*@
+                    <th>Last activity</th>
+
+                </tr>
+            </thead>
+
+            @*<tfoot>
+                    <tr>
+
+                        <th>User</th>
+                        <th>Designation</th>
+                        <th>Login Date</th>
+                        <th>Login Time</th>
+                        <th>Logout Time</th>
+                        <th>Duration</th>
+                        <th>Login/Logout Status</th>
+                    </tr>
+                </tfoot>*@
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.UserName</td>
+                            <td>@item.EmployeeName</td>
+                            <td>@item.UserLoginID</td>
+                            <td>@item.Designation</td>
+                            <td>@item.StateName</td>
+                            @*<td>@item.ContactNumber</td>
+                                <td>@item.Email</td>*@
+                            <td>@item.Lastactivity</td>
+
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>

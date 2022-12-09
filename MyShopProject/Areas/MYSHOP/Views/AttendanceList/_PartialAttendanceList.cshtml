@@ -1,0 +1,102 @@
+﻿
+@model IEnumerable<Models.AttendanceListModel>
+
+<script type="text/javascript">
+    $(function () {
+
+
+        //$('#tblshoplist tfoot th').each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        //});
+
+        //  var table = $("#tblshoplist").dataTable();
+
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "ordering": false,
+            searching: false
+        });
+
+
+        //$('#tblshoplist tfoot th').each(function (i) {
+        //    var title = $('#tblshoplist thead th').eq($(this).index()).text();
+        //    // or just var title = $('#sample_3 thead th').text();
+        //    var serach = '<input type="text" placeholder="Search ' + title + '" />';
+        //    $(this).html('');
+        //    $(serach).appendTo(this).keyup(function () { table.fnFilter($(this).val(), i) })
+        //});
+
+
+
+    });
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+</style>
+
+<div class="x_content">
+    <div class="rTable">
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+
+                    <th>User Name</th>
+                    <th>Designation</th>
+                    <th>Login Date Time</th>
+                    <th>Logout Date Time</th>
+                    <th>Duration</th>
+                    <th>Isonleave</th>
+                    <th>Lateday</th>
+
+                </tr>
+            </thead>
+          
+            <tbody>
+             
+               @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+
+                   
+                            <td>@item.user_name</td>
+                            <td>@item.Designation</td>
+                            <td>@(Convert.ToString(item.login_time) == "" ? "" : Convert.ToDateTime(item.login_time).ToString("dd-MM-yyyy") + ' ' + item.Mintime)</td>
+                            <td>@(Convert.ToString(item.logout_time) == "" ? "" : Convert.ToDateTime(item.logout_time).ToString("dd-MM-yyyy") + ' ' + item.Maxtime)</td>
+                            <td>@item.duration</td>
+                            <td>@item.Isonleave</td>
+                            <td>@item.lateday</td>
+
+                        </tr>
+                    }
+                }
+                
+            </tbody>
+
+        </table>
+    </div>
+</div>

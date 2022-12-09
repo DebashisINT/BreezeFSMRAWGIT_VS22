@@ -1,0 +1,552 @@
+﻿@model System.Data.DataSet
+
+@{
+    ViewBag.Title = "StatewisePerformanceofSalesman";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script>
+    var is_pageload = "0";
+    $(function () {
+
+        var d = new Date();
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        $('body').on('click', '#btnshow', function () {
+            var flag = true;
+
+            if (dtFrom.GetDate() == null) {
+                $('#MandatoryFromDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryFromDate').attr('style', 'display:none');
+            }
+
+            if (dtTo.GetDate() == null) {
+                $('#MandatoryToDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryToDate').attr('style', 'display:none');
+            }
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            else {
+                //$("#refreshgridsalessummary").show();
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+                debugger;
+                var data = [];
+
+                data.is_pageload = "0";
+
+                var surl = '@Url.Action("PerformanceGridView", "StatewisePerformanceofSalesman")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {model:data},
+                    type: 'POST',
+                    success: function (data) {
+                       // gridsalesmanView.PerformCallback('clear');
+                    },
+                    error: function () {
+
+                    },
+                });
+
+                var surl = '@Url.Action("PerformanceGridView", "StatewisePerformanceofSalesman")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: { model: data },
+                    type: 'POST',
+                    success: function (data) {
+                        //gridsalesmanView.PerformCallback('clear');
+                    },
+                    error: function () {
+
+                    },
+                });
+               
+                //is_pageload = "0";
+
+                //gridsalesmanView.Refresh();
+                //is_pageload = "1";
+                if (dayse <= 0) {
+                    if (flag == true) {
+                        is_pageload = "1";
+                        gridsalesmanView.Refresh();
+                    }
+                }
+                else {
+                    jAlert("Searching days must be within One day.");
+
+                }
+            }
+        });
+
+        $('#ddlSumExport').on('change', function () {
+            if ($("#ddlSumExport option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                //var desg = $("#drpdesignation").val();
+                //var usrtype = $("#ddlusertypes").val();
+                $('#ddlSumExport').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportSalesGridView", "StatewisePerformanceofSalesman", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+            }
+        });
+    })
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["ProductID"] = ProductId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+        e.customArgs["PageName"] = "StatewisePerformanceofSalesman";
+        // alert(e.customArgs["StateId"]);
+
+    }
+
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = "";
+        e.customArgs["desgid"] = "";
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function ProductStartCallback(s, e) {
+
+    }
+
+    var ProductId = [];
+    function ProductSelectionChanged(s, e) {
+        ProductGridLookup.gridView.GetSelectedFieldValues("Productcode", GetProductSelectedFieldValuesCallback);
+    }
+    function GetProductSelectedFieldValuesCallback(values) {
+        try {
+            ProductId = [];
+            for (var i = 0; i < values.length; i++) {
+                ProductId.push(values[i]);
+            }
+        } finally {
+            console.log(ProductId);
+        }
+    }
+
+    function ProductLookupValChange() {
+        ProductGridLookup.GetGridView().Refresh()
+    }
+</script>
+
+<style>
+    ol.lList {
+        counter-reset: item;
+        list-style-type: none;
+        line-height: 2.2;
+        margin-left: -40px;
+    }
+
+        ol.lList li {
+            display: block;
+            position: relative;
+            border-bottom: 1px dashed #ddd;
+        }
+
+            ol.lList li span {
+                margin-left: 40px;
+                display: inherit;
+            }
+
+            ol.lList li:before {
+                content: counter(item) " ";
+                counter-increment: item;
+                color: #7eb4e2;
+                position: absolute;
+                top: 31%;
+                margin-top: -1em;
+                background: #f9dd94;
+                height: 2em;
+                width: 2em;
+                line-height: 2em;
+                text-align: center;
+                border-radius: 2em;
+                font-weight: 700;
+            }
+    .expTypeImg {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .expTypeImg > li {
+            display: inline-block;
+        }
+
+            .expTypeImg > li > div {
+                position: relative;
+            }
+
+                .expTypeImg > li > div > img {
+                }
+
+                .expTypeImg > li > div .imageCap {
+                    position: absolute;
+                    bottom: 0;
+                    z-index: 5;
+                    width: 100%;
+                    color: #fff;
+                    background: #bd9f9f;
+                    padding: 5px 10px;
+                    text-align: center;
+                }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .disableHref {
+        opacity: 0.3;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    #myAssignTargetpopup {
+        padding: 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    .linerHd {
+        background: #dedede;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+    }
+
+    .popheader {
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 8px;
+        padding-left: 7px;
+    }
+
+    .lightbox {
+        z-index: 10000000;
+    }
+
+    .lightboxOverlay {
+        z-index: 9999999;
+    }
+
+    .btn-excel {
+        position: absolute;
+        right: 6px;
+        top: 8px;
+    }
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>Daily Performance Report of Sales Personnel</span>
+</div>
+<div class="container">
+    <div class="backBox mt-5 p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="eqpadtbl  mb-1  tblspace">
+                    <tr>
+                        <td class="w150 relative">
+                            <label>From Date</label>
+                            <div>
+
+                                @Html.DevExpress().DateEdit(
+                            settings =>
+                            {
+                                settings.Name = "dtFrom";
+                                settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Date = DateTime.Now;
+                                settings.Properties.EditFormat = EditFormat.Custom;
+                                settings.Properties.ShowOutOfRangeWarning = false;
+                                settings.Properties.UseMaskBehavior = true;
+                                settings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                                //settings.Properties.ClientSideEvents.Init = "SetDefaultDate";
+
+                            }
+                        ).GetHtml()
+
+                                <span id="MandatoryFromDate" style="display: none" class="validclass">
+                                    <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </div>
+                        </td>
+                        <td class="w150 relative">
+                            <label>To Date</label>
+                            <div>
+
+                                @Html.DevExpress().DateEdit(
+                            settings =>
+                            {
+                                settings.Name = "dtTo";
+                                settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Date = DateTime.Now;
+                                settings.Properties.EditFormat = EditFormat.Custom;
+                                settings.Properties.ShowOutOfRangeWarning = false;
+                                settings.Properties.UseMaskBehavior = true;
+                                settings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+                                //settings.Properties.ClientSideEvents.Init = "SetDefaultDate";
+
+                            }
+                        ).GetHtml()
+                                <span id="MandatoryToDate" style="display: none" class="validclass">
+                                    <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </div>
+                        </td>
+                        <td class="w150" id="empIntro">
+                            <label>Employee(s)</label>
+                            <div>
+                                @Html.Action("GetEmpList", "MasterPopulate")
+                            </div>
+                        </td>
+                        <td class="w150 hidden" id="empIntro">
+                            <label>Product(s)</label>
+                            <div>
+                                @Html.Action("GetProductList", "MasterPopulate")
+                            </div>
+                        </td>
+                        <td style="padding-top: 22px;width:194px;" class="d-flex">
+                            <label></label>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth mr-2">Show</button>
+                            <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
+                                <option value="0">Export to</option>
+                                @*<option value="1">PDF</option>*@
+                                <option value="2">XLSX</option>
+                                @*<option value="3">XLS</option>
+                                    <option value="4">RTF</option>
+                                    <option value="5">CSV</option>*@
+
+                            </select>
+                            <img src="~/assests/images/infoIcon.png" style="width:32px;margin-left:4px;cursor:pointer" data-toggle="modal" data-target="#infoSecModal" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="clear: both;"><br /></div>
+        <div id="refreshgridperformancewisemonth">
+
+            @Html.Partial("PerformanceGridView", Model)
+        </div>
+    </div>
+</div>
+<!-- infoSecModal Modal -->
+<div class="modal fade pmsModal w30" id="infoSecModal" tabindex="-1" role="dialog" aria-labelledby="infoSecModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="color: #fff;">INFO</h4>
+                
+            </div>
+            <div class="modal-body">
+                <ol class="list lList">
+                    <li class="list-item one"><span>  This report depends on Distributer Visit to show closing stock data.</span></li>
+                    <li class="list-item two">
+                        <span>
+                            If the Distributor visits showing, please check for Duplicate
+                            Distributor names where the Closing Stock may have entered.
+                        </span>
+                    </li>
+                </ol>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<h2>StatewisePerformanceofSalesman</h2>*@
+
+@*@Html.Partial("PerformanceGridView", Model)*@

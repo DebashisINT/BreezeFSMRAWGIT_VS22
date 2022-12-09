@@ -1,0 +1,132 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridShopPerformanceSummaryList";
+    settings.CallbackRouteValues = new { Action = "GetShopPerformanceSummaryPartial", Controller = "ShopPerformanceSummary" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Orderdate";
+        x.Caption = "Date";
+        x.VisibleIndex = 1;
+        x.Width = 120;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "StateName";
+        x.Caption = "State Name";
+        x.VisibleIndex = 2;
+        x.Width = 200;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EmployeeName";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 3;
+        x.Width = 300;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "deg_designation";
+        x.Caption = "Designation";
+        x.VisibleIndex = 4;
+        x.Width = 120;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 5;
+        x.Width = 300;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENTITYCODE";
+        x.Caption = "Code";
+        x.VisibleIndex = 6;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Typename";
+        x.Caption = "Shop Type";
+        x.VisibleIndex = 7;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Ordervalue";
+        x.Caption = "Order Value";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+ x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Total_invoiceamt";
+        x.Caption = "Invoice Value";
+        x.VisibleIndex = 9;
+        x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+ x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    ///Summary
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Ordervalue");
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Total_invoiceamt");
+   // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Product_Price");
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Value").DisplayFormat = "0";
+
+}).Bind(Model).GetHtml()
+

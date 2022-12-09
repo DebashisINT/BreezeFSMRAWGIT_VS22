@@ -1,0 +1,194 @@
+﻿
+@{
+
+    var treeList = Html.DevExpress().TreeList(settings =>
+    {
+        settings.Name = "treeList";
+
+       settings.CallbackRouteValues = new { Controller = "EmployeeList", Action = "PartialEmployeeListcallback" };
+       
+        
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        
+        //settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+        settings.AutoGenerateColumns = false;
+        settings.KeyFieldName = "UserID";
+        settings.ParentFieldName = "UserIDParent";
+
+        
+        settings.SettingsPager.AlwaysShowPager = true;
+        settings.SettingsPager.Mode = DevExpress.Web.ASPxTreeList.TreeListPagerMode.ShowPager;
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "20", "40", "80" };
+        settings.SettingsPager.PageSize = 40;
+        settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Top;
+        settings.SettingsBehavior.ExpandCollapseAction = TreeListExpandCollapseAction.NodeClick;
+        
+        
+        settings.Columns.Add(
+            column =>
+            {
+                column.FieldName = "username";
+                column.Caption = "User";
+            }
+        );
+
+
+
+        ///settings.SettingsBehavior.ExpandCollapseAction = DevExpress.Web.ASPxTreeList.TreeListExpandCollapseAction.NodeClick;
+
+        settings.SettingsCookies.StoreExpandedNodes = true;
+
+
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "Track salsman";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetTrackingIndex", "TrackSalesman", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Track Salesman" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+
+
+
+
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "View Shop (Shop Add/Visited Shop)";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetshopIndex", "ShopList", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Shop List" + "<b style='color:blue'> ("+DataBinder.Eval(c.DataItem, "shopcount") +")</b> "+
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+
+
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "View Location";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetlocationIndex", "LocationDetails", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Location List" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "View Attendance";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetAttendanceIndex", "Attendance", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Attendance List" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.VisibleIndex = 13;
+            column.Caption = "View Daily Activity List";
+            column.SetDataCellTemplateContent(c =>
+            {
+                string IsUpload = Convert.ToString(DataBinder.Eval(c.DataItem, "UserID"));
+
+                {
+                    ViewContext.Writer.Write(
+                    "<a target='_blank'  href='" + Url.Action("GetActivityIndex", "Activity", new { User = DataBinder.Eval(c.DataItem, "UserID") }) + "'>" +
+                    "Activity List" +
+                    "</a>&nbsp;");
+                }
+
+
+            });
+
+        });
+
+
+        settings.PreRender = (s, e) =>
+        {
+           MVCxTreeList tree = s as MVCxTreeList;
+
+            tree.ExpandAll();
+
+
+        };
+
+        //settings.Init = (s, e) =>
+        //{
+        //    DevExpress.Web.Mvc.MVCxTreeList tree = s as DevExpress.Web.Mvc.MVCxTreeList;
+
+        //    tree.ExpandAll();
+
+
+        //};
+
+        //settings.ClientLayout = (s, e) =>
+        //{
+        //    if (e.LayoutMode == ClientLayoutMode.Loading)
+        //    {
+        //        if (Session["TreeListState"] != null)
+        //            e.LayoutData = (string)Session["TreeListState"];
+        //    }
+        //    else
+        //        Session["TreeListState"] = e.LayoutData;
+        //};
+
+        //settings.PreRender = (sender, e) =>
+        //{
+        //    if (Session["TreeListState"] == null)
+        //        ((MVCxTreeList)sender).ExpandToLevel(2);
+        //};
+        
+
+      ///  settings.SettingsSelection.Enabled = true;
+      
+    });
+}
+@treeList.Bind(Model).GetHtml()
+
+
+
+
+
+

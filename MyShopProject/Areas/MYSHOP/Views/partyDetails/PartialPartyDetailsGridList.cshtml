@@ -1,0 +1,421 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridPartyDetails";
+    settings.KeyFieldName = "ID";
+    settings.CallbackRouteValues = new { Action = "PartialPartyDetailsGridList", Controller = "partyDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 400;
+    
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+ 
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "StateHead";
+    //    x.Caption = "State Head";
+    //    x.VisibleIndex = 2;
+    //    x.Width = 200;
+    //});
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "StateHeadCode";
+    //    x.Caption = "State Head Code";
+    //    x.VisibleIndex = 3;
+    //    x.Width = 100;
+    //});
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EmpName";
+        x.Caption = "Emp. Name";
+        x.VisibleIndex = 1;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EmpCode";
+        x.Caption = "Emp. Code";
+        x.VisibleIndex = 2;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Designation";
+        x.Caption = "Designation";
+        x.VisibleIndex = 3;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Supervisor";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 4;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SupervisorCode";
+        x.Caption = "Supervisor Code";
+        x.VisibleIndex = 5;
+        x.Width = 100;
+    });
+    //Mantis Issue 24928
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Address";
+        x.Caption = "Address";
+        x.VisibleIndex = 6;
+        x.Width = 250;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Pincode";
+        x.Caption = "Pincode";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+    });
+    //End of Mantis Issue 24928
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "country";
+        x.Caption = "Country";
+        x.VisibleIndex = 8;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "state";
+        x.Caption = "State";
+        x.VisibleIndex = 9;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "city";
+        x.Caption = "District";
+        x.VisibleIndex = 10;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "area";
+        x.Caption = "Area";
+        x.VisibleIndex = 11;
+        x.Width = 150;
+    });
+   
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PP_CODE";
+        x.Caption = "PP Code";
+        x.VisibleIndex = 12;
+        x.Width = 100;
+    });   
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PP_Name";
+        x.Caption = "PP Name";
+        x.VisibleIndex = 13;
+        x.Width = 200;
+    });       
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PP_LOCATION";
+        x.Caption = "PP Location";
+        x.VisibleIndex = 14;
+        x.Width = 250;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DD_CODE";
+        x.Caption = "DD Code";
+        x.VisibleIndex = 15;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DD_Name";
+        x.Caption = "DD Name";
+        x.VisibleIndex = 16;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DD_LOCATION";
+        x.Caption = "DD Location";
+        x.VisibleIndex = 17;
+        x.Width = 250;
+    }); 
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Outlet_Code";
+        x.Caption = "Outlet Code";
+        x.VisibleIndex = 18;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Outlet_Name";
+        x.Caption = "Outlet Name";
+        x.VisibleIndex = 19;
+        x.Width = 200;
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Outlet_type";
+        x.Caption = "Outlet Type";
+        x.VisibleIndex = 20;
+        x.Width = 100;
+    });
+    
+    // Mantis Issue 25421
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Beat";
+        x.Caption = "Beat";
+        x.VisibleIndex = 21;
+        x.Width = 100;
+    });
+    // End of Mantis Issue 25421
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Outlet_owner";
+        x.Caption = "Outlet Owner";
+        x.VisibleIndex = 22;
+        x.Width = 150;
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Outlet_ContactNo";
+        x.Caption = "Outlet Contact No";
+        x.VisibleIndex = 23;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AlternateNo";
+        x.Caption = "Alternate No";
+        x.VisibleIndex = 24;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OutletLocation";
+        x.Caption = "Outlet Location";
+        x.VisibleIndex = 25;
+        x.Width = 250;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OutletStatus";
+        x.Caption = "Outlet Status";
+        x.VisibleIndex = 26;
+        x.Width = 100;
+        //Mantis Issue 24928
+        //x.CellStyle.ForeColor = Color.Red;
+        x.CellStyle.Font.Bold = true;
+        //settings.Styles.Cell.ForeColor = System.Drawing.Color.Green;
+        //x.CellStyle.ForeColor = System.Drawing.Color.Green;
+        x.SetDataItemTemplateContent(c =>
+           {
+               string Temp = Convert.ToString(DataBinder.Eval(c.DataItem, "OutletStatus"));
+               if (Temp == "Active")
+                   // x.CellStyle.BackColor = 
+                   //x.CellStyle.ForeColor = System.Drawing.Color.Green;
+                   ViewContext.Writer.Write("<span style=\"color:Green\">" + c.Text + "</span>");
+               else
+                   //x.CellStyle.BackColor = DXColor.Red;
+                   //settings.Styles.Cell.ForeColor = System.Drawing.Color.Red;
+                   //x.CellStyle.ForeColor = System.Drawing.Color.Red;
+                   ViewContext.Writer.Write("<span style=\"color:Red\">" + c.Text + "</span>");
+           });
+        //End of Mantis Issue 24928
+    }); 
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OutletSpecify";
+        x.Caption = "Outlet Specify";
+        x.VisibleIndex = 27;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OwnerDOB";
+        x.Caption = "Owner DOB";
+        x.VisibleIndex = 28;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OwnerAnniversary";
+        x.Caption = "Owner Anniversary";
+        x.VisibleIndex = 29;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PanCard";
+        x.Caption = "Pan Card";
+        x.VisibleIndex = 30;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AdhaarCard";
+        x.Caption = "Aadhaar Card";
+        x.VisibleIndex = 31;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OutletLat";
+        x.Caption = "Outlet Lat";
+        x.VisibleIndex = 32;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OutletLong";
+        x.Caption = "Outlet Long";
+        x.VisibleIndex = 33;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CreateOn";
+        x.Caption = "Created On";
+        x.VisibleIndex = 34;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy HH:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy HH:mm:ss";
+    
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CreateBy";
+        x.Caption = "Created By";
+        x.VisibleIndex = 35;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UpdateOn";
+        x.Caption = "Updated On";
+        x.VisibleIndex = 36;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy HH:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy HH:mm:ss";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UpdateBy";
+        x.Caption = "Updated By";
+        x.VisibleIndex = 37;
+        x.Width = 100;
+    });   
+
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                 "" +
+                 "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
+                  "" +
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+            );
+        });
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.False;
+        x.Width = 120;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+               
+        
+        x.Caption = "Action";
+        x.VisibleIndex = 38;
+        //x.Width = 50;
+        //x.SetDataItemTemplateContent(c =>
+        //{floatedBtnArea
+        //    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ShopCode")) + "')\">Modify</a>");
+        //});
+
+    });
+    
+    //settings.Columns.Add(x =>
+    //{
+    //    x.Caption = "Change Status";
+    //    x.VisibleIndex = 33;
+
+    //    x.SetDataItemTemplateContent(c =>
+    //    {
+    //        ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ShopCode")) + "')\">Change Status</a>");
+    //    });
+
+    //});
+    
+
+}).Bind(Model).GetHtml()
+
+

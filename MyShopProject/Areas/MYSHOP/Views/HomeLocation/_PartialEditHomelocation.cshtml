@@ -1,0 +1,106 @@
+﻿@model MyShop.Models.HomeLocationDetails
+
+
+
+<div class="form_main clearfix" style="border-top:none">
+
+    @using (Html.BeginForm())
+    {
+
+        <table class="pull-left">
+
+            <tr>
+                <td class="w1"><h5>Employee Name: </h5></td>
+
+                <td>
+                   @Html.TextBoxFor(m => m.Emp_Name, new { @class = "form-control", @id = "txtEmpName", @readonly = true })
+                </td>
+
+
+            </tr>
+            <tr>
+                <td class="w1"><h5>Google Link:@*<span style="color:red">*</span>*@ </h5></td>
+
+                <td>
+                    @*@Html.TextBoxFor(m => m.shop_name, new { @class = "form-control", @id = "txtshpname", @readonly = true })*@
+                    <a href="https://www.google.com/maps/" target="_blank">url</a>
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1"><h5>Latitude : @*<span style="color:red">*</span>*@ </h5></td>
+
+                <td>
+                    @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control", @id = "txtLatitude" })
+                </td>
+
+            </tr>
+
+
+            <tr>
+                <td class="w1"><h5>Longitude : @*<span style="color:red">*</span>*@ </h5></td>
+
+                <td>
+                    @Html.TextBoxFor(m => m.longatude, new { @class = "form-control", @id = "txtlongatude" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1"><h5>Address : <span style="color:red">*</span> </h5></td>
+
+                <td>
+                    @Html.TextAreaFor(m => m.address, new { @class = "form-control", @id = "txtaddress" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1"><h5>City : <span style="color:red">*</span> </h5></td>
+
+                <td>
+                   @Html.DropDownListFor(m => m.cityID, new SelectList(Model.citylst, "city_id", "city_name", Model.citylst), new { @id = "drpCity", @class = "whclass" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1"><h5>State : <span style="color:red">*</span> </h5></td>
+
+                <td>
+                   @Html.DropDownListFor(m => m.stateID, new SelectList(Model.statelst, "state_id", "state_name", Model.statelst), new { @id = "drpState", @class = "whclass" })
+                </td>
+            </tr>
+
+            <tr>
+                <td class="w1"><h5>Country : </h5></td>
+
+                <td>
+                   @Html.DropDownListFor(m => m.CountryID, new SelectList(Model.Countrylst, "cou_id", "cou_country", Model.Countrylst), new { @id = "drpCountry", @class = "whclass" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td class="w1"><h5>Pin Code : </h5></td>
+
+                <td>
+                    @Html.TextBoxFor(m => m.PinCode, new { @class = "form-control", @id = "txtPinCode" })
+                </td>
+
+            </tr>
+
+            <tr>
+                <td>
+
+                    @Html.HiddenFor(m => m.UserID, new { @id = "hdnshpid" })
+                    @*@Html.HiddenFor(m => m.Shop_Image, new { @id = "hdnshimage" })*@
+                </td>
+                <td>
+                    <button type="button" id="btnmodify" class="btn btn-success btnwidth">Modify</button>
+                </td>
+            </tr>
+        </table>
+    }
+</div>

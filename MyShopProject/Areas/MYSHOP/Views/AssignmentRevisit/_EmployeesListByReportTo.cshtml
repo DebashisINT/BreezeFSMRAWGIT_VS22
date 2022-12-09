@@ -1,0 +1,89 @@
+﻿@Html.DevExpress().GridView(
+    settings =>
+    {
+        //settings.Properties.Caption = " ";
+        settings.Name = "EmployeesListGridLookup";
+        settings.KeyFieldName = "EmployeeCode";
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+        // settings.Settings.VerticalScrollableHeight = System.Web.UI.WebControls.Int32.Pixel(450);
+        settings.Height = System.Web.UI.WebControls.Unit.Pixel(600);
+        settings.Settings.VerticalScrollableHeight = 350;
+        settings.Settings.EnableFilterControlPopupMenuScrolling = true;
+        //settings.Settings.cli = "EmployeesListGridLookup";
+        settings.SettingsSearchPanel.Visible = true;
+        settings.ClientSideEvents.SelectionChanged = "EmployeesSelectionChanged";
+        //settings.ClientSideEvents.BeginCallback = "OnbeginCallbackList";
+        //settings.ClientSideEvents. = "EmployeesSelectionChanged";
+        settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        settings.SettingsPager.EnableAdaptivity = true;
+        settings.SettingsPager.PageSize = 100;
+
+        settings.CommandColumn.Visible = true;
+        settings.Settings.ShowFooter = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "ContactNo";
+            column.Caption = "Login ID";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(45);
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Employeename";
+            column.Caption = "Employee Name";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(45);
+        });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Designation";
+            column.Caption = "Designation";
+            column.GroupIndex = 0;
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(60);
+
+        });
+
+
+
+        //settings.Properties.Caption = " ";
+        //settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        //settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+
+        ////  settings.Properties.TextFormatString = "{1}";
+        //settings.Properties.MultiTextSeparator = ", ";
+        //settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+        //settings.Properties.Width = System.Web.UI.WebControls.Unit.Percentage(80);
+
+        settings.CallbackRouteValues = new { Controller = "AssignmentRevisit", Action = "GetEmployeesListByReportTo" };
+        settings.ClientSideEvents.BeginCallback = "function(s,e){OnBegingridCallback(s,e);}";
+        settings.ClientSideEvents.EndCallback = "function(s,e){CalculateLength();}";
+        //settings.ClientSideEvents.EndCallback = "function(s,e){OnEndgridCallback(s,e);}";
+        //settings.GridViewProperties.Settings.ShowFilterRow = true;
+        //settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+
+        //settings.DataBound = (sender, e) =>
+        //{
+        //    var gridLookup = (MVCxGridLookup)sender;
+        //    gridLookup.GridView.Width = 310;
+
+        //    //gridLookup.GridView.Settings.wi
+        //};
+
+        settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "ContactNo").DisplayFormat = "Total: 0";
+
+        settings.BeforeGetCallbackResult = (s, e) =>
+        {
+            MVCxGridView g = (MVCxGridView)s;
+            g.ExpandAll();
+        };
+
+    }).Bind(Model).GetHtml()
+
+

@@ -1,0 +1,184 @@
+﻿@model IEnumerable<Models.Locationlists>
+
+
+<script type="text/javascript">
+    $(function () {
+
+        //$('#tblshoplist tfoot th').each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        //});
+
+
+      //  var table = $("#tblshoplist").dataTable();
+
+
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "searching": false,
+            "ordering": false,
+            "scrollX": true
+        });
+
+        //$('#tblshoplist tfoot th').each(function (i) {
+
+        //    var title = $('#tblactivitylist thead th').eq($(this).index()).text();
+        //    // or just var title = $('#sample_3 thead th').text();
+        //    var serach = '<input type="text" placeholder="Search ' + title + '" />';
+        //    $(this).html('');
+        //    $(serach).appendTo(this).keyup(function () { table.fnFilter($(this).val(), i) })
+        //});
+
+
+
+  
+    });
+
+    function Getdistancedriving(startlat, startlong, endlat,endlong)
+    
+    {
+
+        //alert(startlat + ' ' + startlong + endlat + ' ' + endlong)
+
+        var start = startlat + ', ' + startlong;
+        var end = endlat + ', ' + endlong;
+      //  alert(start + '-' + end);
+        var directionsDisplay;
+        var directionsService = new google.maps.DirectionsService();
+        var distance = "";
+        var request = {
+            origin: start,
+            destination: end,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+
+
+                var route = response.routes[0];
+             
+
+
+                var distance = 0;
+                var distancecount = 0;
+                // For each route, display summary information.
+           
+                for (var i = 0; i < route.legs.length; i++) {
+                    var routeSegment = i + 1;
+
+
+                  //  alert(route.legs[i].distance.text);
+                    distance = route.legs[i].distance.text;
+                }
+                /// return route.legs[i].distance.text;
+
+                $(".tddstclassvla").html(distance);
+
+              
+            }
+        });
+
+
+    }
+
+
+  
+</script>
+
+
+<style>
+    
+
+    .fff > thead > tr > th {
+        background: #0f87cc;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    /*tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            box-sizing: border-box;
+        }*/
+</style>
+
+<div class="x_content">
+    <div class="rTable">
+        <table id="tblshoplist" class="table table-bordered table-bordered fff">
+            <thead>
+                <tr>
+                    <th style="width:280px;">EMP Name</th>
+                    <th style="width:180px;">EMP ID</th>
+                    <th style="width:280px;">Location</th>
+                    <th style="width:60px;">Latitude</th>
+                    <th style="width:60px;">Longitude</th>
+                    <th style="width:70px;">Distance(KM)</th>
+                    <th style="width:120px;">Date & Time</th>
+                    @*<th style="width:90px;">Shop Visited</th>*@
+                    <th  style="text-align: center; width:110px;">Open link</th>
+                    <th style="width:90px;">Update Location</th>
+                    @*<th>Driving</th>*@
+               
+                </tr>
+            </thead>
+
+                        @*<tfoot>
+            <tr>
+                <th>Location</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>Distance</th>
+                <th>Date</th>
+                <th>Shop Covered</th>
+                <th>Update Location</th>
+                      
+            </tr>
+        </tfoot>*@
+
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.UserName</td>
+                            <td>@item.EMPCODE</td>
+                            <td width="280px;">@item.location_name</td>
+                            <td>@item.latitude</td>
+                            <td>@item.longitude</td>
+                            <td>@item.distance_covered</td>
+
+                            <td>@Convert.ToDateTime(item.date).ToString("dd-MM-yyyy") @item.onlytime</td>
+                            @*<td>@item.shops_covered</td>*@
+                            <td style="text-align: center; width:110px;"><a href="javascript:void(0);" onclick="OpenShopforLocation('@item.latitude','@item.longitude','@item.location_name')">Map</a></td>
+                       
+                            @if (Convert.ToString(item.location_name) == "Login from  " || item.location_name == "Logout at " || string.IsNullOrEmpty(item.location_name))
+                            {
+                                <td><a href="javascript:void(0);" onclick="GetAddress('@item.latitude','@item.longitude','@item.VisitId')">Update Location</a></td>
+                            }
+                            else
+                            {
+                                <td></td>
+                            }
+
+                          
+                            @*<td><a class="tddstclass"  id='myLink_'@item.VisitId  onclick="Getdistancedriving('22.5701064', ' 88.4328251', '22.5687734', '88.4321156')"></a> </td>*@
+                    
+                         
+
+                        </tr>
+                    }
+                }
+
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+

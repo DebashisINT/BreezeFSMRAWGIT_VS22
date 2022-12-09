@@ -1,0 +1,686 @@
+﻿
+<link href="~/assests/css/pignose.calendar.min.css" rel="stylesheet" />
+<script src="~/assests/js/frmCDN/moment.js"></script>
+
+<script src="~/assests/pluggins/pignose.calendar.min.js"></script>
+<link href="~/assests/pluggins/datePicker/datepicker.css" rel="stylesheet" />
+<script src="~/assests/pluggins/datePicker/bootstrap-datepicker.js"></script>
+<!-- Resources -->
+<script src="~/assests/pluggins/amchart/core.js"></script>
+<script src="~/assests/pluggins/amchart/charts.js"></script>
+<script src="~/assests/pluggins/amchart/themes/animated.js"></script>
+<style>
+    ul.nopad {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        ul.nopad > li {
+            display: inline-block;
+            min-width: 18.4%;
+        }
+
+            ul.nopad > li:not(:last-child) {
+                margin-right: 1%;
+            }
+
+    .colorBox {
+        background: #4f4e94;
+        color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .colorBox.c1 {
+            background: #309b60;
+        }
+
+        .colorBox.c2 {
+            background: #3798c5;
+        }
+
+        .colorBox.c3 {
+            background: #e68929;
+        }
+
+        .colorBox.c4 {
+            background: #882626;
+        }
+
+    .infoWrp {
+        padding: 12px 15px;
+        position: relative;
+    }
+
+        .infoWrp > .nums {
+            font-size: 28px;
+            font-weight: 600;
+            min-height: 33px;
+        }
+
+        .infoWrp > .txts {
+            font-size: 80%;
+        }
+
+    .mrLinks {
+        cursor: pointer;
+        background: rgba(0, 0, 0, 0.34);
+        padding: 5px 10px;
+        font-size: 80%;
+    }
+
+        .mrLinks > .fa {
+            float: right;
+            margin-top: 4px;
+        }
+
+    .fltd {
+        position: absolute;
+        right: 20px;
+        top: 9px;
+        font-size: 37px !important;
+        color: rgba(0, 0, 0, 0.54);
+    }
+
+    .box-holder {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        border-top: 4px solid rgb(13, 105, 67);
+        background: #fff;
+        -webkit-transition: all 0.2s ease-in;
+        -moz-transition: all 0.2s ease-in;
+        transition: all 0.2s ease-in;
+    }
+
+    .chartHolder {
+        height: 300px;
+    }
+
+    
+    .box-holder.full-screen .toggleFullScreen {
+        right: 25px;
+        top: 19px;
+    }
+
+    .box-holder .hdd-rp {
+        font-size: 15px;
+        font-weight: 600;
+        padding: 8px 15px;
+    }
+
+    .box-holder .bxd-cont {
+        padding: 15px;
+    }
+
+    .table {
+        width: 100%;
+    }
+
+        .table .thead-light th {
+            color: #495057;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+    .badge {
+        font-weight: 500;
+        font-size: 12px;
+    }
+
+    .badge-warning {
+        color: #212529;
+        background-color: #ffc107;
+    }
+
+    .badge-success {
+        color: #fff;
+        background-color: #28a745;
+    }
+
+    .badge-danger {
+        color: #fff;
+        background-color: #dc3545;
+    }
+
+    #chartdiv {
+        width: 100%;
+        height: 450px;
+    }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .pignose-calendar {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+        .pignose-calendar .pignose-calendar-top,
+        .pignose-calendar {
+            box-shadow: none !important;
+        }
+
+    .tbleChoosedate {
+        float: right;
+        margin-right: 15px;
+        font-size: 14px;
+    }
+
+        .tbleChoosedate > tbody > tr > td:not(:last-child) {
+            padding-right: 15px;
+        }
+
+    .dateWidth {
+        max-width: 140px;
+    }
+
+    .chartHolder {
+        border: 1px solid #ccc;
+    }
+
+    .usrTabl {
+        width: 100%;
+    }
+
+        .usrTabl > thead > tr > th {
+            background: #3798c5;
+            color: #fff;
+            padding: 8px 5px;
+        }
+
+        .usrTabl > tbody > tr > td {
+            padding: 5px;
+        }
+
+        .usrTabl > tbody > tr:nth-child(even) > td {
+            background: #f1f1f1;
+        }
+
+    .nCheck {
+        font-size: 18px;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        $.fn.datepicker.defaults.format = "dd-mm-yyyy";
+        $(".datepicker").datepicker({
+            //format: 'YYYY-MM-DD',
+            autoclose: true,
+            todayHighlight: true
+        }).datepicker('update', new Date());
+        //rev 25361
+        //$('body').on('click', '.toggleFullScreen', function (e) {
+        //    $(this).parent(".box-full").toggleClass("full-screen");
+        //});
+        //rev end 25361
+    });
+
+    function getdataReimburse() {
+        am4core.disposeAllCharts();
+
+        var fromDate = $('#fromDate').val();
+        var toDate = $('#toDate').val();
+
+        var inputDatefrm = fromDate;
+        var inputDateto = toDate;
+
+        var newDatefrm = changeDateFormat(inputDatefrm);
+        var newDateto = changeDateFormat(inputDateto);
+        var obj = {};
+        obj.fromDate = newDatefrm;
+        obj.toDate = newDateto;
+        var Url = '@Url.Action("GetRemBox", "DashboardMenu")';
+        $.ajax({
+            type: "POST",
+            url: Url,
+            data: JSON.stringify(obj),
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                console.log(msg)
+                if (msg) {
+                    $('#Total_vl').text(msg[0].total);
+                    $('#TOTAL_ap').text(msg[0].approved);
+                    $('#TOTAL_rej').text(msg[0].rejected);
+                    $('#TOTAL_pen').text(msg[0].pending);
+                }
+                
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Getchart1", "DashboardMenu")',
+            data: JSON.stringify(obj),
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                console.log('chart1', msg);
+                am4core.ready(function () {
+                    am4core.useTheme(am4themes_animated);
+
+                    // Create chart instance
+                    var chart = am4core.create("LineOne", am4charts.XYChart);
+                    chart.paddingRight = 20;
+
+                    // Add data
+                    chart.data = msg;
+
+                    // Create axes
+                    var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis.dataFields.category = "months";
+                    categoryAxis.renderer.minGridDistance = 50;
+                    categoryAxis.renderer.grid.template.location = 0.5;
+                    categoryAxis.startLocation = 0.5;
+                    categoryAxis.endLocation = 0.5;
+
+                    // Pre zoom
+                    chart.events.on("datavalidated", function () {
+                        categoryAxis.zoomToIndexes(Math.round(chart.data.length * 0.4), Math.round(chart.data.length * 0.55));
+                    });
+
+                    // Create value axis
+                    var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+                    valueAxis.baseValue = 0;
+
+                    // Create series
+                    var series = chart.series.push(new am4charts.LineSeries());
+                    series.dataFields.valueY = "Amount";
+                    series.dataFields.categoryX = "months";
+                    series.strokeWidth = 3;
+                    series.tensionX = 0.8;
+                    series.tooltipText = "Amount: {valueY.value}";
+
+                    var bullet = series.bullets.push(new am4charts.CircleBullet());
+                    bullet.strokeWidth = 0;
+
+                    bullet.adapter.add("fill", function (fill, target) {
+                        var values = target.dataItem.values;
+
+                        return values.valueY.value >= 0
+                          ? am4core.color("red")
+                          : fill;
+                    });
+
+                    //var range = valueAxis.createSeriesRange(series);
+                    //range.value = 0;
+                    //range.endValue = 1000;
+                    //range.contents.stroke = am4core.color("#FF0000");
+                    //range.contents.fill = range.contents.stroke;
+
+                    // Add scrollbar
+                    chart.cursor = new am4charts.XYCursor();
+                    chart.cursor.behavior = "panX";
+                    chart.cursor.lineX.opacity = 0;
+                    chart.cursor.lineY.opacity = 0;
+
+                    chart.scrollbarX = new am4core.Scrollbar();
+                    chart.scrollbarX.parent = chart.bottomAxesContainer;
+                })
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Getchart2", "DashboardMenu")',
+            data: JSON.stringify(obj),
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                console.log('chart2', msg)
+                am4core.ready(function () {
+
+                    // Themes begin
+                    am4core.useTheme(am4themes_animated);
+                    // Themes end
+
+                    var chart = am4core.create("columnHori", am4charts.XYChart);
+
+                    chart.data = msg;
+
+                    //create category axis for years
+                    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis.dataFields.category = "Expence_type";
+                    categoryAxis.renderer.inversed = true;
+                    categoryAxis.renderer.grid.template.location = 0;
+
+                    //create value axis for income and expenses
+                    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+                    //valueAxis.renderer.opposite = true;
+
+
+                    //create columns
+                    var series = chart.series.push(new am4charts.ColumnSeries());
+                    series.dataFields.categoryY = "Expence_type";
+                    series.dataFields.valueX = "Amount";
+                    series.name = "Amount";
+                    series.columns.template.fillOpacity = 0.5;
+                    series.columns.template.strokeOpacity = 0;
+                    series.tooltipText = "Amount in {categoryY}";
+
+                    //add chart cursor
+                    chart.cursor = new am4charts.XYCursor();
+                    chart.cursor.behavior = "zoomY";
+
+                    //add legend
+                    //chart.legend = new am4charts.Legend();
+
+                }); // end am4core.ready()
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Getchart3", "DashboardMenu")',
+            data: JSON.stringify(obj),
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                console.log('current', msg)
+                am4core.ready(function () {
+
+                    // Themes begin
+                    am4core.useTheme(am4themes_animated);
+                    // Themes end
+
+                    // Create chart instance
+                    var chart = am4core.create("pie1chart", am4charts.PieChart);
+
+                    // Add data
+                    chart.data = msg;
+
+                    // Add and configure Series
+                    var pieSeries = chart.series.push(new am4charts.PieSeries());
+                    pieSeries.dataFields.value = "Amount";
+                    pieSeries.dataFields.category = "Expence_type";
+                    pieSeries.slices.template.stroke = am4core.color("#fff");
+                    pieSeries.slices.template.strokeWidth = 2;
+                    pieSeries.slices.template.strokeOpacity = 1;
+
+                    // This creates initial animation
+                    pieSeries.hiddenState.properties.opacity = 1;
+                    pieSeries.hiddenState.properties.endAngle = -90;
+                    pieSeries.hiddenState.properties.startAngle = -90;
+
+                    pieSeries.ticks.template.disabled = true;
+                    pieSeries.alignLabels = false;
+                    pieSeries.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+                    pieSeries.labels.template.radius = am4core.percent(-40);
+                    pieSeries.labels.template.fill = am4core.color("white");
+
+                    pieSeries.ticks.template.adapter.add("hidden", hideSmall);
+                    pieSeries.labels.template.adapter.add("hidden", hideSmall);
+
+                    function hideSmall(hidden, target) {
+                        return target.dataItem.values.value.percent < 5 ? true : false;
+                    }
+                    // Add a legend
+                    chart.legend = new am4charts.Legend();
+                    chart.legend.position = "bottom";
+                    chart.legend.maxHeight = 250;
+                    chart.legend.scrollable = true;
+
+                }); // end am4core.ready()
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Getchart4", "DashboardMenu")',
+            data: JSON.stringify(obj),
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                console.log('last', msg)
+
+                
+
+                am4core.ready(function () {
+
+                    // Themes begin
+                    am4core.useTheme(am4themes_animated);
+                    // Themes end
+
+                    // Create chart instance
+                    var chart = am4core.create("pie2chart", am4charts.PieChart);
+
+                    // Add data
+                    chart.data = msg;
+
+                    // Add and configure Series
+                    var pieSeries = chart.series.push(new am4charts.PieSeries());
+                    pieSeries.dataFields.value = "Amount";
+                    pieSeries.dataFields.category = "Expence_type";
+                    pieSeries.slices.template.stroke = am4core.color("#fff");
+                    pieSeries.slices.template.strokeWidth = 2;
+                    pieSeries.slices.template.strokeOpacity = 1;
+
+                    // This creates initial animation
+                    pieSeries.hiddenState.properties.opacity = 1;
+                    pieSeries.hiddenState.properties.endAngle = -90;
+                    pieSeries.hiddenState.properties.startAngle = -90;
+
+                    pieSeries.ticks.template.disabled = true;
+                    pieSeries.alignLabels = false;
+                    pieSeries.labels.template.text = "{value.percent.formatNumber('#.0')}%";
+                    pieSeries.labels.template.radius = am4core.percent(-40);
+                    pieSeries.labels.template.fill = am4core.color("white");
+
+                    pieSeries.ticks.template.adapter.add("hidden", hideSmall);
+                    pieSeries.labels.template.adapter.add("hidden", hideSmall);
+
+                    function hideSmall(hidden, target) {
+                        return target.dataItem.values.value.percent < 5 ? true : false;
+                    }
+                    // Add a legend
+                    chart.legend = new am4charts.Legend();
+                    chart.legend.position = "bottom";
+                    chart.legend.maxHeight = 250;
+                    chart.legend.scrollable = true;
+                    pieSeries.legendSettings.labelText = '{country}'
+
+                }); // end am4core.ready()
+            }
+        });
+    }
+    function changeDateFormat(inputDate) {  // expects Y-m-d
+        var splitDate = inputDate.split('-');
+        if (splitDate.count == 0) {
+            return null;
+        }
+
+        var year = splitDate[2];
+        var month = splitDate[1];
+        var day = splitDate[0];
+
+        return year + '-' + month + '-' + day;
+    }
+    
+
+    
+    
+    
+</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12 text-right clearfix py-3">
+                <table class="tbleChoosedate">
+                    <tr>
+                        <td>From</td>
+                        <td class="dateWidth">
+                            <input type="text" id="fromDateRE" class="form-control datepicker" />
+                        </td>
+                        <td>To</td>
+                        <td class="dateWidth">
+                            <input type="text" id="toDateRE" class="form-control datepicker" />
+                        </td>
+                        <td><button type="button" class="btn btn-success" onclick="getdataReimburse()">Show Analysis</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="colorBox">
+                    <div class="infoWrp">
+                        <i class="fa fa-inr fltd" aria-hidden="true"></i>
+                        <div class="nums" id="Total_vl">0</div>
+                    </div>
+                    <div class="mrLinks">
+                        Total Applied Amount
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="colorBox c1">
+                    <div class="infoWrp">
+                        <i class="fa fa-inr fltd" aria-hidden="true"></i>
+                        <div class="nums"><span id="TOTAL_ap">0</span> </div>
+
+                    </div>
+                    <div class="mrLinks">
+                        Total Approved Amount
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="colorBox c2">
+                    <div class="infoWrp">
+                        <i class="fa fa-inr fltd" aria-hidden="true"></i>
+                        <div class="nums" id="TOTAL_pen">0</div>
+
+                    </div>
+                    <div class="mrLinks">
+                        Total Pending Amount
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="colorBox c3">
+                    <div class="infoWrp">
+                        <i class="fa fa-truck fltd"
+                           aria-hidden="true"></i>
+                        <div class="nums" id="TOTAL_rej">0</div>
+
+                    </div>
+                    <div class="mrLinks">
+                        Total Rejected Amount
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box-holder mTop10 box-full">
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
+                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            </span>
+            <div class="clearfix">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hdd-rp">
+                            Applied Amount per Month
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bxd-cont">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="LineOne" class="chartHolder font-normal"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box-holder mTop10 box-full">
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
+                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            </span>
+            <div class="clearfix">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="hdd-rp">
+                            Reimbursement by Type
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bxd-cont">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="columnHori" class="chartHolder font-normal"><div class="nCheck">Select date to refresh data</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box-holder mTop10 box-full clearfix">
+            <span class="toggleFullScreen">
+                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            </span>
+            <div class="col-md-12">
+                <div class="clearfix">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="hdd-rp">
+                               
+                                <div>Total Expenses Current Month:</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="bxd-cont">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="pie1chart" class="chartHolder font-normal"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box-holder mTop10 box-full clearfix">
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
+                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            </span>
+            <div class="col-md-12">
+                <div class="clearfix">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="hdd-rp">
+                               
+                                <div>Total Expenses Last Month</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="bxd-cont">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="pie2chart" class="chartHolder font-normal"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

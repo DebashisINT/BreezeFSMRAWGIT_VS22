@@ -1,0 +1,174 @@
+﻿@model MyShop.Models.CustomSMSClass
+@{
+    ViewBag.Title = "Group";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/assests/pluggins/Transfer/icon_font/css/icon_font.css" rel="stylesheet" />
+<link href="/assests/pluggins/Transfer/css/jquery.transfer.css" rel="stylesheet" />
+
+<script src="/assests/pluggins/Transfer/jquery.transfer.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        ddsstatechange();
+        $('#creatgrpbtn').click(function () {
+            var groupname = $("#groupName").val()
+            console.log(selectedUser)
+            if (selectedUser == undefined) {
+                console.log("you must select an user");
+                return false;
+            }
+            if (groupname == "") {
+                console.log("you must Enter groupname");
+                return false;
+            }
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveGroup", "Chat")",
+                data: { grpName: groupname, users: selectedUser },
+                success: function (response) {
+                    jAlert(response)
+                }
+            });
+
+        })
+    });
+    var selectedUser;
+    function ddsstatechange(e) {
+
+        var objmultiselectto = [];
+
+        var designationid = $("#ddsupervisor").val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetUserList", "CustomSMS")",
+            data: { designationid: designationid, notificationId: $("#hdnnotid").val(), stateid: $("#ddstate").val() },
+            success: function (response) {
+                console.log(response)
+                $("#transfer1").html('');
+                var settings1 = {
+                    "dataArray": response,
+                    "itemName": "username",
+                    "valueName": "UserID",
+                    "tabNameText": "Users",
+                    "rightTabNameText": "Selected users",
+                    "searchPlaceholderText": "search in users",
+                    "callable": function (items) {
+                        //console.dir(items)
+                        var temArr = [];
+                        for (var i = 0; i < items.length; i++) {
+                            temArr.push(items[i].UserID);
+                        }
+                        selectedUser = temArr.join(",");
+                    }
+                };
+                $("#transfer1").transfer(settings1);
+            }
+        });
+    }
+
+    function ddsupervisorchange(e) {
+
+        var objmultiselectto = [];
+
+
+        var designationid = $(e).val();
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetUserList", "CustomSMS")",
+            data: { designationid: designationid, notificationId: $("#hdnnotid").val(), stateid: $("#ddstate").val() },
+            success: function (response) {
+                console.log(response)
+                $("#transfer1").html('');
+                var settings1 = {
+                    "dataArray": response,
+                    "itemName": "username",
+                    "valueName": "UserID",
+                    "tabNameText": "Users",
+                    "rightTabNameText": "Selected users",
+                    "searchPlaceholderText": "search in users",
+                    "callable": function (items) {
+                        //console.dir(items)
+                        var temArr = [];
+                        for (var i = 0; i < items.length; i++) {
+                            temArr.push(items[i].UserID);
+                        }
+                        selectedUser = temArr.join(",");
+                    }
+                };
+                $("#transfer1").transfer(settings1);
+            }
+        });
+    }
+
+</script>
+<style>
+    .transfer-demo {
+        width: 640px;
+        height: 351px;
+    }
+
+    .transfer-demo .transfer-double-header {
+        display: none;
+    }
+    .transfer-double-selected-list-main .transfer-double-selected-list-ul .transfer-double-selected-list-li .checkbox-group {
+        width: 85%;
+    }
+    .red {
+        color:red;
+    }
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+    }
+    .transfer-double-content-param {
+        border-bottom: 1px solid #4236f5;
+        background: #4236f5;
+        color: #e8e8e8;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>Create Chat Group</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+        <div class="row">
+            <div class="col-md-4">
+                <label>Group Name <span class="red">*</span></label>
+                <div>
+                    <input type="text" class="form-control" id="groupName" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label><b>Filter by State</b></label>
+                <div>
+                    @Html.DropDownList("ddstate", new SelectList(Model.StateList, "ID", "Name"), new { @name = "from", @class = "full", @onchange = "ddsstatechange(this)" })
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <label><b>Filter by Designation</b></label>
+                <div>
+                    @Html.DropDownList("ddsupervisor", new SelectList(Model.SupervisorList, "ID", "Name"), new { @name = "from", @class = "full", @onchange = "ddsupervisorchange(this)" })
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <label>Select users</label>
+                <div>
+                    <div id="transfer1" class="transfer-demo"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <button type="button" class="btn btn-success" id="creatgrpbtn">Create Group</button>
+                <button type="button" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

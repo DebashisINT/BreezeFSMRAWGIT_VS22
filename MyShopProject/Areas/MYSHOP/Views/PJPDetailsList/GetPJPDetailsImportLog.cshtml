@@ -1,0 +1,227 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridTemplateImportLogList";
+    settings.CallbackRouteValues = new { Action = "GetPJPDetailsImportLog", Controller = "PJPDetailsList" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(480);
+    settings.Settings.VerticalScrollableHeight = 230;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    //settings.ClientSideEvents.BeginCallback = "OnStartLogGridCallback";
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = false;
+    settings.Settings.ShowGroupPanel = false;
+    settings.CommandColumn.Visible = false;
+    settings.Settings.ShowFooter = false;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.False;
+    settings.SettingsPager.PageSizeItemSettings.Visible = false;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Date";
+        x.Caption = "Date";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "From_Time";
+        x.Caption = "From Time";
+        x.VisibleIndex = 3;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "To_Time";
+        x.Caption = "To Time";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "State";
+        x.Caption = "State";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employee";
+        x.Caption = "Employee";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        x.Caption = "Customer Name";
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Type";
+        x.Caption = "Customer Type";
+        x.VisibleIndex = 8;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Contact";
+        x.Caption = "Customer Contact";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "City";
+        x.Caption = "City";
+        x.VisibleIndex = 10;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Area";
+        x.Caption = "Area";
+        x.VisibleIndex = 11;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LAT";
+        x.Caption = "Lat";
+        x.VisibleIndex = 12;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LONG";
+        x.Caption = "Long";
+        x.VisibleIndex = 13;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Radius";
+        x.Caption = "Radius";
+        x.VisibleIndex = 14;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Remarks";
+        x.Caption = "Remarks";
+        x.VisibleIndex = 15;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "STATUS";
+        x.VisibleIndex = 25;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.SetDataItemTemplateContent(c =>
+        {
+            if (Convert.ToString(DataBinder.Eval(c.DataItem, "STATUS")) == "True")
+            {
+                ViewContext.Writer.Write(
+                        "<i class='fa fa-check green' aria-hidden='true'></i>"
+                    );
+            }
+            else
+            {
+                ViewContext.Writer.Write(
+                        "<i class='fa fa-close red' aria-hidden='true'></i>"
+                    );
+            }
+        });
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATUS_MESSAGE";
+        x.Caption = "Reason";
+        x.VisibleIndex = 26;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "ImportDate";
+    //    x.Caption = "Import Date & Time";
+    //    x.VisibleIndex = 27;
+    //    x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+    //    x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+    //    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    //    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    //    x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+    //    (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+    //});
+
+
+}).Bind(Model).GetHtml()
+
+

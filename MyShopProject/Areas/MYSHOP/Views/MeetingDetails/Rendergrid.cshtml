@@ -1,0 +1,177 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "ListGrid";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "MeetingDetails", Action = "Rendergrid" };
+    settings.KeyFieldName = "SEQ";
+    //settings.EnableRowsCache = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Employee Name";
+        column.FieldName = "EMPLOYEE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "User Login Id";
+        column.FieldName = "USER_LOGINID";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Employee Code";
+        column.FieldName = "EMPLOYEE_CODE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+    
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "EMPLOYEE_DESIGNATION";
+        column.Caption = "Designation";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });    
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "REPORTTO";
+        column.Caption = "Supervisor";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Type";
+        column.FieldName = "SHOP_NAME";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 180;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MEETING_NAME";
+        column.Caption = "Meeting Type";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "LATITUDE";
+        column.Caption = "Latitude";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Longitude";
+        column.FieldName = "LONGITUDE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MEETING_ADDRESS";
+        column.Caption = "Meeting Address";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 250;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MEETING_PINCODE";
+        column.Caption = "Meeting Pincode";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "REMARKS";
+        column.Caption = "Remarks";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 250;
+    });
+
+   
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Visited Date Time";
+        column.FieldName = "VISITED_TIME";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SPENT_DURATION";
+        column.Caption = "Spent Duration";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+    });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "TOTAL_VISIT_COUNT";
+    //    column.Caption = "Total Visit";
+    //    column.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    column.Width = 200;
+    //});
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "DISTANCE_TRAVELLED";
+        column.Caption = "Distance Travelled";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 120;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Meeting Sync Date & Time";
+        column.FieldName = "CREATEDDATE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+        column.Width = 200;
+    });
+
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()
+
+
+

@@ -1,0 +1,123 @@
+﻿
+<script>
+
+    function LoadDataandShow() {
+
+        var obj = {};
+        obj.fromdate = dtFrom.GetDate();
+        obj.todate = dtTo.GetDate();
+
+        $.ajax({
+            type: "POST",
+            url: "/LateVisitSMSReport/GenerateTable",
+            data: JSON.stringify(obj),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+
+                ListGrid.Refresh()
+                ListGrid.Refresh()
+
+            }
+        });
+    }
+    var IsPageload = 1;
+    function OnBeginCallback(s, e) {
+        IsPageload = 0;
+        e.customArgs["ispageload"] = "0";
+
+    }
+
+    $(function () {
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportReport", "LateVisitSMSReport", new { type = "_type_", IsPageload = "_IsPageload_" })'
+                window.location.href = url.replace("_type_", selectedValue)+"&IsPageload="+IsPageload;
+            }
+        });
+    });
+
+</script>
+
+
+<div class="">
+    <div class=" px-3 py-3">
+        <div class="clearfix">
+
+            <div class="row clearfix mb-3">
+                <div class="col-md-12 text-right clearfix py-3">
+                    <table class="tbleChoosedate responsive_Tbl">
+                        <tr>
+                            <td>From Date</td>
+                            <td class="dateWidth">
+                               
+                                @Html.DevExpress().DateEdit(
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                            </td>
+                            <td>To Date</td>
+                            <td class="dateWidth">
+                                @Html.DevExpress().DateEdit(
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-success" onclick="LoadDataandShow();">Show</button>
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                    <option value="0">Export to</option>
+                                    <option value="1">XLSX</option>
+                                    <option value="2">XLS</option>
+                                    <option value="3">PDF</option>
+                                    <option value="4">CSV</option>
+                                    <option value="5">RTF</option>
+
+                                </select>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="clear: both;"></div>
+                    <div id="DetailsTable">
+
+                        @{
+                            Html.RenderAction("_PartialGrid", "LateVisitSMSReport", new { ispageload = "1" });
+                        }
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

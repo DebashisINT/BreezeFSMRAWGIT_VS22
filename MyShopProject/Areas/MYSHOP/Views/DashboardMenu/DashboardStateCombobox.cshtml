@@ -1,0 +1,28 @@
+﻿@model List<MyShop.Models.StateData>
+
+@*@Html.DevExpress().ComboBox(
+                        settings =>
+                        {
+                            settings.Name = "cmbState";
+                            settings.CallbackRouteValues = new { Controller = "DashboardMenu", Action = "DashboardStateCombobox" };
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.SelectedIndex = 0;
+                            settings.Properties.ValueField = "id";
+                            settings.Properties.TextField = "name";
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.None;
+                            settings.Properties.IncrementalFilteringDelay = 100;
+                            settings.Properties.CallbackPageSize = 50;
+                            settings.Properties.LoadDropDownOnDemand = false;
+                            settings.Properties.ClientSideEvents.SelectedIndexChanged = "cmbStatechange";
+                            settings.Properties.EnableClientSideAPI = true;
+
+                        }).BindList(Model).GetHtml()*@
+
+<select class="demo" multiple="multiple" id="cmbState" >
+    @foreach (var item in Model)
+    {
+        <option value="@item.StateID">@item.name</option>
+    }
+</select>
+
+<input type="hidden" value="@ViewBag.StateListCount" id="hdnStateListCount" />

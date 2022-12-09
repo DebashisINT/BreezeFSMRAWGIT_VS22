@@ -1,0 +1,51 @@
+﻿@model Models.ReimbursementDetails
+
+<div class="">
+    <input type="hidden" id="hdnUserid" />
+    @*<input type="hidden" id="hdnDate" />*@
+
+    <div class="col-md-12">
+        <ul class="myAssignTarget" id="myAssignTargetpopup">
+
+            <li class="mainCircle">
+                <div class="heading">Employee Name</div>
+                <div id="lblTotalTargetValue" class="Num">@Model.EmpName</div>
+            </li>
+            <li class="mainCircle">
+                <div class="heading">Designation</div>
+                <div id="lblTotalTargetCollection" class="Num">@Model.Designation</div>
+            </li>
+            <li class="mainCircle">
+                <div class="heading">Supervisor</div>
+                <div id="lblTotalTargetCollection" class="Num">@Model.Reportto</div>
+            </li>
+            <li class="mainCircle">
+                <div class="heading">State</div>
+                <div id="lblTotalTargetCollection" class="Num">@Model.State</div>
+            </li>
+        </ul>
+
+
+    </div>
+    <hr />
+    <div class=" ">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="Widgheading relative clearfix" aria-expanded="true" aria-controls="collapseOne"></h4>
+        </div>
+
+        <div id="refreshgrid">
+            @{
+                    Html.RenderAction("GetViewReimbursementGrid", "Reimbursement", Model.GetReimbursementDetailsList);
+            }
+        </div>
+
+        <div class="text-center mTop10">
+            <button type="button" class="btn btn-success" onclick="ReimbursementOk();">Approved</button>
+            <button type="button" class="btn btn-danger" onclick="ReimbursementReject();">Reject</button>
+            <button type="button" class="btn btn-primary" onclick="ReimbursementCancel();">Cancel</button>
+        </div>
+
+    </div>
+
+
+</div>

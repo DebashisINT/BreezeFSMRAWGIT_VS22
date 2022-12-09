@@ -1,0 +1,83 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "summaryGrid";
+
+    settings.CallbackRouteValues = new { Action = "PartialSummaryList", Controller = "AttendanceRegister" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee";
+        x.Visible = false;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(40);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPCODE";
+        x.Caption = "EMPCODE";
+        x.Visible = false;
+        x.SortOrder = DevExpress.Data.ColumnSortOrder.Descending;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Member Name";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(40);
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OnClickSummaryGrid('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPCODE")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPNAME")) + "</a>");
+        });
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AT_WORK";
+        x.Caption = "Attendance";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ON_LEAVE";
+        x.Caption = "On Leave";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LATE_CNT";
+        x.Caption = "Late Count";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "AT_WORK").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ON_LEAVE").DisplayFormat = "0";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "LATE_CNT").DisplayFormat = "0";
+}).Bind(Model).GetHtml()
+
+

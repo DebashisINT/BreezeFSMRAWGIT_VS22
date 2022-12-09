@@ -1,0 +1,153 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridChemistActivity";
+
+    settings.CallbackRouteValues = new { Action = "ChemistActivityGrid", Controller = "ChemistActivityReport" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ACTIVITY_DATE";
+        x.Caption = "Activity Date";
+        x.VisibleIndex = 1;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPLOYEE_NAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 2;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STATE_NAME";
+        x.Caption = "State";
+        x.VisibleIndex = 3;
+        x.Width = 100;
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DESIGNATION";
+        x.Caption = "Designation";
+        x.VisibleIndex = 4;
+        x.Width = 80;
+
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORT_TO";
+        x.Caption = "Report To";
+        x.VisibleIndex = 5;
+        x.Width = 200;
+
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CHEMIST_NAME";
+        x.Caption = "Chemist Name";
+        x.VisibleIndex = 6;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_TYPE";
+        x.Caption = "Type";
+        x.VisibleIndex = 7;
+        x.Width = 50;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ISPOB";
+        x.Caption = "POB";
+        x.VisibleIndex = 8;
+        x.Width = 80;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VOLUME";
+        x.Caption = "Volume";
+        x.VisibleIndex = 9;
+        x.Width = 80;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REMARKS";
+        x.Caption = "Remarks";
+        x.VisibleIndex = 10;
+        x.Width = 300;
+    });
+   
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NEXT_VISIT_DATE";
+        x.Caption = "Next Visit";
+        x.VisibleIndex = 11;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "MR_REMARKS";
+        x.Caption = "MR Remarks";
+        x.VisibleIndex = 12;
+        x.Width = 300;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PRODUCT";
+        x.Caption = "Product";
+        x.VisibleIndex = 13;
+        x.Width = 500;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "POB_PRODUCT";
+        x.Caption = "POB Product";
+        x.VisibleIndex = 14;
+        x.Width = 500;
+    });
+
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Volume").DisplayFormat = "0.00";
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RATE").DisplayFormat = "0.00";
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ORDVALUE").DisplayFormat = "0.00";
+
+
+}).Bind(Model).GetHtml()

@@ -1,0 +1,717 @@
+﻿@model System.Data.DataSet
+
+@{
+    ViewBag.Title = "AttendanceRegister";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+
+<script>
+    var is_pageload = "0";
+    $(function () {
+
+        var d = new Date();
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        $('body').on('click', '#btnshow', function () {
+
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+
+            var flag = true;
+
+            if (dtFrom.GetDate() == null) {
+                $('#MandatoryFromDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryFromDate').attr('style', 'display:none');
+            }
+
+            if (dtTo.GetDate() == null) {
+                $('#MandatoryToDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryToDate').attr('style', 'display:none');
+            }
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            else {
+                //$("#refreshgridsalessummary").show();
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+                //Mantis Issue 24728
+                if (dayse <= 35) {
+                    
+                }
+                else {
+                    jAlert("Searching days must be within 35 days");
+                    flag = false;
+                    return false;
+                }
+                //End of Mantis Issue 24728
+                //debugger;
+                var data = [];
+
+                data.is_pageload = "0";
+
+                var surl = '@Url.Action("PerformanceGridViewCallback", "HorizontalAttendance")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: {model:data},
+                    type: 'POST',
+                    success: function (data) {
+                        // gridsalesmanView.PerformCallback('clear');
+                      //  gridsalesmanView.Refresh();
+                    },
+                    error: function () {
+
+                    },
+                });
+
+                var surl = '@Url.Action("PerformanceGridViewCallback", "HorizontalAttendance")';
+                $.ajax({
+                    url: surl,
+                    async: false,
+                    data: { model: data },
+                    type: 'POST',
+                    success: function (data) {
+                        //gridsalesmanView.PerformCallback('clear');
+                    },
+                    error: function () {
+
+                    },
+                });
+
+                //is_pageload = "0";
+
+                //gridsalesmanView.Refresh();
+                //is_pageload = "1";
+                if (dayse <= 30) {
+                    if (flag == true) {
+                        is_pageload = "1";
+                        gridsalesmanView.Refresh();
+                        //Mantise work 0025111
+                        gridsalesmanView.Refresh();
+                        //End of Mantise work 0025111
+                    }
+                }
+                else {
+                    jAlert("Searching days must be within 30 days.");
+
+                }
+            }
+        });
+
+        $('#ddlSumExport').on('change', function () {
+            if ($("#ddlSumExport option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                //var desg = $("#drpdesignation").val();
+                //var usrtype = $("#ddlusertypes").val();
+                $('#ddlSumExport').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportSalesGridView", "HorizontalAttendance", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+            }
+        });
+    })
+
+    function OnStartCallback(s, e) {
+
+        
+        var TotalKMTravelled=0;
+        var SecondarySalesValue=0;
+        var IdleTimeCount=0;
+        var ShowAttendanceSelfie = 0;
+
+        //Mantise work 0025111
+        var ShowFullday = 0;
+        var ShowLoginLocation = 0;
+        var ShowLogoutLocation = 0;
+        //End of Mantise work 0025111
+
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["ProductID"] = ProductId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+        e.customArgs["PageName"] = "HorizontalAttendance";
+        // alert(e.customArgs["StateId"]);
+        if (document.getElementById("chkTotalKMTravelled").checked) {
+            TotalKMTravelled = 1;
+        }
+        if (document.getElementById("chkSecondarySalesValue").checked) {
+            SecondarySalesValue = 1;
+        }
+        if (document.getElementById("chkIdleTimeCount").checked) {
+            IdleTimeCount = 1;
+        }
+        if (document.getElementById("chkShowAttendanceSelfie").checked) {
+            ShowAttendanceSelfie = 1;
+        }
+        //Mantise work 0025111
+        if (document.getElementById("chkShowFullDay").checked) {
+            ShowFullday = 1;
+        }
+
+        if (document.getElementById("chkShowLogIn").checked) {
+            ShowLoginLocation = 1;
+        }
+        if (document.getElementById("chkShowLogOut").checked) {
+            ShowLogoutLocation = 1;
+        }
+        //End of Mantise work 0025111
+        e.customArgs["TotalKMTravelled"] = TotalKMTravelled;
+        e.customArgs["SecondarySalesValue"] = SecondarySalesValue;
+        e.customArgs["IdleTimeCount"] = IdleTimeCount;
+        e.customArgs["ShowAttendanceSelfie"] = ShowAttendanceSelfie;
+        //Mantise work 0025111
+        e.customArgs["ShowFullday"] = ShowFullday;
+        e.customArgs["ShowLoginLocation"] = ShowLoginLocation;
+        e.customArgs["ShowLogoutLocation"] = ShowLogoutLocation;
+        //End of Mantise work 0025111
+    }
+
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = "";
+        e.customArgs["desgid"] = "";
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh();
+        EmpGridLookup.GetGridView().Refresh();
+    }
+
+    function ProductStartCallback(s, e) {
+
+    }
+
+    var ProductId = [];
+    function ProductSelectionChanged(s, e) {
+        ProductGridLookup.gridView.GetSelectedFieldValues("Productcode", GetProductSelectedFieldValuesCallback);
+    }
+    function GetProductSelectedFieldValuesCallback(values) {
+        try {
+            ProductId = [];
+            for (var i = 0; i < values.length; i++) {
+                ProductId.push(values[i]);
+            }
+        } finally {
+            console.log(ProductId);
+        }
+    }
+
+    function ProductLookupValChange() {
+        ProductGridLookup.GetGridView().Refresh()
+    }
+</script>
+
+<style>
+    .expTypeImg {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .expTypeImg > li {
+            display: inline-block;
+        }
+
+            .expTypeImg > li > div {
+                position: relative;
+            }
+
+                .expTypeImg > li > div > img {
+                }
+
+                .expTypeImg > li > div .imageCap {
+                    position: absolute;
+                    bottom: 0;
+                    z-index: 5;
+                    width: 100%;
+                    color: #fff;
+                    background: #bd9f9f;
+                    padding: 5px 10px;
+                    text-align: center;
+                }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .disableHref {
+        opacity: 0.3;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    #myAssignTargetpopup {
+        padding: 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    .linerHd {
+        background: #dedede;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+    }
+
+    .popheader {
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 8px;
+        padding-left: 7px;
+    }
+
+    .lightbox {
+        z-index: 10000000;
+    }
+
+    .lightboxOverlay {
+        z-index: 9999999;
+    }
+
+    .btn-excel {
+        position: absolute;
+        right: 6px;
+        top: 8px;
+    }
+    
+    .chkDs {
+        padding-top: 24px;
+    }
+        .chkDs > input[type=checkbox] {
+            margin-right: 5px;
+        }
+</style>
+
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+<div class="breadCumb">
+    <span>Attendance Register</span>
+</div>
+<div class="container">
+    <div class="backBox mt-5 p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="eqpadtbl  mb-1  tblspace">
+                    <tr>
+                        <td class="w150 relative">
+                            <label>From Date</label>
+                            <div>
+
+                                @Html.DevExpress().DateEdit(
+                            settings =>
+                            {
+                                settings.Name = "dtFrom";
+                                settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Date = DateTime.Now;
+                                settings.Properties.EditFormat = EditFormat.Custom;
+                                settings.Properties.ShowOutOfRangeWarning = false;
+                                settings.Properties.UseMaskBehavior = true;
+                                settings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                                //settings.Properties.ClientSideEvents.Init = "SetDefaultDate";
+
+                            }
+                        ).GetHtml()
+
+                                <span id="MandatoryFromDate" style="display: none" class="validclass">
+                                    <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </div>
+                        </td>
+                        <td class="w150 relative">
+                            <label>To Date</label>
+                            <div>
+
+                                @Html.DevExpress().DateEdit(
+                            settings =>
+                            {
+                                settings.Name = "dtTo";
+                                settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Date = DateTime.Now;
+                                settings.Properties.EditFormat = EditFormat.Custom;
+                                settings.Properties.ShowOutOfRangeWarning = false;
+                                settings.Properties.UseMaskBehavior = true;
+                                settings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+                                //settings.Properties.ClientSideEvents.Init = "SetDefaultDate";
+
+                            }
+                        ).GetHtml()
+                                <span id="MandatoryToDate" style="display: none" class="validclass">
+                                    <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </div>
+                        </td>
+                        <td class="w150" id="empIntro">
+                            <label>Employee(s)</label>
+                            <div>
+                                @*@Html.Action("GetEmpList", "MasterPopulate")*@
+                                @Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "EmployeeTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    //settings.Text = Model.AssignedTo;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                                }).GetHtml()
+                            </div>
+                        </td>
+                        <td class="w150 hidden" id="empIntro">
+                            <label>Product(s)</label>
+                            <div>
+                                @Html.Action("GetProductList", "MasterPopulate")
+                            </div>
+                        </td>
+                        <td class="w150 " id="empIntro">
+                            <div class="chkDs">
+                                <input type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">
+                                <label for="vehicle1"> Total KM's Travelled</label><br>
+
+                            </div>
+                        </td>
+                        <td>
+
+                            <div class="chkDs">
+                                <input type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">
+                                <label for="vehicle2"> Secondary Sales Value</label>
+                            </div>
+                        </td>
+                        
+                    </tr>
+                    <tr><td colspan="5" style="padding: 8px"></td></tr>
+                    <tr>
+                        
+                        <td><input type="checkbox" id="chkIdleTimeCount" name="vehicle3" value="Boat">
+                        <label for="vehicle2"> Idle Time Count</label><br>
+                        </td>
+                        <td><input type="checkbox" id="chkShowAttendanceSelfie" name="vehicle4" value="Boat">
+                        <label for="vehicle2"> Show Attendance Selfie</label></td>
+                        @*Mantise issue:0025111*@
+                        <td>
+                            <input type="checkbox" id="chkShowFullDay" name="vehicle5" value="Boat">
+                            <label for="vehicle3"> Show Full Day</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" id="chkShowLogIn" name="vehicle6" value="Boat">
+                            <label for="vehicle6"> Show Login Location</label>
+                        </td>
+                        <td>
+                            <input type="checkbox" id="chkShowLogOut" name="vehicle7" value="Boat">
+                            <label for="vehicle7"> Show Logout Location</label>
+                        </td>
+                        @*End of Mantise issue:0025111*@
+                        <td style="width:194px;">
+                            <label></label>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                            <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
+                                <option value="0">Export to</option>
+                                @*<option value="1">PDF</option>*@
+                                <option value="2">XLSX</option>
+                                @*<option value="3">XLS</option>
+                <option value="4">RTF</option>
+                <option value="5">CSV</option>*@
+
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div style="clear: both;"><br /></div>
+        <div id="refreshgridperformancewisemonth">
+
+            @Html.Partial("PerformanceGridViewCallback", Model)
+        </div>
+    </div>
+</div>
+
+
+
+@*<h2>StatewisePerformanceofSalesman</h2>*@
+
+@*@Html.Partial("PerformanceGridView", Model)*@
+
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->

@@ -1,0 +1,367 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridQuotationDetails";
+
+    settings.CallbackRouteValues = new { Action = "GetQuotationDetailsList", Controller = "QuotationDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SEQ";
+        x.Caption = "Sr. No.";
+        x.VisibleIndex = 1;
+        //x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SEQ'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "QUOTATIONNO";
+        x.Caption = "QT.NO";
+        x.VisibleIndex = 2;
+        //x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QUOTATIONNO'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "QUOTATIONDATE";
+     x.Caption = "Date";
+     x.VisibleIndex = 3;
+     //x.Width = 100;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+     if (ViewBag.RetentionColumn != null)
+     {
+         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QUOTATIONDATE'");
+         if (row != null && row.Length > 0)
+         {
+             x.Visible = false;
+         }
+         else
+         {
+             x.Visible = true;
+             x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+         }
+     }
+     else
+     {
+         x.Visible = true;
+         x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+     }
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CUSTNAME";
+        x.Caption = "Customer Name";
+        x.VisibleIndex = 4;
+        //x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTNAME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CUSTADDRESS";
+        x.Caption = "Address Details";
+        x.VisibleIndex = 5;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTADDRESS'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CUSTEMAIL";
+        x.Caption = "Email id";
+        x.VisibleIndex = 6;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTEMAIL'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACTPERSON";
+        x.Caption = "Contact person";
+        x.VisibleIndex = 7;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACTPERSON'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACTNO";
+        x.Caption = "Contact number";
+        x.VisibleIndex = 8;
+        //x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACTNO'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PRODUCT_NAME";
+        x.Caption = "Product";
+        x.VisibleIndex = 9;
+        //x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRODUCT_NAME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "RATE_SQFT";
+        x.Caption = "Rate in Sq. ft.";
+        x.VisibleIndex = 10;
+        //x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RATE_SQFT'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SALESPERSON";
+        x.Caption = "Sales Person";
+        x.VisibleIndex = 11;
+        //x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SALESPERSON'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PROJECT_NAME";
+        x.Caption = "Project Name";
+        x.VisibleIndex = 12;
+        //x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PROJECT_NAME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+        }
+    });
+
+}).Bind(Model).GetHtml()

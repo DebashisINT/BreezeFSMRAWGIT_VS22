@@ -1,0 +1,142 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridEmployeeActivityList";
+    settings.CallbackRouteValues = new { Action = "GetHomeVisitRegisterPartial", Controller = "HomeVisitRegister" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.SettingsContextMenu.Enabled = true;
+
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "Date";
+           x.Caption = "Date";
+           x.VisibleIndex = 1;
+           x.Width = 150;
+           x.ColumnType = MVCxGridViewColumnType.DateEdit;
+           var Properties = x.PropertiesEdit as DevExpress.Web.DateEditProperties;
+           Properties.DisplayFormatString = "dd-MM-yyy";
+
+       });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "user_name";
+        x.Caption = "User Name";
+        x.VisibleIndex = 2;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+
+    });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "Name";
+           x.Caption = "Emp. Name";
+           x.VisibleIndex = 3;
+           x.Width = 150;
+       });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ShortCode";
+        x.Caption = "Emp. Code";
+        x.VisibleIndex = 4;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "Designation";
+           x.Caption = "Designation";
+           x.VisibleIndex = 5;
+           x.Width = 150;
+
+       });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Supervisor";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 6;
+        //x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Supervisor_designation";
+        x.Caption = "Supervisor Desg.";
+        x.VisibleIndex = 7;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "State_name";
+     x.Caption = "State";
+     x.VisibleIndex = 8;
+     //x.Width = 150;
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     x.Width = 150;
+ });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Logout_Time";
+        x.Caption = "In Time - Home Location";
+        x.VisibleIndex = 9;
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Reason";
+        x.Caption = "Reason";
+        x.VisibleIndex = 10;
+
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "duration";
+        x.Caption = "Total Duration Spent";
+        x.VisibleIndex = 10;
+
+
+    });
+
+
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "DISTANCE").DisplayFormat = "0.00";
+
+
+}).Bind(Model).GetHtml()

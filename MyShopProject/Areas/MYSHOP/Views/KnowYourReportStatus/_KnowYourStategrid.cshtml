@@ -1,0 +1,727 @@
+﻿@*@Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "gridImportTargetList";
+
+        settings.CallbackRouteValues = new { Action = "GetImportTargetList", Controller = "KnowYourState" };
+        settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+       // settings.ClientSideEvents.EndCallback = "OnEndCallback";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Height = System.Web.UI.WebControls.Unit.Pixel(480);
+        settings.Settings.VerticalScrollableHeight = 300;
+        settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+        settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+       // settings.ClientSideEvents.BeginCallback = "OnStartLogGridCallback";
+        settings.SettingsSearchPanel.Visible = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.Settings.ShowGroupPanel = true;
+
+        settings.CommandColumn.Visible = false;
+
+        settings.Settings.ShowFooter = false;
+        settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.False;
+        settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+        settings.SettingsPager.PageSizeItemSettings.Visible = false;
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "State";
+            x.Caption = "State";
+            x.VisibleIndex = 1;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+          //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "STATE_HEAD";
+            x.Caption = "STATE HEAD";
+            x.VisibleIndex = 2;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+            //x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+            //(x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        });
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "EMP_ID";
+            x.Caption = "EMP ID";
+            x.VisibleIndex = 3;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+           // x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "SUPERVISOR";
+            x.Caption = "SUPERVISOR";
+            x.VisibleIndex = 4;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+           // x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Emp_id1";
+            x.Caption = "Emp Id1";
+            x.VisibleIndex = 5;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //x.FixedStyle = GridViewColumnFixedStyle.Left;
+            //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Name";
+            x.Caption = "Name";
+            x.VisibleIndex = 6;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+          //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Emp_id2";
+            x.Caption = "Emp id2";
+            x.VisibleIndex = 7;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+         settings.Columns.Add(x =>
+        {
+            x.FieldName = "No_Of_Outlet";
+            x.Caption = "No# Of Outlet";
+            x.VisibleIndex = 8;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Total_Visit";
+            x.Caption = "Total Visit";
+            x.VisibleIndex = 9;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(410);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Average_Visit";
+            x.Caption = "Average Visit";
+            x.VisibleIndex = 10;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Order_Inc_Tax";
+            x.Caption = "Order (Inc# Tax)e";
+            x.VisibleIndex = 11;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Delivery_Inc_Tax";
+            x.Caption = "Delivery (Inc# Tax)";
+            x.VisibleIndex =12;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Pre_Order_Ex_Tax";
+            x.Caption = "Pre Order (Ex# Tax)";
+            x.VisibleIndex =13;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(110);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+            x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+            (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Pre_Delivery_Ex_Tax";
+            x.Caption = "Pre Delivery (Ex# Tax)";
+            x.VisibleIndex =14;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            // x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Delivery_Pending_Ex_Tax";
+            x.Caption = "Delivery Pending (Ex# Tax)";
+            x.VisibleIndex =15;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            // x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "No_Of_Outlet_Order_Taken";
+            x.Caption = "No Of Outlet Order Taken";
+            x.VisibleIndex = 16;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //x.FixedStyle = GridViewColumnFixedStyle.Left;
+            //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Repeat_Outlet_Delivery_Done";
+            x.Caption = "No Of Outlet Delivery Done";
+            x.VisibleIndex =17;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Durantion_Spend_In_Outlet_Min_to_5_Min";
+            x.Caption = "Durantion Spend In Outlet Min to 5 Min";
+            x.VisibleIndex = 18;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+         settings.Columns.Add(x =>
+        {
+            x.FieldName = "Durantion_Spend_In_Outlet_Min_To_15_Min";
+            x.Caption = "Durantion Spend In Outlet Min To 15 Min";
+            x.VisibleIndex = 8;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Durantion_Spend_In_Outlet_16_Min_Above";
+            x.Caption = "Durantion Spend In Outlet 16 Min Above";
+            x.VisibleIndex = 19;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(410);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Batten_Others_Watts";
+            x.Caption = "Batten Others Watts";
+            x.VisibleIndex = 20;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Batten_18W";
+            x.Caption = "Batten 18W";
+            x.VisibleIndex = 21;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Bulb_9W";
+            x.Caption = "Bulb 9W";
+            x.VisibleIndex = 22;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Bulb_Other_Watts";
+            x.Caption = "Bulb Other Watts";
+            x.VisibleIndex = 23;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(110);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+            x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+            (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Bulb_Tri_Colour";
+            x.Caption = "Bulb Tri Colour";
+            x.VisibleIndex = 24;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            // x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Cabinet";
+            x.Caption = "Cabinet";
+            x.VisibleIndex = 25;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            // x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Candle";
+            x.Caption = "Candle";
+            x.VisibleIndex = 26;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //x.FixedStyle = GridViewColumnFixedStyle.Left;
+            //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Cob";
+            x.Caption = "Cob";
+            x.VisibleIndex = 27;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Downlight";
+            x.Caption = "Downlight";
+            x.VisibleIndex = 28;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Driver";
+            x.Caption = "Driver";
+            x.VisibleIndex = 29;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Emergency_Bulb";
+            x.Caption = "Emergency Bulb";
+            x.VisibleIndex = 30;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(410);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Flood_Light";
+            x.Caption = "Flood Light";
+            x.VisibleIndex = 31;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Night_Bulb";
+            x.Caption = "Night Bulb";
+            x.VisibleIndex = 32;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Ring";
+            x.Caption = "Ring";
+            x.VisibleIndex =33;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Slim_Panel";
+            x.Caption = "Slim Panel";
+            x.VisibleIndex = 34;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(110);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+            x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+            (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Spot_Light";
+            x.Caption = "Spot Light";
+            x.VisibleIndex = 35;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            // x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Street_Light";
+            x.Caption = "Street Light";
+            x.VisibleIndex =36;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            // x.FixedStyle = GridViewColumnFixedStyle.Left;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Strip_Light_Nova_Strip";
+            x.Caption = "Strip Light Nova Strip";
+            x.VisibleIndex = 37;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //x.FixedStyle = GridViewColumnFixedStyle.Left;
+            //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+            //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Track_Light";
+            x.Caption = "Spot Light";
+            x.VisibleIndex = 38;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Zoom_Light";
+            x.Caption = "Street Light";
+            x.VisibleIndex = 39;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Vacant_1";
+            x.Caption = "Vacant 1";
+            x.VisibleIndex = 40;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Vacant_2";
+            x.Caption = "Vacant 2";
+            x.VisibleIndex =41;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(410);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Vacant_3";
+            x.Caption = "Vacant 3";
+            x.VisibleIndex = 42;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Vacant_4";
+            x.Caption = "Vacant 4";
+            x.VisibleIndex = 43;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Vacant_5";
+            x.Caption = "Vacant 5";
+            x.VisibleIndex = 44;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+
+            //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Total_Qty";
+            x.Caption = "Total Qty.";
+            x.VisibleIndex = 45;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+         settings.Columns.Add(x =>
+        {
+            x.FieldName = "Created_date";
+            x.Caption = "Created date";
+            x.VisibleIndex = 46;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+         settings.Columns.Add(x =>
+        {
+            x.FieldName = "Created_By";
+            x.Caption = "Created By";
+            x.VisibleIndex =47;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(410);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Month";
+            x.Caption = "Month";
+            x.VisibleIndex =48;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Year";
+            x.Caption = "Year";
+            x.VisibleIndex = 49;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+        //settings.Columns.Add(x =>
+        //{
+        //    x.FieldName = "Created_By";
+        //    x.Caption = "Created_By";
+        //    x.VisibleIndex = 6;
+        //    x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        //    x.EditFormSettings.Visible = DefaultBoolean.False;
+
+        //    //  x.FixedStyle = GridViewColumnFixedStyle.Left;
+
+        //    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //});
+
+        //settings.Columns.Add(x =>
+        //{
+        //    x.FieldName = "Month";
+        //    x.Caption = "Month";
+        //    x.VisibleIndex = 7;
+        //    x.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+        //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //    x.EditFormSettings.Visible = DefaultBoolean.True;
+        //});
+        // settings.Columns.Add(x =>
+        //{
+        //    x.FieldName = "Year";
+        //    x.Caption = "Year";
+        //    x.VisibleIndex = 8;
+        //    x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //    x.EditFormSettings.Visible = DefaultBoolean.True;
+        //});
+
+        //settings.ClientSideEvents.BatchEditConfirmShowing = "function(s, e) { if(firsttime>0){ e.cancel = true;} else{ e.cancel = false; firsttime++;}}";
+
+        //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Collection").DisplayFormat = "Total: {0}";
+
+        //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OrderValue").DisplayFormat = "Total: {0}";
+
+    }).Bind(Model).GetHtml()
+
+    <input type="hidden" value="@Model.Count" id="hdnExportGridListCount" />
+
+    <input type="hidden" value="@ViewBag.Success" id="hdnExportGridListMessage" />*@
+
+
+
+@model System.Data.DataTable
+
+@Html.DevExpress().GridView(
+   settings =>
+   {
+       settings.Name = "KnowYourStateReportgrid";
+
+       settings.CallbackRouteValues = new { Action = "KnowYourReportBindUsergrid", Controller = "KnowYourReportStatus" };
+       settings.ClientSideEvents.BeginCallback = "KnowYourStateReportgridOnStartCallback";
+
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+       settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+       settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+       //settings.SettingsSearchPanel.Visible = true;
+       settings.Settings.ShowFilterRow = true;
+       settings.Settings.ShowGroupPanel = true;
+       settings.KeyFieldName = "SlNo";
+       settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+       settings.Styles.Row.Cursor = "pointer";
+       settings.Settings.ShowFooter = true;
+
+       settings.Settings.ShowGroupFooter = GridViewGroupFooterMode.VisibleIfExpanded;
+       settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+       settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+       settings.SettingsPager.PageSizeItemSettings.Visible = true;
+       settings.SettingsPager.PageSize = 10;
+       settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+       settings.Settings.ShowFilterRowMenu = true;
+
+       //settings.ClientSideEvents.RowClick = "gridsummarydashboardclick";
+
+
+       settings.Columns.Clear();
+
+       int visibleindex = 1;
+       //String GroupByKey = Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["GridEmployeeAttendanceSummaryGroupBy"]);
+
+       if (Model != null)
+       {
+
+           //double ColumnWidth = Model.Columns.Count;
+
+           if (Model.Columns.Count > 0)
+
+               foreach (System.Data.DataColumn column in Model.Columns)
+               {
+                   settings.Columns.Add(x =>
+                   {
+                       visibleindex = visibleindex + 1;
+                       x.FieldName = column.ColumnName;
+                       x.Caption = column.ColumnName;
+                       x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+                       x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                       if (column.DataType.FullName == "System.Decimal")//|| column.DataType.FullName == "System.Int32" || column.DataType.FullName == "System.Int64")
+                       {
+                           x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                           x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                           x.PropertiesEdit.DisplayFormatString = "0.00";
+                       }
+                       if (column.DataType.FullName == "System.Int32" || column.DataType.FullName == "System.Int64")
+                       {
+                           x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                           x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                           // x.PropertiesEdit.DisplayFormatString = "0.00";
+                       }
+                       else if (column.DataType.FullName == "System.DateTime" || column.DataType.FullName == "System.DateTime")
+                       {
+                           x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                           // x.PropertiesEdit.DisplayFormatString = "0.00";
+                       }
+
+
+                       //if (column.ColumnName == GroupByKey)
+                       //{
+                       //    x.GroupIndex = 0;
+                       //}
+
+                   });
+
+
+
+               }
+       }
+
+       //settings.ClientSideEvents.EndCallback = "gridImportTargetListEndcallback";
+
+
+   }).Bind(Model).GetHtml()
+
+<input type="hidden" value="@ViewBag.ExportDashboardSummaryGridListCount" id="hdnExportDashboardSummaryGridListCount" />
+
+

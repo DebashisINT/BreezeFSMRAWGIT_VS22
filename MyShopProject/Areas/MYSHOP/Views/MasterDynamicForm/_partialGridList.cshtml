@@ -1,0 +1,84 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "GridListing";
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "MasterDynamicForm", Action = "_partialGridList" };
+    //settings.EnableRowsCache = true;
+    settings.KeyFieldName = "ID";
+    //settings.Settings.ShowFilterRow = true;
+    //settings.SettingsPager.PageSize = 10;
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Layout Name";
+        column.FieldName = "LAYOUT_NAME";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+    });
+    
+
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Layout Description";
+        column.FieldName = "LAYOUT_DESCRIPTION";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(35);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Is Active";
+        column.FieldName = "LAYOUT_ISACTIVE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+    });
+    
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Actions";
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            string Layout_id = Convert.ToString(DataBinder.Eval(c.DataItem, "ID")).Trim();
+            ViewContext.Writer.Write(
+                "<a href='javascript:void(0);' onclick=OnMoreInfoClick('" + Layout_id + "') class='pad' title='Edit'><img src='/assests/images/info.png' /></i></a>"
+              );
+        });
+
+
+
+    });
+
+
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+
+
+

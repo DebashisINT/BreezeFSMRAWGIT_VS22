@@ -1,0 +1,199 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridLocationReportList";
+    settings.CallbackRouteValues = new { Action = "GetLocationReportlistPartial", Controller = "LocationReport" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Employee_Name";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 1;
+        x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Designation";
+        x.Caption = "Designation";
+        x.VisibleIndex = 2;
+        x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "State_name";
+           x.Caption = "State";
+           x.VisibleIndex = 3;
+           x.Width = 100;
+           //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+       });
+
+    settings.Columns.Add(x =>
+    {
+        //x.FieldName = "VISIT_TIME";
+        //x.Caption = "Date Time";
+        x.FieldName = "VISITFROMDATE";
+        x.Caption = "From Date & Time";
+        x.VisibleIndex = 4;
+        x.Width = 130;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+        // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITTODATE";
+        x.Caption = "To Date & Time";
+        x.VisibleIndex = 5;
+        x.Width = 130;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+        // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_HRS_WORKED";
+        x.Caption = "Duration (HH:MM)";
+        x.VisibleIndex = 6;
+        x.Width = 120;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
+        // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOCATION";
+        x.Caption = "Location";
+        x.VisibleIndex = 7;
+        x.Width = 180;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_NAME";
+        x.Caption = "Shop Name";
+        x.VisibleIndex = 8;
+        x.Width = 160;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENTITYCODE";
+        x.Caption = "Code";
+        x.VisibleIndex = 9;
+        x.Width = 160;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_TYPE";
+        x.Caption = "Shop Type";
+        x.VisibleIndex = 10;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "ADDRESS";
+     x.Caption = "Shop Address";
+     x.VisibleIndex = 11;
+     x.Width = 180;
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+ });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "SHOP_OWNER_NAME";
+     x.Caption = "Shop Owner Name";
+     x.VisibleIndex = 12;
+     x.Width = 150;
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SHOP_OWNER_CONTACT";
+        x.Caption = "Shop Owner Contact";
+        x.VisibleIndex = 13;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NOOFDATEVISIT";
+        x.Caption = "Count";
+        x.VisibleIndex = 14;
+        x.Width = 60;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
+
+    ///Summary
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "Shoptype"); ;
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE");
+    // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "countactivity").DisplayFormat = "0";
+
+}).Bind(Model).GetHtml()

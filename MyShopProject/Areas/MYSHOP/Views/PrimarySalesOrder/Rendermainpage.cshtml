@@ -1,0 +1,845 @@
+﻿@using MyShop.Models;
+@model MyShop.Models.PrimarySalesOrderModel
+
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<style>
+    .mtop8 {
+        margin-top: 8px !important;
+    }
+    #SecondStageListGrid_DXPagerBottom_PSP, #ThirdStageListGrid_DXPagerBottom_PSP, #FourthStageListGrid_DXPagerBottom_PSP, #FourthStageListGrid_DXPagerBottom_PSP {
+        -moz-transform: translateX(-68px) !important;
+        -webkit-transform: translateX(-68px) !important;
+        transform: translateX(-68px) !important;
+    }
+</style>
+<script>
+    var is_pageload = "0";
+    $(function () {
+
+        var d = new Date();
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        // employeeGridLookup.PerformCallback();
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+
+
+        $('#dtFromd').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+                var selectedDate = new Date(date);
+                var mindt = new Date(selectedDate.getTime() + 1);
+                $("#dtTo").daterangepicker("option", "minDate", mindt);
+            }
+        });
+
+        $('#dtTod').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+                var selectedDate = new Date(date);
+                var maxdt = new Date(selectedDate.getTime() - 1);
+                $("#dtFrom").daterangepicker("option", "maxDate", maxdt);
+            }
+        });
+
+        $.ajax({
+            url: "@Url.Action("GetDate", "PrimarySalesOrder")",
+            async: false,
+            //data: {        },
+            type: 'POST',
+            success: function (data) {
+                console.log(data);
+
+                dtFrom.SetDate(new Date(parseInt(data.substr(6))));
+                dtTo.SetDate(new Date(parseInt(data.substr(6))));
+                ShowReport();
+            },
+            error: function () {
+            },
+        });
+
+
+        //// $('body').on('click', '#btnshow', function () {
+
+        // //});
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportMeetingDetailsReport", "PrimarySalesOrder", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue) + "&IsPageload=" + IsPageload;
+            }
+        });
+    });
+
+    var IsPageload = 1;
+    function OnBeginCallback(s, e) {
+        IsPageload = 0;
+        e.customArgs["ispageload"] = "0";
+    }
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+
+    }
+
+    var StateId = [];
+    //function StateSelectionChanged(s, e) {
+    //    StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    //}
+    //function GetSelectedFieldValuesCallback(values) {
+
+    //    try {
+    //        StateId = [];
+    //        for (var i = 0; i < values.length; i++) {
+    //            StateId.push(values[i]);
+    //        }
+    //    } finally {
+    //        console.log(StateId);
+    //    }
+    //}
+
+    var desigId = [];
+    //function DesigSelectionChanged(s, e) {
+    //    DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    //}
+    //function GetDesigSelectedFieldValuesCallback(values) {
+    //    try {
+    //        desigId = [];
+    //        for (var i = 0; i < values.length; i++) {
+    //            desigId.push(values[i]);
+    //        }
+    //    } finally {
+    //        console.log(desigId);
+    //    }
+    //}
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+        //EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        // e.customArgs["userId"] = $("#hdnUserID").val();
+    }
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function ShowReport() {
+
+        var flag = true;
+
+        if (dtFrom.GetDate() == null) {
+            $('#MandatoryFromDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryFromDate').attr('style', 'display:none');
+        }
+
+        if (dtTo.GetDate() == null) {
+            $('#MandatoryToDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryToDate').attr('style', 'display:none');
+        }
+
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+
+        var startdate = new Date(Date.parse(newdatefrom));
+        //  alert(startdate);
+
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            //$("#refreshgridsalessummary").show();
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+            //if (dayse <= 30) {
+            if (flag == true) {
+                is_pageload = "1";
+                $.ajax({
+                    url: "@Url.Action("GenerateTable", "PrimarySalesOrder")",
+                    async: false,
+                    data: {
+                        Fromdate: dtFrom.GetText(),
+                        Todate: dtTo.GetText(),
+                        empcode: empId,
+                        StateId: StateId,
+                        is_pageload: is_pageload,
+                        desgid: desigId
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        ListGrid.Refresh();
+                        ListGrid.Refresh();
+                    },
+                    error: function () {
+                    },
+                });
+            }
+            //}
+            //else {
+            //    jAlert("Searching days must be within One month.");
+            //    // gridsalessummaryregister.Refresh();
+            //}
+        }
+    }
+</script>
+
+<style>
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 20px 20px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 70%;
+    }
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 30px;
+        padding: 3px 12px;
+    }
+</style>
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    label {
+        font-weight: 500;
+    }
+</style>
+<script>
+    function Open2ndStage(val) {
+        var flag = true;
+
+        if (dtFrom.GetDate() == null) {
+            $('#MandatoryFromDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryFromDate').attr('style', 'display:none');
+        }
+
+        if (dtTo.GetDate() == null) {
+            $('#MandatoryToDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryToDate').attr('style', 'display:none');
+        }
+
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+        var startdate = new Date(Date.parse(newdatefrom));
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetSecondStageData", "PrimarySalesOrder")",
+                async: false,
+                data: {
+                    Fromdate: dtFrom.GetText(),
+                    Todate: dtTo.GetText(),
+                    empcode: empId,
+                    StateId: StateId
+                },
+                success: function (response) {
+                    if (response) {
+                        //pcModalPrimarySalesOrder2ndstage.Show();
+                        $("#2ndStageListModal").modal('show');
+                        SecondStageListGrid.Refresh();
+                        SecondStageListGrid.Refresh();
+                    }
+                }
+            });
+        }
+    }
+
+    function Open3rdStage(val) {
+        var flag = true;
+
+        if (dtFrom.GetDate() == null) {
+            $('#MandatoryFromDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryFromDate').attr('style', 'display:none');
+        }
+
+        if (dtTo.GetDate() == null) {
+            $('#MandatoryToDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryToDate').attr('style', 'display:none');
+        }
+
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+        var startdate = new Date(Date.parse(newdatefrom));
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetThirdStageData", "PrimarySalesOrder")",
+                async: false,
+                data: {
+                    Fromdate: dtFrom.GetText(),
+                    Todate: dtTo.GetText(),
+                    empcode: empId,
+                    StateId: StateId,
+                    Shop_code: val
+                },
+                success: function (response) {
+                    if (response) {
+                        //pcModalPrimarySalesOrder3rdstage.Show();
+
+                        $("#3rdStageListModal").modal('show');
+                        ThirdStageListGrid.Refresh();
+                        ThirdStageListGrid.Refresh();
+                    }
+                }
+            });
+        }
+    }
+
+    function Open4thStage(val) {
+        var flag = true;
+
+        if (dtFrom.GetDate() == null) {
+            $('#MandatoryFromDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryFromDate').attr('style', 'display:none');
+        }
+
+        if (dtTo.GetDate() == null) {
+            $('#MandatoryToDate').attr('style', 'display:block');
+            flag = false;
+        }
+        else {
+            $('#MandatoryToDate').attr('style', 'display:none');
+        }
+
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+        var startdate = new Date(Date.parse(newdatefrom));
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetFourthStageData", "PrimarySalesOrder")",
+                async: false,
+                data: {
+                    Fromdate: dtFrom.GetText(),
+                    Todate: dtTo.GetText(),
+                    empcode: empId,
+                    StateId: StateId,
+                    order_code: val,
+                },
+                success: function (response) {
+                    if (response) {
+                        //pcModalPrimarySalesOrder4thstage.Show();
+
+                        $("#4thStageListModal").modal('show');
+                        FourthStageListGrid.Refresh();
+                        FourthStageListGrid.Refresh();
+                    }
+                }
+            });
+        }
+    }
+
+    function OnBeginSecondStageCallback() {
+
+    }
+</script>
+
+<script>
+    function Export2ndstageGrid() {
+        var url = '@Url.Action("ExportPrimarySalesOrder2ndStageList", "PrimarySalesOrder", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function Export3rdstageGrid() {
+        var url = '@Url.Action("ExportPrimarySalesOrder3rdStageList", "PrimarySalesOrder", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function Export4thstageGrid() {
+        var url = '@Url.Action("ExportPrimarySalesOrder4thStageList", "PrimarySalesOrder", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    $(function () {
+        //$('[data-toggle="tooltip"]').tooltip()
+        $('body').tooltip({
+            selector: '[data-toggle="tooltip"]',
+            animation: true
+        });
+    })
+</script>
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<div class="">
+    <div class="">
+        <div class="row mt-2 mb-3">
+            <div class="col-md-2 col-lg-2">
+                <label>From Date</label>
+                <div>
+                    @*@Html.DevExpress().DateEditFor(x => x.Fromdate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtFrom";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.ShowOutOfRangeWarning = false;
+                            deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                        }).GetHtml()*@
+                    @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                }).GetHtml()
+                    <span id="MandatoryFromDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2 col-lg-2">
+                <label>To Date</label>
+                <div>
+
+                    @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+
+                                }).GetHtml()
+                    <span id="MandatoryToDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            @*<div class="col-md-4 col-lg-2">
+                    <label>State</label>
+                    <div>
+
+                        @Html.Action("GetStateList", "MasterPopulate")
+
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    <label>Designation</label>
+                    <div>
+
+                        @Html.Action("GetDesigList", "SalesReportSummary")
+
+                    </div>
+                </div>*@
+            <div class="col-md-3 col-lg-2">
+                <label>Employee(s)</label>
+                <div>
+                    @Html.Action("GetEmpList", "MasterPopulate")
+
+                </div>
+            </div>
+            <div class="col-md-3 col-lg-4 pad-md-18">
+                <label></label>
+                <button type="button" id="btnshow" class="btn btn-success btnwidth" style="margin-right: 8px;" onclick="ShowReport();">Show</button>
+                <select name="ddlAppIds" class="btn btn-sm btn-primary hide" id="ddlAppIds">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+
+                </select>
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnuser_id" />
+<input type="hidden" id="hdnuser_state" />
+<input type="hidden" id="hdnuser_shop" />
+<div class="row">
+    <div class="form_main backBox p-3">
+        <div style="clear: both;"></div>
+        <div class="">
+            <div id="refreshgridsalessummary">
+                @{
+                    Html.RenderAction("Rendergrid", "PrimarySalesOrder", new { ispageload = "1" });
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalPrimarySalesOrder2ndstage";
+        settings.Width = 1200;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Details List";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("RenderSecondStagegrid", new List<PrimarySalesOrder2ndstage>());
+            ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='Export2ndstageGrid();'>Export</button>");
+        });
+    }).GetHtml()*@
+
+@*@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalPrimarySalesOrder3rdstage";
+        settings.Width = 1200;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Details List";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("RenderThirdStagegrid", new List<PrimarySalesOrder3rdstage>());
+            ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='Export3rdstageGrid();'>Export</button>");
+        });
+    }).GetHtml()*@
+
+@*@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalPrimarySalesOrder4thstage";
+        settings.Width = 1200;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Product Details List";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("RenderFourthStagegrid", new List<PrimarySalesOrder4thstage>());
+            ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='Export4thstageGrid();'>Export</button>");
+        });
+    }).GetHtml()*@
+
+<div id="2ndStageListModal" class="modal fade pmsModal w90" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">2nd Level (Details List)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="btn-excel mr0 salesExport"><img src="/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="Export2ndstageGrid()"></span>
+                        @{
+                            Html.RenderAction("RenderSecondStagegrid", "PrimarySalesOrder");
+                        }
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-success" data-dismiss="modal">OK</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="3rdStageListModal" class="modal fade pmsModal w90" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">3rd Level (Details List)</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="btn-excel mr0 salesExport"><img src="/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="Export3rdstageGrid()"></span>
+                        @{
+                            Html.RenderAction("RenderThirdStagegrid", "PrimarySalesOrder");
+                        }
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-success" data-dismiss="modal">OK</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="4thStageListModal" class="modal fade pmsModal w90" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Product Details List</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="btn-excel mr0 salesExport"><img src="/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="Export4thstageGrid()"></span>
+                        @{
+                            Html.RenderAction("RenderFourthStagegrid", "PrimarySalesOrder");
+                        }
+                    </div>
+                </div>
+                <div class="row">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                @*<button type="button" class="btn btn-success" data-dismiss="modal">OK</button>*@
+            </div>
+        </div>
+
+    </div>
+</div>

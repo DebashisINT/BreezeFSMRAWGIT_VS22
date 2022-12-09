@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Models.GpsStatusActivityshopClasstOutput>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $("#tblshoplistvisit").dataTable({
+            "aaSorting": [],
+            "ordering": false,
+            searching: false
+        });
+
+
+    });
+
+
+</script>
+
+<style>
+    #tblshoplistvisit {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplistvisit > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+</style>
+
+<div class="x_content">
+    <div class="rTable">
+        <table id="tblshoplistvisit" class="table table-bordered table-bordered">
+            <thead>
+
+
+                <tr>
+
+                    <th>User Name</th>
+                    <th>Shop Name</th>
+                    <th>Date with In-time</th>
+                    <th>Duration Spent</th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model != null && Model.Count() > 0)
+                {
+
+
+                    foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.UserName</td>
+                            <td>@item.shop_name</td>
+                            <td>@(Convert.ToString(item.visited_time) == "" ? "" : Convert.ToDateTime(item.visited_time).ToString("dd-MM-yyyy"))</td>
+
+                            <td>@item.time_visit</td>
+
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+</div>

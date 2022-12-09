@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Models.StockDetailsListOutput>
+
+<script type="text/javascript">
+    $(function () {
+
+
+
+        $("#tblshoplist").dataTable({
+            "aaSorting": [],
+            "ordering": false,
+            searching: false
+        });
+
+
+
+
+
+    });
+</script>
+
+
+<style>
+    #tblshoplist {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblshoplist > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+</style>
+
+<div class="x_content">
+    <div class="rTable">
+        <table id="tblshoplist" class="table table-bordered table-bordered">
+            <thead>
+                <tr>
+
+                    <th>User Name</th>
+                    <th>Shop</th>
+                    <th>Shop Type</th>
+                    <th>Address</th>
+                    <th>Stock Date</th>
+                    <th>Opening Stock Month</th>
+                    <th>Opening Stock Amount</th>
+                    <th>Closing Stock Month</th>
+                    <th>Closing Stock Amount</th>
+                    <th>Order_amount</th>
+                    <th>State</th>
+                    <th>M/O</th>
+                    <th>C/O</th>
+                    <th>P/O</th>
+
+
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model != null && Model.Count() > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.UserName</td>
+                            <td>@item.shop_name</td>
+                            <td>@item.assign_type</td>
+                            <td>@item.address</td>
+                         
+
+                            <td>@(Convert.ToString(item.StockDate) == "" ? "" : Convert.ToDateTime(item.StockDate).ToString("dd-MM-yyyy"))</td>
+
+                            <td>@item.opening_stock_month</td>
+                            <td>@item.opening_stock_amount</td>
+
+                            <td>@item.closing_stock_month</td>
+                            <td>@item.closing_stock_amount</td>
+                            <td>@item.order_amount</td>
+                            <td>@item.State</td>
+                            <td>@item.m_o</td>
+                            <td>@item.c_o</td>
+                            <td>@item.p_o</td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+</div>

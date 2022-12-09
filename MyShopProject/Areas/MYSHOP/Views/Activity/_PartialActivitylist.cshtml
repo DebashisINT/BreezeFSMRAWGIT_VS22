@@ -1,0 +1,143 @@
+﻿@*@model IEnumerable<Models.Activitylists>*@
+
+@model Models.ActivitylistsOutput
+
+<script type="text/javascript">
+    $(function () {
+
+        //$('#tblactivitylist tfoot th').each(function () {
+        //    var title = $(this).text();
+        //    $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        //});
+
+
+    // var table = $("#tblactivitylist").dataTable();
+
+     $("#tblactivitylist").dataTable({
+            "aaSorting": [],
+            "bFilter": true,
+            "ordering": false,
+            "scrollX": true
+        });
+
+
+     //$('#tblactivitylist tfoot th').each(function (i) {
+
+     //    var title = $('#tblactivitylist thead th').eq($(this).index()).text();
+     //    // or just var title = $('#sample_3 thead th').text();
+     //    var serach = '<input type="text" placeholder="Search ' + title + '" />';
+     //    $(this).html('');
+     //    $(serach).appendTo(this).keyup(function () { table.fnFilter($(this).val(), i) })
+     //});
+
+    });
+</script>
+
+
+<style>
+    #tblactivitylist, #abckTbl {
+        border: 1px solid #ccc;
+        border-top: transparent;
+    }
+
+        #tblactivitylist > thead > tr > th, #abckTbl > thead > tr > th {
+            background: #0f87cc;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
+
+    tfoot {
+        display: table-header-group;
+    }
+
+        tfoot input {
+            width: 100%;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+
+</style>
+
+<div class="x_content">
+    <div class="rTable">
+        <table id="abckTbl" class="table table-bordered table-bordered dataTable no-footer infoTable">
+            <thead>
+                <tr>
+                    <th>Total Time Spent </th>
+                    <th>Total Shop Visited </th>
+                    <th>New Shop Added </th>
+                    <th>Total Attendance </th>
+                    <th>Average Shop Visited </th>
+                    <th>Average Time Spent </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    @if (Model.countget != null)
+                    {
+
+                        <td>@Model.countget.total_time_spent_at_shop Minutes</td>
+
+                        <td>@Model.countget.total_shop_visited</td>
+
+                        <td>@Model.countget.newshopIcount</td>
+
+                        <td>@Model.countget.total_attendance Day(s)</td>
+
+                        <td>@Model.countget.avg_shop</td>
+
+                        <td>@Model.countget.avgtime Minutes</td>
+
+                    }
+                </tr>
+            </tbody>
+        </table>
+
+        <table id="tblactivitylist" class="table table-bordered table-bordered fff">
+            <thead>
+                <tr>
+
+
+                    <th style="width:200px;">Shop Name</th>
+                    <th style="width:250px;">Owner Name</th>
+                    <th style="width:120px;">Owner Contact</th>
+                    <th style="width:450px;">Address</th>
+                    <th style="width:112px;">Visited Date</th>
+                    <th style="width:150px;">Duration Spent</th>
+
+
+                </tr>
+            </thead>
+            @*<tfoot>
+                <tr>
+
+                    <th>Shop Name</th>
+                    <th>Address</th>
+                    <th>Visited Date</th>
+                    <th>Duration spent</th>
+                </tr>
+            </tfoot>*@
+            <tbody>
+                @if (Model.lstactivs != null && Model.lstactivs.Count() > 0)
+                {
+                    foreach (var item in Model.lstactivs)
+                    {
+                        <tr>
+
+                            <td>@item.shop_name</td>
+                            <td>@item.Owner_name</td>
+                            <td>@item.Owner_contact</td>
+                            <td width="210px;">@item.shop_address</td>
+                            <td>@(Convert.ToString(item.visited_time) == "" ? "" : Convert.ToDateTime(item.visited_time).ToString("dd-MM-yyyy") + ' ' + item.time_visit)</td>
+                            <td>@item.duration_spent</td>
+
+
+                        </tr>
+                    }
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Meetings Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadCumb">
+    <span>Meetings Details</span>
+</div>
+
+
+
+
+<div class="container">
+    <div class="backBox p-3 mt-5">
+
+        <div class="col-md-12">
+
+            @{
+                Html.RenderAction("Rendermainpage", "MeetingDetails");
+            }
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,593 @@
+﻿@model MyShop.Models.DashboardModelC
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+
+
+<style type="text/css">
+    .widgetBox {
+        position: relative;
+        margin-top: 20px;
+    }
+
+    .numCnt {
+        padding: 15px 25px;
+    }
+
+    .widgetBox .numCnt .number {
+        font-size: 26px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .widgetBox .numCnt .text {
+        font-size: 15px;
+        color: #fff;
+    }
+
+    .widgetBox h4 {
+        padding: 10px 25px;
+        background: #398b9e;
+        color: #fff;
+    }
+
+    .widgetBox.one {
+        background: #4bacc3;
+    }
+
+    .widgetBox.two {
+        background: #4bc3ae;
+    }
+
+    .widgetBox.three {
+        background: #b6c72f;
+    }
+
+    .widgetBox.four {
+        background: #e47b5b;
+    }
+
+    .widgetBox.two h4 {
+        background: #36a995;
+    }
+
+    .widgetBox.three h4 {
+        background: #9ead26;
+    }
+
+    .widgetBox.four h4 {
+        background: #ce6646;
+    }
+
+    .widgetBox .fa {
+        position: absolute;
+        font-size: 43px;
+        color: rgba(53, 50, 50, 0.5);
+        top: 18px;
+        right: 18px;
+    }
+
+    .dateT {
+        margin-top: 8px;
+    }
+
+        .dateT > tbody > tr > td:first-child {
+            font-size: 16px;
+            padding-right: 15px;
+        }
+
+    .ltri {
+        display: inline-block;
+        background: #64c7ab;
+        padding: 3px 8px;
+        border-radius: 4px;
+        position: relative;
+        color: #fff;
+    }
+
+        .ltri:after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-top: 11px solid transparent;
+            border-bottom: 11px solid transparent;
+            border-left: 12px solid #64c7ab;
+            position: absolute;
+            right: -7px;
+        }
+
+    #lblDate {
+        font-size: 17px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        dtPayFrom.SetDate(new Date());
+        document.getElementById('lblDate').innerHTML = GetClientDateFormat(new Date());
+    });
+
+    function GetClientDateFormat(today) {
+        if (today) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = dd + '-' + mm + '-' + yyyy;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+</script>
+
+<div class="panel-heading">
+    <div class="panel-title clearfix">
+        <h3 class="pull-left">Dashboard</h3>
+        <div class="pull-right">
+            <table class="dateT">
+                <tr>
+                    <td><span class="ltri">Reported Date</span></td>
+                    <td><label id="lblDate"></label></td>
+                    <td style="display:none;">
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "dtPayFrom";
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.UseMaskBehavior = true;
+                            settings.Properties.ShowOutOfRangeWarning = false;
+                            settings.ClientEnabled = false;
+                        }).GetHtml()
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="form_main">
+    <div class="row">
+        <div class=" col-sm-3">
+            @*<a href='@System.Configuration.ConfigurationSettings.AppSettings["WebURL"]OMS/management/Master/root_user.aspx' style="cursor:pointer">*@
+            <a href='@Url.Action("Report", "DashboardReport", new { Type = "EMP" }) ' style="cursor:pointer">
+                <div class="widgetBox one">
+                    <div class="numCnt">
+                        <div class="number">@Model.employeecount </div>
+                        <div class="text">Total Employee(s)</div>
+                    </div>
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <h4></h4>
+                </div>
+            </a>
+
+        </div>
+        <div class=" col-sm-3">
+            <a href='@Url.Action("Report", "Work_DashboardReport", new { Type = "AT_WORK" }) ' style="cursor:pointer">
+                <div class="widgetBox two">
+                    <div class="numCnt">
+                        <div class="number">@Model.employeeatwork </div>
+                        <div class="text">At Work</div>
+                    </div>
+                    <i class="fa fa-stop-circle" aria-hidden="true"></i>
+                    <h4></h4>
+                </div>
+            </a>
+        </div>
+        <div class=" col-sm-3">
+            <a href='@Url.Action("Report", "Leave_DashboardReport", new { Type = "ON_LEAVE" }) ' style="cursor:pointer">
+                <div class="widgetBox three">
+                    <div class="numCnt">
+                        <div class="number">@Model.employeeonleave </div>
+                        <div class="text">On Leave</div>
+                    </div>
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    <h4></h4>
+                </div>
+            </a>
+
+        </div>
+        <div class=" col-sm-3">
+            <a href='@Url.Action("Report", "Login_DashboardReport", new { Type = "NOT_LOGIN" }) ' style="cursor:pointer">
+                <div class="widgetBox four">
+                    <div class="numCnt">
+                        <div class="number">@Model.employeenotlogin </div>
+                        <div class="text">Not Logged In</div>
+
+
+
+
+
+                    </div>
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    <h4></h4>
+                </div>
+            </a>
+
+
+
+
+
+
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

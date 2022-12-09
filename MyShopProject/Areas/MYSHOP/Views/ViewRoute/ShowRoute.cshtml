@@ -1,0 +1,519 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ShowRoute</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+          integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin="" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700,800,900&display=swap" rel="stylesheet">
+    <!-- Required by smooth scrolling -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+            integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+            crossorigin=""></script>
+
+    <!-- <script src="js/leaflet.js"></script> -->
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <style>
+        
+        .bt_indicator, .nt_indicator {
+            display:inline-block;
+            padding:0 5px;
+        }
+        .bt_indicator {
+            padding-left: 20px;
+        }
+            .bt_indicator > img{
+                width: 22px;
+                margin-right: 5px;
+            }
+            .nt_indicator > img {
+                width: 13px;
+                margin-right: 5px;
+            }
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .hide {
+            display: none;
+        }
+        #mapid {
+            height: 400px;
+        }
+        .leaflet-routing-container.leaflet-bar {
+            display: none;
+        }
+        table td {
+            vertical-align:top;
+        }
+        #listDirec {
+            height: 400px;
+            overflow-y: auto;
+            font-size: 13px;
+            color: #134480;
+            padding: 0;
+            padding-left: 20px;
+        }
+        #listDirec>li {
+            margin-bottom:8px
+        }
+        .rTime {
+            font-size: 10px;
+            color: #24b572;
+        }
+        .lmVal {
+            font-size: 11px;
+            margin: 5px 0;
+        }
+        .rPop {
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        .adr {
+            text-decoration: none;
+            color: #716d6d;
+            margin-top: 11px;
+        }
+        .dt {
+            color:#458cad;
+            font-size:12px;
+            margin-top:10px;
+        }
+        .infoLegend > span {
+            display: inline-block;
+            
+            vertical-align: middle;
+        }
+        .infoLegend > span.spaceSpan {
+            width:20px;
+        }
+        .infoLegend > span.colorEX {
+            width: 25px;
+            height: 15px;
+            background: #3fb265;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        .infoLegend > span.colorEX.inBetween {
+            background: #9a62c7;
+        }
+        .infoLegend > span.colorEX.logout {
+            background: #ec5020;
+        }
+        .dCovered {
+            display: inline-block;
+            margin-right: 25px;
+        }
+        .mMark {
+            display: inline-block;
+            font-size: 10px;
+            background: #d2e1f7;
+            color: #186cda;
+            padding: 3px 5px;
+            border-radius: 4px;
+        }
+        .mKm {
+            font-size: 12px;
+            color: #e41f1f;
+        }
+    </style>
+    <script>
+        var jsonObject = "";
+        var usrName = "";
+        function sendCsv() {
+            var data = jsonObject;
+            if (data == '')
+                return;
+            console.log("jsonObject", jsonObject);
+            var newArr = [];
+            for (var i = 0; i < jsonObject.length; i++) {
+                    var bt = "";
+                    var nt = "";
+                    if (jsonObject[i].battery_percentage == "") { bt = "NA" } else { bt = jsonObject[i].battery_percentage }
+                    if (jsonObject[i].network_status == "") { nt = "NA" } else { nt = jsonObject[i].network_status }
+                    newArr.push({
+                        "Address": jsonObject[i].title,
+                        "Distance Covered": jsonObject[i].distance_covered,
+                        "Start date": jsonObject[i].SDate,
+                        "Latitude": jsonObject[i].lat,
+                        "Longitude": jsonObject[i].lng,
+                        "Battery Percentage": bt,
+                        "Network Status": nt,
+                    });
+ 
+            }
+            //console.log("newArr", newArr);
+            JSONToCSVConvertor(newArr, "Visit Summary", true, usrName);
+        }
+
+
+        function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel, EmpName) {
+            //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+            var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+            var CSV = EmpName + '\r\n';
+
+            //This condition will generate the Label/Header
+            if (ShowLabel) {
+                var row = "";
+
+                //This loop will extract the label from 1st index of on array
+                for (var index in arrData[0]) {
+
+                    //Now convert each value to string and comma-seprated
+                    row += index + ',';
+                }
+
+                row = row.slice(0, -1);
+
+                //append Label row with line break
+                CSV += row + '\r\n';
+            }
+
+            //1st loop is to extract each row
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "";
+
+                //2nd loop will extract each column and convert it in string comma-seprated
+                for (var index in arrData[i]) {
+                    row += '"' + arrData[i][index] + '",';
+                }
+
+                row.slice(0, row.length - 1);
+
+                //add a line break after each row
+                CSV += row + '\r\n';
+            }
+
+            if (CSV == '') {
+                alert("Invalid data");
+                return;
+            }
+
+            //Generate a file name
+            var fileName = "";
+            //this will remove the blank-spaces from the title and replace it with an underscore
+            fileName += ReportTitle.replace(/ /g, "_");
+
+            //Initialize file format you want csv or xls
+            var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+            // Now the little tricky part.
+            // you can use either>> window.open(uri);
+            // but this will not work in some browsers
+            // or you will not get the correct file extension    
+
+            //this trick will generate a temp <a /> tag
+            var link = document.createElement("a");
+            link.href = uri;
+
+            //set the visibility hidden so it will not effect on your web-layout
+            link.style = "visibility:hidden";
+            link.download = fileName + ".csv";
+
+            //this part will append the anchor tag and remove it after automatic click
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+    </script>
+    <style>
+        .excExportMap {
+            display: inline-block;
+            padding: 2px 3px;
+            background: #fff;
+            border-radius: 3px;
+            width: 25px;
+            height: 49px;
+            line-height: 63px;
+            text-align: center;
+            float: right;
+            cursor: pointer;
+            position: absolute;
+            z-index: 9999;
+            left: 60px;
+            top: 37px;
+            box-shadow: 0px 0px 5px rgba(0 0 0, 0.32);
+        }
+            .excExportMap > img {
+                max-width: 91%;
+            }
+    </style>
+</head>
+<body>
+    <span onclick="sendCsv()" class="excExportMap" title="Export Data to Excel"><img src="~/assests/images/excel.png" /></span>
+    <table style="width:100%">
+        <tr>
+            <td>
+                <p class="text-center" id="msgArea"></p>
+                <div id="mapid" ></div>
+            </td>
+            <td style="width:300px">
+                <div>
+                    <ul id="listDirec">
+                        
+                    </ul>
+                    
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="infoLegend">
+                <span class="colorEX"></span><span>Login</span><span class="spaceSpan"></span>
+                <span class="colorEX inBetween"></span><span>In Between</span><span class="spaceSpan"></span>
+                <span class="colorEX logout"></span><span>Logout</span><span class="spaceSpan"></span>
+            </td>
+            <td>
+                <div class="Total" style="font-size: 13px !important; padding-left: 17px; color: #134480;font-weight:700">
+                    Total KM Traveled <span id="totDist" style="float: right;font-weight: 600;"></span>
+                </div>
+                <div id="dapvp" style="display: none; font-size: 13px; padding-left: 17px; color: #90621d;">Distance as per Visit Plan <span id="dapvpSpan" style="float: right;font-weight: 600;"></span></div>
+            </td>
+        </tr>
+    </table>
+    
+
+
+
+    <script type="text/javascript">
+    //$(document).ready(function () {
+    var Url = '@Url.Action("GetSalesmanLocation", "ViewRoute")'
+    var d = new Date();
+    var userid = '@ViewBag.id';
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+    //var output = d.getFullYear() + '/' +
+    //    (month < 10 ? '0' : '') + month + '/' +
+    //    (day < 10 ? '0' : '') + day;
+    var output = '@ViewBag.Date';
+    $.ajax({
+        url: Url,
+        async: false,
+        type: 'POST',
+        data: {
+            selectedusrid: userid,
+            Date: output,
+            IsGmap: "false"
+        },
+        error: function () {
+            $('#info').html('<p>An error has occurred</p>');
+        },
+        success: function (markers) {
+            console.log('sfsavv', markers);
+            
+            if (markers.IsShowDistance == "1") {
+                $('#dapvp').show();
+                $('#dapvpSpan').text(markers.distance);
+            } else {
+                $('#dapvp').hide();
+                $('#dapvpSpan').text("");
+            }
+
+            var Lat_visit = markers.Lat_visit,
+                Long_visit = markers.Long_visit;
+            var data = markers.salesmanarea;
+            jsonObject = markers.salesmanarea;
+            var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors  BreezERP';
+            var tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            //var tileUrl = 'https://a.tile.openstreetmap.org/${z}/${x}/${y}.png';
+            var tiles = L.tileLayer(tileUrl, { attribution: attribution });
+            var mymap = L.map('mapid').setView([Lat_visit, Long_visit], 14);
+            tiles.addTo(mymap);
+            var control = L.Routing.control({ waypoints: [] });
+
+            var fIcon = L.icon({
+                iconUrl: '/assests/images/lightbox/location-pinStart.png',
+                //iconSize: [38, 38],
+                iconAnchor: [16, 22],
+                popupAnchor: [-3, -10],
+                //shadowUrl: '/assests/images/pinSha.png',
+                //shadowSize: [35, 35],
+                //shadowAnchor: [15, 22]
+            });
+            var lIcon = L.icon({
+                iconUrl: '/assests/images/lightbox/location-pinEnd.png',
+                //iconSize: [38, 38],
+                iconAnchor: [16, 22],
+                popupAnchor: [-3, -10],
+                //shadowUrl: '/assests/images/pinSha.png',
+                //shadowSize: [35, 35],
+                //shadowAnchor: [15, 22]
+            });
+            var dIcon = L.icon({
+                iconUrl: '/assests/images/lightbox/location-pin.png',
+                //iconSize: [38, 38],
+                iconAnchor: [16, 22],
+                popupAnchor: [-3, -10],
+                //shadowUrl: '/assests/images/pinSha.png',
+                //shadowSize: [35, 35],
+                //shadowAnchor: [15, 22]
+            });
+            var firstIcon = '<img src="~/assests/images/start.png" />';
+            var routeControl = L.Routing.control({
+                createMarker: function (i, waypoints, tot) {
+
+                    var current_count = i + 1;
+                    var lengthC = tot - 1;
+                    var html = '<div >' +
+                        '<div>' +
+                            '<div class="rPop">Step ' + current_count + ' </div>' +
+                            '<div class="adr">' + data[i].description + ' </div>' +
+                            '<div class="dt">' + data[i].SDate + ' </div>' +
+                        '</a>' +
+                    '</div>';
+                    if (i === 0) {
+                        return L.marker(waypoints.latLng, { icon: fIcon }).bindPopup(html);
+                    } else if (i === lengthC) {
+                        return L.marker(waypoints.latLng, { icon: lIcon }).bindPopup(html);
+                    } else {
+                        return L.marker(waypoints.latLng, { icon: dIcon }).bindPopup(html);
+                    }
+
+                    markers[current_count] = L.marker(waypoints.latLng);
+                    return L.marker(waypoints.latLng).bindPopup(html);
+
+                },
+                showAlternatives: false,
+                draggableWaypoints: false,
+                routeWhileDragging: false
+            }).addTo(mymap);
+            routeControl.setWaypoints(data);
+            var listHtml = "";
+            var traveled = 0;
+            for (var i = 0; i < data.length; i++) {
+                var prevLat;
+                var prevLon;
+                var curLat;
+                var curLon;
+                traveled = traveled + parseFloat(data[i].distance_covered);
+                var pt = i + 1;
+
+                if (i == 0) {
+                    prevLat = data[i].lat;
+                    prevLon = data[i].lng;
+                    curLat = data[i].lat;
+                    curLon = data[i].lng;
+                    var btP = "";
+                    var nStat = "";
+                    if (data[i].battery_percentage != "") {
+                        var btP = data[i].battery_percentage + "%";
+                    } else {
+                        var btP = "NA";
+                    }
+                    if (data[i].network_status != "") {
+                        var nStat = data[i].network_status;
+                    } else {
+                        var nStat = "NA";
+                    }
+
+                    //var disT = getDistanceFromLatLonInKm(prevLat, prevLon, curLat, curLon);
+
+                    listHtml = listHtml + '<li class="clearfix"><div><span class="mainLabel marker-link mMark">Travel Point: ' + pt + '</span><span class="bt_indicator"><img src="../../../../../assests/images/battery-status.png" />' + btP + '</span><span class="nt_indicator"><img src="../../../../../assests/images/high-signal.png" />' + nStat + '</span></div><div> ' + data[i].title + '</div><div class="rTime">' + '<span class="dCovered mKm">' + data[i].distance_covered + 'KM</span>' + data[i].SDate + '</div><span class="lmVal" style="display:inline-block;margin-right:8px"> Lat: ' + data[i].lat + '</span><span class="lmVal"> Lon: ' + data[i].lng + '</span></li>';
+                } else {
+                    curLat = data[i].lat;
+                    curLon = data[i].lng;
+                    //var disT = getDistanceFromLatLonInKm(prevLat, prevLon, curLat, curLon);
+                    var btP = "";
+                    var nStat = "";
+                    if (data[i].battery_percentage != "") {
+                        var btP = data[i].battery_percentage + "%";
+                    } else {
+                        var btP = "NA";
+                    }
+                    if (data[i].network_status != "") {
+                        var nStat = data[i].network_status;
+                    } else {
+                        var nStat = "NA";
+                    }
+                    
+                    listHtml = listHtml + '<li class="clearfix"><div><span class="mainLabel marker-link mMark">Travel Point: ' + pt + '</span><span class="bt_indicator"><img src="../../../../../assests/images/battery-status.png" />' + btP + '</span><span class="nt_indicator"><img src="../../../../../assests/images/high-signal.png" />' + nStat + '</span></div><div> ' + data[i].title + '</div><div class="rTime">' + '<span class="dCovered mKm">' + data[i].distance_covered + 'KM</span>' + data[i].SDate + '</div><span class="lmVal" style="display:inline-block;margin-right:8px"> Lat: ' + data[i].lat + '</span><span class="lmVal"> Lon: ' + data[i].lng + '</span></li>';
+                    prevLat = data[i].lat;
+                    prevLon = data[i].lng;
+                }
+            }
+            $('#listDirec').html(listHtml);
+            $('#totDist').html(traveled.toFixed(2));
+            //console.log(TOTALDISTANCE);
+        },
+    });
+    var TOTALDISTANCE=0;
+    function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+        var R = 6371; // Radius of the earth in km
+        var dLat = deg2rad(lat2 - lat1);  // deg2rad below
+        var dLon = deg2rad(lon2 - lon1);
+        var a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        ;
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var d = R * c; // Distance in km
+        //TOTALDISTANCE = TOTALDISTANCE + d.toFixed(2);
+        //console.log('tDist', TOTALDISTANCE)
+        return d.toFixed(2);
+    }
+
+    function deg2rad(deg) {
+        return deg * (Math.PI / 180)
+    }
+    //var data = [
+    //        {
+    //            "title": 'Chennai',
+    //            "lat": '22.570153',
+    //            "lng": '88.431541',
+    //            "description": '',
+    //            "flag": '1'
+    //        }
+    //      ,
+    //      {
+    //          "title": 'Ramapuram',
+    //          "lat": '22.584697',
+    //          "lng": '88.422772',
+    //          "description": ''
+    //      }
+    //      ,
+    //        {
+    //            "title": 'Kanchipuram',
+    //            "lat": '22.583184',
+    //            "lng": '88.409112',
+    //            "description": '',
+    //            "flag": '1'
+    //        },
+    //        ];
+    //   // alert('hi');
+    //    var attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+    //    var tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+    //    var tiles = L.tileLayer(tileUrl, { attribution: attribution });
+    //    var mymap = L.map('mapid').setView([22.570153, 88.431541], 14);
+    //    tiles.addTo(mymap);
+    //    var control = L.Routing.control({waypoints:[]});
+    //    var routeControl = L.Routing.control({
+    //    }).addTo(mymap);
+    //    routeControl.setWaypoints(data);
+    //L.Routing.control({
+    ////    waypoints: function () {
+    ////        [
+    ////          L.latLng(22.570153, 88.431541),
+    ////          L.latLng(22.584697, 88.422772),
+    ////          L.latLng(22.583184, 88.409112)
+    ////        ]
+    ////    }
+    //}).addTo(mymap);
+    //})
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridEmployeeActivityStatusList";
+    settings.CallbackRouteValues = new { Action = "GetEmployeeActivityStatuslistPartial", Controller = "EmployeeActivityStatus" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISIT_DATETIME";
+        x.Caption = "Date";
+        x.VisibleIndex = 1;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "EMPLOYEE_ID";
+           x.Caption = "Employee ID";
+           x.VisibleIndex = 2;
+           x.Width = 150;
+           x.ColumnType = MVCxGridViewColumnType.TextBox;
+       });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 3;
+        x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "STATE_NAME";
+           x.Caption = "State Name";
+           x.VisibleIndex = 4;
+           x.Width = 100;
+       });
+
+    settings.Columns.Add(x =>
+       {
+           x.FieldName = "DESIGNATION";
+           x.Caption = "Designation";
+           x.VisibleIndex = 5;
+           x.Width = 100;
+       });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGGEDIN";
+        x.Caption = "Login Time";
+        x.VisibleIndex = 6;
+        x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LOGEDOUT";
+        x.Caption = "Logout Time";
+        x.VisibleIndex = 7;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "ACTIVITYCNT";
+     x.Caption = "Activity Count";
+     x.VisibleIndex = 8;
+     x.Width = 150;
+     x.ColumnType = MVCxGridViewColumnType.TextBox;
+     x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+     x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+     x.SetDataItemTemplateContent(c =>
+     {
+         ViewContext.Writer.Write("<a data-toggle='tooltip' data-placement='top' title='Click here to get detail report' style='cursor:pointer' onclick=\"Open2ndStage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "USERID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "VISIT_TIME_ORDBY")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "ACTIVITYCNT")) + "</a>");
+     });
+ });
+
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACTIVITYCNT").DisplayFormat = "0";
+
+    //settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+}).Bind(Model).GetHtml()

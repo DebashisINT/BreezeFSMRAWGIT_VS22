@@ -1,0 +1,262 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridgpsstatistics";
+
+    settings.CallbackRouteValues = new { Action = "GetGPSStatisticsList", Controller = "GPSStatisticsReport" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Name";
+        x.VisibleIndex = 1;
+        //x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTACTNO";
+        x.Caption = "Contact Number";
+        x.VisibleIndex = 2;
+        //x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACTNO'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        }
+    });
+
+    settings.Columns.Add(x =>
+ {
+     x.FieldName = "DESIGNATION";
+     x.Caption = "Designation";
+     x.VisibleIndex = 3;
+     //x.Width = 100;
+     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+     if (ViewBag.RetentionColumn != null)
+     {
+         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DESIGNATION'");
+         if (row != null && row.Length > 0)  
+         {
+             x.Visible = false;
+         }
+         else
+         {
+             x.Visible = true;
+             x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+         }
+     }
+     else
+     {
+         x.Visible = true;
+         x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+     }
+ });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORTTO";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 4;
+        //x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='REPORTTO'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "GPsDate";
+        x.Caption = "Date";
+        x.VisibleIndex = 5;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='GPsDate'");
+            if (row != null && row.Length > 0) 
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Gps_OffTime";
+        x.Caption = "GPS Off Time";
+        x.VisibleIndex = 6;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Gps_OffTime'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Gps_on_Time";
+        x.Caption = "GPS On Time";
+        x.VisibleIndex = 7;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Gps_on_Time'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        }
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Duration";
+        x.Caption = "Duration (HH-MM-SS)";
+        x.VisibleIndex = 8;
+        //x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Duration'");
+            if (row != null && row.Length > 0)  
+            {
+                x.Visible = false;
+                //x.Width = 0;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        }
+    });
+
+    
+}).Bind(Model).GetHtml()
+
+
+
+
+
+
