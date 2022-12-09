@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E80420D8-44AE-4336-84D0-8499A550AFFB}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ShopAPI</RootNamespace>
+    <AssemblyName>ShopAPI</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="GridMvc">
+      <HintPath>..\packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Device.Portable">
+      <HintPath>..\packages\System.Device.Location.Portable.1.0.0\lib\System.Device.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.0.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.0.0\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="CommonFolder\ActivityAttachment\" />
+    <Folder Include="CommonFolder\AttachDocument\" />
+    <Folder Include="CommonFolder\AttendanceImageDemo\" />
+    <Folder Include="CommonFolder\CollectionFile\" />
+    <Folder Include="CommonFolder\CompetitorImage\" />
+    <Folder Include="CommonFolder\DynamicFiles\" />
+    <Folder Include="CommonFolder\JobAttachment\" />
+    <Folder Include="CommonFolder\LoginImageDemo\" />
+    <Folder Include="CommonFolder\MaterialImage\" />
+    <Folder Include="CommonFolder\OrderSignature\" />
+    <Folder Include="CommonFolder\ProfileImages\" />
+    <Folder Include="CommonFolder\Reimbursement\" />
+    <Folder Include="CommonFolder\Shoprevisit\" />
+    <Folder Include="CommonFolder\TADocument\" />
+    <Folder Include="DoctorImage\" />
+    <Folder Include="Views\AadharImageDetection\" />
+    <Folder Include="Views\ActivityMultipart\" />
+    <Folder Include="Views\AlermImage\" />
+    <Folder Include="Views\APPLogFilesDetection\" />
+    <Folder Include="Views\AttachDocument\" />
+    <Folder Include="Views\AttachDocumnet\" />
+    <Folder Include="Views\BreakageMaterialsDetectionInfo\" />
+    <Folder Include="Views\CollectionFileUp\" />
+    <Folder Include="Views\CompetitorImage\" />
+    <Folder Include="Views\Configuration\" />
+    <Folder Include="Views\CustomerJobStatus\" />
+    <Folder Include="Views\DayStartEndImageSave\" />
+    <Folder Include="Views\DemoAttendance\" />
+    <Folder Include="Views\DynamicFormAtt\" />
+    <Folder Include="Views\FaceImageDetection\" />
+    <Folder Include="Views\FileMove\" />
+    <Folder Include="Views\FileUpload\" />
+    <Folder Include="Views\LeaveList\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\PhoneNo\" />
+    <Folder Include="Views\ReimbursementForm\" />
+    <Folder Include="Views\RubyLeadImage\" />
+    <Folder Include="Views\SendMarketingdetails\" />
+    <Folder Include="Views\ShopRegisterPortal\" />
+    <Folder Include="Views\ShopVisitImageUpload\" />
+    <Folder Include="Views\SurveyQAImage\" />
+    <Folder Include="Views\TAManagement\" />
+    <Folder Include="Views\TimeSheetImage\" />
+    <Folder Include="Views\TimeSheet\" />
+    <Folder Include="Views\UserAadharImageSave\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\HelpPage\ApiDescriptionExtensions.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\HelpPage\App_Start\HelpPageConfig.cs" />
+    <Compile Include="Areas\HelpPage\Controllers\HelpController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\HelpPage\HelpPageAreaRegistration.cs" />
+    <Compile Include="Areas\HelpPage\HelpPageConfigurationExtensions.cs" />
+    <Compile Include="Areas\HelpPage\Models\HelpPageApiModel.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\HelpPageSampleKey.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ImageSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\InvalidSample.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\ObjectGenerator.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
+    <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
+    <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AadharImageDetectionController.cs" />
+    <Compile Include="Controllers\AadharImageDetectionInfoController.cs" />
+    <Compile Include="Controllers\AchivemetReportController.cs" />
+    <Compile Include="Controllers\ActivityController.cs" />
+    <Compile Include="Controllers\ActivityMultipartController.cs" />
+    <Compile Include="Controllers\AddressController.cs" />
+    <Compile Include="Controllers\AddShopController.cs" />
+    <Compile Include="Controllers\AlarmConfigController.cs" />
+    <Compile Include="Controllers\AlermImageController.cs" />
+    <Compile Include="Controllers\AppInfoController.cs" />
+    <Compile Include="Controllers\APPLogFilesDetectionController.cs" />
+    <Compile Include="Controllers\AreaController.cs" />
+    <Compile Include="Controllers\AttachDocumnetController.cs" />
+    <Compile Include="Controllers\AttachmentDocumentTypeController.cs" />
+    <Compile Include="Controllers\AttendanceController.cs" />
+    <Compile Include="Controllers\BankDetailsController.cs" />
+    <Compile Include="Controllers\BillingController.cs" />
+    <Compile Include="Controllers\BillsUploadController.cs" />
+    <Compile Include="Controllers\BreakageMaterialsDetectionInfoController.cs" />
+    <Compile Include="Controllers\BreakageMaterialsInfoController.cs" />
+    <Compile Include="Controllers\BSController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\ChemistActivityController.cs" />
+    <Compile Include="Controllers\CityListController.cs" />
+    <Compile Include="Controllers\CollectionController.cs" />
+    <Compile Include="Controllers\CollectionFileUpController.cs" />
+    <Compile Include="Controllers\CompetitorStockController.cs" />
+    <Compile Include="Controllers\ConfigurationController.cs" />
+    <Compile Include="Controllers\ContentController.cs" />
+    <Compile Include="Controllers\CustomerJobStatusController.cs" />
+    <Compile Include="Controllers\DayStartEndImageSaveController.cs" />
+    <Compile Include="Controllers\DaywiseshopController.cs" />
+    <Compile Include="Controllers\DEletematerialImageController.cs" />
+    <Compile Include="Controllers\DemoAttendanceController.cs" />
+    <Compile Include="Controllers\DevicetokenController.cs" />
+    <Compile Include="Controllers\DoctorActivityController.cs" />
+    <Compile Include="Controllers\DocumentUploadController.cs" />
+    <Compile Include="Controllers\DuplicateRecordsController.cs" />
+    <Compile Include="Controllers\DynamicFormAttController.cs" />
+    <Compile Include="Controllers\DynamicFormController.cs" />
+    <Compile Include="Controllers\EarlyExitController.cs" />
+    <Compile Include="Controllers\EmployeeSyncController.cs" />
+    <Compile Include="Controllers\EntityController.cs" />
+    <Compile Include="Controllers\FaceImageDetectionController.cs" />
+    <Compile Include="Controllers\FaceRegistrationController.cs" />
+    <Compile Include="Controllers\FetchlocationController.cs" />
+    <Compile Include="Controllers\FileMoveController.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
+    <Compile Include="Controllers\FundPlanController.cs" />
+    <Compile Include="Controllers\GPSStatusController.cs" />
+    <Compile Include="Controllers\HomeLoactionVisitController.cs" />
+    <Compile Include="Controllers\IdealLocationController.cs" />
+    <Compile Include="Controllers\JobCustomerController.cs" />
+    <Compile Include="Controllers\KnowYourStateController.cs" />
+    <Compile Include="Controllers\LeadEnquiryDetailsController.cs" />
+    <Compile Include="Controllers\LeadTypeController.cs" />
+    <Compile Include="Controllers\LeaveApprovalController.cs" />
+    <Compile Include="Controllers\LeaveController.cs" />
+    <Compile Include="Controllers\LocationAddModifyController.cs" />
+    <Compile Include="Controllers\LocationCaptureController.cs" />
+    <Compile Include="Controllers\LoginConcurrentusersController.cs" />
+    <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\MarketingdetailslistController.cs" />
+    <Compile Include="Controllers\MarketinglistController.cs" />
+    <Compile Include="Controllers\MeetingController.cs" />
+    <Compile Include="Controllers\MicrolearningController.cs" />
+    <Compile Include="Controllers\MISDetailsController.cs" />
+    <Compile Include="Controllers\MultipartFileController.cs" />
+    <Compile Include="Controllers\NearByTeamController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\OfflineTeamController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\OrderWithProductAttributeController.cs" />
+    <Compile Include="Controllers\OTPConfigurationController.cs" />
+    <Compile Include="Controllers\PartyStatusController.cs" />
+    <Compile Include="Controllers\PartyTypeController.cs" />
+    <Compile Include="Controllers\PerformanceController.cs" />
+    <Compile Include="Controllers\PhoneNoController.cs" />
+    <Compile Include="Controllers\PJPDetailsController.cs" />
+    <Compile Include="Controllers\ProductListController.cs" />
+    <Compile Include="Controllers\QuotationController.cs" />
+    <Compile Include="Controllers\ReimbursementController.cs" />
+    <Compile Include="Controllers\ReimbursementFormController.cs" />
+    <Compile Include="Controllers\RouteListController.cs" />
+    <Compile Include="Controllers\RubyFoodLeadController.cs" />
+    <Compile Include="Controllers\RubyLeadImageController.cs" />
+    <Compile Include="Controllers\SalesQuotationController.cs" />
+    <Compile Include="Controllers\SendMarketingdetailsController.cs" />
+    <Compile Include="Controllers\ShopAssignmentController.cs" />
+    <Compile Include="Controllers\ShopAttendanceController.cs" />
+    <Compile Include="Controllers\ShoplistController.cs" />
+    <Compile Include="Controllers\ShopRegisterPortalController.cs" />
+    <Compile Include="Controllers\ShopRegistrationController.cs" />
+    <Compile Include="Controllers\ShopsubmissionController.cs" />
+    <Compile Include="Controllers\ShopVisitImageUploadController.cs" />
+    <Compile Include="Controllers\StageController.cs" />
+    <Compile Include="Controllers\StateListController.cs" />
+    <Compile Include="Controllers\StockController.cs" />
+    <Compile Include="Controllers\StockInfoController.cs" />
+    <Compile Include="Controllers\SubTypeController.cs" />
+    <Compile Include="Controllers\SurveyQAImageController.cs" />
+    <Compile Include="Controllers\SurveyQuestionAnswerController.cs" />
+    <Compile Include="Controllers\TAListController.cs" />
+    <Compile Include="Controllers\TAManagementController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
+    <Compile Include="Controllers\TimeSheetController.cs" />
+    <Compile Include="Controllers\TimeSheetImageController.cs" />
+    <Compile Include="Controllers\UpdateShopController.cs" />
+    <Compile Include="Controllers\UpdateUserInformationsController.cs" />
+    <Compile Include="Controllers\UpdateUserProfileController.cs" />
+    <Compile Include="Controllers\UserAadharImageSaveController.cs" />
+    <Compile Include="Controllers\UserHierarchyController.cs" />
+    <Compile Include="Controllers\UserLoginController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UserWiseAadharInfoController.cs" />
+    <Compile Include="Controllers\UserWiseDayStartEndController.cs" />
+    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
+    <Compile Include="Controllers\VisitRemarksController.cs" />
+    <Compile Include="Controllers\WorktypesController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AadharImageDetectionModel.cs" />
+    <Compile Include="Models\AchivementReportModel.cs" />
+    <Compile Include="Models\ActivityModel.cs" />
+    <Compile Include="Models\AddressInput.cs" />
+    <Compile Include="Models\AlarmconfigutaionModel.cs" />
+    <Compile Include="Models\Alarmperformance.cs" />
+    <Compile Include="Models\AlarmShopvisit.cs" />
+    <Compile Include="Models\AlermAttendance.cs" />
+    <Compile Include="Models\APPLogFilesDetectionModel.cs" />
+    <Compile Include="Models\ApplyReimbursementModel.cs" />
+    <Compile Include="Models\AreaModel.cs" />
+    <Compile Include="Models\Assigntoshop.cs" />
+    <Compile Include="Models\AttachmentDocumentTypeModel.cs" />
+    <Compile Include="Models\Attendancemanage.cs" />
+    <Compile Include="Models\Attendancerecord.cs" />
+    <Compile Include="Models\Attribute.cs" />
+    <Compile Include="Models\BankDetails.cs" />
+    <Compile Include="Models\BillingModel.cs" />
+    <Compile Include="Models\BreakageMaterialsDetectionInfoModel.cs" />
+    <Compile Include="Models\BSList.cs" />
+    <Compile Include="Models\ChatModal.cs" />
+    <Compile Include="Models\ChemistActivitModel.cs" />
+    <Compile Include="Models\CityList.cs" />
+    <Compile Include="Models\Collectionclass.cs" />
+    <Compile Include="Models\CollectionFileUploadInput.cs" />
+    <Compile Include="Models\CompetitorStockModel.cs" />
+    <Compile Include="Models\ConfigurationModel.cs" />
+    <Compile Include="Models\ContentModel.cs" />
+    <Compile Include="Models\DayStartEndImageSaveModel.cs" />
+    <Compile Include="Models\DemoAttendanceModel.cs" />
+    <Compile Include="Models\DeviceInformationModel.cs" />
+    <Compile Include="Models\DoctorActivityModel.cs" />
+    <Compile Include="Models\DuplicateRecordsModel.cs" />
+    <Compile Include="Models\DynamicFormInpu.cs" />
+    <Compile Include="Models\EarlyExitInput.cs" />
+    <Compile Include="Models\EmployeeSyncModel.cs" />
+    <Compile Include="Models\EntityInput.cs" />
+    <Compile Include="Models\FaceImageDetectionInput.cs" />
+    <Compile Include="Models\FileMove.cs" />
+    <Compile Include="Models\FileUploadModel.cs" />
+    <Compile Include="Models\FundPlanModel.cs" />
+    <Compile Include="Models\Gpslocation.cs" />
+    <Compile Include="Models\HomeLocationVisitInput.cs" />
+    <Compile Include="Models\IdealModel.cs" />
+    <Compile Include="Models\JobCustomerModel.cs" />
+    <Compile Include="Models\LeadEnquiryDetailsModel.cs" />
+    <Compile Include="Models\LeadTypeModel.cs" />
+    <Compile Include="Models\LeaveApprovalRecord.cs" />
+    <Compile Include="Models\Leavetype.cs" />
+    <Compile Include="Models\LocationAddModifyModel.cs" />
+    <Compile Include="Models\LocationfetchModel.cs" />
+    <Compile Include="Models\LoginConcurrentusersModel.cs" />
+    <Compile Include="Models\MarketingDetails.cs" />
+    <Compile Include="Models\Marketingdetailslist.cs" />
+    <Compile Include="Models\MarketinglistModel.cs" />
+    <Compile Include="Models\Materialdelete.cs" />
+    <Compile Include="Models\MeetingModel.cs" />
+    <Compile Include="Models\MicrolearningInput.cs" />
+    <Compile Include="Models\MIsModel.cs" />
+    <Compile Include="Models\Modeldevicetoken.cs" />
+    <Compile Include="Models\ModelLocationupdate.cs" />
+    <Compile Include="Models\ModelNotification.cs" />
+    <Compile Include="Models\ModelShop.cs" />
+    <Compile Include="Models\Model_Logout.cs" />
+    <Compile Include="Models\Multipartclass.cs" />
+    <Compile Include="Models\NearByTeamModal.cs" />
+    <Compile Include="Models\OfflineTeamClass.cs" />
+    <Compile Include="Models\Ordermanagement.cs" />
+    <Compile Include="Models\OrderWithProductAttributeModel.cs" />
+    <Compile Include="Models\OTPClass.cs" />
+    <Compile Include="Models\PartyStatusInput.cs" />
+    <Compile Include="Models\PartyTypeModel.cs" />
+    <Compile Include="Models\PhoneNoModel.cs" />
+    <Compile Include="Models\PJPCustomerList.cs" />
+    <Compile Include="Models\Productclass.cs" />
+    <Compile Include="Models\ProfileImageupdation.cs" />
+    <Compile Include="Models\PushnotificationModel.cs" />
+    <Compile Include="Models\QuotationModel.cs" />
+    <Compile Include="Models\ReimbursementModel.cs" />
+    <Compile Include="Models\ReviewConfirmmodel.cs" />
+    <Compile Include="Models\RouteListclass.cs" />
+    <Compile Include="Models\RubyFoodModel.cs" />
+    <Compile Include="Models\RubyLeadImageModel.cs" />
+    <Compile Include="Models\SalesQuotationModel.cs" />
+    <Compile Include="Models\ShopdaywiseModel.cs" />
+    <Compile Include="Models\Shopslist.cs" />
+    <Compile Include="Models\ShopsubmissionModel.cs" />
+    <Compile Include="Models\ShopUpdation.cs" />
+    <Compile Include="Models\ShopvisitImageUpload.cs" />
+    <Compile Include="Models\StageModel.cs" />
+    <Compile Include="Models\StateModel.cs" />
+    <Compile Include="Models\Stockmanagement.cs" />
+    <Compile Include="Models\StockModel.cs" />
+    <Compile Include="Models\SubType.cs" />
+    <Compile Include="Models\SurveyQuestionAnswerModel.cs" />
+    <Compile Include="Models\TAModel.cs" />
+    <Compile Include="Models\TaskModel.cs" />
+    <Compile Include="Models\TimeSheet.cs" />
+    <Compile Include="Models\UpdateUserInfoModel.cs" />
+    <Compile Include="Models\UploadDocs.cs" />
+    <Compile Include="Models\UserAadharImageSaveModel.cs" />
+    <Compile Include="Models\UserHierarchyModel.cs" />
+    <Compile Include="Models\UserListInputModel.cs" />
+    <Compile Include="Models\UserWiseAadharInfoModel.cs" />
+    <Compile Include="Models\UserWiseDayStartEndModel.cs" />
+    <Compile Include="Models\VersionCheckingModel.cs" />
+    <Compile Include="Models\VisitRemarksInput.cs" />
+    <Compile Include="Models\WorkTypes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ImageSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\InvalidSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Parameters.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\Samples.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\TextSample.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Help\Index.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\HelpPage\Views\Web.config" />
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="CommonFolder\Log\Image.txt" />
+    <Content Include="CommonFolder\Log\Location.txt" />
+    <Content Include="CommonFolder\Log\Revisitimage.txt" />
+    <Content Include="CommonFolder\Log\RevisitLog.txt" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Gridmvc.css" />
+    <Content Include="date.txt" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Grid.mvc.readme" />
+    <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\ShopAPI.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\gridmvc.js" />
+    <Content Include="Scripts\gridmvc.lang.ru.js" />
+    <Content Include="Scripts\gridmvc.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Shared\_GridPager.cshtml" />
+    <Content Include="Views\Shared\_Grid.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>16126</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:16126/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>
