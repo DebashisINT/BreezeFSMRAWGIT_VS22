@@ -1,0 +1,60 @@
+﻿   .timeWraper {
+            width:100%;
+        }
+        .timeBox {
+            width:420px;
+            margin:auto;
+            border:1px solid #ccc;
+            border-top:none;
+            border-radius:5px;
+            text-align:center;
+        }
+        .timeBox #time_span {
+            font-size:22px;
+        }
+        .timeBox .line {
+            border-top:1px solid #95d495;
+            margin-bottom:30px;
+        }
+        .timeBox .dateMnth {
+            font-size:16px;
+            font-weight:normal;
+        }
+        .btnWrap {
+            margin-top:20px;
+        }
+
+        .employeeNameClass {
+           margin-top: 10px;
+    font-size: 14px;
+    display: inline-block;
+        }
+        .butnlaymargin {
+            padding-top:18px;
+            margin-bottom:8px;
+        }
+        .bxCenter {
+            width: 217px;
+            margin: 11px auto;
+        }
+        .mTop15 {
+            margin-top:15px;
+        }
+        .customSizeModal {
+                width: 400px !important;
+        }
+
+        .fullMulti .multiselect-native-select, .fullMulti .multiselect-native-select .btn-group {
+            width: 100%;
+        }
+
+            .fullMulti .multiselect-native-select .multiselect {
+                width: 100%;
+                text-align: left;
+                border-radius: 4px !important;
+            }
+
+                .fullMulti .multiselect-native-select .multiselect .caret {
+                    float: right;
+                    margin: 9px 5px;
+                }
