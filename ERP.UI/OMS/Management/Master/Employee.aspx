@@ -1,0 +1,1987 @@
+<%@ Page Title="Employee" Language="C#" AutoEventWireup="True" Inherits="ERP.OMS.Management.Master.management_master_Employee" CodeBehind="Employee.aspx.cs" MasterPageFile="~/OMS/MasterPage/ERP.Master" %>
+ <%--Mantise ID:0024752: Optimize FSM Employee Master
+      Rev work Swati Date:-15.03.2022--%>
+<%@ Register Assembly="DevExpress.Web.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Data.Linq" TagPrefix="dx" %>
+<%--Mantise ID:0024752: Optimize FSM Employee Master
+      Rev work close Swati Date:-15.03.2022--%>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+
+
+    <style>
+        .branch-list-modal .modal-header
+      {
+        background: #074270;
+            padding: 10px 15px;
+      }
+      .branch-list-modal .modal-header h4
+      {
+        color: #fff;
+        line-height: 1;
+        font-size: 16px;
+      }
+      .branch-list-modal .modal-header button span
+      {
+        color: #fff;
+            font-size: 28px;
+    font-weight: 300;
+    line-height: 21px;
+      }
+
+      .branch-list-modal .modal-content
+      {
+        border-radius: 15px;
+            border: none;
+            box-shadow: 1px 1px 15px #11111145;
+      }
+      .branch-list-modal .modal-header
+      {
+        border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+      }
+
+      .branch-list-modal .modal-body .input-group
+      {
+          width: 100%;
+      }
+
+      .branch-list-modal .modal-body .input-group-text
+      {
+        background-color: transparent;
+        border: none;
+            color: #a5a5a5;
+      }
+      .branch-list-modal .modal-body .input-group-prepend
+      {
+        position: absolute;
+        z-index: 1;
+        min-height: 33px;
+        line-height: 33px;
+        width: 30px;
+        text-align: center;
+      }
+
+      .branch-list-modal .modal-body .form-control
+      {
+            padding-left: 40px;
+            background: transparent !important;
+            border-radius: 5px !important;
+            border-color: #eaeaea;
+            transition: all .4s;
+            color: #111;
+      }
+
+      .branch-list-modal .modal-body .form-control:focus
+      {
+        box-shadow: none;
+        border-color: #0a4f85;
+      }
+
+      .custom-checkbox-single {
+          display: block;
+          position: relative;
+          padding-left: 34px;
+          margin-bottom: 15px;
+          cursor: pointer;
+          font-size: 16px;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+          line-height: 22px;
+              font-weight: 500;
+        }
+
+        /* Hide the browser's default checkbox */
+        .custom-checkbox-single input {
+          position: absolute;
+          opacity: 0;
+          cursor: pointer;
+          height: 0;
+          width: 0;
+        }
+
+        /* Create a custom checkbox */
+        .checkmark {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 21px;
+          width: 21px;
+          background-color: #eee;
+          border-radius: 4px;
+        }
+
+        /* On mouse-over, add a grey background color */
+        .custom-checkbox-single:hover input ~ .checkmark {
+          background-color: #ccc;
+        }
+
+        /* When the checkbox is checked, add a blue background */
+        .custom-checkbox-single input:checked ~ .checkmark {
+          background-color: #297cbe;
+        }
+
+        /* Create the checkmark/indicator (hidden when not checked) */
+        .checkmark:after {
+          content: "";
+          position: absolute;
+          display: none;
+        }
+
+        /* Show the checkmark when checked */
+        .custom-checkbox-single input:checked ~ .checkmark:after {
+          display: block;
+        }
+
+        /* Style the checkmark/indicator */
+        .custom-checkbox-single .checkmark:after {
+              left: 7px;
+              top: 3px;
+              width: 6px;
+              height: 12px;
+              border: solid white;
+              border-width: 0 2px 2px 0;
+          -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        function Pageload() {
+
+            document.getElementById('td1').style.display = "inline";
+            document.getElementById('td1').style.display = "tablee-cell";
+            document.getElementById('td2').style.display = "inline";
+            document.getElementById('td2').style.display = "table-cell";
+            document.getElementById('td3').style.display = "inline";
+            document.getElementById('td3').style.display = "table-cell";
+            document.getElementById('td4').style.display = "inline";
+            document.getElementById('td4').style.display = "table-cell";
+            HideTrTd("Tr_EmployeeName");
+            HideTrTd("Tr_EmployeeCode");
+
+            cGrdEmployee.PerformCallback("Show~~~");
+        }
+        function PerformCallToGridBind() {
+            var EmpId = document.getElementById('hdnContactId').value;
+            cSelectPanel.PerformCallback('SaveDetails~' + EmpId);
+            cActivationPopup.Hide();
+            return false;
+        }
+
+        function SelectPanel_EndCallBack(s, e) {
+            if (cSelectPanel.cpResult == "Success") {
+                jAlert('Employee Updated Sucessfully');
+            }
+            else if (cSelectPanel.cpResult == "Problem") {
+                jAlert('Some Problem Occur. Please Try Again Later');
+            }
+            else {
+
+            }
+        }
+
+
+        function OnChangeSuperVisor() {
+
+            cActivationPopupsupervisor.Show();
+
+        }
+        function OnserverCallSupervisorchanged() {
+            var otherDetails = {};
+            otherDetails.fromsuper = $("#fromsuper").val();
+            otherDetails.tosuper = $("#tosupervisor").val();
+
+            //{ 'fromsuper': $("#fromsuper").val(), 'tosuper': $("#tosupervisor").val() }
+
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/Submitsupervisor",
+                data: JSON.stringify(otherDetails),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (responseFromServer) {
+                    //  alert(responseFromServer.d)
+                    cGrdEmployee.PerformCallback("Show~~~");
+                    jAlert('Supervisor Changed Successfully.');
+                    cActivationPopupsupervisor.Hide();
+                }
+            });
+
+        }
+
+
+
+        var GlobalCheckOption = '';
+        function ActivateDeactivateTxtReason(s, e) {
+
+            var value = s.GetChecked();
+
+
+
+
+
+            if (GlobalCheckOption == "") {
+                if (value) {
+                    GlobalCheckOption = false;
+                }
+                else {
+                    GlobalCheckOption = true;
+                }
+                alert(value);
+            }
+
+
+            if (GlobalCheckOption != value) {
+                $("#btnOK").attr("disabled", false);
+            } else {
+                $("#btnOK").attr("disabled", true);
+            }
+
+        }
+
+
+        function fn_DeleteEmp(keyValue) {
+            //var result=confirm('Confirm delete?');
+            //if(result)
+            //{
+            //    grid.PerformCallback('Delete~' + keyValue);
+            //}
+
+            if (keyValue != "EMV0000001") {
+                jConfirm('Confirm delete?', 'Confirmation Dialog', function (r) {
+                    if (r == true) {
+                        cGrdEmployee.PerformCallback('Delete~' + keyValue);
+                    }
+                    else {
+                        return false;
+                    }
+                });
+            } else {
+                jAlert("Sorry, you can not delete the Admin.");
+            }
+
+
+        }
+
+        function fn_DeActivateEmp(keyValue) {
+
+
+
+            if (keyValue) {
+
+                cSelectPanel.PerformCallback('Bindalldesignes~' + keyValue)
+            }
+            cActivationPopup.Show();
+            document.getElementById('hdnContactId').value = keyValue;
+
+        }
+
+
+        function ShowTrTd(obj) {
+            document.getElementById(obj).style.display = 'inline';
+        }
+        function HideTrTd(obj) {
+            //document.getElementById(obj).style.display = 'none';
+        }
+
+        function OnMoreInfoClick(keyValue) {
+
+            if (keyValue != '') {
+                var url = 'employee_general.aspx?id=' + keyValue;
+                //parent.OnMoreInfoClick(url, "Modify Employee Details", '980px', '500px', "Y");
+                window.location.href = url;
+            }
+        }
+        function OnAddButtonClick() {
+            var url = 'Employee_AddNew.aspx?id=' + 'ADD';
+            //parent.OnMoreInfoClick(url,"Add Employee Details",'980px','400px',"Y");
+            window.location.href = url;
+        }
+        <%--Rev work start 26.04.2022 0024853: Copy feature add in Employee master--%>
+        function OnCopyInfoClick(keyValue) {
+            if (keyValue != '') {
+                var url = 'Employee_AddNew.aspx?id=' + keyValue+'&Mode=Copy';
+                window.location.href = url;
+            }
+        }
+        <%--Rev work close 26.04.2022 0024853: Copy feature add in Employee master--%>
+        function OnAddBusinessClick(keyValue, CompName) {
+            var url = 'AssignIndustry.aspx?id1=' + keyValue + '&EntType=Employee';
+            window.location.href = url;
+        }
+        function OnLeftNav_Click() {
+            var i = document.getElementById("A1").innerText;
+            document.getElementById("hdn_GridBindOrNotBind").value = "False"; //To Stop Bind On Page Load
+            if (parseInt(i) > 1) {
+                if (crbDOJ_Specific_All.GetValue() == "S")
+                    cGrdEmployee.PerformCallback("SearchByNavigation~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue() + "~" + document.getElementById("A1").innerText + "~LeftNav");
+                else
+                    cGrdEmployee.PerformCallback("SearchByNavigation~~~" + document.getElementById("A1").innerText + "~LeftNav");
+            }
+            else {
+                alert('No More Pages.');
+            }
+        }
+        function OnRightNav_Click() {
+            var TestEnd = document.getElementById("A10").innerText;
+            document.getElementById("hdn_GridBindOrNotBind").value = "False"; //To Stop Bind On Page Load
+            var TotalPage = document.getElementById("B_TotalPage").innerText;
+            if (TestEnd == "" || TestEnd == TotalPage) {
+                alert('No More Records.');
+                return;
+            }
+            var i = document.getElementById("A1").innerText;
+            if (parseInt(i) < TotalPage) {
+                if (crbDOJ_Specific_All.GetValue() == "S")
+                    cGrdEmployee.PerformCallback("SearchByNavigation~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue() + "~" + document.getElementById("A1").innerText + "~RightNav");
+                else
+                    cGrdEmployee.PerformCallback("SearchByNavigation~~~" + document.getElementById("A1").innerText + "~RightNav");
+            }
+            else {
+                alert('You are at the End');
+            }
+        }
+        function OnPageNo_Click(obj) {
+            var i = document.getElementById(obj).innerText;
+            document.getElementById("hdn_GridBindOrNotBind").value = "False"; //To Stop Bind On Page Load
+            if (crbDOJ_Specific_All.GetValue() == "S")
+                cGrdEmployee.PerformCallback("SearchByNavigation~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue() + "~" + i + "~PageNav");
+            else
+                cGrdEmployee.PerformCallback("SearchByNavigation~~~" + i + "~PageNav");
+
+        }
+        function BtnShow_Click() {
+            document.getElementById("hdn_GridBindOrNotBind").value = "False"; //To Stop Bind On Page Load
+            if (crbDOJ_Specific_All.GetValue() == "S") {
+
+                cGrdEmployee.PerformCallback("Show~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue());
+            }
+            else {
+
+                cGrdEmployee.PerformCallback("Show~~~");
+            }
+        }
+        function GrdEmployee1_EndCallBack() {
+
+            if (cGrdEmployee.cpDelete != null) {
+                if (cGrdEmployee.cpDelete == 'Success') {
+                    jAlert('Record deleted successfully');
+                    // Mantis Issue 24752_Rectify
+                    cGrdEmployee.Refresh();
+                    // End of Mantis Issue 24752_Rectify
+                }
+                else if (cGrdEmployee.cpDelete == 'Failure')
+                    jAlert('Cannot Delete.This employee has been tagged in User Master.')
+            }
+            cGrdEmployee.cpDelete = null;
+            // Mantis Issue 24752_Rectify
+            if (cGrdEmployee.cpLoadData != null) {
+                if (cGrdEmployee.cpLoadData == 'Success') {
+                    cGrdEmployee.Refresh();
+                }
+            }
+            cGrdEmployee.cpLoadData = null;
+            // End of Mantis Issue 24752_Rectify
+            
+        }
+
+
+
+        function GrdEmployee_EndCallBack() {
+            if (cGrdEmployee.cpExcelExport != undefined) {
+                document.getElementById('BtnForExportEvent').click();
+            }
+            if (cGrdEmployee.cpRefreshNavPanel != undefined) {
+                document.getElementById("B_PageNo").innerText = '';
+                document.getElementById("B_TotalPage").innerText = '';
+                document.getElementById("B_TotalRows").innerText = '';
+
+                var NavDirection = cGrdEmployee.cpRefreshNavPanel.split('~')[0];
+                var PageNum = cGrdEmployee.cpRefreshNavPanel.split('~')[1];
+                var TotalPage = cGrdEmployee.cpRefreshNavPanel.split('~')[2];
+                var TotalRows = cGrdEmployee.cpRefreshNavPanel.split('~')[3];
+
+                if (NavDirection == "RightNav") {
+                    PageNum = parseInt(PageNum) + 10;
+                    document.getElementById("B_PageNo").innerText = PageNum;
+                    document.getElementById("B_TotalPage").innerText = TotalPage;
+                    document.getElementById("B_TotalRows").innerText = TotalRows;
+                    var n = parseInt(TotalPage) - parseInt(PageNum) > 10 ? parseInt(11) : parseInt(TotalPage) - parseInt(PageNum) + 2;
+                    for (r = 1; r < n; r++) {
+                        var obj = "A" + r;
+                        document.getElementById(obj).innerText = PageNum++;
+                    }
+                    for (r = n; r < 11; r++) {
+                        var obj = "A" + r;
+                        document.getElementById(obj).innerText = "";
+                    }
+                }
+                if (NavDirection == "LeftNav") {
+                    if (parseInt(PageNum) > 1) {
+                        PageNum = parseInt(PageNum) - 10;
+                        document.getElementById("B_PageNo").innerText = PageNum;
+                        document.getElementById("B_TotalPage").innerText = TotalPage;
+                        document.getElementById("B_TotalRows").innerText = TotalRows;
+                        for (l = 1; l < 11; l++) {
+                            var obj = "A" + l;
+                            document.getElementById(obj).innerText = PageNum++;
+                        }
+                    }
+                    else {
+                        alert('No More Pages.');
+                    }
+                }
+                if (NavDirection == "PageNav") {
+                    document.getElementById("B_PageNo").innerText = PageNum;
+                    document.getElementById("B_TotalPage").innerText = TotalPage;
+                    document.getElementById("B_TotalRows").innerText = TotalRows;
+                }
+                if (NavDirection == "ShowBtnClick") {
+                    document.getElementById("B_PageNo").innerText = PageNum;
+                    document.getElementById("B_TotalPage").innerText = TotalPage;
+                    document.getElementById("B_TotalRows").innerText = TotalRows;
+                    var n = parseInt(TotalPage) - parseInt(PageNum) > 10 ? parseInt(11) : parseInt(TotalPage) - parseInt(PageNum) + 2;
+
+                    for (r = 1; r < n; r++) {
+                        var obj = "A" + r;
+                        document.getElementById(obj).innerText = PageNum++;
+                    }
+
+                    for (r = n; r < 11; r++) {
+                        var obj = "A" + r;
+                        document.getElementById(obj).innerText = "";
+                    }
+
+                }
+            }
+            if (cGrdEmployee.cpCallOtherWhichCallCondition != undefined) {
+                if (cGrdEmployee.cpCallOtherWhichCallCondition == "Show") {
+                    if (crbDOJ_Specific_All.GetValue() == "S")
+                        cGrdEmployee.PerformCallback("Show~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue());
+                    else
+                        cGrdEmployee.PerformCallback("Show~~~");
+                }
+            }
+            //Now Reset GridBindOrNotBind to True for Next Page Load
+            document.getElementById("hdn_GridBindOrNotBind").value = "True";
+            //height();
+            if (cGrdEmployee.cpDelete != null) {
+                if (cGrdEmployee.cpDelete == 'Success')
+                    jAlert('Record deleted successfully');
+                else
+                    jAlert('Error on deletio/n Please Try again!!')
+            }
+        }
+        function selecttion() {
+            var combo = document.getElementById('cmbExport');
+            combo.value = 'Ex';
+        }
+
+        function OnContactInfoClick(keyValue, CompName) {
+            var url = 'insurance_contactPerson.aspx?id=' + keyValue;
+            // OnMoreInfoClick(url, "Employee Name : " + CompName + "", '980px', '550px', "Y");
+            window.location.href = url;
+        }
+        function Callheight() {
+            //height();
+        }
+
+        function ShowEmployeeFilterForm(obj) {
+            if (obj == 'A') {
+                document.getElementById('td1').style.display = "none";
+                document.getElementById('td2').style.display = "none";
+                document.getElementById('td3').style.display = "none";
+                document.getElementById('td4').style.display = "none";
+            }
+            if (obj == 'S') {
+
+                document.getElementById('td1').style.display = "inline";
+                document.getElementById('td1').style.display = "table-cell";
+
+                document.getElementById('td2').style.display = "inline";
+                document.getElementById('td2').style.display = "table-cell";
+
+                document.getElementById('td3').style.display = "inline";
+                document.getElementById('td3').style.display = "table-cell";
+
+                document.getElementById('td4').style.display = "inline";
+                document.getElementById('td4').style.display = "table-cell";
+            }
+
+        }
+        function ShowFindOption() {
+            if (cRb_SearchBy.GetValue() == "N") {
+                HideTrTd("Tr_EmployeeName")
+                HideTrTd("Tr_EmployeeCode")
+            }
+            else if (cRb_SearchBy.GetValue() == "EN") {
+                ShowTrTd("Tr_EmployeeName")
+                HideTrTd("Tr_EmployeeCode")
+            }
+            else if (cRb_SearchBy.GetValue() == "EC") {
+                HideTrTd("Tr_EmployeeName")
+                ShowTrTd("Tr_EmployeeCode")
+            }
+        }
+      <%--  function ddlExport_OnChange() {
+            var ddlExport = document.getElementById("<%=ddlExport.ClientID%>");
+            if (crbDOJ_Specific_All.GetValue() == "S")
+                cGrdEmployee.PerformCallback("ExcelExport~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue());
+            else
+                cGrdEmployee.PerformCallback("ExcelExport~~~");
+            ddlExport.options[0].selected = true;
+        }--%>
+
+        function ShowHideFilter(obj) {
+            document.getElementById("hdn_GridBindOrNotBind").value = "False"; //To Stop Bind On Page Load
+            cGrdEmployee.PerformCallback("ShowHideFilter~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue() + '~' + obj);
+        }
+
+    </script>
+
+
+    <script>
+        // Mantis Issue 24752_Rectify
+        $(document).ready(function () {
+            cGrdEmployee.PerformCallback();
+        });
+        // End of Mantis Issue 24752_Rectify
+
+        var statelist = []
+        function STATEPUSHPOP() {
+            var empID = $("#hdnEMPID").val();
+            // debugger;
+            //$('input:checkbox.statecheck').each(function () {
+
+            //    var ischecked = $(this).is(':checked');
+            //    if (ischecked == true) {
+            //        alert(ischecked);
+            //    }
+            //});
+
+            let a = [];
+
+            $(".statecheckall:checked").each(function () {
+                a.push(this.value);
+            });
+
+            $(".statecheck:checked").each(function () {
+                a.push(this.value);
+            });
+            var str1
+            //  alert(a);
+
+            str1 = { EMPID: empID, Statelist: a }
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/GetStateListSubmit",
+                data: JSON.stringify(str1),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (responseFromServer) {
+                    // alert(responseFromServer.d)
+                    $("#myModal").modal('hide');
+                    jAlert('State assigned successfully');
+                }
+            });
+        }
+
+        function CheckParticular(v) {
+            ///   alert(v);
+            //alert($(".statecheck").is(':checked'));
+            if (v == false) {
+                $(".statecheckall").prop('checked', false);
+
+            }
+        }
+        function CheckAll(id) {
+            //alert(id);
+
+            var ischecked = $(".statecheckall").is(':checked');
+            //alert(ischecked);
+            if (ischecked == true) {
+                $('input:checkbox.statecheck').each(function () {
+                    $(this).prop('checked', true);
+                });
+
+            }
+            else {
+                $('input:checkbox.statecheck').each(function () {
+                    $(this).prop('checked', false);
+                });
+
+            }
+
+
+        }
+        function StateBind(empID) {
+            $("#hdnEMPID").val(empID);
+            var str
+            str = { EMPID: empID }
+            var html = "";
+            // alert();
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/GetStateList",
+                data: JSON.stringify(str),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (responseFromServer) {
+                    if (responseFromServer.d.length == 0) {
+                        jAlert('You must create a user, and map this employee. After mapping, you can map the State. So, these employees will appear on Dashboard and in reports for the selected state.');
+
+                    }
+                    else if (responseFromServer.d[0].status != 'Success') {
+
+                        jAlert('You must create a user, and map this employee. After mapping, you can map the State. So, these employees will appear on Dashboard and in reports for the selected state.');
+
+                    }
+                    else {
+
+                        for (i = 0; i < responseFromServer.d.length; i++) {
+
+                            if (responseFromServer.d[i].StateID == "0") {
+
+                                if (responseFromServer.d[i].IsChecked == true) {
+
+                                    html += "<li><input type='checkbox' id=" + responseFromServer.d[i].StateID + "  class='statecheckall' onclick=CheckAll(" + responseFromServer.d[i].StateID + ") value=" + responseFromServer.d[i].StateID + " checked  /><a href='#'><label id='lblstatename' class='lblstate' for=" + responseFromServer.d[i].StateID + " >" + responseFromServer.d[i].StateName + "</label></a></li>";
+
+                                }
+                                else {
+                                    html += "<li><input type='checkbox' id=" + responseFromServer.d[i].StateID + "  class='statecheckall' onclick=CheckAll(" + responseFromServer.d[i].StateID + ")  value=" + responseFromServer.d[i].StateID + "   /><a href='#'><label id='lblstatename' class='lblstate'  for=" + responseFromServer.d[i].StateID + ">" + responseFromServer.d[i].StateName + "</label></a></li>";
+
+
+                                }
+                            }
+                            else {
+
+                                if (responseFromServer.d[i].IsChecked == true) {
+
+                                    html += "<li><input type='checkbox' id=" + responseFromServer.d[i].StateID + "  class='statecheck' onclick=CheckParticular($(this).is(':checked')) value=" + responseFromServer.d[i].StateID + " checked  /><a href='#'><label id='lblstatename' class='lblstate' for=" + responseFromServer.d[i].StateID + " >" + responseFromServer.d[i].StateName + "</label></a></li>";
+
+                                }
+                                else {
+                                    html += "<li><input type='checkbox' id=" + responseFromServer.d[i].StateID + " class='statecheck'  onclick=CheckParticular($(this).is(':checked')) value=" + responseFromServer.d[i].StateID + "   /><a href='#'><label id='lblstatename' class='lblstate' for=" + responseFromServer.d[i].StateID + ">" + responseFromServer.d[i].StateName + "</label></a></li>";
+
+                                }
+                            }
+                        }
+                        $("#divModalBody").html(html);
+                        $("#myModal").modal('show');
+                    }
+                   
+                }
+            });
+
+        }
+    </script>
+    <style>
+        .listStyle > li {
+            list-style-type: none;
+            padding: 5px;
+        }
+
+        .listStyle {
+            /*height: 450px;*/
+            overflow-y: auto;
+        }
+
+            .listStyle > li > input[type="checkbox"] {
+                -webkit-transform: translateY(3px);
+                -moz-transform: translateY(3px);
+                transform: translateY(3px);
+            }
+
+        #divModalBody li a:hover:not(.header) {
+            background-color: none;
+        }
+        .modal-backdrop{
+            z-index:auto !important;
+        }
+.nfc {
+padding: 5px;
+    margin-right: 1px;
+}
+    </style>
+
+    <script>
+        function EMPIDBind(empID) {
+            $("#hdnEMPCode").val(empID);
+            var str
+            str = { EMPID: empID }
+           
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/GetEmployeeID",
+                data: JSON.stringify(str),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (responseFromServer) {
+                     // alert(responseFromServer.d)
+                    //cGrdEmployee.PerformCallback("Show~~~");
+                    //jAlert('Supervisor Changed Successfully.');
+                    //cActivationPopupsupervisor.Hide();
+
+                    $("#lblOLDEmpIDname").html(responseFromServer.d);
+                    $("#myEmpIDModal").modal('show');
+                    $("#txtEMPId").focus();
+                }
+            });           
+        }
+
+        function UpdateEmpId() {
+            var empID = $("#hdnEMPCode").val();
+            var newEmpID = $("#txtEMPId").val();
+            if (newEmpID=="") {
+                jAlert("Please enter new employee id.");
+                $("#txtEMPId").focus();
+                return
+            }
+            var str1
+            //  alert(a);
+
+            str1 = { EMPID: empID, newEmpID: newEmpID }
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/GetEmployeeIDUpdate",
+                data: JSON.stringify(str1),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (responseFromServer) {
+                    // alert(responseFromServer.d)
+                    if (responseFromServer.d == "UPDATED") {
+                        $("#myEmpIDModal").modal('hide');
+                        jAlert('Employee id update successfully.');
+                        $("#txtEMPId").val('');
+                        $("#hdnEMPCode").val('');
+                    }
+                    else if (responseFromServer.d == "ALREADY EXISTS") {
+                        jAlert('Employee id already exists.');
+                        $("#txtEMPId").focus();
+                    }
+                    else {
+                        jAlert('Please try again later.');
+                        $("#txtEMPId").focus();
+                    }
+                }
+            });
+        }
+    </script>
+    <script>
+        function ImportUpdatePopOpenEmployeesTarget(e) {
+
+            $("#modalimport").modal('show');
+        }
+    </script>
+    <%--Mantis Issue 24982--%>
+    <script>
+        function OnEmployeeChannelInfoClick(keyValue) {
+            var str1 = "";
+            //  alert(a);
+
+            str1 = { EMPID: keyValue }
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/GetEmployeeChannel",
+                data: JSON.stringify(str1),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (data) {
+                    //alert(data.d[0].ReportToEmpName)
+                    //$.each(data, function (i, data) {
+
+                        
+                        //alert(data.ReportToEmpName)
+                        $("#txtReportTo").val(data.d[0].ReportToEmpName)
+                        $("#txtAddReportingHead").val(data.d[0].DeputyEmpName)
+                        $("#txtColleague").val(data.d[0].ColleagueName)
+                        $("#txtColleague1").val(data.d[0].Colleague_1Name)
+                        $("#txtColleague2").val(data.d[0].Colleague_2Name)
+
+                        $("#txtReportToChannel").val(data.d[0].ReportToChannel)
+                        $("#txtAddReportingHeadChannel").val(data.d[0].DeputyChannel)
+                        $("#txtColleagueChannel").val(data.d[0].ColleagueChannel)
+                        $("#txtColleague1Channel").val(data.d[0].ColleagueChannel_1)
+                        $("#txtColleague2Channel").val(data.d[0].ColleagueChannel_2)
+
+                        $("#txtReportToCircle").val(data.d[0].ReportToCircle)
+                        $("#txtAddReportingHeadCircle").val(data.d[0].DeputyCircle)
+                        $("#txtColleagueCircle").val(data.d[0].ColleagueCircle)
+                        $("#txtColleague1Circle").val(data.d[0].ColleagueCircle_1)
+                        $("#txtColleague2Circle").val(data.d[0].ColleagueCircle_2)
+
+                        $("#txtReportToSection").val(data.d[0].ReportToSection)
+                        $("#txtAddReportingHeadSection").val(data.d[0].DeputySection)
+                        $("#txtColleagueSection").val(data.d[0].ColleagueSection)
+                        $("#txtColleague1Section").val(data.d[0].ColleagueSection_1)
+                        $("#txtColleague2Section").val(data.d[0].ColleagueSection_2)
+                    //});
+                }
+            });
+            $("#modalEmployeeChannel").modal('show');
+        }
+    </script>
+    <%--End of Mantis Issue 24982--%>
+    <%--Mantis Issue 25001--%>
+    <script>
+    function fn_BranchMap(empID) {
+            $("#hdnEMPID").val(empID);
+            var str
+            str = { EMPID: empID }
+            var html = "";
+            // alert();
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/GetBranchList",
+                data: JSON.stringify(str),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (responseFromServer) {
+                    for (i = 0; i < responseFromServer.d.length; i++) {
+                        if (responseFromServer.d[i].IsChecked == true) {
+                            html += "<li><input type='checkbox' id=" + responseFromServer.d[i].branch_id + "  class='statecheck' onclick=CheckParticular($(this).is(':checked')) value=" + responseFromServer.d[i].branch_id + " checked  /><a href='#'><label id='lblstatename' class='lblstate' for=" + responseFromServer.d[i].branch_id + " >" + responseFromServer.d[i].branch_description + "</label></a></li>";
+                        }
+                        else {
+                            html += "<li><input type='checkbox' id=" + responseFromServer.d[i].branch_id + " class='statecheck'  onclick=CheckParticular($(this).is(':checked')) value=" + responseFromServer.d[i].branch_id + "   /><a href='#'><label id='lblstatename' class='lblstate' for=" + responseFromServer.d[i].branch_id + ">" + responseFromServer.d[i].branch_description + "</label></a></li>";
+                        }
+                    }
+                    $("#divModalBody").html(html);
+                    $("#myModal").modal('show');
+                }
+            });
+        }
+    </script>
+
+    <script>
+        var Branchlist = []
+        function BranchPushPop() {
+            var empID = $("#hdnEMPID").val();
+            let a = [];
+
+            $(".BranchMapcheckall:checked").each(function () {
+                a.push(this.value);
+            });
+
+            $(".BranchMapcheck:checked").each(function () {
+                a.push(this.value);
+            });
+            var str1
+            //  alert(a);
+
+            str1 = { EMPID: empID, Branchlist: a }
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/GetBranchListSubmit",
+                data: JSON.stringify(str1),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (responseFromServer) {
+                    // alert(responseFromServer.d)
+                    $("#myModalBranchMap").modal('hide');
+                    jAlert('Branch assigned successfully');
+                }
+            });
+        }
+
+        function CheckParticular(v) {
+            if (v == false) {
+                $(".BranchMapcheckall").prop('checked', false);
+            }
+        }
+
+        function CheckAll(id) {
+            var ischecked = $(".BranchMapcheckall").is(':checked');
+            if (ischecked == true) {
+                $('input:checkbox.BranchMapcheck').each(function () {
+                    $(this).prop('checked', true);
+                });
+
+            }
+            else {
+                $('input:checkbox.BranchMapcheck').each(function () {
+                    $(this).prop('checked', false);
+                });
+
+            }
+
+
+        }
+
+        function fn_BranchMap(empID) {
+            $("#hdnEMPID").val(empID);
+            var str
+            str = { EMPID: empID }
+            var html = "";
+            // alert();
+            $.ajax({
+                type: "POST",
+                url: "Employee.aspx/GetBranchList",
+                data: JSON.stringify(str),
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (responseFromServer) {
+                    for (i = 0; i < responseFromServer.d.length; i++) {
+                        //if (responseFromServer.d[i].IsChecked == true) {
+                        //    html += "<li><input type='checkbox' id=" + responseFromServer.d[i].branch_id + "  class='BranchMapcheck' onclick=CheckParticular($(this).is(':checked')) value=" + responseFromServer.d[i].branch_id + " checked  /><a href='#'><label id='BranchMapname' class='lblstate' for=" + responseFromServer.d[i].branch_id + " >" + responseFromServer.d[i].branch_description + "</label></a></li>";
+                        //}
+                        //else {
+                        //    html += "<li><input type='checkbox' id=" + responseFromServer.d[i].branch_id + " class='BranchMapcheck'  onclick=CheckParticular($(this).is(':checked')) value=" + responseFromServer.d[i].branch_id + "   /><a href='#'><label id='BranchMapname' class='lblstate' for=" + responseFromServer.d[i].branch_id + ">" + responseFromServer.d[i].branch_description + "</label></a></li>";
+                        //}
+                        if (responseFromServer.d[i].IsChecked == true) {
+                            html += "<label class='custom-checkbox-single'>" + responseFromServer.d[i].branch_description + "<input type='checkbox' id=" + responseFromServer.d[i].branch_id + "  class='BranchMapcheck' onclick=CheckParticular($(this).is(':checked')) value=" + responseFromServer.d[i].branch_id + " checked  > <span class='checkmark'></span></label>";
+                        }
+                        else {
+                            html += "<label class='custom-checkbox-single'>" + responseFromServer.d[i].branch_description + "<input type='checkbox' id=" + responseFromServer.d[i].branch_id + "  class='BranchMapcheck' onclick=CheckParticular($(this).is(':checked')) value=" + responseFromServer.d[i].branch_id + "  > <span class='checkmark'></span></label>";
+                        }
+                    }
+                    $("#divModalBodyBranchMap").html(html);
+                    $("#myModalBranchMap").modal('show');
+                }
+            });
+        }
+        function ClearData() {
+            $("#myModalBranchMap").modal('hide');
+        }
+        function ClearChannelData() {
+            $("#modalEmployeeChannel").modal('hide');
+        }
+    </script>
+    <%--End of Mantis Issue 25001--%>
+   
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+   
+        <div class="breadCumb">
+            <span>Employees</span>
+        </div>
+    
+    <div class="container">
+        <div class="backBox mt-5 p-3">
+        <table class="TableMain100">
+            <%--            <tr>
+                <td class="EHEADER" style="text-align: center; height: 20px;">
+                    <strong><span style="color: #000099">Employee Details</span></strong></td>
+            </tr>--%>
+
+            <tr>
+                <td style="text-align: left; vertical-align: top">
+                    <table class="mb-4">
+                        <tr>
+                            <td id="ShowFilter">
+                                <% if (rights.CanAdd)
+                                   { %>
+                                <a href="javascript:void(0);" onclick="OnAddButtonClick()" class="btn btn-success"><span>Add New</span> </a>
+                                <% } %>
+
+                                <% if (rights.CanExport)
+                                   { %>
+                                <asp:DropDownList ID="drdExport" runat="server" CssClass="btn btn-primary nfc" OnSelectedIndexChanged="cmbExport_SelectedIndexChanged" AutoPostBack="true">
+                                    <asp:ListItem Value="0">Export to</asp:ListItem>
+                                    <asp:ListItem Value="1">PDF</asp:ListItem>
+                                    <asp:ListItem Value="2">XLS</asp:ListItem>
+                                    <asp:ListItem Value="3">RTF</asp:ListItem>
+                                    <asp:ListItem Value="4">CSV</asp:ListItem>
+
+                                </asp:DropDownList>
+                                <% } %>
+
+                                <% if (rights.CanExport)
+                                   { %>
+                                <a href="javascript:void(0);" onclick="OnChangeSuperVisor()" class="btn btn-warning"><span>Change Supervisor</span> </a>
+                                <% } %>
+<asp:LinkButton ID="lnlDownloaderexcel" runat="server" OnClick="lnlDownloaderexcel_Click" CssClass="btn btn-info btn-radius  mBot0">Download Format</asp:LinkButton>
+<button type="button" onclick="ImportUpdatePopOpenEmployeesTarget();" class="btn btn-danger btn-radius">Import(Add/Update)</button>
+
+
+
+                            <button type="button" class="btn btn-warning btn-radius hide" data-toggle="modal" data-target="#modalSS" id="btnViewLog" onclick="ViewLogData();">View Log</button>
+                            </td>
+                              <td>
+                            
+                        </td>
+
+                        <td>
+                            <label>&nbsp;</label>
+                            
+
+                        </td>
+                            <td id="Td1"></td>
+                        </tr>
+                    </table>
+                </td>
+
+            </tr>
+            <tr style="display: none">
+                <td>
+                    <div style="padding: 15px; background: #f9f9f9; border-radius: 3px; margin-bottom: 12px;">
+                        <table cellpadding="1" cellspacing="1" style="display: none">
+                            <tr id="trSpecific">
+                                <td class="gridcellleft" style="vertical-align: top">Date Of Joining :</td>
+                                <td valign="top" style="vertical-align: top">
+                                    <dxe:ASPxRadioButtonList ID="rbDOJ_Specific_All" runat="server" SelectedIndex="0" ItemSpacing="10px"
+                                        ClientInstanceName="crbDOJ_Specific_All" RepeatDirection="Horizontal" TextWrap="False">
+                                        <Items>
+
+                                            <dxe:ListEditItem Text="Specific" Value="S" />
+                                            <dxe:ListEditItem Text="All" Value="A" />
+                                        </Items>
+                                        <ClientSideEvents ValueChanged="function(s, e) {ShowEmployeeFilterForm(s.GetValue());}" />
+                                        <Border BorderWidth="0px" />
+                                    </dxe:ASPxRadioButtonList>
+                                </td>
+                                <td align="right" valign="middle" id="td1" class="gridcellleft" style="vertical-align: top">&nbsp;From :</td>
+                                <td valign="middle" class="gridcellleft" id="td2" style="vertical-align: top">
+                                    <dxe:ASPxDateEdit ID="DtFrom" ClientInstanceName="cDtFrom" runat="server" EditFormat="Custom" EditFormatString="dd-MM-yyyy" UseMaskBehavior="True">
+                                        <ButtonStyle Width="13px"></ButtonStyle>
+                                    </dxe:ASPxDateEdit>
+                                </td>
+                                <td valign="middle" align="right" id="td3" class="gridcellleft" style="vertical-align: top">To:</td>
+                                <td valign="middle" class="gridcellleft" id="td4" style="vertical-align: top">
+                                    <dxe:ASPxDateEdit ID="DtTo" ClientInstanceName="cDtTo" runat="server" EditFormat="Custom" EditFormatString="dd-MM-yyyy" UseMaskBehavior="True">
+                                        <ButtonStyle Width="13px"></ButtonStyle>
+                                    </dxe:ASPxDateEdit>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="gridcellleft" style="vertical-align: top">Search By :</td>
+                                <td style="vertical-align: top" valign="top">
+                                    <dxe:ASPxRadioButtonList ID="Rb_SearchBy" runat="server" ItemSpacing="10px" RepeatDirection="Horizontal"
+                                        TextWrap="False" ClientInstanceName="cRb_SearchBy" SelectedIndex="0">
+                                        <Border BorderWidth="0px" />
+                                        <ClientSideEvents ValueChanged="function(s, e) {ShowFindOption();}" />
+                                        <Items>
+                                            <dxe:ListEditItem Text="None" Value="N"></dxe:ListEditItem>
+                                            <dxe:ListEditItem Text="Employee Name" Value="EN"></dxe:ListEditItem>
+                                            <dxe:ListEditItem Text="Employee Code" Value="EC"></dxe:ListEditItem>
+                                        </Items>
+                                    </dxe:ASPxRadioButtonList>
+                                </td>
+                                <td align="right" class="gridcellleft" style="vertical-align: top"
+                                    valign="middle"></td>
+                                <td class="gridcellleft" style="vertical-align: top" valign="middle">
+                                    <dxe:ASPxButton ID="BtnShow" runat="server" AutoPostBack="False" Text="Show" CssClass="btn btn-primary">
+                                        <ClientSideEvents Click="function (s, e) {BtnShow_Click();}" />
+                                    </dxe:ASPxButton>
+                                </td>
+                                <td align="right" class="gridcellleft" style="vertical-align: top"
+                                    valign="middle"></td>
+                                <td class="gridcellleft" style="vertical-align: top" valign="middle"></td>
+                            </tr>
+                            <tr id="tr_EmployeeName">
+                                <td class="gridcellleft" style="vertical-align: top">Employee Name :</td>
+                                <td style="vertical-align: top" valign="top">
+                                    <asp:TextBox ID="txtEmpName" onFocus="this.select()" runat="server"></asp:TextBox></td>
+                                <td align="right" class="gridcellleft" style="vertical-align: top"
+                                    valign="middle">Find Option</td>
+                                <td class="gridcellleft" style="vertical-align: top" valign="middle">
+                                    <dxe:ASPxComboBox ID="cmbEmpNameFindOption" runat="server"
+                                        ClientInstanceName="exp" Font-Bold="False" ForeColor="black"
+                                        SelectedIndex="0" ValueType="System.Int32" Width="170px">
+                                        <Items>
+                                            <dxe:ListEditItem Value="0" Text="Like"></dxe:ListEditItem>
+                                            <dxe:ListEditItem Value="1" Text="Whole Word"></dxe:ListEditItem>
+                                        </Items>
+                                        <ButtonStyle>
+                                        </ButtonStyle>
+                                        <ItemStyle>
+                                            <HoverStyle>
+                                            </HoverStyle>
+                                        </ItemStyle>
+                                        <Border BorderColor="black"></Border>
+
+                                    </dxe:ASPxComboBox>
+                                </td>
+                                <td align="right" class="gridcellleft" style="vertical-align: top"
+                                    valign="middle"></td>
+                                <td class="gridcellleft" style="vertical-align: top" valign="middle"></td>
+                            </tr>
+                            <tr id="tr_EmployeeCode">
+                                <td class="gridcellleft" style="vertical-align: top">Employee Code :</td>
+                                <td style="vertical-align: top" valign="top">
+                                    <asp:TextBox ID="txtEmpCode" onFocus="this.select()" runat="server"></asp:TextBox></td>
+                                <td align="right" class="gridcellleft" style="vertical-align: top"
+                                    valign="middle">Find Option</td>
+                                <td class="gridcellleft" style="vertical-align: top" valign="middle">
+                                    <dxe:ASPxComboBox ID="cmbEmpCodeFindOption" runat="server"
+                                        ClientInstanceName="exp" Font-Bold="False" ForeColor="black"
+                                        SelectedIndex="0" ValueType="System.Int32" Width="170px">
+                                        <Items>
+                                            <dxe:ListEditItem Value="0" Text="Like"></dxe:ListEditItem>
+                                            <dxe:ListEditItem Value="1" Text="Whole Word"></dxe:ListEditItem>
+                                        </Items>
+                                        <ButtonStyle>
+                                        </ButtonStyle>
+                                        <ItemStyle>
+                                            <HoverStyle>
+                                            </HoverStyle>
+                                        </ItemStyle>
+                                        <Border BorderColor="black"></Border>
+
+                                    </dxe:ASPxComboBox>
+                                </td>
+                                <td align="right" class="gridcellleft" style="vertical-align: top"
+                                    valign="middle"></td>
+                                <td class="gridcellleft" style="vertical-align: top" valign="middle"></td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td id="Td5">
+                                    <% if (rights.CanAdd)
+                                       { %>
+                                    <a href="javascript:void(0);" onclick="OnAddButtonClick()" class="btn btn-primary"><span>Add New</span> </a><% } %>
+                                    <%-- <a href="javascript:ShowHideFilter('s');"><span style="color: #000099; text-decoration: underline">Show Filter</span></a>--%>
+                                </td>
+                                <td id="Td6">
+                                    <%-- <a href="javascript:ShowHideFilter('All');" class="btn btn-primary"><span>All Records</span></a>--%>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr style="display: none">
+                <td>
+
+
+                    <table style="width: 100%" border="0">
+                        <tr>
+                            <td valign="top" style="vertical-align: top; width: 34px; text-align: left">Page </td>
+                            <td valign="top" style="width: 4px">
+                                <b style="text-align: right" id="B_PageNo" runat="server"></b>
+                            </td>
+                            <td valign="top" style="vertical-align: top; text-align: left;">Of
+                            </td>
+                            <td valign="top">
+                                <b style="text-align: right" id="B_TotalPage" runat="server"></b>
+                            </td>
+                            <td valign="top" style="vertical-align: top; text-align: left">( <b style="text-align: right" id="B_TotalRows" runat="server"></b>&nbsp;items )
+                            </td>
+                            <td valign="top">
+                                <table width="100%">
+                                    <tr>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A_LeftNav" runat="server" href="javascript:void(0);" onclick="OnLeftNav_Click()">
+                                                <img src="/assests/images/LeftNav.gif" width="10" />
+                                            </a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A1" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A1')">1</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A2" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A2')">2</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A3" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A3')">3</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A4" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A4')">4</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A5" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A5')">5</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A6" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A6')">6</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A7" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A7')">7</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A8" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A8')">8</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A9" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A9')">9</a>
+                                        </td>
+                                        <td valign="top" style="vertical-align: top; text-align: left">
+                                            <a id="A10" runat="server" href="javascript:void(0);" onclick="OnPageNo_Click('A10')">10</a>
+                                        </td>
+                                        <td style="text-align: right; vertical-align: top;" valign="top">
+                                            <a id="A_RightNav" runat="server" href="javascript:void(0);" onclick="OnRightNav_Click()">
+                                                <img src="../images/RightNav.gif" width="10" />
+                                            </a>
+                                        </td>
+                                        <td style="vertical-align: top; text-align: right" valign="top">
+                                            <%--<asp:DropDownList ID="ddlExport" Onchange="ddlExport_OnChange()" runat="server"
+                                                Width="100px">
+                                                <asp:ListItem Selected="True" Value="Ex">Export</asp:ListItem>
+                                                <asp:ListItem Value="1">Excel</asp:ListItem>
+                                            </asp:DropDownList>--%></td>
+
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <%--Mantise ID:0024752: Optimize FSM Employee Master [ DataSourceID="EntityServerlogModeDataSource"  added]
+                     Rev work Swati Date:-15.03.2022--%>
+                    <dxe:ASPxGridView ID="GrdEmployee" runat="server" KeyFieldName="cnt_id" AutoGenerateColumns="False" DataSourceID="EntityServerlogModeDataSource"
+                        Width="100%" ClientInstanceName="cGrdEmployee" OnCustomCallback="GrdEmployee_CustomCallback" SettingsBehavior-AllowFocusedRow="true" Settings-HorizontalScrollBarMode="Auto">
+                        <ClientSideEvents EndCallback="function(s, e) {GrdEmployee1_EndCallBack();}" />
+                        <%--Mantise ID:0024752: Optimize FSM Employee Master
+                             Rev work close Swati Date:-15.03.2022--%>
+                        <SettingsBehavior AllowFocusedRow="true" ConfirmDelete="True" ColumnResizeMode="NextColumn" />
+                        <Styles>
+                            <Header SortingImageSpacing="5px" ImageSpacing="5px">
+                            </Header>
+                            <LoadingPanel ImageSpacing="10px">
+                            </LoadingPanel>
+                            <Row Wrap="true">
+                            </Row>
+                            <%-- <FocusedRow HorizontalAlign="Left" VerticalAlign="Top" ></FocusedRow>
+                            <AlternatingRow Enabled="True"></AlternatingRow>--%>
+                        </Styles>
+
+                        <Columns>
+                            <%--Mantis Issue 24752_Rectify [SortOrder="Descending"  added]   --%>
+                            <dxe:GridViewDataTextColumn FieldName="cnt_id" Visible="false" ShowInCustomizationForm="false" SortOrder="Descending" Width="0">
+                                <CellStyle Wrap="False" CssClass="gridcellleft"></CellStyle>
+                                <Settings AllowAutoFilterTextInputTimer="False" />
+                            </dxe:GridViewDataTextColumn>
+                            <%--End of Mantis Issue 24752_Rectify--%>
+
+                            <dxe:GridViewDataTextColumn Caption="Code" Visible="False" FieldName="ContactID" Width="90px"
+                                VisibleIndex="0" FixedStyle="Left">
+                                <PropertiesTextEdit DisplayFormatInEditMode="True">
+                                </PropertiesTextEdit>
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn Caption="Name" FieldName="Name" Width="150px"
+                                VisibleIndex="1" FixedStyle="Left">
+                                <CellStyle CssClass="gridcellleft" Wrap="true">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+
+                            <dxe:GridViewDataTextColumn Caption="Grade" FieldName="Employee_Grade" Width="50px"
+                                VisibleIndex="2" FixedStyle="Left">
+                                <CellStyle CssClass="gridcellleft" Wrap="true">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                            <%--Mantis Issue 24736--%>
+                            <dxe:GridViewDataTextColumn Caption="Other ID" FieldName="cnt_OtherID" Width="100px"
+                                VisibleIndex="3" FixedStyle="Left">
+                                <CellStyle CssClass="gridcellleft" Wrap="true">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <%--End of Mantis Issue 24736--%>
+
+                            <dxe:GridViewDataDateColumn Caption="Joining On" FieldName="DOJ"
+                                VisibleIndex="8" Width="100px" ReadOnly="True">
+                            </dxe:GridViewDataDateColumn>
+
+                            <dxe:GridViewDataTextColumn Caption="Department" FieldName="Department"
+                                VisibleIndex="6" Width="120px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn Caption="Branch" FieldName="BranchName"
+                                VisibleIndex="5" Width="150px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn Caption="CTC" FieldName="CTC"
+                                VisibleIndex="7" Width="75px" Visible="false">
+                                <CellStyle CssClass="gridcellleft" Wrap="False" HorizontalAlign="Left">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn Caption="Report To" FieldName="ReportTo"
+                                VisibleIndex="9" Width="200px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <%--Mantis Issue Pratik Extra Columns--%>
+                            <dxe:GridViewDataTextColumn Caption="Additional Reporting Head" FieldName="AdditionalReportingHead"
+                                VisibleIndex="10" Width="200px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn Caption="Colleague" FieldName="Colleague"
+                                VisibleIndex="11" Width="200px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn Caption="Colleague1" FieldName="Colleague1"
+                                VisibleIndex="12" Width="200px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn Caption="Colleague2" FieldName="Colleague2"
+                                VisibleIndex="13" Width="200px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <%--End of Mantis Issue Pratik Extra Columns--%>
+
+                            <dxe:GridViewDataTextColumn Caption="Designation" FieldName="Designation"
+                                VisibleIndex="7" Width="150px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn Caption="Company" FieldName="Company"
+                                VisibleIndex="4" Width="150px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewCommandColumn Visible="False" ShowDeleteButton="true" VisibleIndex="16">
+                                <%--<DeleteButton Visible="True" Text="Delete">
+                                </DeleteButton>--%>
+                            </dxe:GridViewCommandColumn>
+                            <%--Rev work start 26.04.2022 0024853: Copy feature add in Employee master--%>
+                            <%--<dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="17" Width="100px">--%>
+                            <dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="17" Width="110px">
+                                <%--Rev work close 26.04.2022 0024853: Copy feature add in Employee master--%>
+                                <DataItemTemplate>
+                                    <% if (rights.CanContactPerson)
+                                       { %>
+                                    <a href="javascript:void(0);" onclick="OnContactInfoClick('<%#Eval("ContactID") %>','<%#Eval("Name") %>')" title="show contact person" class="pad">
+                                        <img src="../../../assests/images/show.png" style="padding-right: 8px" />
+                                    </a><% } %>
+                                    <% if (rights.CanEdit)
+                                       { %>
+                                    <a href="javascript:void(0);" onclick="OnMoreInfoClick('<%# Container.KeyValue %>')" class="pad" title="More Info">
+                                        <img src="../../../assests/images/info.png" /></a><% } %>
+                                    <%--Rev work start 26.04.2022 0024853: Copy feature add in Employee master--%>
+                                     <% if (rights.CanAdd)
+                                       { %>
+                                    <a href="javascript:void(0);" onclick="OnCopyInfoClick('<%# Container.KeyValue %>')" class="pad" title="Copy">
+                                        <img src="../../../assests/images/copy.png" /></a><% } %>
+                                    <%--Rev work close 26.04.2022 0024853: Copy feature add in Employee master--%>
+                                    <% if (rights.CanAdd)
+                                       { %>
+                                    <a href="javascript:void(0);" onclick="EMPIDBind('<%#Eval("ContactID") %>')" title="Update Employee ID" class="pad" style="text-decoration: none;">
+                                        <img src="../../../assests/images/exchange.png" width="16px" />
+                                        <% } %>
+
+                                        <%--<a href="javascript:void(0);" onclick="OnAddBusinessClick('<%#Eval("ContactID") %>','<%#Eval("Name") %>')" title="State Bind" class="pad" style="text-decoration: none;">
+                                        <img src="../../../assests/images/icoaccts.gif" />--%>
+
+
+                                        <a href="javascript:void(0);" onclick="StateBind('<%#Eval("ContactID") %>')" title="State Mapping" class="pad" style="text-decoration: none;">
+                                            <img src="../../../assests/images/icoaccts.gif" />
+                                            <% if (rights.CanDelete)
+                                               { %>
+
+                                            <a href="javascript:void(0);" onclick="fn_DeleteEmp('<%#Eval("ContactID") %>')" title="Delete">
+                                                <img src="../../../assests/images/Delete.png" /></a>
+                                            <% } %>
+
+
+
+                                            <% if (rights.CanDelete)
+                                               { %>
+
+                                            <%-- <a href="javascript:void(0);" onclick="fn_DeActivateEmp('<%#Eval("ContactID") %>')" title="Activate/Deactivate">
+                                            <img src="../../../assests/images/activate_icon.png" /></a>--%>
+                                            <% } %>
+                                            <%--Mantis Issue 24982--%>
+                                            <% if (rights.CanAdd)
+                                            { %>
+                                        <a href="javascript:void(0);" onclick="OnEmployeeChannelInfoClick('<%# Container.KeyValue %>')" class="pad" title="EmployeeChannel">
+                                            <img src="../../../assests/images/doc.png" /></a><% } %>
+                                            <%--End of Mantis Issue 24982--%>
+
+                                            <%--Mantis Issue 25001--%>
+                                            <% if (!ActivateEmployeeBranchHierarchy){ %>
+                                            <%--Mantis Issue 25001--%>
+                                                <%--Mantis Issue 25001--%>
+                                                <a href="javascript:void(0);" onclick="fn_BranchMap('<%# Container.KeyValue %>')" class="pad" title="Branch Mapping">
+                                                <span class='ico deleteColor'><i class='fa fa-sitemap' aria-hidden='true'></i></span></a>
+                                                <%--End of Mantis Issue 25001--%>
+                                            <% }  %>
+
+                                            <%-- <asp:LinkButton ID="btn_delete" runat="server" OnClientClick="return confirm('Confirm delete?');" CommandArgument='<%# Container.KeyValue %>' CommandName="delete" ToolTip="Delete" Font-Underline="false">
+                                        <img src="/assests/images/Delete.png" />
+                                    </asp:LinkButton>--%>
+                                </DataItemTemplate>
+
+                                <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
+
+                                <CellStyle HorizontalAlign="Center"></CellStyle>
+
+                                <HeaderTemplate><span>Actions</span></HeaderTemplate>
+
+                                <EditFormSettings Visible="False"></EditFormSettings>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn Caption="Employee Code" FieldName="Code"
+                                VisibleIndex="1" FixedStyle="Left" Width="150px">
+                                <CellStyle CssClass="gridcellleft" Wrap="False">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                        </Columns>
+                        <SettingsPager PageSize="10" ShowSeparators="True">
+                            <FirstPageButton Visible="True">
+                            </FirstPageButton>
+                            <LastPageButton Visible="True">
+                            </LastPageButton>
+                            <PageSizeItemSettings Visible="true" ShowAllItem="false" Items="10,50,100,150,200" />
+                        </SettingsPager>
+                        <SettingsCommandButton>
+                            <DeleteButton ButtonType="Image" Image-Url="/assests/images/Delete.png">
+                            </DeleteButton>
+                        </SettingsCommandButton>
+                        <SettingsEditing Mode="PopupEditForm" PopupEditFormHorizontalAlign="Center" PopupEditFormModal="True"
+                            PopupEditFormVerticalAlign="WindowCenter" PopupEditFormWidth="900px" EditFormColumnCount="3" />
+                        <SettingsText PopupEditFormCaption="Add/ Modify Employee" ConfirmDelete="Are you sure to delete?" />
+                        <SettingsSearchPanel Visible="True" />
+                        <Settings ShowGroupPanel="True" ShowStatusBar="Hidden" ShowHorizontalScrollBar="False" ShowFilterRow="true" ShowFilterRowMenu="true" />
+                        <SettingsLoadingPanel Text="Please Wait..." />
+                    </dxe:ASPxGridView>
+
+                </td>
+            </tr>
+        </table>
+            </div>
+          <%--Mantise ID:0024752: Optimize FSM Employee Masterss
+                 Rev work Swati Date:-15.03.2022--%>
+       <dx:linqservermodedatasource id="EntityServerlogModeDataSource" runat="server" onselecting="EntityServerModelogDataSource_Selecting"
+                    contexttypename="ERPDataClassesDataContext" tablename="FTS_Final_Display" />
+        <%--Mantise ID:0024752: Optimize FSM Employee Master
+             Rev work close Swati Date:-15.03.2022--%>
+        <br />
+        <asp:HiddenField ID="hdn_GridBindOrNotBind" runat="server" />
+        <asp:Button ID="BtnForExportEvent" runat="server" OnClick="cmbExport_SelectedIndexChanged" BackColor="#DDECFE" BorderStyle="None" Visible="false" />
+        <dxe:ASPxGridViewExporter ID="exporter" runat="server" GridViewID="GrdEmployee" Landscape="true" PaperKind="A4" PageHeader-Font-Size="Larger" PageHeader-Font-Bold="true">
+        </dxe:ASPxGridViewExporter>
+
+    </div>
+    <div class="PopUpArea">
+        <dxe:ASPxPopupControl ID="ASPxActivationPopup" runat="server" ClientInstanceName="cActivationPopup"
+            Width="350px" HeaderText="Activate/Deactivate" PopupHorizontalAlign="WindowCenter"
+            PopupVerticalAlign="WindowCenter" CloseAction="CloseButton"
+            Modal="True" ContentStyle-VerticalAlign="Top" EnableHierarchyRecreation="True">
+            <ContentCollection>
+                <dxe:PopupControlContentControl runat="server">
+                    <dxe:ASPxCallbackPanel runat="server" ID="SelectPanel" ClientInstanceName="cSelectPanel" OnCallback="SelectPanel_Callback">
+                        <ClientSideEvents EndCallback="function(s, e) {SelectPanel_EndCallBack();}" />
+                        <PanelCollection>
+                            <dxe:PanelContent runat="server">
+                                <div>De-Activate</div>
+                                <div>
+                                    <dxe:ASPxCheckBox ID="CmbDesignName" ClientInstanceName="cCmbDesignName" runat="server" ValueType="System.String" Width="100%" EnableSynchronization="True">
+                                        <ClientSideEvents CheckedChanged="function(s, e) {return ActivateDeactivateTxtReason(s, e); }" />
+                                    </dxe:ASPxCheckBox>
+                                </div>
+                                <div id="DivVisible">
+                                    <div>Reason Of Deactivate</div>
+
+                                    <dxe:ASPxMemo ID="TxtReason" ClientInstanceName="cTxtReason" runat="server" ValueType="System.String" Width="100%" Height="200px">
+                                        <ValidationSettings RequiredField-IsRequired="true" Display="None"></ValidationSettings>
+                                    </dxe:ASPxMemo>
+                                </div>
+                                <div class="text-center pTop10">
+                                    <dxe:ASPxButton ID="btnOK" ClientInstanceName="cbtnOK" runat="server" AutoPostBack="False" Text="OK" CssClass="btn btn-primary" meta:resourcekey="btnSaveRecordsResource1" UseSubmitBehavior="False">
+                                        <ClientSideEvents Click="function(s, e) {return PerformCallToGridBind(); }" />
+
+                                    </dxe:ASPxButton>
+                                </div>
+
+                            </dxe:PanelContent>
+                        </PanelCollection>
+                    </dxe:ASPxCallbackPanel>
+                </dxe:PopupControlContentControl>
+            </ContentCollection>
+
+        </dxe:ASPxPopupControl>
+    </div>
+    <input type="hidden" runat="server" id="hdnContactId" value="" />
+
+
+    <div class="PopUpArea">
+        <dxe:ASPxPopupControl ID="popupsupervisorchange" runat="server" ClientInstanceName="cActivationPopupsupervisor"
+            Width="350px" HeaderText="Supervisor Change" PopupHorizontalAlign="WindowCenter"
+            PopupVerticalAlign="WindowCenter" CloseAction="CloseButton"
+            Modal="True" ContentStyle-VerticalAlign="Top" EnableHierarchyRecreation="True">
+            <ContentCollection>
+                <dxe:PopupControlContentControl runat="server">
+                    <dxe:ASPxCallbackPanel runat="server" ID="ASPxCallbackPanel1" ClientInstanceName="cSelectPanel" OnCallback="SelectPanel_Callback">
+                        <ClientSideEvents EndCallback="function(s, e) {SelectPanel_EndCallBack();}" />
+                        <PanelCollection>
+                            <dxe:PanelContent runat="server">
+                                <div>Past Supervisor</div>
+                                <div>
+                                    <asp:DropDownList ID="fromsuper" runat="server"></asp:DropDownList>
+                                </div>
+                                <div id="">
+
+
+                                    <div>New Supervisor</div>
+
+                                    <asp:DropDownList ID="tosupervisor" runat="server"></asp:DropDownList>
+                                </div>
+                                <div class="text-center pTop10">
+                                    <a href="javascript:void(0);" onclick="OnserverCallSupervisorchanged()" class="btn btn-primary"><span>Change Supervisor</span> </a>
+                                </div>
+
+                            </dxe:PanelContent>
+                        </PanelCollection>
+                    </dxe:ASPxCallbackPanel>
+                </dxe:PopupControlContentControl>
+            </ContentCollection>
+
+        </dxe:ASPxPopupControl>
+    </div>
+
+
+    <div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog" style="width: 450px;">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">State List</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+
+                        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for States.">
+
+                        <ul id="divModalBody" class="listStyle">
+                            <%--<input type="checkbox" id="idstate" class="statecheck" /><label id="lblstatename" class="lblstate"></label>--%>
+                        </ul>
+                    </div>
+                    <input type="button" id="btnsatesubmit" title="SUBMIT" value="SUBMIT" class="btn btn-primary" onclick="STATEPUSHPOP()" />
+                    <input type="hidden" id="hdnstatelist" class="btn btn-primary" />
+                    <input type="hidden" id="hdnEMPID" class="btn btn-primary" />
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="myEmpIDModal" class="modal fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog" style="width: 450px;">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Update Employee ID</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <label id="lbloldEmpID" class="lblstate">OLD Employee ID :</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <label id="lblOLDEmpIDname" class="lblstate">9563218466</label>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-sm-5">
+                            <label id="lblEmpIDname" class="lblstate">New Employee ID :</label>
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="text" id="txtEMPId" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="modal-footer" style="padding: 8px 26px 5px;">
+                    <input type="button" id="btnEMPidSubmit" title="Update" value="Update" class="btn btn-primary" onclick="UpdateEmpId()" />
+                   
+                     <input type="hidden" id="hdnEMPCode" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <%--Mantis Issue 25001--%>
+    <div id="myModalBranchMap" class="modal fade branch-list-modal" data-backdrop="static" role="dialog">
+        <div class="modal-dialog" style="width: 520px;">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Branch List</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+
+                        <%--<input type="text" id="myInputBranchMap" onkeyup="myFunctionBranchMap()" placeholder="Search for Branch.">--%>
+
+                        <div class="input-group flex-nowrap">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fa fa-search"></i></span>
+                          </div>
+                          <input type="text" id="myInputBranchMap" onkeyup="myFunctionBranchMap()" class="form-control" placeholder="Search for Branch" aria-describedby="addon-wrapping">
+                        </div>
+
+                        <div id="divModalBodyBranchMap" class="listStyle">
+                            <%--<input type="checkbox" id="idstate" class="statecheck" /><label id="lblstatename" class="lblstate"></label>--%>
+                        </div>
+                    </div>
+                    <input type="button" id="btnBranchMapsubmit" title="SUBMIT" value="SUBMIT" class="btn btn-primary" onclick="BranchPushPop()" />
+                    <%--<input type="hidden" id="hdnstatelist" class="btn btn-primary" />
+                    <input type="hidden" id="hdnEMPID" class="btn btn-primary" />--%>
+                </div>
+               <%-- <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearData();">Close</button>
+            </div>--%>
+            </div>
+
+        </div>
+    </div>
+    <%--End of Mantis Issue 25001--%>
+
+    <style>
+        #myInput {
+            background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+            background-position: 10px 12px; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            width: 100%; /* Full-width */
+            font-size: 16px; /* Increase font-size */
+            padding: 12px 20px 12px 40px; /* Add some padding */
+            border: 1px solid #ddd; /* Add a grey border */
+            margin-bottom: 12px; /* Add some space below the input */
+        }
+
+        #divModalBody {
+            /* Remove default list styling */
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 8px;
+        }
+
+            #divModalBody li {
+                padding: 5px 10px;
+            }
+
+                #divModalBody li a {
+                    margin-top: -1px; /* Prevent double borders */
+                    padding: 0 12px; /* Add some padding */
+                    text-decoration: none; /* Remove default text underline */
+                    font-size: 14px; /* Increase the font-size */
+                    color: black; /* Add a black text color */
+                    display: inline-block; /* Make it into a block element to fill the whole list */
+                    cursor: pointer;
+                }
+                .tblView>tbody>tr>td{
+                    padding-right:5px;
+                    padding-bottom:10px
+                }
+                .tblView>tbody>tr>td>label{
+                    display:block
+                }
+    </style>
+    <%--Mantis Issue 25001--%>
+    <style>
+        #myInputBranchMap {
+            background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+            background-position: 10px 12px; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            width: 100%; /* Full-width */
+            font-size: 16px; /* Increase font-size */
+            padding: 12px 20px 12px 40px; /* Add some padding */
+            border: 1px solid #ddd; /* Add a grey border */
+            margin-bottom: 12px; /* Add some space below the input */
+        }
+
+        #divModalBodyBranchMap {
+            /* Remove default list styling */
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            margin-bottom: 8px;
+        }
+
+            #divModalBodyBranchMap li {
+                padding: 5px 10px;
+            }
+
+                #divModalBodyBranchMap li a {
+                    margin-top: -1px; /* Prevent double borders */
+                    padding: 0 12px; /* Add some padding */
+                    text-decoration: none; /* Remove default text underline */
+                    font-size: 14px; /* Increase the font-size */
+                    color: black; /* Add a black text color */
+                    display: inline-block; /* Make it into a block element to fill the whole list */
+                    cursor: pointer;
+                }
+                .tblView>tbody>tr>td{
+                    padding-right:5px;
+                    padding-bottom:10px
+                }
+                .tblView>tbody>tr>td>label{
+                    display:block
+                }
+    </style>
+
+    <script>
+        function myFunctionBranchMap() {
+            // Declare variables
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('myInputBranchMap');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("divModalBodyBranchMap");
+            li = ul.getElementsByTagName('li');
+
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+
+            }
+        }
+    </script>
+    <%--End of Mantis Issue 25001--%>
+    <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('myInput');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("divModalBody");
+            li = ul.getElementsByTagName('li');
+
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+
+            }
+        }
+    </script>
+
+    
+    <div class="modal fade" id="modalimport" role="dialog">
+        <div class="modal-dialog VerySmall">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Select File to Import (Add/Update)</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="col-md-12">
+                        <div id="divproduct">
+
+                            <div>
+                                <asp:FileUpload ID="OFDBankSelect" accept=".xls,.xlsx" runat="server" Width="100%" />
+                                <div class="pTop10  mTop5">
+                                    <asp:Button ID="BtnSaveexcel" runat="server" Text="Import(Add/Update)" OnClick="BtnSaveexcel_Click1" CssClass="btn btn-primary" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <%--Mantis Issue 24982--%>
+    <div class="modal fade pmsModal" id="modalEmployeeChannel" role="dialog">
+        <div class="modal-dialog" style="width:100%">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <%--<button type="button" class="close" data-dismiss="modal">&times;</button>--%>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearChannelData();"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Employee Channel/Circle/Section</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table style="width:100%" class="tblView">
+                                <tr>
+                                    <td>
+                                        <label>Report To</label>
+                                         <input type="text" class="form-control" id="txtReportTo" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Additional Reporting Head</label>
+                                        <input type="text" class="form-control" id="txtAddReportingHead" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Colleague</label>
+                                        <input type="text" class="form-control" id="txtColleague" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Colleague1</label>
+                                        <input type="text" class="form-control" id="txtColleague1" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Colleague2</label>
+                                        <input type="text" class="form-control" id="txtColleague2" readonly="readonly" />
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>
+                                        <label>Channel</label>
+                                        <input type="text" class="form-control" id="txtReportToChannel" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Channel</label>
+                                        <input type="text" class="form-control" id="txtAddReportingHeadChannel" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Channel</label>
+                                        <input type="text" class="form-control" id="txtColleagueChannel" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Channel</label>
+                                        <input type="text" class="form-control" id="txtColleague1Channel" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Channel</label>
+                                        <input type="text" class="form-control" id="txtColleague2Channel" readonly="readonly" />
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>
+                                        <label>Circle</label>
+                                        <input type="text" class="form-control" id="txtReportToCircle" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Circle</label>
+                                        <input type="text" class="form-control" id="txtAddReportingHeadCircle" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Circle</label>
+                                        <input type="text" class="form-control" id="txtColleagueCircle" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Circle</label>
+                                        <input type="text" class="form-control" id="txtColleague1Circle" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Circle</label>
+                                        <input type="text" class="form-control" id="txtColleague2Circle" readonly="readonly" />
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <td>
+                                        <label>Section</label>
+                                        <input type="text" class="form-control" id="txtReportToSection" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Section</label>
+                                        <input type="text" class="form-control" id="txtAddReportingHeadSection" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Section</label>
+                                        <input type="text" class="form-control" id="txtColleagueSection" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Section</label>
+                                        <input type="text" class="form-control" id="txtColleague1Section" readonly="readonly" />
+                                    </td>
+                                    <td>
+                                        <label>Section</label>
+                                        <input type="text" class="form-control" id="txtColleague2Section" readonly="readonly" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <%--<div class="row">
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                        <div class="col-md-2">
+                            
+                        </div>
+                    </div>--%>
+                    <div class="clear"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearChannelData();">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%--End of Mantis Issue 24982--%>
+
+</asp:Content>
