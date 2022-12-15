@@ -26,18 +26,30 @@ namespace ShopAPI.Controllers
             }
             else
             {
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
-           
+                //Rev Debashis Row:774
+                //String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                //End of Rev Debashis Row:774
+
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                //Rev Debashis Row:774
+                //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                //End of Rev Debashis Row:774
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APIHierarchyWiseUser", sqlcon);
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@ACTION", "MEMBER");
-                sqlcmd.Parameters.Add("@isFirstScreen", model.isFirstScreen);
-                sqlcmd.Parameters.Add("@isAllTeam", model.isAllTeam);
+                //Rev Debashis Row:774
+                //sqlcmd.Parameters.Add("@user_id", model.user_id);
+                //sqlcmd.Parameters.Add("@ACTION", "MEMBER");
+                //sqlcmd.Parameters.Add("@isFirstScreen", model.isFirstScreen);
+                //sqlcmd.Parameters.Add("@isAllTeam", model.isAllTeam);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "MEMBER");
+                sqlcmd.Parameters.AddWithValue("@isFirstScreen", model.isFirstScreen);
+                sqlcmd.Parameters.AddWithValue("@isAllTeam", model.isAllTeam);
+                //End of Rev Debashis Row:774
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -74,17 +86,29 @@ namespace ShopAPI.Controllers
             }
             else
             {
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                //Rev Debashis Row:774
+                //String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                //End of Rev Debashis Row:774
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                //Rev Debashis Row:774
+                //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                //End of Rev Debashis Row:774
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APIHierarchyWiseUser", sqlcon);
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@ACTION", "SHOPLIST");
-                sqlcmd.Parameters.Add("@area_id", model.area_id);
+                //Rev Debashis Row:774
+                //sqlcmd.Parameters.Add("@user_id", model.user_id);
+                //sqlcmd.Parameters.Add("@ACTION", "SHOPLIST");
+                //sqlcmd.Parameters.Add("@area_id", model.area_id);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "SHOPLIST");
+                sqlcmd.Parameters.AddWithValue("@area_id", model.area_id);
+                //End of Rev Debashis Row:774
+
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);
@@ -120,17 +144,29 @@ namespace ShopAPI.Controllers
             }
             else
             {
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                //Rev Debashis Row:774
+                //String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                //End of Rev Debashis Row:774
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                //Rev Debashis Row:774
+                //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                //End of Rev Debashis Row:774
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_FTSAPI_ShopHierarchy", sqlcon);
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@SHOP_CODE", model.shop_id);
-                sqlcmd.Parameters.Add("@area_id", model.area_id);
+                //Rev Debashis Row:774
+                //sqlcmd.Parameters.Add("@user_id", model.user_id);
+                //sqlcmd.Parameters.Add("@SHOP_CODE", model.shop_id);
+                //sqlcmd.Parameters.Add("@area_id", model.area_id);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@SHOP_CODE", model.shop_id);
+                sqlcmd.Parameters.AddWithValue("@area_id", model.area_id);
+                //End of Rev Debashis Row:774
+
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);
@@ -167,14 +203,21 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                //Rev Debashis Row:774
+                //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                //End of Rev Debashis Row:774
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
 
                 sqlcmd = new SqlCommand("PRC_APIHierarchyWiseUser", sqlcon);
-                sqlcmd.Parameters.Add("@ACTION", "USERREPORTTO");
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
+                //Rev Debashis Row:774
+                //sqlcmd.Parameters.Add("@ACTION", "USERREPORTTO");
+                //sqlcmd.Parameters.Add("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "USERREPORTTO");
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                //End of Rev Debashis Row:774
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

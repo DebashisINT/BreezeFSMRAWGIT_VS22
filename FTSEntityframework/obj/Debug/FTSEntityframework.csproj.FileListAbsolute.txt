@@ -1,8 +1,8 @@
-E:\PROJECTS\BreezeFSMRAWGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.AssemblyReference.cache
-E:\PROJECTS\BreezeFSMRAWGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.CoreCompileInputs.cache
-E:\PROJECTS\BreezeFSMRAWGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.dll.config
-E:\PROJECTS\BreezeFSMRAWGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.dll
-E:\PROJECTS\BreezeFSMRAWGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.pdb
-E:\PROJECTS\BreezeFSMRAWGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.CopyComplete
-E:\PROJECTS\BreezeFSMRAWGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.dll
-E:\PROJECTS\BreezeFSMRAWGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.pdb
+E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.AssemblyReference.cache
+E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.CoreCompileInputs.cache
+E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.dll.config
+E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.dll
+E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.pdb
+E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.CopyComplete
+E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.dll
+E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.pdb

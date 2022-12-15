@@ -101,6 +101,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Excel.dll</HintPath>
     </Reference>
+    <Reference Include="FTSEntityframework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\FTSEntityframework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -3045,10 +3049,6 @@
     <ProjectReference Include="..\EntityLayer\EntityLayer.csproj">
       <Project>{d31c544e-8eb6-4a69-b0f2-9c46ff7fc533}</Project>
       <Name>EntityLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\FTSEntityframework\FTSEntityframework.csproj">
-      <Project>{33549260-cc03-41f9-b519-3707abc219a5}</Project>
-      <Name>FTSEntityframework</Name>
     </ProjectReference>
     <ProjectReference Include="..\UtilityLayer\UtilityLayer.csproj">
       <Project>{9f45f4c2-a1b9-4aea-9f77-72b9f864b593}</Project>

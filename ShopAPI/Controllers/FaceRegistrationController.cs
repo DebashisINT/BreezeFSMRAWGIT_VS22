@@ -19,7 +19,7 @@ namespace ShopAPI.Controllers
         {
             UserListOutputModel omodel = new UserListOutputModel();
             //Rev Debashis
-            String APIHostingPort = System.Configuration.ConfigurationSettings.AppSettings["APIHostingPort"];
+            String APIHostingPort = System.Configuration.ConfigurationManager.AppSettings["APIHostingPort"];
             //End of Rev Debashis
             List<userDetails> oview = new List<userDetails>();
             if (!ModelState.IsValid)
@@ -31,14 +31,14 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_FTSAPI_USERLISTSHOPMAP", sqlcon);
-                sqlcmd.Parameters.Add("@Action", "UserList");
-                sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                sqlcmd.Parameters.Add("@BaseURL", APIHostingPort);
+                sqlcmd.Parameters.AddWithValue("@Action", "UserList");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@BaseURL", APIHostingPort);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);
@@ -65,7 +65,7 @@ namespace ShopAPI.Controllers
         public HttpResponseMessage FaceMatch(FaceMatchingInputModel model)
         {
             FaceMatchingOutputModel omodel = new FaceMatchingOutputModel();
-            String APIHostingPort = System.Configuration.ConfigurationSettings.AppSettings["APIHostingPort"];
+            String APIHostingPort = System.Configuration.ConfigurationManager.AppSettings["APIHostingPort"];
             if (!ModelState.IsValid)
             {
                 omodel.status = "213";
@@ -75,14 +75,14 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_FTSAPI_USERLISTSHOPMAP", sqlcon);
-                sqlcmd.Parameters.Add("@Action", "FaceMatch");
-                sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                sqlcmd.Parameters.Add("@BaseURL", APIHostingPort);
+                sqlcmd.Parameters.AddWithValue("@Action", "FaceMatch");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@BaseURL", APIHostingPort);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);
@@ -165,14 +165,14 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PROC_APIFaceImageDetection", sqlcon);
-                sqlcmd.Parameters.Add("@Action", "FaceRegTypeIDSave");
-                sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                sqlcmd.Parameters.Add("@FaceRegTypeID", model.type_id);
+                sqlcmd.Parameters.AddWithValue("@Action", "FaceRegTypeIDSave");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@FaceRegTypeID", model.type_id);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);
