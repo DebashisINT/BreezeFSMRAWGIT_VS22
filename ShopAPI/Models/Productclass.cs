@@ -19,6 +19,9 @@ namespace ShopAPI.Models
         //Rev Debashis Row:773
         public decimal product_mrp_show { get; set; }
         //End of Rev Debashis Row:773 
+        //Rev Debashis Row:777
+        public decimal product_discount_show { get; set; }
+        //End of Rev Debashis Row:777
 
     }
     public class ProductclassInput

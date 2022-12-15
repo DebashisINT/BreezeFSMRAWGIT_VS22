@@ -24,22 +24,15 @@ namespace ShopAPI.Models
         public string leave_type { get; set; }
 
         public string Distributor_Name { get; set; }
-        public string Market_Worked { get; set; }
-
-        
+        public string Market_Worked { get; set; }        
         public string order_taken { get; set; }
         public string collection_taken { get; set; }
         public string new_shop_visit { get; set; }
         public string revisit_shop { get; set; }
         public string state_id { get; set; }
-
         public string IsNoPlanUpdate { get; set; }
-
-
         public List<shopAttendance> shop_list { get; set; }
-
         public List<StatewiseTraget> primary_value_list { get; set; }
-
         public List<UpdatePlanList> Update_Plan_List { get; set; }
 
         //Rev Tanmoy add leave resion add
@@ -54,6 +47,11 @@ namespace ShopAPI.Models
         //Rev Debashis Row 725
         public long beat_id { get; set; }
         //End of Rev Debashis Row 725
+        //Rev Debashis Row 776
+        public bool IsJointVisit { get; set; }
+        public string JointVisitTeam_MemberName { get; set; }
+        public long JointVisitTeam_Member_User_ID { get; set; }
+        //End of Rev Debashis Row 776
     }
 
 

@@ -33,6 +33,9 @@ namespace ShopAPI.Models
         //Rev Debashis
         public bool isLeavePending { get; set; }
         public bool isLeaveApplied { get; set; }
+        public String State { get; set; }
+        public String Branch { get; set; }
+        public String Designation { get; set; }
         //End of Rev Debashis
     }
 

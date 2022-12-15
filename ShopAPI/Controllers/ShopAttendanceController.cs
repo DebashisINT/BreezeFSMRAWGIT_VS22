@@ -26,7 +26,7 @@ namespace ShopAPI.Controllers
                 string token = string.Empty;
                 string versionname = string.Empty;
                 System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
-                String tokenmatch = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String tokenmatch = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 //if (headers.Contains("version_name"))
                 //{
                 //    versionname = headers.GetValues("version_name").First();
@@ -48,9 +48,6 @@ namespace ShopAPI.Controllers
                     {
                         // String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
                         string sessionId = "";
-
-
-
 
                         List<shopAttendance> omedl2 = new List<shopAttendance>();
 
@@ -75,7 +72,7 @@ namespace ShopAPI.Controllers
 
                         DataTable dt = new DataTable();
 
-                        String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                        String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                         //String con = Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]);
 
                         SqlCommand sqlcmd = new SqlCommand();
@@ -85,23 +82,21 @@ namespace ShopAPI.Controllers
                         sqlcmd = new SqlCommand("Proc_FTS_Attendancesubmit", sqlcon);
 
 
-                        sqlcmd.Parameters.Add("@user_id", model.user_id);
-                        sqlcmd.Parameters.Add("@SessionToken", model.session_token);
-                        sqlcmd.Parameters.Add("@wtype", model.work_type);
-                        sqlcmd.Parameters.Add("@wdesc", model.work_desc);
-                        sqlcmd.Parameters.Add("@wlatitude", model.work_lat);
-                        sqlcmd.Parameters.Add("@wlongitude", model.work_long);
-                        sqlcmd.Parameters.Add("@Waddress", model.work_address);
-                        sqlcmd.Parameters.Add("@Wdatetime", model.work_date_time);
-                        sqlcmd.Parameters.Add("@Isonleave", model.is_on_leave);
-                        sqlcmd.Parameters.Add("@add_attendence_time", model.add_attendence_time);
-                        sqlcmd.Parameters.Add("@RouteID", model.route);
-                        sqlcmd.Parameters.Add("@ShopList_List", JsonXML);
-                        sqlcmd.Parameters.Add("@leave_from_date", model.leave_from_date);
-                        sqlcmd.Parameters.Add("@leave_type", model.leave_type);
-                        sqlcmd.Parameters.Add("@leave_to_date", model.leave_to_date);
-
-                        
+                        sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                        sqlcmd.Parameters.AddWithValue("@SessionToken", model.session_token);
+                        sqlcmd.Parameters.AddWithValue("@wtype", model.work_type);
+                        sqlcmd.Parameters.AddWithValue("@wdesc", model.work_desc);
+                        sqlcmd.Parameters.AddWithValue("@wlatitude", model.work_lat);
+                        sqlcmd.Parameters.AddWithValue("@wlongitude", model.work_long);
+                        sqlcmd.Parameters.AddWithValue("@Waddress", model.work_address);
+                        sqlcmd.Parameters.AddWithValue("@Wdatetime", model.work_date_time);
+                        sqlcmd.Parameters.AddWithValue("@Isonleave", model.is_on_leave);
+                        sqlcmd.Parameters.AddWithValue("@add_attendence_time", model.add_attendence_time);
+                        sqlcmd.Parameters.AddWithValue("@RouteID", model.route);
+                        sqlcmd.Parameters.AddWithValue("@ShopList_List", JsonXML);
+                        sqlcmd.Parameters.AddWithValue("@leave_from_date", model.leave_from_date);
+                        sqlcmd.Parameters.AddWithValue("@leave_type", model.leave_type);
+                        sqlcmd.Parameters.AddWithValue("@leave_to_date", model.leave_to_date);                        
                         
                         sqlcmd.CommandType = CommandType.StoredProcedure;
                         SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -150,12 +145,6 @@ namespace ShopAPI.Controllers
                 var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
                 return message;
             }
-
-
-
-
-
-
         }
 
         [HttpPost]
@@ -169,7 +158,7 @@ namespace ShopAPI.Controllers
                 string token = string.Empty;
                 string versionname = string.Empty;
                 System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
-                String tokenmatch = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String tokenmatch = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 
                 if (!ModelState.IsValid)
                 {
@@ -245,7 +234,7 @@ namespace ShopAPI.Controllers
 
                     DataTable dt = new DataTable();
 
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     //String con = Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]);
 
                     SqlCommand sqlcmd = new SqlCommand();
@@ -255,58 +244,58 @@ namespace ShopAPI.Controllers
                     sqlcmd = new SqlCommand("Proc_FTS_Attendancesubmit", sqlcon);
 
 
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@SessionToken", model.session_token);
-                    sqlcmd.Parameters.Add("@wtype", model.work_type);
-                    sqlcmd.Parameters.Add("@wdesc", model.work_desc);
-                    sqlcmd.Parameters.Add("@wlatitude", model.work_lat);
-                    sqlcmd.Parameters.Add("@wlongitude", model.work_long);
-                    sqlcmd.Parameters.Add("@Waddress", model.work_address);
-                    sqlcmd.Parameters.Add("@Wdatetime", model.work_date_time);
-                    sqlcmd.Parameters.Add("@Isonleave", model.is_on_leave);
-                    sqlcmd.Parameters.Add("@add_attendence_time", model.add_attendence_time);
-                    sqlcmd.Parameters.Add("@RouteID", model.route);
-                    sqlcmd.Parameters.Add("@ShopList_List", JsonXML);
-
-                    sqlcmd.Parameters.Add("@Target_List", JsonTargetXML);
-
-                    sqlcmd.Parameters.Add("@leave_from_date", model.leave_from_date);
-                    sqlcmd.Parameters.Add("@leave_type", model.leave_type);
-                    sqlcmd.Parameters.Add("@leave_to_date", model.leave_to_date);
-
-
-                    sqlcmd.Parameters.Add("@order_taken", model.order_taken);
-                    sqlcmd.Parameters.Add("@collection_taken", model.collection_taken);
-                    sqlcmd.Parameters.Add("@new_shop_visit", model.new_shop_visit);
-                    sqlcmd.Parameters.Add("@revisit_shop", model.revisit_shop);
-                    sqlcmd.Parameters.Add("@state_id", model.state_id);
-
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@SessionToken", model.session_token);
+                    sqlcmd.Parameters.AddWithValue("@wtype", model.work_type);
+                    sqlcmd.Parameters.AddWithValue("@wdesc", model.work_desc);
+                    sqlcmd.Parameters.AddWithValue("@wlatitude", model.work_lat);
+                    sqlcmd.Parameters.AddWithValue("@wlongitude", model.work_long);
+                    sqlcmd.Parameters.AddWithValue("@Waddress", model.work_address);
+                    sqlcmd.Parameters.AddWithValue("@Wdatetime", model.work_date_time);
+                    sqlcmd.Parameters.AddWithValue("@Isonleave", model.is_on_leave);
+                    sqlcmd.Parameters.AddWithValue("@add_attendence_time", model.add_attendence_time);
+                    sqlcmd.Parameters.AddWithValue("@RouteID", model.route);
+                    sqlcmd.Parameters.AddWithValue("@ShopList_List", JsonXML);
+                    sqlcmd.Parameters.AddWithValue("@Target_List", JsonTargetXML);
+                    sqlcmd.Parameters.AddWithValue("@leave_from_date", model.leave_from_date);
+                    sqlcmd.Parameters.AddWithValue("@leave_type", model.leave_type);
+                    sqlcmd.Parameters.AddWithValue("@leave_to_date", model.leave_to_date);
+                    sqlcmd.Parameters.AddWithValue("@order_taken", model.order_taken);
+                    sqlcmd.Parameters.AddWithValue("@collection_taken", model.collection_taken);
+                    sqlcmd.Parameters.AddWithValue("@new_shop_visit", model.new_shop_visit);
+                    sqlcmd.Parameters.AddWithValue("@revisit_shop", model.revisit_shop);
+                    sqlcmd.Parameters.AddWithValue("@state_id", model.state_id);
                     //Rev Tanmoy 30-10-2019 Add two column in loginlogout table
-                    sqlcmd.Parameters.Add("@Distributor_Name", model.Distributor_Name);
-                    sqlcmd.Parameters.Add("@Market_Worked", model.Market_Worked);
+                    sqlcmd.Parameters.AddWithValue("@Distributor_Name", model.Distributor_Name);
+                    sqlcmd.Parameters.AddWithValue("@Market_Worked", model.Market_Worked);
                     //Rev end Tanmoy 30-10-2019 Add two column in loginlogout table
 
                     //Rev Tanmoy 23-12-2019 send udt for fund plan
-                    SqlParameter paramProd = sqlcmd.Parameters.Add("@FUNDPLAN", SqlDbType.Structured);
+                    SqlParameter paramProd = sqlcmd.Parameters.AddWithValue("@FUNDPLAN", SqlDbType.Structured);
                     paramProd.Value = fundplandt;
                     //Rev End Tanmoy 23-12-2019 send udt for fund plan
 
                     //Rev Tanmoy 23-12-2019 send udt for fund plan
-                    sqlcmd.Parameters.Add("@IsNoPlanUpdate", model.IsNoPlanUpdate);
+                    sqlcmd.Parameters.AddWithValue("@IsNoPlanUpdate", model.IsNoPlanUpdate);
                     //Rev End Tanmoy 23-12-2019 send udt for fund plan
 
                     //Rev Tanmoy 13-02-2020 for leave reason
-                    sqlcmd.Parameters.Add("@leave_reason", model.leave_reason);
+                    sqlcmd.Parameters.AddWithValue("@leave_reason", model.leave_reason);
                     //Rev End Tanmoy 13-02-2020 for leave reason
 
                     //Rev Tanmoy 04-12-2020 for from_Areaid,to_Areaid,distance
-                    sqlcmd.Parameters.Add("@from_Areaid", model.from_id);
-                    sqlcmd.Parameters.Add("@to_Areaid", model.to_id);
-                    sqlcmd.Parameters.Add("@distance", model.distance);
+                    sqlcmd.Parameters.AddWithValue("@from_Areaid", model.from_id);
+                    sqlcmd.Parameters.AddWithValue("@to_Areaid", model.to_id);
+                    sqlcmd.Parameters.AddWithValue("@distance", model.distance);
                     //Rev End Tanmoy 04-12-2020 for from_Areaid,to_Areaid,distance
                     //Rev Debashis Row 725
-                    sqlcmd.Parameters.Add("@beat_id", model.beat_id);
+                    sqlcmd.Parameters.AddWithValue("@beat_id", model.beat_id);
                     //End of Rev Debashis Row 725
+                    //Rev Debashis Row 776
+                    sqlcmd.Parameters.AddWithValue("@IsJointVisit", model.IsJointVisit);
+                    sqlcmd.Parameters.AddWithValue("@JointVisitTeam_MemberName", model.JointVisitTeam_MemberName);
+                    sqlcmd.Parameters.AddWithValue("@JointVisitTeam_Member_User_ID", model.JointVisitTeam_Member_User_ID);
+                    //End of Rev Debashis Row 776
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -359,12 +348,6 @@ namespace ShopAPI.Controllers
                 var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
                 return message;
             }
-
-
-
-
-
-
         }
 
         [HttpPost]
@@ -375,7 +358,7 @@ namespace ShopAPI.Controllers
             try
             {
                 System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
-                String tokenmatch = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String tokenmatch = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 if (!ModelState.IsValid)
                 {
                     omodel.status = "213";
@@ -386,7 +369,7 @@ namespace ShopAPI.Controllers
                 {
                     DataTable dt = new DataTable();
 
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     //String con = Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]);
 
                     SqlCommand sqlcmd = new SqlCommand();
@@ -394,10 +377,10 @@ namespace ShopAPI.Controllers
                     sqlcon.Open();
 
                     sqlcmd = new SqlCommand("PRC_APIBEATDETAILSINFO", sqlcon);
-                    sqlcmd.Parameters.Add("@ACTION", "BEATDETLIST");
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@SessionToken", model.session_token);
-                    sqlcmd.Parameters.Add("@BEAT_DATE", model.beat_date);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "BEATDETLIST");
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@SessionToken", model.session_token);
+                    sqlcmd.Parameters.AddWithValue("@BEAT_DATE", model.beat_date);
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -439,7 +422,7 @@ namespace ShopAPI.Controllers
             try
             {
                 System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
-                String tokenmatch = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String tokenmatch = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 if (!ModelState.IsValid)
                 {
                     omodel.status = "213";
@@ -450,7 +433,7 @@ namespace ShopAPI.Controllers
                 {
                     DataTable dt = new DataTable();
 
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     //String con = Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]);
 
                     SqlCommand sqlcmd = new SqlCommand();
@@ -458,10 +441,10 @@ namespace ShopAPI.Controllers
                     sqlcon.Open();
 
                     sqlcmd = new SqlCommand("PRC_APIBEATDETAILSINFO", sqlcon);
-                    sqlcmd.Parameters.Add("@ACTION", "UPDATEBEAT");
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@BEAT_ID", model.updating_beat_id);
-                    sqlcmd.Parameters.Add("@BEAT_DATE", model.updating_date);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "UPDATEBEAT");
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@BEAT_ID", model.updating_beat_id);
+                    sqlcmd.Parameters.AddWithValue("@BEAT_DATE", model.updating_date);
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

@@ -743,7 +743,7 @@ function reloadBoxDataTVH(branchidsTVH) {
     // End of Mantis Issue 24729
     $.ajax({
         type: "POST",
-        url: "/DashboardMenu/GetDashboardDataVisit",
+        url: "/DashboardMenu/GetDashboardDataVisitH",
         data: JSON.stringify(obj),
         async: true,
         contentType: "application/json; charset=utf-8",
