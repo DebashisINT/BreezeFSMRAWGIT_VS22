@@ -44,7 +44,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             Dtls.Todate = DateTime.Now.ToString("dd-MM-yyyy");
             Dtls.Is_PageLoad = "Ispageload";
 
-            EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/CRMEnquiries/Index");
+            //EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/CRMEnquiries/Index");
+            EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/ProjectReport/Index");
             ViewBag.CanAdd = rights.CanAdd;
             ViewBag.CanView = rights.CanView;
             ViewBag.CanExport = rights.CanExport;
