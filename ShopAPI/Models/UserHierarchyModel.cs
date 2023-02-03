@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.32     Debashis    17/01/2023      Some new parameters have been added.Row: 798
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -37,6 +40,9 @@ namespace ShopAPI.Models
         public String Branch { get; set; }
         public String Designation { get; set; }
         //End of Rev Debashis
+        //Rev Debashis Row: 780
+        public String Employee_Code { get; set; }
+        //End of Rev Debashis Row: 780
     }
 
     public class UseHierarchyShopInput
@@ -89,6 +95,49 @@ namespace ShopAPI.Models
         public int total_visit_count { get; set; }
         //End of Rev Debashis Row:746
     }
+
+    //Rev 1.0 Row:798
+    public class TypeWiseuseHierarchyShopOutput
+    {
+        public String status { get; set; }
+        public String message { get; set; }
+        public List<TypeWiseUserShopList> shop_list { get; set; }
+    }
+    public class TypeWiseUserShopList
+    {
+        public String shop_id { get; set; }
+        public String shop_name { get; set; }
+        public String shop_lat { get; set; }
+        public String shop_long { get; set; }
+        public String shop_address { get; set; }
+        public String shop_pincode { get; set; }
+        public String shop_contact { get; set; }
+        public String total_visited { get; set; }
+        public String last_visit_date { get; set; }
+        public String shop_type { get; set; }
+        public String dd_name { get; set; }
+
+        public String entity_code { get; set; }
+
+        //for Gajgarhia
+        public string model_id { get; set; }
+        public string primary_app_id { get; set; }
+        public string secondary_app_id { get; set; }
+        public string lead_id { get; set; }
+        public string funnel_stage_id { get; set; }
+        public string stage_id { get; set; }
+        public decimal booking_amount { get; set; }
+
+        //Rev Start Add new parameter party type id and Area Id for Mescab
+        public string type_id { get; set; }
+        public string area_id { get; set; }
+        //Rev End Add new parameter party type id and Area Id for  Mescab
+        public string owner_email { get; set; }
+        public string owner_doa { get; set; }
+        public string owner_name { get; set; }
+        public int total_visit_count { get; set; }
+    }
+    //End of Rev 1.0 Row:798
 
     public class UserSopTypeShopInput
     {

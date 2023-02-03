@@ -1,4 +1,9 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.32     Debashis    17/01/2023      A new parameter has been added.Row: 797
+//2.0   V2.0.38     Debashis    25/01/2023      A new parameter has been added.Row: 808
+//3.0   V2.0.38     Debashis    02/02/2023      Some new parameters have been added.Row: 809
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -171,6 +176,16 @@ namespace ShopAPI.Models
         public bool IsShowDesignationInTeam { get; set; }
         public bool IsAllowZeroRateOrder { get; set; }
         //End of Rev Debashis
+        //Rev 1.0 Row:797
+        public bool IsBeatAvailable { get; set; }
+        //End of Rev 1.0 Row:797
+        //Rev 2.0 Row:808
+        public bool isExpenseFeatureAvailable { get; set; }
+        //End of Rev 2.0 Row:808
+        //Rev 3.0 Row:809
+        public bool IsDiscountEditableInOrder { get; set; }
+        public bool IsRouteStartFromAttendance { get; set; }
+        //End of Rev 3.0 Row:809
     }
 
     public class ConfigurationModelInput

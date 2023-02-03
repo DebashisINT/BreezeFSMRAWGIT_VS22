@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer.SalesmanTrack;
+﻿/**************************************************************************************************
+ * 1.0      Sanchita    V2.0.38     02/02/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True"
+ *                                                  then data in portal shall be populated based on Hierarchy Only. Refer: 25504
+ * ****************************************************************************************************/
+using BusinessLogicLayer.SalesmanTrack;
 using BusinessLogicLayer.SalesTrackerReports;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -56,7 +60,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     modeoftravel = null;
                 if (fueltype == "")
                     fueltype = null;
-                DataTable dt = objBl.GetReimbursementAllowanceReport(stateid, expensetype, visitlocation, employeegrade, modeoftravel, fueltype, "GetReport");
+                // Rev 1.0
+                string Userid = Convert.ToString(Session["userid"]);
+                // End of Rev 1.0
+
+                DataTable dt = objBl.GetReimbursementAllowanceReport(stateid, expensetype, visitlocation, employeegrade, modeoftravel, fueltype, "GetReport", Userid);
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt.Rows)
@@ -101,7 +109,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
         public List<DropDownList> GetDropDownListData(string Action)
         {
             List<DropDownList> list = new List<DropDownList>();
-            DataTable dt = objBl.GetReimbursementAllowanceReport(null, null, null, null, null, null, Action);
+            // Rev 1.0
+            //DataTable dt = objBl.GetReimbursementAllowanceReport(null, null, null, null, null, null, Action);
+            DataTable dt = objBl.GetReimbursementAllowanceReport(null, null, null, null, null, null, Action,null);
+            // End of Rev 1.0
             if (dt != null && dt.Rows.Count > 0)
             {
                 DropDownList data  = null;

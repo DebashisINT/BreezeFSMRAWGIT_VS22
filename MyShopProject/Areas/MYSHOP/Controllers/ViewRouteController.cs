@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer;
+﻿/******************************************************************************************************
+ * 1.0                30-01-2023        2.0.38           Sanchita            Distance issue in View route of Nordusk. Refer: 25515
+ * ******************************************************************************************************/
+using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
 using DataAccessLayer;
 using Models;
@@ -52,6 +55,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
             ViewBag.HeadBranch = omodel.modelbranch;
             ViewBag.h_id = h_id;
             //End of Rev Debashis 0025198
+            // Rev 1.0
+            string strTotalDistanceShowinViewRouteAsPerGoogleAPI = "0";
+            strTotalDistanceShowinViewRouteAsPerGoogleAPI = Convert.ToString(obj.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsTotalDistanceShowinViewRouteAsPerGoogleAPI'").Rows[0][0]);
+            ViewBag.strTotalDistanceShowinViewRouteAsPerGoogleAPI = strTotalDistanceShowinViewRouteAsPerGoogleAPI;
+            // End of Rev 1.0
+
             if (settings == "1")
                 return View(@"IndexGmap");
             else

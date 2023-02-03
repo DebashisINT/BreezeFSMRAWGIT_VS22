@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                17-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridCustomerVisitDetailsList";
     settings.CallbackRouteValues = new { Action = "GetCustomerVisitDetailslistPartial", Controller = "CustomerVisitDetails" };
@@ -28,32 +33,32 @@
     settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "WORK_DATE";
-           x.Caption = "Date";
-           x.VisibleIndex = 1;
-           x.ColumnType = MVCxGridViewColumnType.TextBox;
-           if (ViewBag.RetentionColumn != null)
-           {
-               System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='WORK_DATE'");
-               if (row != null && row.Length > 0)  /// Check now
-               {
-                   x.Visible = false;
-               }
-               else
-               {
-                   x.Visible = true;
-                   x.Width = 150;
-               }
-           }
-           else
-           {
-               x.Visible = true;
-               x.Width = 150;
-           }
-           x.FixedStyle = GridViewColumnFixedStyle.Left;
+    {
+        x.FieldName = "WORK_DATE";
+        x.Caption = "Date";
+        x.VisibleIndex = 1;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='WORK_DATE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 150;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 150;
+        }
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
 
-       });
+    });
 
     settings.Columns.Add(x =>
     {
@@ -84,29 +89,29 @@
     });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "STATE";
-           x.Caption = "State";
-           x.VisibleIndex = 3;
-           if (ViewBag.RetentionColumn != null)
-           {
-               System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATE'");
-               if (row != null && row.Length > 0)  /// Check now
-               {
-                   x.Visible = false;
-               }
-               else
-               {
-                   x.Visible = true;
-                   x.Width = 100;
-               }
-           }
-           else
-           {
-               x.Visible = true;
-               x.Width = 100;
-           }
-       });
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 3;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
 
     settings.Columns.Add(x =>
     {
@@ -134,104 +139,110 @@
     });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "CUSTTYPE";
-           x.Caption = "Customer Type";
-           x.VisibleIndex = 5;
-           if (ViewBag.RetentionColumn != null)
-           {
-               System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTTYPE'");
-               if (row != null && row.Length > 0)  /// Check now
-               {
-                   x.Visible = false;
-               }
-               else
-               {
-                   x.Visible = true;
-                   x.Width = 200;
-               }
-           }
-           else
-           {
-               x.Visible = true;
-               x.Width = 200;
-           }
-       });
+    {
+        x.FieldName = "CUSTTYPE";
+        x.Caption = "Customer Type";
+        x.VisibleIndex = 5;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTTYPE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 200;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 200;
+        }
+    });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "ENTITYTYPE";
-           x.Caption = "Entity Type";
-           x.VisibleIndex = 6;
-           if (ViewBag.RetentionColumn != null)
-           {
-               System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENTITYTYPE'");
-               if (row != null && row.Length > 0)  /// Check now
-               {
-                   x.Visible = false;
-               }
-               else
-               {
-                   x.Visible = true;
-                   x.Width = 100;
-               }
-           }
-           else
-           {
-               x.Visible = true;
-               x.Width = 100;
-           }
-       });
+    {
+        x.FieldName = "ENTITYTYPE";
+        x.Caption = "Entity Type";
+        x.VisibleIndex = 6;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENTITYTYPE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "CUSTNAME";
-           x.Caption = "Customer Name";
-           x.VisibleIndex = 7;
-           if (ViewBag.RetentionColumn != null)
-           {
-               System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTNAME'");
-               if (row != null && row.Length > 0)  /// Check now
-               {
-                   x.Visible = false;
-               }
-               else
-               {
-                   x.Visible = true;
-                   x.Width = 200;
-               }
-           }
-           else
-           {
-               x.Visible = true;
-               x.Width = 200;
-           }
-       });
+    {
+        x.FieldName = "CUSTNAME";
+        x.Caption = "Customer Name";
+        x.VisibleIndex = 7;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 200;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 200;
+        }
+    });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "COMPNAME";
-           x.Caption = "Parent Customer(Retailer)";
-           x.VisibleIndex = 8;
-           if (ViewBag.RetentionColumn != null)
-           {
-               System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='COMPNAME'");
-               if (row != null && row.Length > 0)  /// Check now
-               {
-                   x.Visible = false;
-               }
-               else
-               {
-                   x.Visible = true;
-                   x.Width = 150;
-               }
-           }
-           else
-           {
-               x.Visible = true;
-               x.Width = 150;
-           }
-       });
+    {
+        x.FieldName = "COMPNAME";
+        x.Caption = "Parent Customer(Retailer)";
+        x.VisibleIndex = 8;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='COMPNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                //Rev 1.0
+                //x.Width = 150;
+                x.Width = 170;
+                //Rev end 1.0
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            //Rev 1.0
+            //x.Width = 150;
+            x.Width = 170;
+            //Rev end 1.0
+        }
+    });
 
     settings.Columns.Add(x =>
     {
@@ -248,13 +259,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = 200;
+                //Rev 1.0
+                //x.Width = 200;
+                x.Width = 230;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = 200;
+            //Rev 1.0
+            //x.Width = 200;
+            x.Width = 230;
+            //Rev end 1.0
         }
     });
 
@@ -284,31 +301,31 @@
     });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "CHECKIN_ADDRESS";
-           x.Caption = "Check In Address(GPS)";
-           x.VisibleIndex = 11;
-           x.ColumnType = MVCxGridViewColumnType.TextBox;
-           x.PropertiesEdit.DisplayFormatString = "hh:mm:ss";
-           if (ViewBag.RetentionColumn != null)
-           {
-               System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CHECKIN_ADDRESS'");
-               if (row != null && row.Length > 0)  /// Check now
-               {
-                   x.Visible = false;
-               }
-               else
-               {
-                   x.Visible = true;
-                   x.Width = 180;
-               }
-           }
-           else
-           {
-               x.Visible = true;
-               x.Width = 180;
-           }
-       });
+    {
+        x.FieldName = "CHECKIN_ADDRESS";
+        x.Caption = "Check In Address(GPS)";
+        x.VisibleIndex = 11;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.PropertiesEdit.DisplayFormatString = "hh:mm:ss";
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CHECKIN_ADDRESS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+    });
 
     settings.Columns.Add(x =>
     {
@@ -351,41 +368,53 @@
             else
             {
                 x.Visible = true;
-                x.Width = 100;
+                //Rev 1.0
+                //x.Width = 100;
+                x.Width = 120;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = 100;
+            //Rev 1.0
+            //x.Width = 100;
+            x.Width = 120;
+            //Rev end 1.0
         }
 
-    });    
+    });
 
     settings.Columns.Add(x =>
-     {
-         x.FieldName = "CHECKOUT_ADDRESS";
-         x.Caption = "Check Out Address(GPS)";
-         x.VisibleIndex = 14;
-         if (ViewBag.RetentionColumn != null)
-         {
-             System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CHECKOUT_ADDRESS'");
-             if (row != null && row.Length > 0)  /// Check now
-             {
-                 x.Visible = false;
-             }
-             else
-             {
-                 x.Visible = true;
-                 x.Width = 150;
-             }
-         }
-         else
-         {
-             x.Visible = true;
-             x.Width = 150;
-         }
-     });
+    {
+        x.FieldName = "CHECKOUT_ADDRESS";
+        x.Caption = "Check Out Address(GPS)";
+        x.VisibleIndex = 14;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CHECKOUT_ADDRESS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                //Rev 1.0
+                //x.Width = 150;
+                x.Width = 170;
+                //Rev end 1.0
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            //Rev 1.0
+            //x.Width = 150;
+            x.Width = 170;
+            //Rev end 1.0
+        }
+    });
 
     settings.Columns.Add(x =>
     {
@@ -438,6 +467,6 @@
         }
     });
 
-    
+
 }).Bind(Model).GetHtml()
 

@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer;
+﻿/*************************************************************************************************************
+Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+*****************************************************************************************************************/
+using BusinessLogicLayer;
 using BusinessLogicLayer.MenuBLS;
 using BusinessLogicLayer.UserGroupsBLS;
 using EntityLayer.CommonELS;
@@ -284,7 +287,10 @@ namespace ERP.OMS.Management.Master
 
                     //Mantis Issue 24832
                     //if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || model.CanReassign || model.CanClose || model.CanCancel)
-                    if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || model.CanReassign || model.CanClose || model.CanCancel || model.CanAssign)
+                    // Rev 1.0
+                    //if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || model.CanReassign || model.CanClose || model.CanCancel || model.CanAssign)
+                    if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || model.CanReassign || model.CanClose || model.CanCancel || model.CanAssign || model.CanBulkUpdate)
+                        // End of Rev 1.0
                     //End of Mantis Issue 24832
                     {
                         if (model.CanAdd)
@@ -544,6 +550,19 @@ namespace ERP.OMS.Management.Master
                             }
                         }
                         //End of Mantis Issue 24832
+                        // Rev 1.0
+                        if (model.CanBulkUpdate)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|25";
+                            }
+                            else
+                            {
+                                TempString += "25";
+                            }
+                        }
+                        // End of Rev 1.0
                         TempString = model.MenuId + "^" + TempString;
                     }
 

@@ -1,3 +1,8 @@
+<%--====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                02-02-2023        2.0.38           Pallab              breadcumb issue fix
+====================================================== Revision History ==========================================================--%>
+
 <%@ Page Title="Branch" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
     Inherits="ERP.OMS.Management.Master.management_master_HRCostBranch" CodeBehind="HRCostBranch.aspx.cs" %>
 
@@ -25,13 +30,23 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <div class="panel-heading">
+    <%--rev 1.0--%>
+    <%--<div class="panel-heading">
         <div class="panel-title">
             <h3>Cost Centers/Departments Information</h3>
             <div class="crossBtn"><a href="HRCostCenter.aspx"><i class="fa fa-times"></i></a></div>
         </div>
 
+    </div>--%>
+    <div class="breadCumb">
+        <span>Cost Centers/Departments Information</span>
+        <div class="crossBtnN"><a href="HRCostCenter.aspx"><i class="fa fa-times"></i></a></div>
     </div>
+    <%--rev end 1.0--%>
+    <%--rev 1.0 : container and white bg add--%>
+    <div class="container">
+        <div class="backBox mt-5 p-3 ">
+            <%--rev end 1.0--%>
     <div class="form_main">
         <table class="TableMain100">
             <tr>
@@ -120,4 +135,9 @@
         <asp:SqlDataSource ID="BranchSource" runat="server" ConnectionString="<%$ ConnectionStrings:crmConnectionString %>"
             SelectCommand="select branch_internalId as id,branch_description as Costcenter,cost_costCenterType as CostCenterType&#13;&#10;from tbl_master_branch,tbl_master_costCenter where branch_internalId =cost_description"></asp:SqlDataSource>
     </div>
+          <%--rev 1.0--%>
+    </div>
+</div>
+    <%--rev end 1.0--%>
+    
 </asp:Content>

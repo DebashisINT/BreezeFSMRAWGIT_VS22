@@ -1,4 +1,9 @@
 ﻿
+<%--====================================================== Revision History ===========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                14-01-2023        2.0.38           Pallab              Design change if we provide wrong password: fix 
+====================================================== Revision History ===========================================================--%>
+
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="pLogin"
     EnableEventValidation="false" CodeBehind="Login.aspx.cs" %>
 
@@ -8,6 +13,8 @@
     <title>Login to BreezeERP</title>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700;800&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
 
     <script type="text/javascript" src="/assests/js/jquery.min.js"></script>
 
@@ -258,17 +265,18 @@
         }
 
         .fts{
-            padding:60px 0;
-            text-align:center
+            padding:50px 0 60px;
+            text-align:center;
+            background: #e7eaff;
         }
         .fts img {
-            width:80px;
-            margin-bottom:25px;
-            margin-top:20px
+            width:50px;
+            /*margin-bottom:25px;
+            margin-top:20px*/
         }
         .fts h2 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 40px;
+            font-size: 35px;
             line-height: normal;
             font-weight: 700;
             letter-spacing: -1px;
@@ -277,7 +285,7 @@
         }
             .fts h2 span {
                 font-family: 'Open Sans', sans-serif;
-                font-size: 30px;
+                font-size: 25px;
                 line-height: 45px;
                 font-weight: 600;
                 color: rgba(39,32,99,1);
@@ -289,11 +297,16 @@
             font-family: 'Open Sans', sans-serif;
             font-weight: 600;
             color: rgba(39,32,99,1);
-            font-size: 21px;
-            line-height: 30px;
+            font-size: 18px;
+            line-height: 25px;
             margin-bottom: 15px;
             letter-spacing: -.08rem;
             padding: 0 0.5rem;
+            margin-top: 15px;
+        }
+        .login-about-box p
+        {
+            color: #4a4a4a;
         }
     </style>
     
@@ -467,7 +480,10 @@
             overflow: hidden;
             position: relative;
             text-align: center;
-            background: #333 url('/assests/images/NLogin/LoginDark_bg.png') no-repeat top left;
+            /*Rev Pallab*/
+            /*background: #333 url('/assests/images/NLogin/LoginDark_bg.png') no-repeat top left;*/
+            background: url('/assests/images/NLogin/LoginDark_bg2.jpg') no-repeat top left;
+            /*Rev end Pallab*/
             background-size:cover
         }
         .formArea {
@@ -508,30 +524,47 @@
         .formArea {
             padding: 35px 50px;
             box-sizing: border-box;
-            background: #ebebeb;
+            /*Rev Pallab*/
+            /*background: #ebebeb;*/
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /*Rev end Pallab*/
+            /*Rev 1.0*/
+            flex-direction: column;
+            /*Rev end 1.0*/
         }
         .formBox {
             margin-top: 20px;
             font-family: poppins !important;
         } 
         .formBox .form-group label {
-            font-family: poppins;
+            /*font-family: poppins;*/
+            font-family: 'Open Sans', sans-serif;
+            color: #686868;
         }
         .formBox .form-group {
             position:relative
         }
         .inputIcons {
-            max-width: 14px;
+            /*max-width: 14px;
             position: absolute;
             left: 15px;
-            top: 38px;
+            top: 38px;*/
+                max-width: 20px;
+                position: absolute;
+                left: 10px;
+                top: 37px;
         }
         .formBox .form-group input {
             border:none;
             background:#fff !important;
             border-radius:4px;
             min-height:43px;
-            padding-left:40px
+            padding-left:40px;
+            border: 1px solid #dddddd;
+            font-family: 'Open Sans', sans-serif;
         }
         input:-webkit-autofill,
         input:-webkit-autofill:hover,
@@ -539,24 +572,41 @@
         input:-webkit-autofill:active {
             -webkit-box-shadow: 0 0 0 30px white inset !important;
         }
+        .formBox .form-group input:focus {
+            border: 1px solid #e54a55;
+        }
         .loginbtn{
-            background:#6834d4;
-            color:#fff;
-            padding:10px 15px;
-            margin-top:10px
+           /* background:#6834d4;*/
+            background: #e54a55;
+            color: #fff;
+            padding: 10px 15px;
+            margin-top: 20px;
+            transition: all .3s;
+            font-family: 'Open Sans', sans-serif;
         }
             .loginbtn:hover {
                 box-shadow: 0px 5px 5px rgba(0,0,0,0.22);
                 color: #fff;
-                background: #5927C1;
+                background: #c7333d;
+            }
+            .loginbtn:focus{
+                color: #fff;
+                outline: none;
             }
         .ftFooter {
             font-size:12px;
-            margin-top:20px
+            margin-top: 20px;
+            font-family: 'Open Sans', sans-serif;
+            text-align: center;
+            color: #4a4a4a;
         }
         .mlogos {
             width:180px;
-            margin-left:-8px
+            /*margin-left:-8px*/
+            margin-left: 0;
+            position: absolute;
+            right: 10px;
+            top: 10px;
         }
     </style> 
     <style type="text/css">
@@ -599,9 +649,9 @@
             display: inline-block;
             padding: 5px 15px;
         }
-        .spaceColumn{
+        /*.spaceColumn{
             padding: 60px 0;
-        }
+        }*/
         @media only screen and (max-width: 762px){
             .textSection {
                 display:none
@@ -781,21 +831,32 @@
         }
         .mkHd {
             font-family: 'Montserrat', sans-serif;
-            font-size: 30px;
+            font-size: 32px;
             line-height: normal;
             font-weight: 700;
             letter-spacing: -1px;
-            color: rgba(255,91,103,1);
+            /*color: rgba(255,91,103,1);*/
+            color: #fff;
             margin-bottom:1.5rem;
         }
         .mkHs {
             font-family: 'Montserrat', sans-serif;
-            font-size: 18px;
-            color: #565656;
+            font-size: 22px;
+            color: #ffffff;
             margin-bottom:3rem;
         }
         .mkBoxes h5, .mkBoxes p {
-            font-family:Poppins;
+            font-family: 'Open Sans', sans-serif;
+        }
+        .mkBoxes h5
+        {
+            font-size: 18px;
+            color: #fff;
+        }
+        .mkBoxes p 
+        {
+                font-size: 15px;
+                color: #ddd;
         }
         .passWordView {
             position: absolute;
@@ -817,6 +878,9 @@
             margin-top: 15px;
             width: 300px;
             height: 135px;
+            margin-left:auto;
+            margin-right: auto;
+            margin-bottom: 10px;
             /*overflow: hidden;*/
         }
 
@@ -824,6 +888,58 @@
                 border-radius: 10px;
                 box-shadow: 1px 1px 10px #11111160;
                 width: 100%;
+            }
+
+            .left-top-image {
+            max-width: 68%;
+            margin-top: 4%;
+        }
+            .login-about-box
+            {
+                padding: 15px 15px 15px;
+                background: #fff;
+                border-radius: 15px;
+                box-shadow: 1px 1px 15px #0000001c;
+            }
+            .icon-img
+            {
+                width: 80px;
+                height: 80px;
+                border-radius: 50px;
+                background: #d7e4ff;
+                margin: auto;
+                text-align: center;
+                line-height: 80px;
+            }
+
+            .app-section
+            {
+                padding: 60px 0;
+                max-width: 100%;
+                padding: 0 15px;
+                background: #08638d !important;
+            }
+
+            .mobile-image-part
+            {
+                background: url(/assests/images/NLogin/mobile-app-mockup.jpg) top center;
+                min-height: 680px;
+                background-size:cover;
+                background-repeat:no-repeat;
+            }
+
+            .mb-5
+            {
+                margin-bottom: 30px;
+            }
+
+            .right-text-part
+            {
+                padding: 50px 120px 50px 50px;
+            }
+
+            .right-text-part h5{
+                margin-bottom: 5px;
             }
     </style>
     
@@ -834,7 +950,7 @@
     <div class="mainLogin">
          <div class="flexArea">
              <div class="contentArea">
-                 <div class="tagLine"><h3>Field Sales Management</h3><h1 class="emp">Make Your Field Agents FUTURE READY!</h1><h4>Simple, Intuitive and Easy to use</h4></div>
+                 <%--<div class="tagLine"><h3>Field Sales Management</h3><h1 class="emp">Make Your Field Agents FUTURE READY!</h1><h4>Simple, Intuitive and Easy to use</h4></div>
                  <div class="xoptions">
                      <ul>
                          <li><img src="/assests/images/NLogin/checked.png" /> Live Tracking</li>
@@ -845,25 +961,27 @@
                  <div>
                      <img src="/assests/images/NLogin/screen1.png" class="scrImage wow bounceInUp"  />
                      <div class="chartArea"><div class="hider"></div><div id="chartdiv"></div></div>
-                 </div>
-                 
+                 </div>--%>
+                 <img src="/assests/images/NLogin/left-top-image.png" class="left-top-image" />
              </div>
             
              <div class="formArea">
                 
                       <div><asp:Label ID="lblMessage" runat="server" Text="" ForeColor="Red"></asp:Label></div>
                      <div><img src="/assests/images/NLogin/logo.png" class="mlogos" /></div>
+                 <div class="login-part">
                     <div class="event-img">
                          <img src="/assests/images/event-banner.jpg" />
                      </div>
-                     <div style="margin: 25px 0 5px 0; font-size: 18px; color: #3737bb; font-weight: 600; font-family: poppins; ">Login to your Account</div>
-                     <p style="font-family: poppins;">A single dashboard to manage all your team members with real time updates and notifications.</p>
+                     <div style="margin: 5px 0 10px 0; font-size: 22px; color: #3737bb; font-weight: 600; font-family: 'Open Sans', sans-serif; text-align: center; ">Login to your Account</div>
+                     <%--<p style="font-family: poppins;">A single dashboard to manage all your team members with real time updates and notifications.</p>--%>
                     <form action="" method="post" runat="server" novalidate="novalidate">
                     <input id="rurl" name="rurl" runat="server" type="hidden" value="" />
                      <div class="formBox">
                          <div class="form-group">
                              <label for="username">Username</label>
-                             <img src="/assests/images/NLogin/user.png" class="inputIcons" />
+                             <%--<img src="/assests/images/NLogin/user.png" class="inputIcons" />--%>
+                             <img src="/assests/images/NLogin/user-2.png" class="inputIcons" />
                             <asp:TextBox ID="txtUserName" CssClass="form-control" runat="server" placeholder="Type your username" TabIndex="1"></asp:TextBox>
                          </div>
                          <div style="text-align: left">
@@ -877,7 +995,8 @@
                         </div>
                          <div class="form-group">
                              <label for="password">Password</label>
-                             <img src="/assests/images/NLogin/password.png" class="inputIcons" />
+                             <%--<img src="/assests/images/NLogin/password.png" class="inputIcons" />--%>
+                              <img src="/assests/images/NLogin/password-2.png" class="inputIcons" />
                             <asp:TextBox ID="txtPassword" CssClass="form-control" placeholder="Type your password" runat="server" TextMode="Password" TabIndex="2"></asp:TextBox>
                              <span class="passWordView"><i class="fa fa-eye-slash"></i></span>
                          </div>
@@ -890,7 +1009,7 @@
                                     ForeColor="Red" ValidationGroup="login" Display="Dynamic">
                                 </asp:RequiredFieldValidator></span>
                         </div>
-                         <div style="font-size:12px">Application best viewed at <a href="#">1280 x 720</a> resolution in <a href="#">Google Chrome</a> 59 or above</div>
+                         <div style="font-size:12px; font-family: 'Open Sans', sans-serif; color: #4a4a4a; text-align: center;">Application best viewed at <a href="#">1280 x 720</a> resolution in <a href="#">Google Chrome</a> 59 or above</div>
                          <asp:Button ID="Submit1" ValidationGroup="login" runat="server" CssClass="btn btn-block loginbtn" Text="Submit" OnClick="Login_User" TabIndex="3" />
 						<asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" TabIndex="4" CssClass="compemail hide" OnClick="LinkButton1_Click1">Forgot  Password?</asp:LinkButton>
 
@@ -902,6 +1021,7 @@
                          </div>
                      </div>
                     </form>
+                     </div>
                 </div>
          </div>
      </div>
@@ -914,57 +1034,64 @@
              <div class="row spaceColumn">
                  
                  <div class="col-md-4 wow slideInLeft" data-wow-duration="2s" data-wow-delay="5s">
-                     <img src="/assests/images/NLogin/007-destination.png" />
-                     <div class="hdn">Geo-Tracking & Route  <br /> Optimization</div>
-                     <div>System will intelligently capture geolocation at attendance, and will be allowed if it falls in Distribution or first visit location.</div>
+                     <div class="login-about-box">
+                        <div class="icon-img"><img src="/assests/images/NLogin/007-destination.png" /></div>
+                        <div class="hdn">Geo-Tracking & Route  <br /> Optimization</div>
+                        <p>System will intelligently capture geolocation at attendance, and will be allowed if it falls in Distribution or first visit location.</p>
+                     </div>
                  </div>
                  <div class="col-md-4 wow slideInLeft" data-wow-duration="2s" data-wow-delay="7s">
-                     <img src="/assests/images/NLogin/004-user-interface.png" />
-                     <div class="hdn">IMEI/OTP based  <br /> authentication</div>
-                     <div>Each user will be locked with this phone IMEI and will not be able to login on another device without admin action.</div>
+                     <div class="login-about-box">
+                        <div class="icon-img"><img src="/assests/images/NLogin/004-user-interface.png" /></div>
+                        <div class="hdn">IMEI/OTP based  <br /> authentication</div>
+                        <p>Each user will be locked with this phone IMEI and will not be able to login on another device without admin action.</p>
+                     </div>
                  </div>
                  <div class="col-md-4 wow slideInLeft" data-wow-duration="2s" data-wow-delay="9s">
-                     <img src="/assests/images/NLogin/001-dashboard.png" />
-                     <div class="hdn">Intuitive Dashboard & <br /> Auto-Reporting</div>
-                     <div>A single dashboard to manage all your team members with real time updates and notifications for updates and voilations.</div>
+                     <div class="login-about-box">
+                         <div class="icon-img"><img src="/assests/images/NLogin/001-dashboard.png" /></div>
+                         <div class="hdn">Intuitive Dashboard & <br /> Auto-Reporting</div>
+                         <p>A single dashboard to manage all your team members with real time updates and notifications for updates and voilations.</p>
+                     </div>
                  </div>
              </div>
          </div>
      </div>
-    <div>
-        <div class="container">
+    <div class="app-section">
+        <%--<div class="container">--%>
             <div class="row">
-                <div class="col-md-6"> 
-                    <img src="/assests/images/NLogin/loginPh.png" class="responsiveImg" />
+                <div class="col-md-6 mobile-image-part"> 
+                   <%-- <img src="/assests/images/NLogin/loginPh.png" class="responsiveImg" />--%>
+                    <%--<img src="/assests/images/NLogin/mobile-app-mockup.jpg" class="responsiveImg image-fluid" />--%>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 right-text-part">
                     <h2 class="mkHd"> Make Your Field Agents FUTURE READY!</h2>
                     <h4 class="mkHs">Accelerate Sales. Escalate Revenue.</h4>
 
                     <div class="row mkBoxes">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12 mb-5">
                             <h5>Smart Route Management</h5>
                             <p>Stop worrying about planning .Automated route suggestion as per locations to be visited. Time saved is revenue earned.</p>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12 mb-5">
                             <h5>One-Click OrderManagement</h5>
                             <p>Hassle-free order creation through a single click. Eliminates onsite visits for order acquisition & saves time real time.</p>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12 mb-5">
                             <h5>Automated Reporting</h5>
                             <p>Automatically generate reports periodically to know what is going on and take decisions real time.</p>
                         </div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-12 mb-5">
                             <h5>Travel Reimbursement Management</h5>
                             <p>No more hassles of having multiple portals for filling reimbursements. Single interface for all kinds of updates with status tracking.</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <%--</div>--%>
     </div>
     <div>
-        <div class="container text-center" style="padding:80px 0">
+        <div class="container text-center" style="padding:50px 0">
             <h3 style="font-family: 'opcen', Montserrat, sans-serif !important;font-size:26px">Log in to Start Your Digital Journey with Breeze .</h3>
             <div style="height:30px"></div>
             <a href="#" class="cta" id="toLogin">

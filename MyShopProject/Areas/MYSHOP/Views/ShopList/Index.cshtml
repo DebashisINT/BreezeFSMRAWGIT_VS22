@@ -1,4 +1,9 @@
-﻿@model Models.ShopslistInput
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                12-01-2023        2.0.37           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ===========================================================*@
+
+@model Models.ShopslistInput
 
 
 
@@ -110,11 +115,10 @@
         width: 100%;
         height: 100%;
     }
+
     #popupfootmap {
         font-size: 16pt;
     }
-
-
 </style>
 @*Rev Debashis 0025198*@
 <style>
@@ -138,15 +142,21 @@
     .modal-body {
         height: 565px;
     }
+
     .chosen-container-single .chosen-single {
-        height: 35px !important;
+        /*Rev 1.0*/
+        /*height: 35px !important;*/
+        height: 34px !important;
+        /*Rev end 1.0*/
     }
-    .chosen-container-single .chosen-single > span {
-        margin-top: 6px;
-     }
-    .chosen-container-single .chosen-single div b {
-        margin-top: 7px;
-    }
+
+        .chosen-container-single .chosen-single > span {
+            margin-top: 6px;
+        }
+
+        .chosen-container-single .chosen-single div b {
+            margin-top: 7px;
+        }
 
     button.close {
         color: #fff;
@@ -256,7 +266,7 @@
             //Mantis Issue 24728
             //gridShoListList.Refresh();
             //gridShoListList.Refresh();
-            
+
             var start = $('#txtfromDate').val();
             var end = $('#txttoDate').val();
             start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
@@ -369,7 +379,7 @@
                         else
                         {
 
-                       
+
 
                             $.jAlert({
                                 'title': 'Alert!',
@@ -793,11 +803,13 @@
         border-top: 1px solid #0f87cc;
         color: #fff;
     }
+
     #tblshoplist thead > tr > th, #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
         padding: 1px 5px !important;
     }
+
     .mx324 {
-       width:324px !important;
+        width: 324px !important;
     }
 
     /*#tblshoplist {
@@ -807,100 +819,251 @@
         width:100%;
         overflow-x:scroll;
     }*/
+
+    /*Rev 1.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 33px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .whclass.selectH {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+        .whclass.selectH:focus-visible {
+            outline: none;
+        }
+
+        .whclass.selectH:focus {
+            border: 1px solid #164f93;
+        }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+    /*Rev end 1.0*/
 </style>
 <div class="breadCumb">
     <span>Shop List</span>
 </div>
 <div class="container">
-    <div class="form_main backBox px-3">
-        
+    <div class="form_main backBox px-3 pb-3">
+
         @using (Html.BeginForm("GetSalesmanLocation", "TrackSalesman", FormMethod.Post, new { @id = "fromsalesman" }))
         {
-            <div class="row pt-3">
+            @*Rev 1.0*@
+            @*<div class="row pt-3">*@
+            <div class="row pt-4">
+                @*Rev end 1.0*@
                 @*Rev Debashis 0025198*@
-                    <div class="col-md-2">
-                        <label>Head Branch : </label>
-                        <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
-                            @foreach (var item in Model.modelbranch)
+                @*Rev 1.0: 'h-branch-select' class add*@
+                <div class="col-md-2 h-branch-select">
+                    @*Rev end 1.0*@
+                    <label>Head Branch : </label>
+                    <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                        @foreach (var item in Model.modelbranch)
+                        {
+                            <option value="@item.BRANCH_ID">@item.CODE</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label>Branch </label>
+                    <div>
+                        @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                    </div>
+                </div>
+                @*End of Rev Debashis 0025198*@
+                <div class="col-md-2">
+                    <label>User List</label>
+                    <div>
+                        <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
+
+
+                            <option value=0>ALL</option>
+                            @foreach (var item in Model.userlsit)
                             {
-                                <option value="@item.BRANCH_ID">@item.CODE</option>
+                                if (Model.selectedusrid == item.UserID)
+                                {
+                                    <option value="@item.UserID" selected="selected">@item.username</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.UserID">@item.username</option>
+
+                                }
                             }
                         </select>
                     </div>
-                    <div class="col-md-2">
-                        <label>Branch </label>
-                        <div>
-                            @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
-                        </div>
-                    </div>
-                    @*End of Rev Debashis 0025198*@
-                    <div class="col-md-2">
-                        <label>User List</label>
-                        <div>
-                            <select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
+                </div>
+                <div class="col-md-2">
+                    <label>State</label>
+                    <div id="dtdesg2">
+                        <select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass">
 
+                            <option value="">Select</option>
 
-                                <option value=0>ALL</option>
-                                @foreach (var item in Model.userlsit)
+                            @foreach (var item in Model.states)
+                            {
+                                if (Model.StateId == item.ID)
                                 {
-                                    if (Model.selectedusrid == item.UserID)
-                                    {
-                                        <option value="@item.UserID" selected="selected">@item.username</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.UserID">@item.username</option>
-
-                                    }
+                                    <option value="@item.ID" selected="selected">@item.StateName</option>
                                 }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <label>State</label>
-                        <div id="dtdesg2">
-                            <select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass">
-
-                                <option value="">Select</option>
-
-                                @foreach (var item in Model.states)
+                                else
                                 {
-                                    if (Model.StateId == item.ID)
-                                    {
-                                        <option value="@item.ID" selected="selected">@item.StateName</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@item.ID">@item.StateName</option>
-                                    }
+                                    <option value="@item.ID">@item.StateName</option>
                                 }
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <label>From Date</label>
-                        <div>
-                            @Html.TextBoxFor(m => m.Fromdate, new { @class = "form-control", @id = "txtfromDate" })
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <label>To Date</label>
-                        <div>
-                            @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true })
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="col-md-4" style="padding-top: 23px;">
-                        <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
-                        <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                            <option value="0">Export to</option>
-
-                            <option value="2">XLSX</option>
+                            }
 
                         </select>
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <label>From Date</label>
+                    @*Rev 1.0: 'date-select' class add and calendar icon add*@
+                    <div class="date-select">
+                        @Html.TextBoxFor(m => m.Fromdate, new { @class = "form-control", @id = "txtfromDate" })
+                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                        @*Rev end 1.0*@
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label>To Date</label>
+                    @*Rev 1.0: 'date-select' class add and calendar icon add*@
+                    <div class="date-select">
+                        @Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true })
+                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                        @*Rev end 1.0*@
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="col-md-4" style="padding-top: 23px;">
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+
+                        <option value="2">XLSX</option>
+
+                    </select>
+                </div>
+            </div>
 
         }
 
@@ -917,9 +1080,9 @@
                 @{
                     //Rev Debashis 0025198
                     //Html.RenderAction("Getshoplist", "ShopList", new { StateId = Model.StateId, selectedusrid = Model.selectedusrid, Fromdate = Model.Fromdate, Todate = Model.Todate, Ispageload = "0" });
-                    Html.RenderAction("Getshoplist", "ShopList", new { BranchId=Model.BranchId,StateId = Model.StateId, selectedusrid = Model.selectedusrid, Fromdate = Model.Fromdate, Todate = Model.Todate, Ispageload = "0" });
+                    Html.RenderAction("Getshoplist", "ShopList", new { BranchId = Model.BranchId, StateId = Model.StateId, selectedusrid = Model.selectedusrid, Fromdate = Model.Fromdate, Todate = Model.Todate, Ispageload = "0" });
                     //End of Rev Debashis 0025198
-               // Html.RenderPartial("PartialShopListgridview");
+                    // Html.RenderPartial("PartialShopListgridview");
                 }
             </div>
         </div>
@@ -934,12 +1097,12 @@
             <div id="dialog" class="window">
                 <a href="#" class="close"><i class="fa fa-times" aria-hidden="true"></i></a>
                 <div id="popupfoot">
-                    
-                    
-                     <img src="#" class="image" alt="No Image Found"></img>
-                
-                
-                 </div>
+
+
+                    <img src="#" class="image" alt="No Image Found"></img>
+
+
+                </div>
             </div>
         </div>
     </div>
@@ -960,9 +1123,9 @@
             <div class="modal-body" style="width: 476px;">
                 @*Rev Pallab*@
                 @*<div id="divModalBody" style="padding-left:20px;">*@
-                  <div id="divModalBody" style="">
-                @*Rev end Pallab*@
-                    </div>
+                <div id="divModalBody" style="">
+                    @*Rev end Pallab*@
+                </div>
             </div>
         </div>
 
@@ -978,7 +1141,7 @@
             <div id="dialogmap" class="window">
                 <a href="#" class="close">CLOSE</a>
                 <div id="popupfootmap">
-                 
+
                     <div id="map" style="width: 100%; height: 450px;"></div>
 
                 </div>

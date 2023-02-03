@@ -139,9 +139,11 @@ namespace ShopAPI.Models
     {
         public string status { get; set; }
         public string message { get; set; }
-
+        //Rev Debashis Row: 781
+        public string JointVisitSelectedUserName { get; set; }
+        public string JointVisit_Employee_Code { get; set; }
+        //End of Rev Debashis Row: 781
         public List<WorkTypeslogin> worktype { get; set; }
-
         public List<RouteDetailsOutputuser> route_list { get; set; }
     }
 

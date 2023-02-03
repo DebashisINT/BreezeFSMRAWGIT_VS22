@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*************************************************************************************************************
+Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+*****************************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,6 +58,9 @@ namespace EntityLayer.UserGroupsEL
         //Mantis Issue 24832
         public bool CanAssign { get; set; }
         //End of Mantis Issue 24832
+        // Rev 1.0
+        public bool CanBulkUpdate { get; set; }
+        // End of Rev 1.0
     }
 
     public class UserGroupSaveModel

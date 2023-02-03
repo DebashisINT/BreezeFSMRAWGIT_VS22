@@ -1,4 +1,9 @@
-﻿@model  MyShop.Models.DurationshpsDate
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                20-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@model  MyShop.Models.DurationshpsDate
 
 @{
     ViewBag.Title = "Monthly Report Shop Visit Duration List";
@@ -15,7 +20,7 @@
         $('body').on('click', '#btnshow', function () {
 
             //var month = $("#tdmonth").val();
-           
+
             //var year = $("#tdyear").val();
             var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
 
@@ -137,7 +142,6 @@
     .ui-datepicker-calendar {
         display: none;
     }
-
 </style>
 
 <style>
@@ -154,12 +158,49 @@
         border-top: 1px solid #0f87cc;
         color: #fff;
     }
+
     #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
         padding: 1px 5px !important;
     }
+
     .ui-datepicker-calendar {
         display: none;
     }
+
+    /*Rev 1.0*/
+    .ui-datepicker .ui-datepicker-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .ui-datepicker {
+        width: 18em;
+    }
+
+    .dataTables_scrollHeadInner > table > thead > tr > th {
+        vertical-align: middle;
+        background: #1a569c !important;
+    }
+
+    #refreshgrid {
+        background: #ededed;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .dataTables_scrollHeadInner > tbody > tr > td {
+        background: #fff;
+    }
+
+    .dataTables_length {
+        padding-top: 0 !important;
+    }
+
+    .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+        top: 7px;
+    }
+    /*Rev 1.0*/
 </style>
 <div class="breadCumb">
     <span>Monthly Report Shop Visit Duration List</span>
@@ -168,7 +209,10 @@
 <div class="container">
     <div class="form_main backBox p-3">
         <div class="row">
-            <div class="col-sm-3 col-md-2">
+            @*Rev 1.0*@
+            @*<div class="col-sm-3 col-md-2">*@
+            <div class="col-sm-3 col-md-3">
+                @*Rev end 1.0*@
                 <label>Month/Year</label>
                 <div>
                     <input type="text" id="tdyear" class="form-control" />

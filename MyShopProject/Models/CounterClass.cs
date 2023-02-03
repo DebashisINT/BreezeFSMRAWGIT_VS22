@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
+//                                              Refer: 0025585
+#endregion===================================End of Revision History==================================================================
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,9 +12,6 @@ namespace Models
 {
     public class CounterClass
     {
-
-
-
         public List<string> StateId { get; set; }
 
         public List<CounterStates> states { get; set; }
@@ -19,9 +20,10 @@ namespace Models
         public List<shopCounterTypes> Shoptypes { get; set; }
 
         public string Ispageload { get; set; }
-
+        //Rev 1.0 Mantis:0025585
+        public int IsRevisitContactDetails { get; set; }
+        //End of Rev 1.0 Mantis:0025585
     }
-
 
     public class CounterStates
     {
@@ -32,8 +34,6 @@ namespace Models
 
     public class CounterShopList
     {
-
-
         public string shop_Auto { get; set; }
         public string UserName { get; set; }
         public string shop_id { get; set; }
@@ -52,18 +52,15 @@ namespace Models
         [Required]
         public string owner_contact_no { get; set; }
 
-
         [Required]
         [RegularExpression(".+\\@.+\\..+", ErrorMessage = "Please Enter your valid email")]
         public string owner_email { get; set; }
 
         public string Shop_Image { get; set; }
 
-
         public string PP { get; set; }
 
         public string DD { get; set; }
-
 
         public DateTime? Shop_CreateTime { get; set; }
 
@@ -74,7 +71,6 @@ namespace Models
 
         public List<shopTypes> shptypes { get; set; }
 
-
         public string dobstr { get; set; }
 
         public string date_aniversarystr { get; set; }
@@ -83,8 +79,6 @@ namespace Models
         public int countactivity { get; set; }
 
         public string Lastactivitydate { get; set; }
-       
-
     }
 
     public class shopCounterTypes

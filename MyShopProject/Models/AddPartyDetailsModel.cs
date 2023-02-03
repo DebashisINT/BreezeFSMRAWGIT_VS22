@@ -1,4 +1,7 @@
-﻿using Models;
+﻿/*************************************************************************************************************
+Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+*****************************************************************************************************************/
+using Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -132,6 +135,20 @@ namespace MyShop.Models
         public List<GroupBeatAssign> InactiveGroupBeatidList { get; set; }
         //End of Mantis Issue 25133
 
+        // Mantis Issue 25545
+        public string AreaRouteBeatUserid { get; set; }
+        public List<Usersshopassign> AreaRouteBeatUseridList { get; set; }
+
+        public string AreaRouteBeatReassignedUserid { get; set; }
+        public List<Usersshopassign> AreaRouteBeatReassignedUseridList { get; set; }
+        public string OldAreaRouteBeatId { get; set; }
+        // End of Mantis Issue 25545
+        // Rev 1.0
+        public Int32 State_BulkModify { get; set; }
+        public List<string> StateIds_BulkModify { get; set; }
+        public string StateID_BulkModify { get; set; }
+        public List<StateList_BulkModify> StateList_BulkModify { get; set; }
+        // End of Rev 1.0
     }
 
     public class PPList
@@ -319,6 +336,12 @@ namespace MyShop.Models
         public string id { get; set; }
         public string name { get; set; }
     }
-
+    // Rev 1.0
+    public class StateList_BulkModify
+    {
+        public string StateID_BulkModify { get; set; }
+        public string StateName_BulkModify { get; set; }
+    }
+    // End of Rev 1.0
 }
 

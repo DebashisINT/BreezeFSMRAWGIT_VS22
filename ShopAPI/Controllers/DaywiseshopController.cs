@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 787
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,24 +35,35 @@ namespace ShopAPI.Controllers
             }
             else
             {
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
-
+                //Rev 1.0 Row:787
+                //String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                //End of Rev 1.0 Row:787
                 string sessionId = "";
 
 
                 DataTable dt = new DataTable();
                 DataSet ds = new DataSet();
-
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                //Rev 1.0 Row:787
+                //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                //End of Rev 1.0 Row:787
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("Sp_API_DaywiseShop", sqlcon);
-                sqlcmd.Parameters.Add("@date_span", model.date_span);
-                sqlcmd.Parameters.Add("@from_date", model.from_date);
-                sqlcmd.Parameters.Add("@to_date", model.to_date);
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@Action", "0");
+                //Rev 1.0 Row:787
+                //sqlcmd.Parameters.Add("@date_span", model.date_span);
+                //sqlcmd.Parameters.Add("@from_date", model.from_date);
+                //sqlcmd.Parameters.Add("@to_date", model.to_date);
+                //sqlcmd.Parameters.Add("@user_id", model.user_id);
+                //sqlcmd.Parameters.Add("@Action", "0");
+                sqlcmd.Parameters.AddWithValue("@date_span", model.date_span);
+                sqlcmd.Parameters.AddWithValue("@from_date", model.from_date);
+                sqlcmd.Parameters.AddWithValue("@to_date", model.to_date);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@Action", "0");
+                //End of Rev 1.0 Row:787
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(ds);
@@ -130,8 +144,6 @@ namespace ShopAPI.Controllers
 
                         //}
                     }
-
-
                     omodel.date_list = oview;
                     omodel.status = "200";
                     omodel.message = "Attendance list for last 15 days / start day to end date";
@@ -139,10 +151,8 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-
                     omodel.status = "205";
                     omodel.message = "No data found";
-
                 }
 
                 var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
@@ -169,20 +179,32 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    //Rev Debbashis Row: 787
+                    //String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                    //End of Rev Debbashis Row: 787
                     string sessionId = "";
                     DataSet ds = new DataSet();
-
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    //Rev Debbashis Row: 787
+                    //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    //End of Rev Debbashis Row: 787
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("PRC_APIITCDAYWISESHOP", sqlcon);
-                    sqlcmd.Parameters.Add("@date_span", model.date_span);
-                    sqlcmd.Parameters.Add("@from_date", model.from_date);
-                    sqlcmd.Parameters.Add("@to_date", model.to_date);
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@Action", "0");
+                    //Rev Debbashis Row: 787
+                    //sqlcmd.Parameters.Add("@date_span", model.date_span);
+                    //sqlcmd.Parameters.Add("@from_date", model.from_date);
+                    //sqlcmd.Parameters.Add("@to_date", model.to_date);
+                    //sqlcmd.Parameters.Add("@user_id", model.user_id);
+                    //sqlcmd.Parameters.Add("@Action", "0");
+                    sqlcmd.Parameters.AddWithValue("@date_span", model.date_span);
+                    sqlcmd.Parameters.AddWithValue("@from_date", model.from_date);
+                    sqlcmd.Parameters.AddWithValue("@to_date", model.to_date);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@Action", "0");
+                    //End of Rev Debbashis Row: 787
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                     da.Fill(ds);

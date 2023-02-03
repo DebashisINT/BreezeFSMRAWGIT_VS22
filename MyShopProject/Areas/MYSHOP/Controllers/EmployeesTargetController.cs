@@ -1,6 +1,8 @@
-﻿/***************************
+﻿/****************************************************************************************************************************
 *   Rev 27-12-2018 Surojit Chatterjee
-**************************/
+*   1.0     v2.0.36     Sanchita    10/01/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True" then 
+*                                                   data in portal shall be populated based on Hierarchy Only. Refer: 25504
+*********************************************************************************************************************************/
 
 using BusinessLogicLayer.SalesmanTrack;
 using DevExpress.Web;
@@ -1889,7 +1891,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             DataTable dt = new DataTable();
             try
             {
-                dt = objemployee.GetEmployeesListByStateDesignation(State, Designation);
+                // Rev 1.0
+                //dt = objemployee.GetEmployeesListByStateDesignation(State, Designation);
+                dt = objemployee.GetEmployeesListByStateDesignation_Hier(State, Designation, Convert.ToString(Session["userid"]));
+                // End of Rev 1.0
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     EmployeesList data = null;

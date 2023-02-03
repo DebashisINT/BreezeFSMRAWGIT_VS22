@@ -1,4 +1,10 @@
-﻿@model Models.EmpListModel
+﻿
+@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                13-01-2023        2.0.37           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ===========================================================*@
+
+@model Models.EmpListModel
 
 @{
     ViewBag.Title = "Employee List";
@@ -27,6 +33,7 @@
     #StateGridLookup_CC {
         width: 100%;
     }
+
     .inputSpacer {
         padding-top: 24px;
     }
@@ -34,7 +41,6 @@
         .inputSpacer input {
             margin-right: 5px;
         }
-   
 </style>
 <style>
     #mask {
@@ -195,7 +201,7 @@
             //Cancel the link behavior
             e.preventDefault();
             $('#mask').removeClass('showing');
-            
+
         });
 
 
@@ -221,7 +227,7 @@
                 }
             }
 
-            
+
 
             if (flag == true) {
                 is_pageload = "1";
@@ -608,7 +614,7 @@
         } else {
             $('.image').parent('#popupfoot').removeClass("adharCard");
         }
-        
+
         $('.image').attr({
             'src': imgfile
         });
@@ -637,11 +643,11 @@
     }
     function SelectAllGridLookup(s, e) {
         BranchGridLookup.gridView.SelectRows();
-       
+
         BranchId = "";
         BranchGridLookup.SetText("");
         //rev Pratik
-       
+
         $.ajax({
             type: 'POST',
             url: "/EmpList/GetBranchListSelectAll",
@@ -658,11 +664,11 @@
                 BranchGridLookup.gridView.SelectRows();
             },
             error: function () {
-               
+
             }
         });
 
- 
+
     }
     function BranchStartCallback(s, e) {
         e.customArgs["UserID"] = $("#hdnUserID").val();
@@ -675,8 +681,8 @@
     function BranchSelectionChanged(s, e) {
         BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
     }
-    
- 
+
+
     function GetSelectedFieldValuesCallbackBranch(values) {
 
         try {
@@ -690,14 +696,14 @@
                 Branch_Id += values[i] + ',';
                 //End of rev Pratik
             }
-           
+
         } finally {
             console.log(BranchId);
         }
 
 
     }
-   
+
 </script>
 <style>
     .overlayHide {
@@ -708,11 +714,13 @@
         left: 12.5%;
         bottom: 14px;
         border-radius: 70px;
-        display:none;
+        display: none;
     }
+
     .adharCard .overlayHide {
-        display:block
+        display: block
     }
+
     #dialog .close {
         position: absolute;
         top: -13px;
@@ -726,6 +734,291 @@
         font-size: 15px;
         line-height: 22px;
     }
+
+
+    /*Rev 1.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 33px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .whclass.selectH {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+        .whclass.selectH:focus-visible {
+            outline: none;
+        }
+
+        .whclass.selectH:focus {
+            border: 1px solid #164f93;
+        }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #a1a1a1 !important;
+    }
+
+    #popup_message {
+        padding-left: 0;
+        text-align: center;
+    }
+    .w150 {
+        width: 180px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+    /*Rev end 1.0*/
 </style>
 <link href="~/Content/media.css" rel="stylesheet" />
 <div class="breadCumb">
@@ -736,7 +1029,7 @@
     <div id="boxes">
         <div class="inner">
             <div id="dialog" class="window">
-                
+
                 <div id="popupfoot" class="relative" style="margin-top:5px">
                     <a href="#" class="close"><i class="fa fa-close"></i></a>
                     <div class="overlayHide"></div>
@@ -748,6 +1041,11 @@
 </div>
 
 <div class="container">
+
+</div>
+<div style="clear: both;"><br /></div>
+<div class="container">
+
     <div class="backBox mt-5 p-3 ">
         <div class="row">
             <div class="col-md-12">
@@ -759,8 +1057,8 @@
                                 <div>
                                     @Html.Action("GetBranchList", "EmpList")
                                     @*<span id="MandatoryState" style="display: none" class="validclass">
-                                            <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                                        </span>*@
+                                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                    </span>*@
                                 </div>
                             </td>
 
@@ -785,11 +1083,16 @@
                                 </div>
                             </td>
                             <td class="w10 inputSpacer">
-
-                                <input type="checkbox" id="IsEmpAeAll" name="IsEmpAeAll" onchange="CheckEmployeeAESelection()" value="0"><span class="w140">Select All</span>
+                                @*Rev 1.0*@
+                                @*<input type="checkbox" id="IsEmpAeAll" name="IsEmpAeAll" onchange="CheckEmployeeAESelection()" value="0"><span class="w140">Select All</span>*@
+                                <input class="styled-checkbox" type="checkbox" id="IsEmpAeAll" name="IsEmpAeAll" onchange="CheckEmployeeAESelection()" value="0">
+                                <label for="">Select All</label>
+                                @*Rev end 1.0*@
                             </td>
-
-                            <td style="padding-top: 22px;width:170px;">
+                            @*Rev 1.0*@
+                            @*<td style="padding-top: 22px;width:170px;">*@
+                            <td style="padding-top: 22px;">
+                                @*Rev end 1.0*@
                                 <label></label>
                                 <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
                                 <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
@@ -814,12 +1117,13 @@
         <input type="hidden" id="hdnuser_shop" />
         <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
         <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
-    </div>
-    </div>
-<div style="clear: both;"><br /></div>
-<div class="container">
-    <div class="backBox p-3 ">
-        <div class="mx-4">
+        @*Rev 1.0*@
+        @*</div>
+
+        <div class="backBox p-3 ">*@
+        @*<div class="mx-4">*@
+        <div class="mx-4 mt-4">
+            @*Rev end 1.0*@
             <div class="options">
                 <div class="options-item">
                     @Html.DevExpress().Button(settings =>
@@ -835,7 +1139,7 @@
                 <div id="refreshgridsalessummary">
                     @{
                         Html.RenderAction("GetEmpList", "EmpList", new { BranchId = Model.BranchId, empcode = Model.empcode, is_pageload = "0" });
-    // Html.RenderAction("GetSalesSummaryList1", "SalesReportSummary");
+                        // Html.RenderAction("GetSalesSummaryList1", "SalesReportSummary");
 
                     }
                     @*change for design*@
@@ -843,7 +1147,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
 <!--Employee Modal -->
 <div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">

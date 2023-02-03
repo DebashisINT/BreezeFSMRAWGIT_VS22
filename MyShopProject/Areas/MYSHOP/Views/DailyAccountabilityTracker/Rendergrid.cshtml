@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                17-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "ListGrid";
     //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
@@ -200,13 +205,19 @@
             else
             {
                 column.Visible = true;
-                column.Width = 150;
+                //Rev 1.0
+                //column.Width = 150;
+                column.Width = 170;
+                //Rev end 1.0
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 150;
+            //Rev 1.0
+            //column.Width = 150;
+            column.Width = 170;
+            //Rev end 1.0
         }
     });
 
@@ -330,13 +341,19 @@
             else
             {
                 column.Visible = true;
-                column.Width = 150;
+                //Rev 1.0
+                //column.Width = 150;
+                column.Width = 200;
+                //Rev end 1.0
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 150;
+            //Rev 1.0
+            //column.Width = 150;
+            column.Width = 200;
+            //Rev end 1.0
         }
     });
 
@@ -382,13 +399,19 @@
             else
             {
                 column.Visible = true;
-                column.Width = 150;
+                //Rev 1.0
+                //column.Width = 150;
+                column.Width = 180;
+                //Rev end 1.0
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 150;
+            //Rev 1.0
+            //column.Width = 150;
+            column.Width = 180;
+            //Rev end 1.0
         }
     });
 
@@ -434,13 +457,19 @@
             else
             {
                 column.Visible = true;
-                column.Width = 150;
+                //Rev 1.0
+                //column.Width = 150;
+                column.Width = 170;
+                //Rev end 1.0
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 150;
+            //Rev 1.0
+            //column.Width = 150;
+            column.Width = 170;
+            //Rev end 1.0
         }
     });
 
@@ -478,7 +507,7 @@
         settings.Styles.Cell.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         if (e.Item.FieldName == "Doctors_Visited")
         {
-            e.Text = "Visit Count ( " + @ViewBag.VisitCount+" )";
+            e.Text = "Visit Count ( " + @ViewBag.VisitCount + " )";
         }
         else if (e.Item.FieldName == "Doctors_Phone")
         {

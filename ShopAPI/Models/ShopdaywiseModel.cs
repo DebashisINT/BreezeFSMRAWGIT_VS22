@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 787
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -66,6 +69,10 @@ namespace ShopAPI.Models
         public string agency_name { get; set; }
         public decimal approximate_1st_billing_value { get; set; }
         //End of Rev Debashis
+        //Rev 1.0 Row:787
+        public string multi_contact_name { get; set; }
+        public string multi_contact_number { get; set; }
+        //End of Rev 1.0 Row:787
     }
 
 

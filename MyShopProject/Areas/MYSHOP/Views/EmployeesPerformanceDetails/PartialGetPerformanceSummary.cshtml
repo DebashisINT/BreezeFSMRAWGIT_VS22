@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                02-02-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridempperformance";
 
@@ -45,13 +50,13 @@
     });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "STATE";
-          x.Caption = "State";
-          x.VisibleIndex = 3;
-          x.Width = 120;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-      });
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 3;
+        x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -63,13 +68,13 @@
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "LOGEDOUT";
-     x.Caption = "Logout Time";
-     x.VisibleIndex = 5;
-     x.Width = 100;
-     //x.FixedStyle = GridViewColumnFixedStyle.Left;
- });
+    {
+        x.FieldName = "LOGEDOUT";
+        x.Caption = "Logout Time";
+        x.VisibleIndex = 5;
+        x.Width = 100;
+        //x.FixedStyle = GridViewColumnFixedStyle.Left;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -79,23 +84,23 @@
         x.Width = 800;
         //x.FixedStyle = GridViewColumnFixedStyle.Left;
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "CONTACTNO";
         x.Caption = "User Id";
         x.VisibleIndex = 7;
         x.Width = 100;
-    });    
+    });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "BRANCHDESC";
-          x.Caption = "Branch";
-          x.VisibleIndex = 8;
-          x.Width = 180;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-      });
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 8;
+        x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -106,12 +111,12 @@
     });
 
     settings.Columns.Add(x =>
-   {
-       x.FieldName = "ATTEN_STATUS";
-       x.Caption = "Attendance";
-       x.VisibleIndex = 10;
-       x.Width = 100;
-   });
+    {
+        x.FieldName = "ATTEN_STATUS";
+        x.Caption = "Attendance";
+        x.VisibleIndex = 10;
+        x.Width = 100;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -127,7 +132,7 @@
         x.Caption = "Remarks";
         x.VisibleIndex = 12;
         x.Width = 100;
-    });    
+    });
 
     settings.Columns.Add(x =>
     {
@@ -147,117 +152,120 @@
     });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "DATEOFJOINING";
-    x.Caption = "DOJ";
-    x.VisibleIndex = 15;
-    x.Width = 100;
-});
-
-    settings.Columns.Add(x =>
-{
-    x.FieldName = "REPORTTO";
-    x.Caption = "Supervisor";
-    x.VisibleIndex = 16;
-    x.Width = 120;
-});
-
-    settings.Columns.Add(x =>
-{
-    x.FieldName = "RPTTODESG";
-    x.Caption = "Supervisor Desg.";
-    x.VisibleIndex = 17;
-    x.Width = 120;
-});
-
-    settings.Columns.Add(x =>
-{
-    x.FieldName = "COMPNAME";
-    x.Caption = "Company Name";
-    x.VisibleIndex = 18;
-    x.Width = 120;
-});
-
-
-    settings.Columns.Add(x =>
-{
-    x.FieldName = "GPTPLNAME";
-    x.Caption = "GPTPL/Distributor";
-    x.VisibleIndex = 19;
-    x.Width = 120;
-});
+    {
+        x.FieldName = "DATEOFJOINING";
+        x.Caption = "DOJ";
+        x.VisibleIndex = 15;
+        x.Width = 100;
+    });
 
     settings.Columns.Add(x =>
     {
-    x.FieldName = "CUSTNAME";
-    x.Caption = "Customer Name";
-    x.VisibleIndex = 20;
-    x.Width = 120;
-});
-
-   settings.Columns.Add(x =>
-{
-    x.FieldName = "CUSTTYPE";
-    x.Caption = "Customer Type";
-    x.VisibleIndex = 21;
-    x.Width = 100;
-});
-
-   settings.Columns.Add(x =>
-   {
-    x.FieldName = "ELECTRICIAN";
-    x.Caption = "Electrician";
-    x.VisibleIndex = 22;
-    x.Width = 100;
-   });
-
-   settings.Columns.Add(x =>
-   {
-       x.FieldName = "ENTITYTYPE";
-       x.Caption = "Entity Type";
-       x.VisibleIndex = 23;
-       x.Width = 100;
-   });
-
-   settings.Columns.Add(x =>
-   {
-       x.FieldName = "VISITTYPE";
-       x.Caption = "Visit Type";
-       x.VisibleIndex = 24;
-       x.Width = 100;
-   });
+        x.FieldName = "REPORTTO";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 16;
+        x.Width = 120;
+    });
 
     settings.Columns.Add(x =>
     {
-    x.FieldName = "CUSTADD";
-    x.Caption = "Customer Address";
-    x.VisibleIndex = 25;
-    x.Width = 200;
-});
+        x.FieldName = "RPTTODESG";
+        x.Caption = "Supervisor Desg.";
+        x.VisibleIndex = 17;
+        x.Width = 120;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "CUSTMOB";
-    x.Caption = "Customer Mobile no.";
-    x.VisibleIndex = 26;
-    x.Width = 200;
-});
-    
-    settings.Columns.Add(x =>
-{
-    x.FieldName = "GPTPLADD";
-    x.Caption = "GPTPL/Dist. Address";
-    x.VisibleIndex = 27;
-    x.Width = 200;
-});
+    {
+        x.FieldName = "COMPNAME";
+        x.Caption = "Company Name";
+        x.VisibleIndex = 18;
+        x.Width = 120;
+    });
+
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "GPTPLMOB";
-    x.Caption = "GPTPL/Dist. Mobile no.";
-    x.VisibleIndex = 28;
-    x.Width = 200;
-});
+    {
+        x.FieldName = "GPTPLNAME";
+        x.Caption = "GPTPL/Distributor";
+        x.VisibleIndex = 19;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CUSTNAME";
+        x.Caption = "Customer Name";
+        x.VisibleIndex = 20;
+        x.Width = 120;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CUSTTYPE";
+        x.Caption = "Customer Type";
+        x.VisibleIndex = 21;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ELECTRICIAN";
+        x.Caption = "Electrician";
+        x.VisibleIndex = 22;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENTITYTYPE";
+        x.Caption = "Entity Type";
+        x.VisibleIndex = 23;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITTYPE";
+        x.Caption = "Visit Type";
+        x.VisibleIndex = 24;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CUSTADD";
+        x.Caption = "Customer Address";
+        x.VisibleIndex = 25;
+        //Rev 1.0
+        //x.Width = 200;
+        x.Width = 300;
+        //Rev end 1.0
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CUSTMOB";
+        x.Caption = "Customer Mobile no.";
+        x.VisibleIndex = 26;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "GPTPLADD";
+        x.Caption = "GPTPL/Dist. Address";
+        x.VisibleIndex = 27;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "GPTPLMOB";
+        x.Caption = "GPTPL/Dist. Mobile no.";
+        x.VisibleIndex = 28;
+        x.Width = 200;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -276,20 +284,20 @@
     });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "MEETINGREMARKS";
-    x.Caption = "Meeting Remarks";
-    x.VisibleIndex = 31;
-    x.Width = 200;
-});
+    {
+        x.FieldName = "MEETINGREMARKS";
+        x.Caption = "Meeting Remarks";
+        x.VisibleIndex = 31;
+        x.Width = 200;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "VISITREMARKS";
-    x.Caption = "Feedback";
-    x.VisibleIndex = 32;
-    x.Width = 200;
-});
+    {
+        x.FieldName = "VISITREMARKS";
+        x.Caption = "Feedback";
+        x.VisibleIndex = 32;
+        x.Width = 200;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -298,7 +306,7 @@
         x.VisibleIndex = 33;
         x.Width = 100;
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "SPENT_DURATION";
@@ -308,73 +316,73 @@
     });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "TOTAL_VISIT";
-    x.Caption = "Visit Count";
-    x.VisibleIndex = 35;
-    x.Width = 70;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "TOTAL_VISIT";
+        x.Caption = "Visit Count";
+        x.VisibleIndex = 35;
+        x.Width = 70;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "RE_VISITED";
-    x.Caption = "Re Visit";
-    x.VisibleIndex = 36;
-    x.Width = 60;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "RE_VISITED";
+        x.Caption = "Re Visit";
+        x.VisibleIndex = 36;
+        x.Width = 60;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "NEWSHOP_VISITED";
-    x.Caption = "New Visit";
-    x.VisibleIndex = 37;
-    x.Width = 60;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "NEWSHOP_VISITED";
+        x.Caption = "New Visit";
+        x.VisibleIndex = 37;
+        x.Width = 60;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "TOTMETTING";
-    x.Caption = "Meeting";
-    x.VisibleIndex = 38;
-    x.Width = 60;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "TOTMETTING";
+        x.Caption = "Meeting";
+        x.VisibleIndex = 38;
+        x.Width = 60;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "DISTANCE_TRAVELLED";
-    x.Caption = "Travelled(KM)";
-    x.VisibleIndex = 39;
-    x.Width = 100;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "DISTANCE_TRAVELLED";
+        x.Caption = "Travelled(KM)";
+        x.VisibleIndex = 39;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
-    x.Caption = "Sale value";
-    x.VisibleIndex = 40;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
+        x.Caption = "Sale value";
+        x.VisibleIndex = 40;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "TOTAL_COLLECTION";
-    x.Caption = "Collection value";
-    x.VisibleIndex = 41;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "TOTAL_COLLECTION";
+        x.Caption = "Collection value";
+        x.VisibleIndex = 41;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     ///Summary
 

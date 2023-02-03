@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
+//                                              Refer: 0025585
+#endregion===================================End of Revision History==================================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -179,11 +183,21 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
 
                 }
+                //Rev 1.0 Mantis:0025585
+                if (model.IsRevisitContactDetails != null)
+                {
+                    TempData["IsRevisitContactDetails"] = model.IsRevisitContactDetails;
+                    TempData.Keep();
+                }
+                //End of Rev 1.0 Mantis:0025585
                 if (model.Ispageload == "1")
                 {
                     //Rev Pallab
-                     //dt = objshop.GetShopListCounterwise(model.TypeID, "", state, Convert.ToInt32(Session["userid"])); 
-                    dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, Convert.ToInt32(Session["userid"])); 
+                    //dt = objshop.GetShopListCounterwise(model.TypeID, "", state, Convert.ToInt32(Session["userid"])); 
+                    //Rev 1.0 Mantis: 0025585
+                    //dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, Convert.ToInt32(Session["userid"]));
+                    dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]));
+                    //End of Rev 1.0 Mantis: 0025585
                     //Rev end Pallab
                     if (dt.Rows.Count > 0)
                     {
@@ -458,20 +472,174 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "trade_licence_number";
             });
             //Rev work close 30.06.2022  Mantise no:0024573
+            //Rev 1.0 Mantis: 0025585
+            if (TempData["IsRevisitContactDetails"].ToString() == "1")
+            {
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Name1";
+                    column.FieldName = "CONTACT_NAME1";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Number1";
+                    column.FieldName = "CONTACT_NUMBER1";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Email1";
+                    column.FieldName = "CONTACT_EMAIL1";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Anniversary1";
+                    column.FieldName = "CONTACT_DOA1";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact DOB1";
+                    column.FieldName = "CONTACT_DOB1";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Name2";
+                    column.FieldName = "CONTACT_NAME2";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Number2";
+                    column.FieldName = "CONTACT_NUMBER2";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Email2";
+                    column.FieldName = "CONTACT_EMAIL2";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Anniversary2";
+                    column.FieldName = "CONTACT_DOA2";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact DOB2";
+                    column.FieldName = "CONTACT_DOB2";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Name3";
+                    column.FieldName = "CONTACT_NAME3";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Number3";
+                    column.FieldName = "CONTACT_NUMBER3";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Email3";
+                    column.FieldName = "CONTACT_EMAIL3";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Anniversary3";
+                    column.FieldName = "CONTACT_DOA3";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact DOB3";
+                    column.FieldName = "CONTACT_DOB3";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Name1";
+                    column.FieldName = "CONTACT_NAME1";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Number1";
+                    column.FieldName = "CONTACT_NUMBER1";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Email4";
+                    column.FieldName = "CONTACT_EMAIL4";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Anniversary4";
+                    column.FieldName = "CONTACT_DOA4";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact DOB4";
+                    column.FieldName = "CONTACT_DOB4";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Name5";
+                    column.FieldName = "CONTACT_NAME5";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Number5";
+                    column.FieldName = "CONTACT_NUMBER5";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Email5";
+                    column.FieldName = "CONTACT_EMAIL5";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Anniversary5";
+                    column.FieldName = "CONTACT_DOA5";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact DOB5";
+                    column.FieldName = "CONTACT_DOB5";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Name6";
+                    column.FieldName = "CONTACT_NAME6";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Number6";
+                    column.FieldName = "CONTACT_NUMBER6";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Email6";
+                    column.FieldName = "CONTACT_EMAIL6";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact Anniversary6";
+                    column.FieldName = "CONTACT_DOA6";
+                });
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Contact DOB6";
+                    column.FieldName = "CONTACT_DOB6";
+                });
+            }
+            //End of Rev 1.0 Mantis: 0025585
+            //   settings.Columns.Add(column =>
+            //   {
+            //       column.Caption = "Shop Visit";
+            //       column.FieldName = "countactivity";
 
-         //   settings.Columns.Add(column =>
-         //   {
-         //       column.Caption = "Shop Visit";
-         //       column.FieldName = "countactivity";
+            //   });
 
-         //   });
-           
-         //settings.Columns.Add(column =>
-         //   {
-         //       column.Caption = "Last Visited Date";
-         //       column.FieldName = "Lastactivitydate";
+            //settings.Columns.Add(column =>
+            //   {
+            //       column.Caption = "Last Visited Date";
+            //       column.FieldName = "Lastactivitydate";
 
-         //   });
+            //   });
 
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;

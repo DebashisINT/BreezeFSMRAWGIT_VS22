@@ -1,4 +1,9 @@
-﻿@{
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                23-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,14 +17,28 @@
 </script>
 <style>
     .eqpadtbl {
-        display:inline-block;
+        /*Rev 1.0*/
+        /*display:inline-block;*/
+        display: block;
+        /*Rev end 1.0*/
     }
-    .eqpadtbl>tbody>tr>td{
-        padding-bottom:15px
-    }
-        .eqpadtbl > tbody > tr > td div{
-            text-align:center
+
+        .eqpadtbl > tbody > tr > td {
+            /*Rev 1.0*/
+            /*padding-bottom:15px*/
+            padding-bottom: 0px
+            /*Rev end 1.0*/
         }
+
+            .eqpadtbl > tbody > tr > td div {
+                text-align: center
+            }
+        /*Rev 1.0*/
+        .eqpadtbl tr td label {
+            margin-bottom: 0 !important;
+            margin-right: 10px !important;
+        }
+    /*Rev end 1.0*/
 </style>
 <div class="breadCumb">
     <span>Invoice Import</span>
@@ -29,37 +48,46 @@
         <div class="col-md-12">
             @{
 
-    using (Ajax.BeginForm("UploadFile", "ThirdPartyInvoiceUpload", new { area = "MYSHOP" }, new
-    AjaxOptions
-    {
-        HttpMethod = "POST",
-        OnSuccess = "Showmessage" //This will execute once the Ajax call is finished.
+                using (Ajax.BeginForm("UploadFile", "ThirdPartyInvoiceUpload", new { area = "MYSHOP" }, new
+                AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    OnSuccess = "Showmessage" //This will execute once the Ajax call is finished.
 
-    }, new {enctype="multipart/form-data"}))
+                }, new { enctype = "multipart/form-data" }))
 
-    {
-    <div class="text-center p-5">
-        <table class="eqpadtbl  mb-3 ">
-            <tr>
-                <td>
-                    <label>Upload Xml</label>
-                    <div>
-                        <input type="file" name="file" accept="xml/*" />
+                {
+                    @*Rev 1.0*@
+                    @*<div class="text-center p-5">*@
+                    <div class="text-center p-3">
+
+                        @*<table class="eqpadtbl  mb-3 ">*@
+                        <table class="eqpadtbl  mb-0 ">
+                            @*Rev end 1.0*@
+                            <tr>
+                                @*Rev 1.0 : all field add in same line( add in one tr)*@
+                                <td><label>Upload Xml</label></td>
+                                <td>
+                                    @*<label>Upload Xml</label>*@
+                                    <div>
+                                        <input type="file" name="file" accept="xml/*" />
+                                    </div>
+                                </td>
+                                <td valign="bottom">
+                                    <input type="submit" class="btn btn-success" value="Upload" />
+                                </td>
+                            </tr>
+                            @*<tr>
+                                    <td valign="bottom">
+                                        <input type="submit" class="btn btn-success" value="Upload" />
+                                    </td>
+                                </tr>*@
+                        </table>
                     </div>
-                </td>
-
-            </tr>
-            <tr>
-                <td valign="bottom">
-                    <input type="submit" class="btn btn-success" value="Upload" />
-                </td>
-            </tr>
-        </table>
-    </div>
 
 
 
-    }
+                }
                 <div id="Element"></div>
             }
 

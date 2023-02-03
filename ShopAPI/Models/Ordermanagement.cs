@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.38     Debashis    23/01/2023      Some new parameters have been added.Row: 805 to 806
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -49,6 +52,10 @@ namespace ShopAPI.Models
         //Extra Input for EuroBond
         public decimal MRP { get; set; }
         //Extra Input for EuroBond
+        //Rev 1.0 Row: 805
+        public decimal order_mrp { get; set; }
+        public decimal order_discount { get; set; }
+        //End of Rev 1.0 Row: 805
     }
 
     public class OrderAddoutput
@@ -246,6 +253,10 @@ namespace ShopAPI.Models
         //Extra Output for EuroBond
         public decimal MRP { get; set; }
         //Extra Output for EuroBond
+        //Rev 1.0 Row: 806
+        public decimal order_mrp { get; set; }
+        public decimal order_discount { get; set; }
+        //End of Rev 1.0 Row: 806
     }
 
     #endregion

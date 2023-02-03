@@ -1,5 +1,8 @@
 ﻿@model List<MyShop.Models.DashboardSettingMapped>
 
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                06-01-2023        2.0.37           pallab              25570: show button position change and data default value change(added '*' instead of '0') *@
+
 @if (Model != null)
 {
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,9 +26,10 @@
             font-family: 'Poppins', sans-serif !important;
             padding-left: 0px;
             font-weight: 400;
-            font-size: 15px;
+            font-size: 14px;
             margin-top: -9px;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
+            color: #fff;
         }
 
         .dtday {
@@ -34,10 +38,12 @@
 
         .newStyleMN .widgBox .Numb {
             font-family: 'Poppins', sans-serif !important;
-            font-weight: 300;
-            font-size: 38px;
-            color: #505050;
+            font-weight: 500;
+            font-size: 32px;
+            /*color: #083a72;*/
+            color: #fff;
             text-align: left;
+            margin-bottom: 5px;
         }
 
         .newStyleMN .widgBox.active .Numb {
@@ -51,7 +57,7 @@
         }
 
         .newStyleMN .lspacer {
-            padding-left: 25px;
+            padding-left: 5px;
         }
 
         .flex-itm.scr:not(:last-child) .widgBox {
@@ -61,7 +67,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 Widgheading clearfix">
-                @if (Model.Where(x => x.DetailsName == "Total Employees").Count() > 0 || Model.Where(x => x.DetailsName == "At Work").Count() > 0 || Model.Where(x => x.DetailsName == "On Leave").Count() > 0 || Model.Where(x => x.DetailsName == "Not Logged In").Count() > 0)
+                @if (Model.Where(x => x.DetailsName == "Total Employees for Team Visit - Hierarchy").Count() > 0 || Model.Where(x => x.DetailsName == "At Work for Team Visit - Hierarchy").Count() > 0 || Model.Where(x => x.DetailsName == "On Leave for Team Visit - Hierarchy").Count() > 0 || Model.Where(x => x.DetailsName == "Not Logged In for Team Visit - Hierarchy").Count() > 0)
                 {
                     @*<span>Employee Attendance Summary/*Add to check*/</span>*@
                 }
@@ -148,18 +154,24 @@
     </div>
     <div>
         <div class="row">
-            <div class="clearfix mb-5">
+            <div class="clearfix mb-3">
                 <div class="d-flex justify-content-center mainDashBoxes newStyleMN">
-                    @if (Model.Where(x => x.DetailsName == "Total Employees for Team Visit").Count() > 0)
+                    @if (Model.Where(x => x.DetailsName == "Total Employees for Team Visit - Hierarchy").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
                             <div class="widgBox c2" id="a4" onclick="OnTotalClickTeamVisitH(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-users"></span></div>
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-users"></span>*@
+                                        <img src="/assests/images/employees.png" />
+                                    </div>
 
                                 </div>
                                 <div class="lspacer">
-                                    <div class="Numb" id="EMPTVH">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="EMPTVH">0</div>*@
+                                    <div class="Numb" id="EMPTVH">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employee Strength</div>
                                     <div class="dtday">As of Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -168,16 +180,22 @@
                         </div>
                     }
 
-                    @if (Model.Where(x => x.DetailsName == "At Work for Team Visit").Count() > 0)
+                    @if (Model.Where(x => x.DetailsName == "At Work for Team Visit - Hierarchy").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
                             <div class="widgBox c3" id="" onclick="AtWorkClickTeamVisitH(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-briefcase"></span></div>
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-briefcase"></span>*@
+                                        <img src="/assests/images/at-work.png" />
+                                    </div>
 
                                 </div>
                                 <div class="lspacer">
-                                    <div class="Numb" id="EAWTVH">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="EAWTVH">0</div>*@
+                                    <div class="Numb" id="EAWTVH">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employees At Work</div>
                                     <div class="dtday">Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -185,16 +203,22 @@
                             </div>
                         </div>
                     }
-                    @if (Model.Where(x => x.DetailsName == "On Leave for Team Visit").Count() > 0)
+                    @if (Model.Where(x => x.DetailsName == "On Leave for Team Visit - Hierarchy").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox " id="" onclick="OnLeaveClickTeamVisitH(this);">
+                            <div class="widgBox c5" id="" onclick="OnLeaveClickTeamVisitH(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-calendar-full"></span></div>
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-calendar-full"></span>*@
+                                        <img src="/assests/images/on-leave.png" />
+                                    </div>
 
                                 </div>
                                 <div class="lspacer">
-                                    <div class="Numb" id="EOLTVH">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="EOLTVH">0</div>*@
+                                    <div class="Numb" id="EOLTVH">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employees On Leave</div>
                                     <div class="dtday"> Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -202,16 +226,22 @@
                             </div>
                         </div>
                     }
-                    @if (Model.Where(x => x.DetailsName == "Not Logged In for Team Visit").Count() > 0)
+                    @if (Model.Where(x => x.DetailsName == "Not Logged In for Team Visit - Hierarchy").Count() > 0)
                     {
                         <div class="flex-itm scr ">
                             <div class="widgBox c4" id="" onclick="NotLoggedInClickTeamVisitH(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-power-switch transNotLogged"></span></div>
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-power-switch transNotLogged"></span>*@
+                                        <img src="/assests/images/not-loggedin.png" />
+                                    </div>
 
                                 </div>
                                 <div class="lspacer">
-                                    <div class="Numb" id="NLITVH">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="NLITVH">0</div>*@
+                                    <div class="Numb" id="NLITVH">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Not Logged In</div>
                                     <div class="dtday">Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -224,5 +254,26 @@
             </div>
         </div>
     </div>
+    //rev 1.0
+    <div class="row">
+        <div class="col-md-12 text-right clearfix py-0 pl-50">
+            <table class="float-left">
+                <tr>
+
+                    @*<td><button type="button" class="btn btn-success" onclick="ShowTeamVisitHData()">Show</button></td>*@
+                    <td>
+                        @*<span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">*@
+                        @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitHData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                        <button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitHData()" style=" line-height: 20px;">
+                            <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;"> click here to show data
+                            @*<div class="hands teamVisitH-tb-hand"></div>*@
+                        </button>
+                        @*</span>*@
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    //rev end 1.0
 }
 

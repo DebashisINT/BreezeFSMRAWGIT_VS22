@@ -437,7 +437,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     ColumnName = "EMPNAME [Employee],DESIGNATION [Designation],EMPID [Employee ID],BRANCHDESC [Branch],REPORTTO [Supervisor], REPORTTOUID [Supervisor ID],CONTACTNO [Login ID], CHANNEL [Channel],CIRCLE [Circle],SECTION [Section]";
                 }
 
-                DataTable dt = objgps._GetSalesSummaryReportTeam(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToString(Session["userid"]), dd.StateId == "0" ? "" : dd.StateId, dd.BranchIdTV, "", "", dd.FilterName);
+                // mantis issue 25567 
+                //DataTable dt = objgps._GetSalesSummaryReportTeam(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToString(Session["userid"]), dd.StateId == "0" ? "" : dd.StateId, dd.BranchIdTV, "", "", dd.FilterName);
+                DataTable dt = objgps._GetSalesSummaryReportTeam(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToString(Session["userid"]), dd.StateId == "0" ? "" : dd.StateId, dd.BranchIdTV == "0" ? "" : dd.BranchIdTV, "", "", dd.FilterName);
+                // End of mantis issue 25567
 
                 query = "Select " + ColumnName + " from FTSTEAMVISITDASHBOARD_REPORT where USERID='" + Convert.ToString(Session["userid"]) + "' and ACTION='" + Convert.ToString(dd.FilterName) + "'";
 
@@ -2207,7 +2210,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     ColumnName = "EMPNAME [Employee],DESIGNATION [Designation],EMPID [Employee ID],BRANCHDESC [Branch],REPORTTO [Supervisor], REPORTTOUID [Supervisor ID],CONTACTNO [Login ID], CHANNEL [Channel],CIRCLE [Circle],SECTION [Section]";
                 }
 
-                DataTable dt = objgps._GetSalesSummaryReportTeamH(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToString(Session["userid"]), dd.StateId == "0" ? "" : dd.StateId, dd.BranchIdTV, "", "", dd.FilterName);
+                DataTable dt = objgps._GetSalesSummaryReportTeamH(DateTime.Now.ToString("yyyy-MM-dd"), Convert.ToString(Session["userid"]), dd.StateId == "0" ? "" : dd.StateId, dd.BranchIdTV == "0" ? "" : dd.BranchIdTV, "", "", dd.FilterName);
 
                 query = "Select " + ColumnName + " from FTSTEAMVISITDASHBOARD_REPORT_HIERARCHY where USERID='" + Convert.ToString(Session["userid"]) + "' and ACTION='" + Convert.ToString(dd.FilterName) + "'";
 

@@ -1,4 +1,9 @@
-﻿@model MyShop.Models.ActivityReportModel
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                18-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ===========================================================*@
+
+@model MyShop.Models.ActivityReportModel
 
 <script type="text/javascript" src="~/Scripts/globalize.js"></script>
 <script src="~/Scripts/cultures/globalize.cultures.js"></script>
@@ -25,34 +30,34 @@
         //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
         //lookup.GetGridView().Refresh();
 
+    /*Rev 1.0: Double datepicker was opened*/
+        //$('#dtFrom').daterangepicker({
+        //    singleDatePicker: true,
+        //    showDropdowns: true,
+        //    locale: {
+        //        format: 'DD-MM-YYYY'
+        //    },
+        //    onSelect: function (date) {
+        //        var selectedDate = new Date(date);
+        //        var mindt = new Date(selectedDate.getTime() + 1);
+        //        $("#dtTo").daterangepicker("option", "minDate", mindt);
+        //    }
+        //});
 
-        $('#dtFrom').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            locale: {
-                format: 'DD-MM-YYYY'
-            },
-            onSelect: function (date) {
-                var selectedDate = new Date(date);
-                var mindt = new Date(selectedDate.getTime() + 1);
-                $("#dtTo").daterangepicker("option", "minDate", mindt);
-            }
-        });
-
-        $('#dtTo').daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            mask: true,
-            locale: {
-                format: 'DD-MM-YYYY'
-            },
-            onSelect: function (date) {
-                var selectedDate = new Date(date);
-                var maxdt = new Date(selectedDate.getTime() - 1);
-                $("#dtFrom").daterangepicker("option", "maxDate", maxdt);
-            }
-        });
-
+        //$('#dtTo').daterangepicker({
+        //    singleDatePicker: true,
+        //    showDropdowns: true,
+        //    mask: true,
+        //    locale: {
+        //        format: 'DD-MM-YYYY'
+        //    },
+        //    onSelect: function (date) {
+        //        var selectedDate = new Date(date);
+        //        var maxdt = new Date(selectedDate.getTime() - 1);
+        //        $("#dtFrom").daterangepicker("option", "maxDate", maxdt);
+        //    }
+        //});
+        /*Rev end 1.0*/
 
 
         $('body').on('click', '#btnshow', function () {
@@ -408,6 +413,9 @@
                     <span id="MandatoryFromDate" style="display: none" class="validclass">
                         <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
                     </span>
+                    @*Rev 1.0*@
+                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                    @*Rev end 1.0*@
                 </div>
             </div>
             <div class="col-md-2 col-lg-2">
@@ -431,6 +439,9 @@
                     <span id="MandatoryToDate" style="display: none" class="validclass">
                         <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
                     </span>
+                    @*Rev 1.0*@
+                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                    @*Rev end 1.0*@
                 </div>
             </div>
             @*<div class="col-md-4 col-lg-2">

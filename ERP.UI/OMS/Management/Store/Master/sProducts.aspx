@@ -1,3 +1,7 @@
+<%-- ---------------------------------------------------------------------------------------------------------------------
+Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length of the Description field of Product Master. Refer: 25603    
+    
+-------------------------------------------------------------------------------------------------------------------------- --%>
 <%@ Page Title="Products" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
     Inherits="ERP.OMS.Management.Store.Master.management_master_Store_sProducts" CodeBehind="sProducts.aspx.cs" %>
 
@@ -3025,7 +3029,8 @@
                                                 <asp:Label ID="LblDecs" runat="server" Text="Description" CssClass="newLbl"></asp:Label>
                                             </div>
                                             <div class="Left_Content">
-                                                <dxe:ASPxMemo ID="txtPro_Description" ClientInstanceName="ctxtPro_Description" MaxLength="300" TabIndex="3"
+                                                <%--Rev 1.0  [ MaxLength="300" changed to MaxLength="4000" --%>
+                                                <dxe:ASPxMemo ID="txtPro_Description" ClientInstanceName="ctxtPro_Description" MaxLength="4000" TabIndex="3"
                                                     runat="server" Width="100%" Height="60px" Text='<%# Bind("txtMarkets_Description") %>' CssClass="upper">
                                                 </dxe:ASPxMemo>
                                             </div>

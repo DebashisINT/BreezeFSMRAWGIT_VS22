@@ -1,4 +1,10 @@
-﻿using BusinessLogicLayer.SalesmanTrack;
+﻿/*******************************************************************************************************************
+ * 1.0      Sanchita    V2.0.38     Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True" then data 
+ *                                  in portal shall be populated based on Hierarchy Only. Refer: 25504
+ * 
+ * ***************************************************************************************************************/
+
+using BusinessLogicLayer.SalesmanTrack;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
 using MyShop.Models;
@@ -36,8 +42,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
             double days = (Convert.ToDateTime(dattoat) - Convert.ToDateTime(datfrmat)).TotalDays;
              if (days <= 30)
              {
-                  tardt = tarBL.GetrangeList("GETGRIDDATA", DateTime.ParseExact(fromdate, "dd-MM-yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(enddate, "dd-MM-yyyy", CultureInfo.InvariantCulture), States);
-             }
+                // Rev 1.0
+                //tardt = tarBL.GetrangeList("GETGRIDDATA", DateTime.ParseExact(fromdate, "dd-MM-yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(enddate, "dd-MM-yyyy", CultureInfo.InvariantCulture), States);
+                tardt = tarBL.GetrangeList("GETGRIDDATA", datfrmat, dattoat, States, Convert.ToString(Session["userid"]));
+                // End of Rev 1.0
+            }
                 TargetVsAchivementRangeClass model = new TargetVsAchivementRangeClass();
             model.TargetVsAchivementList = APIHelperMethods.ToModelList<TargetVsAchivementRangeList>(tardt);
             TempData["DataGrid"] = model.TargetVsAchivementList;

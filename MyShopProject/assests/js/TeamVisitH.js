@@ -238,118 +238,119 @@ function cmbBranchChangeTVH() {
 }
 
 // End of Mantis Issue 24729
-// Mantis Issue 25455
-function ShowTeamVisitHData() {
-    if (settingsid == "1") {
-        var obj = {};
-        obj.ID = "1";
-        obj.action = "AT_WORK";
-        obj.rptype = "Summary";
-        obj.empid = "";
-        obj.stateid = stateids.join(',');// cmbState.GeTVHalue();
+//// Mantis Issue 25455
+//function ShowTeamVisitHData() {
+//    if (settingsid == "1") {
+//        var obj = {};
+//        obj.ID = "1";
+//        obj.action = "AT_WORK";
+//        obj.rptype = "Summary";
+//        obj.empid = "";
+//        obj.stateid = stateids.join(',');// cmbState.GeTVHalue();
 
-        var isObject = typeof branchidsTVH
-        if (isObject == "object") {
-            if (branchidsTVH != null && branchidsTVH.length > 0) {
-                obj.branchid = branchidsTVH.join(',');
-            } else {
-                obj.branchid = "";
+//        var isObject = typeof branchidsTVH
+//        if (isObject == "object") {
+//            if (branchidsTVH != null && branchidsTVH.length > 0) {
+//                obj.branchid = branchidsTVH.join(',');
+//            } else {
+//                obj.branchid = "";
 
-            }
-        } else {
-            if (branchidsTVH != null && branchidsTVH.length > 0) {
-                obj.branchid = branchidsTVH;
-            }
-            else {
-                obj.branchid = "";
-            }
-        }
-        obj.designid = "";
-        objsettings.push(obj);
-    }
+//            }
+//        } else {
+//            if (branchidsTVH != null && branchidsTVH.length > 0) {
+//                obj.branchid = branchidsTVH;
+//            }
+//            else {
+//                obj.branchid = "";
+//            }
+//        }
+//        obj.designid = "";
+//        objsettings.push(obj);
+//    }
 
-    WindowSize = $(window).width();
+//    WindowSize = $(window).width();
 
-    // Mantis Issue 25455
-    //$("#lblAtWorkTVH").html("<img src='/assests/images/Spinner.gif' />");
-    //$("#lblOnLeaveTVH").html("<img src='/assests/images/Spinner.gif' />");
-    //$("#lblNotLoggedInTVH").html("<img src='/assests/images/Spinner.gif' />");
-    //$("#lblTotalTVH").html("<img src='/assests/images/Spinner.gif' />");
-    $("#EMPTVH").html("<img src='/assests/images/Spinner.gif' />");
-    $("#EAWTVH").html("<img src='/assests/images/Spinner.gif' />");
-    $("#EOLTVH").html("<img src='/assests/images/Spinner.gif' />");
-    $("#NLITVH").html("<img src='/assests/images/Spinner.gif' />");
-    // End of Mantis Issue 25455
-    stateid = stateidsTVH.join(',');// cmbState.GeTVHalue();
-    $("#salesmanheader").html("State wise Summary");
-    $("#salesmanheaderTeam").html("State wise Summary");
-    stateid = stateidsTVH.join(',');// cmbState.GeTVHalue();
-    // Mantis Issue 24729
-    var isObject = typeof branchidsTVH
-    if (isObject == "object") {
-        if (branchidsTVH != null && branchidsTVH.length > 0) {
-            branchid = branchidsTVH.join(',');
-        } else {
-            branchid = "";
+//    // Mantis Issue 25455
+//    //$("#lblAtWorkTVH").html("<img src='/assests/images/Spinner.gif' />");
+//    //$("#lblOnLeaveTVH").html("<img src='/assests/images/Spinner.gif' />");
+//    //$("#lblNotLoggedInTVH").html("<img src='/assests/images/Spinner.gif' />");
+//    //$("#lblTotalTVH").html("<img src='/assests/images/Spinner.gif' />");
+//    $("#EMPTVH").html("<img src='/assests/images/Spinner.gif' />");
+//    $("#EAWTVH").html("<img src='/assests/images/Spinner.gif' />");
+//    $("#EOLTVH").html("<img src='/assests/images/Spinner.gif' />");
+//    $("#NLITVH").html("<img src='/assests/images/Spinner.gif' />");
+//    // End of Mantis Issue 25455
+//    stateid = stateidsTVH.join(',');// cmbState.GeTVHalue();
+//    $("#salesmanheader").html("State wise Summary");
+//    $("#salesmanheaderTeam").html("State wise Summary");
+//    stateid = stateidsTVH.join(',');// cmbState.GeTVHalue();
+//    // Mantis Issue 24729
+//    var isObject = typeof branchidsTVH
+//    if (isObject == "object") {
+//        if (branchidsTVH != null && branchidsTVH.length > 0) {
+//            branchid = branchidsTVH.join(',');
+//        } else {
+//            branchid = "";
 
-        }
-    } else {
-        if (branchidsTVH != null && branchidsTVH.length > 0) {
-            branchid = branchidsTVH;
-        }
-        else {
-            branchid = "";
-        }
-    }
+//        }
+//    } else {
+//        if (branchidsTVH != null && branchidsTVH.length > 0) {
+//            branchid = branchidsTVH;
+//        }
+//        else {
+//            branchid = "";
+//        }
+//    }
 
-    objData = {};
+//    objData = {};
 
-    var hdnTotalEmployeesTVH = $('#hdnTotalEmployeesTVH').val();
-    var hdnAtWorkTVH = $('#hdnAtWorkTVH').val();
-    var hdnOnLeaveTVH = $('#hdnOnLeaveTVH').val();
-    var hdnNotLoggedInTVH = $('#hdnNotLoggedInTVH').val();
-    var hdnStatewiseSummaryTVH = $('#hdnStatewiseSummaryTVH').val();
-    var hdnStatewiseSummaryTeamTVH = $('#hdnStatewiseSummaryTeamTVH').val();
+//    var hdnTotalEmployeesTVH = $('#hdnTotalEmployeesTVH').val();
+//    var hdnAtWorkTVH = $('#hdnAtWorkTVH').val();
+//    var hdnOnLeaveTVH = $('#hdnOnLeaveTVH').val();
+//    var hdnNotLoggedInTVH = $('#hdnNotLoggedInTVH').val();
+//    var hdnStatewiseSummaryTVH = $('#hdnStatewiseSummaryTVH').val();
+//    var hdnStatewiseSummaryTeamTVH = $('#hdnStatewiseSummaryTeamTVH').val();
 
-    var obj = {};
-    obj.stateid = stateid;
-    // Mantis Issue 24729
-    obj.branchid = branchid;
-    // End of Mantis Issue 24729
+//    var obj = {};
+//    obj.stateid = stateid;
+//    // Mantis Issue 24729
+//    obj.branchid = branchid;
+//    // End of Mantis Issue 24729
 
-    if (hdnTotalEmployeesTVH > 0 || hdnAtWorkTVH > 0 || hdnOnLeaveTVH > 0 || hdnNotLoggedInTVH > 0) {
-        $.ajax({
-            type: "POST",
-            url: "/DashboardMenu/GetDashboardDataVisitH",
-            data: JSON.stringify(obj),
-            async: true,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                if (hdnAtWorkTVH > 0) {
-                    $("#EAWTVH").html(response.lblAtWork);
-                }
-                if (hdnOnLeaveTVH > 0) {
-                    $("#EOLTVH").html(response.lblOnLeave);
-                }
-                if (hdnNotLoggedInTVH > 0) {
-                    $("#NLITVH").html(response.lblNotLoggedIn);
-                }
-                if (hdnTotalEmployeesTVH > 0) {
-                    $("#EMPTVH").html(response.lblTotal);
-                }
-            },
-            error: function (response) {
-                jAlert("Please try again later");
-            }
-        });
-        // ajax Team visit
-        if ($("#hdnStatewiseSummaryTeamTabTVH").val() == 1) {
-            TeamVisitDataH(obj)
-        }
-    }
-}
-// End of Mantis Issue 25455
+//    if (hdnTotalEmployeesTVH > 0 || hdnAtWorkTVH > 0 || hdnOnLeaveTVH > 0 || hdnNotLoggedInTVH > 0) {
+//        $.ajax({
+//            type: "POST",
+//            url: "/DashboardMenu/GetDashboardDataVisitH",
+//            data: JSON.stringify(obj),
+//            async: true,
+//            contentType: "application/json; charset=utf-8",
+//            dataType: "json",
+//            success: function (response) {
+//                if (hdnAtWorkTVH > 0) {
+//                    $("#EAWTVH").html(response.lblAtWork);
+//                }
+//                if (hdnOnLeaveTVH > 0) {
+//                    $("#EOLTVH").html(response.lblOnLeave);
+//                }
+//                if (hdnNotLoggedInTVH > 0) {
+//                    $("#NLITVH").html(response.lblNotLoggedIn);
+//                }
+//                if (hdnTotalEmployeesTVH > 0) {
+//                    $("#EMPTVH").html(response.lblTotal);
+//                }
+//            },
+//            error: function (response) {
+//                jAlert("Please try again later");
+//            }
+//        });
+//        // ajax Team visit
+//        if ($("#hdnStatewiseSummaryTeamTabTVH").val() == 1) {
+//            TeamVisitDataH(obj)
+//        }
+//    }
+//}
+//// End of Mantis Issue 25455
+
 // Mantis Issue 25468
 function ShowTeamVisitHData() {
     if (settingsid == "1") {
@@ -382,6 +383,7 @@ function ShowTeamVisitHData() {
 
     WindowSize = $(window).width();
 
+    $(".teamVisitH-tb-hand").hide();
     // Mantis Issue 25455
     //$("#lblAtWorkTVH").html("<img src='/assests/images/Spinner.gif' />");
     //$("#lblOnLeaveTVH").html("<img src='/assests/images/Spinner.gif' />");
@@ -743,7 +745,7 @@ function reloadBoxDataTVH(branchidsTVH) {
     // End of Mantis Issue 24729
     $.ajax({
         type: "POST",
-        url: "/DashboardMenu/GetDashboardDataVisitH",
+        url: "/DashboardMenu/GetDashboardDataVisit",
         data: JSON.stringify(obj),
         async: true,
         contentType: "application/json; charset=utf-8",

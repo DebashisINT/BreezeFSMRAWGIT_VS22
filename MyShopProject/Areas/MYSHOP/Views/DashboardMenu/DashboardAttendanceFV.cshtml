@@ -1,5 +1,8 @@
 ﻿@model List<MyShop.Models.DashboardSettingMapped>
 
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                06-01-2023        2.0.37           pallab              25570: show button position change and data default value change(added '*' instead of '0') *@
+
 @if (Model != null)
 {
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,9 +26,10 @@
             font-family: 'Poppins', sans-serif !important;
             padding-left: 0px;
             font-weight: 400;
-            font-size: 15px;
+            font-size: 14px;
             margin-top: -9px;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
+            color: #fff;
         }
 
         .dtday {
@@ -34,10 +38,12 @@
 
         .newStyleMN .widgBox .Numb {
             font-family: 'Poppins', sans-serif !important;
-            font-weight: 300;
-            font-size: 38px;
-            color: #505050;
+            font-weight: 500;
+            font-size: 32px;
+            /*color: #083a72;*/
+            color: #fff;
             text-align: left;
+            margin-bottom: 5px;
         }
 
         .newStyleMN .widgBox.active .Numb {
@@ -51,7 +57,7 @@
         }
 
         .newStyleMN .lspacer {
-            padding-left: 25px;
+            padding-left: 5px;
         }
 
         .flex-itm.scr:not(:last-child) .widgBox {
@@ -94,7 +100,8 @@
                                     View Route
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="lni lni-direction "></span>
+                                @*<span class="lni lni-direction "></span>*@
+                                <img src="/assests/images/route.png" alt="">
                             </div>
                             @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
                         </li>
@@ -107,7 +114,8 @@
                                     View Map
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="lni lni-map"></span>
+                                @*<span class="lni lni-map"></span>*@
+                                <img src="/assests/images/map.png" alt="">
                             </div>
                         </li>
                     }
@@ -119,8 +127,9 @@
                                     Live Tracker
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="liveBlink"></span>
-                                <span class="lni lni-map-marker"></span>
+                                @*<span class="liveBlink"></span>*@
+                                @*<span class="lni lni-map-marker"></span>*@
+                                <img src="/assests/images/tracker.png" alt="">
                             </div>
                             @*separate-left*@
                             @*<span class=" greenTrack" style="cursor:pointer;" >Live Track Employees At Work <img class="pull-right blink cgreen" style="width: 12px; margin: 3px 0 0 5px;" src="/assests/images/Live.png" /></span>*@
@@ -134,7 +143,8 @@
                                     View Outlet
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="lni lni-hospital "></span>
+                                @*<span class="lni lni-hospital "></span>*@
+                                <img src="/assests/images/view-outlet.png" alt="">
                             </div>
                             @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
                         </li>
@@ -147,7 +157,8 @@
                                     Emp Outlet
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="lni lni-users "></span>
+                                @*<span class="lni lni-users "></span>*@
+                                <img src="/assests/images/emp-outlet.png" alt="">
                             </div>
                             @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
                         </li>
@@ -158,19 +169,25 @@
     </div>
     <div class="">
         <div class="row">
-            <div class="clearfix mb-5">
+            <div class="clearfix mb-3">
                 <div class="d-flex justify-content-center mainDashBoxes newStyleMN">
                     @if (Model.Where(x => x.DetailsName == "Total Employees for Field Visit").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
                             <div class="widgBox c2" id="" onclick="OnTotalClickFV(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-users"></span></div>
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-users"></span>*@
+                                        <img src="/assests/images/employees.png" />
+                                    </div>
 
                                 </div>
                                 <div class="lspacer">
                                     @*Mantis Issue 25455 [value 0 added] *@
-                                    <div class="Numb" id="lblTotalFV">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="lblTotalFV">0</div>*@
+                                    <div class="Numb" id="lblTotalFV">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employee Strength</div>
                                     <div class="dtday">As of Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -184,12 +201,18 @@
                         <div class="flex-itm scr " data-scroll="accordion">
                             <div class="widgBox c3" id="" onclick="AtWorkClickFV(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-briefcase"></span></div>
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-briefcase"></span>*@
+                                        <img src="/assests/images/at-work.png" />
+                                    </div>
 
                                 </div>
                                 <div class="lspacer">
                                     @*Mantis Issue 25455 [value 0 added] *@
-                                    <div class="Numb" id="lblAtWorkFV">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="lblAtWorkFV">0</div>*@
+                                    <div class="Numb" id="lblAtWorkFV">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employees At Work</div>
                                     <div class="dtday">Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -202,14 +225,20 @@
                     {
 
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox " id="" onclick="OnLeaveClickFV(this);">
+                            <div class="widgBox c5" id="" onclick="OnLeaveClickFV(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-calendar-full"></span></div>
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-calendar-full"></span>*@
+                                        <img src="/assests/images/on-leave.png" />
+                                    </div>
 
                                 </div>
                                 <div class="lspacer">
                                     @*Mantis Issue 25455 [value 0 added] *@
-                                    <div class="Numb" id="lblOnLeaveFV">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="lblOnLeaveFV">0</div>*@
+                                    <div class="Numb" id="lblOnLeaveFV">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employees On Leave</div>
                                     <div class="dtday"> Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -223,12 +252,18 @@
                         <div class="flex-itm scr " data-scroll="accordion">
                             <div class="widgBox c4" id="" onclick="NotLoggedInClickFV(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-power-switch transNotLogged"></span></div>
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-power-switch transNotLogged"></span>*@
+                                        <img src="/assests/images/not-loggedin.png" />
+                                    </div>
 
                                 </div>
                                 <div class="lspacer">
                                     @*Mantis Issue 25455 [value 0 added] *@
-                                    <div class="Numb" id="lblNotLoggedInFV">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="lblNotLoggedInFV">0</div>*@
+                                    <div class="Numb" id="lblNotLoggedInFV">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Not Logged In</div>
                                     <div class="dtday">Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -240,6 +275,29 @@
             </div>
         </div>
     </div>
+    //rev 1.0
+    @*rev Mantis Issue 25455*@
+    <div class="row">
+        <div class="col-md-12 text-right clearfix py-0 pl-50">
+            <table class="float-left">
+                <tr>
+
+                    <td>
+                        @*<span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">*@
+                        @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowFieldVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                        <button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowFieldVisitData()" style=" line-height: 20px;">
+                            <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;"> click here to show data
+                            @*<div class="hands fieldvisit-tb-hand"></div>*@
+                        </button>
+                        @*</span>*@
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    @*rev end Mantis Issue 25455*@
+    //rev end 1.0
+
     <script>
         $(document).ready(function () {
             $('.scr').on('click', function (e) {

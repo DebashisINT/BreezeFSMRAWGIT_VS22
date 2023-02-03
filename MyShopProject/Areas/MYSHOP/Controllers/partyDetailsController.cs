@@ -1,9 +1,15 @@
-﻿using BusinessLogicLayer;
+﻿/*************************************************************************************************************
+Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+*****************************************************************************************************************/
+using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
+using ClosedXML.Excel;
 using DataAccessLayer;
 using DevExpress.Utils;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
+using DevExpress.XtraSpreadsheet.Forms;
+//using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Models;
@@ -19,12 +25,17 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using UtilityLayer;
+// Rev 1.0
+using Excel = Microsoft.Office.Interop.Excel;
+// End of Rev 1.0
+
 
 namespace MyShop.Areas.MYSHOP.Controllers
 {
@@ -80,6 +91,20 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     List<GroupBeatAssign> InactiveGroupBeat = new List<GroupBeatAssign>();
                     InactiveGroupBeat = APIHelperMethods.ToModelList<GroupBeatAssign>(ds.Tables[13]);
                     //End of Mantis Issue 25133
+
+                    // Mantis Issue 25545
+                    List<Usersshopassign> AreaRouteBeatUser = new List<Usersshopassign>();
+                    AreaRouteBeatUser = APIHelperMethods.ToModelList<Usersshopassign>(ds.Tables[14]);
+
+                    List<Usersshopassign> AreaRouteBeatReassignedUser = new List<Usersshopassign>();
+                    AreaRouteBeatReassignedUser = APIHelperMethods.ToModelList<Usersshopassign>(ds.Tables[15]);
+                    // End of Mantis Issue 25545
+
+                    // Rev 1.0
+                    List<StateList_BulkModify> StateLst_BulkModify = new List<StateList_BulkModify>();
+                    StateLst_BulkModify = APIHelperMethods.ToModelList<StateList_BulkModify>(ds.Tables[16]);
+                    // End of Rev 1.0
+
                     Dtls.shop_lat = "0";
                     Dtls.shop_long = "0";
                     Dtls.ShpTypeList = shoplst;
@@ -104,6 +129,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     //Mantis Issue 25133
                     Dtls.InactiveGroupBeatidList = InactiveGroupBeat;
                     //End of Mantis Issue 25133
+                    // Mantis Issue 25545
+                    Dtls.AreaRouteBeatUseridList = AreaRouteBeatUser;
+                    Dtls.AreaRouteBeatReassignedUseridList = AreaRouteBeatReassignedUser;
+                    // End of Mantis Issue 25545
+                    // Rev 1.0
+                    Dtls.StateList_BulkModify = StateLst_BulkModify;
+                    // End of Rev 1.0
 
                 }
                 // Mantis Issue 24603
@@ -112,6 +144,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 IsAutoCodificationRequired = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsAutoCodificationRequired'").Rows[0][0]);
                 ViewBag.IsAutoCodificationRequired = IsAutoCodificationRequired;
                 // End of Mantis Issue 24603
+
+                // Rev 1.0
+                EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/partyDetails/PartyList");
+                ViewBag.CanView = rights.CanView;
+                ViewBag.CanExport = rights.CanExport;
+                ViewBag.CanBulkUpdate = rights.CanBulkUpdate;
+                // End of Rev 1.0
+
                 return View(Dtls);
             }
             catch
@@ -126,6 +166,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
             EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/partyDetails/PartyList");
             ViewBag.CanView = rights.CanView;
             ViewBag.CanExport = rights.CanExport;
+            // Rev 1.0
+            ViewBag.CanBulkUpdate = rights.CanBulkUpdate;
+            // End of Rev 1.0
             return PartialView(GetDataDetails(Is_PageLoad));
         }
 
@@ -1125,6 +1168,389 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
             return value;
         }
+
+        // Rev 1.0
+        
+        public ActionResult DownloadBulkModifyTempate(string StateId)
+        {
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTSBulkModifyParty");
+            proc.AddPara("@STATE", StateId);
+            proc.AddPara("@ACTION", "FetchDataStatewise");
+            proc.AddPara("@CreateUser_Id", Convert.ToInt32(Session["userid"]));
+            dt = proc.GetTable();
+
+            // This block will show error when run from loacl machine in debug mode. But will run properly in test server.
+            // Refer of ClosedXML.dll added in MyshopProject
+            dt.TableName = "List";
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                wb.Worksheets.Add(dt);
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;filename=BulkImportTemplate.xlsx");
+                using (MemoryStream MyMemoryStream = new MemoryStream())
+                {
+                    wb.SaveAs(MyMemoryStream);
+                    MyMemoryStream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+
+
+            return null;
+        }
+
+        private void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch
+            {
+                obj = null;
+                //MessageBox.Show("Exception Occured while releasing object " + ex.ToString());  
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        }
+
+        public ActionResult BulkModifyParty()
+        {
+
+            // Checking no of files injected in Request object  
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
+                        string fname;
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            fname = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            fname = file.FileName;
+                        }
+                        String extension = Path.GetExtension(fname);
+                        fname = DateTime.Now.Ticks.ToString() + extension;
+                        fname = Path.Combine(Server.MapPath("~/Temporary/"), fname);
+                        file.SaveAs(fname);
+                        BulkModify_To_Grid(fname, extension, file);
+                    }
+                    return Json("File Uploaded Successfully!");
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+           
+        }
+
+        public Int32 BulkModify_To_Grid(string FilePath, string Extension, HttpPostedFileBase file)
+        {
+            Boolean Success = false;
+            Int32 HasLog = 0;
+
+            if (file.FileName.Trim() != "")
+            {
+                if (Extension.ToUpper() == ".XLS" || Extension.ToUpper() == ".XLSX")
+                {
+                    DataTable dt = new DataTable();
+                    string conString = string.Empty;
+                    conString = ConfigurationManager.AppSettings["ExcelConString"];
+                    conString = string.Format(conString, FilePath);
+                    using (OleDbConnection excel_con = new OleDbConnection(conString))
+                    {
+                        excel_con.Open();
+                        string sheet1 = "List$"; //ī;
+
+                        using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT * FROM [" + sheet1 + "]", excel_con))
+                        {
+                            oda.Fill(dt);
+                        }
+                        excel_con.Close();
+                    }
+
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        DataTable dtExcelData = new DataTable();
+                        dtExcelData.Columns.Add("Shop_Code", typeof(string));
+                        dtExcelData.Columns.Add("Retailer", typeof(string));
+                        dtExcelData.Columns.Add("Party_Status", typeof(string));
+                        
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            if (Convert.ToString(row["Shop_Code"]) != "")
+                            {
+                                dtExcelData.Rows.Add(Convert.ToString(row["Shop_Code"]), Convert.ToString(row["Retailer"]), Convert.ToString(row["Party_Status"]));
+                            }
+
+                        }
+                        try
+                        {
+                            //TempData["BulkModifyPartyLog"] = dtExcelData;
+                            //TempData.Keep();
+
+                            DataTable dtCmb = new DataTable();
+                            ProcedureExecute proc = new ProcedureExecute("PRC_FTSBulkModifyParty");
+                            proc.AddPara("@BULKMODIFYPARTY_TABLE", dtExcelData);
+                            proc.AddPara("@ACTION", "BulkUpdate");
+                            proc.AddPara("@CreateUser_Id", Convert.ToInt32(Session["userid"]));
+                            dtCmb = proc.GetTable();
+
+                            TempData["BulkModifyPartyLog"] = dtCmb;
+                            TempData.Keep();
+
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+            }
+            return HasLog;
+        }
+
+        [HttpPost]
+        public JsonResult BulkModifyUserLog(string Fromdt, String ToDate)
+        {
+            string output_msg = string.Empty;
+            try
+            {
+                string datfrmat = Fromdt.Split('-')[2] + '-' + Fromdt.Split('-')[1] + '-' + Fromdt.Split('-')[0];
+                string dattoat = ToDate.Split('-')[2] + '-' + ToDate.Split('-')[1] + '-' + ToDate.Split('-')[0];
+                DataTable dt = obj.BulkModifyPartyLog(datfrmat, dattoat);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    TempData["BulkModifyPartyLog"] = dt;
+                    TempData.Keep();
+                    output_msg = "True";
+                }
+                else
+                {
+                    output_msg = "Log not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                output_msg = "Please try again later";
+            }
+            return Json(output_msg, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult BulkModifyLog()
+        {
+            List<BulkModifyPartyLog> list = new List<BulkModifyPartyLog>();
+            DataTable dt = new DataTable();
+            try
+            {
+                if (TempData["BulkModifyPartyLog"] != null)
+                {
+                    dt = (DataTable)TempData["BulkModifyPartyLog"];
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        BulkModifyPartyLog data = null;
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            data = new BulkModifyPartyLog();
+                            data.Shop_Code = Convert.ToString(row["Shop_Code"]);
+                            data.Shop_Name = Convert.ToString(row["Shop_Name"]);
+                            data.Shop_Type = Convert.ToString(row["Shop_Type"]);
+                            data.Shop_Owner_Contact = Convert.ToString(row["Shop_Owner_Contact"]);
+                            data.State = Convert.ToString(row["State"]);
+                            data.Entitycode = Convert.ToString(row["Entitycode"]);
+                            data.Retailer = Convert.ToString(row["Retailer"]);
+                            data.Party_Status = Convert.ToString(row["Party_Status"]);
+
+                            data.Status = Convert.ToString(row["Status"]);
+                            data.Reason = Convert.ToString(row["Reason"]);
+                            data.UpdateOn = Convert.ToString(row["UpdateOn"]);
+                            data.UpdatedBy = Convert.ToString(row["UpdatedBy"]);
+
+                            list.Add(data);
+                        }
+                    }
+                    TempData["BulkModifyPartyLog"] = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            TempData.Keep();
+            return PartialView(list);
+        }
+
+        public ActionResult ExportBulkModifyLogGrid(int type)
+        {
+            ViewData["BulkModifyPartyLog"] = TempData["BulkModifyPartyLog"];
+
+            TempData.Keep();
+
+            if (ViewData["BulkModifyPartyLog"] != null)
+            {
+                switch (type)
+                {
+                    case 1:
+                        return GridViewExtension.ExportToPdf(GetBulkModifyLogGrid(ViewData["BulkModifyPartyLog"]), ViewData["BulkModifyPartyLog"]);
+                    //break;
+                    case 2:
+                        return GridViewExtension.ExportToXlsx(GetBulkModifyLogGrid(ViewData["BulkModifyPartyLog"]), ViewData["BulkModifyPartyLog"]);
+                    //break;
+                    case 3:
+                        return GridViewExtension.ExportToXlsx(GetBulkModifyLogGrid(ViewData["BulkModifyPartyLog"]), ViewData["BulkModifyPartyLog"]);
+                    //break;
+                    case 4:
+                        return GridViewExtension.ExportToRtf(GetBulkModifyLogGrid(ViewData["BulkModifyPartyLog"]), ViewData["BulkModifyPartyLog"]);
+                    //break;
+                    case 5:
+                        return GridViewExtension.ExportToCsv(GetBulkModifyLogGrid(ViewData["BulkModifyPartyLog"]), ViewData["BulkModifyPartyLog"]);
+                    default:
+                        break;
+                }
+            }
+            return null;
+        }
+
+        private GridViewSettings GetBulkModifyLogGrid(object datatable)
+        {
+            var settings = new GridViewSettings();
+            settings.Name = "BulkModifyLog";
+            settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
+            settings.SettingsExport.FileName = "Bulk Update Party Log";
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Shop_Code";
+                x.Caption = "Shop Code";
+                x.VisibleIndex = 1;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Shop_Name";
+                x.Caption = "Shop Name";
+                x.VisibleIndex = 2;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Shop_Type";
+                x.Caption = "Shop Type";
+                x.VisibleIndex = 3;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Shop_Owner_Contact";
+                x.Caption = "Shop Owner Contact";
+                x.VisibleIndex = 4;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "State";
+                x.Caption = "State";
+                x.VisibleIndex = 5;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+           
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Entitycode";
+                x.Caption = "Entitycode";
+                x.VisibleIndex = 6;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Retailer";
+                x.Caption = "Retailer";
+                x.VisibleIndex = 7;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Party_Status";
+                x.Caption = "Party Status";
+                x.VisibleIndex = 8;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Status";
+                x.Caption = "Status";
+                x.VisibleIndex = 9;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Reason";
+                x.Caption = "Reason";
+                x.VisibleIndex = 10;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "UpdateOn";
+                x.Caption = "Update On";
+                x.VisibleIndex = 11;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+                x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+                x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+                (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "UpdatedBy";
+                x.Caption = "Updated By";
+                x.VisibleIndex = 12;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+           
+            settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
+            settings.SettingsExport.LeftMargin = 20;
+            settings.SettingsExport.RightMargin = 20;
+            settings.SettingsExport.TopMargin = 20;
+            settings.SettingsExport.BottomMargin = 20;
+
+            return settings;
+        }
+        // End of Rev 1.0
 
         string uploadtext = "~/CommonFolder/Log/ShopRegistration.txt";
         [AcceptVerbs("POST")]
@@ -2357,6 +2783,356 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
             return null;
         }
+
+        // Mantis Issue 25545
+        [HttpPost]
+        public JsonResult GenerateReAssignShopListForAreaRouteBeat(string userid)
+        {
+            string output_msg = string.Empty;
+            try
+            {
+                TempData["ReAssignShopListForAreaRouteBeat"] = null;
+                DataTable dt = obj.GenerateReAssignShopListForAreaRouteBeat(userid);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    TempData["ReAssignShopListForAreaRouteBeat"] = dt;
+                    TempData.Keep();
+                    output_msg = "True";
+                }
+                else
+                {
+                    output_msg = "Party not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                output_msg = "Please try again later";
+            }
+            return Json(output_msg, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ReAssignShopList_ForAreaRouteBeat()
+        {
+            List<ReAssignShopModelLog> list = new List<ReAssignShopModelLog>();
+            DataTable dt = new DataTable();
+            try
+            {
+                if (TempData["ReAssignShopListForAreaRouteBeat"] != null)
+                {
+                    dt = (DataTable)TempData["ReAssignShopListForAreaRouteBeat"];
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        ReAssignShopModelLog data = null;
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            data = new ReAssignShopModelLog();
+                            data.SHOP_CODE = Convert.ToString(row["SHOP_CODE"]);
+                            data.Shop_Name = Convert.ToString(row["Shop_Name"]);
+                            data.Type = Convert.ToString(row["Type"]);
+                            data.Shop_Owner = Convert.ToString(row["Shop_Owner"]);
+                            data.Shop_Owner_Contact = Convert.ToString(row["Shop_Owner_Contact"]);
+                            data.Address = Convert.ToString(row["Address"]);
+                            data.DD_NAME = Convert.ToString(row["DD_NAME"]);
+                            data.PP_NAME = Convert.ToString(row["PP_NAME"]);
+
+                            data.UserName = Convert.ToString(row["user_name"]);
+                            data.UserLoginid = Convert.ToString(row["user_loginId"]);
+                            // Mantis Issue 25431
+                            data.Beat = Convert.ToString(row["Beat"]);
+                            // End of Mantis Issue 25431
+                            // Mantis Issue 25545
+                            data.Area = Convert.ToString(row["Area"]);
+                            data.Route = Convert.ToString(row["Route"]);
+                            // End of Mantis Issue 25545
+                            list.Add(data);
+                        }
+                    }
+                    TempData["ReAssignShopListForAreaRouteBeat"] = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            TempData.Keep();
+            return PartialView(list);
+        }
+
+        [HttpPost]
+        public JsonResult ShopReAssignUser_ForAreaRouteBeat(ReAssignShop data)
+        {
+            string output_msg = string.Empty;
+            try
+            {
+                string ShopCodes = "";
+                int j = 1;
+
+                if (data.ShopCode != null && data.ShopCode.Count > 0)
+                {
+                    foreach (string item in data.ShopCode)
+                    {
+                        if (j > 1)
+                            ShopCodes = ShopCodes + "," + item;
+                        else
+                            ShopCodes = item;
+                        j++;
+                    }
+                }
+
+                DataTable dt = obj.ShopReAssignUser_ForAreaRouteBeat(Convert.ToString(Session["userid"]), data.OldUser, data.NewUser, ShopCodes);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    TempData["ReAssignShopUserManualLog_AreaRouteBeat"] = dt;
+                    TempData.Keep();
+                    output_msg = "Update Succesfully.";
+                }
+                else
+                {
+                    output_msg = "Party not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                output_msg = "Please try again later";
+            }
+            return Json(output_msg, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+        [HttpPost]
+        public JsonResult ShopReAssignUserLog_AreaRouteBeat(string Fromdt, String ToDate)
+        {
+            string output_msg = string.Empty;
+            try
+            {
+                string datfrmat = Fromdt.Split('-')[2] + '-' + Fromdt.Split('-')[1] + '-' + Fromdt.Split('-')[0];
+                string dattoat = ToDate.Split('-')[2] + '-' + ToDate.Split('-')[1] + '-' + ToDate.Split('-')[0];
+                DataTable dt = obj.ShopReAssignUserLog_AreaRouteBeat(datfrmat, dattoat);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    TempData["ReAssignShopUserManualLog_AreaRouteBeat"] = dt;
+                    TempData.Keep();
+                    output_msg = "True";
+                }
+                else
+                {
+                    output_msg = "Log not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                output_msg = "Please try again later";
+            }
+            return Json(output_msg, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ReAssignShopUserManualLog_AreaRouteBeat()
+        {
+            List<ReAssignShopModelLog> list = new List<ReAssignShopModelLog>();
+            DataTable dt = new DataTable();
+            try
+            {
+                if (TempData["ReAssignShopUserManualLog_AreaRouteBeat"] != null)
+                {
+                    dt = (DataTable)TempData["ReAssignShopUserManualLog_AreaRouteBeat"];
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        ReAssignShopModelLog data = null;
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            data = new ReAssignShopModelLog();
+                            data.SHOP_CODE = Convert.ToString(row["SHOP_CODE"]);
+                            data.Shop_Name = Convert.ToString(row["Shop_Name"]);
+                            data.Type = Convert.ToString(row["Type"]);
+                            data.Shop_Owner = Convert.ToString(row["Shop_Owner"]);
+                            data.Shop_Owner_Contact = Convert.ToString(row["Shop_Owner_Contact"]);
+                            data.Address = Convert.ToString(row["Address"]);
+                            data.DD_NAME = Convert.ToString(row["DD_NAME"]);
+                            data.PP_NAME = Convert.ToString(row["PP_NAME"]);
+
+                            data.UPDATED_ON = Convert.ToString(row["UPDATED_ON"]);
+                            data.OLD_UserName = Convert.ToString(row["OLD_UserName"]);
+                            data.New_UserName = Convert.ToString(row["New_UserName"]);
+                            data.Beat = Convert.ToString(row["Beat"]);
+                            data.Area = Convert.ToString(row["Area"]);
+                            data.Route = Convert.ToString(row["Route"]);
+                            list.Add(data);
+                        }
+                    }
+                    TempData["ReAssignShopUserManualLog_AreaRouteBeat"] = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            TempData.Keep();
+            return PartialView(list);
+        }
+        
+        public ActionResult ExportReAssignManualLogList_AreaRouteBeat(int type)
+        {
+            ViewData["ReAssignShopUserManualLog_AreaRouteBeat"] = TempData["ReAssignShopUserManualLog_AreaRouteBeat"];
+
+            TempData.Keep();
+
+            if (ViewData["ReAssignShopUserManualLog_AreaRouteBeat"] != null)
+            {
+                switch (type)
+                {
+                    case 1:
+                        return GridViewExtension.ExportToPdf(GetReAssignShopManualLogGridView_AreaRouteBeat(ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]), ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]);
+                    //break;
+                    case 2:
+                        return GridViewExtension.ExportToXlsx(GetReAssignShopManualLogGridView_AreaRouteBeat(ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]), ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]);
+                    //break;
+                    case 3:
+                        return GridViewExtension.ExportToXlsx(GetReAssignShopManualLogGridView_AreaRouteBeat(ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]), ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]);
+                    //break;
+                    case 4:
+                        return GridViewExtension.ExportToRtf(GetReAssignShopManualLogGridView_AreaRouteBeat(ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]), ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]);
+                    //break;
+                    case 5:
+                        return GridViewExtension.ExportToCsv(GetReAssignShopManualLogGridView_AreaRouteBeat(ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]), ViewData["ReAssignShopUserManualLog_AreaRouteBeat"]);
+                    default:
+                        break;
+                }
+            }
+            return null;
+        }
+
+        private GridViewSettings GetReAssignShopManualLogGridView_AreaRouteBeat(object datatable)
+        {
+            var settings = new GridViewSettings();
+            settings.Name = "ReAssignShopLog_AreaRouteBeat";
+            settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
+            settings.SettingsExport.FileName = "Re Assign Area/Route/Beat Log";
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Shop_Name";
+                x.Caption = "Party Name";
+                x.VisibleIndex = 1;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Type";
+                x.Caption = "Party Type";
+                x.VisibleIndex = 2;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+
+            // Mantis Issue 25545
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Area";
+                x.Caption = "Area";
+                x.VisibleIndex = 3;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Route";
+                x.Caption = "Route";
+                x.VisibleIndex = 4;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Beat";
+                x.Caption = "Beat";
+                x.VisibleIndex = 5;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+            // End of Mantis Issue 25545
+
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Shop_Owner";
+                x.Caption = "Owner";
+                x.VisibleIndex = 6;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Shop_Owner_Contact";
+                x.Caption = "Owner Contact";
+                x.VisibleIndex = 7;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Address";
+                x.Caption = "Address";
+                x.VisibleIndex = 8;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "PP_NAME";
+                x.Caption = "Assigned To PP";
+                x.VisibleIndex = 9;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "DD_NAME";
+                x.Caption = "Assigned To DD";
+                x.VisibleIndex = 10;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "OLD_UserName";
+                x.Caption = "Old User";
+                x.VisibleIndex = 11;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "New_UserName";
+                x.Caption = "Assigned User";
+                x.VisibleIndex = 12;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "UPDATED_ON";
+                x.Caption = "Re-assign Date & Time";
+                x.VisibleIndex = 13;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+                x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+                x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+                (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+            });
+
+
+            settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
+            settings.SettingsExport.LeftMargin = 20;
+            settings.SettingsExport.RightMargin = 20;
+            settings.SettingsExport.TopMargin = 20;
+            settings.SettingsExport.BottomMargin = 20;
+
+            return settings;
+        }
+        // End of Mantis Issue 25545
         private GridViewSettings GetReAssignShopGroupBeatLogGridView(object datatable)
         {
             var settings = new GridViewSettings();

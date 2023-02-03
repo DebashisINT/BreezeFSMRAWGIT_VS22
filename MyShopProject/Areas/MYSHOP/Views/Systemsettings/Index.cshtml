@@ -80,6 +80,7 @@
         // Rev Sanchita
         $("#hdnControlType").val(controltype);
         $("#hdnSettingKey").val(editkey);
+        $("#Variable_Key").html(editkey);
         // End of Rev Sanchita
 
 
@@ -270,6 +271,9 @@
             <table id="systemsettingslist" class="table table-bordered table-bordered fff" style="width:100%">
                 <thead>
                     <tr>
+                        @*Rev Sanchita*@
+                        <th style="width:15%">Key</th>
+                        @*End of Rev Sanchita*@
                         <th style="width:60%">Description</th>
                         <th style="width:25%">Value</th>
                         <th style="width:15%">Actions</th>
@@ -293,7 +297,9 @@
                         foreach (var item in Model)
                         {
                             <tr>
-
+                                @*Rev Sanchita*@
+                                <td>@item.Key</td>
+                                @*End of Rev Sanchita*@
                                 <td>@item.Description</td>
                                 <td>@item.VALUE</td>
                                 @*<td>@item.CONTROL_TYPE</td>*@
@@ -302,7 +308,7 @@
                                         <img src="../../../assests/images/info.png">
                                     </a>
                                 </td>
-                                
+
 
                             </tr>
                         }
@@ -324,6 +330,12 @@
                         </div>
                         <div class="modal-body">
                             <form id="popup-edit">
+                                @*Rev Sanchita*@
+                                <div class="form-group">
+                                    <label>Key:</label>
+                                    <p id="Variable_Key"></p>
+                                </div>
+                                @*End of Rev Sanchita*@
                                 <div class="form-group">
                                     <label>Variable Description:</label>
                                     <p id="Variable_description"></p>
@@ -341,7 +353,7 @@
                                     <label for="pwd">Value:</label>
                                     <select class="form-control" id="selValue">
                                         <option>Yes</option>
-                                        <option>No</option> 
+                                        <option>No</option>
                                     </select>
                                 </div>
                                 @*Rev Sanchita*@
@@ -360,7 +372,7 @@
 
                                 <div class="form-group" id="datep" style="display:none">
                                     <label for="pwd">Value:</label>
-                                    <div id="datepicker" class="input-group date" data-date-format="yyyy-mm-dd" >
+                                    <div id="datepicker" class="input-group date" data-date-format="yyyy-mm-dd">
                                         <input class="form-control" type="text" id="dtValue" />
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     </div>

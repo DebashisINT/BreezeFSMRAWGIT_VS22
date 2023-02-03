@@ -1,4 +1,9 @@
-﻿@model  MyShop.Models.VisitshpsDate
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                19-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@model  MyShop.Models.VisitshpsDate
 @{
     ViewBag.Title = "Visited Shops";
 }
@@ -15,7 +20,7 @@
         $('body').on('click', '#btnshow', function () {
 
             //var month = $("#tdmonth").val();
-            
+
             //var year = $("#tdyear").val();
 
             var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
@@ -66,7 +71,7 @@
                 var month = parseInt($("#ui-datepicker-div .ui-datepicker-month :selected").val()) + 1;
 
                 var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
-              
+
                 var surl = '@Url.Action("GetVisitshopDetails", "MonthlyreportShopvisit")';
                 $.ajax({
                     url: surl,
@@ -96,7 +101,7 @@
                             'content': 'No data to be displayed',
                             'theme': 'dark_blue'
                         });
-                      
+
                     },
 
                 });
@@ -171,6 +176,40 @@
     .ui-datepicker-calendar {
         display: none;
     }
+    /*Rev 1.0*/
+    .ui-datepicker .ui-datepicker-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .ui-datepicker {
+        width: 18em;
+    }
+    
+    .dataTables_scrollHeadInner > table > thead > tr > th {
+        vertical-align: middle;
+        background: #1a569c !important;
+    }
+
+    #refreshgrid {
+        background: #ededed;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .dataTables_scrollHeadInner > tbody > tr > td {
+        background: #fff;
+    }
+
+    .dataTables_length {
+        padding-top: 0 !important;
+    }
+
+    .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+        top: 7px;
+    }
+    /*Rev 1.0*/
 </style>
 
 
@@ -178,9 +217,12 @@
     <span>Visited Shops</span>
 </div>
 <div class="container">
-    <div class="form_main backBox mb-4 p-3" >
+    <div class="form_main backBox mb-4 p-3">
         <div class="row">
-            <div class="col-md-2">
+            @*Rev 1.0*@
+            @*<div class="col-md-2">*@
+            <div class="col-md-3">
+            @*Rev 1.0*@
                 <label>Month/Year</label>
                 <div>
                     <input type="text" id="tdyear" class="form-control" />
