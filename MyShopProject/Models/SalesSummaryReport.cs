@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
+//                                              Refer: 0025586
+#endregion===================================End of Revision History==================================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,11 +17,8 @@ namespace Models
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Fromdate { get; set; }
 
-
-
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string Todate { get; set; }
-
 
         public List<string> StateId { get; set; }
 
@@ -35,6 +36,9 @@ namespace Models
 
         public int IsShowRate { get; set; }
         public string is_pageload { get; set; }
+        //Rev 1.0 Mantis:0025586
+        public int IsRevisitContactDetails { get; set; }
+        //End of Rev 1.0 Mantis:0025586
         //public List<SelectListItem> PopulateLeaveDropdown(string RID)
         //{
         //    List<SelectListItem> items = new List<SelectListItem>();

@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ============================================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                24-01-2023        2.0.38           Pallab              25622: Vertical scroll bar needs to be introduced in Quotation report *@
+@*====================================================== Revision History ============================================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridQuotationDetails";
 
@@ -46,13 +51,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 50;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 50;
+            //Rev end 1.0
         }
 
     });
@@ -74,42 +85,54 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 150;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 150;
+            //Rev end 1.0
         }
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "QUOTATIONDATE";
-     x.Caption = "Date";
-     x.VisibleIndex = 3;
-     //x.Width = 100;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-     if (ViewBag.RetentionColumn != null)
-     {
-         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QUOTATIONDATE'");
-         if (row != null && row.Length > 0)
-         {
-             x.Visible = false;
-         }
-         else
-         {
-             x.Visible = true;
-             x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
-         }
-     }
-     else
-     {
-         x.Visible = true;
-         x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
-     }
- });
+    {
+        x.FieldName = "QUOTATIONDATE";
+        x.Caption = "Date";
+        x.VisibleIndex = 3;
+        //x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QUOTATIONDATE'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 100;
+                //Rev end 1.0
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 100;
+            //Rev end 1.0
+        }
+    });
 
     settings.Columns.Add(x =>
     {
@@ -129,13 +152,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 150;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 150;
+            //Rev end 1.0
         }
 
     });
@@ -159,13 +188,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+                x.Width = 250;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            x.Width = 250;
+            //Rev end 1.0
         }
     });
 
@@ -186,13 +221,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 200;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 200;
+            //Rev end 1.0
         }
     });
 
@@ -213,13 +254,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 200;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 200;
+            //Rev end 1.0
         }
     });
 
@@ -242,13 +289,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 200;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 200;
+            //Rev end 1.0
         }
     });
 
@@ -270,13 +323,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 200;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 200;
+            //Rev end 1.0
         }
     });
 
@@ -298,13 +357,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 100;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 100;
+            //Rev end 1.0
         }
     });
 
@@ -326,13 +391,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 200;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 200;
+            //Rev end 1.0
         }
     });
 
@@ -354,13 +425,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = 200;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = 200;
+            //Rev end 1.0
         }
     });
 

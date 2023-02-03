@@ -1,5 +1,8 @@
 ﻿@model System.Data.DataTable
 
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                06-01-2023        2.0.37           pallab              grid width issue fix*@
+
 @Html.DevExpress().GridView(
    settings =>
    {
@@ -10,9 +13,9 @@
 
        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
        settings.Settings.HorizontalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
-      settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
-    //settings.Settings.VerticalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
-   //settings.Settings.VerticalScrollableHeight = 110;
+       settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+       //settings.Settings.VerticalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
+       //settings.Settings.VerticalScrollableHeight = 110;
        settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
        settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
        //settings.SettingsSearchPanel.Visible = true;
@@ -91,9 +94,13 @@
                            {
                                x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
                            }
+
                            else if (ColumnWidth == 6)
                            {
-                               x.Width = System.Web.UI.WebControls.Unit.Percentage(16.66);
+                               //rev 1.0
+                               //x.Width = System.Web.UI.WebControls.Unit.Percentage(16.66);
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                               //rev end 1.0
                            }
                            else if (ColumnWidth == 5)
                            {
@@ -103,6 +110,12 @@
                            {
                                x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
                            }
+                           //rev 1.0
+                           else if (ColumnWidth == 7)
+                           {
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                           }
+                           //rev end 1.0
                            else
                            {
                                //x.Width = System.Web.UI.WebControls.Unit.Pixel(200);

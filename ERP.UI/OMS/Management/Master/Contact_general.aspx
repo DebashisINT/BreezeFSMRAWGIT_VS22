@@ -1,3 +1,8 @@
+<%--====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                01-01-2023        2.0.38           Pallab              Salesman add/edit page design modification 
+====================================================== Revision History ==========================================================--%>
+
 <%@ Page Language="C#" MasterPageFile="~/OMS/MasterPage/Erp.Master" AutoEventWireup="True"
     Inherits="ERP.OMS.Management.Master.management_Master_Contact_general" CodeBehind="Contact_general.aspx.cs" EnableEventValidation="false" %>
 
@@ -1476,6 +1481,49 @@
         .dxbButton_PlasticBlue {
     background-image: none !important;
 }
+
+        /*Rev 1.0*/
+        .dxtcLite_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+        .dxtcLite_PlasticBlue > .dxtc-stripContainer .dxtc-link
+        {
+                font-size: 13px;
+        }
+        .dxtcLite_PlasticBlue > .dxtc-stripContainer .dxtc-activeTab
+        {
+                background: #165193 !important;
+        }
+
+        .dxeTextBox_PlasticBlue, .dxeButtonEdit_PlasticBlue, .dxeIRadioButton_PlasticBlue, .dxeRadioButtonList_PlasticBlue, .dxeCheckBoxList_PlasticBlue
+        {
+            height: 34px;
+            border-radius: 4px;
+        }
+        .dxeBase_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+            /*margin-top: 10px !important;
+            margin-bottom: 5px !important;*/
+        }
+
+        .lblMtop10
+        {
+            margin-top: 10px !important;
+        }
+        #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+    /*Rev end 1.0*/
     </style>
 
 
@@ -1512,7 +1560,7 @@
         <%--End debjyoti 22-12-2016--%>
     
     <div class="container">
-
+        <div class="backBox mt-5 p-3 ">
         <table class="TableMain100">
             <tr>
                 <td style="text-align: center;">
@@ -1554,7 +1602,10 @@
                                                             </dxe:ASPxLabel>
                                                             <dxe:ASPxLabel ID="ASPxLabel20" runat="server" Text="Customer Type" CssClass="inline">
                                                             </dxe:ASPxLabel>
-                                                            <span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;">*</span>
+                                                            <%--Rev 1.0--%>
+                                                            <%--<span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;">*</span>--%>
+                                                            <span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;line-height: 1; height: 13px;">*</span>
+                                                            <%--Rev end 1.0--%>
                                                             <asp:DropDownList ID="cmbRating" Visible="false" runat="server" Width="160px" TabIndex="26">
                                                             </asp:DropDownList>
 
@@ -1581,7 +1632,10 @@
                                                             </dxe:ASPxLabel>
                                                             <dxe:ASPxLabel ID="ASPxLabel10" runat="server" Text="Branch" CssClass="inline">
                                                             </dxe:ASPxLabel>
-                                                          <span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;">*</span>
+                                                          <%--Rev 1.0--%>
+                                                            <%--<span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;">*</span>--%>
+                                                            <span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;line-height: 1; height: 13px;">*</span>
+                                                            <%--Rev end 1.0--%>
                                                             <asp:DropDownList ID="cmbBranch" runat="server" Width="100%" TabIndex="2">
                                                             </asp:DropDownList>
                                                             <dxe:ASPxTextBox ID="txtLastName" Visible="false" runat="server" TabIndex="4" Width="100%">
@@ -1596,9 +1650,14 @@
                                                             </asp:DropDownList>
                                                             <dxe:ASPxLabel ID="ASPxLabel17" Visible="false" runat="server" Text="Refered By">
                                                             </dxe:ASPxLabel>
-                                                            <span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;" id="td_star"
+                                                            <%--Rev 1.0--%>
+                                                            <%--<span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;" id="td_star"
+                                                                runat="server" visible="false">*
+                                                            </span>--%>
+                                                            <span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;line-height: 1; height: 13px;" id="td_star"
                                                                 runat="server" visible="false">*
                                                             </span>
+                                                            <%--Rev end 1.0--%>
                                                             <asp:TextBox ID="txtReferedBy" Visible="false" runat="server" TabIndex="8" Width="160px"></asp:TextBox>
 
 
@@ -1606,8 +1665,10 @@
                                                             </dxe:ASPxLabel>
                                                             <dxe:ASPxLabel ID="ASPxLabel12" runat="server" Text="Unique ID" CssClass="inline ">
                                                             </dxe:ASPxLabel>
-                                                            <span id="ASPxLabelS12" style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;" runat="server">*</span>
-
+                                                            <%--Rev 1.0--%>
+                                                            <%--<span id="ASPxLabelS12" style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;" runat="server">*</span>--%>
+                                                            <span id="ASPxLabelS12" style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;line-height: 1; height: 13px;" runat="server">*</span>
+                                                            <%--Rev end 1.0--%>
                                                             <%--txt unique code--%>
                                                             <div style="position: relative">
                                                                 <dxe:ASPxTextBox ID="txtMiddleName" Visible="false" runat="server" Width="160px" TabIndex="3" CssClass="upper">
@@ -1639,7 +1700,10 @@
                                                             <dxe:ASPxLabel ID="ASPxLabel5" runat="server" Text="Full Name" CssClass="inline">
                                                             </dxe:ASPxLabel>
 
-                                                            <span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;">*</span>
+                                                            <%--Rev 1.0--%>
+                                                            <%--<span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;">*</span>--%>
+                                                            <span style="text-align: left; float: left; font-size: medium; color: Red; width: 8px;line-height: 1; height: 13px;">*</span>
+                                                            <%--Rev end 1.0--%>
 
                                                             <div style="position: relative">
                                                                 <asp:DropDownList Visible="false" ID="CmbSalutation" runat="server" TabIndex="1" Width="160px">
@@ -1853,7 +1917,10 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3 visF">
+                                                        <%--Rev 1.0--%>
+                                                        <%--<div class="col-md-3 visF">--%>
+                                                            <div class="col-md-3 visF lblMtop10">
+                                                            <%--Rev end 1.0--%>
                                                             <div id="td_lMaritals" class="labelt">
                                                                 <div class="visF">
                                                                     <dxe:ASPxLabel ID="txtContactStatusclient" runat="server" Text="Status">
@@ -1891,7 +1958,10 @@
                                                         </div>
 
                                                         <div id="td_registered" class="labelt col-md-3" runat="server">
-                                                            <div class="visF">
+                                                            <%--Rev 1.0--%>
+                                                            <%--<div class="visF">--%>
+                                                                <div class="visF lblMtop10">
+                                                                    <%--Rev end 1.0--%>
 
                                                                 <label>Registered?</label>
                                                                 <asp:RadioButtonList runat="server" ID="radioregistercheck" RepeatDirection="Horizontal" Width="130px">
@@ -1932,7 +2002,10 @@
                                                               <a href="https://services.gst.gov.in/services/searchtp" target="_blank"  style="padding-left:10px" >Validate GST</a> 
                                                             </div>
                                                         </div>
-                                                        <div class="col-md-3 visF" id="td_Applicablefrom"> 
+                                                        <%--Rev 1.0--%>
+                                                        <%--<div class="col-md-3 visF" id="td_Applicablefrom"> --%>
+                                                            <div class="col-md-3 visF lblMtop10" id="td_Applicablefrom"> 
+                                                            <%--Rev end 1.0--%>
                                                             <div class="labelt">
                                                                 <dxe:ASPxLabel ID="lbl_Applicablefrom" runat="server" Text="Applicable From">
                                                                 </dxe:ASPxLabel>
@@ -1965,7 +2038,7 @@
                                                             <table id="executiveTable" style="width: 320px;" class="nbackBtn" runat="server">
                                                                 <tr>
                                                                     <td style="padding-right: 15px">
-                                                                        <input type="text" maxlength="18" />
+                                                                        <input class="form-control" type="text" maxlength="18" />
                                                                     </td>
 
                                                                     <td>
@@ -2772,5 +2845,6 @@
                 </td>
             </tr>
     </table>
+    </div>
     </div>
 </asp:Content>

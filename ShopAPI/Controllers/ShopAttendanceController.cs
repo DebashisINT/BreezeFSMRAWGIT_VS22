@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.38     Debashis    24/01/2023      A new parameter has been added.Row: 807
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -296,6 +299,9 @@ namespace ShopAPI.Controllers
                     sqlcmd.Parameters.AddWithValue("@JointVisitTeam_MemberName", model.JointVisitTeam_MemberName);
                     sqlcmd.Parameters.AddWithValue("@JointVisitTeam_Member_User_ID", model.JointVisitTeam_Member_User_ID);
                     //End of Rev Debashis Row 776
+                    //Rev 1.0 Row: 807
+                    sqlcmd.Parameters.AddWithValue("@IsDistributorwiseNearbyShopVisit", model.IsDistributorwiseNearbyShopVisit);
+                    //End of Rev 1.0 Row: 807
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

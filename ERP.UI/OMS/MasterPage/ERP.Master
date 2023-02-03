@@ -143,8 +143,35 @@
        #clonedMenus {
            list-style-type: none;
            padding: 0;
-           columns: 2;
+           /*rev Pallab 25528*/
+           /*columns: 2;*/
+           display: flex;
+           flex-flow: wrap;
+           max-height: 390px;
+           overflow-y: auto;
+           align-items: flex-start;
+           /*rev end Pallab 25528*/
        }
+       /*rev Pallab 25528*/
+           #clonedMenus:active::-webkit-scrollbar-thumb,
+           #clonedMenus:focus::-webkit-scrollbar-thumb,
+           #clonedMenus:hover::-webkit-scrollbar-thumb {
+               visibility: visible;
+               border-radius: 5px !important;
+           }
+
+           #clonedMenus::-webkit-scrollbar-thumb {
+               background-color: darkgrey;
+               visibility: hidden;
+               transition: all .4s;
+           }
+
+           #clonedMenus::-webkit-scrollbar {
+               width: 6px;
+               height: 4px;
+               
+           }
+           /*rev end Pallab 25528*/
        #clonedMenus > li {
            display: inline-block;
            width: 100%;
@@ -152,25 +179,75 @@
        #clonedMenus  > a {
            display: flex;
            color: #484c5a;
-           padding: 10px 0 10px 38px;
+           padding: 10px 0 10px 48px;
            position: relative;
            flex-direction: column;
-           justify-content: center;
+           /*justify-content: center;*/
+           /*rev Pallab 25528*/
+               /*width: 50%;*/
+               width: 47%;
+               background: #f1f0f0;
+               margin: 0 6px 10px 6px;
+               border-radius: 10px;
+               min-height: 55px;
+               /*rev end Pallab 25528*/
        }
            #clonedMenus  > a:after {
-               content: '\f0c1';
-               font-family: FontAwesome;
-               position: absolute;
-               left: 0;
-               width: 30px;
-               line-height: 30px;
-               height: 30px;
-               display: inline-block;
-               text-align: center;
-               background: #5eb711;
-               border-radius: 26%;
-               color: #ffffff;
+               /*rev Pallab 25528*/
+                   /*content: '\f0c1';*/
+                   content: '\f0f6';
+                   /*rev end Pallab 25528*/
+                   font-family: FontAwesome;
+                   position: absolute;
+                   /*rev Pallab 25528*/
+                   /*left: 0;*/
+                   left: 10px;
+                   /*rev end Pallab 25528*/
+                   width: 30px;
+                   line-height: 30px;
+                   height: 30px;
+                   display: inline-block;
+                   text-align: center;
+                   background: #5eb711;
+                   /*rev Pallab 25528*/
+                   /*border-radius: 26%;*/
+                   border-radius: 50%;
+                   /*rev end Pallab 25528*/
+                   color: #ffffff;
            }
+
+           /*rev Pallab 25528*/
+               #clonedMenus > a.mblue {
+                   background: #3d6c131a;
+               }
+               #clonedMenus > a.Cpink {
+                   background: #c9187b1a;
+               }
+               #clonedMenus > a.delta {
+                   background: #215fbb1a;
+               }
+               #clonedMenus > a.alphaE {
+                   background: #5e25bd1a;
+               }
+               #clonedMenus > a.ramGr {
+                   background: #0e9c961a;
+               }
+
+               #clonedMenus > a.ieCle {
+                   background: #40560c1a;
+               }
+
+               #clonedMenus > a.samsoon {
+                   background: #3722441a;
+               }
+
+               #clonedMenus > a.regxs {
+                   background: #773e0c1a;
+               }
+               #clonedMenus > a.gogreen {
+                   background: #5eb7111a;
+               }
+               /*rev end Pallab 25528*/
 
         #clonedMenus > a.mblue:after {
             background: #3d6c13;
@@ -236,16 +313,20 @@
        }
 
        .resulter {
-           position: absolute;
+            position: absolute;
            width: 500px;
            background: #fff;
            top: 120%;
            right: 0;
            padding: 0;
            z-index: 99;
-           box-shadow: 0 3px 5px rgb(0 0 0 / 12%);
-           border-radius: 0 0 8px 8px;
-           max-height: 428px;
+           /*rev Pallab 25528*/
+           /*box-shadow: 0 3px 5px rgb(0 0 0 / 12%);*/
+           box-shadow: 0px 0px 14px rgb(9 78 140 / 45%);
+           /*border-radius: 0 0 8px 8px;*/
+           border-radius: 15px;
+           /*rev end Pallab 25528 */
+           max-height: 450px;
            overflow: hidden;
            height: 0;
            display: block;
@@ -294,6 +375,24 @@
        #clonedMenus   a  span {
            display: block;
        }
+
+       /*rev Pallab 25528 */
+       .search-heading {
+           position: relative;
+           margin-bottom: 12px;
+           font-size: 16px;
+           color: #222;
+       }
+
+       .search-heading-underline {
+           width: 60px;
+           height: 3px;
+           background: #215fbb;
+           display: block;
+           position: absolute;
+           bottom: -5px;
+       }
+       /*rev end Pallab 25528*/
    </style>
      <script>
          $(document).ready(function () {
@@ -329,23 +428,30 @@
                  var classes = ['gogreen', 'mblue', 'Cpink', 'delta', 'alphaE', 'ramGr', 'ieCle', 'samsoon', 'regxs'];
 
                  if (!$(elem).children("ul").length) {
-                     var pMainModule = $(elem).closest('ul.dropdown-menu.firstSub').parent('li').addClass('theItem').children('a').text();
-
+                     /*rev Pallab 25528 */
+                     /*var pMainModule = $(elem).closest('ul.dropdown-menu.firstSub').parent('li').addClass('theItem').children('a').text();*/
+                     var pMainModule = $(elem).closest('ul.submenu-fl.firstSub').parent('li').addClass('theItem').children('a').text();
+                     /*rev end Pallab 25528*/
                      var arrTick = "";
                      if (pMainModule != "") {
                          arrTick = ">"
                      } else {
                          arrTick = ""
                      }
-
-                     var pText = $(elem).closest('ul.dropdown-menu').parent('li').addClass('theItem').children('a').text();
+                     /*rev Pallab 25528 */
+                     /*var pText = $(elem).closest('ul.dropdown-menu').parent('li').addClass('theItem').children('a').text();*/
+                     var pText = $(elem).closest('ul.submenu-fl').parent('li').addClass('theItem').children('a').text();
+                     /*rev end Pallab 25528*/
                      var e = $(elem).clone();
                      var s = $(elem).clone();
                      var index = Math.floor(Math.random() * classes.length);
                      var className = classes[index];
                      var itemText = $(e).find('a').text();
                      var itemText2 = $(s).find('a').text();
-                     var finalItem = $(e).addClass(className).find('a').html('<span class="ss"> ' + pMainModule + arrTick + pText + '</span><span class="texts"> ' + itemText + '</span>');
+                     /*rev Pallab 25528 */
+                     /*var finalItem = $(e).addClass(className).find('a').html('<span class="ss"> ' + pMainModule + arrTick + pText + '</span><span class="texts"> ' + itemText + '</span>');*/
+                     var finalItem = $(e).find('a').addClass(className).html('<span class="ss"> ' + pMainModule + arrTick + pText + '</span><span class="texts"> ' + itemText + '</span>');
+                     /*rev end Pallab 25528*/
                      var finalItem2 = $(s).addClass(className).find('a').html('<span class="texts"> ' + itemText + '</span>')
                      //$(e).addClass(className);
                      $('#clonedMenus').append(finalItem);
@@ -380,7 +486,7 @@
                  }
              }
          }
-    </script>
+     </script>
 
 </head>
 
@@ -433,6 +539,11 @@
                 <li class="relative">
                     <div class="searcherInput"><input type="text" onkeyup="myMenuFilter()" id="searchOnMenu" autocomplete="off" /><span class="iconZR"><i class="fa fa-search" style="cursor:pointer"></i></span></div>
                     <div class="resulter">
+                        <%--rev Pallab 25528--%>
+                        <div class="search-heading">Search in Menus
+                        <div class="search-heading-underline"></div>
+                        </div>
+                        <%--rev end Pallab 25528--%>
                         <ul id="clonedMenus"></ul>
                     </div>
                 </li>

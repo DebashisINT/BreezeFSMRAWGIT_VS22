@@ -1,4 +1,9 @@
-﻿<style>
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                11-01-2023        2.0.37           Pallab              25570: Attendance, Order, Reimbursement, Target/Achievement tab box design change *@
+@*====================================================== Revision History ===========================================================*@
+
+<style>
     .table-responsive {
         display: block;
         width: 100%;
@@ -6,24 +11,30 @@
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: -ms-autohiding-scrollbar;
     }
+
     ul.nopad {
         list-style-type: none;
         padding: 0;
     }
 
-    ul.nopad > li {
-        display: inline-block;
-        min-width: 18.7%;
-    }
+        ul.nopad > li {
+            display: inline-block;
+            min-width: 18.7%;
+        }
 
-    ul.nopad > li:not(:last-child) {
-        margin-right: 1%;
-    }
+            ul.nopad > li:not(:last-child) {
+                margin-right: 1%;
+            }
+
     .colorBox {
         background: #4f4e94;
         color: #fff;
         border-radius: 8px;
         overflow: hidden;
+        /*Rev 1.0*/
+        border: 2px solid #fff;
+        box-shadow: 0px 5px 20px rgb(0 0 0 / 23%);
+        /*Rev end 1.0*/
     }
 
         .colorBox.c1 {
@@ -45,6 +56,9 @@
     .infoWrp {
         padding: 12px 15px;
         position: relative;
+        /*Rev  1.0*/
+        padding-left: 60px;
+        /*Rev end  1.0*/
     }
 
         .infoWrp .nums {
@@ -52,14 +66,16 @@
             font-weight: 600;
         }
 
-    .infoWrp  .txts {
-        font-size: 80%;
-    }
+        .infoWrp .txts {
+            font-size: 80%;
+        }
 
     .mrLinks {
         /*cursor: pointer;*/
-        background: rgba(0, 0, 0, 0.34);
-        padding: 5px 10px;
+        /*Rev  1.0*/
+        /*background: rgba(0, 0, 0, 0.34);
+        padding: 5px 10px;*/
+        /*Rev end  1.0*/
         font-size: 80%;
     }
 
@@ -68,14 +84,38 @@
             margin-top: 4px;
         }
 
+    /*Rev 1.0*/
     .fltd {
-        position: absolute;
-        right: 20px;
-        top: 9px;
-        font-size: 37px !important;
-        color: rgba(0, 0, 0, 0.54);
+        /*position: absolute;
+        right: 16px;
+        top: 16px;*/
+        font-size: 22px !important;
+        color: rgb(255 255 255);
+        /*padding: 10px;*/
+        /*border-radius: 50px;
+        background: #ffffff45;*/
+        /*width: 50px;
+        height: 50px;*/
+        text-align: center;
+        /*line-height: 30px;*/
     }
 
+    .icon-box-left {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 50px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(255 255 255 / 70%);
+    }
+
+    .target-achiev .icon-box-left {
+        height: 104px !important;
+    }
+    /*Rev end 1.0*/
     .box-holder {
         border: 1px solid #ccc;
         border-radius: 4px;
@@ -132,8 +172,8 @@
         margin-top: 10px;
     }
 
-    
- .font-normal {
+
+    .font-normal {
         font-size: 14px !important;
     }
 
@@ -173,61 +213,81 @@
     .lagendInfo .dot.Absent {
         background: #da3131;
     }
+
     .cllHeader {
-        padding: 7px;
+        padding: 0 7px 10px;
         text-align: center;
-        background: rgba(0,0,0,0.23);
+        /*Rev 1.0*/
+        /*background: rgba(0,0,0,0.23);*/
+        /*Rev end 1.0*/
     }
+
     .borderRight {
         border-right: 2px dashed rgba(0,0,0,0.13);
     }
+
     .spannedTbl {
         border: 1px solid #3d5ac3;
-    } 
-    .spannedTbl > thead > tr > th {
-        background: #3d5ac3;
-        font-size: 14px;
-        font-weight: 500;
-        color: #fff;
-        border-color: #334dad;
-        border-right: 2px solid #334dad;
     }
+
+        .spannedTbl > thead > tr > th {
+            background: #3d5ac3;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            border-color: #334dad;
+            border-right: 2px solid #334dad;
+        }
+
     .colorType2 {
         border: 1px solid #3293bf;
-    } 
-    .colorType2 > thead > tr > th {
-        background: #3293bf;
-        font-size: 14px;
-        font-weight: 500;
-        color: #fff;
-        border-color: #3182a7;
-        border-right: 2px solid #3182a7;
-    } 
+    }
+
+        .colorType2 > thead > tr > th {
+            background: #3293bf;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            border-color: #3182a7;
+            border-right: 2px solid #3182a7;
+        }
+
     .spannedTbl > tbody > tr > td {
         font-size: 13px;
-    } 
-    .spannedTbl > tbody > tr > td:not(:last-child) {
-        border-right: 1px solid #ccc;
-    } 
+    }
+
+        .spannedTbl > tbody > tr > td:not(:last-child) {
+            border-right: 1px solid #ccc;
+        }
+
     .vMiddle {
         vertical-align: middle !important;
     }
+
     .spannedTbl > tbody > tr:nth-of-type(even) {
         background: #efefef;
     }
+
     .target-achiev .infoWrp .nums, .target-achiev .infoWrp .txts {
         text-align: center;
     }
-    
-    </style >
+</style>
 
 <div class="row">
     <div class="col-md-12">
         <ul class="nopad">
             <li>
                 <div class="colorBox target-achiev">
-                    <div class="cllHeader">Enquiry</div>
+                    @*rev 1.0: 'icon-box-left' div add and icon change*@
+                    @*<div class="cllHeader">Enquiry</div>*@
                     <div class="infoWrp">
+
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-truck fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/enquiry.png" />
+                        </div>
+                        @*rev end 1.0*@
+                        <div class="cllHeader">Enquiry</div>
                         <div class="row">
                             <div class="col-md-6 col-xs-6 borderRight">
                                 <div class="nums" id="inq_tgt">223</div>
@@ -238,15 +298,23 @@
                                 <div class="txts">Achieved</div>
                             </div>
                         </div>
-                       
+
                     </div>
-       
+
                 </div>
             </li>
             <li>
                 <div class="colorBox c1 target-achiev">
-                    <div class="cllHeader">Lead</div>
+                    @*rev 1.0: 'icon-box-left' div add and icon change*@
+                    @*<div class="cllHeader">Lead</div>*@
                     <div class="infoWrp">
+
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-truck fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/lead.png" />
+                        </div>
+                        @*rev end 1.0*@
+                        <div class="cllHeader">Lead</div>
                         <div class="row">
                             <div class="col-md-6 col-xs-6 borderRight">
                                 <div class="nums" id="lead_tgt">458</div>
@@ -263,8 +331,16 @@
             </li>
             <li>
                 <div class="colorBox c2 target-achiev">
-                    <div class="cllHeader">Test Drive</div>
+                    @*rev 1.0: 'icon-box-left' div add and icon change*@
+                    @*<div class="cllHeader">Test Drive</div>*@
                     <div class="infoWrp">
+
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-truck fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/test-drive.png" />
+                        </div>
+                        @*rev end 1.0*@
+                        <div class="cllHeader">Test Drive</div>
                         <div class="row">
                             <div class="col-md-6 col-xs-6 borderRight">
                                 <div class="nums" id="td_tgt">587</div>
@@ -281,8 +357,16 @@
             </li>
             <li>
                 <div class="colorBox c3 target-achiev">
-                    <div class="cllHeader">Booking</div>
+                    @*rev 1.0: 'icon-box-left' div add and icon change*@
+                    @*<div class="cllHeader">Booking</div>*@
                     <div class="infoWrp">
+
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-truck fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/booking.png" />
+                        </div>
+                        @*rev end 1.0*@
+                        <div class="cllHeader">Booking</div>
                         <div class="row">
                             <div class="col-md-6 col-xs-6 borderRight">
                                 <div class="nums" id="booking_tgt">45</div>
@@ -299,8 +383,16 @@
             </li>
             <li>
                 <div class="colorBox c4 target-achiev">
-                    <div class="cllHeader">Retail</div>
+                    @*rev 1.0: 'icon-box-left' div add and icon change*@
+                    @*<div class="cllHeader">Retail</div>*@
                     <div class="infoWrp">
+
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-truck fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/retail.png" />
+                        </div>
+                        @*rev end 1.0*@
+                        <div class="cllHeader">Retail</div>
                         <div class="row">
                             <div class="col-md-6 col-xs-6 borderRight">
                                 <div class="nums" id="rt_tgt">189</div>
@@ -345,7 +437,7 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="tableWrp">
             <div class="table-responsive">
                 <table class="table spannedTbl">
@@ -372,7 +464,6 @@
                         </tr>
                     </thead>
                     <tbody id="tgtbody">
-                        
                     </tbody>
                 </table>
             </div>

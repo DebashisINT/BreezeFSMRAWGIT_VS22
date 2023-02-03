@@ -168,33 +168,112 @@
        #clonedMenus {
            list-style-type: none;
            padding: 0;
-           columns: 2;
+           /*rev Pallab 25528*/
+           /*columns: 2;*/
+           display: flex;
+           flex-flow: wrap;
+           /*height: 390px;*/
+           max-height: 390px;
+           overflow-y: auto;
+           align-items: flex-start;
+           /*rev end Pallab 25528*/
        }
+           /*rev Pallab 25528*/
+           #clonedMenus:active::-webkit-scrollbar-thumb,
+           #clonedMenus:focus::-webkit-scrollbar-thumb,
+           #clonedMenus:hover::-webkit-scrollbar-thumb {
+               visibility: visible;
+               border-radius: 5px !important;
+           }
+
+           #clonedMenus::-webkit-scrollbar-thumb {
+               background-color: darkgrey;
+               visibility: hidden;
+               transition: all .4s;
+           }
+
+           #clonedMenus::-webkit-scrollbar {
+               width: 6px;
+               height: 4px;
+           }
+           /*rev end Pallab 25528*/
        #clonedMenus > li {
            display: inline-block;
            width: 100%;
        }
-       #clonedMenus  > a {
-           display: flex;
-           color: #484c5a;
-           padding: 10px 0 10px 38px;
-           position: relative;
-           flex-direction: column;
-       }
-           #clonedMenus  > a:after {
-               content: '\f0c1';
-               font-family: FontAwesome;
-               position: absolute;
-               left: 0;
-               width: 30px;
-               line-height: 30px;
-               height: 30px;
-               display: inline-block;
-               text-align: center;
-               background: #5eb711;
-               border-radius: 26%;
-               color: #ffffff;
+           #clonedMenus > a {
+               display: flex;
+               color: #484c5a;
+               padding: 10px 0 10px 38px;
+               position: relative;
+               flex-direction: column;
+               /*rev Pallab 25528*/
+               /*width: 50%;*/
+               width: 47%;
+               background: #f1f0f0;
+               margin: 0 6px 10px 6px;
+               border-radius: 10px;
+               min-height: 55px;
+               /*rev end Pallab 25528*/
            }
+               #clonedMenus > a:after {
+                   /*rev Pallab 25528*/
+                   /*content: '\f0c1';*/
+                   content: '\f0f6';
+                   /*rev end Pallab 25528*/
+                   font-family: FontAwesome;
+                   position: absolute;
+                   /*rev Pallab 25528*/
+                   /*left: 0;*/
+                   left: 10px;
+                   /*rev end Pallab 25528*/
+                   width: 30px;
+                   line-height: 30px;
+                   height: 30px;
+                   display: inline-block;
+                   text-align: center;
+                   background: #5eb711;
+                   border-radius: 26%;
+                   color: #ffffff;
+               }
+
+               /*rev Pallab 25528*/
+               #clonedMenus > a.mblue {
+                   background: #3d6c131a;
+               }
+
+               #clonedMenus > a.Cpink {
+                   background: #c9187b1a;
+               }
+
+               #clonedMenus > a.delta {
+                   background: #215fbb1a;
+               }
+
+               #clonedMenus > a.alphaE {
+                   background: #5e25bd1a;
+               }
+
+               #clonedMenus > a.ramGr {
+                   background: #0e9c961a;
+               }
+
+               #clonedMenus > a.ieCle {
+                   background: #40560c1a;
+               }
+
+               #clonedMenus > a.samsoon {
+                   background: #3722441a;
+               }
+
+               #clonedMenus > a.regxs {
+                   background: #773e0c1a;
+               }
+
+               #clonedMenus > a.gogreen {
+                   background: #5eb7111a;
+               }
+               /*rev end Pallab 25528*/
 
         #clonedMenus > a.mblue:after {
             background: #3d6c13;
@@ -267,9 +346,13 @@
            right: 0;
            padding: 0;
            z-index: 99;
-           box-shadow: 0 3px 5px rgb(0 0 0 / 12%);
-           border-radius: 0 0 8px 8px;
-           max-height: 428px;
+           /*rev Pallab 25528*/
+           /*box-shadow: 0 3px 5px rgb(0 0 0 / 12%);*/
+           box-shadow: 0px 0px 14px rgb(9 78 140 / 45%);
+           /*border-radius: 0 0 8px 8px;*/
+           border-radius: 15px;
+           max-height: 450px;
+           /*rev end Pallab 25528 */
            overflow: hidden;
            height: 0;
            display: block;
@@ -307,16 +390,17 @@
            border-radius: 50%;
            color: #fff;
        }
-       #clonedMenus   a  span.ss {
+       #clonedMenus a span.ss {
            font-size: 10px;
            background: #f0f1df;
-           padding: 0 3 px;
+           padding: 0 3px;
            display: inline-block;
            width: fit-content;
-           border-radius: 5 px;
+           border-radius: 2px;
        }
-       #clonedMenus   a  span {
+       #clonedMenus a span {
            display: block;
+           margin-left: 8px;
        }
        #pageLoader {
            display: flex;
@@ -330,6 +414,24 @@
            justify-content: center;
            align-items: center;
        }
+
+       /*rev Pallab 25528 */
+       .search-heading {
+           position: relative;
+           margin-bottom: 12px;
+           font-size: 16px;
+           color: #222;
+       }
+
+       .search-heading-underline {
+           width: 60px;
+           height: 3px;
+           background: #215fbb;
+           display: block;
+           position: absolute;
+           bottom: -5px;
+       }
+       /*rev end Pallab 25528*/
    </style>
     <link href="~/assests/css/responsive.css" rel="stylesheet" />
     <script>
@@ -436,6 +538,7 @@
         <div class="d-flex flex-grow-1 middleWraper align-items-center">
             <div class="logoWrap" id="step2"><img src="/assests/images/logo.png"></div>
             <div class="dateTime" id="step3">
+                <img src="/assests/images/datetime.png" style="margin-right: 5px;">
                 <span class="text-uppercase" id="dayDate"></span>, <span id="yeaR"></span> |
                 <span id="clock"></span> <span class="text-muted "><small id="aMpM"></small></span>
             </div>
@@ -461,13 +564,20 @@
                 <li class="relative">
                     <div class="searcherInput"><input type="text" onkeyup="myMenuFilter()" id="searchOnMenu" autocomplete="off" /><span class="iconZR"><i class="fa fa-search" style="cursor:pointer"></i></span></div>
                     <div class="resulter">
-                        <div>Search in Menus</div>
+                        @*rev Pallab 25528*@
+                        @*<div>Search in Menus</div>*@
+                        <div class="search-heading">
+                            Search in Menus
+                            <div class="search-heading-underline"></div>
+                        </div>
+                        @*rev end Pallab 25528*@
                         <ul id="clonedMenus"></ul>
                     </div>
                 </li>
                 <li class=" dropdown">
                     <a href="#" class="nav-link dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="user"><img src="/assests/images/user1.png" style="max-width:40px;"  /></span>
+                        @*<span class="user"><img src="/assests/images/user1.png" style="max-width:40px;" /></span>*@
+                        <span class="user"><img src="/assests/images/user1.png" style="" /></span>
                         <span>
                             Welcome,
                             @if (!string.IsNullOrEmpty(Convert.ToString(Request.Cookies["sKey"])))

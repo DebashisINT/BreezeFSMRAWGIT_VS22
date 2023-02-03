@@ -1,31 +1,27 @@
-﻿@model Models.SalesSummaryReport
+﻿@*======================================Revision History=========================================================================
+1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
+                                              Refer: 0025586
+2.0   V2.0.38     Pallab      25/01/2023      Report page design modification. Refer: 25576
+===================================End of Revision History=====================================================================*@
+@model Models.SalesSummaryReport
 
 @{
     ViewBag.Title = "Performance Summary";
     /// Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-
-
-
 <script type="text/javascript" src="~/Scripts/globalize.js"></script>
 <script src="~/Scripts/cultures/globalize.cultures.js"></script>
-
-
 <script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
 <link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
 <link href="~/Content/media.css" rel="stylesheet" />
-
 <link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
 <script src="~/assests/pluggins/choosen/choosen.min.js"></script>
 <script src="~/Scripts/SearchMultiPopup.js"></script>
 
-
 <style>
     #StateGridLookup_CC {
-        width:100%;
+        width: 100%;
     }
 </style>
 <script>
@@ -43,8 +39,6 @@
         lookup.GetGridView().Refresh();
         var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
         lookup.GetGridView().Refresh();
-
-
 
         $('#txtfromDate').daterangepicker({
             singleDatePicker: true,
@@ -75,10 +69,6 @@
 
             }
         });
-
-
-
-
 
         $('body').on('click', '#btnshow', function () {
             GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
@@ -156,13 +146,7 @@
                     }
                 }
             }
-
-         
-           
-
         });
-
-
 
         $('#ddlAppIds').on('change', function () {
             if ($("#ddlAppIds option:selected").index() > 0) {
@@ -172,12 +156,8 @@
                 $('#ddlAppIds').prop("selectedIndex", 0);
                 var url = '@Url.Action("ExporPerformanceList", "Performance", new { type = "_type_" })'
                 window.location.href = url.replace("_type_", selectedValue);
-
-
             }
         });
-
-
     })
 
     function StateStartCallback(s, e) {
@@ -197,6 +177,14 @@
         e.customArgs["desgid"] = desigId;
         e.customArgs["empcode"] = empId;
         e.customArgs["is_pageload"] = is_pageload;
+        //Rev 1.0 Mantis:0025586
+        if ($('#IsRevisitContactDetails').prop('checked')) {
+            e.customArgs["IsRevisitContactDetails"] = 1;
+        }
+        else {
+            e.customArgs["IsRevisitContactDetails"] = 0;
+        }
+        //End of Rev 1.0 Mantis:0025586
 
         // alert(e.customArgs["StateId"]);
 
@@ -216,8 +204,6 @@
         } finally {
             console.log(StateId);
         }
-
-
     }
 
     var desigId = [];
@@ -293,8 +279,6 @@
         padding: 1px 5px !important;
     }
 
-
-
     .scrooler {
         width: 100%;
         overflow-x: scroll;
@@ -322,6 +306,371 @@
         right: 3px;
         top: 32px;
     }
+    /*Rev Pallab*/
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #txtEmployeeSearch {
+        margin-bottom: 12px;
+    }
+    /*Rev End Pallab*/
+
+    /*Rev 2.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 24px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 34px;
+            right: 18px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .whclass.selectH, #ddlShowReport {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+    /*Rev end 2.0*/
 </style>
 
 <script>
@@ -474,7 +823,10 @@
                     <div class="row">
                         <table class="eqpadtbl mb-3">
                             <tr>
-                                <td class="w150 relative">
+                                @*Rev 2.0*@
+                                @*<td class="w150 relative">*@
+                                <td class="w150 relative for-cust-icon">
+                                    @*Rev end 2.0*@
                                     <label>From Date</label>
                                     <div>
                                         @Html.DevExpress().DateEditFor(x => x.Fromdate,
@@ -490,12 +842,18 @@
                                     deSettings.Properties.ShowOutOfRangeWarning = false;
                                     deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
                                 }).GetHtml()
+                                        @*Rev 2.0*@
+                                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                        @*Rev end 2.0*@
                                         <span id="MandatoryFromDate" style="display: none" class="validclass">
                                             <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
                                         </span>
                                     </div>
                                 </td>
-                                <td class="w150 relative">
+                                @*Rev 2.0*@
+                                @*<td class="w150 relative">*@
+                                <td class="w150 relative for-cust-icon">
+                                    @*Rev end 2.0*@
                                     <label>To Date</label>
                                     <div>
                                         @*@Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true, @tabindex = 3 })*@
@@ -513,30 +871,28 @@
                                     deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
 
                                 }).GetHtml()
+                                        @*Rev 2.0*@
+                                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                        @*Rev end 2.0*@
                                         <span id="MandatoryToDate" style="display: none" class="validclass">
                                             <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
                                         </span>
                                     </div>
                                 </td>
 
-
-
                                 <td class="w150">
                                     <label>State </label>
                                     <div>
                                         @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
                                         @*<span id="MandatoryState" style="display: none" class="validclass">
-                                                <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                                            </span>*@
+                    <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                </span>*@
                                     </div>
                                 </td>
                                 <td class="w150">
                                     <label>Designation</label>
                                     <div>
-
                                         @Html.Action("GetDesigList", "SalesReportSummary")
-
-
                                     </div>
                                 </td>
                                 <td class="w150">
@@ -559,8 +915,21 @@
 
                                     </div>
                                 </td>
-
-                                <td style="padding-top: 22px;width:170px;">
+                                @*Rev 1.0 Mantis:0025586*@
+                            <td class="w10 inputSpacer" style="padding-top: 21px; width: 230px;">
+                                @*Rev 2.0*@
+                                @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>*@
+                                <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
+                                <label for="">Show Revisit Contact Details</label>
+                                @*Rev end 2.0*@
+                            </td>
+                                @*End of Rev 1.0 Mantis:0025586*@
+                            </tr>
+                            <tr>
+                                @*Rev 2.0*@
+                                @*<td style="padding-top: 22px;width:170px;">*@
+                                <td style="padding-top: 22px;width:190px;">
+                                    @*Rev end 2.0*@
                                     <label></label>
                                     <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
                                     <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
@@ -586,11 +955,13 @@
             <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
             <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
         </div>
-    </div>
-</div>
+        @*Rev 2.0*@
+    @*</div>
+</div>*@
 <div style="clear: both;"><br /></div>
-<div class="container">
-    <div class="backBox mt-1 p-3 ">
+@*<div class="container">
+    <div class="backBox mt-1 p-3 ">*@
+        @*Rev end 2.0*@
         <div class="mx-4 ">
             <div class="options">
                 <div class="options-item">
@@ -606,8 +977,8 @@
             <div class="row">
                 <div id="refreshgridsalessummary">
                     @{
-                Html.RenderAction("GetSalesParformanceList", "Performance", new { Fromdate = Model.Fromdate, Todate = Model.Todate, StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0" });
-    // Html.RenderAction("GetSalesSummaryList1", "SalesReportSummary");
+                        Html.RenderAction("GetSalesParformanceList", "Performance", new { Fromdate = Model.Fromdate, Todate = Model.Todate, StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0", IsRevisitContactDetails=Model.IsRevisitContactDetails });
+                        // Html.RenderAction("GetSalesSummaryList1", "SalesReportSummary");
 
                     }
                     @*change for design*@
@@ -617,36 +988,36 @@
     </div>
 </div>
 
-        <!--Employee Modal -->
-        <div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Employee Search</h4>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
-                        <div id="EmployeeTable">
-                            <table border='1' width="100%">
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
 
-                                <tr class="HeaderStyle" style="font-size:small">
-                                    <th>Select</th>
-                                    <th class="hide">id</th>
-                                    <th>Employee Name</th>
-                                    <th>Employee Code</th>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
-                        <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
-                        @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
-                    </div>
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
                 </div>
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
         </div>
-        <asp:HiddenField ID="hdnEmployeeId" runat="server" />
-        <!--Employee Modal -->
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->

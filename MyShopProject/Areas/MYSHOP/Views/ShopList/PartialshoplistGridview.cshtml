@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                12-01-2023        2.0.37           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ===========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridShoListList";
 
@@ -24,31 +29,31 @@
     settings.Settings.ShowFilterRowMenu = true;
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "EMPCODE";
-     x.Caption = "Emp ID";
-     x.VisibleIndex = 1;
-  
-     x.ColumnType = MVCxGridViewColumnType.TextBox;
+    {
+        x.FieldName = "EMPCODE";
+        x.Caption = "Emp ID";
+        x.VisibleIndex = 1;
 
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
 
 
- });
+    });
 
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "EMPNAME";
-     x.Caption = "Emp Name";
-     x.VisibleIndex = 2;
-     
-     x.ColumnType = MVCxGridViewColumnType.TextBox;
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Emp Name";
+        x.VisibleIndex = 2;
 
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
 
 
- });
+    });
 
     //Rev Debashis 0025198
     settings.Columns.Add(x =>
@@ -62,25 +67,25 @@
     //End of Rev Debashis 0025198
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "user_loginId";
-    x.Caption = "Contact No.";
-    x.VisibleIndex = 4;
+    {
+        x.FieldName = "user_loginId";
+        x.Caption = "Contact No.";
+        x.VisibleIndex = 4;
 
-    x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
 
-    //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
 
 
-});
-    
-    
+    });
+
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "shop_name";
         x.Caption = "Shop Name";
         x.VisibleIndex = 5;
-       
+
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
     });
@@ -94,14 +99,14 @@
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
     });
-    
-    
+
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "Shoptype";
         x.Caption = "Type";
         x.VisibleIndex = 7;
-       
+
         x.ColumnType = MVCxGridViewColumnType.TextBox;
 
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
@@ -164,13 +169,13 @@
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
 
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "STATE";
         x.Caption = "State";
         x.VisibleIndex = 13;
-       
+
         x.ColumnType = MVCxGridViewColumnType.TextBox;
 
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
@@ -192,23 +197,27 @@
         x.Caption = "Pincode";
         x.VisibleIndex = 15;
         x.Width = 60;
-      });
+    });
 
     //End of Rev Debashis
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "address";
         x.Caption = "Address/Location";
-        x.VisibleIndex = 16;       
+        x.VisibleIndex = 16;
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-    });  
+        //Rev 1.0
+        x.Width = 200;
+        //Rev end 1.0
+    });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "PP";
         x.Caption = "Prime Partner";
         x.VisibleIndex = 17;
+        x.Width = 200;
     });
 
     settings.Columns.Add(x =>
@@ -283,9 +292,9 @@
         x.VisibleIndex = 26;
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
-      
+
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-    
+
     });
 
     //Rev Debashis
@@ -304,7 +313,7 @@
     //    x.FieldName = "countactivity";
     //    x.Caption = "Shop Visit";
     //    x.VisibleIndex = 12;
-      
+
 
     //});
 
@@ -326,7 +335,7 @@
     //    x.Caption = "OTP Verification Status";
     //    x.VisibleIndex = 14;
     //    x.ColumnType = MVCxGridViewColumnType.DateEdit;
-     
+
 
 
     //});
@@ -336,7 +345,7 @@
     {
         x.Caption = "Image";
         x.VisibleIndex = 28;
-     
+
         x.SetDataItemTemplateContent(c =>
         {
             //rev Pallab
@@ -355,12 +364,12 @@
         });
 
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.Caption = "Location";
         x.VisibleIndex = 29;
-     
+
         x.SetDataItemTemplateContent(c =>
         {
             ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopforLocation('" + Convert.ToString(DataBinder.Eval(c.DataItem, "shop_lat")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "shop_long")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "address")) + "')\">Map View</a>");
@@ -372,7 +381,7 @@
     {
         x.Caption = "Modify";
         x.VisibleIndex = 30;
-     
+
         x.SetDataItemTemplateContent(c =>
         {
             ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "shop_Auto")) + "')\">Modify</a>");

@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                17-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridLocationReportList";
     settings.CallbackRouteValues = new { Action = "GetLocationReportlistPartial", Controller = "LocationReport" };
@@ -46,14 +51,14 @@
     });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "State_name";
-           x.Caption = "State";
-           x.VisibleIndex = 3;
-           x.Width = 100;
-           //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    {
+        x.FieldName = "State_name";
+        x.Caption = "State";
+        x.VisibleIndex = 3;
+        x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
 
-       });
+    });
 
     settings.Columns.Add(x =>
     {
@@ -148,31 +153,34 @@
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "ADDRESS";
-     x.Caption = "Shop Address";
-     x.VisibleIndex = 11;
-     x.Width = 180;
-     x.ColumnType = MVCxGridViewColumnType.TextBox;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
- });
+    {
+        x.FieldName = "ADDRESS";
+        x.Caption = "Shop Address";
+        x.VisibleIndex = 11;
+        x.Width = 180;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "SHOP_OWNER_NAME";
-     x.Caption = "Shop Owner Name";
-     x.VisibleIndex = 12;
-     x.Width = 150;
-     x.ColumnType = MVCxGridViewColumnType.TextBox;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
- });
+    {
+        x.FieldName = "SHOP_OWNER_NAME";
+        x.Caption = "Shop Owner Name";
+        x.VisibleIndex = 12;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "SHOP_OWNER_CONTACT";
         x.Caption = "Shop Owner Contact";
         x.VisibleIndex = 13;
-        x.Width = 120;
+        //Rev 1.0
+        //x.Width = 120;
+        x.Width = 130;
+        //Rev end 1.0
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;

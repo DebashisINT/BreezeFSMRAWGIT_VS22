@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                17-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridDoctorActivity";
 
@@ -33,7 +38,7 @@
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "EMPLOYEE_NAME";
@@ -105,7 +110,10 @@
         x.FieldName = "QTY_VALUE";
         x.Caption = "Quantity/Volume";
         x.VisibleIndex = 3;
-        x.Width = 80;
+        //Rev 1.0
+        //x.Width = 80;
+        x.Width = 120;
+        //Rev end 1.0
     });
     settings.Columns.Add(x =>
     {
@@ -150,12 +158,12 @@
     });
 
     settings.Columns.Add(x =>
-   {
-       x.FieldName = "KIND_REMARKS";
-       x.Caption = "Kind Remarks";
-       x.VisibleIndex = 3;
-       x.Width = 300;
-   });
+    {
+        x.FieldName = "KIND_REMARKS";
+        x.Caption = "Kind Remarks";
+        x.VisibleIndex = 3;
+        x.Width = 300;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -208,7 +216,7 @@
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
     });
-        
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "MR_REMARKS";
@@ -216,7 +224,7 @@
         x.VisibleIndex = 3;
         x.Width = 100;
     });
-        
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "PRODUCT";
@@ -224,7 +232,7 @@
         x.VisibleIndex = 3;
         x.Width = 500;
     });
-        
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "QTY_PRODUCT";
@@ -232,7 +240,7 @@
         x.VisibleIndex = 3;
         x.Width = 500;
     });
-        
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "SAMPLE_PRODUCT";

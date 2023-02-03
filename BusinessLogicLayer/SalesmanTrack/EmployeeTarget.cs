@@ -1,6 +1,8 @@
-﻿/***************************
+﻿/****************************************************************************************************************************
 *   Rev 27-12-2018 Surojit Chatterjee
-**************************/
+*   1.0     v2.0.36     Sanchita    10/01/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True" then 
+*                                                   data in portal shall be populated based on Hierarchy Only. Refer: 25504
+****************************************************************************************************************************/
 
 using DataAccessLayer;
 using System;
@@ -262,5 +264,18 @@ namespace BusinessLogicLayer.SalesmanTrack
             ds = proc.GetTable();
             return ds;
         }
+
+        // Rev 1.0
+        public DataTable GetEmployeesListByStateDesignation_Hier(String State, String Designation, String Userid)
+        {
+            DataTable ds = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("prc_EmployeesListByStateDesignation_Hier");
+            proc.AddPara("@STATE", State);
+            proc.AddPara("@DESIGNATION", Designation);
+            proc.AddPara("@USERID", Userid);
+            ds = proc.GetTable();
+            return ds;
+        }
+        // End of Rev 1.0
     }
 }

@@ -1,4 +1,9 @@
-﻿using Models;
+﻿/****************************************************************************************************************************
+*   1.0     v2.0.36     Sanchita    10/01/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True" then 
+*                                                   data in portal shall be populated based on Hierarchy Only. Refer: 25504
+*********************************************************************************************************************************/
+
+using Models;
 using SalesmanTrack;
 using System;
 using System.Collections.Generic;
@@ -128,8 +133,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
 
 
-
-                DataTable dtemp = lstuser.Getemplist(state, desig, model.userId, dept);
+                // Rev 1.0
+                //DataTable dtemp = lstuser.Getemplist(state, desig, model.userId, dept);
+                DataTable dtemp = lstuser.Getemplist(state, desig, Convert.ToString(Session["userid"]), dept);
+                // End of Rev 1.0
 
 
                 DataView view = new DataView(dtemp);

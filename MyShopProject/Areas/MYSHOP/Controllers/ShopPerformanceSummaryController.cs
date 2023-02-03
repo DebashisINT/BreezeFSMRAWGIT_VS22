@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer.SalesmanTrack;
+﻿/**************************************************************************************************
+ * 1.0      Sanchita    V2.0.38     02/02/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True"
+ *                                                  then data in portal shall be populated based on Hierarchy Only. Refer: 25504
+ * ****************************************************************************************************/
+using BusinessLogicLayer.SalesmanTrack;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
 using MyShop.Models;
@@ -115,13 +119,19 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                 string FromDate = model.FromDate;
                 string ToDate = model.ToDate;
+                // Rev 1.0
+                string Userid = Convert.ToString(Session["userid"]);
+                // End of Rev 1.0
 
                 if (model.Ispageload == "1")
                 {
                     double days = (Convert.ToDateTime(model.ToDate) - Convert.ToDateTime(model.FromDate)).TotalDays;
                     if (days <= 30)
                     {
-                        dt = objshop.GetShopPerfgormanceSummary(Employee, FromDate, ToDate, State_id, Designation_id);
+                        // Rev 1.0
+                        //dt = objshop.GetShopPerfgormanceSummary(Employee, FromDate, ToDate, State_id, Designation_id);
+                        dt = objshop.GetShopPerfgormanceSummary(Employee, FromDate, ToDate, State_id, Designation_id, Userid);
+                        // End of Rev 1.0
                     }
                     if (dt!=null && dt.Rows.Count > 0)
                     {

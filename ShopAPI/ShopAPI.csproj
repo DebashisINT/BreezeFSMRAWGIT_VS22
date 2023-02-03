@@ -30,6 +30,8 @@
     </SccAuxPath>
     <SccProvider>
     </SccProvider>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -215,6 +217,7 @@
     <Compile Include="Controllers\AppInfoController.cs" />
     <Compile Include="Controllers\APPLogFilesDetectionController.cs" />
     <Compile Include="Controllers\AreaController.cs" />
+    <Compile Include="Controllers\AreaRouteBeatRelationInfoController.cs" />
     <Compile Include="Controllers\AttachDocumnetController.cs" />
     <Compile Include="Controllers\AttachmentDocumentTypeController.cs" />
     <Compile Include="Controllers\AttendanceController.cs" />
@@ -294,6 +297,7 @@
     <Compile Include="Controllers\ShopAssignmentController.cs" />
     <Compile Include="Controllers\ShopAttendanceController.cs" />
     <Compile Include="Controllers\ShoplistController.cs" />
+    <Compile Include="Controllers\ShopMultipleContactMapController.cs" />
     <Compile Include="Controllers\ShopRegisterPortalController.cs" />
     <Compile Include="Controllers\ShopRegistrationController.cs" />
     <Compile Include="Controllers\ShopsubmissionController.cs" />
@@ -338,6 +342,7 @@
     <Compile Include="Models\APPLogFilesDetectionModel.cs" />
     <Compile Include="Models\ApplyReimbursementModel.cs" />
     <Compile Include="Models\AreaModel.cs" />
+    <Compile Include="Models\AreaRouteBeatRelationInfoModel.cs" />
     <Compile Include="Models\Assigntoshop.cs" />
     <Compile Include="Models\AttachmentDocumentTypeModel.cs" />
     <Compile Include="Models\Attendancemanage.cs" />
@@ -412,6 +417,7 @@
     <Compile Include="Models\RubyLeadImageModel.cs" />
     <Compile Include="Models\SalesQuotationModel.cs" />
     <Compile Include="Models\ShopdaywiseModel.cs" />
+    <Compile Include="Models\ShopMultipleContactMapModel.cs" />
     <Compile Include="Models\Shopslist.cs" />
     <Compile Include="Models\ShopsubmissionModel.cs" />
     <Compile Include="Models\ShopUpdation.cs" />

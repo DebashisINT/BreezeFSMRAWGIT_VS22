@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.32     Debashis    17/01/2023      Some new parameters have been added.Row: 798
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -133,8 +136,12 @@ namespace ShopAPI.Controllers
         [HttpPost]
         public HttpResponseMessage ShopTypewiseUserShopList(UserSopTypeShopInput model)
         {
-            useHierarchyShopOutput omodel = new useHierarchyShopOutput();
-            List<UserShopList> oview = new List<UserShopList>();
+            //Rev 1.0 Row:798
+            //useHierarchyShopOutput omodel = new useHierarchyShopOutput();            
+            //List<UserShopList> oview = new List<UserShopList>();
+            TypeWiseuseHierarchyShopOutput omodel = new TypeWiseuseHierarchyShopOutput();
+            List<TypeWiseUserShopList> Toview = new List<TypeWiseUserShopList>();
+            //End of Rev 1.0 Row:798
 
             if (!ModelState.IsValid)
             {
@@ -173,10 +180,16 @@ namespace ShopAPI.Controllers
                 sqlcon.Close();
                 if (dt.Rows.Count > 0)
                 {
-                    oview = APIHelperMethods.ToModelList<UserShopList>(dt);
+                    //Rev 1.0 Row:798
+                    //oview = APIHelperMethods.ToModelList<UserShopList>(dt);
+                    Toview = APIHelperMethods.ToModelList<TypeWiseUserShopList>(dt);
+                    //End of Rev 1.0 Row:798
                     omodel.status = "200";
                     omodel.message = "Successfully get shop list.";
-                    omodel.shop_list = oview;
+                    //Rev 1.0 Row:798
+                    //omodel.shop_list = oview;
+                    omodel.shop_list = Toview;
+                    //End of Rev 1.0 Row:798
                 }
                 else
                 {

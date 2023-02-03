@@ -1,4 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" CodeBehind="Branch_Correspondance.aspx.cs" Inherits="ERP.OMS.Management.Master.Branch_Correspondance" %>
+﻿<%--====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                02-02-2023        2.0.38           Pallab              breadcumb issue fix
+====================================================== Revision History ==========================================================--%>
+
+<%@ Page Title="" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" CodeBehind="Branch_Correspondance.aspx.cs" Inherits="ERP.OMS.Management.Master.Branch_Correspondance" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
         
@@ -307,13 +312,48 @@
             background: #094e8c;
         }
          /*rev end 25249*/
+         /*rev 1.0*/
+         .breadCumb > h3
+         {
+             margin: 0;
+         }
+
+         .breadCumb > h3 > span {
+            display: inline-block;
+            background: #fff;
+            border-radius: 0 0 14px 14px;
+            padding: 9px 32px;
+            text-transform: uppercase;
+            position: relative;
+            box-shadow: 0 3px 5px rgb(122 118 118 / 12%);
+            font-size: 14px;
+    font-weight: 500;
+        }
+         .breadCumb > h3 > span::before, .breadCumb > h3 > span::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 35px;
+            background: url(../images/a.png) no-repeat top left;
+            left: -18px;
+            top: 0;
+        }
+         .breadCumb > h3 > span::after {
+            left: auto;
+            right: -26px;
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+            top: -9px;
+        }
+         /*rev end 1.0*/
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-
-    <div class="panel-heading">
+    <%--rev 1.0--%>
+    <%--<div class="panel-heading">
         <div class="panel-title">
           
             <h3>
@@ -322,7 +362,16 @@
             <div class="crossBtnN"><a href="BranchAddEdit.aspx"><i class="fa fa-times"></i></a></div>
         </div>
 
+    </div>--%>
+    <div class="breadCumb">
+        <h3>
+                <asp:Label ID="lblHeadTitle" runat="server"></asp:Label>
+            </h3>
+        <div class="crossBtnN"><a href="BranchAddEdit.aspx"><i class="fa fa-times"></i></a></div>
     </div>
+
+    <%--rev end 1.0--%>
+
     <div class="container">
         <div class="backBox mt-5 p-3 ">
     <div class="form_main">

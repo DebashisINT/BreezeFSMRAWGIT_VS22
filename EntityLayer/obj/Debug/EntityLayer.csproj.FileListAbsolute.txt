@@ -4,3 +4,9 @@ E:\PROJECTS\BreezeFSMGIT_VS22\EntityLayer\obj\Debug\EntityLayer.csproj.AssemblyR
 E:\PROJECTS\BreezeFSMGIT_VS22\EntityLayer\obj\Debug\EntityLayer.csproj.CoreCompileInputs.cache
 E:\PROJECTS\BreezeFSMGIT_VS22\EntityLayer\obj\Debug\EntityLayer.dll
 E:\PROJECTS\BreezeFSMGIT_VS22\EntityLayer\obj\Debug\EntityLayer.pdb
+E:\GIT\BreezeFSMGIT_VS22\EntityLayer\bin\Debug\EntityLayer.dll
+E:\GIT\BreezeFSMGIT_VS22\EntityLayer\bin\Debug\EntityLayer.pdb
+E:\GIT\BreezeFSMGIT_VS22\EntityLayer\obj\Debug\EntityLayer.csproj.AssemblyReference.cache
+E:\GIT\BreezeFSMGIT_VS22\EntityLayer\obj\Debug\EntityLayer.csproj.CoreCompileInputs.cache
+E:\GIT\BreezeFSMGIT_VS22\EntityLayer\obj\Debug\EntityLayer.dll
+E:\GIT\BreezeFSMGIT_VS22\EntityLayer\obj\Debug\EntityLayer.pdb

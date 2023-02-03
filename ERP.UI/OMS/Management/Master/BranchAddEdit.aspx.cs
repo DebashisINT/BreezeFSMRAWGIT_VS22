@@ -462,12 +462,14 @@ namespace ERP.OMS.Managemnent.Master
                         firstChar = firstChar.Substring(0, 1).ToUpper();
                     }
 
-                    if (!reCat.isAllMandetoryDone((DataTable)Session["UdfDataOnAdd"], "Br"))
-                    {
-                        Page.ClientScript.RegisterStartupScript(GetType(), "udferror", "<script>udfError()</script>");
-                        return;
+                    // Mantis Issue 25530
+                    //if (!reCat.isAllMandetoryDone((DataTable)Session["UdfDataOnAdd"], "Br"))
+                    //{
+                    //    Page.ClientScript.RegisterStartupScript(GetType(), "udferror", "<script>udfError()</script>");
+                    //    return;
 
-                    }
+                    //}
+                    // End of Mantis Issue 25530
 
                     //Debjyoti GSTIN  
                     string GSTIN = "";

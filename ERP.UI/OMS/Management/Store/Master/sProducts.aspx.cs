@@ -1,3 +1,6 @@
+/*****************************************************************************************************************************
+ * 1.0      Sanchita    V2.0.38     31-01-2023      An error is showing while saving a new product. Refer: 25631
+ * *****************************************************************************************************************************/
 using System;
 using System.Data;
 using System.Web;
@@ -219,7 +222,10 @@ namespace ERP.OMS.Management.Store.Master
             BusinessLogicLayer.GenericMethod oGenericMethod = new BusinessLogicLayer.GenericMethod();
 
             DataTable dtCmb = new DataTable();
-            dtCmb = oGenericMethod.GetDataTable("SELECT ProductClass_ID,ProductClass_Name FROM Master_ProductClass order by ProductClass_Name");
+            // Rev 1.0
+            //dtCmb = oGenericMethod.GetDataTable("SELECT ProductClass_ID,ProductClass_Name FROM Master_ProductClass order by ProductClass_Name");
+            dtCmb = oGenericMethod.GetDataTable("SELECT ProductClass_ID,trim(ProductClass_Name) ProductClass_Name FROM Master_ProductClass order by ProductClass_Name");
+            // End of Rev 1.0
             AspxHelper oAspxHelper = new AspxHelper();
             if (dtCmb.Rows.Count > 0)
             {
@@ -693,7 +699,7 @@ namespace ERP.OMS.Management.Store.Master
                 /*insertcount = oStore_MasterBL.InsertProduct(txtPro_Code.Text, txtPro_Name.Text, txtPro_Description.Text,
                     Convert.ToString(CmbProType.SelectedItem.Value), Convert.ToInt32(CmbProClassCode.SelectedItem.Value), txtGlobalCode.Text,
                     TradingLot, Convert.ToInt32(CmbTradingLotUnits.SelectedItem.Value));*/
-                if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtPro_Name.Text.Trim()))
+if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtPro_Name.Text.Trim()))
                 {
 
                     if (int.TryParse(txtQuoteLot.Text, out QuoteLot))

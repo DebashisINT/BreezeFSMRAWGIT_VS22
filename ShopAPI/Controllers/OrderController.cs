@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.38     Debashis    23/01/2023      Some new parameters have been added.Row: 805 to 806
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -22,17 +25,17 @@ namespace ShopAPI.Controllers
         {
             OrderAddoutput omodel = new OrderAddoutput();
             UserClass oview = new UserClass();
-            String username = System.Configuration.ConfigurationSettings.AppSettings["username"];
-            String password = System.Configuration.ConfigurationSettings.AppSettings["password"];
-            String Provider = System.Configuration.ConfigurationSettings.AppSettings["Provider"];
-            String sender = System.Configuration.ConfigurationSettings.AppSettings["sender"];
+            String username = System.Configuration.ConfigurationManager.AppSettings["username"];
+            String password = System.Configuration.ConfigurationManager.AppSettings["password"];
+            String Provider = System.Configuration.ConfigurationManager.AppSettings["Provider"];
+            String sender = System.Configuration.ConfigurationManager.AppSettings["sender"];
             try
             {
                 string products = "";
                 string token = string.Empty;
                 string versionname = string.Empty;
                 System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
-                String tokenmatch = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String tokenmatch = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
 
                 if (!ModelState.IsValid)
                 {
@@ -49,7 +52,7 @@ namespace ShopAPI.Controllers
 
                     DataTable dt = new DataTable();
 
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     //String con = Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]);
 
 
@@ -72,8 +75,12 @@ namespace ShopAPI.Controllers
                             total_scheme_price=s2.total_scheme_price,
                             //Extra Input for RubyFood
                             //Extra Input for EuroBond
-                            MRP=s2.MRP
+                            MRP=s2.MRP,
                             //Extra Input for EuroBond
+                            //Rev 1.0 Row: 805
+                            order_mrp=s2.order_mrp,
+                            order_discount=s2.order_discount
+                            //End of Rev 1.0 Row: 805
                         });
 
                         products = products + s2.product_name + "," + " Price: " + s2.total_price + "," + " Qty: " + s2.qty + "||";
@@ -92,28 +99,28 @@ namespace ShopAPI.Controllers
                     sqlcon.Open();
 
                     sqlcmd = new SqlCommand("Proc_FTS_Order", sqlcon);
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@SessionToken", model.session_token);
-                    sqlcmd.Parameters.Add("@order_amount", model.order_amount);
-                    sqlcmd.Parameters.Add("@order_id", model.order_id);
-                    sqlcmd.Parameters.Add("@Shop_Id", model.shop_id);
-                    sqlcmd.Parameters.Add("@description", model.description);
-                    sqlcmd.Parameters.Add("@Collection", model.collection);
-                    sqlcmd.Parameters.Add("@order_date", model.order_date);
-                    sqlcmd.Parameters.Add("@Remarks", model.remarks);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@SessionToken", model.session_token);
+                    sqlcmd.Parameters.AddWithValue("@order_amount", model.order_amount);
+                    sqlcmd.Parameters.AddWithValue("@order_id", model.order_id);
+                    sqlcmd.Parameters.AddWithValue("@Shop_Id", model.shop_id);
+                    sqlcmd.Parameters.AddWithValue("@description", model.description);
+                    sqlcmd.Parameters.AddWithValue("@Collection", model.collection);
+                    sqlcmd.Parameters.AddWithValue("@order_date", model.order_date);
+                    sqlcmd.Parameters.AddWithValue("@Remarks", model.remarks);
                     //Extra Input for 4Basecare
-                    sqlcmd.Parameters.Add("@patient_no", model.patient_no);
-                    sqlcmd.Parameters.Add("@patient_name", model.patient_name);
-                    sqlcmd.Parameters.Add("@patient_address ", model.patient_address);
+                    sqlcmd.Parameters.AddWithValue("@patient_no", model.patient_no);
+                    sqlcmd.Parameters.AddWithValue("@patient_name", model.patient_name);
+                    sqlcmd.Parameters.AddWithValue("@patient_address ", model.patient_address);
                     //Extra Input for 4Basecare
                     //Extra Input for RubyFood
-                    sqlcmd.Parameters.Add("@Scheme_Amount ", model.scheme_amount);
+                    sqlcmd.Parameters.AddWithValue("@Scheme_Amount ", model.scheme_amount);
                     //Extra Input for RubyFood
                     //Extra Input for EuroBond
-                    sqlcmd.Parameters.Add("@Hospital ", model.Hospital);
-                    sqlcmd.Parameters.Add("@Email_Address ", model.Email_Address);
+                    sqlcmd.Parameters.AddWithValue("@Hospital ", model.Hospital);
+                    sqlcmd.Parameters.AddWithValue("@Email_Address ", model.Email_Address);
                     //Extra Input for EuroBond
-                    sqlcmd.Parameters.Add("@Product_List", JsonXML);
+                    sqlcmd.Parameters.AddWithValue("@Product_List", JsonXML);
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                     da.Fill(dt);
@@ -189,19 +196,19 @@ namespace ShopAPI.Controllers
             else
             {
 
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 string sessionId = "";
 
                 List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("Proc_FTC_OrderList", sqlcon);
-                sqlcmd.Parameters.Add("@date", model.date);
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@date", model.date);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
 
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
@@ -250,20 +257,20 @@ namespace ShopAPI.Controllers
             else
             {
 
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 string sessionId = "";
 
                 List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                 DataSet ds = new DataSet();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("Proc_FTC_OrderListDetails", sqlcon);
-                sqlcmd.Parameters.Add("@shop_id", model.shop_id);
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@order_id", model.order_id);
+                sqlcmd.Parameters.AddWithValue("@shop_id", model.shop_id);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@order_id", model.order_id);
 
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
@@ -365,20 +372,20 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                     string sessionId = "";
 
                     List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                     DataSet ds = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("Proc_FTC_OrderListDetails_ShopList", sqlcon);
 
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@Date", model.date);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@Date", model.date);
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -420,8 +427,12 @@ namespace ShopAPI.Controllers
                                             total_scheme_price = Convert.ToDecimal(ds.Tables[2].Rows[j]["total_scheme_price"]),
                                             //Extra Output for RubyFood
                                             //Extra Output for EuroBond
-                                            MRP = Convert.ToDecimal(ds.Tables[2].Rows[j]["MRP"])
+                                            MRP = Convert.ToDecimal(ds.Tables[2].Rows[j]["MRP"]),
                                             //Extra Output for EuroBond
+                                            //Rev 1.0 Row: 806
+                                            order_mrp = Convert.ToDecimal(ds.Tables[2].Rows[j]["order_mrp"]),
+                                            order_discount = Convert.ToDecimal(ds.Tables[2].Rows[j]["order_discount"])
+                                            //End of Rev 1.0 Row: 806
                                         });
                                     }
                                 }
@@ -517,21 +528,21 @@ namespace ShopAPI.Controllers
                 else
                 {
 
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                     string sessionId = "";
 
                     List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                     DataSet ds = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("Proc_FTC_OrderMail", sqlcon);
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@order_id", model.order_id);
-                    sqlcmd.Parameters.Add("@shop_id", model.shop_id);
-                    sqlcmd.Parameters.Add("@type", model.type);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@order_id", model.order_id);
+                    sqlcmd.Parameters.AddWithValue("@shop_id", model.shop_id);
+                    sqlcmd.Parameters.AddWithValue("@type", model.type);
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                     da.Fill(ds);

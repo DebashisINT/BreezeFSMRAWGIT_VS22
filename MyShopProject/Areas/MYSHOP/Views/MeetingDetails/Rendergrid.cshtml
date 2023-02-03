@@ -1,4 +1,8 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                01-02-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "ListGrid";
     //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
@@ -25,7 +29,7 @@
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
     settings.Settings.ShowFilterRowMenu = true;
 
-    
+
     settings.Columns.Add(column =>
     {
         column.Caption = "Employee Name";
@@ -47,16 +51,19 @@
         column.Caption = "Employee Code";
         column.FieldName = "EMPLOYEE_CODE";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 100;
+        //Rev 1.0
+        //column.Width = 100;
+        column.Width = 130;
+        //Rev end 1.0
     });
-    
+
     settings.Columns.Add(column =>
     {
         column.FieldName = "EMPLOYEE_DESIGNATION";
         column.Caption = "Designation";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         column.Width = 180;
-    });    
+    });
 
     settings.Columns.Add(column =>
     {
@@ -111,7 +118,10 @@
         column.FieldName = "MEETING_PINCODE";
         column.Caption = "Meeting Pincode";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 100;
+        //Rev 1.0
+        //column.Width = 100;
+        column.Width = 130;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(column =>
@@ -122,7 +132,7 @@
         column.Width = 250;
     });
 
-   
+
     settings.Columns.Add(column =>
     {
         column.Caption = "Visited Date Time";
@@ -155,7 +165,10 @@
         column.FieldName = "DISTANCE_TRAVELLED";
         column.Caption = "Distance Travelled";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 120;
+        //Rev 1.0
+        //column.Width = 120;
+        column.Width = 150;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(column =>

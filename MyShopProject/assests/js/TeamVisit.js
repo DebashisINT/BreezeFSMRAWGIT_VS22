@@ -270,6 +270,7 @@ function ShowTeamVisitData() {
 
     WindowSize = $(window).width();
 
+    $(".teamvisit-tb-hand").hide();
     // Mantis Issue 25455
     //$("#lblAtWorkTV").html("<img src='/assests/images/Spinner.gif' />");
     //$("#lblOnLeaveTV").html("<img src='/assests/images/Spinner.gif' />");

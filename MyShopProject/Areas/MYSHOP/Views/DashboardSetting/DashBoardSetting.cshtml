@@ -16,11 +16,11 @@
     }
 </style>
 
-    <div class="breadCumb">
-        <span>Dashboard Settings</span>
+<div class="breadCumb">
+    <span>Dashboard Settings</span>
 
-        @*<div class="crossBtn hide"><a href="DashBoardSettingList.aspx"><i class="fa fa-times"></i></a></div>*@
-    </div>
+    @*<div class="crossBtn hide"><a href="DashBoardSettingList.aspx"><i class="fa fa-times"></i></a></div>*@
+</div>
 
 
 
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 @Html.DevExpress().PopupControl(
     settings =>
     {
@@ -202,3 +202,12 @@
     }
 
 </script>
+@*rev Pallab*@
+<script>
+    $('#dropdownMenu2').click(function () {
+
+        $('.dropdown-menu').toggleClass('show');
+
+    });
+</script>
+@*rev end Pallab*@

@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*************************************************************************************************************
+Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+*****************************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -43,6 +46,7 @@ namespace MyShop.Models
         public String AlternateEmail { get; set; }
         public String GSTIN { get; set; }
         //End of Mantis Issue 24572
+       
     }
 
     public class ReAssignShopModel
@@ -81,6 +85,10 @@ namespace MyShop.Models
         // Mantis Issue 25431
         public string Beat { get; set; }
         // End of Mantis Issue 25431
+        // Mantis Issue 25545
+        public string Area { get; set; }
+        public string Route { get; set; }
+        // End of Mantis Issue 25545
     }
 
     public class ReAssignShop
@@ -133,5 +141,22 @@ namespace MyShop.Models
         public String UserLoginid { get; set; }
     }
     //End of Mantis Issue 25133
-
+    // Rev 1.0
+    public class BulkModifyPartyLog
+    {
+        public String Shop_Code { get; set; }
+        public String Shop_Name { get; set; }
+        public String Shop_Type { get; set; }
+        public String Shop_Owner_Contact { get; set; }
+        public String State { get; set; }
+        public String Entitycode { get; set; }
+        public String Retailer { get; set; }
+        public String Party_Status { get; set; }
+        public String Status { get; set; }
+        public String Reason { get; set; }
+        public String UpdateOn { get; set; }
+        public String UpdatedBy { get; set; }
+        
+    }
+    // End of Rev 1.0
 }

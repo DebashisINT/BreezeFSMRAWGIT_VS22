@@ -1,30 +1,87 @@
-﻿@{
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                13-01-2023        2.0.38           Sanchita            Add Area, Add Route, Add Beat button required in the Beat/Group master module Refer: 25535 *@
+@*2.0                13-01-2023        2.0.38           Pallab              User map popup table overlap issue fix *@
+@*====================================================== Revision History ===========================================================*@
+
+@using MyShop.Models;
+@model MyShop.Models.BeatModel
+@{
     ViewBag.Title = "Group/Beat";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <script>
     function AddBeat() {
         $("#hdnID").val('0');
+        $("#txtCode").val('');
+        $("#txtName").val('');
+        $("#ddlAreaB").val('0');
+        $("#ddlRoute").val('0');
+        // Rev 1.0
+        $("#dvlblBeatCode").hide();
+        $("#dvtxtBeatCode").show();
+        $("#dvtxtLblBeatCode").show();
+        // End of Rev 1.0
         $("#beatModal").modal('show')
     }
 
-
-    function EditClick(ID) {
+    // Mantis Issue 25536, 25535, 25542, 25543, 25544 [CODE_TYPE added]
+    function EditClick(ID, CODE_TYPE) {
         $("#hdnID").val(ID);
+        $("#hdnCODE_TYPE").val(CODE_TYPE);
         $.ajax({
             type: "POST",
             url: "@Url.Action("EditGroupBeat", "Beat")",
-            data: { id: ID },
+            data: { id: ID, type: CODE_TYPE },
             success: function (response) {
 
                 if (response.code == "") {
                     jAlert('No data found');
                 }
                 else {
-                    $("#txtCode").val(response.code)
-                    $("#txtName").val(response.name)
-                    $("#beatModal").modal('show')
+                    // Mantis Issue 25536, 25535, 25542, 25543, 25544
+                    //$("#txtCode").val(response.code)
+                    //$("#txtName").val(response.name)
+                    //$("#beatModal").modal('show')
+                    if (CODE_TYPE == "AREA") {
+                        $("#txtAreaCode").val(response.code)
+                        $("#txtAreaName").val(response.name)
+                        // Rev 1.0
+                        $("#dvlblAreaCode").show();
+                        $("#dvtxtAreaCode").hide();
+                        $("#dvtxtLblAreaCode").hide();
+                        $("#lblAreaCode").html(response.code);
+                        // End of Rev 1.0
+                        $("#areaModal").modal('show')
+                    }
+                    else if (CODE_TYPE == "ROUTE") {
+                        $("#txtRouteCode").val(response.code)
+                        $("#txtRouteName").val(response.name)
+                        $("#ddlArea").val(response.area);
+                        // Rev 1.0
+                        $("#dvlblRouteCode").show();
+                        $("#dvtxtRouteCode").hide();
+                        $("#dvtxtLblRouteCode").hide();
+                        $("#lblRouteCode").html(response.code);
+                        // End of Rev 1.0
+                        $("#routeModal").modal('show')
+                    }
+                    else if (CODE_TYPE == "BEAT") {
+                        $("#txtCode").val(response.code)
+                        $("#txtName").val(response.name)
+                        $("#ddlAreaB").val(response.area);
+                        $("#ddlRoute").val(response.route);
+                        // Rev 1.0
+                        $("#dvlblBeatCode").show();
+                        $("#dvtxtBeatCode").hide();
+                        $("#dvtxtLblBeatCode").hide();
+                        $("#lblBeatCode").html(response.code);
+                        // End of Rev 1.0
+                        $("#beatModal").modal('show')
+                    }
+                    // End of Mantis Issue 25536, 25535, 25542, 25543, 25544
                 }
             }
         });
@@ -40,23 +97,143 @@
             jAlert("Enter name to proceed.");
             return false;
         }
+        //else if ($("#ddlAreaB").val() == "0") {
+        //    jAlert("Select area to proceed.");
+        //    return false;
+        //}
+        else if ($("#ddlRoute").val() == "0") {
+            jAlert("Select route to proceed.");
+            return false;
+        }
         else {
             $.ajax({
                 type: "POST",
                 url: "@Url.Action("SaveGroupBeat", "Beat")",
-                data: { code: $("#txtCode").val(), name: $("#txtName").val(), id: id },
+                data: { code: $("#txtCode").val(), name: $("#txtName").val(), id: id, route: $("#ddlRoute").val()  },
                 success: function (response) {
                     if (parseInt(response) > 0) {
-                        jAlert('Saved successfully.');
-                        $("#beatModal").modal('hide');
-                        gridList.Refresh();
+                        //jAlert('Saved successfully.');
+                        //$("#beatModal").modal('hide');
+                        //gridList.Refresh();
+
+                        if (confirm("Beat saved successfully.")) {
+                            $("#beatModal").modal('hide');
+                            //gridList.Refresh();
+                            location.reload();
+                        }
                     }
                     else if (parseInt(response) == -1)
-                        jAlert('Code already exists.')
+                        jAlert('Beat code already exists.')
                 }
             });
         }
     }
+
+    /*Mantis Issue 25536, 25535, 25542, 25543, 25544*/
+    function AddArea() {
+        $("#hdnID").val('0');
+        $("#txtAreaCode").val('');
+        $("#txtAreaName").val('');
+        // Rev 1.0
+        $("#dvlblAreaCode").hide();
+        $("#dvtxtAreaCode").show();
+        $("#dvtxtLblAreaCode").show();
+        // End of Rev 1.0
+        $("#areaModal").modal('show')
+    }
+
+    function AddRoute() {
+        $("#hdnID").val('0');
+        $("#txtRouteCode").val('');
+        $("#txtRouteName").val('');
+        $("#ddlArea").val('0');
+        // Rev 1.0
+        $("#dvlblRouteCode").hide();
+        $("#dvtxtRouteCode").show();
+        $("#dvtxtLblRouteCode").show();
+        // End of Rev 1.0
+        $("#routeModal").modal('show')
+
+        @*$.ajax({
+                type: "POST",
+                url: "@Url.Action("getAreaList", "Beat")",
+               // data: { code: $("#txtAreaCode").val(), name: $("#txtAreaName").val(), id: id },
+                success: function (response) {
+                    $("#routeModal").modal('show')
+                }
+        });*@
+
+
+    }
+
+    function SaveArea() {
+        var id = $("#hdnID").val();
+        if ($("#txtAreaCode").val().trim() == "") {
+            jAlert('Enter area code to proceed.');
+            return false;
+        }
+        else if ($("#txtAreaName").val().trim() == "") {
+            jAlert("Enter area name to proceed.");
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveArea", "Beat")",
+                data: { code: $("#txtAreaCode").val(), name: $("#txtAreaName").val(), id: id },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        //jAlert('Area saved successfully.');
+                        if (confirm("Area saved successfully.")) {
+                            $("#areaModal").modal('hide');
+                            //gridList.Refresh();
+                            location.reload();
+                        }
+                    }
+                    else if (parseInt(response) == -1)
+                        jAlert('Area code already exists.')
+                }
+            });
+        }
+    }
+
+    function SaveRoute() {
+        var id = $("#hdnID").val();
+        if ($("#txtRouteCode").val().trim() == "") {
+            jAlert('Enter route code to proceed.');
+            return false;
+        }
+        else if ($("#txtRouteName").val().trim() == "") {
+            jAlert("Enter route name to proceed.");
+            return false;
+        }
+        else if ($("#ddlArea").val() == "0") {
+            jAlert("Select area to proceed.");
+            return false;
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveRoute", "Beat")",
+                data: { code: $("#txtRouteCode").val(), name: $("#txtRouteName").val(), area: $("#ddlArea").val(), id: id },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        //jAlert('Route saved successfully.');
+                        //$("#routeModal").modal('hide');
+                        //gridList.Refresh();
+                        if (confirm("Route saved successfully.")) {
+                            $("#routeModal").modal('hide');
+                            //gridList.Refresh();
+                            location.reload();
+                        }
+                    }
+                    else if (parseInt(response) == -1)
+                        jAlert('Route code already exists.')
+                }
+            });
+        }
+    }
+    /*End of Mantis Issue 25536, 25535, 25542, 25543, 25544*/
 
     function beginUsergridcallback(s, e) {
         e.customArgs["id"] = $("#hdnID").val();
@@ -110,8 +287,8 @@
         });
     }
 
-
-    function DeleteClick(ID) {
+    // Mantis Issue 25536, 25535, 25542, 25543, 25544 [ CODE_TYPE added ]
+    function DeleteClick(ID, CODE_TYPE) {
         $("#hdnID").val(ID);
 
         jConfirm('Delete ?', 'Alert', function (r) {
@@ -119,9 +296,27 @@
                 $.ajax({
                     type: "POST",
                     url: "@Url.Action("Delete", "Beat")",
-                    data: { ID: ID },
+                    data: { ID: ID, type: CODE_TYPE },
                     success: function (response) {
-                        jAlert('Deleted successfully.')
+                        // Mantis Issue 25536, 25535, 25542, 25543, 25544
+                        //jAlert('Deleted successfully.')
+                        if (parseInt(response) > 0) {
+                            if (confirm("Deleted successfully.")) {
+                                location.reload();
+                            }
+                        }
+                        else if (parseInt(response) == -1) {
+                            if (CODE_TYPE == "AREA") {
+                                jAlert('Area mapped with Route/Beat. Cannot delete.')
+                            }
+                            else if (CODE_TYPE == "ROUTE") {
+                                jAlert('Route mapped with Beat. Cannot delete.')
+                            }
+                            else {
+                                jAlert('Delete failed.')
+                            }
+                        }
+                        // End of Mantis Issue 25536, 25535, 25542, 25543, 25544
                     }
                 });
         });
@@ -157,9 +352,16 @@
     .modal-footer {
         padding: 10px 20px 10px;
     }
+
     .dxgvLoadingPanel_PlasticBlue {
         left: 42% !important;
     }
+    /*Rev 2.0*/
+    #gridUserList {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    /*Rev end 2.0*/
 </style>
 
 <div class="breadCumb">
@@ -169,8 +371,16 @@
     <div class="form_main backBox p-3">
         <table class="pull-left tblspace smblock mt-4 mb-3 ">
             <tr>
+                @*Mantis Issue 25536, 25535, 25542, 25543, 25544*@
                 <td style="">
-                    <button type="button" id="btnAdd" class="btn btn-success btnwidth" onclick="AddBeat()">Add</button>
+                    <button type="button" id="btnAdd" class="btn btn-success btnwidth" onclick="AddArea()">Add Area</button>
+                </td>
+                <td style="">
+                    <button type="button" id="btnAdd" class="btn btn-success btnwidth" onclick="AddRoute()">Add Route</button>
+                </td>
+                @*End of Mantis Issue 25536, 25535, 25542, 25543, 25544*@
+                <td style="">
+                    <button type="button" id="btnAdd" class="btn btn-success btnwidth" onclick="AddBeat()">Add Beat</button>
                 </td>
             </tr>
             <tr></tr>
@@ -200,14 +410,32 @@
                 <div id="divModalBody">
                     <div class="row">
                         <div class="col-md-12">
-                            <div><label>Code</label></div>
-                            <div>
+                            @*Rev 1.0 [div id "dvlblBeatCode", "dvtxtLblBeatCode" and "dvtxtBeatCode" added ]  *@
+                            <div id="dvlblBeatCode" style="display:none; margin-bottom:5px;">
+                                <label>Code : </label> <label id="lblBeatCode"> </label>
+                            </div>
+                            <div id="dvtxtLblBeatCode">
+                                <label>Code <span class="red">*</span></label>
+                            </div>
+                            <div id="dvtxtBeatCode">
                                 <input type="text" id="txtCode" maxlength="100" class="form-control" />
                             </div>
-                            <div><label>Name</label></div>
+                            <div><label>Name <span class="red">*</span></label></div>
                             <div>
                                 <input type="text" id="txtName" maxlength="100" class="form-control" />
                             </div>
+
+                            @*Mantis Issue 25536, 25535, 25542, 25543, 25544*@
+                            @*<label>Area <span class="red">*</span></label>
+                                <div>
+                                    @Html.DropDownListFor(m => m.Area, new SelectList(Model.AreaList, "AreaId", "AreaName", Model.AreaId), new { @id = "ddlAreaB", @class = "form-control" })
+                                </div>*@
+
+                            <label>Route <span class="red">*</span></label>
+                            <div>
+                                @Html.DropDownListFor(m => m.Route, new SelectList(Model.RouteList, "RouteId", "RouteName", Model.RouteId), new { @id = "ddlRoute", @class = "form-control" })
+                            </div>
+                            @*End of Mantis Issue 25536, 25535, 25542, 25543, 25544*@
                         </div>
                     </div>
                 </div>
@@ -225,9 +453,101 @@
     <input type="hidden" id="hdnID" />
 </div>
 
+@*Mantis Issue 25536, 25535, 25542, 25543, 25544*@
+<div id="areaModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add/Modify Area</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                <div id="divModalBody">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @*Rev 1.0 [div id "dvlblBeatCode", "dvtxtLblBeatCode" and "dvtxtBeatCode" added ]  *@
+                            <div id="dvlblAreaCode" style="display:none; margin-bottom:5px;">
+                                <label>Code : </label> <label id="lblAreaCode"> </label>
+                            </div>
+                            <div id="dvtxtLblAreaCode"><label>Code <span class="red">*</span></label></div>
+                            <div id="dvtxtAreaCode">
+                                <input type="text" id="txtAreaCode" maxlength="100" class="form-control" />
+                            </div>
+                            <div><label>Name <span class="red">*</span></label></div>
+                            <div>
+                                <input type="text" id="txtAreaName" maxlength="100" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="width: 476px;">
+
+                <div>
+                    <button type="button" id="btnSave" class="btn btn-success" onclick="SaveArea()">Save</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" id="hdnID" />
+</div>
+
+<div id="routeModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add/Modify Route</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                <div id="divModalBody">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @*Rev 1.0 [div id "dvlblBeatCode", "dvtxtLblBeatCode" and "dvtxtBeatCode" added ]  *@
+                            <div id="dvlblRouteCode" style="display:none; margin-bottom:5px;">
+                                <label>Code : </label> <label id="lblRouteCode"> </label>
+                            </div>
+                            <div id="dvtxtLblRouteCode"><label>Code <span class="red">*</span></label></div>
+                            <div id="dvtxtRouteCode">
+                                <input type="text" id="txtRouteCode" maxlength="100" class="form-control" />
+                            </div>
+                            <div><label>Name <span class="red">*</span></label></div>
+                            <div>
+                                <input type="text" id="txtRouteName" maxlength="100" class="form-control" />
+                            </div>
+                            <label>Area <span class="red">*</span></label>
+                            <div>
+                                @Html.DropDownListFor(m => m.Area, new SelectList(Model.AreaList, "AreaId", "AreaName", Model.AreaId), new { @id = "ddlArea", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="width: 476px;">
+
+                <div>
+                    <button type="button" id="btnSave" class="btn btn-success" onclick="SaveRoute()">Save</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" id="hdnID" />
+</div>
+@*End of Mantis Issue 25536, 25535, 25542, 25543, 25544*@
 
 <div id="usermapModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
-    <div class="modal-dialog" style="width: 750px;">
+    @*Rev 2.0*@
+    @*<div class="modal-dialog" style="width: 750px;">*@
+    <div class="modal-dialog" style="width: 780px;">
+        @*Rev end 2.0*@
 
         <!-- Modal content-->
         <div class="modal-content">

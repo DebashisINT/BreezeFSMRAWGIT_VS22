@@ -1,4 +1,8 @@
-﻿using DataAccessLayer;
+﻿/**************************************************************************************************
+ * 1.0      Sanchita    V2.0.38     02/02/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True"
+ *                                                  then data in portal shall be populated based on Hierarchy Only. Refer: 25504
+ * ****************************************************************************************************/
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +14,8 @@ namespace BusinessLogicLayer.SalesmanTrack
 {
     public class ShopPerformanceDetailBL
     {
-        public DataTable GetShopPerfgormanceDetails(string Employee, string start_date, string end_date, string stateID, string DesignationID)
+        // Rev 1.0 [ parameter Userid added ]
+        public DataTable GetShopPerfgormanceDetails(string Employee, string start_date, string end_date, string stateID, string DesignationID, string Userid)
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("Proc_FTS_OrderPerformanceDetails");
@@ -19,6 +24,9 @@ namespace BusinessLogicLayer.SalesmanTrack
             proc.AddPara("@end_date", end_date);
             proc.AddPara("@stateID", stateID);
             proc.AddPara("@DesignationID", DesignationID);
+            // Rev 1.0
+            proc.AddPara("@USERID", Userid);
+            // End of Rev 1.0
             ds = proc.GetTable();
             return ds;
         }

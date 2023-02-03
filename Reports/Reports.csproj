@@ -51,6 +51,9 @@
     <Reference Include="AjaxControlToolkit">
       <HintPath>..\ERP.UI\bin\AjaxControlToolkit.dll</HintPath>
     </Reference>
+    <Reference Include="BusinessLogicLayer">
+      <HintPath>..\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Data.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ERP.UI\bin\DevExpress.Data.v15.1.dll</HintPath>
@@ -648,10 +651,6 @@
     <Folder Include="Javascript\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj">
-      <Project>{ea505340-6c3f-4a45-8876-61c0c8a17a5f}</Project>
-      <Name>BusinessLogicLayer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj">
       <Project>{e0403ce7-71f7-4d02-85d1-1ee7125c1e75}</Project>
       <Name>DataAccessLayer</Name>

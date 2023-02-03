@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.38     Debashis    02/02/2023      Two new methods have been added.Row: 810 to 811
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,24 +38,24 @@ namespace ShopAPI.Controllers
                 //string user = certificate.Issuer;
                 //string sub = certificate.Subject;
 
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
-                String weburl = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
-                string DoctorDegree = System.Configuration.ConfigurationSettings.AppSettings["DoctorDegree"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                String weburl = System.Configuration.ConfigurationManager.AppSettings["SiteURL"];
+                string DoctorDegree = System.Configuration.ConfigurationManager.AppSettings["DoctorDegree"];
                 string sessionId = "";
 
                 List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("SP_API_Getshoplists", sqlcon);
-                sqlcmd.Parameters.Add("@session_token", model.session_token);
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@Uniquecont", model.Uniquecont);
-                sqlcmd.Parameters.Add("@Weburl", weburl);
-                sqlcmd.Parameters.Add("@DoctorDegree", DoctorDegree);
+                sqlcmd.Parameters.AddWithValue("@session_token", model.session_token);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@Uniquecont", model.Uniquecont);
+                sqlcmd.Parameters.AddWithValue("@Weburl", weburl);
+                sqlcmd.Parameters.AddWithValue("@DoctorDegree", DoctorDegree);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -97,14 +100,14 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("SP_API_GetArealists", sqlcon);
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@city_id", model.city_id);
-                sqlcmd.Parameters.Add("@creater_user_id", model.creater_user_id);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@city_id", model.city_id);
+                sqlcmd.Parameters.AddWithValue("@creater_user_id", model.creater_user_id);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -141,12 +144,12 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APIshoptype", sqlcon);
-                sqlcmd.Parameters.Add("@User_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@User_id", model.user_id);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);
@@ -183,86 +186,86 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("Sp_ApiShopRegister", sqlcon);
-                sqlcmd.Parameters.Add("@session_token", omm.session_token);
-                sqlcmd.Parameters.Add("@shop_name", omm.shop_name);
-                sqlcmd.Parameters.Add("@address", omm.address);
-                sqlcmd.Parameters.Add("@pin_code", omm.pin_code);
-                sqlcmd.Parameters.Add("@shop_lat", omm.shop_lat);
-                sqlcmd.Parameters.Add("@shop_long", omm.shop_long);
-                sqlcmd.Parameters.Add("@owner_name", omm.owner_name);
-                sqlcmd.Parameters.Add("@owner_contact_no", omm.owner_contact_no);
-                sqlcmd.Parameters.Add("@owner_email", omm.owner_email);
-                sqlcmd.Parameters.Add("@user_id", omm.user_id);
-                sqlcmd.Parameters.Add("@type", omm.type);
-                sqlcmd.Parameters.Add("@dob", Convert.ToString(omm.dob) == "" ? null : omm.dob);
-                sqlcmd.Parameters.Add("@date_aniversary", Convert.ToString(omm.date_aniversary) == "" ? null : omm.date_aniversary);
-                sqlcmd.Parameters.Add("@shop_id", omm.shop_id);
-                sqlcmd.Parameters.Add("@added_date", omm.added_date);
-                sqlcmd.Parameters.Add("@assigned_to_pp_id", omm.assigned_to_pp_id);
-                sqlcmd.Parameters.Add("@assigned_to_dd_id", omm.assigned_to_dd_id);
-                sqlcmd.Parameters.Add("@amount", omm.amount);
-                sqlcmd.Parameters.Add("@family_member_dob", Convert.ToString(omm.family_member_dob) == "" ? null : omm.family_member_dob);
-                sqlcmd.Parameters.Add("@addtional_dob", Convert.ToString(omm.addtional_dob) == "" ? null : omm.addtional_dob);
-                sqlcmd.Parameters.Add("@addtional_doa", Convert.ToString(omm.addtional_doa) == "" ? null : omm.addtional_doa);
-                sqlcmd.Parameters.Add("@director_name", omm.director_name);
-                sqlcmd.Parameters.Add("@key_person_name", omm.key_person_name);
-                sqlcmd.Parameters.Add("@phone_no", omm.phone_no);
-                sqlcmd.Parameters.Add("@DOC_FAMILY_MEMBER_DOB", omm.doc_family_member_dob);
-                sqlcmd.Parameters.Add("@SPECIALIZATION", omm.specialization);
-                sqlcmd.Parameters.Add("@AVG_PATIENT_PER_DAY", omm.average_patient_per_day);
-                sqlcmd.Parameters.Add("@CATEGORY", omm.category);
-                sqlcmd.Parameters.Add("@DOC_ADDRESS", omm.doc_address);
-                sqlcmd.Parameters.Add("@DOC_PINCODE", omm.doc_pincode);
-                sqlcmd.Parameters.Add("@IsChamberSameHeadquarter", omm.is_chamber_same_headquarter);
-                sqlcmd.Parameters.Add("@Remarks", omm.is_chamber_same_headquarter_remarks);
-                sqlcmd.Parameters.Add("@CHEMIST_NAME", omm.chemist_name);
-                sqlcmd.Parameters.Add("@CHEMIST_ADDRESS", omm.chemist_address);
-                sqlcmd.Parameters.Add("@CHEMIST_PINCODE", omm.chemist_pincode);
-                sqlcmd.Parameters.Add("@ASSISTANT_NAME", omm.assistant_name);
-                sqlcmd.Parameters.Add("@ASSISTANT_CONTACT_NO", omm.assistant_contact_no);
-                sqlcmd.Parameters.Add("@ASSISTANT_DOB", omm.assistant_dob);
-                sqlcmd.Parameters.Add("@ASSISTANT_DOA", omm.assistant_doa);
-                sqlcmd.Parameters.Add("@ASSISTANT_FAMILY_DOB", omm.assistant_family_dob);
-                sqlcmd.Parameters.Add("@EntityCode", omm.EntityCode);
-                sqlcmd.Parameters.Add("@Entity_Location", omm.Entity_Location);
-                sqlcmd.Parameters.Add("@Alt_MobileNo", omm.Alt_MobileNo);
-                sqlcmd.Parameters.Add("@Entity_Status", omm.Entity_Status);
-                sqlcmd.Parameters.Add("@Entity_Type", omm.Entity_Type);
-                sqlcmd.Parameters.Add("@ShopOwner_PAN", omm.ShopOwner_PAN);
-                sqlcmd.Parameters.Add("@ShopOwner_Aadhar", omm.ShopOwner_Aadhar);
-                sqlcmd.Parameters.Add("@EntityRemarks", omm.Remarks);
-                sqlcmd.Parameters.Add("@AreaId", omm.area_id);
-                sqlcmd.Parameters.Add("@CityId", omm.CityId);
-                sqlcmd.Parameters.Add("@model_id", omm.model_id);
-                sqlcmd.Parameters.Add("@primary_app_id", omm.primary_app_id);
-                sqlcmd.Parameters.Add("@secondary_app_id", omm.secondary_app_id);
-                sqlcmd.Parameters.Add("@lead_id", omm.lead_id);
-                sqlcmd.Parameters.Add("@funnel_stage_id", omm.funnel_stage_id);
-                sqlcmd.Parameters.Add("@stage_id", omm.stage_id);
-                sqlcmd.Parameters.Add("@booking_amount", omm.booking_amount);
-                sqlcmd.Parameters.Add("@PartyType_id", omm.type_id);
-                sqlcmd.Parameters.Add("@entity_id", omm.entity_id);
-                sqlcmd.Parameters.Add("@party_status_id", omm.party_status_id);
-                sqlcmd.Parameters.Add("@retailer_id", omm.retailer_id);
-                sqlcmd.Parameters.Add("@dealer_id", omm.dealer_id);
-                sqlcmd.Parameters.Add("@beat_id", omm.beat_id);
-                sqlcmd.Parameters.Add("@assigned_to_shop_id", omm.assigned_to_shop_id);
-                sqlcmd.Parameters.Add("@actual_address", omm.actual_address);
+                sqlcmd.Parameters.AddWithValue("@session_token", omm.session_token);
+                sqlcmd.Parameters.AddWithValue("@shop_name", omm.shop_name);
+                sqlcmd.Parameters.AddWithValue("@address", omm.address);
+                sqlcmd.Parameters.AddWithValue("@pin_code", omm.pin_code);
+                sqlcmd.Parameters.AddWithValue("@shop_lat", omm.shop_lat);
+                sqlcmd.Parameters.AddWithValue("@shop_long", omm.shop_long);
+                sqlcmd.Parameters.AddWithValue("@owner_name", omm.owner_name);
+                sqlcmd.Parameters.AddWithValue("@owner_contact_no", omm.owner_contact_no);
+                sqlcmd.Parameters.AddWithValue("@owner_email", omm.owner_email);
+                sqlcmd.Parameters.AddWithValue("@user_id", omm.user_id);
+                sqlcmd.Parameters.AddWithValue("@type", omm.type);
+                sqlcmd.Parameters.AddWithValue("@dob", Convert.ToString(omm.dob) == "" ? null : omm.dob);
+                sqlcmd.Parameters.AddWithValue("@date_aniversary", Convert.ToString(omm.date_aniversary) == "" ? null : omm.date_aniversary);
+                sqlcmd.Parameters.AddWithValue("@shop_id", omm.shop_id);
+                sqlcmd.Parameters.AddWithValue("@added_date", omm.added_date);
+                sqlcmd.Parameters.AddWithValue("@assigned_to_pp_id", omm.assigned_to_pp_id);
+                sqlcmd.Parameters.AddWithValue("@assigned_to_dd_id", omm.assigned_to_dd_id);
+                sqlcmd.Parameters.AddWithValue("@amount", omm.amount);
+                sqlcmd.Parameters.AddWithValue("@family_member_dob", Convert.ToString(omm.family_member_dob) == "" ? null : omm.family_member_dob);
+                sqlcmd.Parameters.AddWithValue("@addtional_dob", Convert.ToString(omm.addtional_dob) == "" ? null : omm.addtional_dob);
+                sqlcmd.Parameters.AddWithValue("@addtional_doa", Convert.ToString(omm.addtional_doa) == "" ? null : omm.addtional_doa);
+                sqlcmd.Parameters.AddWithValue("@director_name", omm.director_name);
+                sqlcmd.Parameters.AddWithValue("@key_person_name", omm.key_person_name);
+                sqlcmd.Parameters.AddWithValue("@phone_no", omm.phone_no);
+                sqlcmd.Parameters.AddWithValue("@DOC_FAMILY_MEMBER_DOB", omm.doc_family_member_dob);
+                sqlcmd.Parameters.AddWithValue("@SPECIALIZATION", omm.specialization);
+                sqlcmd.Parameters.AddWithValue("@AVG_PATIENT_PER_DAY", omm.average_patient_per_day);
+                sqlcmd.Parameters.AddWithValue("@CATEGORY", omm.category);
+                sqlcmd.Parameters.AddWithValue("@DOC_ADDRESS", omm.doc_address);
+                sqlcmd.Parameters.AddWithValue("@DOC_PINCODE", omm.doc_pincode);
+                sqlcmd.Parameters.AddWithValue("@IsChamberSameHeadquarter", omm.is_chamber_same_headquarter);
+                sqlcmd.Parameters.AddWithValue("@Remarks", omm.is_chamber_same_headquarter_remarks);
+                sqlcmd.Parameters.AddWithValue("@CHEMIST_NAME", omm.chemist_name);
+                sqlcmd.Parameters.AddWithValue("@CHEMIST_ADDRESS", omm.chemist_address);
+                sqlcmd.Parameters.AddWithValue("@CHEMIST_PINCODE", omm.chemist_pincode);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_NAME", omm.assistant_name);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_CONTACT_NO", omm.assistant_contact_no);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_DOB", omm.assistant_dob);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_DOA", omm.assistant_doa);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_FAMILY_DOB", omm.assistant_family_dob);
+                sqlcmd.Parameters.AddWithValue("@EntityCode", omm.EntityCode);
+                sqlcmd.Parameters.AddWithValue("@Entity_Location", omm.Entity_Location);
+                sqlcmd.Parameters.AddWithValue("@Alt_MobileNo", omm.Alt_MobileNo);
+                sqlcmd.Parameters.AddWithValue("@Entity_Status", omm.Entity_Status);
+                sqlcmd.Parameters.AddWithValue("@Entity_Type", omm.Entity_Type);
+                sqlcmd.Parameters.AddWithValue("@ShopOwner_PAN", omm.ShopOwner_PAN);
+                sqlcmd.Parameters.AddWithValue("@ShopOwner_Aadhar", omm.ShopOwner_Aadhar);
+                sqlcmd.Parameters.AddWithValue("@EntityRemarks", omm.Remarks);
+                sqlcmd.Parameters.AddWithValue("@AreaId", omm.area_id);
+                sqlcmd.Parameters.AddWithValue("@CityId", omm.CityId);
+                sqlcmd.Parameters.AddWithValue("@model_id", omm.model_id);
+                sqlcmd.Parameters.AddWithValue("@primary_app_id", omm.primary_app_id);
+                sqlcmd.Parameters.AddWithValue("@secondary_app_id", omm.secondary_app_id);
+                sqlcmd.Parameters.AddWithValue("@lead_id", omm.lead_id);
+                sqlcmd.Parameters.AddWithValue("@funnel_stage_id", omm.funnel_stage_id);
+                sqlcmd.Parameters.AddWithValue("@stage_id", omm.stage_id);
+                sqlcmd.Parameters.AddWithValue("@booking_amount", omm.booking_amount);
+                sqlcmd.Parameters.AddWithValue("@PartyType_id", omm.type_id);
+                sqlcmd.Parameters.AddWithValue("@entity_id", omm.entity_id);
+                sqlcmd.Parameters.AddWithValue("@party_status_id", omm.party_status_id);
+                sqlcmd.Parameters.AddWithValue("@retailer_id", omm.retailer_id);
+                sqlcmd.Parameters.AddWithValue("@dealer_id", omm.dealer_id);
+                sqlcmd.Parameters.AddWithValue("@beat_id", omm.beat_id);
+                sqlcmd.Parameters.AddWithValue("@assigned_to_shop_id", omm.assigned_to_shop_id);
+                sqlcmd.Parameters.AddWithValue("@actual_address", omm.actual_address);
                 //Rev Debashis
-                sqlcmd.Parameters.Add("@agency_name", omm.agency_name);
-                sqlcmd.Parameters.Add("@lead_contact_number", omm.lead_contact_number);
-                sqlcmd.Parameters.Add("@project_name", omm.project_name);
-                sqlcmd.Parameters.Add("@landline_number", omm.landline_number);
-                sqlcmd.Parameters.Add("@alternateNoForCustomer", omm.alternateNoForCustomer);
-                sqlcmd.Parameters.Add("@whatsappNoForCustomer", omm.whatsappNoForCustomer);
-                sqlcmd.Parameters.Add("@isShopDuplicate", omm.isShopDuplicate);
-                sqlcmd.Parameters.Add("@purpose", omm.purpose);
-                sqlcmd.Parameters.Add("@GSTN_Number", omm.GSTN_Number);
+                sqlcmd.Parameters.AddWithValue("@agency_name", omm.agency_name);
+                sqlcmd.Parameters.AddWithValue("@lead_contact_number", omm.lead_contact_number);
+                sqlcmd.Parameters.AddWithValue("@project_name", omm.project_name);
+                sqlcmd.Parameters.AddWithValue("@landline_number", omm.landline_number);
+                sqlcmd.Parameters.AddWithValue("@alternateNoForCustomer", omm.alternateNoForCustomer);
+                sqlcmd.Parameters.AddWithValue("@whatsappNoForCustomer", omm.whatsappNoForCustomer);
+                sqlcmd.Parameters.AddWithValue("@isShopDuplicate", omm.isShopDuplicate);
+                sqlcmd.Parameters.AddWithValue("@purpose", omm.purpose);
+                sqlcmd.Parameters.AddWithValue("@GSTN_Number", omm.GSTN_Number);
                 //End of Rev Debashis
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
@@ -315,85 +318,85 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
 
                 sqlcmd = new SqlCommand("Proc_FTSShopRegister_EDIT", sqlcon);
-                sqlcmd.Parameters.Add("@session_token", omm.session_token);
-                sqlcmd.Parameters.Add("@shop_name", omm.shop_name);
-                sqlcmd.Parameters.Add("@address", omm.address);
-                sqlcmd.Parameters.Add("@pin_code", omm.pin_code);
-                sqlcmd.Parameters.Add("@shop_lat", omm.shop_lat);
-                sqlcmd.Parameters.Add("@shop_long", omm.shop_long);
-                sqlcmd.Parameters.Add("@owner_name", omm.owner_name);
-                sqlcmd.Parameters.Add("@owner_contact_no", omm.owner_contact_no);
-                sqlcmd.Parameters.Add("@owner_email", omm.owner_email);
-                sqlcmd.Parameters.Add("@user_id", omm.user_id);
-                sqlcmd.Parameters.Add("@type", omm.type);
-                sqlcmd.Parameters.Add("@dob", Convert.ToString(omm.dob) == "" ? null : omm.dob);
-                sqlcmd.Parameters.Add("@date_aniversary", Convert.ToString(omm.date_aniversary) == "" ? null : omm.date_aniversary);
-                sqlcmd.Parameters.Add("@shop_id", omm.shop_id);
-                sqlcmd.Parameters.Add("@added_date", omm.added_date);
-                sqlcmd.Parameters.Add("@assigned_to_pp_id", omm.assigned_to_pp_id);
-                sqlcmd.Parameters.Add("@assigned_to_dd_id", omm.assigned_to_dd_id);
-                sqlcmd.Parameters.Add("@amount", omm.amount);
-                sqlcmd.Parameters.Add("@family_member_dob", Convert.ToString(omm.family_member_dob) == "" ? null : omm.family_member_dob);
-                sqlcmd.Parameters.Add("@addtional_dob", Convert.ToString(omm.addtional_dob) == "" ? null : omm.addtional_dob);
-                sqlcmd.Parameters.Add("@addtional_doa", Convert.ToString(omm.addtional_doa) == "" ? null : omm.addtional_doa);
-                sqlcmd.Parameters.Add("@director_name", omm.director_name);
-                sqlcmd.Parameters.Add("@key_person_name", omm.key_person_name);
-                sqlcmd.Parameters.Add("@phone_no", omm.phone_no);
-                sqlcmd.Parameters.Add("@DOC_FAMILY_MEMBER_DOB", omm.doc_family_member_dob);
-                sqlcmd.Parameters.Add("@SPECIALIZATION", omm.specialization);
-                sqlcmd.Parameters.Add("@AVG_PATIENT_PER_DAY", omm.average_patient_per_day);
-                sqlcmd.Parameters.Add("@CATEGORY", omm.category);
-                sqlcmd.Parameters.Add("@DOC_ADDRESS", omm.doc_address);
-                sqlcmd.Parameters.Add("@DOC_PINCODE", omm.doc_pincode);
-                sqlcmd.Parameters.Add("@IsChamberSameHeadquarter", omm.is_chamber_same_headquarter);
-                sqlcmd.Parameters.Add("@Remarks", omm.is_chamber_same_headquarter_remarks);
-                sqlcmd.Parameters.Add("@CHEMIST_NAME", omm.chemist_name);
-                sqlcmd.Parameters.Add("@CHEMIST_ADDRESS", omm.chemist_address);
-                sqlcmd.Parameters.Add("@CHEMIST_PINCODE", omm.chemist_pincode);
-                sqlcmd.Parameters.Add("@ASSISTANT_NAME", omm.assistant_name);
-                sqlcmd.Parameters.Add("@ASSISTANT_CONTACT_NO", omm.assistant_contact_no);
-                sqlcmd.Parameters.Add("@ASSISTANT_DOB", omm.assistant_dob);
-                sqlcmd.Parameters.Add("@ASSISTANT_DOA", omm.assistant_doa);
-                sqlcmd.Parameters.Add("@ASSISTANT_FAMILY_DOB", omm.assistant_family_dob);
-                sqlcmd.Parameters.Add("@EntityCode", omm.EntityCode);
-                sqlcmd.Parameters.Add("@Entity_Location", omm.Entity_Location);
-                sqlcmd.Parameters.Add("@Alt_MobileNo", omm.Alt_MobileNo);
-                sqlcmd.Parameters.Add("@Entity_Status", omm.Entity_Status);
-                sqlcmd.Parameters.Add("@Entity_Type", omm.Entity_Type);
-                sqlcmd.Parameters.Add("@ShopOwner_PAN", omm.ShopOwner_PAN);
-                sqlcmd.Parameters.Add("@ShopOwner_Aadhar", omm.ShopOwner_Aadhar);
-                sqlcmd.Parameters.Add("@EntityRemarks", omm.Remarks);
-                sqlcmd.Parameters.Add("@AreaId", omm.area_id);
-                sqlcmd.Parameters.Add("@CityId", omm.CityId);
-                sqlcmd.Parameters.Add("@model_id", omm.model_id);
-                sqlcmd.Parameters.Add("@primary_app_id", omm.primary_app_id);
-                sqlcmd.Parameters.Add("@secondary_app_id", omm.secondary_app_id);
-                sqlcmd.Parameters.Add("@lead_id", omm.lead_id);
-                sqlcmd.Parameters.Add("@funnel_stage_id", omm.funnel_stage_id);
-                sqlcmd.Parameters.Add("@stage_id", omm.stage_id);
-                sqlcmd.Parameters.Add("@booking_amount", omm.booking_amount);
-                sqlcmd.Parameters.Add("@PartyType_id", omm.type_id);
-                sqlcmd.Parameters.Add("@entity_id", omm.entity_id);
-                sqlcmd.Parameters.Add("@party_status_id", omm.party_status_id);
-                sqlcmd.Parameters.Add("@retailer_id", omm.retailer_id);
-                sqlcmd.Parameters.Add("@dealer_id", omm.dealer_id);
-                sqlcmd.Parameters.Add("@beat_id", omm.beat_id);
-                sqlcmd.Parameters.Add("@assigned_to_shop_id", omm.assigned_to_shop_id);
+                sqlcmd.Parameters.AddWithValue("@session_token", omm.session_token);
+                sqlcmd.Parameters.AddWithValue("@shop_name", omm.shop_name);
+                sqlcmd.Parameters.AddWithValue("@address", omm.address);
+                sqlcmd.Parameters.AddWithValue("@pin_code", omm.pin_code);
+                sqlcmd.Parameters.AddWithValue("@shop_lat", omm.shop_lat);
+                sqlcmd.Parameters.AddWithValue("@shop_long", omm.shop_long);
+                sqlcmd.Parameters.AddWithValue("@owner_name", omm.owner_name);
+                sqlcmd.Parameters.AddWithValue("@owner_contact_no", omm.owner_contact_no);
+                sqlcmd.Parameters.AddWithValue("@owner_email", omm.owner_email);
+                sqlcmd.Parameters.AddWithValue("@user_id", omm.user_id);
+                sqlcmd.Parameters.AddWithValue("@type", omm.type);
+                sqlcmd.Parameters.AddWithValue("@dob", Convert.ToString(omm.dob) == "" ? null : omm.dob);
+                sqlcmd.Parameters.AddWithValue("@date_aniversary", Convert.ToString(omm.date_aniversary) == "" ? null : omm.date_aniversary);
+                sqlcmd.Parameters.AddWithValue("@shop_id", omm.shop_id);
+                sqlcmd.Parameters.AddWithValue("@added_date", omm.added_date);
+                sqlcmd.Parameters.AddWithValue("@assigned_to_pp_id", omm.assigned_to_pp_id);
+                sqlcmd.Parameters.AddWithValue("@assigned_to_dd_id", omm.assigned_to_dd_id);
+                sqlcmd.Parameters.AddWithValue("@amount", omm.amount);
+                sqlcmd.Parameters.AddWithValue("@family_member_dob", Convert.ToString(omm.family_member_dob) == "" ? null : omm.family_member_dob);
+                sqlcmd.Parameters.AddWithValue("@addtional_dob", Convert.ToString(omm.addtional_dob) == "" ? null : omm.addtional_dob);
+                sqlcmd.Parameters.AddWithValue("@addtional_doa", Convert.ToString(omm.addtional_doa) == "" ? null : omm.addtional_doa);
+                sqlcmd.Parameters.AddWithValue("@director_name", omm.director_name);
+                sqlcmd.Parameters.AddWithValue("@key_person_name", omm.key_person_name);
+                sqlcmd.Parameters.AddWithValue("@phone_no", omm.phone_no);
+                sqlcmd.Parameters.AddWithValue("@DOC_FAMILY_MEMBER_DOB", omm.doc_family_member_dob);
+                sqlcmd.Parameters.AddWithValue("@SPECIALIZATION", omm.specialization);
+                sqlcmd.Parameters.AddWithValue("@AVG_PATIENT_PER_DAY", omm.average_patient_per_day);
+                sqlcmd.Parameters.AddWithValue("@CATEGORY", omm.category);
+                sqlcmd.Parameters.AddWithValue("@DOC_ADDRESS", omm.doc_address);
+                sqlcmd.Parameters.AddWithValue("@DOC_PINCODE", omm.doc_pincode);
+                sqlcmd.Parameters.AddWithValue("@IsChamberSameHeadquarter", omm.is_chamber_same_headquarter);
+                sqlcmd.Parameters.AddWithValue("@Remarks", omm.is_chamber_same_headquarter_remarks);
+                sqlcmd.Parameters.AddWithValue("@CHEMIST_NAME", omm.chemist_name);
+                sqlcmd.Parameters.AddWithValue("@CHEMIST_ADDRESS", omm.chemist_address);
+                sqlcmd.Parameters.AddWithValue("@CHEMIST_PINCODE", omm.chemist_pincode);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_NAME", omm.assistant_name);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_CONTACT_NO", omm.assistant_contact_no);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_DOB", omm.assistant_dob);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_DOA", omm.assistant_doa);
+                sqlcmd.Parameters.AddWithValue("@ASSISTANT_FAMILY_DOB", omm.assistant_family_dob);
+                sqlcmd.Parameters.AddWithValue("@EntityCode", omm.EntityCode);
+                sqlcmd.Parameters.AddWithValue("@Entity_Location", omm.Entity_Location);
+                sqlcmd.Parameters.AddWithValue("@Alt_MobileNo", omm.Alt_MobileNo);
+                sqlcmd.Parameters.AddWithValue("@Entity_Status", omm.Entity_Status);
+                sqlcmd.Parameters.AddWithValue("@Entity_Type", omm.Entity_Type);
+                sqlcmd.Parameters.AddWithValue("@ShopOwner_PAN", omm.ShopOwner_PAN);
+                sqlcmd.Parameters.AddWithValue("@ShopOwner_Aadhar", omm.ShopOwner_Aadhar);
+                sqlcmd.Parameters.AddWithValue("@EntityRemarks", omm.Remarks);
+                sqlcmd.Parameters.AddWithValue("@AreaId", omm.area_id);
+                sqlcmd.Parameters.AddWithValue("@CityId", omm.CityId);
+                sqlcmd.Parameters.AddWithValue("@model_id", omm.model_id);
+                sqlcmd.Parameters.AddWithValue("@primary_app_id", omm.primary_app_id);
+                sqlcmd.Parameters.AddWithValue("@secondary_app_id", omm.secondary_app_id);
+                sqlcmd.Parameters.AddWithValue("@lead_id", omm.lead_id);
+                sqlcmd.Parameters.AddWithValue("@funnel_stage_id", omm.funnel_stage_id);
+                sqlcmd.Parameters.AddWithValue("@stage_id", omm.stage_id);
+                sqlcmd.Parameters.AddWithValue("@booking_amount", omm.booking_amount);
+                sqlcmd.Parameters.AddWithValue("@PartyType_id", omm.type_id);
+                sqlcmd.Parameters.AddWithValue("@entity_id", omm.entity_id);
+                sqlcmd.Parameters.AddWithValue("@party_status_id", omm.party_status_id);
+                sqlcmd.Parameters.AddWithValue("@retailer_id", omm.retailer_id);
+                sqlcmd.Parameters.AddWithValue("@dealer_id", omm.dealer_id);
+                sqlcmd.Parameters.AddWithValue("@beat_id", omm.beat_id);
+                sqlcmd.Parameters.AddWithValue("@assigned_to_shop_id", omm.assigned_to_shop_id);
                 //Rev Debashis
-                sqlcmd.Parameters.Add("@agency_name", omm.agency_name);
-                sqlcmd.Parameters.Add("@lead_contact_number", omm.lead_contact_number);
-                sqlcmd.Parameters.Add("@project_name", omm.project_name);
-                sqlcmd.Parameters.Add("@landline_number", omm.landline_number);
-                sqlcmd.Parameters.Add("@alternateNoForCustomer", omm.alternateNoForCustomer);
-                sqlcmd.Parameters.Add("@whatsappNoForCustomer", omm.whatsappNoForCustomer);
-                sqlcmd.Parameters.Add("@shopStatusUpdate", omm.shopStatusUpdate);
-                sqlcmd.Parameters.Add("@GSTN_Number", omm.GSTN_Number);
+                sqlcmd.Parameters.AddWithValue("@agency_name", omm.agency_name);
+                sqlcmd.Parameters.AddWithValue("@lead_contact_number", omm.lead_contact_number);
+                sqlcmd.Parameters.AddWithValue("@project_name", omm.project_name);
+                sqlcmd.Parameters.AddWithValue("@landline_number", omm.landline_number);
+                sqlcmd.Parameters.AddWithValue("@alternateNoForCustomer", omm.alternateNoForCustomer);
+                sqlcmd.Parameters.AddWithValue("@whatsappNoForCustomer", omm.whatsappNoForCustomer);
+                sqlcmd.Parameters.AddWithValue("@shopStatusUpdate", omm.shopStatusUpdate);
+                sqlcmd.Parameters.AddWithValue("@GSTN_Number", omm.GSTN_Number);
                 //End of Rev Debashis
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
@@ -445,7 +448,7 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
@@ -487,19 +490,19 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
 
                     DataSet ds = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("PRC_APIUSERSHOPACTIVITYSUBMITINFO", sqlcon);
-                    sqlcmd.Parameters.Add("@ACTION", "FEEDBACKLIST");
-                    sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                    sqlcmd.Parameters.Add("@FROMDATE", model.from_date);
-                    sqlcmd.Parameters.Add("@TODATE", model.to_date);
-                    sqlcmd.Parameters.Add("@DATESPAN", model.date_span);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "FEEDBACKLIST");
+                    sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@FROMDATE", model.from_date);
+                    sqlcmd.Parameters.AddWithValue("@TODATE", model.to_date);
+                    sqlcmd.Parameters.AddWithValue("@DATESPAN", model.date_span);
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -518,7 +521,9 @@ namespace ShopAPI.Controllers
                                     Foview.Add(new ShopActFeedbackListOutput()
                                     {
                                         feedback = Convert.ToString(ds.Tables[1].Rows[j]["feedback"]),
-                                        date_time = Convert.ToString(ds.Tables[1].Rows[j]["date_time"])
+                                        date_time = Convert.ToString(ds.Tables[1].Rows[j]["date_time"]),
+                                        multi_contact_name = Convert.ToString(ds.Tables[1].Rows[j]["multi_contact_name"]),
+                                        multi_contact_number = Convert.ToString(ds.Tables[1].Rows[j]["multi_contact_number"])
                                     });
                                 }
                             }
@@ -570,22 +575,22 @@ namespace ShopAPI.Controllers
             }
             else
             {
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
-                String weburl = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
-                string DoctorDegree = System.Configuration.ConfigurationSettings.AppSettings["DoctorDegree"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                String weburl = System.Configuration.ConfigurationManager.AppSettings["SiteURL"];
+                string DoctorDegree = System.Configuration.ConfigurationManager.AppSettings["DoctorDegree"];
 
                 List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APISUPERVISORTEAMSHOPLIST", sqlcon);
-                sqlcmd.Parameters.Add("@SESSION_TOKEN", model.session_token);
-                sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                sqlcmd.Parameters.Add("@WEBURL", weburl);
-                sqlcmd.Parameters.Add("@DOCTORDEGREE", DoctorDegree);
+                sqlcmd.Parameters.AddWithValue("@SESSION_TOKEN", model.session_token);
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@WEBURL", weburl);
+                sqlcmd.Parameters.AddWithValue("@DOCTORDEGREE", DoctorDegree);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -618,7 +623,7 @@ namespace ShopAPI.Controllers
         {
             ShopAttachmentImageslistOutput omodel = new ShopAttachmentImageslistOutput();
             List<ShopAttachmentImagesDatalists> oview = new List<ShopAttachmentImagesDatalists>();
-            String APIHostingPort = System.Configuration.ConfigurationSettings.AppSettings["APIHostingPort"];
+            String APIHostingPort = System.Configuration.ConfigurationManager.AppSettings["APIHostingPort"];
 
             if (!ModelState.IsValid)
             {
@@ -629,15 +634,15 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APISHOPATTACHMENTIMAGEINFO", sqlcon);
-                sqlcmd.Parameters.Add("@Action", "FETCHATTACHMENTIMAGES");
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@SHOP_ID", model.shop_id);
-                sqlcmd.Parameters.Add("@APIHostingPort", APIHostingPort);
+                sqlcmd.Parameters.AddWithValue("@Action", "FETCHATTACHMENTIMAGES");
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@SHOP_ID", model.shop_id);
+                sqlcmd.Parameters.AddWithValue("@APIHostingPort", APIHostingPort);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -664,5 +669,125 @@ namespace ShopAPI.Controllers
 
         }
         //End of Rev Debashis Row: 761 to 765
+
+        //Rev 1.0 Row: 810 to 811
+        [HttpPost]
+        public HttpResponseMessage ModifiedShopLists(ModifiedShopslistInput model)
+        {
+            ModifiedShopslistOutput omodel = new ModifiedShopslistOutput();
+            List<ModifiedShopslists> oview = new List<ModifiedShopslists>();
+
+            if (!ModelState.IsValid)
+            {
+                omodel.status = "213";
+                omodel.message = "Some input parameters are missing.";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+            }
+            else
+            {
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                String weburl = System.Configuration.ConfigurationManager.AppSettings["SiteURL"];
+                string DoctorDegree = System.Configuration.ConfigurationManager.AppSettings["DoctorDegree"];
+
+                DataTable dt = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_APIGETMODIFIEDSHOPLISTS", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "GETSHOPLISTS");
+                sqlcmd.Parameters.AddWithValue("@User_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@Weburl", weburl);
+                sqlcmd.Parameters.AddWithValue("@DoctorDegree", DoctorDegree);
+
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    oview = APIHelperMethods.ToModelList<ModifiedShopslists>(dt);
+                    omodel.status = "200";
+                    omodel.message = "Success.";
+                    omodel.user_id = model.user_id;
+                    omodel.modified_shop_list= oview;
+                }
+                else
+                {
+                    omodel.status = "205";
+                    omodel.message = "No data found";
+                }
+
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+
+        }
+
+        [HttpPost]
+        public HttpResponseMessage EditModifiedShop(EditModifiedShopInput model)
+        {
+            EditModifiedShopOutput omodel = new EditModifiedShopOutput();
+            List<EditModifiedShopList> omedl2 = new List<EditModifiedShopList>();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    omodel.status = "213";
+                    omodel.message = "Some input parameters are missing.";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+                }
+                else
+                {
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+
+                    foreach (var s2 in model.shop_modified_list)
+                    {
+                        omedl2.Add(new EditModifiedShopList()
+                        {
+                            shop_id = s2.shop_id
+                        });
+                    }
+
+                    string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
+                    DataTable dt = new DataTable();
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcmd.CommandTimeout = 60;
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("PRC_APIGETMODIFIEDSHOPLISTS", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "EDITMODIFIEDSHOP");
+                    sqlcmd.Parameters.AddWithValue("@User_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@JsonXML", JsonXML);
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(dt);
+                    sqlcon.Close();
+
+                    if (dt.Rows.Count > 0 && Convert.ToString(dt.Rows[0]["STRMESSAGE"]) == "Success")
+                    {
+                        omodel.status = "200";
+                        omodel.message = "Update Successfully.";
+                    }
+                    else
+                    {
+                        omodel.status = "205";
+                        omodel.message = "Records not updated.";
+                    }
+                    var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                omodel.status = "204";
+                omodel.message = ex.Message;
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+        //End of Rev 1.0 Row: 810 to 811
     }
 }

@@ -1,4 +1,8 @@
 ﻿@model MyShop.Models.FSMDashBoardFilter
+
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                06-01-2023        2.0.37           pallab              25570: show button position change *@
+
 @{
     ViewBag.Title = "Field Sales Management Dashboard";
     var weburl = System.Configuration.ConfigurationSettings.AppSettings["Weburlmarker"];
@@ -184,7 +188,7 @@
     var stateids = [];
     // Mantis Issue 24729
     var branchids = [];
-   
+
 
     function GetSateValue() {
         console.log("state value");
@@ -223,7 +227,7 @@
         }
         cmbBranchChange();
     }
-    
+
     //function cmbBranchChange() {
     //    let newBranch = $('#cmbBranch').val();
 
@@ -321,9 +325,9 @@
     var statefilterid = "";
     var EMPCODE = "";
     var WindowSize = 0;
-    // Mantis Issue 25455
+    // mantis issue 25567
     var branchid = "";
-    // End of Mantis Issue 25455
+    // End of mantis issue 25567
 
     function GSOnStartCallback(s, e) {
         e.customArgs["Type"] = Type;
@@ -1007,8 +1011,8 @@
                     obj.branchid = "";
                 }
             }
-            
-            
+
+
             // End of Mantis Issue 24729
             objsettings.push(obj);
         }
@@ -1040,14 +1044,14 @@
                 //console.log("res branch", response);
                 const mainData = response.map(function (item) {
                     return {
-                        label: item.name, 
-                        title: item.name, 
+                        label: item.name,
+                        title: item.name,
                         value: item.BranchID,
                         selected: true
                     }
                     // arr.push(obj)
                 })
-                
+
                 $("#cmbBranch").multiselect('dataprovider', mainData);
                 var newBranch = $('#cmbBranch').val();
 
@@ -1081,8 +1085,8 @@
                 jAlert("Please try again later");
             }
         });
-       
-        
+
+
     }
     function reloadBoxDataTV(branchids) {
         branchid = branchids;
@@ -1119,7 +1123,7 @@
     }
     function reloadBoxData(branchids) {
         branchid = branchids;
-        
+
 
         //GetAddress(stateid);
         //gridsalesman.ClearFilter();
@@ -1176,7 +1180,7 @@
             obj.stateid = stateidsTV.join(',');//cmbState.GetValue();
             obj.designid = "";
 
-            // Mantis Issue 24729	
+            // Mantis Issue 24729
             var isObject = typeof branchidsTV
             if (isObject == "object") {
                 if (branchidsTV != null && branchidsTV.length > 0) {
@@ -1212,7 +1216,7 @@
         $('.boxWidget').removeClass('activeW');
 
         stateid = stateidsTV.join(','); //;
-        
+
         //GetAddress(stateid);
         //gridsalesman.ClearFilter();
         objData = {};
@@ -1269,7 +1273,7 @@
             }
         });
         //
-       
+
     }
 
 
@@ -1315,8 +1319,14 @@
         e.customArgs["statefilterid"] = statefilterid;
         e.customArgs["WindowSize"] = WindowSize;
         // Mantis Issue 24765
+        // Mantis Issue 25468
+        // mantis issue 25567
         e.customArgs["BranchId"] = branchid;
         e.customArgs["BranchIdTV"] = branchid;
+        //e.customArgs["BranchId"] = branchids;
+        //e.customArgs["BranchIdTV"] = branchids;
+        // End of mantis issue 25567
+        // End of Mantis Issue 25468
         // End of Mantis Issue 24765
     }
 
@@ -1688,7 +1698,7 @@
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "AT_WORK";
-        stateid = stateidsTV.join(',');// cmbState.GetValue();
+        stateid = stateidsTVH.join(',');// cmbState.GetValue();
 
         gridsummarydashboardclickTeamVisitH(null, null);
         $('#backSpnTeam').attr("Style", "Display:none;");
@@ -1708,7 +1718,7 @@
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "ON_LEAVE";
-        stateid = stateidsTV.join(',');// cmbState.GetValue();
+        stateid = stateidsTVH.join(',');// cmbState.GetValue();
 
         gridsummarydashboardclickTeamVisitH(null, null);
         $('#backSpnTeam').attr("Style", "Display:none;");
@@ -1731,7 +1741,7 @@
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "NOT_LOGIN";
-        stateid = stateidsTV.join(',');//cmbState.GetValue();
+        stateid = stateidsTVH.join(',');//cmbState.GetValue();
 
         gridsummarydashboardclickTeamVisitH(null, null);
         $('#backSpnTeam').attr("Style", "Display:none;");
@@ -1968,9 +1978,9 @@
                 },
 
             },
-            //{
-            //    opposite: true,
-            //}
+                //{
+                //    opposite: true,
+                //}
             ]
 
         }
@@ -2175,7 +2185,7 @@
         } else if (getTabDetail == "Field Visit") {
             $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
             $(".tab-pane#FieldVisit").addClass("active");
-            $("#tbFieldVisit").addClass("active"); 
+            $("#tbFieldVisit").addClass("active");
             $(".tab-pane#profile").addClass("hide");
         } else if (getTabDetail == "Team Visit") {
             $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
@@ -2184,7 +2194,7 @@
             // Mantis Issue 25468
         } else if (getTabDetail == "Team Visit - Hierarchy") {
             $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
-            $(".tab-pane#teamVisit, #tbteamVisit").addClass("active");
+            $(".tab-pane#teamVisitH, #tbteamVisitH").addClass("active");
             $(".tab-pane#profile").addClass("hide");
             // End of Mantis Issue 25468
         } else {
@@ -2197,7 +2207,7 @@
 <style>
     .multiselect-container.dropdown-menu > li > a {
         text-align: left !important;
-        padding: 5px 0 !important;
+        padding: 2px 0 !important;
     }
 </style>
 <script src="~/assests/js/Leavelist.js"></script>
@@ -2273,51 +2283,204 @@
     }
     }
     });
-    
+
 </script>
 
 <style>
-    .tabs{
-        font-size:inherit !important
-    } .padTabl > tbody > tr > td {
-        padding: 3px 10px;
-    }
+        .tabs {
+            font-size: inherit !important
+        }
 
-    #tblshoplist > thead > tr > th {
-        background: #5F65AD !important;
-        border-top: 1px solid #0f87cc;
-        color: #fff;
-    }
+        .padTabl > tbody > tr > td {
+            padding: 3px 10px;
+        }
 
-    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
-        padding: 1px 5px !important;
-    }
+        #tblshoplist > thead > tr > th {
+            background: #5F65AD !important;
+            border-top: 1px solid #0f87cc;
+            color: #fff;
+        }
 
-    .scrooler {
-        width: 100%;
-        overflow-x: scroll;
-    }
+        #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+            padding: 1px 5px !important;
+        }
 
-    .w1 {
-        width: 107px;
-    }
+        .scrooler {
+            width: 100%;
+            overflow-x: scroll;
+        }
 
-    .date {
-        width: 62px;
-    }
+        .w1 {
+            width: 107px;
+        }
 
-    .labelTbl > tbody > tr > td {
-        padding-right: 20px;
-        padding-bottom: 5px;
-    }
+        .date {
+            width: 62px;
+        }
 
-    #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
-        display: none;
-    }
-    .float-right
-    {
-        float: right;
-    }
+        .labelTbl > tbody > tr > td {
+            padding-right: 20px;
+            padding-bottom: 5px;
+        }
+
+        #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+            display: none;
+        }
+
+        .float-right {
+            float: right;
+        }
+
+        #summary-show-btn img {
+            width: 30px;
+        }
+
+        .hands:before {
+            /*content: "👇";*/
+            content: url('/assests/images/click-hand.png');
+            font-size: 30px;
+            /*transform: rotate(180deg);*/
+            right: 15px;
+            top: 28px;
+            animation: up-down 1s infinite;
+            position: absolute;
+        }
+        /*.details-btn .hands:before, .details-btn .hands:after {
+            content: "👇";
+            font-size: 40px;
+            opacity: 0;
+            transition: 0.4s ease-in-out;
+        }*/
+        /*.details-btn .hands:before {
+            transform: rotate(-60deg);
+            left: -45px;
+            top: -10px;
+        }
+        .details-btn .hands:after {
+            transform: rotate(170deg);
+            right: 30px;
+            top: 30px;
+        }*/
+        /*.details-btn:hover .hands:before {
+            opacity: 1;
+            left: -35px;
+        }
+        .details-btn:hover .hands:after {
+            opacity: 1;
+            top: 20px;
+        }*/
+
+        @@keyframes up-down {
+            50% {
+                margin-top: -10px;
+            }
+        }
+
+        .tooltip-custom {
+            max-width: 300px !important;
+        }
+
+
+        /*custom tooltips css*/
+        /*.cust-tooltip-cls {
+            color: #e91e63;
+            font-family: monospace;
+            white-space: nowrap;
+        }
+
+            .cust-tooltip-cls:after {
+                font-family: Arial, sans-serif;
+                text-align: left;
+                white-space: normal;
+            }
+
+            .cust-tooltip-cls:focus {
+                outline: none;
+            }
+
+    .wrap {
+       background: #ECF0F1;
+       color: #607D8B;
+       height: 100%;
+       overflow: auto;
+       padding: 1em 2.5em;
+       text-align: center;
+       width: 100%;
+    }*/
+
+
+
+
+        /*== start of code for tooltips ==*/
+        .tool {
+            position: relative;
+        }
+
+
+            /*== common styles for both parts of tool tip ==*/
+            .tool::before,
+            .tool::after {
+                left: 50%;
+                opacity: 0;
+                position: absolute;
+                z-index: -100;
+            }
+
+            .tool:hover::before,
+            .tool:focus::before,
+            .tool:hover::after,
+            .tool:focus::after {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                z-index: 100;
+            }
+
+
+            /*== pointer tip ==*/
+            .tool::before {
+                border-style: solid;
+                border-width: 1em 0.75em 0 0.75em;
+                border-color: #2614bf transparent transparent transparent;
+                bottom: 100%;
+                content: "";
+                margin-left: -0.5em;
+                transition: all .3s cubic-bezier(.84,-0.18,.31,1.26), opacity .3s .5s;
+                transform: scale(.6) translateY(-90%);
+                top: -20px;
+            }
+
+            .tool:hover::before,
+            .tool:focus::before {
+                transition: all .65s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+            }
+
+
+            /*== speech bubble ==*/
+            .tool::after {
+                background: #2614bf;
+                border-radius: .25em;
+                bottom: 180%;
+                color: #EDEFF0;
+                content: attr(data-tip);
+                margin-left: -16.75em;
+                padding: 8px 12px;
+                transition: all .3s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+                transform: scale(.6) translateY(50%);
+                width: 275px;
+            }
+
+            .tool:hover::after,
+            .tool:focus::after {
+                transition: all .3s cubic-bezier(.84,-0.18,.31,1.26);
+            }
+
+        @@media (max-width: 760px) {
+            .tool::after {
+                font-size: .75em;
+                margin-left: -5em;
+                width: 10em;
+            }
+        }
 </style>
 <!--Leave list end-->
 
@@ -2410,33 +2573,33 @@
         <input type="hidden" id="hdnAtWorkFV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "At Work for Field Visit").Count()" />
         <input type="hidden" id="hdnOnLeaveFV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "On Leave for Field Visit").Count()" />
         <input type="hidden" id="hdnNotLoggedInFV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Not Logged In for Field Visit").Count()" />
-    
-    
-    
+
+
+
         <input type="hidden" id="hdnTotalEmployeesTV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Total Employees for Team Visit").Count()" />
         <input type="hidden" id="hdnAtWorkTV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "At Work for Team Visit").Count()" />
         <input type="hidden" id="hdnOnLeaveTV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "On Leave for Team Visit").Count()" />
         <input type="hidden" id="hdnNotLoggedInTV" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Not Logged In for Team Visit").Count()" />
-    
+
         // Mantis Issue 25468
         <input type="hidden" id="hdnTotalEmployeesTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Total Employees for Team Visit - Hierarchy").Count()" />
-            <input type="hidden" id="hdnAtWorkTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "At Work for Team Visit - Hierarchy").Count()" />
-            <input type="hidden" id="hdnOnLeaveTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "On Leave for Team Visit - Hierarchy").Count()" />
-            <input type="hidden" id="hdnNotLoggedInTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Not Logged In for Team Visit - Hierarchy").Count()" />
+        <input type="hidden" id="hdnAtWorkTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "At Work for Team Visit - Hierarchy").Count()" />
+        <input type="hidden" id="hdnOnLeaveTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "On Leave for Team Visit - Hierarchy").Count()" />
+        <input type="hidden" id="hdnNotLoggedInTVH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Not Logged In for Team Visit - Hierarchy").Count()" />
         // End of Mantis Issue 25468
 
         <input type="hidden" id="hdnStatewiseSummary" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count()" />
         <input type="hidden" id="hdnStatewiseSummaryTeam" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count()" />
         <input type="hidden" id="hdnStatewiseSummaryTeamTab" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count()" />
-    // Mantis Issue 25468
-    <input type="hidden" id="hdnStatewiseSummaryTeamTabH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count()" />
-    // End of Mantis Issue 25468
+        // Mantis Issue 25468
+        <input type="hidden" id="hdnStatewiseSummaryTeamTabH" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count()" />
+        // End of Mantis Issue 25468
         <input type="hidden" id="hdnStatewiseSummaryFVTab" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Field Visit").Count()" />
-    
+
         <input type="hidden" id="isTargetvsAch" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Target / Achievement").Count()" />
-    
-    <input type="hidden" id="isLeaveList" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Leave List").Count()" />
-     
+
+        <input type="hidden" id="isLeaveList" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Leave List").Count()" />
+
         //new Layout ContentControl area
         <div class="container">
 
@@ -2453,86 +2616,86 @@
 
                             <!-- please uncomment this section for static dashboard value salesman & distributor-->
                             @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Visit").Count() > 0)
-                                {
-                            <li role="presentation" id="tbsalesman" class="active" 
-                                data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
-                                <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
-                                    <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                    <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                    <span>Visit</span>
-                                </a>
-                            </li>
+                            {
+                                <li role="presentation" id="tbsalesman" class="active"
+                                    data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
+                                    <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Visit</span>
+                                    </a>
+                                </li>
                             }
                             @*susanta 0024866*@
                             @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Field Visit").Count() > 0)
-                                {
-                            <li role="presentation" id="tbFieldVisit" class=""
-                            data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
-                                <a href="#FieldVisit" aria-controls="FieldVisit" role="tab" data-toggle="tab">
-                                    <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                    <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                    <span>Field  Visit</span>
-                                </a>
-                        </li>
+                            {
+                                <li role="presentation" id="tbFieldVisit" class=""
+                                    data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
+                                    <a href="#FieldVisit" aria-controls="FieldVisit" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Field  Visit</span>
+                                    </a>
+                                </li>
                             }
-                        @*susanta 0024866*@
+                            @*susanta 0024866*@
 
-                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count() > 0)
-                                {
-                                    <li role="presentation" id="tbteamVisit" class=""
-                                        data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
-                                        <a href="#teamVisit" aria-controls="profile" role="tab" data-toggle="tab">
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <span>Team Visit</span>
-                                        </a>
-                                    </li>
-                                }
-                                @*Mantis Issue 25468*@
-                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count() > 0)
-                                {
-                                    <li role="presentation" id="tbteamVisitH" class=""
-                                        data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
-                                        <a href="#teamVisitH" aria-controls="profile" role="tab" data-toggle="tab">
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <span>Team Visit - Hierarchy</span>
-                                        </a>
-                                    </li>
-                                }
-                                @*End of Mantis Issue 25468*@
+                            @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count() > 0)
+                            {
+                                <li role="presentation" id="tbteamVisit" class=""
+                                    data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
+                                    <a href="#teamVisit" aria-controls="profile" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Team Visit</span>
+                                    </a>
+                                </li>
+                            }
+                            @*Mantis Issue 25468*@
+                            @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count() > 0)
+                            {
+                                <li role="presentation" id="tbteamVisitH" class=""
+                                    data-toggle="tooltip" title="Get the Details of Total Employee, working or on leave and if anyone not using the app" data-placement="top">
+                                    <a href="#teamVisitH" aria-controls="profile" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span>Team Visit - Hierarchy</span>
+                                    </a>
+                                </li>
+                            }
+                            @*End of Mantis Issue 25468*@
                             @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Attendance Analytics").Count() > 0)
                             {
-                                    <li role="presentation" id="tbsP" class="shLeader" data-toggle="tooltip" title="Get the attendance Details in calender, charts, recent leaves, on time and late employees count" data-placement="top">
-                                        <a href="#attendanceTB" class="" aria-controls="attendanceTB" role="tab" data-toggle="tab">
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <span class="shLeader">Attendance </span>
-                                        </a>
-                                    </li>
+                                <li role="presentation" id="tbsP" class="shLeader" data-toggle="tooltip" title="Get the attendance Details in calender, charts, recent leaves, on time and late employees count" data-placement="top">
+                                    <a href="#attendanceTB" class="" aria-controls="attendanceTB" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span class="shLeader">Attendance </span>
+                                    </a>
+                                </li>
                             }
-                                 @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Order Analytics").Count() > 0)
-                                 {
-                                    <li role="presentation" id="tbsO" class="shLeader " data-toggle="tooltip" title="Get the Details of Orders , Top 10 items on Order value/quantity , Top parties by order value statewise" data-placement="top">
-                                        <a href="#orderAnalyt" class="" aria-controls="orderAnalyt" role="tab" data-toggle="tab">
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <span class="shLeader">Order </span>
-                                        </a>
-                                    </li>
-                                 }
-                                @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Reimbursement").Count() > 0)
-                                {
-                                    <li role="presentation" id="tbs4" class="shLeader" data-toggle="tooltip" title="Get the Reimbursement analysis based on amount per month, Expense type , Last vs current month" data-placement="top">
-                                        <a href="#ReimbursementAnalyt" class="" aria-controls="ReimbursementAnalyt" role="tab" data-toggle="tab">
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                            <span class="shLeader">Reimbursement </span>
-                                        </a>
-                                    </li>
-                                }
-                                @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Target / Achievement").Count() > 0)
-                                {
+                            @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Order Analytics").Count() > 0)
+                            {
+                                <li role="presentation" id="tbsO" class="shLeader " data-toggle="tooltip" title="Get the Details of Orders , Top 10 items on Order value/quantity , Top parties by order value statewise" data-placement="top">
+                                    <a href="#orderAnalyt" class="" aria-controls="orderAnalyt" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span class="shLeader">Order </span>
+                                    </a>
+                                </li>
+                            }
+                            @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Reimbursement").Count() > 0)
+                            {
+                                <li role="presentation" id="tbs4" class="shLeader" data-toggle="tooltip" title="Get the Reimbursement analysis based on amount per month, Expense type , Last vs current month" data-placement="top">
+                                    <a href="#ReimbursementAnalyt" class="" aria-controls="ReimbursementAnalyt" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span class="shLeader">Reimbursement </span>
+                                    </a>
+                                </li>
+                            }
+                            @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Target / Achievement").Count() > 0)
+                            {
                                 <li role="presentation" id="tbs5" class="shLeader" data-toggle="tooltip" title="Get the details of various targets and achivement on entities, monthwise, employeewise" data-placement="top">
                                     <a href="#targetAnalyt" class="" aria-controls="targetAnalyt" role="tab" data-toggle="tab">
                                         <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
@@ -2540,495 +2703,533 @@
                                         <span class="shLeader">Target/Achievement</span>
                                     </a>
                                 </li>
-                                }
-                                 @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Leave List").Count() > 0)
-                                {
-                                <li role="presentation" id="tbs6" class="shLeader" >
+                            }
+                            @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Leave List").Count() > 0)
+                            {
+                                <li role="presentation" id="tbs6" class="shLeader">
                                     <a href="#leaveList" class="" aria-controls="leaveList" role="tab" data-toggle="tab">
                                         <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
                                         <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
                                         <span class="shLeader">Leave List</span>
                                     </a>
                                 </li>
-                                }
-                                <li></li>
+                            }
+                            <li></li>
                         </ul>
                     </nav>
                     <div class="tab-content mainAreaTAb">
                         @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Field Visit").Count() > 0)
                         {
-                        <div role="tabpanel" class="tab-pane" id="FieldVisit">
-                            @*rev Mantis Issue 25455*@
-                            <div class="row">
-                                <div class="col-md-12 text-right clearfix py-0">
-                                    <table class="float-right">
-                                        <tr>
+                            <div role="tabpanel" class="tab-pane" id="FieldVisit">
+                                @*rev 1.0*@
+                                @*rev Mantis Issue 25455*@
+                                <!--<div class="row">
+            <div class="col-md-12 text-right clearfix py-0 marg-b-50">
+                <table class="float-right">
+                    <tr>
 
-                                            <td><button type="button" class="btn btn-success" onclick="ShowFieldVisitData()">Show</button></td>
-                                        </tr>
-                                    </table>
+                        <td>
+                            <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowFieldVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                                <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowFieldVisitData()" style=" line-height: 20px;">
+                                    <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
+                                    <div class="hands fieldvisit-tb-hand"></div>
+                                </button>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>-->
+                                @*rev end Mantis Issue 25455*@
+                                @*rev end  1.0*@
+                                <div class="">
+                                    @Html.Action("DashboardAttendanceFV", new { list = Model.DashboardSettingMappedList })
                                 </div>
-                            </div>
-                            @*rev end Mantis Issue 25455*@
-                            <div class="">
-                                @Html.Action("DashboardAttendanceFV", new { list = Model.DashboardSettingMappedList })
-                            </div>
-                            <div class="clearfix">
-                                <div class="row " id="griddetailsFV">
-                                    <div class="col-md-12">
-                                        <div class=" hide noShaded" id="dashDetails1FV">
-                                            <div class="" id="" role="tablist" aria-multiselectable="true">
-                                                <div class="">
-                                                    <div class="panel-heading row" role="tab" id="headingOneFV">
-                                                      
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
+                                <div class="clearfix">
+                                    <div class="row " id="griddetailsFV">
+                                        <div class="col-md-12">
+                                            <div class=" hide noShaded" id="dashDetails1FV">
+                                                <div class="" id="" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading row" role="tab" id="headingOneFV">
 
-                                                            <span id="griddetailsHeadedtextFV" class="f6 translate-y-big"></span>
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
 
-                                                            <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
-                                                                <span class="translate-y hide">Export To Excel</span>
-                                                                <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexportFV()" /></span>
-                                                            </span>
-                                                            <span class="btn-prime">REFRESH</span>
-                                                            <span id="backSpnFV" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseOneFV" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
-                                                        <div class="overflx">
-                                                            @Html.Partial("DashboardGridViewFV", new System.Data.DataTable())
+                                                                <span id="griddetailsHeadedtextFV" class="f6 translate-y-big"></span>
+
+                                                                <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                    <span class="translate-y hide">Export To Excel</span>
+                                                                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexportFV()" /></span>
+                                                                </span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span id="backSpnFV" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOneFV" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="overflx">
+                                                                @Html.Partial("DashboardGridViewFV", new System.Data.DataTable())
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row " id="gridsummaryFV">
-                                    <div class=" col-md-12">
-                                        <div class="boxWidget hide noShaded mtop20" id="dashDetails2FV">
-                                            <div class="" id="">
-                                                <div class="">
-                                                    <div class="panel-heading" role="tab" id="headingOneFV">
+                                    <div class="row " id="gridsummaryFV">
+                                        <div class=" col-md-12">
+                                            <div class="boxWidget hide noShaded mt-2" id="dashDetails2FV">
+                                                <div class="" id="">
+                                                    <div class="">
+                                                        <div class="panel-heading" role="tab" id="headingOneFV">
 
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
 
-                                                            <span id="gridHeadedtextFV"></span>
-                                                            <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexportFV" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
-                                                            <span class="btn-prime">REFRESH</span>
-                                                            <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+                                                                <span id="gridHeadedtextFV"></span>
+                                                                <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexportFV" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
 
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseTwoFV" class="">
-                                                        <div class="overflx" id="dsGridWrapFV">
-                                                            @Html.Partial("DashboardSummaryGridViewFV", new System.Data.DataTable())
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwoFV" class="">
+                                                            <div class="overflx" id="dsGridWrapFV">
+                                                                @Html.Partial("DashboardSummaryGridViewFV", new System.Data.DataTable())
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row hide" id="gridthirdlevelFV">
-                                    <div class=" col-md-12">
-                                        <div class="boxWidget  noShaded mtop20" id="dashDetails3FV">
-                                            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-                                                <div class="">
+                                    <div class="row hide" id="gridthirdlevelFV">
+                                        <div class=" col-md-12">
+                                            <div class="boxWidget  noShaded mt-2" id="dashDetails3FV">
+                                                <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading" role="tab" id="">
+
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
+
+                                                                <span id="gridshoptextFV"></span>
+                                                                <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexportFV()" /></span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span class="closeAcDetails2FV clstyle" style="margin-top: 5px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="" class="" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="overflx">
+                                                                @Html.Partial("DashboardGridViewDetailsFV", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="mapdeatsilsFV">
+                                        <div class="col-md-12">
+                                            <div class="boxWidget">
+                                                <h3 class="Widgheading relative"> User Indivisual Tracking <span class="closer clstyle" id="close1"><i class="fa fa-arrow-left"></i> </span></h3>
+
+                                                <div class="mapContainer">
+                                                    <div class="row">
+                                                        <div class="col-md-8 pdright0">
+                                                            <div id="mapdetailsshowFV" style="width: 100%; height: 400px;"></div>
+                                                        </div>
+                                                        <div class="col-md-4 pdleft0">
+                                                            <h2 id="directionnameFV"></h2>
+                                                            <div id="directions_panelFV" style="background-color: #FFFFFF;"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="lbltotaldistancecovered" />
+                                    <div class="row hide" id="mapFV">
+                                        <div class="col-md-12 ">
+                                            <div class="boxWidget noShaded ">
+                                                <h1 class="Widgheading relative">
+                                                    Live Track  Employees At Work On Map
+                                                    <span class="closerCss clstyle" id="spanClosemapFV" onclick="mapcloseclickFV();"><i class="fa fa-close"></i> </span>
+                                                    <i class="fa fa-search" id="showMapSearchFV" style="float: right;"></i>
+                                                </h1>
+
+                                                <div class="mapContainer ">
+                                                    @Html.Action("DashboardNewFV")
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="boxWidget noShaded mt-2">
                                                     <div class="panel-heading" role="tab" id="">
-                                                        
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
 
-                                                            <span id="gridshoptextFV"></span>
-                                                            <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexportFV()" /></span>
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
+
+                                                            <span id="salesmanheaderFV"></span>
+                                                            <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
                                                             <span class="btn-prime">REFRESH</span>
-                                                            <span class="closeAcDetails2FV clstyle" style="margin-top: 5px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                            <span class="closerCss hide clstyle" id="spanCloseFV" onclick="salesbackclickFV();"><i class="fa fa-arrow-left"></i> </span>
                                                         </h4>
                                                     </div>
-                                                    <div id="" class="" role="tabpanel" aria-labelledby="headingOne">
-                                                        <div class="overflx">
-                                                            @Html.Partial("DashboardGridViewDetailsFV", new System.Data.DataTable())
-                                                        </div>
-                                                    </div>
+                                                    @Html.Partial("DashboardGridViewSalesmanDetailFV", new System.Data.DataTable())
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    }
+
+
                                 </div>
-                                <div class="row" id="mapdeatsilsFV">
-                                    <div class="col-md-12">
-                                        <div class="boxWidget">
-                                            <h3 class="Widgheading relative"> User Indivisual Tracking <span class="closer clstyle" id="close1"><i class="fa fa-arrow-left"></i> </span></h3>
-
-                                            <div class="mapContainer">
-                                                <div class="row">
-                                                    <div class="col-md-8 pdright0">
-                                                        <div id="mapdetailsshowFV" style="width: 100%; height: 400px;"></div>
-                                                    </div>
-                                                    <div class="col-md-4 pdleft0">
-                                                        <h2 id="directionnameFV"></h2>
-                                                        <div id="directions_panelFV" style="background-color: #FFFFFF;"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <input type="hidden" id="lbltotaldistancecovered" />
-                                <div class="row hide" id="mapFV">
-                                    <div class="col-md-12 ">
-                                        <div class="boxWidget noShaded ">
-                                            <h1 class="Widgheading relative">
-                                                Live Track  Employees At Work On Map
-                                                <span class="closerCss clstyle" id="spanClosemapFV" onclick="mapcloseclickFV();"><i class="fa fa-close"></i> </span>
-                                                <i class="fa fa-search" id="showMapSearchFV" style="float: right;"></i>
-                                            </h1>
-
-                                            <div class="mapContainer ">
-                                                @Html.Action("DashboardNewFV")
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
-                                {
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="boxWidget noShaded mtop20">
-                                                <div class="panel-heading" role="tab" id="">
-
-                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
-
-                                                        <span id="salesmanheaderFV"></span>
-                                                        <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
-                                                        <span class="btn-prime">REFRESH</span>
-                                                        <span class="closerCss hide clstyle" id="spanCloseFV" onclick="salesbackclickFV();"><i class="fa fa-arrow-left"></i> </span>
-                                                    </h4>
-                                                </div>
-                                                @Html.Partial("DashboardGridViewSalesmanDetailFV", new System.Data.DataTable())
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-
-
                             </div>
-                        </div>
                         }
-                        
-                        <div role="tabpanel" class="tab-pane active" id="profile">
-                            @*rev Mantis Issue 25455*@
-                            <div class="row">
-                                <div class="col-md-12 text-right clearfix py-0">
+
+                    <div role="tabpanel" class="tab-pane active" id="profile">
+                        @*rev  1.0*@
+                        @*rev Mantis Issue 25455*@
+                        <!--<div class="row">
+                                <div class="col-md-12 text-right clearfix py-0 marg-b-50">
                                     <table class="float-right">
-                                        <tr>
-                                            
-                                            <td><button type="button" class="btn btn-success" onclick="ShowVisitData()">Show</button></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            @*rev end Mantis Issue 25455*@
-                            <div class="">
-                                @Html.Action("DashboardAttendance", new { list = Model.DashboardSettingMappedList })
-                            </div>
-                            <div class="">
-                                <div class="row " id="griddetails">
-                                    <div class="col-md-12">
-                                        <div class=" hide noShaded" id="dashDetails1">
-                                            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-                                                <div class="">
-                                                    <div class="panel-heading row" role="tab" id="headingOne">
-                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
-
-                                                            <span id="griddetailsHeadedtext" class="f6 translate-y-big"></span>
-
-                                                            <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
-                                                                <span class="translate-y hide">Export To Excel</span>
-                                                                <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexport()" /></span>
-                                                            </span>
-                                                            <span class="btn-prime">REFRESH</span>
-                                                            <span id="backSpn" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
-                                                        <div class="overflx">
-                                                            @Html.Partial("DashboardGridView", new System.Data.DataTable())
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <tr>-->
+                                                    @*<td><button type="button" class="btn btn-success" onclick="ShowVisitData()">Show</button></td>*@
+                                                    <!--<td>
+                                <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                                    @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-custom-class="tooltip-custom" data-original-title="Click to Show Dashboard Summary">*@
+                                                    <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowVisitData()" style=" line-height: 20px;" title="">
+                                                                <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
+                                                                <div class="hands visit-tb-hand"></div>
+                                                            </button>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
-                                </div>
-                                <div class="row " id="gridsummary">
-                                    <div class=" col-md-12">
-                                        <div class="boxWidget hide noShaded mtop20" id="dashDetails2">
-                                            <div class="" id="accordion">
-                                                <div class="">
-                                                    <div class="panel-heading" role="tab" id="headingOne">
-                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+                                </div>-->
+                        @*rev end Mantis Issue 25455*@
+                        @*rev end  1.0*@
+                        <div class="">
+                            @Html.Action("DashboardAttendance", new { list = Model.DashboardSettingMappedList })
+                        </div>
+                        <div class="">
+                            <div class="row " id="griddetails">
+                                <div class="col-md-12">
+                                    <div class=" hide noShaded" id="dashDetails1">
+                                        <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="">
+                                                <div class="panel-heading row" role="tab" id="headingOne">
+                                                    @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
 
-                                                            <span id="gridHeadedtext"></span>
-                                                            <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexport" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
-                                                            <span class="btn-prime">REFRESH</span>
-                                                            <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+                                                        <span id="griddetailsHeadedtext" class="f6 translate-y-big"></span>
 
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseTwo" class="">
-                                                        <div class="overflx" id="dsGridWrap">
-                                                            @Html.Partial("DashboardSummaryGridView", new System.Data.DataTable())
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row hide" id="gridthirdlevel">
-                                    <div class=" col-md-12">
-                                        <div class="boxWidget  noShaded mtop20" id="dashDetails3">
-                                            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-                                                <div class="">
-                                                    <div class="panel-heading" role="tab" id="headingOne">
-                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
-
-                                                            <span id="gridshoptext"></span>
-                                                            <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexport()" /></span>
-                                                            <span class="btn-prime">REFRESH</span>
-                                                            <span class="closeAcDetails2 clstyle" style="margin-top: 5px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseTwo" class="" role="tabpanel" aria-labelledby="headingOne">
-                                                        <div class="overflx">
-                                                            @Html.Partial("DashboardGridViewDetails", new System.Data.DataTable())
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row" id="mapdeatsils">
-                                    <div class="col-md-12">
-                                        <div class="boxWidget">
-                                            <h3 class="Widgheading relative"> User Indivisual Tracking <span class="closer clstyle" id="close1"><i class="fa fa-arrow-left"></i> </span></h3>
-
-                                            <div class="mapContainer">
-                                                <div class="row">
-                                                    <div class="col-md-8 pdright0">
-                                                        <div id="mapdetailsshow" style="width: 100%; height: 400px;"></div>
-                                                    </div>
-                                                    <div class="col-md-4 pdleft0">
-                                                        <h2 id="directionname"></h2>
-                                                        <div id="directions_panel" style="background-color: #FFFFFF;"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <input type="hidden" id="lbltotaldistancecovered" />
-
-                                <div class="row hide" id="map">
-                                    <div class="col-md-12 ">
-                                        <div class="boxWidget noShaded ">
-                                            <h1 class="Widgheading relative">
-                                                Live Track  Employees At Work On Map
-                                                <span class="closerCss clstyle" id="spanClosemap" onclick="mapcloseclick();"><i class="fa fa-close"></i> </span>
-                                                <i class="fa fa-search" id="showMapSearch" style="float: right;"></i>
-
-                                            </h1>
-
-                                            <div class="mapContainer ">
-                                                @Html.Action("DashboardNew")
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
-                                {
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="boxWidget noShaded mtop20">
-                                                <div class="panel-heading" role="tab" id="headingOne">
-
-                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
-
-                                                        <span id="salesmanheader"></span>
-                                                        <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
+                                                        <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                            <span class="translate-y hide">Export To Excel</span>
+                                                            <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexport()" /></span>
+                                                        </span>
                                                         <span class="btn-prime">REFRESH</span>
-                                                        <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
+                                                        <span id="backSpn" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
                                                     </h4>
                                                 </div>
-                                                @Html.Partial("DashboardGridViewSalesmanDetail", new System.Data.DataTable())
+                                                <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="overflx">
+                                                        @Html.Partial("DashboardGridView", new System.Data.DataTable())
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                }
-                            </div><!--End of container -->
-                        </div>
-                        
-                        @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count() > 0)
-                                {
-                        <div role="tabpanel" class="tab-pane " id="teamVisit">
-                            @*rev Mantis Issue 25455*@
-                            <div class="row">
-                                <div class="col-md-12 text-right clearfix py-0">
-                                    <table class="float-right">
-                                        <tr>
-
-                                            <td><button type="button" class="btn btn-success" onclick="ShowTeamVisitData()">Show</button></td>
-                                        </tr>
-                                    </table>
                                 </div>
                             </div>
-                            @*rev end Mantis Issue 25455*@
+                            <div class="row " id="gridsummary">
+                                <div class=" col-md-12">
+                                    <div class="boxWidget hide noShaded mt-2" id="dashDetails2">
+                                        <div class="" id="accordion">
+                                            <div class="">
+                                                <div class="panel-heading" role="tab" id="headingOne">
+                                                    @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+
+                                                        <span id="gridHeadedtext"></span>
+                                                        <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexport" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
+                                                        <span class="btn-prime">REFRESH</span>
+                                                        <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseTwo" class="">
+                                                    <div class="overflx" id="dsGridWrap">
+                                                        @Html.Partial("DashboardSummaryGridView", new System.Data.DataTable())
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row hide" id="gridthirdlevel">
+                                <div class=" col-md-12">
+                                    <div class="boxWidget  noShaded mt-2" id="dashDetails3">
+                                        <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                            <div class="">
+                                                <div class="panel-heading" role="tab" id="headingOne">
+                                                    @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
+
+                                                        <span id="gridshoptext"></span>
+                                                        <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexport()" /></span>
+                                                        <span class="btn-prime">REFRESH</span>
+                                                        <span class="closeAcDetails2 clstyle" style="margin-top: 5px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                    </h4>
+                                                </div>
+                                                <div id="collapseTwo" class="" role="tabpanel" aria-labelledby="headingOne">
+                                                    <div class="overflx">
+                                                        @Html.Partial("DashboardGridViewDetails", new System.Data.DataTable())
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" id="mapdeatsils">
+                                <div class="col-md-12">
+                                    <div class="boxWidget">
+                                        <h3 class="Widgheading relative"> User Indivisual Tracking <span class="closer clstyle" id="close1"><i class="fa fa-arrow-left"></i> </span></h3>
+
+                                        <div class="mapContainer">
+                                            <div class="row">
+                                                <div class="col-md-8 pdright0">
+                                                    <div id="mapdetailsshow" style="width: 100%; height: 400px;"></div>
+                                                </div>
+                                                <div class="col-md-4 pdleft0">
+                                                    <h2 id="directionname"></h2>
+                                                    <div id="directions_panel" style="background-color: #FFFFFF;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="lbltotaldistancecovered" />
+
+                            <div class="row hide" id="map">
+                                <div class="col-md-12 ">
+                                    <div class="boxWidget noShaded ">
+                                        <h1 class="Widgheading relative">
+                                            Live Track  Employees At Work On Map
+                                            <span class="closerCss clstyle" id="spanClosemap" onclick="mapcloseclick();"><i class="fa fa-close"></i> </span>
+                                            <i class="fa fa-search" id="showMapSearch" style="float: right;"></i>
+
+                                        </h1>
+
+                                        <div class="mapContainer ">
+                                            @Html.Action("DashboardNew")
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="boxWidget noShaded mt-2">
+                                            <div class="panel-heading" role="tab" id="headingOne">
+
+                                                <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
+
+                                                    <span id="salesmanheader"></span>
+                                                    <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
+                                                    <span class="btn-prime">REFRESH</span>
+                                                    <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
+                                                </h4>
+                                            </div>
+                                            @Html.Partial("DashboardGridViewSalesmanDetail", new System.Data.DataTable())
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div><!--End of container -->
+                    </div>
+
+                        @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count() > 0)
+                        {
+                            <div role="tabpanel" class="tab-pane " id="teamVisit">
+                                @*rev 1.0*@
+                                @*rev Mantis Issue 25455*@
+                                <!--<div class="row">
+                                        <div class="col-md-12 text-right clearfix py-0 marg-b-50">
+                                            <table class="float-right">
+                                                <tr>-->
+                                                                    @*<td><button type="button" class="btn btn-success" onclick="ShowTeamVisitData()">Show</button></td>*@
+                                                                    <!--<td>
+                                        <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                                                    @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                                                                    <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitData()" style=" line-height: 20px;">
+                                                                    <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
+                                                                    <div class="hands teamvisit-tb-hand"></div>
+                                                                </button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>-->
+                                @*rev end Mantis Issue 25455*@
+                                @*rev end 1.0*@
                                 <div class="">
                                     @Html.Action("DashboardAttendanceTV", new { list = Model.DashboardSettingMappedList })
                                 </div>
                                 <div class="">
-                               
-                                
-                                <!--Grid Details team visit-->
-                                <div class="row " id="griddetailsTeam">
-                                    <div class="col-md-12">
-                                        <div class=" hide noShaded" id="dashDetails1Team">
-                                            <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-                                                <div class="">
-                                                    <div class="panel-heading row" role="tab" id="">
-                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
 
-                                                            <span id="griddetailsHeadedtextTeam" class="f6 translate-y-big"></span>
 
-                                                            <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
-                                                                <span class="translate-y hide">Export To Excel</span>
-                                                                <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexportTeam()" /></span>
-                                                            </span>
-                                                            <span class="btn-prime">REFRESH</span>
-                                                            <span id="backSpnTeam" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseOneTeam" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
-                                                        <div class="overflx">
-                                                            @Html.Partial("DashboardGridViewTeam", new System.Data.DataTable())
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--Grid Details team visit End-->
-                                <!---->
-                                <div class="row " id="gridsummaryTeam">
-                                    <div class=" col-md-12">
-                                        <div class="boxWidget hide noShaded mtop20" id="dashDetails2Team">
-                                            <div class="" id="accordionTeam">
-                                                <div class="">
-                                                    <div class="panel-heading" role="tab" id="headingOneTeam">
-                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
-
-                                                            <span id="gridHeadedtextTeam"></span>
-                                                            <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexportTeam" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
-                                                            <span class="btn-prime">REFRESH</span>
-                                                            <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
-
-                                                        </h4>
-                                                    </div>
-                                                    <div id="collapseTwoTeam" class="">
-                                                        <div class="overflx" id="dsGridWrapTeam">
-                                                            @*@Html.Partial("DashboardSummaryGridViewTeam", new System.Data.DataTable())*@
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--gridsummary Team-->
-
-                                <!--Third level Team-->
-                                <div class="row hide" id="gridthirdlevelTeam">
-                                    <div class=" col-md-12">
-                                        <div class="boxWidget  noShaded mtop20" id="dashDetails3Team">
-                                            <div class=""  role="tablist" aria-multiselectable="true">
-                                                <div class="">
-                                                    <div class="panel-heading" role="tab" >
-                                                        @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
-
-                                                            <span id="gridshoptextTeam"></span>
-                                                            <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexport()" /></span>
-                                                            <span class="btn-prime">REFRESH</span>
-                                                            <span class="closeAcDetails2Team clstyle" style="margin-top: 5px; position: absolute; right: 0; top: -9px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
-                                                        </h4>
-                                                    </div>
-                                                    <div  class="" role="tabpanel" aria-labelledby="headingOne">
-                                                        <div class="overflx">
-                                                            @Html.Partial("DashboardGridViewDetailsTeamVisit", new System.Data.DataTable())
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!--Third level Team-->
-
-                                <!--State Wise -->
-                                @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
-                                {
-                                    <div class="row">
+                                    <!--Grid Details team visit-->
+                                    <div class="row " id="griddetailsTeam">
                                         <div class="col-md-12">
-                                            <div class="boxWidget noShaded mtop20">
-                                                <div class="panel-heading" role="tab" id="headingOne">
+                                            <div class=" hide noShaded" id="dashDetails1Team">
+                                                <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading row" role="tab" id="">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
 
-                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
+                                                                <span id="griddetailsHeadedtextTeam" class="f6 translate-y-big"></span>
 
-                                                        <span id="salesmanheaderTeam"></span>
-                                                        <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
-                                                        <span class="btn-prime">REFRESH</span>
-                                                        <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
-                                                    </h4>
+                                                                <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                    <span class="translate-y hide">Export To Excel</span>
+                                                                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexportTeam()" /></span>
+                                                                </span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span id="backSpnTeam" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOneTeam" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="overflx">
+                                                                @Html.Partial("DashboardGridViewTeam", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                @Html.Partial("DashboardGridViewSalesmanDetailTeam", new System.Data.DataTable())
                                             </div>
                                         </div>
                                     </div>
-                                }
-                            </div>
-                        </div><!--Team visit End-->
+                                    <!--Grid Details team visit End-->
+                                    <!---->
+                                    <div class="row " id="gridsummaryTeam">
+                                        <div class=" col-md-12">
+                                            <div class="boxWidget hide noShaded mt-2" id="dashDetails2Team">
+                                                <div class="" id="accordionTeam">
+                                                    <div class="">
+                                                        <div class="panel-heading" role="tab" id="headingOneTeam">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+
+                                                                <span id="gridHeadedtextTeam"></span>
+                                                                <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexportTeam" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwoTeam" class="">
+                                                            <div class="overflx" id="dsGridWrapTeam">
+                                                                @*@Html.Partial("DashboardSummaryGridViewTeam", new System.Data.DataTable())*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--gridsummary Team-->
+                                    <!--Third level Team-->
+                                    <div class="row hide" id="gridthirdlevelTeam">
+                                        <div class=" col-md-12">
+                                            <div class="boxWidget  noShaded mt-2" id="dashDetails3Team">
+                                                <div class="" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading" role="tab">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
+
+                                                                <span id="gridshoptextTeam"></span>
+                                                                <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexport()" /></span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span class="closeAcDetails2Team clstyle" style="margin-top: 5px; position: absolute; right: 0; top: -9px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div class="" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="overflx">
+                                                                @Html.Partial("DashboardGridViewDetailsTeamVisit", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--Third level Team-->
+                                    <!--State Wise -->
+                                    @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="boxWidget noShaded mtop20">
+                                                    <div class="panel-heading" role="tab" id="headingOne">
+
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
+
+                                                            <span id="salesmanheaderTeam"></span>
+                                                            <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    @Html.Partial("DashboardGridViewSalesmanDetailTeam", new System.Data.DataTable())
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div><!--Team visit End-->
                         }
                         @*Mantis Issue 25468*@
                         @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit - Hierarchy").Count() > 0)
                         {
                             <div role="tabpanel" class="tab-pane " id="teamVisitH">
-                                <div class="row">
-                                    <div class="col-md-12 text-right clearfix py-0">
-                                        <table class="float-right">
-                                            <tr>
-
-                                                <td><button type="button" class="btn btn-success" onclick="ShowTeamVisitHData()">Show</button></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                </div>
+                                @*rev  1.0*@
+                                <!--<div class="row">
+                                        <div class="col-md-12 text-right clearfix py-0 marg-b-50">
+                                            <table class="float-right">
+                                                <tr>-->
+                                                                    @*<td><button type="button" class="btn btn-success" onclick="ShowTeamVisitHData()">Show</button></td>*@
+                                                                    <!--<td>
+                                        <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                                                    @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitHData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                                                                    <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitHData()" style=" line-height: 20px;">
+                                                                    <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
+                                                                    <div class="hands teamVisitH-tb-hand"></div>
+                                                                </button>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>-->
+                                @*rev end  1.0*@
                                 <div class="">
                                     @Html.Action("DashboardAttendanceTVH", new { list = Model.DashboardSettingMappedList })
                                 </div>
@@ -3149,44 +3350,54 @@
                         @*End of Mantis Issue 25468*@
                         @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Attendance Analytics").Count() > 0)
                         {
-                        <div role="tabpanel" class="tab-pane" id="attendanceTB">
-                           @*rev Mantis Issue 25455*@
-                            <div class="row">
-                                <div class="col-md-12 text-right clearfix py-0 mb-4">
-                                    <table class="float-right">
-                                        <tr>
-
-                                            <td><button type="button" class="btn btn-success" onclick="ShowAttendanceData()">Show</button></td>
-                                        </tr>
-                                    </table>
-                                </div>
+                            <div role="tabpanel" class="tab-pane" id="attendanceTB">
+                                @*rev  1.0*@
+                                @*rev Mantis Issue 25455*@
+                                <!--<div class="row">
+                                        <div class="col-md-12 text-right clearfix py-0 marg-b-50">
+                                            <table class="float-right">
+                                                <tr>-->
+                                                    @*<td><button type="button" class="btn btn-success" onclick="ShowAttendanceData()">Show</button></td>*@
+                                                      <!--<td>
+                                        <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                                     @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                                                       <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;">
+                                                               <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
+                                                               <div class="hands attendance-tb-hand"></div>
+                                                       </button>
+                                        </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>-->
+                                @*rev end Mantis Issue 25455*@
+                                @*rev end 1.0*@
+                                <div>@Html.Action("attendanceDetails")</div>
                             </div>
-                            @*rev end Mantis Issue 25455*@
-                            <div>@Html.Action("attendanceDetails")</div>
-                        </div>
                         }
                         @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Order Analytics").Count() > 0)
                         {
-                        <div role="tabpanel" class="tab-pane" id="orderAnalyt">
-                            <div>@Html.Action("orderAnalytics")</div>
-                        </div>
+                            <div role="tabpanel" class="tab-pane" id="orderAnalyt">
+                                <div>@Html.Action("orderAnalytics")</div>
+                            </div>
                         }
                         @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Reimbursement").Count() > 0)
                         {
-                        <div role="tabpanel" class="tab-pane" id="ReimbursementAnalyt">
-                            <div>@Html.Action("reimbursementAnalytics")</div>
-                        </div>
+                            <div role="tabpanel" class="tab-pane" id="ReimbursementAnalyt">
+                                <div>@Html.Action("reimbursementAnalytics")</div>
+                            </div>
                         }
                         @if (@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Target / Achievement").Count() > 0)
                         {
-                        <div role="tabpanel" class="tab-pane" id="targetAnalyt">
-                            <div>@Html.Action("TargetAchievementAnalytics")</div>
-                        </div>
+                            <div role="tabpanel" class="tab-pane" id="targetAnalyt">
+                                <div>@Html.Action("TargetAchievementAnalytics")</div>
+                            </div>
                         }
-                        
+
                         <div role="tabpanel" class="tab-pane" id="leaveList">
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12 px-5">
                                     <div class="row">
                                         <table class="eqpadtbl mb-2">
                                             <tr>
@@ -3225,20 +3436,20 @@
                                                 </td>
                                                 <td style="padding-top: 22px;width:170px;">
                                                     <label></label>
-                                                    <button type="button" id="btnshow" class="btn btn-success btnwidth" >Show</button>  
+                                                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
                                                 </td>
                                             </tr>
                                         </table>
                                     </div>
                                 </div>
 
-                                <div class="form_main">
+                                <div class="form_main px-4">
                                     <div class="clear"></div>
                                     <div id="refreshgrid">
                                     </div>
                                     <div id="refreshgridstatusinvoiceorderreportregister">
                                         @{
-                                        Html.RenderAction("LeaveDetailslistGridDB", "LeaveApplyList", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
+                                            Html.RenderAction("LeaveDetailslistGridDB", "LeaveApplyList", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
                                         }
                                         @*change for design*@
 
@@ -3276,7 +3487,7 @@
                             </div>
 
                         </div>
-                        
+
                     </div>
                 </div>
             </section>
@@ -3496,7 +3707,7 @@
                             </div>
 
                         </div>
-                        
+
                     </div><!-- /content -->
                 </div><!-- /tabs -->
             </section>
@@ -3533,7 +3744,7 @@
                 GetSateValue();
             }
         }).multiselect('selectAll', false).multiselect('updateButtonText');
-        
+
         // Mantis Issue 24729
         $('#cmbBranch').multiselect({
             includeSelectAllOption: true,
@@ -3547,10 +3758,10 @@
 
         branchids = $('#cmbBranch').val();
 
-    
+
         // End of Mantis Issue 24729
         stateids = $('#cmbState').val();
-        
+
         var statelistcount = $('#hdnStateListCount').val();
         if (statelistcount > 0) {
             var GroupBy = $('#hdnGridStatewiseSummaryGroupBy').val();
@@ -3694,7 +3905,7 @@
             //    if ($("#hdnStatewiseSummaryTeamTab").val() == 1) {
             //        TeamVisitData(obj)
             //    }
-            
+
             //}
             // End of Mantis Issue 25455
             if (hdnStatewiseSummary > 0) {
@@ -3827,7 +4038,7 @@
 
         WindowSize = $(window).width();
 
-
+        $(".visit-tb-hand").hide();
         $("#lblAtWork").html("<img src='/assests/images/Spinner.gif' />");
         $("#lblOnLeave").html("<img src='/assests/images/Spinner.gif' />");
         $("#lblNotLoggedIn").html("<img src='/assests/images/Spinner.gif' />");

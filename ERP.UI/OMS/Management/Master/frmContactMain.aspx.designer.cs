@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ERP.OMS.Management.Master {
-    
-    
-    public partial class management_master_frmContactMain {
-        
+namespace ERP.OMS.Management.Master
+{
+
+
+    public partial class management_master_frmContactMain
+    {
+
         /// <summary>
         /// td_contact1 control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl td_contact1;
-        
+
         /// <summary>
         /// lblHeadTitle control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblHeadTitle;
-        
+
         /// <summary>
         /// td_broker1 control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl td_broker1;
-        
+
         /// <summary>
         /// drdExport control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList drdExport;
-        
+
         /// <summary>
         /// txtName control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtName;
-        
+
         /// <summary>
         /// txtBranchName control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtBranchName;
-        
+
         /// <summary>
         /// txtCode control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCode;
-        
+
         /// <summary>
         /// TxtTCODE control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtTCODE;
-        
+
         /// <summary>
         /// TxtSeg control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField TxtSeg;
-        
+
         /// <summary>
         /// txtPAN control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPAN;
-        
+
         /// <summary>
         /// txtRelationManager control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtRelationManager;
-        
+
         /// <summary>
         /// txtReferedBy control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtReferedBy;
-        
+
         /// <summary>
         /// txtPhNumber control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtPhNumber;
-        
+
         /// <summary>
         /// txtContactStatus control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtContactStatus;
-        
+
         /// <summary>
         /// EmployeeGrid control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridView EmployeeGrid;
-        
+
         /// <summary>
         /// EmployeeDataSource control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.SqlDataSource EmployeeDataSource;
-        
+
         /// <summary>
         /// exporter control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridViewExporter exporter;
-        
+
         /// <summary>
         /// ASPXPopupControl2 control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxPopupControl ASPXPopupControl2;
-        
+
         /// <summary>
         /// DirectAddCustPopup control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxPopupControl DirectAddCustPopup;
-        
+
         /// <summary>
         /// hidIsLigherContactPage control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hidIsLigherContactPage;
-        
+
         /// <summary>
         /// hdnIsDMSFeatureOn control.
         /// </summary>

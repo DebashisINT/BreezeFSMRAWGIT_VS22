@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
+//                                              Refer: 0025585
+#endregion===================================End of Revision History==================================================================
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -160,6 +164,38 @@ namespace Models
         public string AttachmentImage3 { get; set; }
         public string AttachmentImage4 { get; set; }
         //Rev end Pallab 25448
+        //Rev 1.0 Mantis: 0025585
+        public string CONTACT_NAME1 { get; set; }
+        public string CONTACT_NUMBER1 { get; set; }
+        public string CONTACT_EMAIL1 { get; set; }
+        public string CONTACT_DOA1 { get; set; }
+        public string CONTACT_DOB1 { get; set; }
+        public string CONTACT_NAME2 { get; set; }
+        public string CONTACT_NUMBER2 { get; set; }
+        public string CONTACT_EMAIL2 { get; set; }
+        public string CONTACT_DOA2 { get; set; }
+        public string CONTACT_DOB2 { get; set; }
+        public string CONTACT_NAME3 { get; set; }
+        public string CONTACT_NUMBER3 { get; set; }
+        public string CONTACT_EMAIL3 { get; set; }
+        public string CONTACT_DOA3 { get; set; }
+        public string CONTACT_DOB3 { get; set; }
+        public string CONTACT_NAME4 { get; set; }
+        public string CONTACT_NUMBER4 { get; set; }
+        public string CONTACT_EMAIL4 { get; set; }
+        public string CONTACT_DOA4 { get; set; }
+        public string CONTACT_DOB4 { get; set; }
+        public string CONTACT_NAME5 { get; set; }
+        public string CONTACT_NUMBER5 { get; set; }
+        public string CONTACT_EMAIL5 { get; set; }
+        public string CONTACT_DOA5 { get; set; }
+        public string CONTACT_DOB5 { get; set; }
+        public string CONTACT_NAME6 { get; set; }
+        public string CONTACT_NUMBER6 { get; set; }
+        public string CONTACT_EMAIL6 { get; set; }
+        public string CONTACT_DOA6 { get; set; }
+        public string CONTACT_DOB6 { get; set; }
+        //End of Rev 1.0 Mantis: 0025585
     }
 
     public class shopTypes

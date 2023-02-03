@@ -1,4 +1,8 @@
-﻿using DataAccessLayer;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
+//                                              Refer: 0025585
+#endregion===================================End of Revision History==================================================================
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -100,8 +104,10 @@ namespace SalesmanTrack
         }
 
 
-
-        public DataTable GetShopListCounterwise(string shoptype, string weburl, string stateId, int Create_UserId = 0)
+        //Rev 1.0 Mantis: 0025585
+        //public DataTable GetShopListCounterwise(string shoptype, string weburl, string stateId, int Create_UserId = 0)
+        public DataTable GetShopListCounterwise(string shoptype, string weburl, string stateId, int IsRevisitContactDetails, int Create_UserId = 0)
+        //End of Rev 1.0 Mantis: 0025585
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("SP_API_Getshoplists_Report");
@@ -110,6 +116,9 @@ namespace SalesmanTrack
             proc.AddPara("@StateId", stateId);
             proc.AddPara("@Action", "Counter");
             proc.AddPara("@Create_UserId", Create_UserId);
+            //Rev 1.0 Mantis: 0025585
+            proc.AddPara("@ISREVISITCONTACTDETAILS", IsRevisitContactDetails);
+            //End of Rev 1.0 Mantis: 0025585
             ds = proc.GetTable();
             return ds;
         }

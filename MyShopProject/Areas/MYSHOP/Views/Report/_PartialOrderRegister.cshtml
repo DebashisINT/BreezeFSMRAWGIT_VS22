@@ -124,12 +124,12 @@
 
 
     settings.Columns.Add(x =>
-   {
-       x.FieldName = "PRODUCT";
-       x.Caption = "Product";
-       x.VisibleIndex = 13;
-       x.Width = 200;
-   });
+    {
+        x.FieldName = "PRODUCT";
+        x.Caption = "Product";
+        x.VisibleIndex = 13;
+        x.Width = 200;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -141,23 +141,23 @@
     });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "RATE";
-    x.Caption = "Rate";
-    x.VisibleIndex = 15;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.Width = 100;
-});
+    {
+        x.FieldName = "RATE";
+        x.Caption = "Rate";
+        x.VisibleIndex = 15;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.Width = 100;
+    });
 
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "ORDVALUE";
-    x.Caption = "Order Value";
-    x.VisibleIndex = 16;
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.Width = 100;
-});
+    {
+        x.FieldName = "ORDVALUE";
+        x.Caption = "Order Value";
+        x.VisibleIndex = 16;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.Width = 100;
+    });
     //Mantis Issue 24593
     if (TempData["IsSchemeDetails"].ToString() == "1")
     {
@@ -191,9 +191,11 @@
     }
     //End of Mantis Issue 24593
 
-    
 
-    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "QUANTITY").DisplayFormat = "0.00";
+    //Rev Debashis Mantis: 0025365
+    //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "QUANTITY").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "QUANTITY").DisplayFormat = "0.000";
+    //End of Rev Debashis Mantis: 0025365
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RATE").DisplayFormat = "0.00";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ORDVALUE").DisplayFormat = "0.00";
     //Mantis Issue 24593

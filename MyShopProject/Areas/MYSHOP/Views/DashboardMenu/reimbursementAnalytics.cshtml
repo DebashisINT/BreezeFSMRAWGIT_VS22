@@ -1,4 +1,8 @@
-﻿
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                11-01-2023        2.0.37           Pallab              25570: Attendance, Order, Reimbursement, Target/Achievement tab box design change *@
+@*====================================================== Revision History ===========================================================*@
+
 <link href="~/assests/css/pignose.calendar.min.css" rel="stylesheet" />
 <script src="~/assests/js/frmCDN/moment.js"></script>
 
@@ -29,6 +33,10 @@
         color: #fff;
         border-radius: 8px;
         overflow: hidden;
+        /*Rev 1.0*/
+        border: 2px solid #fff;
+        box-shadow: 0px 5px 20px rgb(0 0 0 / 23%);
+        /*Rev end 1.0*/
     }
 
         .colorBox.c1 {
@@ -50,6 +58,9 @@
     .infoWrp {
         padding: 12px 15px;
         position: relative;
+        /*Rev 1.0*/
+        padding-left: 60px;
+        /*Rev end 1.0*/
     }
 
         .infoWrp > .nums {
@@ -64,8 +75,10 @@
 
     .mrLinks {
         cursor: pointer;
-        background: rgba(0, 0, 0, 0.34);
-        padding: 5px 10px;
+        /*Rev 1.0*/
+        /*background: rgba(0, 0, 0, 0.34);
+        padding: 5px 10px;*/
+        /*Rev end 1.0*/
         font-size: 80%;
     }
 
@@ -74,13 +87,35 @@
             margin-top: 4px;
         }
 
+    /*Rev 1.0*/
     .fltd {
-        position: absolute;
-        right: 20px;
-        top: 9px;
-        font-size: 37px !important;
-        color: rgba(0, 0, 0, 0.54);
+        /*position: absolute;
+        right: 16px;
+        top: 16px;*/
+        font-size: 22px !important;
+        color: rgb(255 255 255);
+        /*padding: 10px;*/
+        /*border-radius: 50px;
+        background: #ffffff45;*/
+        /*width: 50px;
+        height: 50px;*/
+        text-align: center;
+        /*line-height: 30px;*/
     }
+
+    .icon-box-left {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 50px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(255 255 255 / 70%);
+    }
+
+    /*Rev end 1.0*/
 
     .box-holder {
         border: 1px solid #ccc;
@@ -96,7 +131,7 @@
         height: 300px;
     }
 
-    
+
     .box-holder.full-screen .toggleFullScreen {
         right: 25px;
         top: 19px;
@@ -250,7 +285,7 @@
                     $('#TOTAL_rej').text(msg[0].rejected);
                     $('#TOTAL_pen').text(msg[0].pending);
                 }
-                
+
             }
         });
         $.ajax({
@@ -437,7 +472,7 @@
             success: function (msg) {
                 console.log('last', msg)
 
-                
+
 
                 am4core.ready(function () {
 
@@ -499,11 +534,11 @@
 
         return year + '-' + month + '-' + day;
     }
-    
 
-    
-    
-    
+
+
+
+
 </script>
 <div class="row">
     <div class="col-md-12">
@@ -528,49 +563,78 @@
             <div class="col-md-3">
                 <div class="colorBox">
                     <div class="infoWrp">
-                        <i class="fa fa-inr fltd" aria-hidden="true"></i>
+                        @*rev 1.0: 'icon-box-left' div add and icon change*@
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-inr fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/applied-amount.png" />
+                        </div>
+                        @*rev end 1.0*@
                         <div class="nums" id="Total_vl">0</div>
+                        <div class="mrLinks">
+                            Total Applied Amount
+                        </div>
                     </div>
-                    <div class="mrLinks">
-                        Total Applied Amount
-                    </div>
+                    @*<div class="mrLinks">
+                            Total Applied Amount
+                        </div>*@
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="colorBox c1">
                     <div class="infoWrp">
-                        <i class="fa fa-inr fltd" aria-hidden="true"></i>
+                        @*rev 1.0: 'icon-box-left' div add and icon change*@
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-inr fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/approved-amount.png" />
+                        </div>
+                        @*rev end 1.0*@
                         <div class="nums"><span id="TOTAL_ap">0</span> </div>
-
+                        <div class="mrLinks">
+                            Total Approved Amount
+                        </div>
                     </div>
-                    <div class="mrLinks">
-                        Total Approved Amount
-                    </div>
+                    @*<div class="mrLinks">
+                            Total Approved Amount
+                        </div>*@
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="colorBox c2">
                     <div class="infoWrp">
-                        <i class="fa fa-inr fltd" aria-hidden="true"></i>
+                        @*rev 1.0: 'icon-box-left' div add and icon change*@
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-inr fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/pending-amount.png" />
+                        </div>
+                        @*rev end 1.0*@
                         <div class="nums" id="TOTAL_pen">0</div>
-
+                        <div class="mrLinks">
+                            Total Pending Amount
+                        </div>
                     </div>
-                    <div class="mrLinks">
-                        Total Pending Amount
-                    </div>
+                    @*<div class="mrLinks">
+                            Total Pending Amount
+                        </div>*@
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="colorBox c3">
                     <div class="infoWrp">
-                        <i class="fa fa-truck fltd"
-                           aria-hidden="true"></i>
+                        @*rev 1.0: 'icon-box-left' div add and icon change*@
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-truck fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/rejected-amount.png" />
+                        </div>
+                        @*rev end 1.0*@
                         <div class="nums" id="TOTAL_rej">0</div>
 
+                        <div class="mrLinks">
+                            Total Rejected Amount
+                        </div>
                     </div>
-                    <div class="mrLinks">
-                        Total Rejected Amount
-                    </div>
+                    @*<div class="mrLinks">
+                            Total Rejected Amount
+                        </div>*@
                 </div>
             </div>
         </div>
@@ -637,10 +701,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="hdd-rp">
-                               
+
                                 <div>Total Expenses Current Month:</div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -652,7 +716,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
     <div class="col-md-6">
@@ -665,10 +729,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="hdd-rp">
-                               
+
                                 <div>Total Expenses Last Month</div>
                             </div>
-                            
+
                         </div>
                     </div>
                 </div>

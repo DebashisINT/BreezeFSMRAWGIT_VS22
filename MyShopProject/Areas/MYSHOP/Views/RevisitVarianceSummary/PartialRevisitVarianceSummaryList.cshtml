@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                31-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridrevisitvariancesum";
 
@@ -45,15 +50,15 @@
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "EMPNAME";
-     x.Caption = "Employee Name";
-     x.VisibleIndex = 3;
-     x.Width = 250;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-     x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
-     x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
- });
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 3;
+        x.Width = 250;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -67,60 +72,63 @@
     });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "REVISITTGDATE";
-    x.Caption = "Shop Revisit Target Date";
-    x.VisibleIndex = 5;
-    x.Width = 150;
-    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
-});
+    {
+        x.FieldName = "REVISITTGDATE";
+        x.Caption = "Shop Revisit Target Date";
+        x.VisibleIndex = 5;
+        //Rev 1.0
+        //x.Width = 150;
+        x.Width = 180;
+        //Rev end 1.0
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
 
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "TARGETRV";
-    x.Caption = "Target";
-    x.VisibleIndex = 6;
-    x.Width = 100;
-    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "TARGETRV";
+        x.Caption = "Target";
+        x.VisibleIndex = 6;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "REVISITDATE";
-    x.Caption = "Revisit Date";
-    x.VisibleIndex = 7;
-    x.Width = 150;
-    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
-});
+    {
+        x.FieldName = "REVISITDATE";
+        x.Caption = "Revisit Date";
+        x.VisibleIndex = 7;
+        x.Width = 150;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "NEWVISITCNT";
-    x.Caption = "New Visit";
-    x.VisibleIndex = 8;
-    x.Width = 100;
-    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "NEWVISITCNT";
+        x.Caption = "New Visit";
+        x.VisibleIndex = 8;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-{
-    x.FieldName = "ACHIEVEMENT";
-    x.Caption = "Achievement";
-    x.VisibleIndex = 9;
-    x.Width = 110;
-    // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-});
+    {
+        x.FieldName = "ACHIEVEMENT";
+        x.Caption = "Achievement";
+        x.VisibleIndex = 9;
+        x.Width = 110;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     ///Summary
 

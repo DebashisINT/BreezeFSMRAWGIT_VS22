@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 786
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +13,9 @@ namespace ShopAPI.Models
     {
         public string session_token { get; set; }
         public string user_id { get; set; }
-
+        //Rev Debashis : Mantis:0025529 & Row:779
+        public int isnewShop { get; set; }
+        //End of Rev Debashis : Mantis:0025529 & Row:779
 
         public List<ShopsubmissionModel> shop_list { get; set; }
     }
@@ -31,7 +36,6 @@ namespace ShopAPI.Models
         public string distanceFromHomeLoc { get; set; }
         public string early_revisit_reason { get; set; }
 
-
         public string device_model { get; set; }
         public string android_version { get; set; }
         public string battery { get; set; }
@@ -51,6 +55,10 @@ namespace ShopAPI.Models
         public string agency_name { get; set; }
         public string approximate_1st_billing_value { get; set; }
         //End of Rev Debashis
+        //Rev 1.0 Row:786
+        public string multi_contact_name { get; set; }
+        public string multi_contact_number { get; set; }
+        //End of Rev 1.0 Row:786
     }
 
     public class ShopsubmissionOutput

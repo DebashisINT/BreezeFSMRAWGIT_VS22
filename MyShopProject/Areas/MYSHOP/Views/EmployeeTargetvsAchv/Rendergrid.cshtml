@@ -1,4 +1,8 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                01-02-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "ListGrid";
     //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
@@ -53,7 +57,7 @@
         column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
         column.Width = 120;
-    });   
+    });
 
     settings.Columns.Add(column =>
     {
@@ -124,7 +128,10 @@
         column.FieldName = "TestDriveTarget";
         column.Caption = "Test Drive-Target";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 100;
+        //Rev 1.0
+        //column.Width = 100;
+        column.Width = 130;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(column =>
@@ -132,7 +139,10 @@
         column.Caption = "Test Drive-Achv";
         column.FieldName = "TestDriveAchv";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 100;
+        //Rev 1.0
+        //column.Width = 100;
+        column.Width = 130;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(column =>
@@ -140,7 +150,10 @@
         column.FieldName = "BookingTarget";
         column.Caption = "Booking-Target";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 100;
+        //Rev 1.0
+        //column.Width = 100;
+        column.Width = 130;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(column =>

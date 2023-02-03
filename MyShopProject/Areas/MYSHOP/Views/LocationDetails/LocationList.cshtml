@@ -1,4 +1,9 @@
-﻿@model Models.LocationInput
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                13-01-2023        2.0.37           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ===========================================================*@
+
+@model Models.LocationInput
 @{
     ViewBag.Title = "Location List";
 }
@@ -151,7 +156,7 @@
                         else {
                             $('#showGrid').show();
                             $('#refreshgrid').html(data);
-                            
+
                         }
                         $("#divLoader").hide();
                     },
@@ -320,7 +325,7 @@
 @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@Model.KeyId"></script>*@
 <script type="text/javascript">
     function GetAddress(lat, lng, shopid) {
-      
+
         var latlng = new google.maps.LatLng(lat, lng);
         var geocoder = geocoder = new google.maps.Geocoder();
         geocoder.geocode({ 'latLng': latlng }, function (results, status) {
@@ -542,15 +547,207 @@
     #popupfootmap {
         font-size: 16pt;
     }
-    
+
     .tableScroll {
-        width:100%;
-        overflow-x:auto;
+        width: 100%;
+        overflow-x: auto;
     }
-    .tableScroll > #tblshoplist {
-        width:auto !important;
+
+        .tableScroll > #tblshoplist {
+            width: auto !important;
+        }
+
+    /*Rev 1.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
     }
-    
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 33px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .whclass.selectH {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+        .whclass.selectH:focus-visible {
+            outline: none;
+        }
+
+        .whclass.selectH:focus {
+            border: 1px solid #164f93;
+        }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    #refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+    /*Rev end 1.0*/
+
 </style>
 <div class="breadCumb">
     <span>Location List</span>
@@ -594,6 +791,9 @@
                                     deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
                                     deSettings.Properties.EditFormatString = "dd-MM-yyyy";
                                 }).GetHtml()
+                        @*Rev 1.0*@
+                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                        @*Rev end 1.0*@
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -611,6 +811,9 @@
                                     deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
                                     deSettings.Properties.EditFormatString = "dd-MM-yyyy";
                                 }).GetHtml()
+                        @*Rev 1.0*@
+                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                        @*Rev end 1.0*@
                     </div>
                 </div>
                 <div class="col-md-4 btnPadding">
@@ -648,9 +851,10 @@
         <tbody>
             <tr>
                 <td>
-
-                    <img src='~/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">
-
+                    @*Rev 1.0*@
+                    @*<img src='~/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">*@
+                    <img src='/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">
+                    @*Rev end 1.0*@
                 </td>
             </tr>
         </tbody>
@@ -664,7 +868,7 @@
         <div class="inner">
             <div id="dialogmap" class="window">
                 <span class="pull-right closeBtn close"><a href="#" onclick="reloadParent()"><i class="fa fa-times"></i></a></span>
-                
+
                 <div id="popupfootmap">
 
                     <div id="map" style="width: 100%; height: 450px;"></div>

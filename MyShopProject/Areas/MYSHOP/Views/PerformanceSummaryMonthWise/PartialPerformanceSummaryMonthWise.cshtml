@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                27-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridperformancewisemonth";
 
@@ -24,14 +29,14 @@
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
 
     settings.Columns.Add(x =>
-   {
-       x.FieldName = "EMPID";
-       x.Caption = "Employee ID";
-       x.VisibleIndex = 1;
-       x.Width = 100;
-       //x.FixedStyle = GridViewColumnFixedStyle.Left;
-       // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-   });
+    {
+        x.FieldName = "EMPID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 1;
+        x.Width = 100;
+        //x.FixedStyle = GridViewColumnFixedStyle.Left;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
 
     settings.Columns.Add(x =>
     {
@@ -68,13 +73,13 @@
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "STATE";
-     x.Caption = "State";
-     x.VisibleIndex = 5;
-     x.Width = 150;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
- });
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 5;
+        x.Width = 150;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
 
     settings.Columns.Add(x =>
     {
@@ -86,84 +91,105 @@
     });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "LATE_CNT";
-          x.Caption = "Late";
-          x.VisibleIndex = 7;
-          x.Width = 30;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      });
+    {
+        x.FieldName = "LATE_CNT";
+        x.Caption = "Late";
+        x.VisibleIndex = 7;
+        //Rev 1.0
+        //x.Width = 30;
+        x.Width = 60;
+        //Rev end 1.0
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "LATE_LESSVISIT";
-          x.Caption = "Less Visit <br/>(>7 & <10)";
-          x.VisibleIndex = 8;
-          x.Width = 80;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      });
+    {
+        x.FieldName = "LATE_LESSVISIT";
+        x.Caption = "Less Visit <br/>(>7 & <10)";
+        x.VisibleIndex = 8;
+        //Rev 1.0
+        //x.Width = 80;
+        x.Width = 100;
+        //Rev end 1.0
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
 
     settings.Columns.Add(x =>
-  {
-      x.FieldName = "ABSENT_CNT";
-      x.Caption = "Absent <br/>(Late & Less Visit)";
-      x.VisibleIndex = 9;
-      x.Width = 100;
-      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-  });
-
-  settings.Columns.Add(x =>
-  {
-      x.FieldName = "ABSENT_LESSVISIT";
-      x.Caption = "Absent <br/>(<7 Visit)";
-      x.VisibleIndex = 10;
-      x.Width = 70;
-      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-  });
+    {
+        x.FieldName = "ABSENT_CNT";
+        x.Caption = "Absent <br/>(Late & Less Visit)";
+        x.VisibleIndex = 9;
+        //Rev 1.0
+        //x.Width = 100;
+        x.Width = 130;
+        //Rev end 1.0
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-  {
-      x.FieldName = "NOTLOGIN_CNT";
-      x.Caption = "Not<br/>Login";
-      x.VisibleIndex = 11;
-      x.Width = 40;
-      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-  });
+    {
+        x.FieldName = "ABSENT_LESSVISIT";
+        x.Caption = "Absent <br/>(<7 Visit)";
+        x.VisibleIndex = 10;
+        //Rev 1.0
+        //x.Width = 70;
+        x.Width = 80;
+        //Rev end 1.0
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
-settings.Columns.Add(x =>
-  {
-      x.FieldName = "PRESENT_CNT";
-      x.Caption = "Present<br/>(Work+Leave)";
-      x.VisibleIndex = 12;
-      x.Width = 85;
-      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-  });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "NOTLOGIN_CNT";
+        x.Caption = "Not<br/>Login";
+        x.VisibleIndex = 11;
+        //Rev 1.0
+        //x.Width = 40;
+        x.Width = 80;
+        //Rev end 1.0
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
-settings.Columns.Add(x =>
-  {
-      x.FieldName = "MANDAYS_CNT";
-      x.Caption = "Man<br/>Days";
-      x.VisibleIndex = 13;
-      x.Width = 40;
-      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-  });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PRESENT_CNT";
+        x.Caption = "Present<br/>(Work+Leave)";
+        x.VisibleIndex = 12;
+        //Rev 1.0
+        //x.Width = 85;
+        x.Width = 100;
+        //Rev end 1.0
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "MANDAYS_CNT";
+        x.Caption = "Man<br/>Days";
+        x.VisibleIndex = 13;
+        //Rev 1.0
+        //x.Width = 40;
+        x.Width = 60;
+        //Rev end 1.0
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -239,7 +265,10 @@ settings.Columns.Add(x =>
         x.FieldName = "DELIVERED";
         x.Caption = "Delivered";
         x.VisibleIndex = 20;
-        x.Width = 60;
+        //Rev 1.0
+        //x.Width = 60;
+        x.Width = 80;
+        //Rev end 1.0
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;

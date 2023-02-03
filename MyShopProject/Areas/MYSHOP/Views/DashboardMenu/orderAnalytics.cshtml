@@ -1,4 +1,9 @@
-﻿<style>
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                11-01-2023        2.0.37           Pallab              25570: Attendance, Order, Reimbursement, Target/Achievement tab box design change *@
+@*====================================================== Revision History ===========================================================*@
+
+<style>
     ul.nopad {
         list-style-type: none;
         padding: 0;
@@ -18,6 +23,10 @@
         color: #fff;
         border-radius: 8px;
         overflow: hidden;
+        /*Rev 1.0*/
+        border: 2px solid #fff;
+        box-shadow: 0px 5px 20px rgb(0 0 0 / 23%);
+        /*Rev end 1.0*/
     }
 
         .colorBox.c1 {
@@ -39,6 +48,9 @@
     .infoWrp {
         padding: 12px 15px;
         position: relative;
+        /*Rev 1.0*/
+        padding-left: 60px;
+        /*Rev end 1.0*/
     }
 
         .infoWrp > .nums {
@@ -52,8 +64,10 @@
 
     .mrLinks {
         cursor: pointer;
-        background: rgba(0, 0, 0, 0.34);
-        padding: 5px 10px;
+        /*Rev 1.0*/
+        /*background: rgba(0, 0, 0, 0.34);
+        padding: 5px 10px;*/
+        /*Rev end 1.0*/
         font-size: 80%;
     }
 
@@ -62,13 +76,35 @@
             margin-top: 4px;
         }
 
+    /*Rev 1.0*/
     .fltd {
-        position: absolute;
-        right: 20px;
-        top: 9px;
-        font-size: 37px !important;
-        color: rgba(0, 0, 0, 0.54);
+        /*position: absolute;
+        right: 16px;
+        top: 16px;*/
+        font-size: 22px !important;
+        color: rgb(255 255 255);
+        /*padding: 10px;*/
+        /*border-radius: 50px;
+        background: #ffffff45;*/
+        /*width: 50px;
+        height: 50px;*/
+        text-align: center;
+        /*line-height: 30px;*/
     }
+
+    .icon-box-left {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 50px;
+        height: 80px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgb(255 255 255 / 70%);
+    }
+
+    /*Rev end 1.0*/
 
     .box-holder {
         border: 1px solid #ccc;
@@ -79,6 +115,7 @@
         -moz-transition: all 0.2s ease-in;
         transition: all 0.2s ease-in;
     }
+
         .box-holder.full-screen, .box-full.full-screen {
             position: fixed;
             top: 0;
@@ -91,15 +128,18 @@
             border-top: 4px solid rgb(13, 105, 67);
             border-radius: 5px;
             padding: 20px;
-            border-radius:0px;
+            border-radius: 0px;
             margin: 0;
         }
-    .chartHolder{
-        height:300px;
+
+    .chartHolder {
+        height: 300px;
     }
+
     .box-holder.full-screen .chartHolder, .box-full.full-screen .chartHolder {
         height: 70vh !important;
     }
+
     .toggleFullScreen {
         top: 29px;
         position: absolute;
@@ -108,14 +148,20 @@
         display: block;
         z-index: 5;
         cursor: pointer;
+        width: 30px;
+        height: 30px;
+        border-radius: 50px;
+        background: #d6e9ff;
+        text-align: center;
+        line-height: 30px;
+        color: #082f5c;
     }
-    .box-holder.full-screen .toggleFullScreen {
 
+    .box-holder.full-screen .toggleFullScreen {
         right: 25px;
         top: 19px;
+    }
 
-    }   
-            
     .box-holder .hdd-rp {
         font-size: 15px;
         font-weight: 600;
@@ -130,11 +176,11 @@
         width: 100%;
     }
 
-    .table .thead-light th {
-        color: #495057;
-        background-color: #e9ecef;
-        border-color: #dee2e6;
-    }
+        .table .thead-light th {
+            color: #495057;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
 
     .badge {
         font-weight: 500;
@@ -170,38 +216,47 @@
         max-width: 100% !important;
     }
 
-    .pignose-calendar .pignose-calendar-top,
-    .pignose-calendar {
-        box-shadow: none !important;
-    }
+        .pignose-calendar .pignose-calendar-top,
+        .pignose-calendar {
+            box-shadow: none !important;
+        }
+
     .tbleChoosedate {
         float: right;
         margin-right: 15px;
-        font-size:14px;
+        font-size: 14px;
     }
-    .tbleChoosedate >tbody>tr>td:not(:last-child) {
-        padding-right:15px;
-    }
+
+        .tbleChoosedate > tbody > tr > td:not(:last-child) {
+            padding-right: 15px;
+        }
+
     .dateWidth {
-        max-width:140px;
+        max-width: 190px;
     }
-    .chartHolder{
-        border:1px solid #ccc
+
+    .chartHolder {
+        border: 1px solid #ccc
     }
+
     .usrTabl {
-        width:100%;
+        width: 100%;
     }
-    .usrTabl>thead>tr>th {
-        background:#3798c5;
-        color:#fff;
-        padding:8px 5px;
-    }
-    .usrTabl > tbody > tr > td {
-        padding:5px;
-    }
+
+        .usrTabl > thead > tr > th {
+            background: #3798c5;
+            color: #fff;
+            padding: 8px 5px;
+        }
+
+        .usrTabl > tbody > tr > td {
+            padding: 5px;
+        }
+
         .usrTabl > tbody > tr:nth-child(even) > td {
             background: #f1f1f1;
         }
+
     .nCheck {
         font-size: 18px;
         display: flex;
@@ -225,8 +280,8 @@
 <script src="~/assests/pluggins/amchart/charts.js"></script>
 <script src="~/assests/pluggins/amchart/themes/animated.js"></script>
 @*<script src="https://www.amcharts.com/lib/4/core.js"></script>
-<script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>*@
+    <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>*@
 <script type="text/javascript">
     $(function () {
         $.fn.datepicker.defaults.format = "dd-mm-yyyy";
@@ -285,7 +340,7 @@
         return year + '-' + month + '-' + day;
     }
 
-    
+
     //order count chart
     function getOrderCountChart(fromDate, toDate) {
         var obj = {};
@@ -354,7 +409,7 @@
                 } else {
                     $('#chartLine').html('<div class="nCheck">No Data Available</div>');
                 }
-                
+
             }
         });
     }
@@ -427,11 +482,11 @@
 
                     chart.scrollbarX = new am4core.Scrollbar();
                     chart.scrollbarX.parent = chart.bottomAxesContainer;
-                   
+
                 } else {
                     $('#chartLine2').html('<div class="nCheck">No Data Available</div>');
                 }
-                
+
             }
         });
     }
@@ -554,7 +609,7 @@
             }
         });
     }
-    // top order 
+    // top order
     function getOrderStateWise(fromDate, toDate) {
         var obj = {};
         obj.fromDate = fromDate;
@@ -617,7 +672,7 @@
                         var pieSeries = chart.series.push(new am4charts.PieSeries());
                         pieSeries.dataFields.value = "ORDVALUE";
                         pieSeries.dataFields.category = "PRODUCT";
-                        
+
                         // Disable ticks and labels
                         //pieSeries.labels.template.disabled = true;
                         pieSeries.ticks.template.disabled = true;
@@ -637,13 +692,13 @@
                         chart.legend.position = "right";
                         chart.legend.maxHeight = 250;
                         chart.legend.scrollable = true;
-                       
+
 
                     }); // end am4core.ready()
                 } else {
                     $('#pieOne').html('<div class="nCheck">No Data Available</div>');
                 }
-                
+
             }
         });
     }
@@ -703,12 +758,12 @@
                     $('#pieTwo').html('<div class="nCheck">No Data Available</div>');
                 }
                 //console.log(msg);
-                
+
             }
         });
     }
 
-    function getTotalOrderCount(fromDate, toDate) { 
+    function getTotalOrderCount(fromDate, toDate) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
@@ -754,7 +809,7 @@
             processData: false,
             contentType: 'application/json',
             success: function (msg) {
-                
+
                 $('#TOTAL_aov').text(numberWithCommas(msg[0].AVGORDVALUE));
             }
         });
@@ -809,7 +864,7 @@
                         </td>
                         <td>To</td>
                         <td class="dateWidth">
-                            <input type="text" id="toDate"  class="form-control datepicker" />
+                            <input type="text" id="toDate" class="form-control datepicker" />
                         </td>
                         <td><button type="button" class="btn btn-success" onclick="getdata()">Show Analysis</button></td>
                     </tr>
@@ -820,53 +875,72 @@
             <div class="col-md-3">
                 <div class="colorBox">
                     <div class="infoWrp">
-                        <i class="fa fa-shopping-bag fltd" aria-hidden="true"></i>
+                        @*rev 1.0: 'icon-box-left' div add and icon change*@
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-shopping-bag fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/total-order.png" />
+                        </div>
+                        @*rev end 1.0*@
                         <div class="nums" id="Total_oc">0</div>
                         <div class="txts">Total Order Count</div>
                     </div>
                     <div class="mrLinks hide">
-                        
+
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="colorBox c1">
                     <div class="infoWrp">
-                        <i class="fa fa-inr fltd" aria-hidden="true"></i>
+                        @*rev 1.0: 'icon-box-left' div add and icon change*@
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-inr fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/total-order-value.png" />
+                        </div>
+                        @*rev end 1.0*@
                         <div class="nums"><span id="TOTAL_ov">0</span> </div>
                         <div class="txts">Total Order Value</div>
                     </div>
                     <div class="mrLinks hide">
-                       
+
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="colorBox c2">
                     <div class="infoWrp">
-                        <i class="fa fa-inr fltd" aria-hidden="true"></i>
+                        @*rev 1.0: 'icon-box-left' div add and icon change*@
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-inr fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/average-order-value.png" />
+                        </div>
+                        @*rev end 1.0*@
                         <div class="nums" id="TOTAL_aov">0</div>
                         <div class="txts">Average Order Value</div>
                     </div>
                     <div class="mrLinks hide">
-                        
+
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="colorBox c3">
                     <div class="infoWrp">
-                        <i class="fa fa-truck fltd"
-                           aria-hidden="true"></i>
+                        @*rev 1.0: 'icon-box-left' div add and icon change*@
+                        <div class="icon-box-left">
+                            @*<i class="fa fa-truck fltd" aria-hidden="true"></i>*@
+                            <img src="/assests/images/order-delivered.png" />
+                        </div>
+                        @*rev end 1.0*@
                         <div class="nums" id="TOTAL_ORDDELV">0</div>
                         <div class="txts">Order Delivered</div>
                     </div>
                     <div class="mrLinks hide">
-                        
+
                     </div>
                 </div>
             </div>
-        </div>     
+        </div>
     </div>
 </div>
 
@@ -979,7 +1053,6 @@
                                 </tr>
                             </thead>
                             <tbody id="topCustomersTble">
-                                
                             </tbody>
                         </table>
                     </div>
@@ -1009,7 +1082,6 @@
                                 </tr>
                             </thead>
                             <tbody id="stateWise">
-                                
                             </tbody>
                         </table>
                     </div>
@@ -1028,4 +1100,3 @@
     </div>
 </div>
 <!-- Chart code -->
-

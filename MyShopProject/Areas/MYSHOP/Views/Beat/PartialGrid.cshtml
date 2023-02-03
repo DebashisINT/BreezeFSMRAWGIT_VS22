@@ -1,4 +1,5 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*1.0   v2.0.38  Priti   0025589:Separate column required for Area, Route, Beat*@
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridList";
     settings.KeyFieldName = "ID";
@@ -31,15 +32,47 @@
 
     });
 
+    //REV 1.0
+
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "Beat_Name";
+    //    x.Caption = "Group/Beat Name";
+    //    x.VisibleIndex = 2;
+    //    //x.Width = 120;
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //});
     settings.Columns.Add(x =>
-     {
-         x.FieldName = "Beat_Name";
-         x.Caption = "Group/Beat Name";
-         x.VisibleIndex = 2;
-         //x.Width = 120;
-         x.ColumnType = MVCxGridViewColumnType.TextBox;
-         x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
-     });
+    {
+        x.FieldName = "AREANAME";
+        x.Caption = "Area Name";
+        x.VisibleIndex = 2;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ROUTENAME";
+        x.Caption = "Route Name";
+        x.VisibleIndex = 3;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BEATNAME";
+        x.Caption = "Beat Name";
+        x.VisibleIndex = 4;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+    //REV 1.0 END
 
     settings.Columns.Add(x =>
     {
@@ -87,12 +120,22 @@
         // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
 
     });
-
+    // Mantis Issue 25536, 25535, 25542, 25543, 25544
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CODE_TYPE";
+        x.Caption = "Type";
+        x.VisibleIndex = 7;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    // End of Mantis Issue 25536, 25535, 25542, 25543, 25544
 
     settings.Columns.Add(x =>
     {
         x.Caption = "Action";
-        x.VisibleIndex = 7;
+        x.VisibleIndex = 8;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.HeaderStyle.VerticalAlign = System.Web.UI.WebControls.VerticalAlign.Middle;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
@@ -101,8 +144,12 @@
         {
             // ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenHomeLocationforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "UserID")) + "')\">Modify</a>");
             ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"AssignUserClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "')\"><img src='/assests/images/user1.png' style='width:16px;margin-right:3px' /></a>");
-            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /></a>");
-            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "')\"><img src='/assests/images/Delete.png'/> </a>");
+            // Mantis Issue 25536, 25535, 25542, 25543, 25544
+            //ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /></a>");
+            //ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "')\"><img src='/assests/images/Delete.png'/> </a>");
+            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "CODE_TYPE")) + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /></a>");
+            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "CODE_TYPE")) + "')\"><img src='/assests/images/Delete.png'/> </a>");
+            // End of Mantis Issue 25536, 25535, 25542, 25543, 25544
 
         });
 

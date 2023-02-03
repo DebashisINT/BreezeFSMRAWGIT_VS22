@@ -1,5 +1,8 @@
 ﻿@model System.Data.DataTable
 
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                06-01-2023        2.0.37           pallab              grid width issue fix*@
+
 @Html.DevExpress().GridView(
    settings =>
    {
@@ -89,7 +92,10 @@
                            visibleindex = visibleindex + 1;
                            if (ColumnWidth == 10)
                            {
-                               x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+                               //rev 1.0
+                               //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                               //rev end 1.0
                            }
                            else if (ColumnWidth == 6)
                            {
@@ -103,10 +109,13 @@
                            {
                                x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
                            }
+                           //rev 1.0
                            else if (ColumnWidth == 8)
                            {
-                               x.Width = System.Web.UI.WebControls.Unit.Percentage(12.5);
+                               //x.Width = System.Web.UI.WebControls.Unit.Percentage(12.5);
+                               x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
                            }
+                           //rev end 1.0
                            else
                            {
                                //x.Width = System.Web.UI.WebControls.Unit.Pixel(200);

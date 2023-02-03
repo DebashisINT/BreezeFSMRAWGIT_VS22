@@ -32,6 +32,11 @@
             right: 37px;
             top: 13px;
         }
+
+        .dxtcLite_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+        }
     </style>
 </asp:Content>
 

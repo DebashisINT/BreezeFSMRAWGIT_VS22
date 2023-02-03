@@ -91,6 +91,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             if (model.is_pageload != "0" && model.is_pageload != null)
             {
                 double days = (Convert.ToDateTime(dattoat) - Convert.ToDateTime(datfrmat)).TotalDays;
+                
                 if (days <= 1)
                 {
                     ProcedureExecute proc = new ProcedureExecute("PRC_FTSDAILYPERFORMANCEOFSALESPERSONNEL_REPORT");

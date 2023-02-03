@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.38     Debashis    24/01/2023      A new parameter has been added.Row: 807
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -52,6 +55,9 @@ namespace ShopAPI.Models
         public string JointVisitTeam_MemberName { get; set; }
         public long JointVisitTeam_Member_User_ID { get; set; }
         //End of Rev Debashis Row 776
+        //Rev 1.0 Row: 807
+        public string IsDistributorwiseNearbyShopVisit { get; set; }
+        //End of Rev 1.0 Row: 807
     }
 
 

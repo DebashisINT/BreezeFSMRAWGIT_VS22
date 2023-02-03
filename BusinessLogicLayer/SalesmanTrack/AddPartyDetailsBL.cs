@@ -1,4 +1,7 @@
-﻿using DataAccessLayer;
+﻿/*************************************************************************************************************
+Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+*****************************************************************************************************************/
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -224,5 +227,50 @@ namespace BusinessLogicLayer.SalesmanTrack
         }
         //End of Mantis Issue 25133
 
+        // Mantis Issue 25545
+        public DataTable GenerateReAssignShopListForAreaRouteBeat(String USER_ID)
+        {
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_ReAssignShopToUser");
+            proc.AddPara("@ACTION", "ReAssignShopListForAreaRouteBeat");
+            proc.AddPara("@USER_ID", USER_ID);
+            dt = proc.GetTable();
+            return dt;
+        }
+        public DataTable ShopReAssignUser_ForAreaRouteBeat(String USER_ID, String OLD_USER, String NEW_USER, String ShopCodes)
+        {
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_ReAssignShopToUser");
+            proc.AddPara("@ACTION", "ShopReAssignUser_ForAreaRouteBeat");
+            proc.AddPara("@USER_ID", USER_ID);
+            proc.AddPara("@OLD_USER", OLD_USER);
+            proc.AddPara("@NEW_USER", NEW_USER);
+            proc.AddPara("@ShopCodes", ShopCodes);
+            dt = proc.GetTable();
+            return dt;
+        }
+        public DataTable ShopReAssignUserLog_AreaRouteBeat(String FromDate, String ToDate)
+        {
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_ReAssignShopToUser");
+            proc.AddPara("@ACTION", "ShopReAssignUserLog_AreaRouteBeat");
+            proc.AddPara("@FromDate", FromDate);
+            proc.AddPara("@ToDate", ToDate);
+            dt = proc.GetTable();
+            return dt;
+        }
+        // End of Mantis Issue 25545
+        // Rev 1.0
+        public DataTable BulkModifyPartyLog(String FromDate, String ToDate)
+        {
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTSBulkModifyParty");
+            proc.AddPara("@ACTION", "GetBulkModifyPartyLog");
+            proc.AddPara("@FromDate", FromDate);
+            proc.AddPara("@ToDate", ToDate);
+            dt = proc.GetTable();
+            return dt;
+        }
+        // End of Rev 1.0
     }
 }

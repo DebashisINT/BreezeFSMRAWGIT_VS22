@@ -1,51 +1,65 @@
 ﻿@model List<MyShop.Models.DashboardSettingMapped>
 
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                06-01-2023        2.0.37           pallab              25570: show button position change and data default value change(added '*' instead of '0') *@
+
 @if (Model != null)
 {
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,800;1,900&display=swap" rel="stylesheet">
     <style>
         .mapShowlist li .tootip {
             font-family: 'Poppins', sans-serif !important;
         }
+
         .newStyleMN .widgBox .icon {
             position: absolute;
             left: -32px;
             top: 28px;
             border-radius: 6px;
         }
+
         .newStyleMN .widgBox .txt {
             width: 100% !important;
             max-width: 100% !important;
             font-family: 'Poppins', sans-serif !important;
             padding-left: 0px;
             font-weight: 400;
-            font-size: 15px;
+            font-size: 14px;
             margin-top: -9px;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
+            color: #fff;
         }
+
         .dtday {
             font-size: 13px;
         }
+
         .newStyleMN .widgBox .Numb {
             font-family: 'Poppins', sans-serif !important;
-            font-weight: 300;
-            font-size: 38px;
-            color: #505050;
+            font-weight: 500;
+            font-size: 32px;
+            /*color: #083a72;*/
+            color: #fff;
             text-align: left;
+            margin-bottom: 5px;
         }
+
         .newStyleMN .widgBox.active .Numb {
             color: #fff;
-        }.newStyleMN .widgBox {
+        }
+
+        .newStyleMN .widgBox {
             border-radius: 15px;
             padding: 15px;
             padding-bottom: 15px;
-            
         }
+
         .newStyleMN .lspacer {
-            padding-left:25px
+            padding-left: 5px
         }
+
         .flex-itm.scr:not(:last-child) .widgBox {
             margin-right: 30px;
         }
@@ -62,25 +76,25 @@
                         @Html.Action("DashboardStateCombobox")
                     </li>
                     @*Mantis Issue 24729*@
-                    <li class="relative" >
-                       
-                            @Html.Action("DashboardBranchCombobox")
-                        
+                    <li class="relative">
+
+                        @Html.Action("DashboardBranchCombobox")
+
 
 
                     </li>
                     @*EnMantis Issue 24729*@
                     @if (Model.Where(x => x.DetailsName == "View Party").Count() > 0)
                     {
-                    <li title="Click to get route details of Employees with Map " id="step7">
-                        <div class="pointer hoverMenu rut" onclick="ShowViewParty();">
-                            <span class="text ">
-                                View Party
-                                <span class="arrr"></span>
-                            </span>
-                            <span class="lni lni-user "></span>
-                        </div>
-                    </li>
+                        <li title="Click to get route details of Employees with Map " id="step7">
+                            <div class="pointer hoverMenu rut" onclick="ShowViewParty();">
+                                <span class="text ">
+                                    View Party
+                                    <span class="arrr"></span>
+                                </span>
+                                <span class="lni lni-user "></span>
+                            </div>
+                        </li>
                     }
                     @if (Model.Where(x => x.DetailsName == "View Route").Count() > 0)
                     {
@@ -90,7 +104,8 @@
                                     View Route
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="lni lni-direction "></span>
+                                @*<span class="lni lni-direction "></span>*@
+                                <img src="/assests/images/route.png" alt="">
                             </div>
                             @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
                         </li>
@@ -103,7 +118,8 @@
                                     View Map
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="lni lni-map"></span>
+                                @*<span class="lni lni-map"></span>*@
+                                <img src="/assests/images/map.png" alt="">
                             </div>
                         </li>
                     }
@@ -115,8 +131,9 @@
                                     Live Tracker
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="liveBlink"></span>
-                                <span class="lni lni-map-marker"></span>
+                                @*<span class="liveBlink"></span>*@
+                                @*<span class="lni lni-map-marker"></span>*@
+                                <img src="/assests/images/tracker.png" alt="">
                             </div>
                             @*separate-left*@
                             @*<span class=" greenTrack" style="cursor:pointer;" >Live Track Employees At Work <img class="pull-right blink cgreen" style="width: 12px; margin: 3px 0 0 5px;" src="/assests/images/Live.png" /></span>*@
@@ -130,7 +147,8 @@
                                     View Outlet
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="lni lni-hospital "></span>
+                                @*<span class="lni lni-hospital "></span>*@
+                                <img src="/assests/images/view-outlet.png" alt="">
                             </div>
                             @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
                         </li>
@@ -143,7 +161,8 @@
                                     Emp Outlet
                                     <span class="arrr"></span>
                                 </span>
-                                <span class="lni lni-users "></span>
+                                @*<span class="lni lni-users "></span>*@
+                                <img src="/assests/images/emp-outlet.png" alt="">
                             </div>
                             @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
                         </li>
@@ -154,19 +173,25 @@
     </div>
     <div class="">
         <div class="row">
-            <div class="clearfix mb-5">
+            <div class="clearfix mb-3">
                 <div class="d-flex justify-content-center mainDashBoxes newStyleMN">
                     @if (Model.Where(x => x.DetailsName == "Total Employees").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
                             <div class="widgBox c2" id="a4" onclick="OnTotalClick(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-users"></span></div>
-                                    
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-users"></span>*@
+                                        <img src="/assests/images/employees.png" />
+                                    </div>
+
                                 </div>
                                 <div class="lspacer">
                                     @*Mantis Issue 25455 [value 0 added] *@
-                                    <div class="Numb" id="lblTotal">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="lblTotal">0</div>*@
+                                    <div class="Numb" id="lblTotal">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employee Strength</div>
                                     <div class="dtday">As of Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -180,12 +205,18 @@
                         <div class="flex-itm scr " data-scroll="accordion">
                             <div class="widgBox c3" id="a1" onclick="AtWorkClick(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-briefcase"></span></div>
-                                    
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-briefcase"></span>*@
+                                        <img src="/assests/images/at-work.png" />
+                                    </div>
+
                                 </div>
                                 <div class="lspacer">
                                     @*Mantis Issue 25455 [value 0 added] *@
-                                    <div class="Numb" id="lblAtWork">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="lblAtWork">0</div>*@
+                                    <div class="Numb" id="lblAtWork">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employees At Work</div>
                                     <div class="dtday">Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -198,14 +229,20 @@
                     {
 
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox " id="a2" onclick="OnLeaveClick(this);">
+                            <div class="widgBox c5" id="a2" onclick="OnLeaveClick(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-calendar-full"></span></div>
-                                    
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-calendar-full"></span>*@
+                                        <img src="/assests/images/on-leave.png" />
+                                    </div>
+
                                 </div>
                                 <div class="lspacer">
                                     @*Mantis Issue 25455 [value 0 added] *@
-                                    <div class="Numb" id="lblOnLeave">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="lblOnLeave">0</div>*@
+                                    <div class="Numb" id="lblOnLeave">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Employees On Leave</div>
                                     <div class="dtday"> Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -219,12 +256,18 @@
                         <div class="flex-itm scr " data-scroll="accordion">
                             <div class="widgBox c4" id="a3" onclick="NotLoggedInClick(this);">
                                 <div class="d-flex  align-items-center">
-                                    <div class="icon"><span class="lnr lnr-power-switch transNotLogged"></span></div>
-                                    
+                                    <div class="icon">
+                                        @*<span class="lnr lnr-power-switch transNotLogged"></span>*@
+                                        <img src="/assests/images/not-loggedin.png" />
+                                    </div>
+
                                 </div>
                                 <div class="lspacer">
                                     @*Mantis Issue 25455 [value 0 added] *@
-                                    <div class="Numb" id="lblNotLoggedIn">0</div>
+                                    @*rev 1.0*@
+                                    @*<div class="Numb" id="lblNotLoggedIn">0</div>*@
+                                    <div class="Numb" id="lblNotLoggedIn">***</div>
+                                    @*rev end 1.0*@
                                     <div class="flex-grow-1 txt">Not Logged In</div>
                                     <div class="dtday">Today</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
@@ -236,6 +279,29 @@
             </div>
         </div>
     </div>
+    //rev 1.0
+    @*rev Mantis Issue 25455*@
+    <div class="row">
+        <div class="col-md-12 text-right clearfix py-0 pl-50">
+            <table class="float-left">
+                <tr>
+
+                    @*<td><button type="button" class="btn btn-success" onclick="ShowVisitData()">Show</button></td>*@
+                    <td>
+                        @*<span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">*@
+                        @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-custom-class="tooltip-custom" data-original-title="Click to Show Dashboard Summary">*@
+                        <button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowVisitData()" style=" line-height: 20px;" title="">
+                            <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;"> click here to show data
+                            @*<div class="hands visit-tb-hand"></div>*@
+                        </button>
+                        @*</span>*@
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    @*rev end Mantis Issue 25455*@
+    //rev end 1.0
     <script>
         $(document).ready(function () {
             $('.scr').on('click', function (e) {

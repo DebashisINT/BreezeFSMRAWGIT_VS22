@@ -1,0 +1,131 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridReAssignShopListAreaRouteBeat";
+    settings.CallbackRouteValues = new { Action = "ReAssignShopList_ForAreaRouteBeat", Controller = "partyDetails" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(480);
+    settings.Settings.VerticalScrollableHeight = 230;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    //settings.ClientSideEvents.BeginCallback = "OnStartLogGridCallback";
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.CommandColumn.Visible = false;
+    settings.Settings.ShowFooter = false;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+    settings.KeyFieldName = "SHOP_CODE";
+    settings.CommandColumn.Visible = true;
+    settings.CommandColumn.ShowSelectCheckbox = true;
+    settings.CommandColumn.ShowClearFilterButton = true;
+    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UserName";
+        x.Caption = "Employee";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UserLoginid";
+        x.Caption = "Login id";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Name";
+        x.Caption = "Party Name";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Type";
+        x.Caption = "Party Type";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    // Mantis Issue 25545
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Area";
+        x.Caption = "Area";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Route";
+        x.Caption = "Route";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+    // End of Mantis Issue 25545
+
+    // Mantis Issue 25431
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Beat";
+        x.Caption = "Beat";
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+    // End of Mantis Issue 25431
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Owner";
+        x.Caption = "Owner";
+        x.VisibleIndex = 8;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Shop_Owner_Contact";
+        x.Caption = "Owner Contact";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Address";
+        x.Caption = "Address";
+        x.VisibleIndex = 10;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(245);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PP_NAME";
+        x.Caption = "Assigned To PP";
+        x.VisibleIndex = 11;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DD_NAME";
+        x.Caption = "Assigned To DD";
+        x.VisibleIndex = 12;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+
+}).Bind(Model).GetHtml()

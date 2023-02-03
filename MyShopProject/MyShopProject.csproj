@@ -50,6 +50,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ClosedXML, Version=0.95.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\ClosedXML.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.Charts.v15.1.Core, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Dashboard.v15.1.Core, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.Dashboard.v15.1.Web, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
@@ -106,6 +110,9 @@
       <HintPath>bin\FTSEntityframework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -324,6 +331,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\PaitentOrderRegisterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PartialMapRouteController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\partyDetailsController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\PerformanceAnalyticsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PerformanceController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PerformanceSummaryMonthWiseController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PerformanceVisitRegisterController.cs" />
@@ -397,6 +405,7 @@
     <Compile Include="Models\ActivityModel.cs" />
     <Compile Include="Models\ActivityReportModel.cs" />
     <Compile Include="Models\AddPartyDetailsModel.cs" />
+    <Compile Include="Models\BeatModel.cs" />
     <Compile Include="Models\BreakageTrackingRegisterModel.cs" />
     <Compile Include="Models\ChemistActivityModel.cs" />
     <Compile Include="Models\ChemistStockistDetailsModel.cs" />
@@ -1483,6 +1492,15 @@
     <Content Include="Scripts\pluggins\multiselect\bootstrap-multiselect.js" />
     <Content Include="Scripts\SearchMultiPopup.js" />
     <Content Include="Scripts\SearchPopup.js" />
+    <Content Include="Views\Common\_PartialMenu.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Layout1.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1915,15 +1933,6 @@
     <Content Include="Areas\MYSHOP\Views\partyDetails\ReAssignShopGroupBeatManualLog.cshtml" />
     <Content Include="Areas\MYSHOP\Views\QuotationApproval\Index.cshtml" />
     <Content Include="Areas\MYSHOP\Views\QuotationApproval\PartialGetQuotationApprovalDetails.cshtml" />
-    <Content Include="Views\Common\_PartialMenu.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_Layout1.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\MYSHOP\Views\Systemsettings\Index.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DealerDistributorWisePerformance\PartialDealerDistributorWisePerformance.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DealerDistributorWisePerformance\DealerDistributorWisePerformance.cshtml" />
@@ -1943,6 +1952,13 @@
     <Content Include="Areas\MYSHOP\Views\DSVisitChannelHierarchy\_PartialGridDSVisitChannelHierarchy.cshtml" />
     <Content Include="Areas\MYSHOP\Views\TerritorySalesInchargeWisePerformanceAnaly\TerritorySalesInchargeWisePerformanceAnaly.cshtml" />
     <Content Include="Areas\MYSHOP\Views\TerritorySalesInchargeWisePerformanceAnaly\PartialTerritorySalesInchargeWisePerformanceAnaly.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\partyDetails\ReAssignShopList_ForAreaRouteBeat.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\partyDetails\_ShopReassignManualLogView_AreaRouteBeat.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\partyDetails\ReAssignShopUserManualLog_AreaRouteBeat.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\PerformanceAnalytics\PartialGetPerformanceAnalytics.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\PerformanceAnalytics\Report.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\partyDetails\_BulkModifyManualLogView.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\partyDetails\BulkModifyLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2039,12 +2055,10 @@
     <Content Include="Content\vendors\datatables.net-bs\css\dataTables.bootstrap.min.css" />
     <Content Include="Content\vendors\datatables.net-bs\js\dataTables.bootstrap.js" />
     <Content Include="Content\vendors\datatables.net-bs\js\dataTables.bootstrap.min.js" />
-    <Content Include="Content\vendors\datatables.net-bs\License.txt" />
     <Content Include="Content\vendors\datatables.net-buttons-bs\css\buttons.bootstrap.css" />
     <Content Include="Content\vendors\datatables.net-buttons-bs\css\buttons.bootstrap.min.css" />
     <Content Include="Content\vendors\datatables.net-buttons-bs\js\buttons.bootstrap.js" />
     <Content Include="Content\vendors\datatables.net-buttons-bs\js\buttons.bootstrap.min.js" />
-    <Content Include="Content\vendors\datatables.net-buttons-bs\License.txt" />
     <Content Include="Content\vendors\datatables.net-buttons\js\buttons.colVis.js" />
     <Content Include="Content\vendors\datatables.net-buttons\js\buttons.colVis.min.js" />
     <Content Include="Content\vendors\datatables.net-buttons\js\buttons.flash.js" />
@@ -2055,32 +2069,23 @@
     <Content Include="Content\vendors\datatables.net-buttons\js\buttons.print.min.js" />
     <Content Include="Content\vendors\datatables.net-buttons\js\dataTables.buttons.js" />
     <Content Include="Content\vendors\datatables.net-buttons\js\dataTables.buttons.min.js" />
-    <Content Include="Content\vendors\datatables.net-buttons\License.txt" />
     <Content Include="Content\vendors\datatables.net-fixedheader-bs\css\fixedHeader.bootstrap.css" />
     <Content Include="Content\vendors\datatables.net-fixedheader-bs\css\fixedHeader.bootstrap.min.css" />
-    <Content Include="Content\vendors\datatables.net-fixedheader-bs\License.txt" />
     <Content Include="Content\vendors\datatables.net-fixedheader\js\dataTables.fixedHeader.js" />
     <Content Include="Content\vendors\datatables.net-fixedheader\js\dataTables.fixedHeader.min.js" />
-    <Content Include="Content\vendors\datatables.net-fixedheader\License.txt" />
     <Content Include="Content\vendors\datatables.net-keytable\js\dataTables.keyTable.js" />
     <Content Include="Content\vendors\datatables.net-keytable\js\dataTables.keyTable.min.js" />
-    <Content Include="Content\vendors\datatables.net-keytable\License.txt" />
     <Content Include="Content\vendors\datatables.net-responsive-bs\css\responsive.bootstrap.css" />
     <Content Include="Content\vendors\datatables.net-responsive-bs\css\responsive.bootstrap.min.css" />
     <Content Include="Content\vendors\datatables.net-responsive-bs\js\responsive.bootstrap.js" />
-    <Content Include="Content\vendors\datatables.net-responsive-bs\License.txt" />
     <Content Include="Content\vendors\datatables.net-responsive\js\dataTables.responsive.js" />
     <Content Include="Content\vendors\datatables.net-responsive\js\dataTables.responsive.min.js" />
-    <Content Include="Content\vendors\datatables.net-responsive\License.txt" />
     <Content Include="Content\vendors\datatables.net-scroller-bs\css\scroller.bootstrap.css" />
     <Content Include="Content\vendors\datatables.net-scroller-bs\css\scroller.bootstrap.min.css" />
-    <Content Include="Content\vendors\datatables.net-scroller-bs\License.txt" />
     <Content Include="Content\vendors\datatables.net-scroller\js\dataTables.scroller.js" />
     <Content Include="Content\vendors\datatables.net-scroller\js\dataTables.scroller.min.js" />
-    <Content Include="Content\vendors\datatables.net-scroller\License.txt" />
     <Content Include="Content\vendors\datatables.net\js\jquery.dataTables.js" />
     <Content Include="Content\vendors\datatables.net\js\jquery.dataTables.min.js" />
-    <Content Include="Content\vendors\datatables.net\License.txt" />
     <Content Include="Content\vendors\moment\locale\af.js" />
     <Content Include="Content\vendors\moment\locale\ar-ma.js" />
     <Content Include="Content\vendors\moment\locale\ar-sa.js" />
@@ -2898,12 +2903,10 @@
     <Content Include="Scripts\Datatable\datatables.net-bs\css\dataTables.bootstrap.min.css" />
     <Content Include="Scripts\Datatable\datatables.net-bs\js\dataTables.bootstrap.js" />
     <Content Include="Scripts\Datatable\datatables.net-bs\js\dataTables.bootstrap.min.js" />
-    <Content Include="Scripts\Datatable\datatables.net-bs\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-buttons-bs\css\buttons.bootstrap.css" />
     <Content Include="Scripts\Datatable\datatables.net-buttons-bs\css\buttons.bootstrap.min.css" />
     <Content Include="Scripts\Datatable\datatables.net-buttons-bs\js\buttons.bootstrap.js" />
     <Content Include="Scripts\Datatable\datatables.net-buttons-bs\js\buttons.bootstrap.min.js" />
-    <Content Include="Scripts\Datatable\datatables.net-buttons-bs\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-buttons\js\buttons.colVis.js" />
     <Content Include="Scripts\Datatable\datatables.net-buttons\js\buttons.colVis.min.js" />
     <Content Include="Scripts\Datatable\datatables.net-buttons\js\buttons.flash.js" />
@@ -2914,32 +2917,23 @@
     <Content Include="Scripts\Datatable\datatables.net-buttons\js\buttons.print.min.js" />
     <Content Include="Scripts\Datatable\datatables.net-buttons\js\dataTables.buttons.js" />
     <Content Include="Scripts\Datatable\datatables.net-buttons\js\dataTables.buttons.min.js" />
-    <Content Include="Scripts\Datatable\datatables.net-buttons\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-fixedheader-bs\css\fixedHeader.bootstrap.css" />
     <Content Include="Scripts\Datatable\datatables.net-fixedheader-bs\css\fixedHeader.bootstrap.min.css" />
-    <Content Include="Scripts\Datatable\datatables.net-fixedheader-bs\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-fixedheader\js\dataTables.fixedHeader.js" />
     <Content Include="Scripts\Datatable\datatables.net-fixedheader\js\dataTables.fixedHeader.min.js" />
-    <Content Include="Scripts\Datatable\datatables.net-fixedheader\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-keytable\js\dataTables.keyTable.js" />
     <Content Include="Scripts\Datatable\datatables.net-keytable\js\dataTables.keyTable.min.js" />
-    <Content Include="Scripts\Datatable\datatables.net-keytable\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-responsive-bs\css\responsive.bootstrap.css" />
     <Content Include="Scripts\Datatable\datatables.net-responsive-bs\css\responsive.bootstrap.min.css" />
     <Content Include="Scripts\Datatable\datatables.net-responsive-bs\js\responsive.bootstrap.js" />
-    <Content Include="Scripts\Datatable\datatables.net-responsive-bs\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-responsive\js\dataTables.responsive.js" />
     <Content Include="Scripts\Datatable\datatables.net-responsive\js\dataTables.responsive.min.js" />
-    <Content Include="Scripts\Datatable\datatables.net-responsive\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-scroller-bs\css\scroller.bootstrap.css" />
     <Content Include="Scripts\Datatable\datatables.net-scroller-bs\css\scroller.bootstrap.min.css" />
-    <Content Include="Scripts\Datatable\datatables.net-scroller-bs\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net-scroller\js\dataTables.scroller.js" />
     <Content Include="Scripts\Datatable\datatables.net-scroller\js\dataTables.scroller.min.js" />
-    <Content Include="Scripts\Datatable\datatables.net-scroller\License.txt" />
     <Content Include="Scripts\Datatable\datatables.net\js\jquery.dataTables.js" />
     <Content Include="Scripts\Datatable\datatables.net\js\jquery.dataTables.min.js" />
-    <Content Include="Scripts\Datatable\datatables.net\License.txt" />
     <Content Include="Scripts\GenericJScript.js" />
     <Content Include="Scripts\globalize.js" />
     <Content Include="Scripts\jAlert-master\dist\jAlert-functions.min.js" />

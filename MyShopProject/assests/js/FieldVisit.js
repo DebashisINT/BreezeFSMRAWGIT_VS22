@@ -273,7 +273,7 @@ function ShowFieldVisitData() {
 
     WindowSize = $(window).width();
 
-
+    $(".fieldvisit-tb-hand").hide();
     $("#lblAtWorkFV").html("<img src='/assests/images/Spinner.gif' />");
     $("#lblOnLeaveFV").html("<img src='/assests/images/Spinner.gif' />");
     $("#lblNotLoggedInFV").html("<img src='/assests/images/Spinner.gif' />");

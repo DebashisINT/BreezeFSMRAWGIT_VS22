@@ -1,6 +1,11 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                10-01-2023        2.0.37           Pallab              Space add in travel points *@
+@*2.0                30-01-2023        2.0.38           Sanchita            Distance issue in View route of Nordusk. Refer: 25515*@
+@*====================================================== Revision History ===========================================================*@
 
 <style>
     .dateIn {
@@ -14,7 +19,11 @@
     .lnArea {
         font-size: 11px;
         margin: 5px 0;
+        /*Rev 1.0*/
+        margin-bottom: 30px;
+        /*Rev end 1.0*/
     }
+
     .bt_indicator, .nt_indicator {
         display: inline-block;
         padding: 0 5px;
@@ -80,14 +89,14 @@
                     });
                 }
 
-                
+
             }
-            
+
         }
         //console.log("newArr", newArr);
         JSONToCSVConvertor(newArr, "Visit Summary", true, usrName);
     }
-    
+
 
     function JSONToCSVConvertor(JSONData, ReportTitle, ShowLabel,EmpName) {
         //If JSONData is not an object then JSON.parse will parse the JSON string in an Object
@@ -143,7 +152,7 @@
         // Now the little tricky part.
         // you can use either>> window.open(uri);
         // but this will not work in some browsers
-        // or you will not get the correct file extension    
+        // or you will not get the correct file extension
 
         //this trick will generate a temp <a /> tag
         var link = document.createElement("a");
@@ -174,8 +183,9 @@
                 CRMpcControl.Show();
             }
         });*@
-        
+
         $('.FullDiv').removeClass('hide');
+
         var Url = '@Url.Action("GetSalesmanLocation", "ViewRoute")'
         var d = new Date();
         var userid = id;
@@ -414,7 +424,7 @@
                                         });
                                     }
                                     else {
-                                        
+
                                         //console.log('loopCount', markers.salesmanarea)
                                         //var mDate = '';
                                         if (i > markers.salesmanarea.length - 1) {
@@ -424,7 +434,7 @@
                                             //summaryPanel.innerHTML += '<div class="mCont">' + route.legs[i].start_address + ' </div>  ';
                                             //summaryPanel.innerHTML += '<div><span class="mKm">' + route.legs[i - 1].distance.text + '</span></div>';
                                             //summaryPanel.innerHTML += '<div class="lnArea">Lat:' + markers.salesmanarea[i - 1].lat + ' <span> </span> <span>Long:' + markers.salesmanarea[i - 1].lng + ' </span></div></li>';
-                                            
+
                                         } else {
                                             var btP = "";
                                             var nStat = "";
@@ -524,7 +534,7 @@
                 // End Route
             },
         });
-        
+
 
         @*var url = '@Url.Action("ShowRoute", "ViewRoute")?id=' + id + '&Date=' + dtTo.GetText();
 
@@ -2678,12 +2688,22 @@
         var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
         lookup.GetGridView().Refresh();
         //End of Rev Debashis 0025198
-        StatePopulate();       
+        // Rev 2.0
+        if (@ViewBag.strTotalDistanceShowinViewRouteAsPerGoogleAPI==0 ) {
+            $('.leftFloak').removeClass('hide');
+            $('.leftFloak2').addClass('hide');
+        }
+        else {
+            $('.leftFloak').addClass('hide');
+            $('.leftFloak2').removeClass('hide');
+        }
+        // End of Rev 2.0
+        StatePopulate();
         setTimeout(function () {
             $("#ddlState").val('15');
         }, 600);
         setTimeout(function () {
-            showMap();            
+            showMap();
         }, 600);
 
         $('.eventToggler').click(function () {
@@ -2748,7 +2768,7 @@
         $("#map_box").html('<div id="map_canvas" style="border: 3px solid #dedede; width: 100%;  height: 400px; margin-top: 0px;"></div>');
 
         var surl = '@Url.Action("Mapopen", "ViewRoute")';
-        var date = dtTo.GetText();        
+        var date = dtTo.GetText();
         $.ajax({
             url: surl,
             async: false,
@@ -3059,7 +3079,7 @@
         //End of Rev Debashis 0025198
     }
     //Rev work start 15.06.2022 0024954: Need to change View Route of FSM Dashboard
-    function getLocation(userid, output) {      
+    function getLocation(userid, output) {
         var data = {
             "userid": userid,
             "output": output
@@ -3068,10 +3088,10 @@
         type: "POST",
         dataType: "JSON",
         data: JSON.stringify(data),
-        url: "@Url.Action("Locationopen", "ViewRoute")",        
+        url: "@Url.Action("Locationopen", "ViewRoute")",
         contentType: "application/json; charset=utf-8",
-        async: true,       
-        success: function (response) {            
+        async: true,
+        success: function (response) {
             console.log('gotRes',response);
             document.getElementById('listDirec2').innerHTML = '';
             var summaryPanel = document.getElementById('listDirec2');
@@ -3087,11 +3107,14 @@
                 var point = i+1
                 summaryPanel.innerHTML += '<li><div><span class="mainLabel marker-link mMark" >Travel Point: ' + point + '</span><span class="bt_indicator"><img src="../../../../../assests/images/battery-status.png" />' + response[i].battery_percentage + '</span><span class="nt_indicator"><img src="../../../../../assests/images/high-signal.png" />' + response[i].network_status + '</span></div>';
                 summaryPanel.innerHTML += '<div class="mCont ff">' + response[i].location_name + ' </div>'
-                summaryPanel.innerHTML += '<div><span class="mKm">0 km' + '</span> <span class="dateIn">' + response[i].frmdt + '</span></div>';
+                // Rev 2.0
+                //summaryPanel.innerHTML += '<div><span class="mKm">0 km' + '</span> <span class="dateIn">' + response[i].frmdt + '</span></div>';
+                summaryPanel.innerHTML += '<div><span class="mKm">' + response[i].distance_covered + '</span> <span class="dateIn">' + response[i].frmdt + '</span></div>';
+                // End of Rev 2.0
                 summaryPanel.innerHTML += '<div class="lnArea">Lat: <span>' + response[i].latitude + '</span> <span>Long: ' + response[i].longitude + '</span></div></li>';
             }
             summaryPanel.innerHTML += '<div class="fTotal"><b>Total Distance covered: </b> ' + ttValue.toFixed(2) + ' km' + '</div>'
-            
+
         },
             error: function (response) {
                 jAlert("Please try again later");
@@ -3122,11 +3145,13 @@
         width: 20px;
         /* height: 10px; */
         float: right;
-        cursor:pointer;
+        cursor: pointer;
     }
-    .excExportMap >img {
-        max-width:100%;
-    }
+
+        .excExportMap > img {
+            max-width: 100%;
+        }
+
     .pdtable > tbody > tr > td {
         padding-right: 20px;
     }
@@ -3206,18 +3231,20 @@
         <span class="colorEX inBetween"></span><span>Visits</span><span class="spaceSpan"></span>
         <span class="colorEX logout"></span><span>Logout</span><span class="spaceSpan"></span>
     </div>
-    <div class="leftFloak" >
+    <div class="leftFloak">
         <div class="leftFloakToggle">
             <span class="lnr lnr-chevron-right"></span>
-            
+
         </div>
-        
+
         <div style="padding: 15px 20px;background: #1a73e8;color: #fff;margin-bottom: 7px;">User Locations <span onclick="sendCsv()" class="excExportMap" title="Export Data to Excel"><img src="~/assests/images/excel.png" /></span></div>
         <ul id="listDirec"></ul>
     </div>
     <div id="lbltotaldistancecovered"></div>
-    @*2nd view*@
-    <div class="leftFloak2" style="display:none">
+
+    @*2nd view [ for Nordusk only] *@
+    @*Rev 2.0  [style="display:none" REMOVED] *@
+    <div class="leftFloak2">
         <div class="leftFloakToggle2">
             <span class="lnr lnr-chevron-right"></span>
 
@@ -3227,10 +3254,11 @@
         <ul id="listDirec2"></ul>
     </div>
     <div id="lbltotaldistancecovered"></div>
+
 </div>
 <div class="container mt-5 mb-4">
     <div class="backBox p-4">
-        <div class="dropSectionuser" >
+        <div class="dropSectionuser">
             <div class="eventToggler"> < </div>
             <div id="users">
 
@@ -3240,21 +3268,21 @@
                 <ul class="list userList" id="userList"></ul>
             </div>
         </div>
-        
+
         <div>
             <table class="pdtable mb-4">
 
                 <tr>
-                    
-                        @*Rev Debashis 0025198*@
+
+                    @*Rev Debashis 0025198*@
                     <td style="width:186px;">
                         <label>Head Branch : </label>
                         @*<select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
-                            @foreach (var item in Model.modelbranch)
-                            {
-                                <option value="@item.BRANCH_ID">@item.CODE</option>
-                            }
-                        </select>*@
+                                @foreach (var item in Model.modelbranch)
+                                {
+                                    <option value="@item.BRANCH_ID">@item.CODE</option>
+                                }
+                            </select>*@
                         @Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })
                     </td>
                     <td class="w150">

@@ -1,4 +1,7 @@
-﻿using System;
+﻿/*************************************************************************************************************
+Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length of the Description field of Product Master. Refer: 25603    
+******************************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -204,7 +207,10 @@ namespace BusinessLogicLayer
                 {
                     proc.AddVarcharPara("@ProductCode", 80, ProductCode);
                     proc.AddVarcharPara("@ProductName", 100, ProductName);
-                    proc.AddVarcharPara("@ProductDescription", 500, ProductDescription);
+                    // Rev 1.0
+                    //proc.AddVarcharPara("@ProductDescription", 500, ProductDescription);
+                    proc.AddVarcharPara("@ProductDescription", -1, ProductDescription);
+                    // End of Rev 1.0
                     proc.AddVarcharPara("@ProductType", 10, ProductType);
                     if (ProductClassCode != null)
                     {
@@ -399,7 +405,10 @@ namespace BusinessLogicLayer
                     proc.AddIntegerPara("@ProductId", ProductId);
                     proc.AddVarcharPara("@ProductCode", 100, ProductCode);
                     proc.AddVarcharPara("@ProductName", 100, ProductName);
-                    proc.AddVarcharPara("@ProductDescription", 500, ProductDescription);
+                    // Rev 1.0
+                    //proc.AddVarcharPara("@ProductDescription", 500, ProductDescription);
+                    proc.AddVarcharPara("@ProductDescription", -1, ProductDescription);
+                    // End of Rev 1.0
                     proc.AddVarcharPara("@ProductType", 10, ProductType);
                     if (ProductClassCode != null)
                     {
