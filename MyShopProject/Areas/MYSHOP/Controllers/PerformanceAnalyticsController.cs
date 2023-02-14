@@ -1065,6 +1065,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "DISTANCE_TRAVELLED";
                     x.Caption = "Travelled(KM)";
                     x.VisibleIndex = 31;
+                    x.PropertiesEdit.DisplayFormatString = "0.00";
                     x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                     x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                     if (ViewBag.RetentionColumn != null)
