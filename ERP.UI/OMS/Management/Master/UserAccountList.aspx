@@ -1,4 +1,11 @@
-﻿<%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_UserAccountList" CodeBehind="UserAccountList.aspx.cs" %>
+﻿<%--====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                09-02-2023        2.0.39           Pallab              25656 : Master module design modification 
+2.0                17/02/2023        2.0.39           Sanchita            A setting required for 'User Account' Master module in FSM Portal
+                                                                          Refer: 25669  
+====================================================== Revision History ==========================================================--%>
+
+<%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_UserAccountList" CodeBehind="UserAccountList.aspx.cs" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <style>
@@ -115,6 +122,429 @@
             background: #4236f5;
             color: #e8e8e8;
         }
+
+        /*Rev 1.0*/
+
+        body , .dxtcLite_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 5px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 33px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        select:not(.btn):focus
+        {
+            border-color: #094e8c;
+        }
+
+        select:not(.btn):focus-visible
+        {
+            box-shadow: none;
+            outline: none;
+            
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue{
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 , #cmbDOJ_B-1, #cmbLeaveEff_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img , #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue
+    {
+            height: 34px;
+            border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1
+    {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff
+    {
+        position: relative;
+    z-index: 1;
+    background: transparent;
+    }
+
+    .btn-sm, .btn-xs
+    {
+        padding: 7px 10px !important;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-headerText
+    {
+            color: #fff;
+    }
+
+    /*Rev end 1.0*/
     </style>
     <link href="/assests/pluggins/Transfer/icon_font/css/icon_font.css" rel="stylesheet" />
     
@@ -186,17 +616,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>                       
+                    <td>
+                        <%--Rev 2.0: grid column width increase--%>
                         <dxe:ASPxGridView ID="userGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False"
                             KeyFieldName="USER_ID" Width="100%" OnCustomJSProperties="userGrid_CustomJSProperties" SettingsBehavior-AllowFocusedRow="true"
                             Settings-HorizontalScrollBarMode="Auto">                           
                             <Columns>
+                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="0" FieldName="UID"
+                                    Caption="UID" Width="0" SortOrder="Descending">
+                                    <EditFormSettings></EditFormSettings>
+                                </dxe:GridViewDataTextColumn>
                                 <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="0" FieldName="USER_ID"
-                                    Caption="User ID" Width="100px" SortOrder="Descending">
+                                    Caption="User ID" Width="180px" >
                                     <EditFormSettings></EditFormSettings>
                                 </dxe:GridViewDataTextColumn>
                                 <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="1" FieldName="USER_NAME"
-                                    Caption="User Name" Width="200px">
+                                    Caption="User Name" Width="260px">
                                     <PropertiesTextEdit>
                                         <ValidationSettings ErrorDisplayMode="ImageWithText" ErrorTextPosition="Bottom" SetFocusOnError="True">
                                             <RequiredField ErrorText="Please Enter user Name" IsRequired="True" />
@@ -207,14 +642,14 @@
                                 <dxe:GridViewDataTextColumn VisibleIndex="2" Caption="User Type" FieldName="STAGE"  Width="200px">
                                 </dxe:GridViewDataTextColumn>
                                 <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="3" FieldName="BRANCHNAME"
-                                    Caption="Branch" Width="220px" >
+                                    Caption="Branch" Width="270px" >
                                     <PropertiesTextEdit>
                                     </PropertiesTextEdit>
                                     <EditFormSettings Visible="false" />
                                 </dxe:GridViewDataTextColumn>
-                                <%--Rev Sanchita [ caption changed from Report To to WD ID--%>
+                                <%--Rev 2.0 [ caption changed from Report To to WD ID--%>
                                 <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="4" FieldName="REPORTTO"
-                                    Caption="WD ID" Width="150px">
+                                    Caption="WD ID" Width="300px">
                                     <PropertiesTextEdit>
                                     </PropertiesTextEdit>
                                     <EditFormSettings Visible="false" />
@@ -237,14 +672,14 @@
                                     </PropertiesTextEdit>
                                     <EditFormSettings Visible="false" />
                                 </dxe:GridViewDataTextColumn>   
-                                <%--Rev Sanchita--%>   
+                                <%--Rev 2.0--%>   
                                 <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="8" FieldName="deg_designation"
-                                    Caption="Designation" Width="120px">
+                                    Caption="Designation" Width="180">
                                     <PropertiesTextEdit>
                                     </PropertiesTextEdit>
                                     <EditFormSettings Visible="false" />
                                 </dxe:GridViewDataTextColumn>   
-                                <%--End of Rev Sanchita--%>                         
+                                <%--End of Rev 2.0--%>                         
                             </Columns>                          
                             <SettingsSearchPanel Visible="True" />
                             <Settings ShowStatusBar="Hidden" ShowFilterRow="true" ShowGroupPanel="True" ShowFilterRowMenu="true" />                           

@@ -1,4 +1,11 @@
-﻿<%--<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserAccountAdd.aspx.cs" Inherits="ERP.OMS.Management.Master.UserAccountAdd" %>--%>
+﻿<%--====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                09-02-2023        2.0.39           Pallab              25656 : Master module design modification 
+2.0                17/02/2023        2.0.39           Sanchita            A setting required for 'User Account' Master module in FSM Portal
+                                                                          Refer: 25669  
+====================================================== Revision History ==========================================================--%>
+
+<%--<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserAccountAdd.aspx.cs" Inherits="ERP.OMS.Management.Master.UserAccountAdd" %>--%>
 
 <%@ Page Language="C#" AutoEventWireup="True"
     Inherits="ERP.OMS.Management.Master.management_master_UserAccountAdd" MasterPageFile="~/OMS/MasterPage/ERP.Master" CodeBehind="UserAccountAdd.aspx.cs" EnableEventValidation="false" %>
@@ -506,7 +513,7 @@
                 $('#MandatoryReportTo').css({ 'display': 'none' });
             }
 
-            // Rev Sanchita
+            
             if (document.getElementById("txtuserid").value.trim() == "") {
                 $('#MandatoryLoginid').css({ 'display': 'block' });
                 return false;
@@ -529,7 +536,7 @@
             else {
                 $('#MandatoryType').css({ 'display': 'none' });
             }
-            // End of Rev sanchita
+            
             //Mantis Issue 25148
             if ($("#IsChannelCircleSectionMandatory").val() == "1") {
                 //if ($("#txtChannels").val() == "") {
@@ -696,6 +703,429 @@
     overflow: hidden;
     overflow-y: scroll;
         }
+
+        /*Rev 1.0*/
+
+        body , .dxtcLite_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 5px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 41px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        select:not(.btn):focus
+        {
+            border-color: #094e8c;
+        }
+
+        select:not(.btn):focus-visible
+        {
+            box-shadow: none;
+            outline: none;
+            
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue{
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 , #cmbDOJ_B-1, #cmbLeaveEff_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img , #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue
+    {
+            height: 34px;
+            border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1
+    {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff
+    {
+        position: relative;
+    z-index: 1;
+    background: transparent;
+    }
+
+    .btn-sm, .btn-xs
+    {
+        padding: 7px 10px !important;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-headerText
+    {
+            color: #fff;
+    }
+
+    /*Rev end 1.0*/
     </style>
     <%--  <link href="../../css/choosen.min.css" rel="stylesheet" />--%>
 
@@ -802,7 +1232,10 @@
                                         </asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                 <div class="col-md-3 h-branch-select">
+                                 <%--Rev end 1.0--%>
                                     <label>Branch<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <%--Rev work start 26.07.2022 mantise no:25046--%>
@@ -813,7 +1246,10 @@
                                         <span id="MandatoryBranch" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                 <div class="col-md-3 h-branch-select">
+                                 <%--Rev end 1.0--%>
                                     <label>Designation<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <%--Rev work start 26.07.2022 mantise no:25046--%>
@@ -846,118 +1282,122 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <%--Rev Sanchita [ mandatory * sign added ]--%>
                                     <label>User Login ID<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <%--Rev work start 26.07.2022 mantise no:25046--%>
                                         <%--<asp:TextBox ID='txtuserid' runat="server" Width="100%" CssClass="form-control" ValidationGroup="a" value=" " MaxLength="50" autocomplete="off"></asp:TextBox>--%>
                                         <asp:TextBox ID='txtuserid' runat="server" Width="100%" CssClass="form-control" ValidationGroup="a" value="" MaxLength="50" autocomplete="off" TabIndex="7"></asp:TextBox>
                                           <%--Rev work close 26.07.2022 mantise no:25046--%> 
-                                        <%--Rev Sanchita--%>
                                         <span id="MandatoryLoginid" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
-                                        <%--End of Rev Sanchita--%>                                
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <%--Rev Sanchita [ mandatory * sign added ]--%>
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                 <div class="col-md-3 h-branch-select">
+                                 <%--Rev end 1.0--%>
                                     <label>User Group<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                          <%--Rev work start 26.07.2022 mantise no:25046--%>
                                         <%--<asp:DropDownList ID="ddlGroups" runat="server" CssClass="sml" Width="100%"></asp:DropDownList>--%>
                                         <asp:DropDownList ID="ddlGroups" runat="server" CssClass="sml" Width="100%" TabIndex="8"></asp:DropDownList>
                                         <%--Rev work close 26.07.2022 mantise no:25046--%> 
-                                        <%--Rev Sanchita--%>
                                         <span id="MandatoryGroup" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
-                                        <%--End of Rev Sanchita--%>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                     <%--Rev Sanchita [ mandatory * sign added ]--%>
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                <%--Rev 2.0 [id="divUserType" runat="server" added] --%>
+                                 <div class="col-md-3 h-branch-select" id="divUserType" runat="server">
+                                 <%--Rev end 1.0--%>
                                     <label>User Type<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <%--Rev work start 26.07.2022 mantise no:25046--%>
                                         <%--<asp:DropDownList ID="ddlType" runat="server" CssClass="sml" Width="100%"></asp:DropDownList>--%>
                                         <asp:DropDownList ID="ddlType" runat="server" CssClass="sml" Width="100%" TabIndex="9"></asp:DropDownList>
                                         <%--Rev work close 26.07.2022 mantise no:25046--%> 
-                                        <%--Rev Sanchita--%>
                                         <span id="MandatoryType" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
-                                        <%--End of Rev Sanchita--%>
                                     </div>
                                 </div>
-                                 <div class="col-md-3">
-                                <label>Channel Type</label>
-                                <div style="position: relative">
-                                    <%--Rev work start 26.07.2022 mantise no:25046--%>
-                                    <%--<dxe:ASPxButtonEdit ID="txtChannels" runat="server" ReadOnly="true" ClientInstanceName="ctxtChannels" TabIndex="8" Width="100%">--%>
-                                    <dxe:ASPxButtonEdit ID="txtChannels" runat="server" ReadOnly="true" ClientInstanceName="ctxtChannels" TabIndex="10" Width="100%">
-                                        <%--Rev work close 26.07.2022 mantise no:25046--%>
-                                        <Buttons>
-                                            <dxe:EditButton>
-                                            </dxe:EditButton>
-                                        </Buttons>
-                                        <ClientSideEvents ButtonClick="function(s,e){ChannelButnClick();}" KeyDown="ChannelbtnKeyDown" />
-                                    </dxe:ASPxButtonEdit>
-                                    <dxe:ASPxCheckBox ID="chkChannelDefault" runat="server" Text="Set as Default">
-                                        <ClientSideEvents CheckedChanged="function (s, e) {ChannelDefault_Checked();}" />
-                                    </dxe:ASPxCheckBox>
-                                     <%--Mantis Issue 25148--%>
-                                    <span id="MandatoryChannel" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
-                                    <%--End of Mantis Issue 25148--%>
 
-                                    <asp:HiddenField ID="txtChannel_hidden" runat="server" />
-                                    <asp:HiddenField ID="calledFromChannelLookup_hidden" runat="server" />
-                                    <%--Mantis Issue 25148--%>
-                                    <asp:HiddenField ID="IsChannelCircleSectionMandatory" runat="server" />
-                                    <%--End of Mantis Issue 25148--%>
-                                </div>
-                            </div>
-                                <div class="col-md-3">
-                                <label>Circle</label>
-                                <div style="position: relative">
-                                    <%--Rev work start 26.07.2022--%>
-                                    <%--<dxe:ASPxButtonEdit ID="txtCircle" runat="server" ReadOnly="true" ClientInstanceName="ctxtCircles" TabIndex="8" Width="100%">--%>
-                                    <dxe:ASPxButtonEdit ID="txtCircle" runat="server" ReadOnly="true" ClientInstanceName="ctxtCircles" TabIndex="11" Width="100%">
-                                        <%--Rev work close 26.07.2022--%>
-                                        <Buttons>
-                                            <dxe:EditButton>
-                                            </dxe:EditButton>
-                                        </Buttons>
-                                        <ClientSideEvents ButtonClick="function(s,e){CircleButnClick();}" KeyDown="CirclebtnKeyDown" />
-                                    </dxe:ASPxButtonEdit>
-                                    <dxe:ASPxCheckBox ID="chkCircleDefault" runat="server" Text="Set as Default">
-                                        <ClientSideEvents CheckedChanged="function (s, e) {CircleDefault_Checked();}" />
-                                    </dxe:ASPxCheckBox>
-                                    <%--Mantis Issue 25148--%>
-                                    <span id="MandatoryCircle" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
-                                    <%--End of Mantis Issue 25148--%>
-                                    <asp:HiddenField ID="txtCircle_hidden" runat="server" />
-                                    <asp:HiddenField ID="calledFromCircleLookup_hidden" runat="server" />
-                                </div>
-                            </div>
+                                <%--Rev 2.0 [id="divChannel" runat="server" added] --%>
+                                 <div class="col-md-3" id="divChannel" runat="server">
+                                    <label>Channel Type</label>
+                                    <div style="position: relative">
+                                        <%--Rev work start 26.07.2022 mantise no:25046--%>
+                                        <%--<dxe:ASPxButtonEdit ID="txtChannels" runat="server" ReadOnly="true" ClientInstanceName="ctxtChannels" TabIndex="8" Width="100%">--%>
+                                        <dxe:ASPxButtonEdit ID="txtChannels" runat="server" ReadOnly="true" ClientInstanceName="ctxtChannels" TabIndex="10" Width="100%">
+                                            <%--Rev work close 26.07.2022 mantise no:25046--%>
+                                            <Buttons>
+                                                <dxe:EditButton>
+                                                </dxe:EditButton>
+                                            </Buttons>
+                                            <ClientSideEvents ButtonClick="function(s,e){ChannelButnClick();}" KeyDown="ChannelbtnKeyDown" />
+                                        </dxe:ASPxButtonEdit>
+                                        <dxe:ASPxCheckBox ID="chkChannelDefault" runat="server" Text="Set as Default">
+                                            <ClientSideEvents CheckedChanged="function (s, e) {ChannelDefault_Checked();}" />
+                                        </dxe:ASPxCheckBox>
+                                         <%--Mantis Issue 25148--%>
+                                        <span id="MandatoryChannel" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
+                                        <%--End of Mantis Issue 25148--%>
 
-                            <div class="col-md-3">
-                                <label>Section</label>
-                                <div style="position: relative">
-                                     <%--Rev work start 26.07.2022--%>
-                                    <%--<dxe:ASPxButtonEdit ID="txtSection" runat="server" ReadOnly="true" ClientInstanceName="ctxtSections" TabIndex="8" Width="100%">--%>
-                                    <dxe:ASPxButtonEdit ID="txtSection" runat="server" ReadOnly="true" ClientInstanceName="ctxtSections" TabIndex="12" Width="100%">
-                                         <%--Rev work close 26.07.2022--%>
-                                        <Buttons>
-                                            <dxe:EditButton>
-                                            </dxe:EditButton>
-                                        </Buttons>
-                                        <ClientSideEvents ButtonClick="function(s,e){SectionButnClick();}" KeyDown="SectionbtnKeyDown" />
-                                    </dxe:ASPxButtonEdit>
-                                    <dxe:ASPxCheckBox ID="chkSectionDefault" runat="server" Text="Set as Default">
-                                        <ClientSideEvents CheckedChanged="function (s, e) {SectionDefault_Checked();}" />
-                                    </dxe:ASPxCheckBox>
-                                    <%--Mantis Issue 25148--%>
-                                    <span id="MandatorySection" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
-                                    <%--End of Mantis Issue 25148--%>
-                                    <asp:HiddenField ID="txtSection_hidden" runat="server" />
-                                    <asp:HiddenField ID="calledFromSectionLookup_hidden" runat="server" />
+                                        <asp:HiddenField ID="txtChannel_hidden" runat="server" />
+                                        <asp:HiddenField ID="calledFromChannelLookup_hidden" runat="server" />
+                                        <%--Mantis Issue 25148--%>
+                                        <asp:HiddenField ID="IsChannelCircleSectionMandatory" runat="server" />
+                                        <%--End of Mantis Issue 25148--%>
+                                    </div>
                                 </div>
-                            </div>
+
+                                <%--Rev 2.0 [id="divCircle" runat="server" added] --%>
+                                <div class="col-md-3" id="divCircle" runat="server" >
+                                    <label>Circle</label>
+                                    <div style="position: relative">
+                                        <%--Rev work start 26.07.2022--%>
+                                        <%--<dxe:ASPxButtonEdit ID="txtCircle" runat="server" ReadOnly="true" ClientInstanceName="ctxtCircles" TabIndex="8" Width="100%">--%>
+                                        <dxe:ASPxButtonEdit ID="txtCircle" runat="server" ReadOnly="true" ClientInstanceName="ctxtCircles" TabIndex="11" Width="100%">
+                                            <%--Rev work close 26.07.2022--%>
+                                            <Buttons>
+                                                <dxe:EditButton>
+                                                </dxe:EditButton>
+                                            </Buttons>
+                                            <ClientSideEvents ButtonClick="function(s,e){CircleButnClick();}" KeyDown="CirclebtnKeyDown" />
+                                        </dxe:ASPxButtonEdit>
+                                        <dxe:ASPxCheckBox ID="chkCircleDefault" runat="server" Text="Set as Default">
+                                            <ClientSideEvents CheckedChanged="function (s, e) {CircleDefault_Checked();}" />
+                                        </dxe:ASPxCheckBox>
+                                        <%--Mantis Issue 25148--%>
+                                        <span id="MandatoryCircle" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
+                                        <%--End of Mantis Issue 25148--%>
+                                        <asp:HiddenField ID="txtCircle_hidden" runat="server" />
+                                        <asp:HiddenField ID="calledFromCircleLookup_hidden" runat="server" />
+                                    </div>
+                                </div>
+
+                                <%--Rev 2.0 [id="divSection" runat="server" added] --%>
+                                <div class="col-md-3" id="divSection" runat="server">
+                                    <label>Section</label>
+                                    <div style="position: relative">
+                                         <%--Rev work start 26.07.2022--%>
+                                        <%--<dxe:ASPxButtonEdit ID="txtSection" runat="server" ReadOnly="true" ClientInstanceName="ctxtSections" TabIndex="8" Width="100%">--%>
+                                        <dxe:ASPxButtonEdit ID="txtSection" runat="server" ReadOnly="true" ClientInstanceName="ctxtSections" TabIndex="12" Width="100%">
+                                             <%--Rev work close 26.07.2022--%>
+                                            <Buttons>
+                                                <dxe:EditButton>
+                                                </dxe:EditButton>
+                                            </Buttons>
+                                            <ClientSideEvents ButtonClick="function(s,e){SectionButnClick();}" KeyDown="SectionbtnKeyDown" />
+                                        </dxe:ASPxButtonEdit>
+                                        <dxe:ASPxCheckBox ID="chkSectionDefault" runat="server" Text="Set as Default">
+                                            <ClientSideEvents CheckedChanged="function (s, e) {SectionDefault_Checked();}" />
+                                        </dxe:ASPxCheckBox>
+                                        <%--Mantis Issue 25148--%>
+                                        <span id="MandatorySection" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
+                                        <%--End of Mantis Issue 25148--%>
+                                        <asp:HiddenField ID="txtSection_hidden" runat="server" />
+                                        <asp:HiddenField ID="calledFromSectionLookup_hidden" runat="server" />
+                                    </div>
+                                </div>
+
                                  <div class="col-md-3">
                                     <label>Contact No</label>
                                     <div style="position: relative">
@@ -1056,7 +1496,10 @@
                         <h4 class="modal-title">Channel Search</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="text" onkeydown="Channelskeydown(event)" id="txtChannelSearch" autofocus style="width: 100%" placeholder="Search By Channel Name or Channel Code" />
+                        <%--Rev 1.0--%>
+                        <%--<input type="text" onkeydown="Channelskeydown(event)" id="txtChannelSearch" autofocus style="width: 100%" placeholder="Search By Channel Name or Channel Code" />--%>
+                        <input class="form-control" type="text" onkeydown="Channelskeydown(event)" id="txtChannelSearch" autofocus style="width: 100%" placeholder="Search By Channel Name or Channel Code" />
+                        <%--Rev end 1.0--%>
                         <div id="ChannelTable">
                             <table border='1' width="100%" class="dynamicPopupTbl">
                                 <tr class="HeaderStyle">
@@ -1085,7 +1528,10 @@
                         <h4 class="modal-title">Circle Search</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="text" onkeydown="Circleskeydown(event)" id="txtCircleSearch" autofocus style="width: 100%" placeholder="Search By Circle Name or Circle Code" />
+                        <%--Rev 1.0--%>
+                        <%--<input type="text" onkeydown="Circleskeydown(event)" id="txtCircleSearch" autofocus style="width: 100%" placeholder="Search By Circle Name or Circle Code" />--%>
+                        <input class="form-control" type="text" onkeydown="Circleskeydown(event)" id="txtCircleSearch" autofocus style="width: 100%" placeholder="Search By Circle Name or Circle Code" />
+                        <%--Rev end 1.0--%>
                         <div id="CircleTable">
                             <table border='1' width="100%" class="dynamicPopupTbl">
                                 <tr class="HeaderStyle">
@@ -1114,7 +1560,10 @@
                         <h4 class="modal-title">Section Search</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="text" onkeydown="Sectionskeydown(event)" id="txtSectionSearch" autofocus style="width: 100%" placeholder="Search By Section Name or Section Code" />
+                        <%--Rev 1.0--%>
+                        <%--<input type="text" onkeydown="Sectionskeydown(event)" id="txtSectionSearch" autofocus style="width: 100%" placeholder="Search By Section Name or Section Code" />--%>
+                        <input class="form-control" type="text" onkeydown="Sectionskeydown(event)" id="txtSectionSearch" autofocus style="width: 100%" placeholder="Search By Section Name or Section Code" />
+                        <%--Rev end 1.0--%>
                         <div id="SectionTable">
                             <table border='1' width="100%" class="dynamicPopupTbl">
                                 <tr class="HeaderStyle">

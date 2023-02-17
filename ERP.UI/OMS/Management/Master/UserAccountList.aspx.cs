@@ -1,4 +1,8 @@
-﻿using System;
+﻿//*********************************************************************************************************************
+// 1.0      17/02/2023      2.0.39      Sanchita        A setting required for 'User Account' Master module in FSM Portal
+//                                                      Refer: 25669
+//*********************************************************************************************************************
+using System;
 using System.Web;
 using System.Web.UI;
 using BusinessLogicLayer;
@@ -10,6 +14,7 @@ using ClsDropDownlistNameSpace;
 using DevExpress.Web;
 using System.Collections.Generic;
 using UtilityLayer;
+using System.Web.UI.WebControls;
 
 namespace ERP.OMS.Management.Master
 {
@@ -50,6 +55,27 @@ namespace ERP.OMS.Management.Master
             //    }
             //}
             //------- For Read Only User in SQL Datasource Connection String   End-----------------
+
+            // Rev 1.0
+            string IsShowUserAccountForITC = "0";
+            DBEngine obj1 = new DBEngine();
+            IsShowUserAccountForITC = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsShowUserAccountForITC'").Rows[0][0]);
+
+            if (IsShowUserAccountForITC == "1")
+            {
+                userGrid.Columns[3].Visible = true;
+                userGrid.Columns[6].Visible = true;
+                userGrid.Columns[7].Visible = true;
+                userGrid.Columns[8].Visible = true;
+            }
+            else
+            {
+                userGrid.Columns[3].Visible = false;
+                userGrid.Columns[6].Visible = false;
+                userGrid.Columns[7].Visible = false;
+                userGrid.Columns[8].Visible = false;
+            }
+            // End of Rev 1.0
 
             if (!IsPostBack)
             {

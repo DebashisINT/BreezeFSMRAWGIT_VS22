@@ -1,4 +1,9 @@
-﻿using System;
+﻿//====================================================== Revision History ==========================================================
+// Rev Number       DATE              VERSION          DEVELOPER           CHANGES
+// 1.0              17/02/2023        2.0.39           Sanchita            A setting required for 'User Account' Master module in FSM Portal
+//                                                                         Refer: 25669
+//====================================================== Revision History ==========================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -36,10 +41,36 @@ namespace ERP.OMS.Management.Master
         int CreateUser;
         DateTime CreateDate;
         string usergroup = "";
+        // Rev 1.0
+        public string IsShowUserAccountForITC = "0";
+        // End of Rev 1.0
+
         protected void Page_Load(object sender, EventArgs e)
         {
             CreateUser = Convert.ToInt32(HttpContext.Current.Session["userid"]);//Session UserID
             CreateDate = Convert.ToDateTime(oDBEngine.GetDate().ToShortDateString());
+
+            // Rev 1.0
+            IsShowUserAccountForITC = "0";
+            DBEngine obj1 = new DBEngine();
+            IsShowUserAccountForITC = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsShowUserAccountForITC'").Rows[0][0]);
+
+            if (IsShowUserAccountForITC == "1")
+            {
+                divUserType.Visible = true;
+                divChannel.Visible = true;
+                divCircle.Visible = true;
+                divSection.Visible = true;
+            }
+            else
+            {
+                divUserType.Visible = false;
+                divChannel.Visible = false;
+                divCircle.Visible = false;
+                divSection.Visible = false;
+            }
+            // End of Rev 1.0
+
             if (!IsPostBack)
             {
                 Page.ClientScript.RegisterStartupScript(GetType(), "PageLD", "<script>Pageload();</script>");
@@ -77,7 +108,7 @@ namespace ERP.OMS.Management.Master
                 chkSectionDefault.Checked = false;
                 chkSectionDefault.ClientEnabled = false;
             }
-            btnCTC.Attributes.Add("Onclick", "Javascript:return ValidateCTC();");   
+            btnCTC.Attributes.Add("Onclick", "Javascript:return ValidateCTC();");
         }
         private void ShowForm()
         {
@@ -85,14 +116,36 @@ namespace ERP.OMS.Management.Master
             string[,] Data = oDBEngine.GetFieldValue("tbl_master_branch", "branch_id, branch_description ", null, 2, "branch_description");
             oclsDropDownList.AddDataToDropDownList(Data, cmbBranch);
             //Data = oDBEngine.GetFieldValue("tbl_master_Designation", "deg_id, deg_designation ", null, 2, "deg_designation");
-            Data = oDBEngine.GetFieldValue("tbl_master_Designation", "deg_id, deg_designation ", "deg_designation in('DS','TL')", 2, "deg_designation");
+            // Rev 1.0
+            //Data = oDBEngine.GetFieldValue("tbl_master_Designation", "deg_id, deg_designation ", "deg_designation in('DS','TL')", 2, "deg_designation");
+
+            if (IsShowUserAccountForITC == "1")
+            {
+                Data = oDBEngine.GetFieldValue("tbl_master_Designation", "deg_id, deg_designation ", "deg_designation in('DS','TL')", 2, "deg_designation");
+            }
+            else
+            {
+                Data = oDBEngine.GetFieldValue("tbl_master_Designation", "deg_id, deg_designation ", null, 2, "deg_designation");
+            }
+            // End of Rev 1.0
+
             oclsDropDownList.AddDataToDropDownList(Data, cmbDesg);
             Data = oDBEngine.GetFieldValue("FTS_Stage", "StageID, Stage ", null, 2, "Stage");
             oclsDropDownList.AddDataToDropDownList(Data, ddlType);
-            // Rev Sanchita
+            
             //Data = oDBEngine.GetFieldValue("tbl_master_userGroup", "grp_id, grp_name ", null, 2, "grp_name");
-            Data = oDBEngine.GetFieldValue("tbl_master_userGroup", "grp_id, grp_name ", "grp_name in ('ATTEND-USER','FIELD-USER')", 2, "grp_name");
-            // End of Rev Sanchita
+            // Rev 1.0
+            //Data = oDBEngine.GetFieldValue("tbl_master_userGroup", "grp_id, grp_name ", "grp_name in ('ATTEND-USER','FIELD-USER')", 2, "grp_name");
+            if (IsShowUserAccountForITC == "1")
+            {
+                Data = oDBEngine.GetFieldValue("tbl_master_userGroup", "grp_id, grp_name ", "grp_name in ('ATTEND-USER','FIELD-USER')", 2, "grp_name");
+            }
+            else
+            {
+                Data = oDBEngine.GetFieldValue("tbl_master_userGroup", "grp_id, grp_name ", null, 2, "grp_name");
+            }
+            // End of Rev 1.0
+            
             oclsDropDownList.AddDataToDropDownList(Data, ddlGroups);
 
 
@@ -129,10 +182,10 @@ namespace ERP.OMS.Management.Master
             BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine(ConfigurationSettings.AppSettings["DBConnectionDefault"]);
             DataTable dt = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("PRC_FetchReportTo");
-            // Rev Sanchita
+            
             //proc.AddPara("@action", "ADDNEW_USERACCOUNT");
             proc.AddPara("@action", "ADDNEW_WD");
-            // End of Rev Sanchita
+            
             proc.AddPara("@userid", Convert.ToString(HttpContext.Current.Session["userid"]));
             proc.AddPara("@firstname", reqStr);
             proc.AddPara("@shortname", reqStr);
@@ -226,12 +279,12 @@ namespace ERP.OMS.Management.Master
             string prefCompCode = string.Empty, sufxCompCode = string.Empty, ShortName = string.Empty, TempCode = string.Empty,
                 startNo, paddedStr;
             int EmpCode, prefLen, sufxLen, paddCounter;
-            // Rev Sanchita
+            
             //string EmpType = "1";+
             string[] ET = oDBEngine.GetFieldValue1("tbl_master_employeeType", "emptpy_id", "emptpy_code='RG'", 1);
 
             string EmpType = ET[0].ToString() ;
-            // End of Rev Sanchita
+            
 
             dtS = oDBEngine.GetDataTable("tbl_master_company", "onrole_schema_id, offrole_schema_id", "cmp_id=" + cmp_Id + "");
 
@@ -451,10 +504,10 @@ namespace ERP.OMS.Management.Master
         {
             try
             {
-                // Rev Sanchita 
+                 
                 //if (calledFromChannelLookup_hidden.Value == "1" || calledFromCircleLookup_hidden.Value == "1" || calledFromSectionLookup_hidden.Value == "1")
                 if (IsChannelCircleSectionMandatory.Value == "0" && (calledFromChannelLookup_hidden.Value == "1" || calledFromCircleLookup_hidden.Value == "1" || calledFromSectionLookup_hidden.Value == "1") )
-                    // End of Rev Sanchita
+                    
                 {
                     calledFromChannelLookup_hidden.Value = "0";
                     calledFromCircleLookup_hidden.Value = "0";
@@ -473,7 +526,7 @@ namespace ERP.OMS.Management.Master
 
                 }*/
 
-                // Rev Sanchita
+                
                 //string ulogid = string.Empty;
                 //string empuniqid = string.Empty;
 
@@ -501,11 +554,11 @@ namespace ERP.OMS.Management.Master
                  //    LoginIDExist = 1;
                  //}
 
-                // End of Rev Sanchita
+                
 
                 if (LoginIDExist == 0)
                 {
-                    // Rev Sanchita 
+                     
                     //string Organization = "68";
                     //DataTable dtS = new DataTable();
                     //dtS = oDBEngine.GetDataTable("tbl_master_company", "onrole_schema_id, offrole_schema_id", "cmp_id=" + Organization + "");
@@ -534,7 +587,7 @@ namespace ERP.OMS.Management.Master
                     String Section = txtSection_hidden.Value.ToString();
 
                     String DefaultType = "";
-                    // Rev Sanchita
+                    
                     //if (chkChannelDefault.Checked == true)
                     //{
                     //    DefaultType = "Channel";
@@ -552,7 +605,7 @@ namespace ERP.OMS.Management.Master
                     {
                         DefaultType = "Section";
                     }
-                    // End of Rev Sanchita
+                    
                     // End of Mantis Issue 24655
 
                     //=======================For naming Part / 1st part ========================================
@@ -569,11 +622,11 @@ namespace ERP.OMS.Management.Master
                     Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value),
                     chkAllow, Convert.ToString(DBNull.Value), Convert.ToString(ChannelType), Convert.ToString(Circle), Convert.ToString(Section), DefaultType);
 
-                    // Rev Sanchita
+                    
                     //string EmpType = "1";
                     string[] ET = oDBEngine.GetFieldValue1("tbl_master_employeeType", "emptpy_id", "emptpy_code='RG'", 1);
                     string EmpType = ET[0].ToString();
-                    // End of Rev Sanchita
+                    
 
                     //if (EmpType == "19")
                     //{
@@ -689,7 +742,7 @@ namespace ERP.OMS.Management.Master
                                     Colleague2 = "0";
                                 }
 
-                                // Rev Sanchita
+                                
                                 //string jobresponsibility = "8";
                                 //string Department = "3";
                                 //string EmpWorkingHours = "1";
@@ -715,7 +768,7 @@ namespace ERP.OMS.Management.Master
                                 DataTable dtL = oDBEngine.GetDataTable("tbl_master_LeaveScheme", "ls_id", " (ls_name = 'Default')");
                                 if (dtL.Rows.Count > 0)
                                     LeaveScheme = dtL.Rows[0][0].ToString();
-                                // End of Rev Sanchita
+                                
 
                                 objEmployee_BL.btnCTC_Click_BL(emp_cntId, joiningDate, Organization, jobresponsibility, cmbDesg.SelectedItem.Value, EmpType,
                                 Department, txtReportTo_hidden.Value, ReportHead, Colleague, EmpWorkingHours, LeaveScheme, emp_LeaveSchemeAppliedFrom, cmbBranch.SelectedItem.Value,
@@ -817,10 +870,10 @@ namespace ERP.OMS.Management.Master
                                 DataTable dtempuserid = oDBEngine.GetDataTable("select user_id from tbl_master_user where user_contactId='" + emp_cntId + "'");
                                 if(dtempuserid.Rows.Count>0)
                                 {
-                                    // Rev Sanchita
+                                    
                                    // empuserid = dtassignparty.Rows[0]["user_id"].ToString();
                                     empuserid = dtempuserid.Rows[0]["user_id"].ToString();
-                                    // End of Rev Sanchita
+                                    
                                 }
                                 DataTable dtshopcode = oDBEngine.GetDataTable("select s.Shop_Code from tbl_Master_shop s,tbl_master_employee e,tbl_master_user u where s.type='4' and s.EntityCode=e.emp_uniqueCode " +
                                  "and e.emp_contactId=u.user_contactId and u.user_id=s.shop_createuser and e.emp_uniqueCode='"+reportto_uniqueid+"'");
@@ -829,12 +882,12 @@ namespace ERP.OMS.Management.Master
                                     shop_code = dtshopcode.Rows[0]["Shop_Code"].ToString();
                                 }
 
-                                // Rev Sanchita
+                                
                                 //SaveAssignParty(shop_code, empuserid, reportto_uniqueid, reportto_userid, cmbBranch.SelectedValue.ToString());
 
                                 string selected_users = reportto_userid + "," + empuserid;
                                 SaveAssignParty(shop_code, selected_users, reportto_uniqueid, reportto_userid, cmbBranch.SelectedValue.ToString());
-                                // End of Rev Sanchita
+                                
                                 Response.Redirect("/OMS/Management/Master/UserAccountList.aspx");
                             }
                         }
@@ -861,21 +914,21 @@ namespace ERP.OMS.Management.Master
             string returnmsg = "";
             if (HttpContext.Current.Session["userid"] != null)
             {
-                // Rev Sanchita
+                
                 string PARTY_TYPE = "";
                 DataTable dtS = oDBEngine.GetDataTable("tbl_shoptype", "shop_typeId", " (Name = 'DISTRIBUTOR')");
                 if (dtS.Rows.Count > 0)
                     PARTY_TYPE = dtS.Rows[0][0].ToString();
-                // End of Rev Sanchita
+                
 
                 DataTable Userdt = new DataTable();
                 ProcedureExecute proc = new ProcedureExecute("prc_EmployeeShopMapInsertUpdate");
                 proc.AddPara("@ACTION", "AssignShopUserNew");
                 proc.AddPara("@SHOP_CODE", shop_code);
-                // Rev Sanchita
+                
                 //proc.AddPara("@PARTY_TYPE", 4);
                 proc.AddPara("@PARTY_TYPE", PARTY_TYPE);
-                // End of Rev Sanchita
+                
                 proc.AddPara("@Users", empuserid);
                 proc.AddPara("@NAME", reportto_uniqueid);
                 proc.AddPara("@headerid", 0);
@@ -1062,7 +1115,7 @@ namespace ERP.OMS.Management.Master
                 FaceRegTypeID = Convert.ToInt32(ddlType.SelectedValue.ToString());
                 //Rev work close 26.07.2022 mantise no:25046
 
-                // Rev Sanchita
+                
                 //string channel = txtChannel_hidden.Value.ToString();
                 //string Stage = ddlType.SelectedValue.ToString();
                 //string Desg = cmbDesg.SelectedValue.ToString();
@@ -1070,9 +1123,9 @@ namespace ERP.OMS.Management.Master
                 string[] channel = txtChannels.Text.ToString().Split(',');
                 string Stage = ddlType.SelectedItem.ToString();
                 string Desg = cmbDesg.SelectedItem.ToString();
-                // End of Rev Sanchita
+                
 
-                // Rev Sanchita
+                
                 string user_name = txtFirstNmae.Text.ToString().Trim();
 
                 if (txtMiddleName.Text.Trim() != "")
@@ -1080,7 +1133,7 @@ namespace ERP.OMS.Management.Master
 
                 if (txtLastName.Text.Trim() != "")
                     user_name = user_name + " " + txtLastName.Text.ToString().Trim();
-                // End of Rev Sanchita
+                
 
 
                 string[,] grpsegment = oDBEngine.GetFieldValue("tbl_master_userGroup", "top 1 grp_segmentid", "grp_id in (" + usergroup.ToString() + ")", 1);
@@ -1089,16 +1142,16 @@ namespace ERP.OMS.Management.Master
                 using (proc = new ProcedureExecute("PRC_FTSInsertUpdateUser"))
                 {
                     //if (channel == "1" && Desg == "291" && Stage == "1" || Stage == "2"))
-                    // Rev Sanchita
+                    
                     //if (channel == "1" && Desg == "291" && Stage == "1")
                     if (channel.Contains("CFP") && Desg == "DS" && (Stage == "Conv SR" || Stage == "RMD") && ddlGroups.SelectedItem.ToString() == "FIELD-USER")
-                        // End of Rev Sanchita
+                        
                     {
                         proc.AddPara("@ACTION", "INSERT");
-                        // Rev Sanchita
+                        
                         //proc.AddPara("@txtusername", txtuserid.Text.Trim());
                         proc.AddPara("@txtusername", user_name);
-                        // End of Rev Sanchita
+                        
                         proc.AddPara("@b_id", cmbBranch.SelectedValue.ToString());
                         proc.AddPara("@txtuserid", txtuserid.Text.Trim());
                         proc.AddPara("@Encryptpass", Encryptpass);
@@ -1168,7 +1221,7 @@ namespace ERP.OMS.Management.Master
                         proc.AddPara("@isShopEditEnable", 1);
                         proc.AddPara("@isTaskEnable", isTaskEnable);
 
-                        // Rev Sanchita
+                        
                         //proc.AddPara("@PartyType", "1");
                         string PARTY_TYPE = "";
                         DataTable dtS = oDBEngine.GetDataTable("tbl_shoptype", "shop_typeId", " (Name = 'DEALER')");
@@ -1176,7 +1229,7 @@ namespace ERP.OMS.Management.Master
                             PARTY_TYPE = dtS.Rows[0][0].ToString();
 
                         proc.AddPara("@PartyType", PARTY_TYPE);
-                        // End of Rev Sanchita
+                        
                         
                         proc.AddPara("@isAppInfoEnable", 1);
                         proc.AddPara("@willDynamicShow", willDynamicShow);
@@ -1283,18 +1336,18 @@ namespace ERP.OMS.Management.Master
                         //Rev work start 26.07.2022 mantise no:25046
                         proc.AddPara("@FaceRegTypeID", FaceRegTypeID);
                         //Rev work close 26.07.2022 mantise no:25046
-                        // Rev sanchita
+                        
                         proc.AddPara("@CalledFromUserAccount", 1);
                         proc.AddPara("@ChType_CFP", 1);
-                        // End of Rev Sanchita
+                        
                      }
                     else
                     {
                         proc.AddPara("@ACTION", "INSERT");
-                        // Rev Sanchita
+                        
                         //proc.AddPara("@txtusername", txtuserid.Text.Trim());
                         proc.AddPara("@txtusername", user_name);
-                        // End of Rev Sanchita
+                        
                         proc.AddPara("@b_id", cmbBranch.SelectedValue.ToString());
                         proc.AddPara("@txtuserid", txtuserid.Text.Trim());
                         proc.AddPara("@Encryptpass", Encryptpass);
@@ -1469,10 +1522,10 @@ namespace ERP.OMS.Management.Master
                         proc.AddPara("@MRPInOrder", MRPInOrder);
                         proc.AddPara("@isHorizontalPerformReportShow", isHorizontalPerformReportShow);                       
                         proc.AddPara("@FaceRegTypeID", FaceRegTypeID);
-                        // Rev sanchita
+                        
                         proc.AddPara("@CalledFromUserAccount", 1);
                         proc.AddPara("@ChType_CFP", 0);
-                        // End of Rev Sanchita
+                        
                     }
                     
 
