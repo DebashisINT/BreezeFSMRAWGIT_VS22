@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FSM_ITC" Class="ReportsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=3.7.30.86,1480\SQLEXPRES;Initial Catalog=FSM_ITC;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="FSM_ITCConnectionString2" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=3.7.30.86,1480\SQLEXPRESS;Initial Catalog=FSM_ITC;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="FSM_ITCConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.FTSDASHBOARD_REPORT" Member="FTSDASHBOARD_REPORTs">
     <Type Name="FTSDASHBOARD_REPORT">
       <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -1369,50 +1369,6 @@
       <Column Name="CollectionAmt" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.FTS_CustomerDetailsReport" Member="FTS_CustomerDetailsReports">
-    <Type Name="FTS_CustomerDetailsReport">
-      <Column Name="USERID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="SEQ" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="shop_code" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Shop_CreateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="cnt_internalId" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="EmpCode" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Employee" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Supervisor" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Designation" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="DEPARTMENT" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="ContactNo" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="MailId" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Model" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="PrimaryApplication" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="SecondaryApplication" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="BookingAmount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="LeadType" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Stage" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="FunnelStage" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Feedback" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="deg_id" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="emp_Department" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="stateId" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="Party_Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="DD_Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Shop_Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Entity_Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Party_Status" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Group_Beat" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Account_Holder" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Bank_Name" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Account_No" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="IFSC_Code" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="UPI_ID" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Assoc_Customer" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="STATE_NAME" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="DISTRICT" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.FTSORDERREGISTER_REPORT" Member="FTSORDERREGISTER_REPORTs">
     <Type Name="FTSORDERREGISTER_REPORT">
       <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -1654,37 +1610,6 @@
       <Column Name="COLLECTIONDATEORDBY" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
       <Column Name="REMARKS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
       <Column Name="DOCUMENTNAME" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.FTSEMPLOYEEOUTLETMASTER_REPORT" Member="FTSEMPLOYEEOUTLETMASTER_REPORTs">
-    <Type Name="FTSEMPLOYEEOUTLETMASTER_REPORT">
-      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="BRANCH_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="BRANCHDESC" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="EMPCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="EMPID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="EMPNAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="STATEID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="STATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="DEG_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="DESIGNATION" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="DATEOFJOINING" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="CONTACTNO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="REPORTTOID" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="REPORTTOUID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="REPORTTO" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="RPTTODESG" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="HREPORTTOID" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="HREPORTTOUID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="HREPORTTO" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="HRPTTODESG" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="OUTLETID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="OUTLETNAME" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
-      <Column Name="OUTLETADDRESS" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="OUTLETCONTACT" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="OUTLETLAT" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="OUTLETLANG" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.FTSDSPERFORMANCESUMMARY_REPORT" Member="FTSDSPERFORMANCESUMMARY_REPORTs">
@@ -2588,6 +2513,87 @@
       <Column Name="RE_VISITED" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="SPENT_DURATION" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="DISTANCE_TRAVELLED" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FTS_CustomerDetailsReport" Member="FTS_CustomerDetailsReports">
+    <Type Name="FTS_CustomerDetailsReport">
+      <Column Name="USERID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="shop_code" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Shop_CreateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="cnt_internalId" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EmpCode" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Employee" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Supervisor" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Designation" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="DEPARTMENT" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="CustomerName" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="CustomerAddress" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ContactNo" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MailId" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Model" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="PrimaryApplication" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="SecondaryApplication" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="BookingAmount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="LeadType" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Stage" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="FunnelStage" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Feedback" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="deg_id" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="emp_Department" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="stateId" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Party_Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="DD_Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Shop_Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Entity_Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Party_Status" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Group_Beat" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Account_Holder" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Bank_Name" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Account_No" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="IFSC_Code" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="UPI_ID" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Assoc_Customer" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="STATE_NAME" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="DISTRICT" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="LASTVISITDATE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LASTVISITTIME" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LASTVISITEDBY" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FTSEMPLOYEEOUTLETMASTER_REPORT" Member="FTSEMPLOYEEOUTLETMASTER_REPORTs">
+    <Type Name="FTSEMPLOYEEOUTLETMASTER_REPORT">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BRANCH_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="BRANCHDESC" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="EMPCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EMPID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EMPNAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="STATEID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="STATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DEG_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DESIGNATION" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DATEOFJOINING" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="CONTACTNO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="REPORTTOID" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="REPORTTOUID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="REPORTTO" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="RPTTODESG" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="HREPORTTOID" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="HREPORTTOUID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="HREPORTTO" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="HRPTTODESG" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="OUTLETID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="OUTLETNAME" Type="System.String" DbType="VarChar(5000)" CanBeNull="true" />
+      <Column Name="OUTLETADDRESS" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="OUTLETCONTACT" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="OUTLETLAT" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="OUTLETLANG" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LASTVISITDATE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LASTVISITTIME" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LASTVISITEDBY" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

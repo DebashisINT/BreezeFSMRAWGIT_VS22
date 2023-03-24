@@ -2513,6 +2513,7 @@
     <Content Include="OMS\Management\Activities\CustSaleRateLock.aspx" />
     <Content Include="OMS\Management\Activities\JS\SearchMultiPopup.js" />
     <Content Include="OMS\Management\Activities\JS\SearchPopup.js" />
+    <Content Include="OMS\Management\Activities\JS\SearchPopupDatatable.js" />
     <Content Include="OMS\Management\Activities\leaveapproval.aspx" />
     <Content Include="OMS\Management\Activities\LeaveSuccessPage.aspx" />
     <Content Include="OMS\Management\Attendance\allEmpAttRecords.aspx" />

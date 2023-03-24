@@ -1,24 +1,18 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                20-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                03-02-2023        2.0.38           PRITI               0025604: Enhancement Required in the Order Summary Report *@
+
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.Reportorderregisterinput
 @{
     ViewBag.Title = "Order Summary ";
-
-
 }
-
-
-
 <script type="text/javascript" src="~/Scripts/globalize.js"></script>
 <script src="~/Scripts/cultures/globalize.cultures.js"></script>
-
-
 <script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
 <link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
-
 <script src="~/Scripts/SearchPopup.js"></script>
 @*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
 <link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
@@ -27,6 +21,32 @@
 
 <script>
     var Is_PageLoad = "0";
+
+    //Rev 1.0
+    function fetchProductDetails() {
+        var surl = '@Url.Action("getMrpDiscount", "OrderSummary")';
+        var Product_Id = $("#idproduct").val();
+        if (Product_Id != null) {
+            $.ajax({
+                url: surl,
+                async: false,
+                data: {
+                    Product_Id: Product_Id,
+                },
+                type: 'POST',
+                success: function (data) {
+
+                    $("#txtprod_MRP").val(data.sProduct_MRP);
+                    $("#txtprod_discount").val(data.sProducts_Discount);
+
+                },
+                error: function () {
+
+                },
+            });
+        }
+    }
+     //Rev 1.0 End
     $(function () {
 
         $("#btnEdit").attr('style', 'display:none;');
@@ -139,7 +159,12 @@
                         Order_ProdId: $("#hdnproductorderid").val(),
                         Product_Id: $("#idproduct").val(),
                         Product_Qty: $("#txtprod_qty").val(),
-                        Product_Rate: $("#txtprod_rate").val()
+                        Product_Rate: $("#txtprod_rate").val(),
+
+                       /* REV 2.0*/
+                        Product_MRP: $("#txtprod_MRP").val(),
+                        Product_Discount: $("#txtprod_discount").val()
+                      /*  REV 2.0 END*/
                     },
                     type: 'POST',
                     success: function (data) {
@@ -418,6 +443,10 @@
                 $("#txtprod_rate").val(data.Product_Rate);
                 $("#txtprod_price").val(data.Product_Price);
 
+                /* REV 2.0*/
+                $("#txtprod_MRP").val(data.Product_MRP);
+                $("#txtprod_discount").val(data.Product_Discount);
+                /* REV 2.0 END*/
                 $("#hdnorder").val(data.Order_ID);
                 $("#hdnproductorderid").val(data.Order_ProdId);
 
@@ -459,6 +488,11 @@
         $("#txtprod_qty").val(0);
         $("#txtprod_price").val(0);
         $("#hdnproductorderid").val(0);
+
+       /* REV 2.0*/
+        $("#txtprod_MRP").val(0);
+        $("#txtprod_discount").val(0);
+       /* REV 2.0 END*/
     }
 
     function StateStartCallback(s, e) {
@@ -824,6 +858,7 @@
     .w150 {
         width: 150px;
     }
+
     .eqpadtbl > tbody > tr > td:not(:last-child) {
         padding-right: 20px;
     }
@@ -836,6 +871,7 @@
         $('#EmployeeModel').on('shown.bs.modal', function () {
             $('#txtEmployeeSearch').focus();
         })
+        
     })
     var ProdArr = new Array();
     $(document).ready(function () {
@@ -1013,13 +1049,13 @@
                                 </div>
                             </td>
                             @*Rev Debashis*@
-                        <td class="w10 inputSpacer" style="padding-top: 21px; width: 150px;">
-                            @*Rev 1.0*@
-                            @*<input type="checkbox" id="IsPaitentDetails" name="IsPaitentDetails" value="0" style="margin-right:5px"><span class="w100">Paitent Details</span>*@
-                            <input class="styled-checkbox" type="checkbox" id="IsPaitentDetails" name="IsPaitentDetails" value="0" style="margin-right:5px">
-                            <label for="">Paitent Details</label>
-                            @*Rev end 1.0*@
-                        </td>
+                            <td class="w10 inputSpacer" style="padding-top: 21px; width: 150px;">
+                                @*Rev 1.0*@
+                                @*<input type="checkbox" id="IsPaitentDetails" name="IsPaitentDetails" value="0" style="margin-right:5px"><span class="w100">Paitent Details</span>*@
+                                <input class="styled-checkbox" type="checkbox" id="IsPaitentDetails" name="IsPaitentDetails" value="0" style="margin-right:5px">
+                                <label for="">Paitent Details</label>
+                                @*Rev end 1.0*@
+                            </td>
                             @*End of Rev Debashis*@
                             <td style="padding-top: 22px;width:180px;">
                                 <label></label>

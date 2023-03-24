@@ -1,4 +1,8 @@
-﻿using System;
+﻿//====================================================== Revision History ==========================================================
+//1.0  03-02-2023    2.0.38    Priti     0025604: Enhancement Required in the Order Summary Report
+//====================================================== Revision History ==========================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -106,7 +110,12 @@ namespace Models
         public long Order_ID { get; set; }
         public long Order_ProdId { get; set; }
         public List<OrderDetailsSummaryProductslist> productdetails { get; set; }
-     
+        //REV 1.0
+        public decimal Product_MRP { get; set; }
+        public decimal Product_Discount { get; set; }
+        //REV 1.0 END
+
+
     }
 
     public class OrderDetailsSummaryProductslist
@@ -126,6 +135,11 @@ namespace Models
         public decimal MRP { get; set; }
         //End of Rev Debashis
 
+        //REV 1.0
+        public decimal Product_MRP { get; set; }
+        public decimal Product_Discount { get; set; }
+        //REV 1.0 END
+
     }
     public  class Productlist_Order
     {
@@ -135,5 +149,13 @@ namespace Models
 
 
     }
+    //REV 1.0
+    public class ProductDetails
+    {
+        public decimal sProduct_MRP { get; set; }
+        public decimal sProducts_Discount { get; set; }
+    }
+    //REV 1.0 END
+
     #endregion
 }

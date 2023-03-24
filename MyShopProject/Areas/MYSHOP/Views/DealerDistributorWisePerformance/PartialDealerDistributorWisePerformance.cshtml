@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                07-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridddwiseperformance";
 
@@ -32,16 +37,19 @@
         x.FieldName = "SHOP_NAME";
         x.Caption = "Dealer/Distributor Name";
         x.VisibleIndex = 1;
-        x.Width = 150;
+        //Rev 1.0
+        //x.Width = 150;
+        x.Width = 170;
+        //Rev end 1.0
     });
-    
+
     settings.Columns.Add(x =>
-   {
-       x.FieldName = "SHOP_TYPE";
-       x.Caption = "Type";
-       x.VisibleIndex = 2;
-       x.Width = 100;
-   });
+    {
+        x.FieldName = "SHOP_TYPE";
+        x.Caption = "Type";
+        x.VisibleIndex = 2;
+        x.Width = 100;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -68,33 +76,39 @@
     });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "TOTALORDERVALUE";
-          x.Caption = "Total Revenue <br/>(Total Order Value)";
-          x.VisibleIndex = 6;
-          x.Width = 150;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      });
+    {
+        x.FieldName = "TOTALORDERVALUE";
+        x.Caption = "Total Revenue <br/>(Total Order Value)";
+        x.VisibleIndex = 6;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
 
     settings.Columns.Add(x =>
-  {
-      x.FieldName = "AVGORDVALUE";
-      x.Caption = "Average Order Value <br/>(Total Order Value/ Number of successful order count for that shop)";
-      x.VisibleIndex = 7;
-      x.Width = 370;
-      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-      x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-  });
+    {
+        x.FieldName = "AVGORDVALUE";
+        x.Caption = "Average Order Value <br/>(Total Order Value/ Number of successful order count for that shop)";
+        x.VisibleIndex = 7;
+        //Rev 1.0
+        //x.Width = 370;
+        x.Width = 430;
+        //Rev end 1.0
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "AVGVISITVALUE";
         x.Caption = "Average Value Generated Per Visit <br/>(Total Order value/total number (Visit/revisit)of visit count)";
         x.VisibleIndex = 8;
-        x.Width = 350;
+        //Rev 1.0
+        //x.Width = 350;
+        x.Width = 400;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });

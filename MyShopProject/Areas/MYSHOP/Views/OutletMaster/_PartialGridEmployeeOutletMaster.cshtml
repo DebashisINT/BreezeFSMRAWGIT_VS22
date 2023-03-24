@@ -1,4 +1,10 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0		         13-02-2023   	   V2.0.39		    PRITI			    0025663:Last Visit fields shall be available in Outlet Reports*@
+@*====================================================== Revision History ===========================================================*@
+
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridperOutlet";
     settings.CallbackRouteValues = new { Action = "GetOutletMasterList", Controller = "OutletMaster" };
@@ -229,7 +235,7 @@
         x.FieldName = "OUTLETNAME";
         x.Caption = "Outlet Name";
         x.VisibleIndex = 7;
-       // x.Width = 120;
+        // x.Width = 120;
         //x.ColumnType = MVCxGridViewColumnType.TextBox;
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         if (ViewBag.RetentionColumn != null)
@@ -364,6 +370,41 @@
         }
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
+
+    //REV 1.0
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Last Visit Date";
+        x.FieldName = "LASTVISITDATE";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+        x.VisibleIndex = 12;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Last Visit Time";
+        x.FieldName = "LASTVISITTIME";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+        x.VisibleIndex = 13;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Last Visited By";
+        x.FieldName = "LASTVISITEDBY";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+        x.VisibleIndex = 14;
+    });
+    //REV 1.0 END
+
+
+
+
+
+
     //rev Pratik
     //settings.Columns.Add(x =>
     //{
@@ -503,7 +544,7 @@
     //    }
 
     //});
-    
+
     //settings.Columns.Add(x =>
     //{
     //    x.FieldName = "STATE";

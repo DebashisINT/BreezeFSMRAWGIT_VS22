@@ -392,5 +392,11 @@
         <elementListCompartment Id="881d7f83-6203-4a32-8c47-153b7f2b2624" absoluteBounds="9.765, 7.335, 1.9700000000000002, 6.5953369140625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="2aac3682-a3b6-4f7e-8490-94a2d1832730" isExpanded="false" absoluteBounds="0.5, 7.5, 2, 0.45">
+      <DataClassMoniker Name="/ERPDataClassesDataContext/FSMUser_Master_List" />
+      <nestedChildShapes>
+        <elementListCompartment Id="553fb495-12b4-4829-beb2-45d522e7795b" absoluteBounds="0.51500000000000012, 7.9600000000000009, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>

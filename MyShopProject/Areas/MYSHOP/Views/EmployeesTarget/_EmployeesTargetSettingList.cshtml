@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                10-02-2023        2.0.39           Pallab              25656 : Master module design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridEmployeesTargetList";
 
@@ -26,7 +31,7 @@
     settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Cell;
     settings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
     settings.CommandColumn.Visible = false;
-  
+
     settings.Settings.ShowFooter = true;
     settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
 
@@ -88,7 +93,10 @@
         x.FieldName = "EmpTypeName";
         x.Caption = "Target Type";
         x.VisibleIndex = 4;
-        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        //Rev 1.0
+        //x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        //Rev end 1.0
         x.EditFormSettings.Visible = DefaultBoolean.False;
 
         x.FixedStyle = GridViewColumnFixedStyle.Left;
@@ -111,7 +119,10 @@
         x.FieldName = "CounterTypeName";
         x.Caption = "Customer Type";
         x.VisibleIndex = 6;
-        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        //Rev 1.0
+        //x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        //Rev end 1.0
         x.EditFormSettings.Visible = DefaultBoolean.False;
 
         x.FixedStyle = GridViewColumnFixedStyle.Left;
@@ -192,7 +203,7 @@
         x.Width = System.Web.UI.WebControls.Unit.Pixel(110);
         x.EditFormSettings.Visible = DefaultBoolean.False;
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
-        
+
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
@@ -206,7 +217,7 @@
         x.VisibleIndex = 12;
         x.Width = System.Web.UI.WebControls.Unit.Pixel(110);
         x.EditFormSettings.Visible = DefaultBoolean.False;
-        x.ColumnType = MVCxGridViewColumnType.DateEdit; 
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
 
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
@@ -237,7 +248,7 @@
                 ViewContext.Writer.Write(
                         "<a style='cursor:pointer; opacity: .8;'> <img src='/assests/images/Edit.png' title='Not applicable' /></a>"
                         + "<a style='cursor:pointer; margin-left: 12px;' onclick=\"RemoveEmployeesCounterWiseTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeTargetSettingID")) + "','EmployeesTargetSetting')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
-                    ); 
+                    );
             }
         });
     });

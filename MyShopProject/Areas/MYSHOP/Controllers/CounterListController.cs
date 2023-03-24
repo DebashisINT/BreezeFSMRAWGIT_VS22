@@ -183,21 +183,21 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
 
                 }
-                //Rev 1.0 Mantis:0025585
+                //Rev  Mantis:0025585
                 if (model.IsRevisitContactDetails != null)
                 {
                     TempData["IsRevisitContactDetails"] = model.IsRevisitContactDetails;
                     TempData.Keep();
                 }
-                //End of Rev 1.0 Mantis:0025585
+                //End of Rev  Mantis:0025585
                 if (model.Ispageload == "1")
                 {
                     //Rev Pallab
                     //dt = objshop.GetShopListCounterwise(model.TypeID, "", state, Convert.ToInt32(Session["userid"])); 
-                    //Rev 1.0 Mantis: 0025585
+                    //Rev  Mantis: 0025585
                     //dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, Convert.ToInt32(Session["userid"]));
                     dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]));
-                    //End of Rev 1.0 Mantis: 0025585
+                    //End of Rev  Mantis: 0025585
                     //Rev end Pallab
                     if (dt.Rows.Count > 0)
                     {
@@ -472,7 +472,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "trade_licence_number";
             });
             //Rev work close 30.06.2022  Mantise no:0024573
-            //Rev 1.0 Mantis: 0025585
+            //Rev  Mantis: 0025585
             if (TempData["IsRevisitContactDetails"].ToString() == "1")
             {
                 settings.Columns.Add(column =>
@@ -625,8 +625,36 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     column.Caption = "Contact DOB6";
                     column.FieldName = "CONTACT_DOB6";
                 });
+
+
             }
-            //End of Rev 1.0 Mantis: 0025585
+
+
+            //End of Rev  Mantis: 0025585
+
+            //Rev 1.0
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "LASTVISITDATE";
+                column.Caption = "Last Visit Date";
+                column.ColumnType = MVCxGridViewColumnType.TextBox;
+                column.Width = 150;
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "LASTVISITTIME";
+                column.Caption = "Last Visit Time";
+                column.ColumnType = MVCxGridViewColumnType.TextBox;
+                column.Width = 150;
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "LASTVISITEDBY";
+                column.Caption = "Last Visited By";
+                column.ColumnType = MVCxGridViewColumnType.TextBox;
+                column.Width = 150;
+            });
+            //Rev 1.0 End
             //   settings.Columns.Add(column =>
             //   {
             //       column.Caption = "Shop Visit";

@@ -1,3 +1,7 @@
+/******************************************************************************************************
+ * Rev 1.0      Sanchita    07/02/2023      V2.0.36     FSM Employee & User Master - To implement Show button. refer: 25641
+ * Rev 2.0      Sanchita     15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal. 
+ *******************************************************************************************************/
 using System;
 using System.Web;
 using System.Web.UI;
@@ -10,6 +14,10 @@ using ClsDropDownlistNameSpace;
 using DevExpress.Web;
 using System.Collections.Generic;
 using UtilityLayer;
+using ERP.Models;
+// Rev 1.0
+using System.Linq;
+// End of Rev 1.0
 
 namespace ERP.OMS.Management.Master
 {
@@ -82,6 +90,21 @@ namespace ERP.OMS.Management.Master
                     IsFaceDetectionOn = true;
                 }
                 //End of Rev Column name change
+
+                // Rev 2.0
+                string IsShowEmpAndUserSearchInMaster = "0";
+                DBEngine obj1 = new DBEngine();
+                IsShowEmpAndUserSearchInMaster = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsShowEmpAndUserSearchInMaster'").Rows[0][0]);
+
+                if (IsShowEmpAndUserSearchInMaster == "1")
+                {
+                    divUser.Visible = true;
+                }
+                else
+                {
+                    divUser.Visible = false;
+                }
+                // End of Rev 2.0
             }
 
 
@@ -97,17 +120,19 @@ namespace ERP.OMS.Management.Master
             //    "FROM [tbl_master_user],tbl_master_employee,tbl_master_contact,tbl_master_usergroup  where emp_ContactId=user_contactId  and cnt_InternalId=user_contactId  "+
             //" and user_group=grp_id  and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
 
-            userGrid.DataSource = BindUserList();
-            userGrid.DataBind();
+            // Rev 1.0
+            //userGrid.DataSource = BindUserList();
+            //userGrid.DataBind();
+            // Rev 1.0
 
         }
         public void bindexport(int Filter)
         {
             //Code  Added and Commented By Priti on 20122016 to use Export Header,date
             // userGrid.Columns[5].Visible = false;
-            // Rev Sanchita [ Branch now showing in Export ]
+            // Rev 1.0 [ Branch now showing in Export ]
             //userGrid.Columns[6].Visible = false;
-            // End of Rev Sanchita
+            // End of Rev 1.0
             string filename = "Users";
             exporter.FileName = filename;
 
@@ -153,41 +178,54 @@ namespace ERP.OMS.Management.Master
         }
         protected void userGrid_CustomCallback(object sender, DevExpress.Web.ASPxGridViewCustomCallbackEventArgs e)
         {
-            // Code  Added and Commented By Priti on 20122016 to use Covert.Tostring() instead of Tostring()
-            ////RootUserDataSource.SelectCommand = "SELECT user_id,user_name,user_loginId,case when  (emp_effectiveuntil is null or emp_effectiveuntil='1900-01-01 00:00:00.000') then 'Active' else 'Deactive' end as Status, (select deg_designation from tbl_master_designation where deg_id =emp_Designation) as designation FROM [tbl_master_user],tbl_trans_employeeCTC where emp_cntId=user_contactId and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
-            //if (Session["addedituser"].ToString() == "yes")
-            if (Convert.ToString(Session["addedituser"]) == "yes")
+            // Rev 1.0
+            string WhichCall = e.Parameters.Split('~')[0];
+            if (WhichCall == "Show")
             {
-                Session["addedituser"] = "";
-                if (userGrid.FilterExpression == "")
-                {
-                    // RootUserDataSource.SelectCommand = "SELECT distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,user_status as Onlinestatus, (select deg_designation from tbl_master_designation where deg_id =emp_Designation) as designation FROM [tbl_master_user],tbl_trans_employeeCTC where emp_cntId=user_contactId and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
-                    RootUserDataSource.SelectCommand = "SELECT  distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,case when  (user_maclock ='Y') then 'Mac Restriction' else 'Mac Open' end as StatusMac,user_status as Onlinestatus, (select top 1  deg_designation from tbl_master_designation where deg_id in (select top 1 emp_Designation from tbl_trans_employeeCTC where emp_CntId= user_contactId order by emp_id desc )) as designation FROM [tbl_master_user],tbl_master_employee where emp_ContactId=user_contactId  and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
-
-                    userGrid.DataBind();
-                }
-                else
-                {
-                    RootUserDataSource.SelectCommand = "SELECT  distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,case when  (user_maclock ='Y') then 'Mac Restriction' else 'Mac Open' end as StatusMac,user_status as Onlinestatus, (select top 1  deg_designation from tbl_master_designation where deg_id in (select top 1 emp_Designation from tbl_trans_employeeCTC where emp_CntId= user_contactId order by emp_id desc )) as designation FROM [tbl_master_user],tbl_master_employee where emp_ContactId=user_contactId  and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ") and " + userGrid.FilterExpression;
-
-                    //RootUserDataSource.SelectCommand = "SELECT distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,user_status as Onlinestatus, (select deg_designation from tbl_master_designation where deg_id =emp_Designation) as designation FROM [tbl_master_user],tbl_trans_employeeCTC where emp_cntId=user_contactId and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ") and " + userGrid.FilterExpression;
-                    userGrid.DataBind();
-                }
+                userGrid.DataSource = BindUserList();
+                userGrid.DataBind();
             }
             else
             {
-                //if (e.Parameters == "s")
-                //    userGrid.Settings.ShowFilterRow = true;
-                if (e.Parameters == "All")
+                // End of Rev 1.0
+                // Code  Added and Commented By Priti on 20122016 to use Covert.Tostring() instead of Tostring()
+                ////RootUserDataSource.SelectCommand = "SELECT user_id,user_name,user_loginId,case when  (emp_effectiveuntil is null or emp_effectiveuntil='1900-01-01 00:00:00.000') then 'Active' else 'Deactive' end as Status, (select deg_designation from tbl_master_designation where deg_id =emp_Designation) as designation FROM [tbl_master_user],tbl_trans_employeeCTC where emp_cntId=user_contactId and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
+                //if (Session["addedituser"].ToString() == "yes")
+                if (Convert.ToString(Session["addedituser"]) == "yes")
                 {
-                    userGrid.FilterExpression = string.Empty;
-                    //RootUserDataSource.SelectCommand = "SELECT distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,user_status as Onlinestatus, (select deg_designation from tbl_master_designation where deg_id =emp_Designation) as designation FROM [tbl_master_user],tbl_trans_employeeCTC where emp_cntId=user_contactId and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
-                    RootUserDataSource.SelectCommand = "SELECT  distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,case when  (user_maclock ='Y') then 'Mac Restriction' else 'Mac Open' end as StatusMac,user_status as Onlinestatus, (select top 1  deg_designation from tbl_master_designation where deg_id in (select top 1 emp_Designation from tbl_trans_employeeCTC where emp_CntId= user_contactId order by emp_id desc )) as designation FROM [tbl_master_user],tbl_master_employee where emp_ContactId=user_contactId  and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
+                    Session["addedituser"] = "";
+                    if (userGrid.FilterExpression == "")
+                    {
+                        // RootUserDataSource.SelectCommand = "SELECT distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,user_status as Onlinestatus, (select deg_designation from tbl_master_designation where deg_id =emp_Designation) as designation FROM [tbl_master_user],tbl_trans_employeeCTC where emp_cntId=user_contactId and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
+                        RootUserDataSource.SelectCommand = "SELECT  distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,case when  (user_maclock ='Y') then 'Mac Restriction' else 'Mac Open' end as StatusMac,user_status as Onlinestatus, (select top 1  deg_designation from tbl_master_designation where deg_id in (select top 1 emp_Designation from tbl_trans_employeeCTC where emp_CntId= user_contactId order by emp_id desc )) as designation FROM [tbl_master_user],tbl_master_employee where emp_ContactId=user_contactId  and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
 
+                        userGrid.DataBind();
+                    }
+                    else
+                    {
+                        RootUserDataSource.SelectCommand = "SELECT  distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,case when  (user_maclock ='Y') then 'Mac Restriction' else 'Mac Open' end as StatusMac,user_status as Onlinestatus, (select top 1  deg_designation from tbl_master_designation where deg_id in (select top 1 emp_Designation from tbl_trans_employeeCTC where emp_CntId= user_contactId order by emp_id desc )) as designation FROM [tbl_master_user],tbl_master_employee where emp_ContactId=user_contactId  and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ") and " + userGrid.FilterExpression;
 
-                    userGrid.DataBind();
+                        //RootUserDataSource.SelectCommand = "SELECT distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,user_status as Onlinestatus, (select deg_designation from tbl_master_designation where deg_id =emp_Designation) as designation FROM [tbl_master_user],tbl_trans_employeeCTC where emp_cntId=user_contactId and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ") and " + userGrid.FilterExpression;
+                        userGrid.DataBind();
+                    }
                 }
+                else
+                {
+                    //if (e.Parameters == "s")
+                    //    userGrid.Settings.ShowFilterRow = true;
+                    if (e.Parameters == "All")
+                    {
+                        userGrid.FilterExpression = string.Empty;
+                        //RootUserDataSource.SelectCommand = "SELECT distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,user_status as Onlinestatus, (select deg_designation from tbl_master_designation where deg_id =emp_Designation) as designation FROM [tbl_master_user],tbl_trans_employeeCTC where emp_cntId=user_contactId and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
+                        RootUserDataSource.SelectCommand = "SELECT  distinct user_id,user_name,user_loginId,case when  (user_inactive ='Y') then 'Inactive' else 'Active' end as Status,case when  (user_maclock ='Y') then 'Mac Restriction' else 'Mac Open' end as StatusMac,user_status as Onlinestatus, (select top 1  deg_designation from tbl_master_designation where deg_id in (select top 1 emp_Designation from tbl_trans_employeeCTC where emp_CntId= user_contactId order by emp_id desc )) as designation FROM [tbl_master_user],tbl_master_employee where emp_ContactId=user_contactId  and user_branchId in (" + HttpContext.Current.Session["userbranchHierarchy"] + ")";
+
+
+                        userGrid.DataBind();
+                    }
+                }
+                // Rev 1.0
             }
+            // End of Rev 1.0
         }
         protected void userGrid_CustomJSProperties(object sender, DevExpress.Web.ASPxGridViewClientJSPropertiesEventArgs e)
         {
@@ -218,10 +256,39 @@ namespace ERP.OMS.Management.Master
             proc.AddIntegerPara("@userid", Convert.ToInt32(HttpContext.Current.Session["userid"]));
             proc.AddPara("@BRANCHID", Convert.ToString(HttpContext.Current.Session["userbranchHierarchy"]));
             proc.AddPara("@ACTION", "BINDUSERLIST");
+            // Rev 2.0
+            proc.AddPara("@Users", Convert.ToString(txtUser_hidden.Value));
+            // End of Rev 2.0
             dt = proc.GetTable();
             return dt;
         }
+        // Rev 1.0
+        protected void EntityServerModelogDataSource_Selecting(object sender, DevExpress.Data.Linq.LinqServerModeDataSourceSelectEventArgs e)
+        {
+            e.KeyExpression = "user_id";
+            string connectionString = Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]);
+            string IsFilter = Convert.ToString(hfIsFilter.Value);
+           
+            ERPDataClassesDataContext dc1 = new ERPDataClassesDataContext(connectionString);
 
+            if (IsFilter == "Y")
+            {
+                var q = from d in dc1.FSMUser_Master_Lists
+                        where d.USERID == Convert.ToInt64(HttpContext.Current.Session["userid"].ToString())
+                        orderby d.SRLNO
+                        select d;
+                e.QueryableSource = q;
+
+            }
+            else
+            {
+                var q = from d in dc1.FSMUser_Master_Lists
+                        where d.SRLNO == 0
+                        select d;
+                e.QueryableSource = q;
+            }
+        }
+        // End of Rev 1.0
         protected void FillComboPartyType()
         {
             string[,] DataPartyType = oDBEngine.GetFieldValue("tbl_shoptype", "TypeId,Name", "IsActive=1", 2);
@@ -826,5 +893,39 @@ namespace ERP.OMS.Management.Master
             return message;
         }
         //End of Mantis Issue 25116
+        // Rev 2.0
+        public class UserModel
+        {
+            public string id { get; set; }
+            public string user_name { get; set; }
+            public string user_loginId { get; set; }
+            public string EmployeeID { get; set; }
+        }
+        [WebMethod]
+        public static object GetOnDemandUser(string SearchKey)
+        {
+            List<UserModel> listUser = new List<UserModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_UserNameSearchForListing");
+                proc.AddPara("@USER_ID", Convert.ToInt32(HttpContext.Current.Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                dt = proc.GetTable();
+
+                listUser = (from DataRow dr in dt.Rows
+                                select new UserModel()
+                                {
+                                    id = Convert.ToString(dr["user_id"]),
+                                    user_name = Convert.ToString(dr["user_name"]),
+                                    user_loginId = Convert.ToString(dr["user_loginId"]),
+                                    EmployeeID = Convert.ToString(dr["EmployeeID"])
+                                }).ToList();
+            }
+
+            return listUser;
+        }
+        // End of Rev 2.0
     }
 }

@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                07-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridBreakageTrackingRegister";
 
@@ -72,42 +77,48 @@
             else
             {
                 x.Visible = true;
-                x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                //Rev 1.0
+                //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            //Rev 1.0
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            //Rev end 1.0
         }
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "CUSTNAME";
-     x.Caption = "Customer Name";
-     x.VisibleIndex = 3;
-     //x.Width = 100;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-     if (ViewBag.RetentionColumn != null)
-     {
-         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTNAME'");
-         if (row != null && row.Length > 0)
-         {
-             x.Visible = false;
-         }
-         else
-         {
-             x.Visible = true;
-             x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
-         }
-     }
-     else
-     {
-         x.Visible = true;
-         x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
-     }
- });
+    {
+        x.FieldName = "CUSTNAME";
+        x.Caption = "Customer Name";
+        x.VisibleIndex = 3;
+        //x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTNAME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(12);
+        }
+    });
 
     settings.Columns.Add(x =>
     {
@@ -231,7 +242,7 @@
 
             var buttonHtml = "";
             var img_folder = System.Configuration.ConfigurationSettings.AppSettings["SPath"];
-            
+
             if (IMG_PATH != "" && IMG_PATH != null)
             {
                 buttonHtml = string.Format(" <a class='example-image-link' href='{0}' data-lightbox='" + cont + "'><img src='{0}' data-lightbox='" + cont + "' alt='No Image Found' height='42' width='42'></a>", img_folder + IMG_PATH);

@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ===================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                14-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
+@*====================================================== Revision History ===================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "ListGrid";
     //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
@@ -39,11 +44,20 @@
         x.SetDataItemTemplateContent(tc =>
         {
             ViewContext.Writer.Write(
-                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenPriorityforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                //Rev 1.0
+                //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenPriorityforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>"
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenPriorityforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><img src=\"../../../assests/images/Edit.png\"></span></a>" +
+                //Rev end 1.0
+                "" +
+                 //Rev 1.0
+                 //"<a href=\"javascript:void(0);\" onclick=\"OpenPriorityforView('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"View\"><span class='ico editColor mr-3'><i class='fa fa-eye' aria-hidden='true'></i></span></a>"
+                 "<a href=\"javascript:void(0);\" onclick=\"OpenPriorityforView('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"View\"><span class='ico editColor mr-3'><img src=\"../../../assests/images/eye2.png\"></span></a>" +
+                 //Rev end 1.0 
                  "" +
-                 "<a href=\"javascript:void(0);\" onclick=\"OpenPriorityforView('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"View\"><span class='ico editColor mr-3'><i class='fa fa-eye' aria-hidden='true'></i></span></a>" +
-                  "" +
-                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                //Rev 1.0
+                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Id")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><img src=\"../../../assests/images/Delete.png\"></span></a></div>"
+                //Rev end 1.0 
             );
         });
         x.Settings.AllowDragDrop = DefaultBoolean.False;

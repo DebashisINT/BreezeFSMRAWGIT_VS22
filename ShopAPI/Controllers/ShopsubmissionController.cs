@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 786
+//2.0   V2.0.38     Debashis    13/03/2023      A new parameter has been added.Row: 814
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -88,8 +89,11 @@ namespace ShopAPI.Controllers
                             //End of Rev Debashis
                             //Rev 1.0 Row:786
                             multi_contact_name= s2.multi_contact_name,
-                            multi_contact_number= s2.multi_contact_number
+                            multi_contact_number= s2.multi_contact_number,
                             //End of Rev 1.0 Row:786
+                            //Rev 2.0 Row:814
+                            IsShopUpdate=s2.IsShopUpdate
+                            //End of Rev 2.0 Row:814
                         });
 
 
@@ -108,7 +112,10 @@ namespace ShopAPI.Controllers
                             visited_date = Convert.ToDateTime(s2.visited_time),
                             visited_time = Convert.ToDateTime(s2.visited_time),
                             total_visit_count = s2.total_visit_count,
-                            distance_travelled = s2.distance_travelled
+                            distance_travelled = s2.distance_travelled,
+                            //Rev 2.0 Row:814
+                            IsShopUpdate=s2.IsShopUpdate
+                            //End of Rev 2.0 Row:814
                         });
 
                         svisitlog = svisitlog + " Shop:" + s2.shop_id + "  Visit:" + s2.visited_time;

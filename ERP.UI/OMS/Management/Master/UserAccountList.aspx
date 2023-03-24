@@ -674,7 +674,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </dxe:GridViewDataTextColumn>   
                                 <%--Rev 2.0--%>   
                                 <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="8" FieldName="deg_designation"
-                                    Caption="Designation" Width="180">
+                                    Caption="Designation" Width="180px">
                                     <PropertiesTextEdit>
                                     </PropertiesTextEdit>
                                     <EditFormSettings Visible="false" />

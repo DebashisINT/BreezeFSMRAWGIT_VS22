@@ -1,4 +1,10 @@
-﻿@*1.0   v2.0.38  Priti   0025589:Separate column required for Area, Route, Beat*@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                31-01-2023        2.0.38           Priti               25589 : Separate column required for Area, Route, Beat *@
+@*2.0                10-02-2023        2.0.39           Pallab              25656 : Master module design modification *@
+@*3.0                08-03-2023        2.0.39           Pallab              25721 : Created By column should be posted after Beat column in Beat/Group Master *@
+@*====================================================== Revision History ==========================================================*@
+
 @Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridList";
@@ -19,7 +25,7 @@
     settings.SettingsPager.PageSize = 10;
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
     settings.Settings.ShowFilterRowMenu = true;
-
+    //Rev 2.0 : column width change
     settings.Columns.Add(x =>
     {
         x.FieldName = "Beat_Code";
@@ -52,7 +58,7 @@
         x.VisibleIndex = 2;
         //x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
-        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
     });
     settings.Columns.Add(x =>
     {
@@ -61,7 +67,7 @@
         x.VisibleIndex = 3;
         //x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
-        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
     });
     settings.Columns.Add(x =>
     {
@@ -70,7 +76,7 @@
         x.VisibleIndex = 4;
         //x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
-        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
     });
     //REV 1.0 END
 
@@ -78,7 +84,10 @@
     {
         x.FieldName = "Created_By";
         x.Caption = "Created By";
-        x.VisibleIndex = 3;
+        //Rev 3.0
+        //x.VisibleIndex = 3;
+        x.VisibleIndex = 5;
+        //Rev end 3.0
         //x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
@@ -87,9 +96,12 @@
     {
         x.FieldName = "Created_On";
         x.Caption = "Created On";
-        x.VisibleIndex = 4;
+        //Rev 3.0
+        //x.VisibleIndex = 4;
+        x.VisibleIndex = 6;
+        //Rev end 3.0
         x.Width = 120;
-        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -101,7 +113,10 @@
     {
         x.FieldName = "Updated_By";
         x.Caption = "Updated By";
-        x.VisibleIndex = 5;
+        //Rev 3.0
+        //x.VisibleIndex = 5;
+        x.VisibleIndex = 7;
+        //Rev end 3.0
         //x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
@@ -111,9 +126,12 @@
     {
         x.FieldName = "Updated_On";
         x.Caption = "Updated On";
-        x.VisibleIndex = 6;
+        //Rev 3.0
+        //x.VisibleIndex = 6;
+        x.VisibleIndex = 8;
+        //Rev end 3.0
         x.Width = 120;
-        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(11);
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -125,7 +143,10 @@
     {
         x.FieldName = "CODE_TYPE";
         x.Caption = "Type";
-        x.VisibleIndex = 7;
+        //Rev 3.0
+        //x.VisibleIndex = 7;
+        x.VisibleIndex = 9;
+        //Rev end 3.0
         //x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
@@ -135,11 +156,14 @@
     settings.Columns.Add(x =>
     {
         x.Caption = "Action";
-        x.VisibleIndex = 8;
+        //Rev 3.0
+        //x.VisibleIndex = 8;
+        x.VisibleIndex = 10;
+        //Rev end 3.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.HeaderStyle.VerticalAlign = System.Web.UI.WebControls.VerticalAlign.Middle;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
         x.SetDataItemTemplateContent(c =>
         {
             // ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenHomeLocationforEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "UserID")) + "')\">Modify</a>");

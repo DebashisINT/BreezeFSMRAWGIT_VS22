@@ -1,4 +1,6 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*1.0		PRITI		V2.0.39			13-02-2023		0025663:Last Visit fields shall be available in Outlet Reports*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "ListGrid";
     //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
@@ -52,7 +54,7 @@
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         column.Width = 180;
     });
-    
+
     settings.Columns.Add(column =>
     {
         column.Caption = "District";
@@ -275,21 +277,45 @@
     });
 
     settings.Columns.Add(column =>
-   {
-       column.Caption = "IFSC Code";
-       column.FieldName = "IFSC_Code";
-       column.ColumnType = MVCxGridViewColumnType.TextBox;
-       column.Width = 150;
-   });
+    {
+        column.Caption = "IFSC Code";
+        column.FieldName = "IFSC_Code";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
 
-     settings.Columns.Add(column =>
-     {
-         column.Caption = "UPI ID";
-         column.FieldName = "UPI_ID";
-         column.ColumnType = MVCxGridViewColumnType.TextBox;
-         column.Width = 150;
-     });
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "UPI ID";
+        column.FieldName = "UPI_ID";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+    //REV 1.0
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Last Visit Date";
+        column.FieldName = "LASTVISITDATE";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
 
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Last Visit Time";
+        column.FieldName = "LASTVISITTIME";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.Caption = "Last Visited By";
+        column.FieldName = "LASTVISITEDBY";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+    });
+    //REV 1.0 END
     settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
 
 }).Bind(Model).GetHtml()

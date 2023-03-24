@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                10-02-2023        2.0.39           Pallab              25656 : Master module design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "GVPartialShift";
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
@@ -46,7 +51,7 @@
     //    column.ColumnType = MVCxGridViewColumnType.TextBox;
     //    column.Width = 100;
     //});
-    
+
     //settings.Columns.Add(column =>
     //{
     //    column.FieldName = "ShiftBreak";
@@ -68,13 +73,16 @@
         c.SetDataItemTemplateContent(tc =>
         {
             ViewContext.Writer.Write(
-                "<div class='' ><a href=\"javascript:void(0);\" onclick=\"OnClickEditForm('" + DataBinder.Eval(tc.DataItem, "ShiftID") + "')\" class=\"mr-2\" title=\"Edit\"><span class='ico editColor'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                //Rev 1.0: edit and delete image replace
+                //"<div class='' ><a href=\"javascript:void(0);\" onclick=\"OnClickEditForm('" + DataBinder.Eval(tc.DataItem, "ShiftID") + "')\" class=\"mr-2\" title=\"Edit\"><span class='ico editColor'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>"
+                "<div class='' ><a href=\"javascript:void(0);\" onclick=\"OnClickEditForm('" + DataBinder.Eval(tc.DataItem, "ShiftID") + "')\" class=\"mr-2\" title=\"Edit\"><span class='ico editColor'><img src=\"../../../assests/images/info.png\" /></span></a>" +
                  "" +
-                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + DataBinder.Eval(tc.DataItem, "ShiftID") + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + DataBinder.Eval(tc.DataItem, "ShiftID") + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + DataBinder.Eval(tc.DataItem, "ShiftID") + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
             );
         });
         c.Caption = "Actions";
-        
+
         c.Settings.AllowDragDrop = DefaultBoolean.False;
         c.Settings.AllowSort = DefaultBoolean.False;
         c.Width = 100;

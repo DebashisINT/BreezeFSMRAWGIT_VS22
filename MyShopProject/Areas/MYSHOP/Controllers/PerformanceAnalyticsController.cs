@@ -1,6 +1,8 @@
 ﻿#region======================================Revision History=========================================================================
 //Written by : Debashis Talukder on 31/01/2023
 //Module: Employee Performance Analytics
+//1.0   V2.0.39     Debashis    14/02/2023      While exporting the Performance Analytics report, the distance column is showing a
+//                                              $ sign.Now solved.Refer: 0025672
 #endregion===================================End of Revision History==================================================================
 using SalesmanTrack;
 using System;
@@ -1065,7 +1067,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "DISTANCE_TRAVELLED";
                     x.Caption = "Travelled(KM)";
                     x.VisibleIndex = 31;
+                    //Rev 1.0 Mantis: 0025672
                     x.PropertiesEdit.DisplayFormatString = "0.00";
+                    //End of Rev 1.0 Mantis: 0025672
                     x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                     x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                     if (ViewBag.RetentionColumn != null)
@@ -1905,7 +1909,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "DISTANCE_TRAVELLED";
                     x.Caption = "Travelled(KM)";
                     x.VisibleIndex = 33;
+                    //Rev 1.0 Mantis: 0025672
                     x.PropertiesEdit.DisplayFormatString = "0.00";
+                    //End of Rev 1.0 Mantis: 0025672
                     x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                     x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                     if (ViewBag.RetentionColumn != null)

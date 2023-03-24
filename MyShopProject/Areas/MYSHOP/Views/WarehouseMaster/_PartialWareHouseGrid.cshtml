@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                13-02-2023        2.0.39           Pallab              25656: Master module design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridWareHouseList";
 
@@ -33,24 +38,27 @@
     //        ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"WarehousePermission('" + Convert.ToString(DataBinder.Eval(c.DataItem, "WAREHOUSE_ID")) + "')\">Permission</a>");
     //    });
     //});
-    
-    settings.Columns.Add(x =>
-     {
-         x.FieldName = "WAREHOUSE_NAME";
-         x.Caption = "Warehouse Name";
-         x.VisibleIndex = 1;
-         x.ColumnType = MVCxGridViewColumnType.TextBox;
-         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-     });
 
     settings.Columns.Add(x =>
-     {
-         x.FieldName = "ADDRESS1";
-         x.Caption = "Address 1";
-         x.VisibleIndex = 2;
-         x.ColumnType = MVCxGridViewColumnType.TextBox;
-         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-     });
+    {
+        x.FieldName = "WAREHOUSE_NAME";
+        x.Caption = "Warehouse Name";
+        x.VisibleIndex = 1;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        //Rev 1.0
+        x.Width = 140;
+        //Rev end 1.0
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ADDRESS1";
+        x.Caption = "Address 1";
+        x.VisibleIndex = 2;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
 
     settings.Columns.Add(x =>
     {
@@ -112,6 +120,9 @@
         x.Caption = "Contact Person Name";
         x.VisibleIndex = 9;
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        //Rev 1.0
+        x.Width = 160;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(x =>
@@ -119,6 +130,9 @@
         x.FieldName = "CONTACT_PHONE";
         x.Caption = "Contact Person Phone";
         x.VisibleIndex = 10;
+        //Rev 1.0
+        x.Width = 160;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(x =>
@@ -192,6 +206,6 @@
         });
     });
 
-  
+
 
 }).Bind(Model).GetHtml()

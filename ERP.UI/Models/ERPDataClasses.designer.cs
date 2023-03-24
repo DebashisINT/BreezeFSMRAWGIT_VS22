@@ -36,7 +36,7 @@ namespace ERP.Models
     #endregion
 		
 		public ERPDataClassesDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["RollickTestingConnectionString1"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["PK17092018ConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -582,6 +582,14 @@ namespace ERP.Models
 			get
 			{
 				return this.GetTable<FSMEmployee_Master>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FSMUser_Master_List> FSMUser_Master_Lists
+		{
+			get
+			{
+				return this.GetTable<FSMUser_Master_List>();
 			}
 		}
 	}
@@ -23701,6 +23709,249 @@ namespace ERP.Models
 				if ((this._Colleague2 != value))
 				{
 					this._Colleague2 = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FSMUser_Master_List")]
+	public partial class FSMUser_Master_List
+	{
+		
+		private System.Nullable<int> _SRLNO;
+		
+		private System.Nullable<decimal> _user_id;
+		
+		private string _user_name;
+		
+		private string _user_loginId;
+		
+		private string _Status;
+		
+		private string _StatusMac;
+		
+		private System.Nullable<decimal> _Onlinestatus;
+		
+		private string _designation;
+		
+		private string _AssignedUser;
+		
+		private string _BranchName;
+		
+		private string _grp_name;
+		
+		private string _AssignedUserID;
+		
+		private System.Nullable<int> _USERID;
+		
+		public FSMUser_Master_List()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SRLNO", DbType="Int")]
+		public System.Nullable<int> SRLNO
+		{
+			get
+			{
+				return this._SRLNO;
+			}
+			set
+			{
+				if ((this._SRLNO != value))
+				{
+					this._SRLNO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_user_id", DbType="Decimal(10,0)")]
+		public System.Nullable<decimal> user_id
+		{
+			get
+			{
+				return this._user_id;
+			}
+			set
+			{
+				if ((this._user_id != value))
+				{
+					this._user_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_user_name", DbType="VarChar(50)")]
+		public string user_name
+		{
+			get
+			{
+				return this._user_name;
+			}
+			set
+			{
+				if ((this._user_name != value))
+				{
+					this._user_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_user_loginId", DbType="VarChar(50)")]
+		public string user_loginId
+		{
+			get
+			{
+				return this._user_loginId;
+			}
+			set
+			{
+				if ((this._user_loginId != value))
+				{
+					this._user_loginId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="VarChar(20)")]
+		public string Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this._Status = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StatusMac", DbType="VarChar(50)")]
+		public string StatusMac
+		{
+			get
+			{
+				return this._StatusMac;
+			}
+			set
+			{
+				if ((this._StatusMac != value))
+				{
+					this._StatusMac = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Onlinestatus", DbType="Decimal(18,0)")]
+		public System.Nullable<decimal> Onlinestatus
+		{
+			get
+			{
+				return this._Onlinestatus;
+			}
+			set
+			{
+				if ((this._Onlinestatus != value))
+				{
+					this._Onlinestatus = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_designation", DbType="VarChar(50)")]
+		public string designation
+		{
+			get
+			{
+				return this._designation;
+			}
+			set
+			{
+				if ((this._designation != value))
+				{
+					this._designation = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AssignedUser", DbType="VarChar(500)")]
+		public string AssignedUser
+		{
+			get
+			{
+				return this._AssignedUser;
+			}
+			set
+			{
+				if ((this._AssignedUser != value))
+				{
+					this._AssignedUser = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BranchName", DbType="VarChar(200)")]
+		public string BranchName
+		{
+			get
+			{
+				return this._BranchName;
+			}
+			set
+			{
+				if ((this._BranchName != value))
+				{
+					this._BranchName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_grp_name", DbType="VarChar(50)")]
+		public string grp_name
+		{
+			get
+			{
+				return this._grp_name;
+			}
+			set
+			{
+				if ((this._grp_name != value))
+				{
+					this._grp_name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AssignedUserID", DbType="VarChar(100)")]
+		public string AssignedUserID
+		{
+			get
+			{
+				return this._AssignedUserID;
+			}
+			set
+			{
+				if ((this._AssignedUserID != value))
+				{
+					this._AssignedUserID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
 				}
 			}
 		}

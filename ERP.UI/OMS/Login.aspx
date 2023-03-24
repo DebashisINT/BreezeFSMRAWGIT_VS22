@@ -604,9 +604,10 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             width:180px;
             /*margin-left:-8px*/
             margin-left: 0;
-            position: absolute;
+            /*position: absolute;
             right: 10px;
-            top: 10px;
+            top: 10px;*/
+            margin-bottom: 15px;
         }
     </style> 
     <style type="text/css">
@@ -873,14 +874,14 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         }
 
         .event-img {
-            display: none;
+            /*display: none;*/
             border-radius: 10px;
             margin-top: 15px;
             width: 300px;
             height: 135px;
             margin-left:auto;
             margin-right: auto;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             /*overflow: hidden;*/
         }
 

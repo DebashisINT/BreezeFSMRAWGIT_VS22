@@ -1,5 +1,6 @@
 /*****************************************************************************************************************************
- * 1.0      Sanchita    V2.0.38     31-01-2023      An error is showing while saving a new product. Refer: 25631
+ * Rev 1.0     Sanchita    V2.0.38     31-01-2023      An error is showing while saving a new product. Refer: 25631
+ * Rev 2.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : Listing - Implement Show Button. Refer: 25709
  * *****************************************************************************************************************************/
 using System;
 using System.Data;
@@ -105,8 +106,25 @@ namespace ERP.OMS.Management.Store.Master
                 BindGenderNew();
                 // End of Mantis Issue 24299
                 //BindHsnCode();
+
+                // Rev 2.0
+                string IsShowProductSearchInMaster = "0";
+                DBEngine obj1 = new DBEngine();
+                IsShowProductSearchInMaster = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsShowProductSearchInMaster'").Rows[0][0]);
+
+                if (IsShowProductSearchInMaster == "1")
+                {
+                    divProd.Visible = true;
+                }
+                else
+                {
+                    divProd.Visible = false;
+                }
+                // End of Rev 2.0
             }
-            BindGrid();
+            // Rev 2.0
+            //BindGrid();
+            // End of Rev 2.0
 
             //new code block for showing key from resource page start
 
@@ -520,9 +538,17 @@ namespace ERP.OMS.Management.Store.Master
 
         protected void BindGrid()
         {
-            Store_MasterBL oStore_MasterBL = new Store_MasterBL();
+            // Rev 2.0
+            //Store_MasterBL oStore_MasterBL = new Store_MasterBL();
+            //DataTable dtFillGrid = new DataTable();
+            //dtFillGrid = oStore_MasterBL.GetsProductList();
+
             DataTable dtFillGrid = new DataTable();
-            dtFillGrid = oStore_MasterBL.GetsProductList();
+            ProcedureExecute proc = new ProcedureExecute("FSM_FetchProductsList");
+            proc.AddPara("@Products", Convert.ToString(txtProduct_hidden.Value));
+            dtFillGrid = proc.GetTable();
+            // End of Rev 2.0
+
             AspxHelper oAspxHelper = new AspxHelper();
             if (dtFillGrid.Rows.Count > 0)
             {
@@ -940,7 +966,9 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                 if (insertcount > 0)
                 {
                     cityGrid.JSProperties["cpinsert"] = "Success";
-                    BindGrid();
+                    // Rev 2.0
+                    //BindGrid();
+                    // End of Rev 2.0
                 }
                 else
                 {
@@ -1137,7 +1165,9 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                 {
                     cityGrid.JSProperties["cpUpdate"] = "Success";
                     RefereshApplicationProductData();
-                    BindGrid();
+                    // Rev 2.0
+                    //BindGrid();
+                    // End of Rev 2.0
                 }
                 else
                 {
@@ -1420,6 +1450,12 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                                                         ;
                 }
             }
+            // Rev 2.0
+            if (WhichCall == "Show")
+            {
+                BindGrid();
+            }
+            // End of Rev 2.0
         }
         public void RefereshApplicationProductData()
         {
@@ -1602,7 +1638,9 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
             }
             BindProClassCode();
             BindBrand();
-            BindGrid();
+            // Rev 2.0
+            //BindGrid();
+            // End of Rev 2.0
             BindProductSize();
             // Mantis Issue 24299
             BindColorNew();
@@ -1819,6 +1857,42 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
             
             }
         }
+
+        // Rev 2.0
+        public class ProductModel
+        {
+            public int sProducts_ID { get; set; }
+            public string sProducts_Code { get; set; }
+            public string sProducts_Name { get; set; }
+            //public string sProducts_Description { get; set; }
+        }
+
+        [WebMethod]
+        public static object GetOnDemandProduct(string SearchKey)
+        {
+            List<ProductModel> listProduct = new List<ProductModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_ProductNameSearch");
+                proc.AddPara("@USER_ID", Convert.ToInt32(HttpContext.Current.Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                dt = proc.GetTable();
+
+                listProduct = (from DataRow dr in dt.Rows
+                               select new ProductModel()
+                               {
+                                   sProducts_ID = Convert.ToInt32(dr["sProducts_ID"]),
+                                   sProducts_Code = Convert.ToString(dr["sProducts_Code"]),
+                                   sProducts_Name = Convert.ToString(dr["sProducts_Name"])
+                                   //sProducts_Description = Convert.ToString(dr["sProducts_Description"])
+                               }).ToList();
+            }
+
+            return listProduct;
+        }
+        // End of Rev 2.0
 
     }
 

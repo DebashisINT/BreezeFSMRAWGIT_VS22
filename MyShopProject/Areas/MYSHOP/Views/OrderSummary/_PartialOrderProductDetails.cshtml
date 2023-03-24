@@ -1,11 +1,33 @@
-﻿@model  Models.OrderDetailsSummaryProducts
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                03-02-2023        2.0.38           PRITI               0025604: Enhancement Required in the Order Summary Report *@
+@*====================================================== Revision History ==========================================================*@
 
+@model  Models.OrderDetailsSummaryProducts
+<script>
+    $(document).ready(function () {
+        /* REV 2.0*/
+         if ('@ViewBag.IsViewMRPInOrder' == "1") {
+             $("#DivProductMRP").removeClass("hidden");
+        }
+        else {
+             $("#DivProductMRP").addClass("hidden");
+        }
+        if ('@ViewBag.IsDiscountInOrder' == "1") {
+            $("#DivProductDiscount").removeClass("hidden");
+        }
+        else {
+            $("#DivProductDiscount").addClass("hidden");
+        }
+        /* REV 2.0 END*/
+    })
+</script>
 <div class="form_main">
     <div class="row">
         <div class="col-md-2">
             <label>Product List</label><span class="red">*</span>
             <div>
-                @Html.DropDownListFor(m => m.Product_Id, new SelectList(Model.products, "Id", "Product_name", Model.Product_Id), "Select", new { @id = "idproduct", @class = "form-control", @tabindex = 1 })
+                @Html.DropDownListFor(m => m.Product_Id, new SelectList(Model.products, "Id", "Product_name", Model.Product_Id), "Select", new { @id = "idproduct", @class = "form-control", @tabindex = 1 ,onchange="fetchProductDetails()"})
             </div>
         </div>
         <div class="col-md-2">
@@ -14,17 +36,30 @@
                 @Html.TextBoxFor(m => m.Product_Qty, new { @class = "form-control", @id = "txtprod_qty", @tabindex = 2, onkeypress = "return isNumber(this,event)", onchange = "calculation()", maxlength = "8" })
             </div>
         </div>
-
+        @*REV 1.0*@
+        <div class="col-md-2" id="DivProductMRP">
+            <label>MRP</label>
+            <div>
+                @Html.TextBoxFor(m => m.Product_MRP, new { @class = "form-control", @id = "txtprod_MRP", @tabindex = 3, onkeypress = "return isNumber(this,event)" })
+            </div>
+        </div>
+        <div class="col-md-2" id="DivProductDiscount">
+            <label>Discount on MRP</label>
+            <div>
+                @Html.TextBoxFor(m => m.Product_Discount, new { @class = "form-control", @id = "txtprod_discount", @tabindex = 4, onkeypress = "return isNumber(this,event)" })
+            </div>
+        </div>
+        @*REV 1.0 END*@
         <div class="col-md-2">
             <label>Rate</label><span class="red" id="spaneligible">*</span>
             <div>
-                @Html.TextBoxFor(m => m.Product_Rate, new { @class = "form-control", @id = "txtprod_rate", @tabindex = 3, onkeypress = "return isNumber(this,event)", onchange = "calculation()", maxlength = "8" })
+                @Html.TextBoxFor(m => m.Product_Rate, new { @class = "form-control", @id = "txtprod_rate", @tabindex = 5, onkeypress = "return isNumber(this,event)", onchange = "calculation()", maxlength = "8" })
             </div>
         </div>
         <div class="col-md-2">
             <label>Price</label><span class="red" id="spaneligible">*</span>
             <div>
-                @Html.TextBoxFor(m => m.Product_Price, new { @class = "form-control", @id = "txtprod_price", @tabindex = 8, @readonly = true })
+                @Html.TextBoxFor(m => m.Product_Price, new { @class = "form-control", @id = "txtprod_price", @tabindex = 6, @readonly = true })
             </div>
         </div>
 

@@ -1,8 +1,25 @@
-<%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_root_user" CodeBehind="root_user.aspx.cs" %>
+<%--******************************************************************************************************
+ * Rev 1.0      Sanchita            07/02/2023      V2.0.36     FSM Employee & User Master - To implement Show button. refer: 25641
+   Rev 2.0      Pallab              09/02/2023      V2.0.36     Master module design modification. refer: 25656
+   Rev 3.0      Sanchita/Pallab     15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal. 
+ *******************************************************************************************************--%>
 
+<%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_root_user" CodeBehind="root_user.aspx.cs" %>
+<%--Rev 1.0--%>
+<%@ Register Assembly="DevExpress.Web.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Data.Linq" TagPrefix="dx" %>
+<%--End of Rev 1.0--%>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <%--Rev 3.0--%>
+    <script src="/assests/pluggins/choosen/choosen.min.js"></script>
+
+    <script src="/assests/pluggins/choosen/choosen.min.js"></script>
+    <link href="../../../assests/css/custom/SearchPopup.css" rel="stylesheet" />
+    <script src="../../../Scripts/SearchPopup.js"></script>
+    <script src="../../../Scripts/SearchMultiPopup.js"></script>
+    <%--End of Rev 3.0--%>
+
     <style>
         #divDashboardHeaderList .panel:last-child {
             margin-bottom: 0;
@@ -91,6 +108,98 @@
         .pad28 {
             padding-top: 26px;
         }
+
+         /*Rev 3.0*/
+       .for-cust-padding
+       {
+           padding: 0 0 0 10px;
+       }
+
+       .for-cust-padding label
+       {
+           margin-right: 5px;
+       }
+
+       .dis-flex
+       {
+            display: flex;
+            align-items: center;
+       }
+
+       .btn-show
+       {
+           margin-left: 10px;
+       }
+
+       .modal-header {
+            background: #094e8c !important;
+            background-image: none !important;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            color: #fff;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .modal-content {
+            border: none;
+            border-radius: 10px;
+        }
+
+        .modal-header .modal-title {
+            font-size: 14px;
+        }
+
+        .close {
+            font-weight: 400;
+            font-size: 25px;
+            color: #fff;
+            text-shadow: none;
+            opacity: .5;
+        }
+
+        .close:hover
+        {
+            color: #fff;
+            opacity: 1;
+        }
+
+        #EmployeeTable {
+            margin-top: 10px;
+        }
+
+            #EmployeeTable table tr th {
+                padding: 5px 10px;
+            }
+
+        .dynamicPopupTbl {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+            .dynamicPopupTbl > tbody > tr > td,
+            #EmployeeTable table tr th {
+                font-family: 'Poppins', sans-serif !important;
+                font-size: 12px;
+            }
+
+            .btn-show
+    {
+        background: #2379d1;
+        border-color: #2379d1;
+            color: #fff;
+    }
+
+    .btn-show:hover , .btn-show:focus
+    {
+        color: #fff;
+    }
+
+    .pmsModal.w80 .modal-dialog {
+    width: 50% !important;
+}
+
+       /*Rev end 3.0*/
+       
     </style>
 
     <style>
@@ -120,6 +229,478 @@
             background: #4236f5;
             color: #e8e8e8;
         }
+
+        /*Rev 2.0*/
+
+        body , .dxtcLite_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 5px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 41px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        select:not(.btn):focus
+        {
+            border-color: #094e8c;
+        }
+
+        select:not(.btn):focus-visible
+        {
+            box-shadow: none;
+            outline: none;
+            
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue{
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 , #cmbDOJ_B-1, #cmbLeaveEff_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img , #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue
+    {
+            height: 34px;
+            border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1
+    {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff
+    {
+        position: relative;
+    z-index: 1;
+    background: transparent;
+    }
+
+    .btn-sm, .btn-xs
+    {
+        padding: 6px 10px !important;
+    }
+    .btn
+    {
+        height: 34px;
+    }
+
+    #UserTable
+    {
+        margin-top: 10px;
+    }
+    #PartyTable
+    {
+        margin-top: 10px;
+    }
+
+    /*Rev 3.0*/
+        .fullMulti .multiselect-native-select, .fullMulti .multiselect-native-select .btn-group {
+            width: 100%;
+        }
+
+            .fullMulti .multiselect-native-select .multiselect {
+                width: 100%;
+                text-align: left;
+                border-radius: 4px !important;
+            }
+
+                .fullMulti .multiselect-native-select .multiselect .caret {
+                    float: right;
+                    margin: 9px 5px;
+                }
+
+        .hideScndTd > table > tbody > tr > td:last-child {
+            display: none;
+        }
+
+        .multiselect.dropdown-toggle {
+        text-align: left;
+        }
+
+        .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+            -webkit-appearance: none;
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
+
+        .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+        }
+
+            .dynamicPopupTbl > tbody > tr > td,
+            #EmployeeTable table tr th {
+                font-family: 'Poppins', sans-serif !important;
+                font-size: 12px;
+            }
+        /*End of Rev 3.0*/
+    /*Rev end 2.0*/
     </style>
     <link href="/assests/pluggins/Transfer/icon_font/css/icon_font.css" rel="stylesheet" />
     
@@ -313,13 +894,57 @@
             cPartySelectPopup.Show();
         }
 
+        // Rev 3.0
+        function UserButnClick(s, e) {
+            $('#UserModel').modal('show');
+            $("#txtUserSearch").focus();
+        }
 
+        function UserbtnKeyDown(s, e) {
+            if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+                $('#UserModel').modal('show');
+                $("#txtUserSearch").focus();
+            }
+        }
+
+        function Userkeydown(e) {
+
+            var OtherDetails = {}
+            OtherDetails.SearchKey = $("#txtUserSearch").val();
+            if ($.trim($("#txtUserSearch").val()) == "" || $.trim($("#txtUserSearch").val()) == null) {
+                return false;
+            }
+            if (e.code == "Enter" || e.code == "NumpadEnter") {
+                var HeaderCaption = [];
+                HeaderCaption.push("User Name");
+                HeaderCaption.push("Login ID");
+                HeaderCaption.push("Employee ID");
+                if ($("#txtUserSearch").val() != null && $("#txtUserSearch").val() != "") {
+                    callonServerM("root_user.aspx/GetOnDemandUser", OtherDetails, "UserTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "UserSource");
+                }
+            }
+            else if (e.code == "ArrowDown") {
+                if ($("input[UserIndex=0]"))
+                    $("input[UserIndex=0]").focus();
+            }
+        }
+        // End of Rev 3.0
 
 
     </script>
 
     <%--select user bind--%>
     <script>
+
+        // Rev 3.0
+        var UserArr = new Array();
+        $(document).ready(function () {
+            var UserObj = new Object();
+            UserObj.Name = "UserSource";
+            UserObj.ArraySource = UserArr;
+            arrMultiPopup.push(UserObj);
+        })
+        // End of Rev 3.0
 
         function MapUser() {
             cUsersGrid.PerformCallback('BindUsersList');
@@ -491,6 +1116,13 @@
             $("#transfer1").html('');
             $("#PartyMapUsersModal").modal('show');
         }
+
+        // Rev 1.0
+        function ShowData() {
+            $("#hfIsFilter").val("Y");
+            grid.PerformCallback("Show");
+        }
+        // End of Rev 1.0
     </script>
 
     <script>
@@ -572,7 +1204,22 @@
                    
                 }
             }
+            // Rev 3.0
+            if (ArrName == 'UserSource') {
+                var key = Id;
+                if (key != null && key != '') {
+                    $("#txtUser_hidden").val(Id);
+                    ctxtUser.SetText(Name);
+                    $('#UserModel').modal('hide');
+                }
+                else {
+                    $("#txtUser_hidden").val('');
+                    ctxtUser.SetText('');
+                    $('#UserModel').modal('hide');
 
+                }
+            }
+            // End of Rev 3.0
         }
         // End of Mantis Issue 24363
 
@@ -845,7 +1492,40 @@
 
                                                 <a href="javascript:void(0);" onclick="ShowAssignParty()" class="btn btn-success"><span>Assign Party</span> </a>
                                                 <%} %>
+
+                                                <%--Rev 3.0--%>
+                                                <%--Rev 1.0--%>
+                                               <%-- <% if (rights.CanView)
+                                                    { %>
+                                                <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-warning"><span>Show Data</span> </a>
+                                                <% } %> --%>
+                                                <%--End of Rev 1.0--%>
+                                                <%--End of Rev 3.0--%>
                                             </td>
+                                            <%--Rev 3.0--%>
+                                            <td class="for-cust-padding" id="divUser" runat="server" >
+                                                <div class="dis-flex" >
+                                                    <label>User(s)</label>
+                                                    <div style="position: relative">
+                                                        <dxe:ASPxButtonEdit ID="txtUser" runat="server" ReadOnly="true" ClientInstanceName="ctxtUser" >
+                                                            <Buttons>
+                                                                <dxe:EditButton>
+                                                                </dxe:EditButton>
+                                                            </Buttons>
+                                                            <ClientSideEvents ButtonClick="function(s,e){UserButnClick();}" KeyDown="UserbtnKeyDown" />
+                                                        </dxe:ASPxButtonEdit>
+                                                        <asp:HiddenField ID="txtUser_hidden" runat="server" />
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                 <% if (rights.CanView)
+                                                   { %>
+                                                    <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
+                                                <% } %>
+                                            </td>
+                                            <%--End of Rev 3.0--%>
                                             <%--<td id="Td1">
                                             <a href="javascript:ShowHideFilter('All');" class="btn btn-primary"><span>All Records</span></a>
                                         </td>--%>
@@ -860,12 +1540,14 @@
                 </tr>
                 <tr>
                     <td>
-                        <dxe:ASPxGridView ID="userGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False"
+                        <%--Rev 1.0 [ DataSourceID="EntityServerlogModeDataSource"  added ]--%>
+                        <dxe:ASPxGridView ID="userGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False" DataSourceID="EntityServerlogModeDataSource"
                             KeyFieldName="user_id" Width="100%" OnCustomCallback="userGrid_CustomCallback" OnCustomJSProperties="userGrid_CustomJSProperties" SettingsBehavior-AllowFocusedRow="true"
                             SettingsCookies-Enabled="true" SettingsCookies-StorePaging="true" SettingsCookies-StoreFiltering="true" SettingsCookies-StoreGroupingAndSorting="true" Settings-HorizontalScrollBarMode="Auto">
                             <%--DataSourceID="RootUserDataSource"--%>
                             <Columns>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="0" FieldName="user_id"
+                                <%--Rev 1.0 [SortOrder="Descending"  added]   --%>
+                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="0" FieldName="user_id" SortOrder="Descending"
                                     Visible="False">
                                     <EditFormSettings Visible="False"></EditFormSettings>
                                 </dxe:GridViewDataTextColumn>
@@ -969,7 +1651,9 @@
 
 
                                         <a href="javascript:void(0);" onclick="RefreshLoggoff('<%# Container.KeyValue %>')" title="Reset Online Status" class="pad">
-                                            <span class="fa fa-refresh"></span></a>
+                                            <%--Rev 2.0--%>
+                                            <%--<span class="fa fa-refresh"></span>--%>
+                                            <img src="../../../assests/images/reset.png" /></a>
 
                                         <% if (rights.CanEdit)
                                            { %>
@@ -980,14 +1664,23 @@
                                         <% if (rights.CanAdd)
                                            { %>
                                         <a href="javascript:void(0);" onclick="CopyUserDetails('<%# Container.KeyValue %>')" title="Copy" class="pad">
-                                            <img src="../../../assests/images/copy.png" /></a>
+                                            <%--Rev 2.0--%>
+                                            <%--<img src="../../../assests/images/copy.png" /></a>--%>
+                                            <img src="../../../assests/images/copy2.png" /></a>
+                                        <%--Rev end 2.0--%>
                                         <% } %>
                                          <%--Rev work close 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
                                         <a href="javascript:void(0);" onclick="ChangePassword('<%# Container.KeyValue %>')" title="Change Password">
-                                            <img src="../../../assests/images/change-dark.png" /></a>
+                                            <%--Rev 2.0--%>
+                                            <%--<img src="../../../assests/images/change-dark.png" />--%>
+                                            <img src="../../../assests/images/change-dark2.png" /></a>
+                                        <%--Rev end 2.0--%>
                                         <%--Mantis Issue 25116--%>
                                         <a href="javascript:void(0);" onclick="AttendanceLeaveClear('<%# Container.KeyValue %>')" title="Attendance/Leave Clear">
-                                            <img src="../../../assests/images/clear.png" / style="width:16px"></a>
+                                            <%--Rev 2.0--%>
+                                            <%--<img src="../../../assests/images/clear.png" / style="width:16px">--%>
+                                            <img src="../../../assests/images/clear2.png" / style="width:16px"></a>
+                                        <%--Rev end 2.0--%>
                                         <%--End of Mantis Issue 25116--%>
 
                                     </DataItemTemplate>
@@ -1017,10 +1710,15 @@
 	EndCall(s.cpHeight);
 }" />
                         </dxe:ASPxGridView>
+                        <%--Rev 1.0--%>
+                        <dx:linqservermodedatasource id="EntityServerlogModeDataSource" runat="server" onselecting="EntityServerModelogDataSource_Selecting"
+                                    contexttypename="ERPDataClassesDataContext" tablename="FSMUser_Master_List" />
+                        <%--End of Rev 1.0--%>
                     </td>
                 </tr>
             </table>
         </div>
+        
         <asp:SqlDataSource ID="RootUserDataSource" runat="server" ConflictDetection="CompareAllValues"
             DeleteCommand="DELETE FROM [tbl_master_user] WHERE [user_id] = @original_user_id"
             OldValuesParameterFormatString="original_{0}" SelectCommand="">
@@ -1247,6 +1945,9 @@
     </dxe:ASPxPopupControl>
     <asp:HiddenField ID="hdnIsFaceDetectionOn" runat="server" />
     <asp:HiddenField ID="hdnEmployeeHierarchy" runat="server" />
+    <%--Rev 1.0--%>
+    <asp:HiddenField ID="hfIsFilter" runat="server" />
+    <%--End of Rev 1.0--%>
 
     <%--Rev Work 08.04.2022
         Mantise No:0024819 In user master in Assign Party entry section in edit mode selected party not coming as checked--%>
@@ -1434,7 +2135,7 @@
                     <h4 class="modal-title">Party Search</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" onkeydown="partyskeydown(event)" id="txtPartySearch" autofocus style="width: 100%" placeholder="Search By Party Name or Party Code" />
+                    <input type="text" onkeydown="partyskeydown(event)" class="form-control" id="txtPartySearch" autofocus style="width: 100%" placeholder="Search By Party Name or Party Code" />
                     <div id="PartyTable">
                         <table border='1' width="100%" class="dynamicPopupTbl">
                             <tr class="HeaderStyle">
@@ -1455,4 +2156,36 @@
             </div>
         </div>
     </div>
+    <%--Rev 3.0--%>
+    <div class="modal fade pmsModal w80 " id="UserModel" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">User Search</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" onkeydown="Userkeydown(event)" id="txtUserSearch" class="form-control" autofocus width="100%" placeholder="Search By User Code" />
+
+                    <div id="UserTable">
+                        <table border='1' width="100%" class="dynamicPopupTbl">
+                            <tr class="HeaderStyle">
+                                <th class="hide">id</th>
+                                <th>User Name</th>
+                                <th>Login ID</th>
+                                <th>Employee ID</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSaveUser" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('UserSource')">OK</button>
+                    <button type="button" id="btnCloseUser" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <%--End of Rev 3.0--%>
 </asp:Content>

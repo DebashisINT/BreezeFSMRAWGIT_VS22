@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 786
+//2.0   V2.0.38     Debashis    13/03/2023      A new parameter has been added.Row: 814
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,9 @@ namespace ShopAPI.Models
         public string multi_contact_name { get; set; }
         public string multi_contact_number { get; set; }
         //End of Rev 1.0 Row:786
+        //Rev 2.0 Row:814
+        public bool IsShopUpdate { get; set; }
+        //End of Rev 2.0 Row:814
     }
 
     public class ShopsubmissionOutput
@@ -78,6 +82,9 @@ namespace ShopAPI.Models
         public DateTime? visited_time { get; set; }
         public string spent_duration { get; set; }
         public string distance_travelled { get; set; }
+        //Rev 2.0 Row:814
+        public bool IsShopUpdate { get; set; }
+        //End of Rev 2.0 Row:814
     }
 
     public class MeetingVisitInput

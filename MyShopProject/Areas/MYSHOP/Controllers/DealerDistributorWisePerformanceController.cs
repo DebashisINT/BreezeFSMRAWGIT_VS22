@@ -1,4 +1,9 @@
-﻿using SalesmanTrack;
+﻿/* ****************************************************************************************************************************
+ * Rev 1.0		Sanchita	V2.0.39		16/03/2023		All months are not showing for Previous year while selecting parameter 
+ *                                                      in Dealer/Distributor wise Sales report. Refer: 25732
+**************************************************************************************************************************** */
+
+using SalesmanTrack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +32,40 @@ namespace MyShop.Areas.MYSHOP.Controllers
         {
             objgps = new DealerDistributorWisePerformance();
         }
+        // Rev 1.0
+        public JsonResult PupolateMonthList(string years)
+        {
+            DealerDistributorWisePerformanceModel omodel = new DealerDistributorWisePerformanceModel();
+            List<DDPMonth> Pmonth = new List<DDPMonth>();
+
+            if (years == null || years == "")
+            {
+                years = Session["years"].ToString();
+            }
+
+
+            Session["years"] = years;
+
+            DataTable dtmnth = objgps.GetMonthList(years);
+            if (dtmnth != null && dtmnth.Rows.Count > 0)
+            {
+                foreach (DataRow item in dtmnth.Rows)
+                {
+                    Pmonth.Add(new DDPMonth
+                    {
+                        MID = Convert.ToString(item["MID"]),
+                        MonthName = Convert.ToString(item["MONTHNAMEOFYEAR"])
+                    });
+
+                }
+            }
+            
+            var jsonResult = Json(Pmonth, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+
+        // End of Rev 1.0
         public ActionResult DealerDistributorWisePerformance()
         {
             try
@@ -34,20 +73,22 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 DealerDistributorWisePerformanceModel omodel = new DealerDistributorWisePerformanceModel();
                 string userid = Session["userid"].ToString();
 
-                List<DDPMonth> Pmonth = new List<DDPMonth>();
+                // Rev 1.0
+                //List<DDPMonth> Pmonth = new List<DDPMonth>();
 
-                DataTable dtmnth = objgps.GetMonthList();
-                if(dtmnth!=null && dtmnth.Rows.Count>0)
-                {
-                    foreach(DataRow item in dtmnth.Rows)
-                    {
-                        Pmonth.Add(new DDPMonth
-                        {
-                            MID = Convert.ToString(item["MID"]),
-                            MonthName = Convert.ToString(item["MONTHNAMEOFYEAR"])
-                        });
-                    }
-                }
+                //DataTable dtmnth = objgps.GetMonthList();
+                //if(dtmnth!=null && dtmnth.Rows.Count>0)
+                //{
+                //    foreach(DataRow item in dtmnth.Rows)
+                //    {
+                //        Pmonth.Add(new DDPMonth
+                //        {
+                //            MID = Convert.ToString(item["MID"]),
+                //            MonthName = Convert.ToString(item["MONTHNAMEOFYEAR"])
+                //        });
+                //    }
+                //}
+                // End of Rev 1.0
 
                 List<DDPYears> year = new List<DDPYears>();
 
@@ -64,8 +105,34 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
                 }
 
-                omodel.MonthList = Pmonth;
+                // Rev 1.0
+                //omodel.MonthList = Pmonth;
+                // End of Rev 1.0
+
                 omodel.YearList = year;
+
+                // Rev 1.0
+                string years = omodel.YearList.First().ID.ToString();
+                ViewBag.years = years;
+
+
+                List<DDPMonth> Pmonth = new List<DDPMonth>();
+
+                DataTable dtmnth = objgps.GetMonthList(years);
+                if (dtmnth != null && dtmnth.Rows.Count > 0)
+                {
+                    foreach (DataRow item in dtmnth.Rows)
+                    {
+                        Pmonth.Add(new DDPMonth
+                        {
+                            MID = Convert.ToString(item["MID"]),
+                            MonthName = Convert.ToString(item["MONTHNAMEOFYEAR"])
+                        });
+                    }
+                }
+                omodel.MonthList = Pmonth;
+                // End of Rev 1.0
+
                 return View(omodel);
             }
             catch

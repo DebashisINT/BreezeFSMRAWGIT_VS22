@@ -1,6 +1,8 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                20-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                30-01-2023        2.0.39           Sanchita            View Party' option shall be available in FSM Dashboard along with
+                                                                            Dashboard Setting rights. Refer: 25515 *@
 @*====================================================== Revision History ==========================================================*@
 
 @{
@@ -3055,7 +3057,10 @@
                 var status = "<select id='ddlState' class = 'full form-control'>";
                 status = status + '<option value="0">select</option>';
                 for (var i = 0; i < data.length; i++) {
-                    status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
+                    // Rev 2.0
+                    //status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
+                    status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    // End of Rev 2.0
                 }
                 status = status + '</select>';
                 $('#divState').html(status);

@@ -2,6 +2,10 @@
 // Rev Number       DATE              VERSION          DEVELOPER           CHANGES
 // 1.0              17/02/2023        2.0.39           Sanchita            A setting required for 'User Account' Master module in FSM Portal
 //                                                                         Refer: 25669
+// 2.0              23/03/2023        2.0.39           Sanchita            Duplicate office address getting saved.
+//                                                                         Refer: 25747
+// 3.0              23/03/2023        2.0.39           Sanchita            Also Party Type in User Master not getting mapped to Shop in ITC.
+//                                                                         Refer: 25748    
 //====================================================== Revision History ==========================================================
 using System;
 using System.Collections.Generic;
@@ -802,6 +806,7 @@ namespace ERP.OMS.Management.Master
                                 {
                                     ScriptManager.RegisterStartupScript(this, this.GetType(), "General", "jAlert('Employee ID can not be blank');", true);
                                 }
+
                                 DataTable dtAddr = oDBEngine.GetDataTable("SELECT branch_id,branch_internalId,branch_code,branch_address1,branch_address2,branch_address3,branch_country, " +
                                     "branch_state,branch_city,branch_pin,branch_area " +
                                 "FROM tbl_master_branch WHERE branch_id = '" + cmbBranch.SelectedValue.ToString() + "'");
@@ -831,9 +836,12 @@ namespace ERP.OMS.Management.Master
                                     branch_area = dtAddr.Rows[0]["branch_area"].ToString();
                                 }
 
-                                //Address insert
-                                int n = InsertAddress(emp_cntId, branch_address1, branch_address2, branch_address3, branch_country,
-                                    branch_state, branch_city, branch_pin, branch_area, branch_id);
+                                ////Address insert
+                                // Rev 2.0 [ Address already getting inserted while CTC add by objEmployee_BL.btnCTC_Click_BL - Mantis 25531, 25533 ]
+                                //int n = InsertAddress(emp_cntId, branch_address1, branch_address2, branch_address3, branch_country,
+                                //    branch_state, branch_city, branch_pin, branch_area, branch_id);
+                                // End of Rev 2.0
+
                                 //Phone no insert
                                 int x = InsertPhone(emp_cntId, Phoneno);
 
@@ -1221,16 +1229,27 @@ namespace ERP.OMS.Management.Master
                         proc.AddPara("@isShopEditEnable", 1);
                         proc.AddPara("@isTaskEnable", isTaskEnable);
 
-                        
-                        //proc.AddPara("@PartyType", "1");
-                        string PARTY_TYPE = "";
-                        DataTable dtS = oDBEngine.GetDataTable("tbl_shoptype", "shop_typeId", " (Name = 'DEALER')");
-                        if (dtS.Rows.Count > 0)
-                            PARTY_TYPE = dtS.Rows[0][0].ToString();
 
-                        proc.AddPara("@PartyType", PARTY_TYPE);
-                        
-                        
+                        //proc.AddPara("@PartyType", "1");
+                        // Rev 3.0
+                        //string PARTY_TYPE = "";
+                        //DataTable dtS = oDBEngine.GetDataTable("tbl_shoptype", "shop_typeId", " (Name = 'DEALER')");
+                        //if (dtS.Rows.Count > 0)
+                        //    PARTY_TYPE = dtS.Rows[0][0].ToString();
+
+                        //proc.AddPara("@PartyType", PARTY_TYPE);
+
+                        if(IsShowUserAccountForITC == "1")
+                        {
+                            proc.AddPara("@PartyType", "1");
+                        }
+                        else
+                        {
+                            proc.AddPara("@PartyType", "0");
+                        }
+                        // End of Rev 3.0
+
+
                         proc.AddPara("@isAppInfoEnable", 1);
                         proc.AddPara("@willDynamicShow", willDynamicShow);
                         proc.AddPara("@willActivityShow", willActivityShow);
@@ -1416,7 +1435,19 @@ namespace ERP.OMS.Management.Master
                         proc.AddPara("@LateVisitSMS", LateVisitSMS);
                         proc.AddPara("@isShopEditEnable", 0);
                         proc.AddPara("@isTaskEnable", isTaskEnable);
-                        proc.AddPara("@PartyType", "1");
+
+                        // Rev 3.0
+                        //proc.AddPara("@PartyType", "1");
+
+                        if (IsShowUserAccountForITC == "1")
+                        {
+                            proc.AddPara("@PartyType", "1");
+                        }
+                        else
+                        {
+                            proc.AddPara("@PartyType", "0");
+                        }
+                        // End of Rev 3.0
 
 
                         proc.AddPara("@isAppInfoEnable", 1);

@@ -6,3 +6,11 @@ E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.pd
 E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.CopyComplete
 E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.dll
 E:\PROJECTS\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.pdb
+D:\GIT\GitHub\BreezeFSMGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.dll.config
+D:\GIT\GitHub\BreezeFSMGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.dll
+D:\GIT\GitHub\BreezeFSMGIT_VS22\FTSEntityframework\bin\Debug\FTSEntityframework.pdb
+D:\GIT\GitHub\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.AssemblyReference.cache
+D:\GIT\GitHub\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.CoreCompileInputs.cache
+D:\GIT\GitHub\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.csproj.CopyComplete
+D:\GIT\GitHub\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.dll
+D:\GIT\GitHub\BreezeFSMGIT_VS22\FTSEntityframework\obj\Debug\FTSEntityframework.pdb

@@ -1,4 +1,8 @@
-﻿
+﻿@*====================================================== Revision History ===================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
+@*====================================================== Revision History ===================================================*@
+
 @using MyShop.Models;
 @model MyShop.Models.ProjectReportModel
 @{
@@ -107,7 +111,7 @@
                 Is_PageLoad = "1";
                 gridProjectReport.Refresh();
 
-               
+
            }
         });
 
@@ -140,7 +144,7 @@
 
     });
 
-    
+
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -190,7 +194,7 @@
                     "title": "Total Project Count",
                     "value": parseInt(data[0].TotProjectCnt),
                     "color": am4core.color("#53d593")
-                    
+
                 },
                 {
                     "title": "Order Lost Count",
@@ -226,7 +230,7 @@
             },
         });
     }
-    
+
 
     function pieChartPlotting(data, value, title, dv) {
         am4core.useTheme(am4themes_animated);
@@ -769,7 +773,7 @@
                 $("#txt_HODRemarks").val(data.HODRemarks);
                 $('#myModalHODRemarks').modal('show');
             }
-            
+
         },
         error: function () {
         },
@@ -813,7 +817,7 @@
             });
         }
 
-        
+
 
     }
     // End of Mantis Issue 25203
@@ -1014,13 +1018,14 @@
 </script>
 
 <style>
-    .hdlist  {
+    .hdlist {
         font-size: 16px;
         background: #f1efef;
         border-radius: 5px;
         margin: 10px 0;
         padding: 8px 15px;
     }
+
     .pmsModal .modal-header {
         background: #298ecc !important;
         background-image: none !important;
@@ -1081,7 +1086,7 @@
     }
 
     .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
-        height: 30px;
+        height: 34px;
         padding: 3px 12px;
     }
 
@@ -1165,10 +1170,11 @@
         color: #333;
         border: 1px solid #efa74e;
     }
-    label
-    {
+
+    label {
         margin-top: 10px;
     }
+
     .badge {
         border-radius: 50%;
         width: 20px;
@@ -1178,6 +1184,455 @@
         background-color: #fff;
         color: #7e7e7e;
     }
+
+    /*Rev 1.0*/
+
+    body, .dxtcLite_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select, .h-branch-select-new {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 43px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        .h-branch-select-new::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 9px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    select:not(.btn):focus {
+        border-color: #094e8c;
+    }
+
+    select:not(.btn):focus-visible {
+        box-shadow: none;
+        outline: none;
+    }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo, #FormDate, #toDate, #proj_start_dt {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #proj_start_dt_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img, #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img, #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #proj_start_dt_B-1 #proj_start_dt_B-1Img {
+            display: none;
+        }
+
+    #FormDate_I, #toDate_I, #proj_start_dt_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 10px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue {
+        height: 34px;
+        border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1 {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .btn-sm, .btn-xs {
+        padding: 7px 10px !important;
+    }
+
+    #productAttributePopUp_PWH-1 span, #ASPxPopupControl2_PWH-1 span {
+        color: #fff !important;
+    }
+
+    #marketsGrid_DXPEForm_tcefnew, .dxgvPopupEditForm_PlasticBlue {
+        height: 220px !important;
+    }
+
+    .btn {
+        height: 34px;
+    }
+
+    #proj_start_dt_DDD_PW-1 {
+        left: -21px !important;
+    }
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+    }
+    /*Rev end 1.0*/
 </style>
 
 
@@ -1189,14 +1644,14 @@
                 <h4 class="modal-title">Projection Analytics</h4>
             </div>
             <div class="modal-body">
-                 <div class="row">
-                       <div class="col-md-4">
-                           <select class="form-control" id="userListViewDataList"></select>
-                       </div>
-                       <div class="col-md-4">
-                            <button type="button" class="btn btn-success" onclick="fetchChart()"> Show</button>
-                       </div>
-                 </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <select class="form-control" id="userListViewDataList"></select>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-success" onclick="fetchChart()"> Show</button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="hdlist">Total Project VS Order Lost</div>
@@ -1233,7 +1688,7 @@
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModalProjection" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
                                 Add New
                             </button>
-                            
+
                             <div class="filterParent">
                                 <button class="btn btn-primary  filterToggle" type="button" onclick="getListFilter()">Filter - Order Lost <span class="badge" style=" margin-left: 8px;"><i class="fa fa-filter"></i></span></button>
                                 <div class="filterDrop">
@@ -1242,19 +1697,16 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <ul class="mainFilterList" id="slItems">
-                                            
-                                            
-                                            
                                                     </ul>
                                                 </div>
-                               
+
                                             </div>
                                         </div>
                                         <div class="col-md-12 text-right"><button type="button" onclick="itemClick()" class="btn btn-default">OK</button></div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="filterParent">
                                 <button class="btn btn-warning  filterToggle" type="button" onclick="getListFilterP()">Filter - Completed Project <span class="badge" style=" margin-left: 8px;"><i class="fa fa-filter"></i></span></button>
                                 <div class="filterDrop">
@@ -1263,85 +1715,93 @@
                                             <div class="row">
                                                 <div class="col-sm-12">
                                                     <ul class="mainFilterList" id="slItemsP">
-                                            
-                                            
-                                            
                                                     </ul>
                                                 </div>
-                               
+
                                             </div>
                                         </div>
                                         <div class="col-md-12 text-right"><button type="button" onclick="itemClickP()" class="btn btn-default">OK</button></div>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         }
                         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#chartModal" data-backdrop="static" data-keyboard="false">
                             Show Analytics
                         </button>
                     </div>
-                        <div class="clear"></div>
-                        <div class="col-md-2">
-                            <span>From Date</span>
-                            <div>
-                                @Html.DevExpress().DateEditFor(x => x.Fromdate,
-                                deSettings =>
-                                {
-                                    deSettings.Name = "dtFrom";
-                                    deSettings.Date = DateTime.Now;
-                                    deSettings.Properties.UseMaskBehavior = true;
-                                    deSettings.Properties.EditFormat = EditFormat.Custom;
-                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
-                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
-                                }).GetHtml()
-
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <span>To Date</span>
-                            <div>
-                                @Html.DevExpress().DateEditFor(x => x.Todate,
-                                deSettings =>
-                                {
-                                    deSettings.Name = "dtTo";
-                                    deSettings.Date = DateTime.Now;
-                                    deSettings.Properties.UseMaskBehavior = true;
-                                    deSettings.Properties.EditFormat = EditFormat.Custom;
-                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
-                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
-                                }).GetHtml()
-                            </div>
-                        </div>
-                        
-                       
-                        <div class="col-md-4" style="padding-top: 13px;">
-                            <span></span>
-                            <div>
-                                @if (ViewBag.CanView)
-                                {
-                                    <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
-                                }
-
-                                @if (ViewBag.CanExport)
-                                {
-                                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                                        <option value="0">Export to</option>
-                                        <option value="2">XLSX</option>
-                                    </select>
-                                }
-
-                            </div>
-                        </div>
-
-                    </div>
-                   
                     <div class="clear"></div>
+                    @*Rev 1.0*@
+                    @*<div class="col-md-2">*@
+                    <div class="col-md-2 for-cust-icon">
+                        @*Rev end 1.0*@
+                        <span>From Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                            deSettings =>
+                            {
+                                deSettings.Name = "dtFrom";
+                                deSettings.Date = DateTime.Now;
+                                deSettings.Properties.UseMaskBehavior = true;
+                                deSettings.Properties.EditFormat = EditFormat.Custom;
+                                deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                            }).GetHtml()
+                            @*Rev 1.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 1.0*@
+                        </div>
+                    </div>
+                    @*Rev 1.0*@
+                    @*<div class="col-md-2">*@
+                    <div class="col-md-2 for-cust-icon">
+                        @*Rev end 1.0*@
+                        <span>To Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Todate,
+                            deSettings =>
+                            {
+                                deSettings.Name = "dtTo";
+                                deSettings.Date = DateTime.Now;
+                                deSettings.Properties.UseMaskBehavior = true;
+                                deSettings.Properties.EditFormat = EditFormat.Custom;
+                                deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                            }).GetHtml()
+                            @*Rev 1.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 1.0*@
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4" style="padding-top: 20px;">
+                        <span></span>
+                        <div>
+                            @if (ViewBag.CanView)
+                            {
+                                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            }
+
+                            @if (ViewBag.CanExport)
+                            {
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                    <option value="0">Export to</option>
+                                    <option value="2">XLSX</option>
+                                </select>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+
                 <div class="clear"></div>
-                    
-                    @*<div class="options">
+                <div class="clear"></div>
+
+                @*<div class="options">
                         <div class="options-item">
                             @Html.DevExpress().Button(settings =>
                             {
@@ -1352,18 +1812,18 @@
                             }).GetHtml()
                         </div>
                     </div>*@
-                   
-                    <div class="scrooler mt-3">
-                        <div id="refreshgrid">
-                            @{
-                                Html.RenderAction("PartialProjectReportGridList", "ProjectReport", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
-                            }
-                        </div>
+
+                <div class="scrooler mt-3">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialProjectReportGridList", "ProjectReport", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });
+                        }
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 <input type="hidden" id="hdnAction" />
 <input type="hidden" id="hdnuniqueid" />
@@ -1380,7 +1840,10 @@
             @*<input type="hidden" id="hdnuniqueid" value="" />*@
             <div class="modal-body inputShrink">
                 <div class="row">
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 h-branch-select">
+                        @*Rev end 1.0*@
                         <label>Month <span class="red">*</span></label>
                         <div>
                             <select class="form-control" id="ddlMonth">
@@ -1400,7 +1863,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 h-branch-select">
+                        @*Rev end 1.0*@
                         <label>Year <span class="red">*</span></label>
                         <div>
                             <select class="form-control" id="ddlYear">
@@ -1417,8 +1883,10 @@
                             </select>
                         </div>
                     </div>
-
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 for-cust-icon">
+                        @*Rev end 1.0*@
                         <label>Project Start Date <span class="red">*</span></label>
                         <div>
                             @Html.DevExpress().DateEdit(
@@ -1437,13 +1905,19 @@
                             @*<input type="date" id="proj_start_dt" name="proj_start_dt" value="@Model.Date">*@
 
                             @*<span id="Mandatoryfrm_dt" style="display: none" class="validclass">
-                        <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                    </span>*@
+                    <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                </span>*@
+                            @*Rev 1.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 1.0*@
                         </div>
                     </div>
 
 
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 h-branch-select">
+                        @*Rev end 1.0*@
                         <label>Customer Name <span class="red">*</span></label>
                         <div>
                             @Html.DropDownListFor(m => m.ShopUser, new SelectList(Model.ShopUserList, "Shop_Code", "Shop_Name", Model.ShopUserId), new { @id = "ddlShop", @class = "form-control", @onchange = "PopulateProjectNameList(this)" })
@@ -1455,7 +1929,10 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 h-branch-select">
+                        @*Rev end 1.0*@
                         <label>Name of Project <span class="red">*</span></label>
                         <div>
                             @Html.DropDownListFor(m => m.ProjectName, new SelectList(Model.ProjectNameList, "Project_Id", "Project_Name", Model.ProjectNameId), new { @id = "ddlProjectName", @class = "form-control", @onchange = "AutofillDetails(this)" })
@@ -1470,7 +1947,10 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 h-branch-select">
+                        @*Rev end 1.0*@
                         <label>Category <span class="red">*</span></label>
                         <div>
                             @Html.DropDownListFor(m => m.ShopType, new SelectList(Model.ShopTypeList, "shop_typeId", "shop_typeName", Model.ShopTypeId), new { @id = "ddlShopType", @class = "form-control" })
@@ -1522,7 +2002,10 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 h-branch-select">
+                        @*Rev end 1.0*@
                         <label>Expected Month <span class="red">*</span></label>
                         <div>
                             <select class="form-control" id="ddlExptMonth">
@@ -1542,7 +2025,10 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 h-branch-select">
+                        @*Rev end 1.0*@
                         <label>Expected Year <span class="red">*</span></label>
                         <div>
                             <select class="form-control" id="ddlExptYear">
@@ -1619,7 +2105,10 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    @*Rev 1.0*@
+                    @*<div class="col-md-3">*@
+                    <div class="col-md-3 for-cust-icon">
+                        @*Rev end 1.0*@
                         <label>Completed project </label>
                         <div>
                             @Html.DevExpress().DateEdit(
@@ -1634,9 +2123,11 @@
                                          //settings.Date = DateTime.Now;
                                      }
                             ).GetHtml()
-                            
-                            @*<input type="date" id="proj_complete_dt" name="proj_complete_dt" value="@Model.proj_complete_dt">*@
 
+                            @*<input type="date" id="proj_complete_dt" name="proj_complete_dt" value="@Model.proj_complete_dt">*@
+                            @*Rev 1.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 1.0*@
                         </div>
                     </div>
 

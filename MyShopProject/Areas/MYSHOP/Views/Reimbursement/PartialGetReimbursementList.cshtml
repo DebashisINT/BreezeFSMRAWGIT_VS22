@@ -58,12 +58,15 @@
 
     });
 
-  settings.Columns.Add(x =>
+    settings.Columns.Add(x =>
     {
         x.FieldName = "EMPLOYEE_GRADE";
         x.Caption = "Grade";
         x.VisibleIndex = 3;
-        x.Width = 40;
+        //Rev 1.0
+        //x.Width = 40;
+        x.Width = 60;
+        //Rev end 1.0
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
         x.FixedStyle = GridViewColumnFixedStyle.Left;
 
@@ -71,13 +74,13 @@
 
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "STATE";
-     x.Caption = "State";
-     x.VisibleIndex = 4;
-     x.Width = 100;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
- });
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 4;
+        x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
 
     settings.Columns.Add(x =>
     {
@@ -95,62 +98,77 @@
         x.FieldName = "AMOUNT";
         x.Caption = "Applied Amount";
         x.VisibleIndex = 6;
-        x.Width = 100;
-        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-
-    });
-
-   settings.Columns.Add(x =>
-    {
-        x.FieldName = "APPROVED_AMOUNT";
-        x.Caption = "Approved Amount";
-        x.VisibleIndex = 7;
-        x.Width = 100;
-        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-
-    });
-
- settings.Columns.Add(x =>
-    {
-        x.FieldName = "PENDING_COUNT";
-        x.Caption = "Tot. Pending";
-        x.VisibleIndex = 8;
-        x.Width = 80;
-        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-
-    });
-
- settings.Columns.Add(x =>
-    {
-        x.FieldName = "APPROVED_COUNT";
-        x.Caption = "Tot. Approved";
-        x.VisibleIndex = 9;
-        x.Width = 85;
-        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-
-    });
-
- settings.Columns.Add(x =>
-    {
-        x.FieldName = "REJECTED_COUNT";
-        x.Caption = "Tot. Reject";
-        x.VisibleIndex = 10;
-        x.Width = 70;
+        //Rev 1.0
+        //x.Width = 100;
+        x.Width = 120;
+        //Rev end 1.0 
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
     });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "REPORTTO";
-          x.Caption = "Supervisor";
-          x.VisibleIndex = 11;
-          x.Width = 140;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    {
+        x.FieldName = "APPROVED_AMOUNT";
+        x.Caption = "Approved Amount";
+        x.VisibleIndex = 7;
+        //Rev 1.0
+        //x.Width = 100;
+        x.Width = 140;
+        //Rev end 1.0 
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PENDING_COUNT";
+        x.Caption = "Tot. Pending";
+        x.VisibleIndex = 8;
+        //Rev 1.0
+        //x.Width = 80;
+        x.Width = 120;
+        //Rev end 1.0 
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "APPROVED_COUNT";
+        x.Caption = "Tot. Approved";
+        x.VisibleIndex = 9;
+        //Rev 1.0
+        //x.Width = 85;
+        x.Width = 100;
+        //Rev end 1.0 
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REJECTED_COUNT";
+        x.Caption = "Tot. Reject";
+        x.VisibleIndex = 10;
+        //Rev 1.0
+        //x.Width = 70;
+        x.Width = 90;
+        //Rev end 1.0 
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORTTO";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 11;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
 
 
-      });
+    });
 
 
     settings.Columns.Add(x =>
@@ -178,21 +196,24 @@
 
 
     settings.Columns.Add(x =>
-  {
-      x.FieldName = "STATUS";
-      x.Caption = "Status";
-      x.VisibleIndex = 13;
-      x.Width = 100;
-      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    {
+        x.FieldName = "STATUS";
+        x.Caption = "Status";
+        x.VisibleIndex = 13;
+        x.Width = 100;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
-  });
+    });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "UPDATEDBY";
         x.Caption = "Updated By";
         x.VisibleIndex = 14;
-        x.Width = 80;
+        //Rev 1.0
+        //x.Width = 80;
+        x.Width = 90;
+        //Rev end 1.0
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
     });
@@ -202,7 +223,10 @@
         x.FieldName = "LASTUPDATED_ON";
         x.Caption = "Last Updated On";
         x.VisibleIndex = 15;
-        x.Width = 110;
+        //Rev 1.0
+        //x.Width = 110;
+        x.Width = 120;
+        //Rev end 1.0
     });
 
 
@@ -226,8 +250,8 @@
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "APPROVED_AMOUNT").DisplayFormat = "0.00";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "PENDING_COUNT").DisplayFormat = "0.00";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "APPROVED_COUNT").DisplayFormat = "0.00";
-    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "REJECTED_COUNT").DisplayFormat = "0.00"; 
-    
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "REJECTED_COUNT").DisplayFormat = "0.00";
+
 }).Bind(Model).GetHtml()
 
 

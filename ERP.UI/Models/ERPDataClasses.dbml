@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FSM_ITC" Class="ERPDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=3.7.30.86,1480\SQLEXPRESS;Initial Catalog=FSM_ITC;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RollickTestingConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=3.7.30.86,1480\SQLEXPRES;Initial Catalog=FSM_ITC;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PK17092018ConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.v_FinanceReconciliationList" Member="v_FinanceReconciliationLists">
     <Type Name="v_FinanceReconciliationList">
       <Column Name="SrlNo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
@@ -1506,6 +1506,23 @@
       <Column Name="Colleague" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
       <Column Name="Colleague1" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
       <Column Name="Colleague2" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FSMUser_Master_List" Member="FSMUser_Master_Lists">
+    <Type Name="FSMUser_Master_List">
+      <Column Name="SRLNO" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="user_id" Type="System.Decimal" DbType="Decimal(10,0)" CanBeNull="true" />
+      <Column Name="user_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="user_loginId" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Status" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="StatusMac" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Onlinestatus" Type="System.Decimal" DbType="Decimal(18,0)" CanBeNull="true" />
+      <Column Name="designation" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AssignedUser" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="BranchName" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="grp_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="AssignedUserID" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
