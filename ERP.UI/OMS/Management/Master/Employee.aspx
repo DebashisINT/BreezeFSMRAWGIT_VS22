@@ -1,3 +1,11 @@
+<%--******************************************************************************************************
+ * Rev 1.0      Sanchita/Pallab    07/02/2023      V2.0.36     FSM Employee & User Master - To implement Show button. refer: 25641
+   Rev 2.0      Pallab             08/02/2023      V2.0.36     Master module design modification. refer: 25656 
+   Rev 3.0      Sanchita/Pallab    15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal. 
+   Rev 4.0      Priti              20/02/2023      V2.0.39     0025676: Employee Import Facility. Refer: 25668 
+   Rev 5.0      Pallab             20/02/2023      V2.0.39     parameters and grid issue fix for small screen
+ *******************************************************************************************************--%>
+
 <%@ Page Title="Employee" Language="C#" AutoEventWireup="True" Inherits="ERP.OMS.Management.Master.management_master_Employee" CodeBehind="Employee.aspx.cs" MasterPageFile="~/OMS/MasterPage/ERP.Master" %>
  <%--Mantise ID:0024752: Optimize FSM Employee Master
       Rev work Swati Date:-15.03.2022--%>
@@ -5,7 +13,14 @@
 <%--Mantise ID:0024752: Optimize FSM Employee Master
       Rev work close Swati Date:-15.03.2022--%>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <%--Rev 3.0--%>
+    <script src="/assests/pluggins/choosen/choosen.min.js"></script>
 
+    <script src="/assests/pluggins/choosen/choosen.min.js"></script>
+    <link href="../../../assests/css/custom/SearchPopup.css" rel="stylesheet" />
+    <script src="../../../Scripts/SearchPopup.js"></script>
+    <script src="../../../Scripts/SearchMultiPopup.js"></script>
+    <%--End of Rev 3.0--%>
 
     <style>
         .branch-list-modal .modal-header
@@ -145,8 +160,59 @@
           -ms-transform: rotate(45deg);
           transform: rotate(45deg);
         }
-    </style>
 
+        /*Rev 3.0*/
+        .fullMulti .multiselect-native-select, .fullMulti .multiselect-native-select .btn-group {
+            width: 100%;
+        }
+
+            .fullMulti .multiselect-native-select .multiselect {
+                width: 100%;
+                text-align: left;
+                border-radius: 4px !important;
+            }
+
+                .fullMulti .multiselect-native-select .multiselect .caret {
+                    float: right;
+                    margin: 9px 5px;
+                }
+
+        .hideScndTd > table > tbody > tr > td:last-child {
+            display: none;
+        }
+
+        .multiselect.dropdown-toggle {
+        text-align: left;
+        }
+
+        .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+            -webkit-appearance: none;
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
+
+        .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+        }
+
+            .dynamicPopupTbl > tbody > tr > td,
+            #EmployeeTable table tr th {
+                font-family: 'Poppins', sans-serif !important;
+                font-size: 12px;
+            }
+        /*End of Rev 3.0*/
+    </style>
+    <script type="text/javascript">
+      //REV 4.0
+      function ShowLogData(haslog) {           
+            $('#btnViewLog').click();           
+        }
+        function ViewLogData() {
+            cGvImportDetailsSearch.Refresh();
+        }
+       //REV 4.0 END
+    </script>
     <script type="text/javascript">
 
         function Pageload() {
@@ -162,7 +228,10 @@
             HideTrTd("Tr_EmployeeName");
             HideTrTd("Tr_EmployeeCode");
 
-            cGrdEmployee.PerformCallback("Show~~~");
+            // Rev 1.0
+            //cGrdEmployee.PerformCallback("Show~~~");
+            $("#hfIsFilter").val("N");
+            // End of Rev 1.0
         }
         function PerformCallToGridBind() {
             var EmpId = document.getElementById('hdnContactId').value;
@@ -204,14 +273,21 @@
                 datatype: "json",
                 success: function (responseFromServer) {
                     //  alert(responseFromServer.d)
-                    cGrdEmployee.PerformCallback("Show~~~");
+                    // Rev 1.0
+                    //cGrdEmployee.PerformCallback("Show~~~");
+                    // End of Rev 1.0
                     jAlert('Supervisor Changed Successfully.');
                     cActivationPopupsupervisor.Hide();
                 }
             });
 
         }
-
+        // Rev 1.0
+        function ShowData() {
+            $("#hfIsFilter").val("Y");
+            cGrdEmployee.PerformCallback("Show~~~");
+        }
+        // End of Rev 1.0
 
 
         var GlobalCheckOption = '';
@@ -355,14 +431,14 @@
         }
         function BtnShow_Click() {
             document.getElementById("hdn_GridBindOrNotBind").value = "False"; //To Stop Bind On Page Load
-            if (crbDOJ_Specific_All.GetValue() == "S") {
+            //if (crbDOJ_Specific_All.GetValue() == "S") {
 
-                cGrdEmployee.PerformCallback("Show~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue());
-            }
-            else {
+            //    cGrdEmployee.PerformCallback("Show~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue());
+            //}
+            //else {
 
-                cGrdEmployee.PerformCallback("Show~~~");
-            }
+            //    cGrdEmployee.PerformCallback("Show~~~");
+            //}
         }
         function GrdEmployee1_EndCallBack() {
 
@@ -539,16 +615,83 @@
             document.getElementById("hdn_GridBindOrNotBind").value = "False"; //To Stop Bind On Page Load
             cGrdEmployee.PerformCallback("ShowHideFilter~" + cDtFrom.GetValue() + '~' + cDtTo.GetValue() + '~' + obj);
         }
+        // Rev 3.0
+        function EmployeeButnClick(s, e) {
+            $('#EmployeeModel').modal('show');
+            $("#txtEmployeeSearch").focus();
+        }
 
+        function EmployeebtnKeyDown(s, e) {
+            if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+                $('#EmployeeModel').modal('show');
+                $("#txtEmployeeSearch").focus();
+            }
+        }
+
+        function Employeekeydown(e) {
+
+            var OtherDetails = {}
+            OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+            if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+                return false;
+            }
+            if (e.code == "Enter" || e.code == "NumpadEnter") {
+                var HeaderCaption = [];
+                HeaderCaption.push("Employee Name");
+                HeaderCaption.push("Employee Code");
+                if ($("#txtEmployeeSearch").val() != null && $("#txtEmployeeSearch").val() != "") {
+                    //callonServerM("Employee.aspx/GetOnDemandEmployee", OtherDetails, "EmployeeTable", HeaderCaption, "EmployeeIndex", "SetEmployee");
+                    //callonServerM("Employee.aspx/GetOnDemandEmployee", OtherDetails, "EmployeeTable", HeaderCaption, "EmployeeIndex", "SetEmployee", "EmployeeSource");
+                    callonServerM("Employee.aspx/GetOnDemandEmployee", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+                }
+            }
+            else if (e.code == "ArrowDown") {
+                if ($("input[EmployeeIndex=0]"))
+                    $("input[EmployeeIndex=0]").focus();
+            }
+        }
+
+        function SetSelectedValues(Id, Name, ArrName) {
+            if (ArrName == 'EmployeeSource') {
+                var key = Id;
+                if (key != null && key != '') {
+                    $("#txtEmployee_hidden").val(Id);
+                    ctxtEmployee.SetText(Name);
+                    $('#EmployeeModel').modal('hide');
+                }
+                else {
+                    $("#txtEmployee_hidden").val('');
+                    ctxtEmployee.SetText('');
+                    $('#EmployeeModel').modal('hide');
+
+                }
+            }
+
+            
+        }
+
+        // End of Rev 3.0
     </script>
 
 
     <script>
         // Mantis Issue 24752_Rectify
-        $(document).ready(function () {
-            cGrdEmployee.PerformCallback();
-        });
+        // Rev 1.0
+        //$(document).ready(function () {
+        //    cGrdEmployee.PerformCallback();
+        //});
+        // End of Rev 1.0
         // End of Mantis Issue 24752_Rectify
+
+        // Rev 3.0
+        var EmployeeArr = new Array();
+        $(document).ready(function () {
+            var EmployeeObj = new Object();
+            EmployeeObj.Name = "EmployeeSource";
+            EmployeeObj.ArraySource = EmployeeArr;
+            arrMultiPopup.push(EmployeeObj);
+        })
+        // End of Rev 3.0
 
         var statelist = []
         function STATEPUSHPOP() {
@@ -702,9 +845,608 @@
             z-index:auto !important;
         }
 .nfc {
-padding: 5px;
+padding: 7px;
     margin-right: 1px;
 }
+/*Rev 1.0*/
+#modalimport .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    #modalimport .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    #modalimport .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    #modalimport .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+    /*Rev end 1.0*/
+    /*Rev 2.0*/
+    .btn-show
+    {
+        background: #2379d1;
+        border-color: #2379d1;
+            color: #fff;
+    }
+
+    .btn-show:hover , .btn-show:focus
+    {
+        color: #fff;
+    }
+
+    .dxgvControl_PlasticBlue a img{
+        margin-bottom: 5px;
+    }
+    /*Rev end 2.0*/
+
+   /*Rev 3.0*/
+   .for-cust-padding
+   {
+       padding: 0 0 0 10px;
+   }
+
+   .for-cust-padding label
+   {
+       margin-right: 5px;
+   }
+
+   .dis-flex
+   {
+        display: flex;
+        align-items: center;
+   }
+
+   .btn-show
+   {
+       margin-left: 10px;
+   }
+
+   .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    .close:hover
+    {
+        color: #fff;
+        opacity: 1;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+   /*Rev end 3.0*/
+
+   /*Rev 5.0*/
+
+        body , .dxtcLite_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 5px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 41px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        select:not(.btn):focus
+        {
+            border-color: #094e8c;
+        }
+
+        select:not(.btn):focus-visible
+        {
+            box-shadow: none;
+            outline: none;
+            
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue{
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 , #cmbDOJ_B-1, #cmbLeaveEff_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img , #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue
+    {
+            height: 34px;
+            border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1
+    {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff
+    {
+        position: relative;
+    z-index: 1;
+    background: transparent;
+    }
+
+    .nfc
+    {
+        padding: 5px 12px;
+    }
+
+    @media only screen and (min-width: 1300px) and (max-width: 1500px)
+    {
+        .btn
+        {
+            font-size: 12px;
+            padding: 6px 8px;
+        }
+
+        #txtEmployee
+        {
+            width: 145px;
+        }
+
+        .backBox
+        {
+            overflow:hidden;
+        }
+
+        #GrdEmployee
+        {
+            max-width: 98% !important;
+            width: 98% !important;
+        }
+
+        #GrdEmployee_DXMainTable , #GrdEmployee_DXPagerBottom
+        {
+            width: 95% !important;
+        }
+
+        /*.dxpLite_PlasticBlue .dxp-pageSizeItem
+        {
+                margin-right: 100px;
+        }*/
+
+        .dxp-right {
+    float: left !important;
+    /*margin-left: 50px !important;*/
+}
+        /*.dxpLite_PlasticBlue .dxp-pageSizeItem
+        {
+            padding-right: 65px !important;
+        }*/
+
+        .dxpLite_PlasticBlue .dxp-pageSizeItem
+        {
+            margin-left: 20px;
+        }
+
+    }
+
+    .pTop10
+    {
+        padding-top: 10px;
+    }
+
+    #modalSS .modal-dialog
+    {
+        width: 700px;
+    }
+
+    /*Rev end 5.0*/
+
     </style>
 
     <script>
@@ -993,14 +1735,44 @@ padding: 5px;
                                    { %>
                                 <a href="javascript:void(0);" onclick="OnChangeSuperVisor()" class="btn btn-warning"><span>Change Supervisor</span> </a>
                                 <% } %>
-<asp:LinkButton ID="lnlDownloaderexcel" runat="server" OnClick="lnlDownloaderexcel_Click" CssClass="btn btn-info btn-radius  mBot0">Download Format</asp:LinkButton>
-<button type="button" onclick="ImportUpdatePopOpenEmployeesTarget();" class="btn btn-danger btn-radius">Import(Add/Update)</button>
 
-
-
-                            <button type="button" class="btn btn-warning btn-radius hide" data-toggle="modal" data-target="#modalSS" id="btnViewLog" onclick="ViewLogData();">View Log</button>
+                            <asp:LinkButton ID="lnlDownloaderexcel" runat="server" OnClick="lnlDownloaderexcel_Click" CssClass="btn btn-info btn-radius  mBot0">Download Format</asp:LinkButton>
+                            <button type="button" onclick="ImportUpdatePopOpenEmployeesTarget();" class="btn btn-danger btn-radius">Import(Add/Update)</button>
+                            <button type="button" class="btn btn-warning btn-radius " data-toggle="modal" data-target="#modalSS" id="btnViewLog" onclick="ViewLogData();">View Log</button>
+                                <%--Rev 3.0--%>
+                                <%--<%--Rev 1.0--%>
+                                <%--<% if (rights.CanView)
+                                   { %>
+                                <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
+                                <% } %>
+                                <%--End of Rev 1.0--%>
+                                <%--End of Rev 3.0--%>
                             </td>
-                              <td>
+                            <%--Rev 3.0--%>
+                            <td class="for-cust-padding" id="divEmp" runat="server" >
+                                <div class="dis-flex" >
+                                    <label>Employee(s)</label>
+                                    <div style="position: relative">
+                                        <dxe:ASPxButtonEdit ID="txtEmployee" runat="server" ReadOnly="true" ClientInstanceName="ctxtEmployee" >
+                                            <Buttons>
+                                                <dxe:EditButton>
+                                                </dxe:EditButton>
+                                            </Buttons>
+                                            <ClientSideEvents ButtonClick="function(s,e){EmployeeButnClick();}" KeyDown="EmployeebtnKeyDown" />
+                                        </dxe:ASPxButtonEdit>
+                                        <asp:HiddenField ID="txtEmployee_hidden" runat="server" />
+
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                 <% if (rights.CanView)
+                                   { %>
+                                    <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
+                                <% } %>
+                            </td>
+                            <%--End of Rev 3.0--%>
+                        <td>
                             
                         </td>
 
@@ -1222,6 +1994,7 @@ padding: 5px;
                 <td colspan="2">
                     <%--Mantise ID:0024752: Optimize FSM Employee Master [ DataSourceID="EntityServerlogModeDataSource"  added]
                      Rev work Swati Date:-15.03.2022--%>
+                    <%--Rev 1.0 : Some columns width px to %--%>
                     <dxe:ASPxGridView ID="GrdEmployee" runat="server" KeyFieldName="cnt_id" AutoGenerateColumns="False" DataSourceID="EntityServerlogModeDataSource"
                         Width="100%" ClientInstanceName="cGrdEmployee" OnCustomCallback="GrdEmployee_CustomCallback" SettingsBehavior-AllowFocusedRow="true" Settings-HorizontalScrollBarMode="Auto">
                         <ClientSideEvents EndCallback="function(s, e) {GrdEmployee1_EndCallBack();}" />
@@ -1247,7 +2020,7 @@ padding: 5px;
                             </dxe:GridViewDataTextColumn>
                             <%--End of Mantis Issue 24752_Rectify--%>
 
-                            <dxe:GridViewDataTextColumn Caption="Code" Visible="False" FieldName="ContactID" Width="90px"
+                            <dxe:GridViewDataTextColumn Caption="Code" Visible="False" FieldName="ContactID" Width="10%"
                                 VisibleIndex="0" FixedStyle="Left">
                                 <PropertiesTextEdit DisplayFormatInEditMode="True">
                                 </PropertiesTextEdit>
@@ -1255,14 +2028,14 @@ padding: 5px;
                                 </CellStyle>
                             </dxe:GridViewDataTextColumn>
 
-                            <dxe:GridViewDataTextColumn Caption="Name" FieldName="Name" Width="150px"
+                            <dxe:GridViewDataTextColumn Caption="Name" FieldName="Name" Width="130px"
                                 VisibleIndex="1" FixedStyle="Left">
                                 <CellStyle CssClass="gridcellleft" Wrap="true">
                                 </CellStyle>
                             </dxe:GridViewDataTextColumn>
 
 
-                            <dxe:GridViewDataTextColumn Caption="Grade" FieldName="Employee_Grade" Width="50px"
+                            <dxe:GridViewDataTextColumn Caption="Grade" FieldName="Employee_Grade" Width="90px"
                                 VisibleIndex="2" FixedStyle="Left">
                                 <CellStyle CssClass="gridcellleft" Wrap="true">
                                 </CellStyle>
@@ -1310,17 +2083,17 @@ padding: 5px;
                                 </CellStyle>
                             </dxe:GridViewDataTextColumn>
                             <dxe:GridViewDataTextColumn Caption="Colleague" FieldName="Colleague"
-                                VisibleIndex="11" Width="200px">
+                                VisibleIndex="11" Width="180px">
                                 <CellStyle CssClass="gridcellleft" Wrap="False">
                                 </CellStyle>
                             </dxe:GridViewDataTextColumn>
                             <dxe:GridViewDataTextColumn Caption="Colleague1" FieldName="Colleague1"
-                                VisibleIndex="12" Width="200px">
+                                VisibleIndex="12" Width="180px">
                                 <CellStyle CssClass="gridcellleft" Wrap="False">
                                 </CellStyle>
                             </dxe:GridViewDataTextColumn>
                             <dxe:GridViewDataTextColumn Caption="Colleague2" FieldName="Colleague2"
-                                VisibleIndex="13" Width="200px">
+                                VisibleIndex="13" Width="180px">
                                 <CellStyle CssClass="gridcellleft" Wrap="False">
                                 </CellStyle>
                             </dxe:GridViewDataTextColumn>
@@ -1359,12 +2132,18 @@ padding: 5px;
                                      <% if (rights.CanAdd)
                                        { %>
                                     <a href="javascript:void(0);" onclick="OnCopyInfoClick('<%# Container.KeyValue %>')" class="pad" title="Copy">
-                                        <img src="../../../assests/images/copy.png" /></a><% } %>
+                                        <%--Rev 2.0--%>
+                                        <%--<img src="../../../assests/images/copy.png" /></a>--%>
+                                        <img src="../../../assests/images/copy2.png" /></a><% } %>
+                                    <%--Rev end 2.0--%>
                                     <%--Rev work close 26.04.2022 0024853: Copy feature add in Employee master--%>
                                     <% if (rights.CanAdd)
                                        { %>
                                     <a href="javascript:void(0);" onclick="EMPIDBind('<%#Eval("ContactID") %>')" title="Update Employee ID" class="pad" style="text-decoration: none;">
-                                        <img src="../../../assests/images/exchange.png" width="16px" />
+                                        <%--Rev 2.0--%>
+                                        <%--<img src="../../../assests/images/exchange.png" width="16px" />--%>
+                                        <img src="../../../assests/images/exchange2.png" width="16px" />
+                                        <%--Rev end 2.0--%>
                                         <% } %>
 
                                         <%--<a href="javascript:void(0);" onclick="OnAddBusinessClick('<%#Eval("ContactID") %>','<%#Eval("Name") %>')" title="State Bind" class="pad" style="text-decoration: none;">
@@ -1392,7 +2171,10 @@ padding: 5px;
                                             <% if (rights.CanAdd)
                                             { %>
                                         <a href="javascript:void(0);" onclick="OnEmployeeChannelInfoClick('<%# Container.KeyValue %>')" class="pad" title="EmployeeChannel">
-                                            <img src="../../../assests/images/doc.png" /></a><% } %>
+                                            <%--Rev 2.0--%>
+                                            <%--<img src="../../../assests/images/doc.png" />--%>
+                                            <img src="../../../assests/images/doc2.png" /></a><% } %>
+                                            <%--Rev end 2.0--%>
                                             <%--End of Mantis Issue 24982--%>
 
                                             <%--Mantis Issue 25001--%>
@@ -1400,7 +2182,11 @@ padding: 5px;
                                             <%--Mantis Issue 25001--%>
                                                 <%--Mantis Issue 25001--%>
                                                 <a href="javascript:void(0);" onclick="fn_BranchMap('<%# Container.KeyValue %>')" class="pad" title="Branch Mapping">
-                                                <span class='ico deleteColor'><i class='fa fa-sitemap' aria-hidden='true'></i></span></a>
+                                                    <%--Rev 2.0--%>
+                                                    <%--<span class='ico deleteColor'><i class='fa fa-sitemap' aria-hidden='true'></i></span>--%>
+                                                    <img src="../../../assests/images/branch-map.png"  />
+                                                    <%--Rev end 2.0--%>
+                                                </a>
                                                 <%--End of Mantis Issue 25001--%>
                                             <% }  %>
 
@@ -1456,6 +2242,9 @@ padding: 5px;
              Rev work close Swati Date:-15.03.2022--%>
         <br />
         <asp:HiddenField ID="hdn_GridBindOrNotBind" runat="server" />
+        <%--Rev 1.0--%>
+        <asp:HiddenField ID="hfIsFilter" runat="server" />
+        <%--End of Rev 1.0--%>
         <asp:Button ID="BtnForExportEvent" runat="server" OnClick="cmbExport_SelectedIndexChanged" BackColor="#DDECFE" BorderStyle="None" Visible="false" />
         <dxe:ASPxGridViewExporter ID="exporter" runat="server" GridViewID="GrdEmployee" Landscape="true" PaperKind="A4" PageHeader-Font-Size="Larger" PageHeader-Font-Bold="true">
         </dxe:ASPxGridViewExporter>
@@ -1983,5 +2772,104 @@ padding: 5px;
         </div>
     </div>
     <%--End of Mantis Issue 24982--%>
+    <%--Rev 3.0--%>
+    <div class="modal fade pmsModal w80 " id="EmployeeModel" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Employee Search</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" class="form-control" autofocus width="100%" placeholder="Search By Employee Code" />
 
+                    <div id="EmployeeTable">
+                        <table border='1' width="100%" class="dynamicPopupTbl">
+                            <tr class="HeaderStyle">
+                                <th class="hide">id</th>
+                                <th>Employee Name</th>
+                                <th>Employee Code</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSaveEmployee" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                    <button type="button" id="btnCloseEmployee" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <%--End of Rev 3.0--%>
+
+   <%-- Rev 4.0--%>
+    <div class="modal fade" id="modalSS" role="dialog">
+        <div class="modal-dialog fullWidth">           
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Employee Log</h4>
+                </div>
+                <div class="modal-body">
+                    <dxe:ASPxGridView ID="GvImportDetailsSearch" runat="server" AutoGenerateColumns="False" SettingsBehavior-AllowSort="true"
+                        ClientInstanceName="cGvImportDetailsSearch" KeyFieldName="EMPLOGID" Width="100%" OnDataBinding="GvImportDetailsSearch_DataBinding" Settings-VerticalScrollBarMode="Auto" Settings-VerticalScrollableHeight="400">
+
+                        <SettingsBehavior ConfirmDelete="false" ColumnResizeMode="NextColumn" />
+                        <Styles>
+                            <Header SortingImageSpacing="5px" ImageSpacing="5px"></Header>
+                            <FocusedRow HorizontalAlign="Left" VerticalAlign="Top" CssClass="gridselectrow"></FocusedRow>
+                            <LoadingPanel ImageSpacing="10px"></LoadingPanel>
+                            <FocusedGroupRow CssClass="gridselectrow"></FocusedGroupRow>
+                            <Footer CssClass="gridfooter"></Footer>
+                        </Styles>
+                        <Columns>
+                            <dxe:GridViewDataTextColumn Visible="False" VisibleIndex="0" FieldName="EMPLOGID" Caption="LogID" SortOrder="Descending">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="1" FieldName="CREATEDDATETIME" Caption="Date" Width="10%">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                                <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn VisibleIndex="1" FieldName="EMPLOYEECODE" Caption="Employee Code" Width="10%">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                                <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="2" FieldName="LOOPNUMBER" Caption="Row Number" Width="13%">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="3" FieldName="EMPNAME" Width="8%" Caption="Employee Name">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="4" FieldName="FILENAME" Width="14%" Caption="File Name">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                                <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="5" FieldName="DESCRIPTION" Caption="Description" Width="10%" Settings-AllowAutoFilter="False">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn VisibleIndex="5" FieldName="STATUS" Caption="Status" Width="14%" Settings-AllowAutoFilter="False">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                        </Columns>
+                        <Settings ShowGroupPanel="True" ShowStatusBar="Visible" ShowFilterRow="true" ShowFilterRowMenu="true" />
+                        <SettingsSearchPanel Visible="false" />
+                        <SettingsPager NumericButtonCount="200" PageSize="200" ShowSeparators="True" Mode="ShowPager">
+                            <PageSizeItemSettings Visible="true" ShowAllItem="false" Items="200,400,600" />
+                            <FirstPageButton Visible="True">
+                            </FirstPageButton>
+                            <LastPageButton Visible="True">
+                            </LastPageButton>
+                        </SettingsPager>
+                    </dxe:ASPxGridView>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+  <%--  Rev 4.0 End--%>
 </asp:Content>

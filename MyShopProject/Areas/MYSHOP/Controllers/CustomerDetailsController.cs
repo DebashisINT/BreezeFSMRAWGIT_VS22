@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer.SalesmanTrack;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2 .0.39    PRITI       13/02/2023      0025663:Last Visit fields shall be available in Outlet Reports
+#endregion===================================End of Revision History==================================================================
+
+using BusinessLogicLayer.SalesmanTrack;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
 using MyShop.Models;
@@ -446,6 +450,29 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Width = 150;
             });
 
+            //Rev 1.0
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "LASTVISITDATE";
+                column.Caption = "Last Visit Date";
+                column.ColumnType = MVCxGridViewColumnType.TextBox;
+                column.Width = 150;
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "LASTVISITTIME";
+                column.Caption = "Last Visit Time";
+                column.ColumnType = MVCxGridViewColumnType.TextBox;
+                column.Width = 150;
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "LASTVISITEDBY";
+                column.Caption = "Last Visited By";
+                column.ColumnType = MVCxGridViewColumnType.TextBox;
+                column.Width = 150;
+            });
+            //Rev 1.0 End
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;
             settings.SettingsExport.RightMargin = 20;

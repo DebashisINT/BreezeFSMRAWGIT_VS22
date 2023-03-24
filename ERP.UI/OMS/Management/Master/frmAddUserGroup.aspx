@@ -1,4 +1,9 @@
-﻿<%@ Page Title="User Group" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" CodeBehind="frmAddUserGroup.aspx.cs" Inherits="ERP.OMS.Management.Master.frmAddUserGroup" %>
+﻿<%--====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                08-02-2023        2.0.39           Pallab              25656 : Master module design modification 
+====================================================== Revision History ==========================================================--%>
+
+<%@ Page Title="User Group" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" CodeBehind="frmAddUserGroup.aspx.cs" Inherits="ERP.OMS.Management.Master.frmAddUserGroup" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="/assests/pluggins/easyui/easyui.css" rel="stylesheet" />
@@ -378,6 +383,14 @@
         }
         .bdWhite {
             background:#fff;
+            /*Rev 1.0*/
+            border-radius: 10px;
+            /*Rev end 1.0*/
+        }
+        .form-group input[type=text]
+        {
+            border-radius: 4px !important;
+            height: 34px;
         }
     </style>
      <script>
@@ -414,7 +427,7 @@
                                             <asp:Label ID="lblGroupName" runat="server" Text="Group Name"></asp:Label><span style="color:red;"> *</span>
                                         </div>
                                         <div class="col-sm-4 divDown mt-2" style="position:relative">
-                                            <asp:TextBox ID="txtGroupName" runat="server" MaxLength="50"></asp:TextBox>
+                                            <asp:TextBox ID="txtGroupName" runat="server" MaxLength="50" CssClass="form-control"></asp:TextBox>
                                              <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtGroupName" ErrorTextPosition="Right"  CssClass="pullrightClass fa fa-exclamation-circle r591" SetFocusOnError="true"
                                     Display="Dynamic" ErrorMessage="" Font-Bold="True" ForeColor="Red"></asp:RequiredFieldValidator>
                                         </div>

@@ -1,3 +1,8 @@
+<%--====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                08-02-2023        2.0.39           Pallab              25656 : Master module design modification 
+====================================================== Revision History ==========================================================--%>
+
 <%@ Page Language="C#" AutoEventWireup="True"
     Inherits="ERP.OMS.Management.Master.management_master_Employee_AddNew" MasterPageFile="~/OMS/MasterPage/ERP.Master" CodeBehind="Employee_AddNew.aspx.cs" EnableEventValidation="false" %>
 
@@ -965,6 +970,419 @@
             display: none;
         }
         /*End of Mantis Issue 24655*/
+
+        /*Rev 1.0*/
+
+        body , .dxtcLite_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 5px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 41px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 18px;
+            z-index: 0;
+        }
+
+        select:not(.btn):focus
+        {
+            border-color: #094e8c;
+        }
+
+        select:not(.btn):focus-visible
+        {
+            box-shadow: none;
+            outline: none;
+            
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue{
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 , #cmbDOJ_B-1, #cmbLeaveEff_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img , #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue
+    {
+            height: 34px;
+            border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1
+    {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff
+    {
+        position: relative;
+    z-index: 1;
+    background: transparent;
+    }
+
+    /*Rev end 1.0*/
     </style>
     <%--  <link href="../../css/choosen.min.css" rel="stylesheet" />--%>
 
@@ -1034,7 +1452,10 @@
                     <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                         <ContentTemplate>
                             <div class="">
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Salutation</label>
                                     <div>
                                         <asp:DropDownList ID="CmbSalutation" runat="server" Width="100%" CssClass="form-control">
@@ -1064,7 +1485,10 @@
                                         </asp:TextBox>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Gender</label>
                                     <div>
                                         <asp:DropDownList ID="cmbGender" runat="server" Width="100%">
@@ -1082,7 +1506,10 @@
                                         </dxe:ASPxButton>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                    <div class="col-md-3 for-cust-icon">
+                                        <%--Rev end 1.0--%>
                                     <label>Date Of Joining<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <%--         <dxe:ASPxDateEdit Width="250px" ID="cmbDOJ" TabIndex="7" runat="server" EditFormat="Custom" UseMaskBehavior="True">
@@ -1093,6 +1520,9 @@
                                         <dxe:ASPxDateEdit Width="100%" ID="cmbDOJ" runat="server">
                                         </dxe:ASPxDateEdit>
                                         <span id="MandatoryDOJ" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -14px; top: 10px; display: none" title="Mandatory"></span>
+                                        <%--Rev 1.0--%>
+                                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                    <%--Rev end 1.0--%>
                                     </div>
                                 </div>
                                 <div class="col-md-3" style="display: none">
@@ -1100,7 +1530,10 @@
                                         <asp:Button ID="btnJoin" Visible="false" CssClass="btn btn-primary btnUpdate" Text="Click to Continue" runat="server" OnClick="btnJoin_Click" />
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Organization<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <asp:DropDownList ID="cmbOrganization" runat="server" Width="100%">
@@ -1118,7 +1551,10 @@
                                         <span id="MandatoryDOJ2" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -14px; top: 10px; display: none" title="Mandatory"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Job Responsibility<span style="color: red">*</span> </label>
                                     <div style="position: relative">
                                         <asp:DropDownList ID="cmbJobResponse" runat="server" Width="100%">
@@ -1126,7 +1562,10 @@
                                         <span id="MandatoryJobResponse" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Branch<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <asp:DropDownList ID="cmbBranch" runat="server" Width="100%">
@@ -1134,7 +1573,10 @@
                                         <span id="MandatoryBranch" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Designation<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <asp:DropDownList ID="cmbDesg" runat="server" Width="100%">
@@ -1142,7 +1584,10 @@
                                         <span id="MandatoryDesignation" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 10px; display: none" title="Mandatory"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Employee Type<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <asp:DropDownList ID="EmpType" runat="server" Width="100%">
@@ -1177,7 +1622,10 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>
                                         Department<span style="color: red">*</span>
                                     </label>
@@ -1205,7 +1653,10 @@
                                         <asp:HiddenField ID="txtReportTo_hidden" runat="server" />
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Working Hour<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <asp:DropDownList ID="cmbWorkingHr" runat="server" Width="100%">
@@ -1213,7 +1664,10 @@
                                         <span id="MandatoryWorkinghr" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 8px; display: none" title="Mandatory"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                  <div class="col-md-3  h-branch-select">
+                                      <%--Rev end 1.0--%>
                                     <label>Leave Policy<span style="color: red">*</span></label>
                                     <div style="position: relative">
                                         <asp:DropDownList ID="cmbLeaveP" runat="server" Width="100%">
@@ -1221,13 +1675,19 @@
                                         <span id="MandatoryLeaveP" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 8px; display: none" title="Mandatory"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <%--Rev 1.0--%>
+                                <%--<div class="col-md-3">--%>
+                                    <div class="col-md-3 for-cust-icon">
+                                        <%--Rev end 1.0--%>
                                     <label>Leave Effective From<span style="color: red">*</span> </label>
                                     <div style="position: relative">
                                         <dxe:ASPxDateEdit ID="cmbLeaveEff" runat="server" DateOnError="Today" EditFormat="Custom"
                                             Width="100%">
                                         </dxe:ASPxDateEdit>
                                         <span id="MandatoryLeaveEff" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -18px; top: 8px; display: none" title="Mandatory"></span>
+                                        <%--Rev 1.0--%>
+                                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                        <%--Rev end 1.0--%>
                                     </div>
                                 </div>
                                 <%--Mantis Issue 24655--%>
@@ -1606,7 +2066,10 @@
                         <h4 class="modal-title">Channel Search</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="text" onkeydown="Channelskeydown(event)" id="txtChannelSearch" autofocus style="width: 100%" placeholder="Search By Channel Name or Channel Code" />
+                        <%--Rev 1.0--%>
+                        <%--<input type="text" onkeydown="Channelskeydown(event)" id="txtChannelSearch" autofocus style="width: 100%" placeholder="Search By Channel Name or Channel Code" />--%>
+                        <input class="form-control" type="text" onkeydown="Channelskeydown(event)" id="txtChannelSearch" autofocus style="width: 100%" placeholder="Search By Channel Name or Channel Code" />
+                        <%--Rev end 1.0--%>
                         <div id="ChannelTable">
                             <table border='1' width="100%" class="dynamicPopupTbl">
                                 <tr class="HeaderStyle">
@@ -1635,7 +2098,10 @@
                         <h4 class="modal-title">Circle Search</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="text" onkeydown="Circleskeydown(event)" id="txtCircleSearch" autofocus style="width: 100%" placeholder="Search By Circle Name or Circle Code" />
+                        <%--Rev 1.0--%>
+                        <%--<input type="text" onkeydown="Circleskeydown(event)" id="txtCircleSearch" autofocus style="width: 100%" placeholder="Search By Circle Name or Circle Code" />--%>
+                        <input class="form-control" type="text" onkeydown="Circleskeydown(event)" id="txtCircleSearch" autofocus style="width: 100%" placeholder="Search By Circle Name or Circle Code" />
+                        <%--Rev end 1.0--%>
                         <div id="CircleTable">
                             <table border='1' width="100%" class="dynamicPopupTbl">
                                 <tr class="HeaderStyle">
@@ -1664,7 +2130,10 @@
                         <h4 class="modal-title">Section Search</h4>
                     </div>
                     <div class="modal-body">
-                        <input type="text" onkeydown="Sectionskeydown(event)" id="txtSectionSearch" autofocus style="width: 100%" placeholder="Search By Section Name or Section Code" />
+                        <%--Rev 1.0--%>
+                        <%--<input type="text" onkeydown="Sectionskeydown(event)" id="txtSectionSearch" autofocus style="width: 100%" placeholder="Search By Section Name or Section Code" />--%>
+                        <input class="form-control" type="text" onkeydown="Sectionskeydown(event)" id="txtSectionSearch" autofocus style="width: 100%" placeholder="Search By Section Name or Section Code" />
+                        <%--Rev end 1.0--%>
                         <div id="SectionTable">
                             <table border='1' width="100%" class="dynamicPopupTbl">
                                 <tr class="HeaderStyle">

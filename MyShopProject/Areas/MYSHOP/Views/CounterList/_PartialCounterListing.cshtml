@@ -2,6 +2,8 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                13-01-2023        2.0.37           Pallab              25576: Report page design modification *@
 @*2.0                23-01-2023        2.0.38           Debashis            Multiple contact information to be displayed in the Shops report.Refer: 0025585*@
+@*3.0		         13-02-2023   	   V2.0.39		    PRITI			    0025663:Last Visit fields shall be available in Outlet Reports*@
+
 @*====================================================== Revision History ===========================================================*@
 
 @Html.DevExpress().GridView(settings =>
@@ -662,6 +664,8 @@
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
         });
+
+
     }
     //End of Rev 2.0 Mantis: 0025585
 
@@ -691,6 +695,34 @@
     //   // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     //});
 
+    //REV 3.0
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Last Visit Date";
+        x.FieldName = "LASTVISITDATE";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+        x.VisibleIndex = 63;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Last Visit Time";
+        x.FieldName = "LASTVISITTIME";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+        x.VisibleIndex = 64;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Last Visited By";
+        x.FieldName = "LASTVISITEDBY";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+        x.VisibleIndex = 65;
+    });
+    //REV 3.0 END
 
     ///Summary
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "Shoptype"); ;

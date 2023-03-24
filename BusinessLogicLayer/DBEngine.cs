@@ -1,4 +1,7 @@
-﻿
+﻿//====================================================== Revision History ==========================================================
+//1.0  20-02-2023    2.0.39    Priti      Close sql connection after close the SqlDataReader
+//2.0  21-03-2023    2.0.39    Sanchita   Dashboard optimization. Refer: 25741
+//====================================================== Revision History ==========================================================
 
 using System;
 using System.Collections.Generic;
@@ -208,7 +211,9 @@ namespace BusinessLogicLayer
 
             // We close the DataReader
             lsdr.Close();
-
+            //Rev 1.0
+            CloseConnection();
+            //Rev 1.0 End
             return vRetVal;
         }
 
@@ -354,7 +359,10 @@ namespace BusinessLogicLayer
                             {
                                 /////NewMethodwFindOUtEmployeeHierarch
                                 HttpContext.Current.Session["userchildHierarchy"] = GeEmployeeHierarchy(ValidUser[0, 15].ToString());
-                                string branch = getBranch(HttpContext.Current.Session["userbranchID"].ToString(), "") + HttpContext.Current.Session["userbranchID"].ToString();
+                                // Rev 2.0
+                                //string branch = getBranch(HttpContext.Current.Session["userbranchID"].ToString(), "") + HttpContext.Current.Session["userbranchID"].ToString();
+                                string branch = getBranchForLogin(HttpContext.Current.Session["userbranchID"].ToString(), "") + HttpContext.Current.Session["userbranchID"].ToString();
+                                // End of Rev 2.0
                                 actual = "";
                                 HttpContext.Current.Session["userbranchHierarchy"] = branch;
                             }
@@ -1945,7 +1953,9 @@ namespace BusinessLogicLayer
                 CountNoRow = (int)lsdr[0];
             }
             lsdr.Close();
-
+            //Rev 1.0
+            proc.CloseConnection();
+            //Rev 1.0 End
             if (CountNoRow > 0)
             {
                 //Now define length of an array
@@ -1981,7 +1991,9 @@ namespace BusinessLogicLayer
                     messg[0, 0] = "n";
                     // We close the DataReader
                     lsdr.Close();
-
+                    //Rev 1.0
+                    proc.CloseConnection();
+                    //Rev 1.0 End
                     return messg;
                 }
             }
@@ -1991,13 +2003,17 @@ namespace BusinessLogicLayer
                 messg[0, 0] = "n";
                 // We close the DataReader
                 lsdr.Close();
-
+                //Rev 1.0
+                proc.CloseConnection();
+                //Rev 1.0 End
                 return messg;
             }
 
             // We close the DataReader
             lsdr.Close();
-
+            //Rev 1.0
+            proc.CloseConnection();
+            //Rev 1.0 End
             return vRetVal;
         }
 
@@ -2030,10 +2046,16 @@ namespace BusinessLogicLayer
                     CountNoRow = (int)lsdr[0];
                 }
                 lsdr.Close();
+                //Rev 1.0
+                proc.CloseConnection();
+                //Rev 1.0 End
             }
             else
             {
                 lsdr.Close();
+                //Rev 1.0
+                proc.CloseConnection();
+                //Rev 1.0 End
             }
             //Now define length of an array
             vRetVal = new string[CountNoRow, NoField];
@@ -2070,12 +2092,17 @@ namespace BusinessLogicLayer
                 string[,] messg = new string[1, 1];
                 messg[0, 0] = "n";
                 lsdr.Close();
-
+                //Rev 1.0
+                proc.CloseConnection();
+                //Rev 1.0 End
                 return messg;
             }
 
             // We close the DataReader
             lsdr.Close();
+             //Rev 1.0
+            proc.CloseConnection();
+            //Rev 1.0 End
             return vRetVal;
         }
 
@@ -2969,9 +2996,28 @@ namespace BusinessLogicLayer
                     getBranch(DtSecond.Rows[i][0].ToString(), ListOfUser);
                 }
             }
+
             return actual;
         }
 
+        // Rev 2.0
+        // getBranchForLogin
+        public string getBranchForLogin(string BranchId, string ListOfUser)
+        {
+            DataTable dtBranch = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_getBranch");
+            proc.AddPara("@ParentBranchID", BranchId);
+            dtBranch = proc.GetTable();
+
+            if (dtBranch.Rows.Count > 0)
+            {
+                actual = Convert.ToString(dtBranch.Rows[0][0]);
+            }
+           
+            return actual;
+        }
+
+        // End of Rev 2.0
 
         //
 
@@ -3020,7 +3066,9 @@ namespace BusinessLogicLayer
                     }
                 }
                 lsdr.Close();
-
+                //Rev 1.0
+                proc.CloseConnection();
+                //Rev 1.0 End
                 int length = ID.Length;
                 int intpart = int.Parse(ID.Substring(length - 7, 7));
                 int newNo = intpart + 1;
@@ -6918,7 +6966,11 @@ namespace BusinessLogicLayer
                 Dr.Close();
             }
             catch { Dr.Close(); }
-            finally { Dr.Close(); }
+            finally 
+            { 
+                Dr.Close();
+                proc.CloseConnection();
+            }
             return Date;
         }
 
@@ -7796,19 +7848,29 @@ namespace BusinessLogicLayer
 
         public string GeEmployeeHierarchy(string EmployeeID)
         {
-            string[] InputName = new string[1];
-            string[] InputType = new string[1];
-            string[] InputValue = new string[1];
+            // Rev 2.0
+            //string[] InputName = new string[1];
+            //string[] InputType = new string[1];
+            //string[] InputValue = new string[1];
 
-            DataSet DsEmployeeSubTree = new DataSet();
+            //DataSet DsEmployeeSubTree = new DataSet();
 
-            InputName[0] = "empid";
-            InputType[0] = "I";
-            InputValue[0] = EmployeeID;
-            DsEmployeeSubTree = SQLProcedures.SelectProcedureArrDS("Hr_GetEmployeeSubTree", InputName, InputType, InputValue);
-            if (DsEmployeeSubTree.Tables.Count > 0)
-                if (DsEmployeeSubTree.Tables[0].Rows.Count > 0)
-                    return DsEmployeeSubTree.Tables[0].Rows[0][0].ToString();
+            //InputName[0] = "empid";
+            //InputType[0] = "I";
+            //InputValue[0] = EmployeeID;
+            //DsEmployeeSubTree = SQLProcedures.SelectProcedureArrDS("Hr_GetEmployeeSubTree", InputName, InputType, InputValue);
+            //if (DsEmployeeSubTree.Tables.Count > 0)
+            //    if (DsEmployeeSubTree.Tables[0].Rows.Count > 0)
+            //        return DsEmployeeSubTree.Tables[0].Rows[0][0].ToString();
+
+            DataTable DtEmployeeSubTree = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("Hr_GetEmployeeSubTree");
+            proc.AddPara("@empid", EmployeeID);
+            DtEmployeeSubTree = proc.GetTable();
+
+            if (DtEmployeeSubTree.Rows.Count > 0)
+                return DtEmployeeSubTree.Rows[0][0].ToString();
+            // End of Rev 2.0
 
             return "";
         }

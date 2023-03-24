@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyShopProject", "MyShopProj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports", "Reports\Reports.csproj", "{2954AEFF-5FF7-4AE0-9540-2A44F0DA2D4F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAPI", "OpenAPI\OpenAPI.csproj", "{C41BF240-89AB-4E3F-AB80-4661992F4247}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,12 +78,15 @@ Global
 		{2954AEFF-5FF7-4AE0-9540-2A44F0DA2D4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2954AEFF-5FF7-4AE0-9540-2A44F0DA2D4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2954AEFF-5FF7-4AE0-9540-2A44F0DA2D4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C41BF240-89AB-4E3F-AB80-4661992F4247}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C41BF240-89AB-4E3F-AB80-4661992F4247}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C41BF240-89AB-4E3F-AB80-4661992F4247}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C41BF240-89AB-4E3F-AB80-4661992F4247}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7D2999A2-03D5-46A2-AC65-A1C9DAE9A636}
 		SolutionGuid = {9E618C34-89FC-4342-9034-071F7E5F3184}
 	EndGlobalSection
 EndGlobal

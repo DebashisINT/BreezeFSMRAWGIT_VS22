@@ -1,6 +1,9 @@
 <%-- ---------------------------------------------------------------------------------------------------------------------
 Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length of the Description field of Product Master. Refer: 25603    
-    
+Rev 2.0     Sanchita    V2.0.39     08/02/2023      When a product is Modified and saved instantly without clicking on Product Attribute
+                                                    button, the product attributes becomes blank in mapping tables. Refer: 25655
+Rev 3.0     Pallab      V2.0.39     13/02/2023      Master module design modification. Refer: 25656
+Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : Listing - Implement Show Button. Refer: 25709
 -------------------------------------------------------------------------------------------------------------------------- --%>
 <%@ Page Title="Products" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
     Inherits="ERP.OMS.Management.Store.Master.management_master_Store_sProducts" CodeBehind="sProducts.aspx.cs" %>
@@ -14,6 +17,9 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
     <script src="../../Activities/JS/SearchPopup.js"></script>
     <link href="../../Activities/CSS/SearchPopup.css" rel="stylesheet" />
     
+    <%--Rev 4.0--%>
+    <script src="../../Activities/JS/SearchMultiPopup.js"></script>
+    <%--End of Rev 4.0--%>
 
     <script type="text/javascript">
 
@@ -48,6 +54,72 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
             grid.PerformCallback(obj);
         }
 
+        // Rev 4.0
+
+        var ProductArr = new Array();
+        $(document).ready(function () {
+            var ProductObj = new Object();
+            ProductObj.Name = "ProductSource";
+            ProductObj.ArraySource = ProductArr;
+            arrMultiPopup.push(ProductObj);
+            $("#hfIsFilter").val("N");
+        })
+
+        function ProductButnClick(s, e) {
+            $('#ProductModel').modal('show');
+            $("#txtProdSearch").focus();
+        }
+
+        function ProductbtnKeyDown(s, e) {
+            if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+                $('#ProductModel').modal('show');
+                $("#txtProdSearch").focus();
+            }
+        }
+
+        function Productkeydown(e) {
+
+            var OtherDetails = {}
+            OtherDetails.SearchKey = $("#txtProdSearch").val();
+            if ($.trim($("#txtProdSearch").val()) == "" || $.trim($("#txtProdSearch").val()) == null) {
+                return false;
+            }
+            if (e.code == "Enter" || e.code == "NumpadEnter") {
+                var HeaderCaption = [];
+                HeaderCaption.push("Product Name");
+                HeaderCaption.push("Product Code");
+                if ($("#txtProdSearch").val() != null && $("#txtProdSearch").val() != "") {
+                   callonServerM("sProducts.aspx/GetOnDemandProduct", OtherDetails, "ProductTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "ProductSource");
+                }
+            }
+            else if (e.code == "ArrowDown") {
+                if ($("input[ProductIndex=0]"))
+                    $("input[ProductIndex=0]").focus();
+            }
+        }
+
+        function SetSelectedValues(Id, Name, ArrName) {
+            if (ArrName == 'ProductSource') {
+                var key = Id;
+                if (key != null && key != '') {
+                    $('#ProductModel').modal('hide');
+                    ctxtProducts.SetText(Name);
+                    $('#txtProduct_hidden').val(key);
+                }
+                else {
+                    ctxtProducts.SetText('');
+                    $('#txtProduct_hidden').val('');
+                }
+            }
+
+
+        }
+
+        function ShowData() {
+            $("#hfIsFilter").val("Y");
+            grid.PerformCallback("Show~~~");
+        }
+        // End of Rev 4.0
     </script>
 
 
@@ -113,6 +185,429 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                 overflow: auto;
         }
         /*End of Mantis Issue 24299*/
+
+        /*Rev 3.0*/
+
+        body , .dxtcLite_PlasticBlue
+        {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 14px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 33px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        select:not(.btn):focus
+        {
+            border-color: #094e8c;
+        }
+
+        select:not(.btn):focus-visible
+        {
+            box-shadow: none;
+            outline: none;
+            
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue{
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo, #FormDate, #toDate {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 , #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img , #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img, #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img {
+            display: none;
+        }
+
+    #FormDate_I, #toDate_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue
+    {
+            height: 34px;
+            border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1
+    {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff
+    {
+        position: relative;
+    z-index: 1;
+    background: transparent;
+    }
+
+    .btn-sm, .btn-xs
+    {
+        padding: 6px 10px !important;
+    }
+
+    #productAttributePopUp_PWH-1 span, #ASPxPopupControl2_PWH-1 span
+    {
+        color: #fff !important;
+    }
+
+    /*Rev end 3.0*/
     </style>
 
     <script type="text/javascript">
@@ -1146,6 +1641,54 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                 grid.PerformCallback('savecity~' + GetObjectID('fileName').value);
             }
             else {
+                // Rev 2.0
+                ProdColorNew = "";
+                var Colors = $("#ddlColorNew").val();
+
+                if (Colors != null) {
+                    for (var i = 0; i < Colors.length; i++) {
+                        if (ProdColorNew == "") {
+                            ProdColorNew = Colors[i];
+                        }
+                        else {
+                            ProdColorNew += ',' + Colors[i];
+                        }
+                    }
+                }
+                $("#hdnColorNew").val(ProdColorNew);
+
+
+                ProdSizeNew = "";
+                var Sizes = $("#ddlSizeNew").val();
+
+                if (Sizes != null) {
+                    for (var i = 0; i < Sizes.length; i++) {
+                        if (ProdSizeNew == "") {
+                            ProdSizeNew = Sizes[i];
+                        }
+                        else {
+                            ProdSizeNew += ',' + Sizes[i];
+                        }
+                    }
+                }
+                $("#hdnSizeNew").val(ProdSizeNew);
+
+
+                ProdGenderNew = "";
+                var Genders = $("#ddlGenderNew").val();
+                if (Genders != null) {
+                    for (var i = 0; i < Genders.length; i++) {
+                        if (ProdGenderNew == "") {
+                            ProdGenderNew = Genders[i];
+                        }
+                        else {
+                            ProdGenderNew += ',' + Genders[i];
+                        }
+                    }
+                }
+                $("#hdnGenderNew").val(ProdGenderNew);
+                // End of Rev 2.0
+
                 grid.PerformCallback('updatecity~' + GetObjectID('hiddenedit').value + "~" + GetObjectID('fileName').value);
             }
 
@@ -1458,7 +2001,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                 
                 if (ColorNew != '') {
                     ProdColorNew = grid.cpEdit.split('~')[64];
-
+                   
                     $('#ddlColorNew').multiselect({
                         numberDisplayed: 2
                     });
@@ -1471,6 +2014,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                 }
                 else {
                     ProdColorNew = '';
+                    
                     $('#ddlColorNew').multiselect({
                         numberDisplayed: 2
                     });
@@ -1484,7 +2028,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
 
                 if (SizeNew != '') {
                     ProdSizeNew = grid.cpEdit.split('~')[65];
-
+                    
                     $('#ddlSizeNew').multiselect({
                         numberDisplayed: 2
                     });
@@ -1497,7 +2041,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                 }
                 else {
                     ProdSizeNew = '';
-
+                    
                     $('#ddlSizeNew').multiselect({
                         numberDisplayed: 2
                     });
@@ -1511,7 +2055,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
 
                 if (GenderNew != '') {
                     ProdGenderNew = grid.cpEdit.split('~')[66];
-
+                   
                     $('#ddlGenderNew').multiselect({
                         numberDisplayed: 2
                     });
@@ -1524,7 +2068,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                 }
                 else {
                     ProdGenderNew = 0;
-
+                    
                     $('#ddlGenderNew').multiselect({
                         numberDisplayed: 2
                     });
@@ -1876,7 +2420,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
 
         .FilterSide {
             float: left;
-            width: 50%;
+            /*width: 50%;*/
         }
 
         .SearchArea {
@@ -2036,6 +2580,86 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
         {
             color: #fff;
         }
+        /*Rev 4.0*/
+        .fullMulti .multiselect-native-select, .fullMulti .multiselect-native-select .btn-group {
+            width: 100%;
+        }
+
+            .fullMulti .multiselect-native-select .multiselect {
+                width: 100%;
+                text-align: left;
+                border-radius: 4px !important;
+            }
+
+                .fullMulti .multiselect-native-select .multiselect .caret {
+                    float: right;
+                    margin: 9px 5px;
+                }
+
+        .hideScndTd > table > tbody > tr > td:last-child {
+            display: none;
+        }
+
+        .multiselect.dropdown-toggle {
+        text-align: left;
+        }
+
+        .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+            -webkit-appearance: none;
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
+
+        .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+        }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+        .width-50px
+        {
+            width: 275px;
+            float: left;
+            display: flex;
+            align-items: center;
+                margin-left: 10px;
+        }
+
+        .width-50px label
+        {
+                margin-right: 5px;
+        }
+
+        .btn-show {
+    background: #2379d1;
+    border-color: #2379d1;
+    color: #fff;
+}
+        .btn-show:hover, .btn-show:focus {
+    color: #fff;
+}
+
+        .btn
+        {
+            height: 34px;
+        }
+
+        #ProductTable
+        {
+            margin-top: 10px;
+        }
+
+        /*Rev end 4.0*/
+
+        #txtPro_Description , #txtPro_Description textarea
+        {
+            border-radius: 4px;
+        }
     </style>
 
 </asp:Content>
@@ -2051,6 +2675,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
             <%-- <div class="TitleArea">
                 <strong><span style="color: #000099">marketss</span></strong>
             </div>--%>
+            
             <div class="SearchArea">
                 <div class="FilterSide mb-3">
                     <div style="float: left; padding-right: 5px;">
@@ -2069,12 +2694,14 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                         </asp:DropDownList>
                         <%} %>
 
-
-                       <asp:Button ID="btndownload" runat="server" cssclass="btn btn-info mr-1" OnClick="btnDownload_Click" Text="Download Format" />
+                       <%--Rev 4.0--%>
+                       <%--<asp:Button ID="btndownload" runat="server" cssclass="btn btn-info mr-1" OnClick="btnDownload_Click" Text="Download Format" />--%>
+                       <asp:LinkButton ID="btndownload" runat="server" OnClick="btnDownload_Click" CssClass="btn btn-info btn-radius pull-rigth mBot0">Download Format</asp:LinkButton>
+                       <%--End of Rev 4.0--%>
                     
                         <a class="btn btn-warning" href="javascript:void(0);" onclick="fn_PopOpenProducts()" id="btnimportexcel"><span>Import (Add/Update)</span> </a>
-
                     </div>
+                    
                     <%-- <div>
                         <a class="btn btn-primary" href="javascript:ShowHideFilter('All');"><span>All Records</span></a>
                     </div>--%>
@@ -2097,7 +2724,32 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                         </dxe:ASPxComboBox>
                     </div>
                 </div>--%>
-            </div>
+            
+            <%--Rev 4.0--%>
+            <%--<div>--%>
+                <div class="width-50px" id="divProd" runat="server">
+                    <label>Products(s)</label>
+                    <div style="position: relative">
+                        <dxe:ASPxButtonEdit ID="txtProducts" runat="server" ReadOnly="true" ClientInstanceName="ctxtProducts" >
+                            <Buttons>
+                                <dxe:EditButton>
+                                </dxe:EditButton>
+                            </Buttons>
+                            <ClientSideEvents ButtonClick="function(s,e){ProductButnClick();}" KeyDown="ProductbtnKeyDown" />
+                        </dxe:ASPxButtonEdit>
+                        <asp:HiddenField ID="txtProduct_hidden" runat="server" />
+
+                    </div>
+                </div>
+                <% if (rights.CanView)
+                { %>
+                    <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
+                <% } %>
+            <%--</div>--%>
+                </div>
+            <%--End of Rev 4.0--%>
+                
+ 
             <%--debjyoti 22-12-2016--%>
             <dxe:ASPxPopupControl ID="ASPXPopupControl" runat="server"
                 CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ClientInstanceName="popup" Height="630px"
@@ -2178,7 +2830,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                             <EditFormSettings Visible="True" />
                         </dxe:GridViewDataTextColumn>--%>
 
-                        <dxe:GridViewDataComboBoxColumn Caption="Class Name (Category)" FieldName="ProductClass_Name" VisibleIndex="4" Width="120px">
+                        <dxe:GridViewDataComboBoxColumn Caption="Class Name (Category)" FieldName="ProductClass_Name" VisibleIndex="4" Width="150px">
                             <PropertiesComboBox EnableSynchronization="False" EnableIncrementalFiltering="True"
                                 ValueType="System.String" DataSourceID="SqlClassSource" TextField="ProductClass_Name" ValueField="ProductClass_Name">
                             </PropertiesComboBox>
@@ -2237,7 +2889,7 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
                         </dxe:GridViewDataTextColumn>--%>
 
 
-                        <dxe:GridViewDataTextColumn ReadOnly="True" CellStyle-HorizontalAlign="Center" Width="180px">
+                        <dxe:GridViewDataTextColumn ReadOnly="True" CellStyle-HorizontalAlign="Center" Width="140px">
                             <HeaderStyle HorizontalAlign="Center" />
 
                             <CellStyle HorizontalAlign="Center"></CellStyle>
@@ -4025,6 +4677,9 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
            <ClientSideEvents Shown="function(){ $('#txtMainAccountPRSearch').focus();}" />
         </dxe:ASPxPopupControl>
         <asp:HiddenField runat="server" ID="hdnPRMainAccount" />
+        <%--Rev 4.0--%>
+        <asp:HiddenField ID="hfIsFilter" runat="server" />
+        <%--End of Rev 4.0--%>
 
         <dxe:ASPxPopupControl ID="AspxDirectCustomerViewPopup" runat="server"
             CloseAction="CloseButton" PopupHorizontalAlign="WindowCenter" PopupVerticalAlign="WindowCenter" ClientInstanceName="CAspxDirectCustomerViewPopup" Height="650px"
@@ -4213,5 +4868,37 @@ Rev 1.0     Sanchita    V2.0.38     20/01/2023      Need to increase the length 
         </dxe:ASPxPopupControl>
  </div>
         </div>
+
+    <%--Rev 4.0--%>
+    <div class="modal fade pmsModal w80 " id="ProductModel" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Product Search</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" onkeydown="Productkeydown(event)" id="txtProdSearch" class="form-control" autofocus width="100%" placeholder="Search By Product Code" />
+
+                    <div id="ProductTable">
+                        <table border='1' width="100%" class="dynamicPopupTbl">
+                            <tr class="HeaderStyle">
+                                <th class="hide">id</th>
+                                <th>Product Name</th>
+                                <th>Product Code</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSaveProduct" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('ProductSource')">OK</button>
+                    <button type="button" id="btnCloseProduct" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <%--End of Rev 4.0--%>
 
 </asp:Content>

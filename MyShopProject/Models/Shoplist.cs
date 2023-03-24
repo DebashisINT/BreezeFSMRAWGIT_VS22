@@ -1,6 +1,8 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
 //                                              Refer: 0025585
+//2.0   V2 .0.39    PRITI       13/02/2023      0025663:Last Visit fields shall be available in Outlet Reports*@
+
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -196,6 +198,12 @@ namespace Models
         public string CONTACT_DOA6 { get; set; }
         public string CONTACT_DOB6 { get; set; }
         //End of Rev 1.0 Mantis: 0025585
+
+        //REV 2.0
+        public string LASTVISITDATE { get; set; }
+        public string LASTVISITTIME { get; set; }
+        public string LASTVISITEDBY { get; set; }
+        //REV 2.0 END
     }
 
     public class shopTypes

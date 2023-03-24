@@ -1,4 +1,7 @@
-﻿using DataAccessLayer;
+﻿//====================================================== Revision History ==========================================================
+//1.0  03-02-2023    2.0.38    Priti     0025604: Enhancement Required in the Order Summary Report
+//====================================================== Revision History ==========================================================
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -74,7 +77,7 @@ namespace BusinessLogicLayer.SalesmanTrack
             int i = proc.RunActionQuery();
             return i;
         }
-        public int OrderProductModifyDelete(long ProdorderId, long OrderId, decimal prodqty, decimal prodrate, string Action)
+        public int OrderProductModifyDelete(long ProdorderId, long OrderId, decimal prodqty, decimal prodrate, decimal productMrp, decimal productDiscount, string Action)
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("Proc_FTS_OrderProductManage");
@@ -82,6 +85,11 @@ namespace BusinessLogicLayer.SalesmanTrack
             proc.AddPara("@OrderProd_Id", ProdorderId);
             proc.AddPara("@Prod_Qty", prodqty);
             proc.AddPara("@Prod_Rate", prodrate);
+
+            //REV 1.0
+            proc.AddPara("@Prod_Mrp", productMrp);
+            proc.AddPara("@Prod_Discount", productDiscount);
+            //REV 1.0 END
             proc.AddPara("@Action", Action);
             int i = proc.RunActionQuery();
             return i;
@@ -93,6 +101,16 @@ namespace BusinessLogicLayer.SalesmanTrack
             ProcedureExecute proc = new ProcedureExecute("Proc_FTS_OrderProductManage");
             proc.AddPara("@OrderID", OrderId);
             proc.AddPara("@OrderProd_Id", ProdIdorder);
+            proc.AddPara("@Action", Action);
+            ds = proc.GetTable();
+            return ds;
+        }
+
+        public DataTable getMrpDiscount(long Product_Id, string Action)
+        {
+            DataTable ds = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("Proc_FTS_OrderProductManage");
+            proc.AddPara("@OrderID", Product_Id);            
             proc.AddPara("@Action", Action);
             ds = proc.GetTable();
             return ds;

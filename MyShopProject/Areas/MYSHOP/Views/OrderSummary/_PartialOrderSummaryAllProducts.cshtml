@@ -1,11 +1,17 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                03-02-2023        2.0.38           PRITI               0025604: Enhancement Required in the Order Summary Report *@
+
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridProductlist";
 
     settings.CallbackRouteValues = new { Action = "PartialOrderSummaryAllProducts", Controller = "OrderSummary" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallbackProduct";
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-  
+
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
     settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
     settings.SettingsSearchPanel.Visible = true;
@@ -64,20 +70,32 @@
         x.VisibleIndex = 5;
         x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
     });
-
-    settings.Columns.Add(x =>
+    //Rev 1.0
+    if (ViewBag.IsViewMRPInOrder == "1")
     {
-        x.FieldName = "MRP";
-        x.Caption = "MRP";
-        x.VisibleIndex = 6;
-        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-    });
-    
-
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Product_MRP";
+            x.Caption = "MRP";
+            x.VisibleIndex = 6;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        });
+    }
+    if (ViewBag.IsDiscountInOrder == "1")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Product_Discount";
+            x.Caption = "Discount on MRP";
+            x.VisibleIndex = 7;
+            x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        });
+    }
+    //Rev 1.0 End
     settings.Columns.Add(x =>
     {
         x.Caption = "Action";
-        x.VisibleIndex = 7;
+        x.VisibleIndex = 8;
         x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         x.SetDataItemTemplateContent(c =>
         {
@@ -85,7 +103,7 @@
             ViewContext.Writer.WriteLine("<a style='cursor:pointer' onclick=\"DeleteProduct('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Order_ProdId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Order_ID")) + "')\"><img src='/assests/images/delete.png' /></a>");
 
         });
-       
+
     });
 
 }).Bind(Model).GetHtml()

@@ -1,4 +1,8 @@
-﻿
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                07-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
 @Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridtsiwiseperformance";
@@ -43,7 +47,7 @@
         x.VisibleIndex = 2;
         x.Width = 100;
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "STATE";
@@ -61,44 +65,47 @@
     });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "TOTALORDERVALUE";
-          x.Caption = "Total Revenue <br/>(Total Order Booked)";
-          x.VisibleIndex = 5;
-          x.Width = 140;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      });
+    {
+        x.FieldName = "TOTALORDERVALUE";
+        x.Caption = "Total Revenue <br/>(Total Order Booked)";
+        x.VisibleIndex = 5;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "TARGETORDVALUE";
-          x.Caption = "Targeted Revenue <br/>(Total Targeted Value)";
-          x.VisibleIndex = 6;
-          x.Width = 150;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-          x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-      });
+    {
+        x.FieldName = "TARGETORDVALUE";
+        x.Caption = "Targeted Revenue <br/>(Total Targeted Value)";
+        x.VisibleIndex = 6;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
 
     settings.Columns.Add(x =>
-  {
-      x.FieldName = "AVGORDERVALUE";
-      x.Caption = "Average Order Value <br/>(Order Value/Order Count)";
-      x.VisibleIndex = 7;
-      x.Width = 180;
-      x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-      x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-  });
+    {
+        x.FieldName = "AVGORDERVALUE";
+        x.Caption = "Average Order Value <br/>(Order Value/Order Count)";
+        x.VisibleIndex = 7;
+        x.Width = 180;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "AVGREVPERSTORE";
         x.Caption = "Average Revenue per store <br/>(Total Order Value/Total Outlets)";
         x.VisibleIndex = 8;
-        x.Width = 185;
+        //Rev 1.0
+        //x.Width = 185;
+        x.Width = 210;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -108,7 +115,10 @@
         x.FieldName = "APPROVEEXPAMT";
         x.Caption = "Revenue/Expenses Ratio <br/>(Total Order Value/Approved expenses)";
         x.VisibleIndex = 9;
-        x.Width = 220;
+        //Rev 1.0
+        //x.Width = 220;
+        x.Width = 260;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -118,7 +128,10 @@
         x.FieldName = "AVGREVPERVISIT";
         x.Caption = "Average Revenue Generated Per Visit <br/>(Total Order Value/Total Visit Count)";
         x.VisibleIndex = 10;
-        x.Width = 220;
+        //Rev 1.0
+        //x.Width = 220;
+        x.Width = 260;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -138,7 +151,10 @@
         x.FieldName = "NEWSHOP_VISITED";
         x.Caption = "Total Number of New Visits <br/>(New Visit)";
         x.VisibleIndex = 12;
-        x.Width = 155;
+        //Rev 1.0
+        //x.Width = 155;
+        x.Width = 180;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -148,7 +164,10 @@
         x.FieldName = "RE_VISITED";
         x.Caption = "Total Number of Re-visits <br/>(Re-visit)";
         x.VisibleIndex = 13;
-        x.Width = 150;
+        //Rev 1.0
+        //x.Width = 150;
+        x.Width = 180;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -158,7 +177,10 @@
         x.FieldName = "VISITCONVRATE";
         x.Caption = "Visit Conversion Rate (%) <br/>(Number of Productive visit(Order)/Total number of Visits)";
         x.VisibleIndex = 14;
-        x.Width = 330;
+        //Rev 1.0
+        //x.Width = 330;
+        x.Width = 360;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -168,7 +190,10 @@
         x.FieldName = "NEWVISITCONVRATE";
         x.Caption = "New Visit Conversion Rate <br/>(Total New Productive Visit(Order)/Total number of New visits)";
         x.VisibleIndex = 15;
-        x.Width = 350;
+        //Rev 1.0
+        //x.Width = 350;
+        x.Width = 380;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -178,7 +203,10 @@
         x.FieldName = "REVISITCONVRATE";
         x.Caption = "Re-visit Conversion Rate <br/>(Total revisit productive (Order)/Total number of revisit)";
         x.VisibleIndex = 16;
-        x.Width = 330;
+        //Rev 1.0
+        //x.Width = 330;
+        x.Width = 360;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -188,7 +216,10 @@
         x.FieldName = "TOTALVISITTIME";
         x.Caption = "Total Visit Time (HH:MM)";
         x.VisibleIndex = 17;
-        x.Width = 150;
+        //Rev 1.0
+        //x.Width = 150;
+        x.Width = 170;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(x =>
@@ -196,7 +227,10 @@
         x.FieldName = "AVGVISITTIME";
         x.Caption = "Average Visit Time (HH:MM)";
         x.VisibleIndex = 18;
-        x.Width = 160;
+        //Rev 1.0
+        //x.Width = 160;
+        x.Width = 180;
+        //Rev end 1.0
     });
 
     settings.Columns.Add(x =>
@@ -204,7 +238,10 @@
         x.FieldName = "NOVISITDAYS";
         x.Caption = "Number of Days with No Visits <br/>(If no revisit/new visit for day, calculate as 1 count)";
         x.VisibleIndex = 19;
-        x.Width = 300;
+        //Rev 1.0
+        //x.Width = 300;
+        x.Width = 330;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -214,7 +251,10 @@
         x.FieldName = "AVGTIMETOFSTCALL";
         x.Caption = "Average Time to First Call <br/>(SUM(Time at First Call-Log in Time)/Attendance Count)";
         x.VisibleIndex = 20;
-        x.Width = 320;
+        //Rev 1.0
+        //x.Width = 320;
+        x.Width = 360;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
     });
 
@@ -223,7 +263,10 @@
         x.FieldName = "AVGWORKDURATION";
         x.Caption = "Average Work Duration (HH:MM) <br/>(Total Attendance Hours/Attendance count in Month)";
         x.VisibleIndex = 21;
-        x.Width = 300;
+        //Rev 1.0
+        //x.Width = 300;
+        x.Width = 330;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
     });
 
@@ -242,7 +285,10 @@
         x.FieldName = "AVGKMTRAVELLED";
         x.Caption = "Average KM Travelled <br/>(Total KM Travelled/Attendance Count in Month)";
         x.VisibleIndex = 23;
-        x.Width = 270;
+        //Rev 1.0
+        //x.Width = 270;
+        x.Width = 300;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -252,7 +298,10 @@
         x.FieldName = "TOTNOOFFULLDAYS";
         x.Caption = "Total Number of Full Days <br/>(Work duration above 7 hours 45 mins)";
         x.VisibleIndex = 24;
-        x.Width = 230;
+        //Rev 1.0
+        //x.Width = 230;
+        x.Width = 260;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -262,7 +311,10 @@
         x.FieldName = "TOTNOOFHALFDAYS";
         x.Caption = "Total Number of Half Days <br/>(Work Duration between 7:44 & 2 hours)";
         x.VisibleIndex = 25;
-        x.Width = 230;
+        //Rev 1.0
+        //x.Width = 230;
+        x.Width = 270;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
@@ -282,11 +334,14 @@
         x.FieldName = "TOTALABSENT";
         x.Caption = "Total Number of Absent <br/>(Not providing attendance+less than 2 hours work+leave rejected/pending)";
         x.VisibleIndex = 27;
-        x.Width = 420;
+        //Rev 1.0
+        //x.Width = 420;
+        x.Width = 480;
+        //Rev end 1.0
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
-    
+
     ///Summary
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTALORDERVALUE").DisplayFormat = "0.00";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TARGETORDVALUE").DisplayFormat = "0.00";

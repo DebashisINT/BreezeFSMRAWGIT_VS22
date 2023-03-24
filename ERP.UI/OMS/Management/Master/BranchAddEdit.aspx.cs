@@ -1,3 +1,11 @@
+//====================================================== Revision History ================================================================
+//Rev Number DATE              VERSION          DEVELOPER           CHANGES
+//1.0        22-03-2023        2.0.39           Priti               0025745 :While click the Add button of Branch Master, it is taking some time to load the page & take the input    
+//2.0        22-03-2023        2.0.39           Sanchita            While creating a new Branch, that branch should be mapped automatically for System Admin Employee/User
+//                                                                  Refer: 25744
+//====================================================== Revision History ================================================================
+
+
 using System;
 using System.Data;
 using System.Web;
@@ -14,6 +22,7 @@ using EntityLayer.CommonELS;
 using System.Web.Services;
 using System.Collections.Generic;
 using BusinessLogicLayer;
+using DataAccessLayer;
 
 namespace ERP.OMS.Managemnent.Master
 {
@@ -31,6 +40,9 @@ namespace ERP.OMS.Managemnent.Master
         BusinessLogicLayer.GenericStoreProcedure oGenericStoreProcedure;
         clsDropDownList clsdropdown = new clsDropDownList();
         BusinessLogicLayer.RemarkCategoryBL reCat = new BusinessLogicLayer.RemarkCategoryBL();
+        // Rev 2.0
+        public bool ActivateEmployeeBranchHierarchy { get; set; }
+        // End of Rev 2.0
         protected void Page_PreInit(object sender, EventArgs e)
         {
             // Code  Added and Commented By Priti on 21122016 to add Convert.ToString instead of ToString()
@@ -58,7 +70,19 @@ namespace ERP.OMS.Managemnent.Master
                 //{
                 //    //Page.ClientScript.RegisterStartupScript(GetType(), "SighOff", "<script>SignOff();</script>");
                 //}
-            
+                // Rev 2.0
+                CommonBL cbl = new CommonBL();
+                string mastersettings = cbl.GetSystemSettingsResult("IsActivateEmployeeBranchHierarchy");
+                if (mastersettings == "0")
+                {
+                    ActivateEmployeeBranchHierarchy = false;
+                }
+                else
+                {
+                    ActivateEmployeeBranchHierarchy = true;
+                }
+                // End of Rev 2.0
+
                 if (!IsPostBack)
                 {
                     //Debjyoti 23-12-2016
@@ -218,24 +242,24 @@ namespace ERP.OMS.Managemnent.Master
                         if (Convert.ToString(DT[0, 15]).Length > 0)
                         {
                             DataTable dtBRHD = oDBEngine.GetDataTable(" tbl_master_contact", " ISNULL(cnt_firstName, '') + ' ' + ISNULL(cnt_middleName, '') + ' ' + ISNULL(cnt_lastName, '') +'['+cnt_shortName+']' AS Name  ", "  cnt_internalid='" + DT[0, 15] + "' ");
-                           
+
                             if (dtBRHD.Rows.Count > 0)
                             {
-                               
-                                lstBranchHead.Text = Convert.ToString(dtBRHD.Rows[0][0]);
+
+                                txtBranchHead.Text = Convert.ToString(dtBRHD.Rows[0][0]);
                             }
                             else
                             {
-                              
-                                lstBranchHead.Text = "";
+
+                                txtBranchHead.Text = "";
                             }
                         }
                         else
                         {
-                          //  txtCity.Text = "";
+                            //  txtCity.Text = "";
                         }
                         txtBranchHead_hidden.Value = DT[0, 15];
-                        lstBranchHead.Text = DT[0, 15];
+                        txtBranchHead.Text = DT[0, 15];
                         txtContPhone.Text = DT[0, 17];
                         txtContPerson.Text = DT[0, 16];
                         txtContEmail.Text = DT[0, 18];
@@ -490,6 +514,17 @@ namespace ERP.OMS.Managemnent.Master
                         
                         if (noofRows > 0)
                         {
+                            // Rev 2.0
+                            if (ActivateEmployeeBranchHierarchy == false)
+                            {
+                                DataTable dt = new DataTable();
+                                ProcedureExecute proc = new ProcedureExecute("Prc_BranchMasterDetails");
+                                proc.AddPara("@action", "UpdateEmployeeBranchMap");
+                                proc.AddPara("@branch_internalId", NewId);
+                                dt = proc.GetTable();
+                            }
+                            // End of Rev 2.0
+
                             Page.ClientScript.RegisterStartupScript(GetType(), "pagecall", "<script>alert('Saved Successfully..');   window.location.href='/OMS/management/Master/branch.aspx'</script>");
                         }
                     }
@@ -507,6 +542,16 @@ namespace ERP.OMS.Managemnent.Master
                             if (udfTable != null)
                                 Session["UdfDataOnAdd"] = reCat.insertRemarksCategoryAddMode("Br", NewId, udfTable, Convert.ToString(Session["userid"]));
 
+                            // Rev 2.0
+                            if (ActivateEmployeeBranchHierarchy == false)
+                            {
+                                DataTable dt = new DataTable();
+                                ProcedureExecute proc = new ProcedureExecute("Prc_BranchMasterDetails");
+                                proc.AddPara("@action", "UpdateEmployeeBranchMap");
+                                proc.AddPara("@branch_internalId", NewId);
+                                dt = proc.GetTable();
+                            }
+                            // End of Rev 2.0
 
                             Page.ClientScript.RegisterStartupScript(GetType(), "pagecall456", "<script>alert('Saved Successfully..');    window.location.href='/OMS/management/Master/branch.aspx'</script>");
                         }
@@ -1075,5 +1120,34 @@ namespace ERP.OMS.Managemnent.Master
             DataTable udfCount = oDBEngine.GetDataTable("select 1 from tbl_master_remarksCategory rc where cat_applicablefor='Br'   and ( exists (select * from tbl_master_udfGroup where id=rc.cat_group_id and grp_isVisible=1) or rc.cat_group_id=0)");
             return udfCount.Rows.Count;
         }
+        //Rev 1.0
+
+        [WebMethod(EnableSession = true)]
+        public static object GetOnDemandBranchHead(string reqStr)
+        {
+            List<BranchHeadLists> listBranchHead = new List<BranchHeadLists>();
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("Prc_BranchMasterDetails");
+            proc.AddPara("@action", "BranchHead");           
+            proc.AddPara("@firstname", reqStr);
+            proc.AddPara("@shortname", reqStr);
+            dt = proc.GetTable();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                BranchHeadLists BranchHead = new BranchHeadLists();
+                BranchHead.id = dr["Id"].ToString();
+                BranchHead.Name = dr["Name"].ToString();
+                listBranchHead.Add(BranchHead);
+            }
+            return listBranchHead;
+        }
+
+        public class BranchHeadLists
+        {
+            public string id { get; set; }
+            public string Name { get; set; }
+        }
+        //Rev 1.0 End
     }
 }

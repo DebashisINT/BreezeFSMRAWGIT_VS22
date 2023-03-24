@@ -1,4 +1,9 @@
-﻿@model  MyShop.Models.TravelConveyanceModelclass
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                10-02-2023        2.0.39           Pallab              25656 : Master module design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@model  MyShop.Models.TravelConveyanceModelclass
 
 @{
     ViewBag.Title = "Configure Travelling Allowance ";
@@ -167,12 +172,12 @@
             if (parseInt($("#txteligibleamount").val()) == "0" || $("#txteligibleamount").val() == '') {
                 if ((parseInt($("#txtdistance").val()) == "0" || $("#txtdistance").val() == '') || (parseInt($("#txtRate").val()) == "0" || $("#txtRate").val() == '') && $("#idexpense").val() == 1) {
                     f = false;
-                  
+
                 }
             }
             if ((parseInt($("#txteligibleamount").val()) == "0" || $("#txteligibleamount").val() == '') && $("#idexpense").val() != 1) {
                 f = false;
-               
+
             }
             ////alert($("#chkIsactive").is(':checked'));
             //if ($("#idvisitloc").val() != '' && $("#idempgrade").val() != '' && $("#idexpense").val() != '' && $("#iddesignation").val() != ''
@@ -330,7 +335,7 @@
             //}
 
             var f = true;
-          
+
 
             //if ($("#idexpense").val() == 1) {
             if ($("#idvisitloc").val() == '') {
@@ -363,7 +368,7 @@
             if (parseInt($("#txteligibleamount").val()) == "0" || $("#txteligibleamount").val() == '') {
                 if ((parseInt($("#txtdistance").val()) == "0" || $("#txtdistance").val() == '') || (parseInt($("#txtRate").val()) == "0" || $("#txtRate").val() == '') && $("#idexpense").val() == 1) {
                     f = false;
-                   
+
                 }
             }
             if ((parseInt($("#txteligibleamount").val()) == "0" || $("#txteligibleamount").val() == '') && $("#idexpense").val() != 1) {
@@ -404,7 +409,7 @@
                         DesignationId: $("#iddesignation").val(),
                         TravelId: $('#idtravelmode option:selected').val().split(",")[0],
                         StateId: $("#idstate").val(),
-                     
+
                         EligibleDistance: $("#txtdistance").val(),
                         EligibleRate: $("#txtRate").val(),
                         EligibleAmtday: $("#txteligibleamount").val(),
@@ -486,7 +491,7 @@
         $("#btnshow").hide();
         $("#btnEdit").show();
       //empgradeGridLookup.SetValue(null);
-       
+
         empgradeGridLookup.gridView.UnselectAllRowsOnPage();
         StateGridLookup.gridView.UnselectAllRowsOnPage();
 
@@ -504,7 +509,7 @@
             type: 'POST',
 
             success: function (dataconvence) {
-                
+
                 //  alert(dataconvence.EligibleAmtday);
                 var s = dataconvence.TravelId + ',' + dataconvence.fueladjust;
                 // alert(s);
@@ -528,7 +533,7 @@
                 $("#txtRate").val(dataconvence.EligibleRate);
                 $("#txteligibleamount").val(dataconvence.EligibleAmtday);
                //  alert(dataconvence.StateIdfetch);
-             
+
 
 
                 setTimeout(function () {
@@ -608,12 +613,12 @@
 
 
         if ($("#idexpense").val() != 1) {
-          
+
             $("#txtRate").prop('disabled', true);
             $("#txtdistance").prop('disabled', true);
             $("#spaneligible").show();
 
-   
+
 
             $("#idtravelmode").prop('disabled', true);
             $("#idfuel").prop('disabled', true);
@@ -793,6 +798,388 @@
     select.full {
         width: 100% !important;
     }
+
+    /*Rev 1.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 14px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 33px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    select:not(.btn) {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .dxgvControl_PlasticBlue a {
+        margin: 0 3px;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .red
+    {
+        color: red;
+    }
+
+    /*Rev end 1.0*/
 </style>
 <div class="breadCumb">
     <span>Configure Travelling Allowance </span>
@@ -800,7 +1187,10 @@
 <div class="container">
     <div class="backBox p-3">
         <div class="row">
-            <div class="col-md-2">
+            @*Rev 1.0*@
+            @*<div class="col-md-2">*@
+            <div class="col-md-2 h-branch-select">
+                @*Rev end 1.0*@
                 <label>Visit Location</label><span class="red">*</span>
                 <div>
                     @Html.DropDownListFor(m => m.VisitlocId, new SelectList(Model.visitloc, "ID", "Name", Model.VisitlocId), "Select", new { @id = "idvisitloc", @class = "form-control", @tabindex = 1 })
@@ -816,7 +1206,10 @@
 
                 </div>
             </div>
-            <div class="col-md-2">
+            @*Rev 1.0*@
+            @*<div class="col-md-2">*@
+            <div class="col-md-2 h-branch-select">
+                @*Rev end 1.0*@
                 <label>Expense Type</label><span class="red">*</span>
                 <div>
 
@@ -824,12 +1217,12 @@
                 </div>
             </div>
             @*<div class="col-md-2">
-                <label>Designation</label><span class="red">*</span>
-                <div>
+            <label>Designation</label><span class="red">*</span>
+            <div>
 
-                    @Html.DropDownListFor(m => m.DesignationId, new SelectList(Model.designation, "ID", "Name", Model.DesignationId), "Select", new { @id = "iddesignation", @class = "form-control", @tabindex = 4 })
-                </div>
-            </div>*@
+                @Html.DropDownListFor(m => m.DesignationId, new SelectList(Model.designation, "ID", "Name", Model.DesignationId), "Select", new { @id = "iddesignation", @class = "form-control", @tabindex = 4 })
+            </div>
+        </div>*@
             <div class="col-md-2">
                 <label>State</label><span class="red">*</span>
                 <div>
@@ -841,7 +1234,10 @@
 
                 </div>
             </div>
-            <div class="col-md-2">
+            @*Rev 1.0*@
+            @*<div class="col-md-2">*@
+            <div class="col-md-2 h-branch-select">
+                @*Rev end 1.0*@
                 <label>Mode Of Travel</label><span class="red">*</span>
                 <div id="divtravel">
 
@@ -850,7 +1246,10 @@
                 </div>
             </div>
 
-            <div class="col-md-2">
+            @*Rev 1.0*@
+            @*<div class="col-md-2">*@
+            <div class="col-md-2 h-branch-select">
+                @*Rev end 1.0*@
                 <label>Fuel Type</label><span class="red">*</span>
                 <div id="divfuelType">
 
@@ -892,8 +1291,8 @@
             </div>
             <div class="col-md-4 mt-5 mb-4" style="padding-top: 7px;">
                 <label>&nbsp;</label>
-
-                <button type="button" id="btnshow" class="btn btn-success " tabindex=12>Add</button>
+                @*Rev 1.0: + icon add*@
+                <button type="button" id="btnshow" class="btn btn-success " tabindex=12><span class="btn-icon"><i class="fa fa-plus"></i></span> Add</button>
                 <button type="button" id="btnEdit" class="btn btn-success " tabindex=13>Update</button>
                 <button type="button" id="btnclear" class="btn btn-success " tabindex=14>Cancel</button>
 
@@ -918,7 +1317,7 @@
             }
         </div>
     </div>
-    
+
     <input type="hidden" id="hdTCid_id" />
     <input type="hidden" id="hdnuser_state" />
     <input type="hidden" id="hdnuser_shop" />

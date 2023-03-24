@@ -1,4 +1,7 @@
-﻿using System;
+﻿/******************************************************************************************************
+ * Rev 1.0      Priti       20/02/2023      V2.0.39    	0025676: Employee Import Facility
+ *******************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -617,7 +620,39 @@ namespace BusinessLogicLayer
              return dt;
          }
 
-        
         #endregion
-    } 
+
+        //Rev 1.0
+        public DataSet GetEmployeeLog(string Filename)
+        {
+            DataSet ds = new DataSet();
+            ProcedureExecute proc = new ProcedureExecute("PRC_EMPLOYEELOG");
+            proc.AddVarcharPara("@action", 150, "FetchEmployeeLog");
+            proc.AddVarcharPara("@FileName", 150, Filename);
+            ds = proc.GetDataSet();
+            return ds;
+        }
+       
+
+        public int InsertEmployeeImportLOg(string empcode, int loopnumber, string empname, string userid, string filename, string description, string status)
+        {
+
+            int i;
+            //int rtrnvalue = 0;
+            ProcedureExecute proc = new ProcedureExecute("PRC_EMPLOYEELOG");
+            proc.AddVarcharPara("@action", 150, "insertlog");
+            proc.AddVarcharPara("@EmpCode", 50, empcode);
+            proc.AddIntegerPara("@LoopNumber", loopnumber);
+            proc.AddVarcharPara("@EmpName", 150, empname);
+            proc.AddVarcharPara("@UserId", 150, userid);
+            proc.AddVarcharPara("@FileName", 150, filename);
+            proc.AddVarcharPara("@decription", 150, description);
+            proc.AddVarcharPara("@status", 150, status);
+            i = proc.RunActionQuery();
+
+            return i;
+        }
+        //Rev 1.0 End
+
+    }
 }

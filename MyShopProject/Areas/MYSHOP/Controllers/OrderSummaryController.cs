@@ -1,28 +1,29 @@
-﻿using System;
+﻿//====================================================== Revision History ==========================================================
+//1.0  03-02-2023    2.0.38    Priti     0025604: Enhancement Required in the Order Summary Report
+//2.0  17-03-2023    2.0.39    Priti     0025734: Separate Design required to exclude the MRP & Discount fields in the Sales Order output if these settings are off in Sales Order
+//====================================================== Revision History ==========================================================
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Models;
-using BusinessLogicLayer;
-using SalesmanTrack;
-using System.Data;
-using UtilityLayer;
-using System.Web.Script.Serialization;
-using MyShop.Models;
-using BusinessLogicLayer.SalesmanTrack;
-using DevExpress.Web.Mvc;
-using DevExpress.Web;
-using System.Collections;
 using System.Configuration;
-using BusinessLogicLayer.SalesTrackerReports;
+using System.Data;
 using System.IO;
+using System.Web.Mvc;
+using BusinessLogicLayer;
+using BusinessLogicLayer.SalesmanTrack;
+using BusinessLogicLayer.SalesTrackerReports;
+using DevExpress.Web;
+using DevExpress.Web.Mvc;
+using DocumentFormat.OpenXml.Drawing.Spreadsheet;
+using Models;
+using SalesmanTrack;
+using UtilityLayer;
 
 namespace MyShop.Areas.MYSHOP.Controllers
 {
     public class OrderSummaryController : Controller
     {
-
+        CommonBL objSystemSettings = new CommonBL();//1.0
         UserList lstuser = new UserList();
         OrderList objshop = new OrderList();
         DataTable dtuser = new DataTable();
@@ -31,6 +32,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
         List<OrderDetailsSummaryProducts> oproduct = new List<OrderDetailsSummaryProducts>();
         OrderDetailsSummaryProducts mproductwindow = new OrderDetailsSummaryProducts();
         List<OrderDetailsSummary> omodel = new List<OrderDetailsSummary>();
+        ProductDetails _productDetails = new ProductDetails();
         DataTable dtquery = new DataTable();
         public ActionResult Summary()
         {
@@ -173,7 +175,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
         }
         public ActionResult PartialOrderProductDetails()
         {
-
+            string IsDiscountInOrder = objSystemSettings.GetSystemSettingsResult("IsDiscountInOrder");//REV 1.0
+            string IsViewMRPInOrder = objSystemSettings.GetSystemSettingsResult("IsViewMRPInOrder");//REV 1.0
             List<OrderDetailsSummaryProducts> oproduct = new List<OrderDetailsSummaryProducts>();
             try
             {
@@ -190,6 +193,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                 mproductwindow.products = oproductlist;
 
+                //REV 1.0
+                ViewBag.IsDiscountInOrder = IsDiscountInOrder;
+                ViewBag.IsViewMRPInOrder = IsViewMRPInOrder;
+                //REV 1.0 END
                 return PartialView("_PartialOrderProductDetails", mproductwindow);
 
             }
@@ -203,7 +210,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
         {
 
             try
-            {
+            {     
+                string IsDiscountInOrder = objSystemSettings.GetSystemSettingsResult("IsDiscountInOrder");//REV 1.0
+                string IsViewMRPInOrder = objSystemSettings.GetSystemSettingsResult("IsViewMRPInOrder");//REV 1.0
                 string Is_PageLoad = string.Empty;
                 String weburl = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
                 List<GpsStatusClasstOutput> omel = new List<GpsStatusClasstOutput>();
@@ -215,6 +224,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     mproductwindow.productdetails = APIHelperMethods.ToModelList<OrderDetailsSummaryProductslist>(dt);
 
                 }
+
+
+                //REV 1.0
+                ViewBag.IsDiscountInOrder = IsDiscountInOrder;
+                ViewBag.IsViewMRPInOrder = IsViewMRPInOrder;
+                //REV 1.0 END
                 return PartialView("_PartialOrderSummaryAllProducts", mproductwindow.productdetails);
 
             }
@@ -242,6 +257,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
         //Mantis Issue 24944
         public JsonResult PrintSalesOrder(string OrderId)
         {
+            
             string[] filePaths = new string[] { };
             string DesignPath = "";
             if (ConfigurationManager.AppSettings["IsDevelopedZone"] != null)
@@ -262,21 +278,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
             DesignList desig = new DesignList();
             foreach (string filename in filePaths)
             {
+                //Rev 2.0
+                desig = new DesignList();
+                //Rev 2.0 End
                 string reportname = Path.GetFileNameWithoutExtension(filename);
                 string name = "";
                 if (reportname.Split('~').Length > 1)
                 {
                     name = reportname.Split('~')[0];
                 }
-                else
+                else 
                 {
                     name = reportname;
                 }
-                string reportValue = reportname;
-                //CmbDesignName.Items.Add(name, reportValue);
+                string reportValue = reportname;                
+
                 desig.name = name;
                 desig.reportValue = reportname;
-                Listobj.Add(desig);
+                Listobj.Add(desig);               
+
             }
             //CmbDesignName.SelectedIndex = 0;
             return Json(Listobj, JsonRequestBehavior.AllowGet);
@@ -290,7 +310,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
         //End of MAntis Issue 24944
         public ActionResult DeleteProduct(int OrderId, int ProdID)
         {
-            int output = objshop.OrderProductModifyDelete(ProdID, OrderId, 0, 0, "Delete");
+            int output = objshop.OrderProductModifyDelete(ProdID, OrderId, 0, 0,0,0, "Delete");
             if (output > 0)
             {
                 return Json("Success");
@@ -338,7 +358,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
         {
             if (model.Order_ProdId != 0)
             {
-                int output = objshop.OrderProductModifyDelete(model.Order_ProdId, model.Order_ID, model.Product_Qty, model.Product_Rate, "Update");
+                //REV 1.0
+                //int output = objshop.OrderProductModifyDelete(model.Order_ProdId, model.Order_ID, model.Product_Qty, model.Product_Rate, "Update");
+                int output = objshop.OrderProductModifyDelete(model.Order_ProdId, model.Order_ID, model.Product_Qty, model.Product_Rate, model.Product_MRP, model.Product_Discount, "Update");
+                //REV 1.0 END
                 if (output > 0)
                 {
                     return Json("Success");
@@ -617,7 +640,19 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return settings;
         }
 
-
+        public ActionResult getMrpDiscount(OrderDetailsSummaryProducts model)
+        {
+            if (model.Order_ProdId != 0)
+            {
+                dtquery = objshop.getMrpDiscount(model.Product_Id, "ProductIdWiseMrpDiscount");
+                _productDetails = APIHelperMethods.ToModel<ProductDetails>(dtquery);                
+                return Json(_productDetails);
+            }
+            else
+            {
+                return Json("failure");
+            }
+        }
 
     }
 }

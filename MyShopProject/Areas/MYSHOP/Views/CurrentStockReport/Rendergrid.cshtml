@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                07-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridCurrentStockRegister";
 
@@ -288,13 +293,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = 100;
+                //Rev 1.0
+                //x.Width = 100;
+                x.Width = 130;
+                //Rev end 1.0
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = 100;
+            //Rev 1.0
+            //x.Width = 100;
+            x.Width = 130;
+            //Rev end 1.0
         }
     });
 
@@ -326,29 +337,29 @@
 
 
     settings.Columns.Add(x =>
-   {
-       x.FieldName = "PRODUCT";
-       x.Caption = "Product";
-       x.VisibleIndex = 13;
-       if (ViewBag.RetentionColumn != null)
-       {
-           System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRODUCT'");
-           if (row != null && row.Length > 0)  /// Check now
-           {
-               x.Visible = false;
-           }
-           else
-           {
-               x.Visible = true;
-               x.Width = 200;
-           }
-       }
-       else
-       {
-           x.Visible = true;
-           x.Width = 200;
-       }
-   });
+    {
+        x.FieldName = "PRODUCT";
+        x.Caption = "Product";
+        x.VisibleIndex = 13;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRODUCT'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 200;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 200;
+        }
+    });
 
     settings.Columns.Add(x =>
     {

@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer.SalesTrackerReports;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2 .0.39    PRITI       13/02/2023      0025663:Last Visit fields shall be available in Outlet Reports
+#endregion===================================End of Revision History==================================================================
+
+using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -619,7 +623,79 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.Visible = true;
                 }
             });
-            //rev Pratik
+
+
+            //REV 1.0
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "LASTVISITDATE";
+                x.Caption = "Last Visit Date";
+                x.VisibleIndex = 12;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LASTVISITDATE'");
+                    if (row != null && row.Length > 0)  
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "LASTVISITTIME";
+                x.Caption = "Last Visit Time";
+                x.VisibleIndex = 13;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LASTVISITTIME'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "LASTVISITEDBY";
+                x.Caption = "Last Visited By";
+                x.VisibleIndex = 14;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LASTVISITEDBY'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            });
+            //REV 1.0 END
+
+
+            #region//rev Pratik
             //settings.Columns.Add(x =>
             //{
             //    x.FieldName = "USERID";
@@ -1031,7 +1107,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             //    }
 
             //});
-            //End of rev Pratik
+            #endregion //End of rev Pratik
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;
             settings.SettingsExport.RightMargin = 20;

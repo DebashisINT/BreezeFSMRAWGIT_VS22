@@ -1,3 +1,8 @@
+/******************************************************************************************************
+ * Rev 1.0      Sanchita    07/02/2023      V2.0.36     FSM Employee & User Master - To implement Show button. refer: 25641
+ * Rev 2.0      Sanchita    15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal. 
+ * Rev 3.0      Priti       15/02/2023      V2.0.39    	0025676: Employee Import Facility
+ *******************************************************************************************************/
 using System;
 using System.Data;
 using System.Web;
@@ -18,6 +23,8 @@ using DocumentFormat.OpenXml.Spreadsheet;
       Rev work Swati Date:-15.03.2022*/
 using ERP.Models;
 using System.Linq;
+using iTextSharp.text.log;
+using EO.Web.Internal;
 /* Mantise ID:0024752: Optimize FSM Employee Master
       Rev work Close Swati Date:-15.03.2022*/
 namespace ERP.OMS.Management.Master
@@ -58,6 +65,8 @@ namespace ERP.OMS.Management.Master
         // Rev Mantis Issue 25001
         public bool ActivateEmployeeBranchHierarchy { get; set; }
         // End of Rev Mantis Issue 25001
+
+        Employee_BL objEmploye = new Employee_BL();
         #endregion
         //Session Used in This Page : PageSize,FromDOJ,ToDoj,PageNumAfterNav,SerachString,SearchBy,FindOption
         #region Page Properties
@@ -257,6 +266,20 @@ namespace ERP.OMS.Management.Master
                 //code Added By Priti on 21122016 to use Export Header,date
                 Session["exportval"] = null;
                 //....end...
+                // Rev 2.0
+                string IsShowEmpAndUserSearchInMaster = "0";
+                DBEngine obj1 = new DBEngine();
+                IsShowEmpAndUserSearchInMaster = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsShowEmpAndUserSearchInMaster'").Rows[0][0]);
+
+                if (IsShowEmpAndUserSearchInMaster == "1")
+                {
+                    divEmp.Visible = true;
+                }
+                else
+                {
+                    divEmp.Visible = false;
+                }
+                // End of Rev 2.0
             }
 
             /* Mantise ID:0024752: Optimize FSM Employee Master
@@ -375,6 +398,9 @@ namespace ERP.OMS.Management.Master
                 proc.AddPara("@DevXFilterOn", "N");
                 proc.AddPara("@DevXFilterString", String.Empty);
                 proc.AddPara("@User_id", Convert.ToInt32(Session["userid"]));
+                // Rev 2.0
+                proc.AddPara("@Employees", Convert.ToString(txtEmployee_hidden.Value));
+                // End of Rev 2.0
 
                 // Mantis Issue 24752_Rectify
                 //ds = proc.GetTable();
@@ -395,16 +421,33 @@ namespace ERP.OMS.Management.Master
             // Mantis Issue 24752_Rectify
             //DataTable dtCmb = GetEmpListRecord();
             // End of Mantis Issue 24752_Rectify
+            // Rev 1.0
+            string IsFilter = Convert.ToString(hfIsFilter.Value);
+            // End of Rev 1.0
 
             ERPDataClassesDataContext dc1 = new ERPDataClassesDataContext(connectionString);
 
-            var q = from d in dc1.FSMEmployee_Masters
-                    where d.USERID == Convert.ToInt64(HttpContext.Current.Session["userid"].ToString())
-                    // Mantis Issue 24752_Rectify
-                    orderby d.cnt_id descending
-                    // End of Mantis Issue 24752_Rectify
-                    select d;
-            e.QueryableSource = q;
+            // Rev 1.0
+            if (IsFilter == "Y")
+            {
+                // End of Rev 1.0
+                var q = from d in dc1.FSMEmployee_Masters
+                        where d.USERID == Convert.ToInt64(HttpContext.Current.Session["userid"].ToString())
+                        // Mantis Issue 24752_Rectify
+                        orderby d.cnt_id descending
+                        // End of Mantis Issue 24752_Rectify
+                        select d;
+                e.QueryableSource = q;
+                // Rev 1.0
+            }
+            else
+            {
+                var q = from d in dc1.FSMEmployee_Masters
+                        where d.SRLNO == 0
+                        select d;
+                e.QueryableSource = q;
+            }
+            // End of Rev 1.0
         }
         /*Mantise ID:0024752: Optimize FSM Employee Master
        Rev work Close Swati Date:-15.03.2022*/
@@ -500,73 +543,78 @@ namespace ERP.OMS.Management.Master
             int TotalPage = 0;
             //if (WhichCall == "Show")
             //{
-            //Set Show filter's FilterExpression Empty and For Fresh Record Fetch
-            GrdEmployee.FilterExpression = string.Empty;
-            P_ShowFilter_SearchString = null;
+            // Rev 1.0
+            if (WhichCall == "Show" || WhichCall== "Delete") { 
+                //Set Show filter's FilterExpression Empty and For Fresh Record Fetch
+                GrdEmployee.FilterExpression = string.Empty;
+                P_ShowFilter_SearchString = null;
 
-            Ds_Global = new DataSet();
-            // Mantis Issue 24752_Rectify
-            //Ds_Global = Fetch_EmployeeData(strFromDOJ == "" ? "1900-01-01" : strFromDOJ, strToDOJ == "" ? "9999-12-31" : strToDOJ, P_PageSize,
-            //    "1", strSearchString, strSearchBy, strFindOption, "S", "N", String.Empty);     
-            Ds_Global = GetEmpListRecord();
-            // End of Mantis Issue 24752_Rectify
+                Ds_Global = new DataSet();
+                // Mantis Issue 24752_Rectify
+                //Ds_Global = Fetch_EmployeeData(strFromDOJ == "" ? "1900-01-01" : strFromDOJ, strToDOJ == "" ? "9999-12-31" : strToDOJ, P_PageSize,
+                //    "1", strSearchString, strSearchBy, strFindOption, "S", "N", String.Empty);     
+                Ds_Global = GetEmpListRecord();
+                // End of Mantis Issue 24752_Rectify
 
-            if (Ds_Global.Tables.Count > 0)
-            {
-                // Count Employee Grid Data Start
-
-                string CurrentComp = Convert.ToString(HttpContext.Current.Session["LastCompany"]);
-
-                Employee_BL objEmploye = new Employee_BL();
-                string ListOfCompany = "";
-                string[] cmpId = oDBEngine.GetFieldValue1("tbl_master_company", "cmp_id", " cmp_internalid='" + CurrentComp + "'", 1);
-                string Companyid = Convert.ToString(cmpId[0]);
-                string Allcompany = "";
-                string ChildCompanyid = objEmploye.getChildCompany(CurrentComp, ListOfCompany);
-                if (ChildCompanyid != "")
+                if (Ds_Global.Tables.Count > 0)
                 {
-                    Allcompany = Companyid + "," + ChildCompanyid;
-                    Allcompany = Allcompany.TrimEnd(',');
-                }
-                else
-                {
-                    Allcompany = Companyid;
-                }
-                DataRow[] extraRow = Ds_Global.Tables[0].Select("organizationid not in(" + Allcompany + ")");
-                foreach (DataRow dr in extraRow)
-                {
-                    Ds_Global.Tables[0].Rows.Remove(dr);
-                }
+                    // Count Employee Grid Data Start
 
-                // Count Employee Grid Data End
+                    string CurrentComp = Convert.ToString(HttpContext.Current.Session["LastCompany"]);
 
-                if (Ds_Global.Tables[0].Rows.Count > 0)
-                {
-                    TotalItems = Convert.ToInt32(Ds_Global.Tables[0].Rows[0]["TotalRecord"].ToString());
-                    TotalPage = TotalItems % Convert.ToInt32(P_PageSize) == 0 ? (TotalItems / Convert.ToInt32(P_PageSize)) : (TotalItems / Convert.ToInt32(P_PageSize)) + 1;
-                    GrdEmployee.JSProperties["cpRefreshNavPanel"] = "ShowBtnClick~1~" + TotalPage.ToString() + '~' + TotalItems.ToString();
-                    // Mantis Issue 24752_Rectify
-                    GrdEmployee.JSProperties["cpLoadData"] = "Success";
-                    // End of Mantis Issue 24752_Rectify
-                    /* Mantise ID:0024752: Optimize FSM Employee Master
-                    Rev work Swati Date:-15.03.2022*/
-                    // oAspxHelper.BindGrid(GrdEmployee, Ds_Global);
-                    // Mantis Issue 24752_Rectify
-                  //  GrdEmployee.DataBind();
-                    // End of Rev Sanhita
-                    /*Mantise ID:0024752: Optimize FSM Employee Master
-            Rev work Close Swati Date:-15.03.2022*/
+                    Employee_BL objEmploye = new Employee_BL();
+                    string ListOfCompany = "";
+                    string[] cmpId = oDBEngine.GetFieldValue1("tbl_master_company", "cmp_id", " cmp_internalid='" + CurrentComp + "'", 1);
+                    string Companyid = Convert.ToString(cmpId[0]);
+                    string Allcompany = "";
+                    string ChildCompanyid = objEmploye.getChildCompany(CurrentComp, ListOfCompany);
+                    if (ChildCompanyid != "")
+                    {
+                        Allcompany = Companyid + "," + ChildCompanyid;
+                        Allcompany = Allcompany.TrimEnd(',');
+                    }
+                    else
+                    {
+                        Allcompany = Companyid;
+                    }
+                    DataRow[] extraRow = Ds_Global.Tables[0].Select("organizationid not in(" + Allcompany + ")");
+                    foreach (DataRow dr in extraRow)
+                    {
+                        Ds_Global.Tables[0].Rows.Remove(dr);
+                    }
+
+                    // Count Employee Grid Data End
+
+                    if (Ds_Global.Tables[0].Rows.Count > 0)
+                    {
+                        TotalItems = Convert.ToInt32(Ds_Global.Tables[0].Rows[0]["TotalRecord"].ToString());
+                        TotalPage = TotalItems % Convert.ToInt32(P_PageSize) == 0 ? (TotalItems / Convert.ToInt32(P_PageSize)) : (TotalItems / Convert.ToInt32(P_PageSize)) + 1;
+                        GrdEmployee.JSProperties["cpRefreshNavPanel"] = "ShowBtnClick~1~" + TotalPage.ToString() + '~' + TotalItems.ToString();
+                        // Mantis Issue 24752_Rectify
+                        GrdEmployee.JSProperties["cpLoadData"] = "Success";
+                        // End of Mantis Issue 24752_Rectify
+                        /* Mantise ID:0024752: Optimize FSM Employee Master
+                        Rev work Swati Date:-15.03.2022*/
+                        // oAspxHelper.BindGrid(GrdEmployee, Ds_Global);
+                        // Mantis Issue 24752_Rectify
+                        //  GrdEmployee.DataBind();
+                        // End of Rev Sanhita
+                        /*Mantise ID:0024752: Optimize FSM Employee Master
+                Rev work Close Swati Date:-15.03.2022*/
+                    }
                 }
+                // Mantis Issue 24752_Rectify
+                //    else
+                //        /* Mantise ID:0024752: Optimize FSM Employee Master
+                //  Rev work Swati Date:-15.03.2022*/
+                //      //  oAspxHelper.BindGrid(GrdEmployee);
+                //        GrdEmployee.DataBind();
+                //    /*Mantise ID:0024752: Optimize FSM Employee Master
+                //Rev work Close Swati Date:-15.03.2022*/
+                //}
+            // Rev 1.0
             }
-            // Mantis Issue 24752_Rectify
-            //    else
-            //        /* Mantise ID:0024752: Optimize FSM Employee Master
-            //  Rev work Swati Date:-15.03.2022*/
-            //      //  oAspxHelper.BindGrid(GrdEmployee);
-            //        GrdEmployee.DataBind();
-            //    /*Mantise ID:0024752: Optimize FSM Employee Master
-            //Rev work Close Swati Date:-15.03.2022*/
-            //}
+            // End of Rev 1.0
             //else
             //    /* Mantise ID:0024752: Optimize FSM Employee Master
             //  Rev work Swati Date:-15.03.2022*/
@@ -1134,6 +1182,42 @@ namespace ERP.OMS.Management.Master
             public bool IsChecked { get; set; }
         }
 
+        // Rev 2.0
+        public class EmployeeModel
+        {
+            public string id { get; set; }
+            public string Employee_Name { get; set; }
+            public string Employee_Code { get; set; }
+        }
+        [WebMethod]
+        public static object GetOnDemandEmployee(string SearchKey)
+        {
+            List<EmployeeModel> listEmployee = new List<EmployeeModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_EmployeeNameSearch");
+                proc.AddPara("@USER_ID", Convert.ToInt32(HttpContext.Current.Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                dt = proc.GetTable();
+
+                listEmployee = (from DataRow dr in dt.Rows
+                                select new EmployeeModel()
+                                {
+                                    id = Convert.ToString(dr["cnt_internalId"]),
+                                    Employee_Code = Convert.ToString(dr["cnt_UCC"]),
+                                    Employee_Name = Convert.ToString(dr["Employee_Name"])
+                                }).ToList();
+            }
+
+            return listEmployee;
+        }
+
+       
+
+        // End of Rev 2.0
+
         //Import Employee User
 
         protected void lnlDownloaderexcel_Click(object sender, EventArgs e)
@@ -1224,7 +1308,7 @@ namespace ERP.OMS.Management.Master
         {
             Boolean Success = false;
             Boolean HasLog = false;
-
+            int loopcounter = 1;
             if (file.FileName.Trim() != "")
             {
                 if (Extension.ToUpper() == ".XLS" || Extension.ToUpper() == ".XLSX")
@@ -1274,26 +1358,47 @@ namespace ERP.OMS.Management.Master
                     }
                     if (ds != null && ds.Tables[0].Rows.Count > 0)
                     {
-                        try
-                        {
-                            DataTable dtCmb = new DataTable();
-                            ProcedureExecute proc = new ProcedureExecute("PRC_EmployeeUserInsertFromExcel");
-                            proc.AddPara("@ImportEmployee", ds.Tables[0]);
-                            proc.AddPara("@ImportUser", ds.Tables[1]);
-                            proc.AddPara("@CreateUser_Id", Convert.ToInt32(Session["userid"]));
-                            dtCmb = proc.GetTable();
-                          
-                        }
-                        catch (Exception)
-                        {
+                        string EmployeeCode = string.Empty;
 
-                        }
+                        //foreach (DataRow row in ds.Tables[0].Rows)
+                        //{
+                        //    loopcounter++;
+                           // EmployeeCode = Convert.ToString(row["Emp. Code*"]);
+                            try
+                            {
+                                string File_Name = Session["FileName"].ToString();
+                                DataTable dtCmb = new DataTable();
+                                ProcedureExecute proc = new ProcedureExecute("PRC_EmployeeUserInsertFromExcel");
+                                proc.AddPara("@ImportEmployee", ds.Tables[0]);
+                                //Rev 3.0
+                                //proc.AddPara("@ImportUser", ds.Tables[1]);
+                                proc.AddPara("@FileName", File_Name);
+                                //Rev 3.0 END
+                                proc.AddPara("@CreateUser_Id", Convert.ToInt32(Session["userid"]));
+                                dtCmb = proc.GetTable();
+                                HasLog = true;
+                            }
+                            catch (Exception ex)
+                            {
+                                HasLog = false;
+                                int loginsert = objEmploye.InsertEmployeeImportLOg(EmployeeCode, loopcounter, "", "", Session["FileName"].ToString(), ex.Message.ToString(), "Failed");
+
+                            }
+                        //}
                     }
                 }
             }
             return HasLog;
         }
-
+        //Rev 3.0
+        protected void GvImportDetailsSearch_DataBinding(object sender, EventArgs e)
+        {
+           
+            string fileName = Convert.ToString(Session["FileName"]);
+            DataSet dt2 = objEmploye.GetEmployeeLog(fileName);
+            GvImportDetailsSearch.DataSource = dt2.Tables[0];
+        }
+        //Rev 3.0 End
         private string GetValue(SpreadsheetDocument doc, Cell cell)
         {
             string value = cell.CellValue.InnerText;
@@ -1303,6 +1408,8 @@ namespace ERP.OMS.Management.Master
             }
             return value;
         }
+
+
     }
 }
 

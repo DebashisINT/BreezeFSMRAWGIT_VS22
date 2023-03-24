@@ -1,4 +1,8 @@
-﻿
+﻿@************************************************************************************************************************************
+    * 1.0    30-01-2023     2.0.39     Sanchita      View Party' option shall be available in FSM Dashboard along with 
+                                                     Dashboard Setting rights. Refer: 25515
+* ********************************************************************************************************************************@
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -2236,7 +2240,10 @@
                 var status = "<select id='ddlState' class = 'full form-control'>";
                 status = status + '<option value="0">select</option>';
                 for (var i = 0; i < data.length; i++) {
-                    status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
+                    // Rev 1.0
+                    //status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
+                    status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    // End of Rev 1.0
                 }
                 status = status + '</select>';
                 $('#divState').html(status);

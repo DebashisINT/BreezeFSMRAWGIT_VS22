@@ -1,4 +1,8 @@
-﻿using DataAccessLayer;
+﻿/* ****************************************************************************************************************************
+ * Rev 1.0		Sanchita	V2.0.39		16/03/2023		All months are not showing for Previous year while selecting parameter 
+ *                                                      in Dealer/Distributor wise Sales report. Refer: 25732
+**************************************************************************************************************************** */
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -32,10 +36,14 @@ namespace BusinessLogicLayer.SalesTrackerReports
             return ds;
         }
 
-        public DataTable GetMonthList()
+        // Rev 1.0 [ parameter "year_id" added ]
+        public DataTable GetMonthList(string years)
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("PRC_FTSDYANAMICMONTHSBIND_REPORT");
+            // Rev 1.0
+            proc.AddPara("@YEARS", years);
+            // End of Rev 1.0
             ds = proc.GetTable();
             return ds;
         }

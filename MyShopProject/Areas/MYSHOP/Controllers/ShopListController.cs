@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2 .0.39    PRITI       13/02/2023      0025663:Last Visit fields shall be available in Outlet Reports
+#endregion===================================End of Revision History==================================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -505,8 +509,23 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     });
                     //End of Rev Debashis
 
-
-
+                    //Rev 1.0
+                    settings.Columns.Add(column =>
+                    {
+                        column.FieldName = "LASTVISITDATE";
+                        column.Caption = "Last Visit Date";
+                    });
+                    settings.Columns.Add(column =>
+                    {
+                        column.FieldName = "LASTVISITTIME";
+                        column.Caption = "Last Visit Time";
+                    });
+                    settings.Columns.Add(column =>
+                    {
+                        column.FieldName = "LASTVISITEDBY";
+                        column.Caption = "Last Visited By";
+                    });
+                    //Rev 1.0 End
 
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;

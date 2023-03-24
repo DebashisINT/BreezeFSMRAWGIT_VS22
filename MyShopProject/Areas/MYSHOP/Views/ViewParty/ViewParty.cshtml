@@ -1,4 +1,8 @@
-﻿
+﻿@************************************************************************************************************************************
+* 1.0    30-01-2023     2.0.39     Sanchita      View Party' option shall be available in FSM Dashboard along with
+                                                 Dashboard Setting rights. Refer: 25515
+* ********************************************************************************************************************************@
+
 @{
     ViewBag.Title = "ViewParty";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -2718,9 +2722,11 @@
     $(document).ready(function () {
         StatePopulate();
 
-        setTimeout(function () {
-            $("#ddlState").val('15');
-        }, 600);
+        // Rev Sanchita
+        //setTimeout(function () {
+        //    $("#ddlState").val('15');
+        //}, 600);
+        // End of Rev Sanchita
         setTimeout(function () {
             showMap();
         }, 600);
@@ -2758,7 +2764,7 @@
     });
 
     function showMap() {
-       
+
         //stateid = '15';// cmbState.GetValue();
         stateid = $("#ddlState").val();
         partyType = $("#ddlPartyType").val();
@@ -2869,7 +2875,7 @@
                             strhtml = strhtml + '<li class="userlistItem marker-link clearfix" data-lat="' + data.Shop_Lat + '" data-long="' + data.Shop_Long + '" data-markerid="' + i + '"> ' + '<div class="userIcon">' + icnIm + '</div>' + '<div class="userName">' + data.Shop_Name + '</div>' + '<div class="userNUM">' + data.Shop_Owner_Contact + ' </div>' + '</li>';
                         }
                         //console.log(data);
-                        
+
                         // user Click infobox
 
 
@@ -3020,7 +3026,10 @@
                 var status = "<select id='ddlState' class = 'full form-control'>";
                 status = status + '<option value="0">select</option>';
                 for (var i = 0; i < data.length; i++) {
-                    status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
+                    // Rev 1.0
+                    //status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
+                    status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    // End of Rev 1.0
                 }
                 status = status + '</select>';
                 $('#divState').html(status);
@@ -3047,15 +3056,15 @@
         //    if (v == 2) {
         //        $("#tdElect").css({ "display": "none" });
         //    } else {
-                
+
         //        $("#tdElect").css({ "display": "table-cell" });
         //    }
         //});
-        
+
     })
 </script>
 <style>
-    .mLoader{
+    .mLoader {
         position: fixed;
         top: 0;
         bottom: 0;
@@ -3067,8 +3076,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        opacity:0;
+        opacity: 0;
     }
+
     .excExportMap {
         display: inline-block;
         padding: 2px 3px;
@@ -3126,7 +3136,6 @@
         font-size: 12px;
         color: #e41f1f;
     }
-   
 </style>
 
 @Html.DevExpress().PopupControl(
