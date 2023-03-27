@@ -1,3 +1,7 @@
+/***********************************************************************************************************
+ * 1.0      Sanchita        V2.0.30     24-03-2023          Unable to modify Channel, Section, Circle once tagged with an Employee. 
+ *                                                          Refer: 25754
+ * ***********************************************************************************************************/
 using System;
 using System.Configuration;
 using System.Data;
@@ -1073,7 +1077,10 @@ namespace ERP.OMS.Management.Master
         {
             // Channel
             DataTable dtChannel = new DataTable();
-            dtChannel = oDBEngine.GetDataTable("Employee_Channel", " ch_id as Id, ch_Channel as Name  ", " ch_id in (select EP_CH_ID from Employee_ChannelMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            // Rev 1.0
+            //dtChannel = oDBEngine.GetDataTable("Employee_Channel", " ch_id as Id, ch_Channel as Name  ", " ch_id in (select EP_CH_ID from Employee_ChannelMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            dtChannel = oDBEngine.GetDataTable("Employee_Channel", " convert(varchar(100),ch_id) as Id, ch_Channel as Name  ", " ch_id in (select EP_CH_ID from Employee_ChannelMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            // End of Rev 1.0
             string selectedChannelName = "";
             string selectedChannelId = "";
 
@@ -1114,8 +1121,10 @@ namespace ERP.OMS.Management.Master
 
             // Circle
             DataTable dtCircle = new DataTable();
-
-            dtCircle = oDBEngine.GetDataTable("Employee_Circle", " crl_id as Id, crl_Circle as Name  ", " crl_id in (select EP_CRL_ID from Employee_CircleMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            // Rev 1.0
+            //dtCircle = oDBEngine.GetDataTable("Employee_Circle", " crl_id as Id, crl_Circle as Name  ", " crl_id in (select EP_CRL_ID from Employee_CircleMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            dtCircle = oDBEngine.GetDataTable("Employee_Circle", " convert(varchar(100),crl_id) as Id, crl_Circle as Name  ", " crl_id in (select EP_CRL_ID from Employee_CircleMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            // End of Rev 1.0
 
             string selectedCircleName = "";
             string selectedCircleId = "";
@@ -1157,7 +1166,10 @@ namespace ERP.OMS.Management.Master
 
             // Section
             DataTable dtSection = new DataTable();
-            dtSection = oDBEngine.GetDataTable("Employee_Section", " sec_id as Id, sec_Section as Name  ", " sec_id in (select EP_SEC_ID from Employee_SectionMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            // Rev 1.0
+            //dtSection = oDBEngine.GetDataTable("Employee_Section", " sec_id as Id, sec_Section as Name  ", " sec_id in (select EP_SEC_ID from Employee_SectionMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            dtSection = oDBEngine.GetDataTable("Employee_Section", " convert(varchar(100),sec_id) as Id, sec_Section as Name  ", " sec_id in (select EP_SEC_ID from Employee_SectionMap where EP_EMP_CONTACTID='" + Emp_ContactID + "')");
+            // End of Rev 1.0
 
             string selectedSectionName = "";
             string selectedSectionId = "";
