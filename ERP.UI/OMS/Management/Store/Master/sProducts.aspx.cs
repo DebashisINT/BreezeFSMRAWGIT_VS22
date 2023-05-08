@@ -1,6 +1,8 @@
 /*****************************************************************************************************************************
  * Rev 1.0     Sanchita    V2.0.38     31-01-2023      An error is showing while saving a new product. Refer: 25631
  * Rev 2.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : Listing - Implement Show Button. Refer: 25709
+ * Rev 3.0     Sanchita    V2.0.40     05/05/2023      Downloaded excel showing blank data while exporting the Product Master in FSM Portal
+ *                                                      Refer: 26041
  * *****************************************************************************************************************************/
 using System;
 using System.Data;
@@ -86,6 +88,9 @@ namespace ERP.OMS.Management.Store.Master
                 //BindState(1); 
                 IsUdfpresent.Value = Convert.ToString(getUdfCount());
                 Session["exportval"] = null;
+                // Rev 3.0
+                Session["Master_ProductDetails"] = null;
+                // End of Rev 3.0
 
                 BindProType();
                 BindProductSize();
@@ -552,11 +557,17 @@ namespace ERP.OMS.Management.Store.Master
             AspxHelper oAspxHelper = new AspxHelper();
             if (dtFillGrid.Rows.Count > 0)
             {
+                // Rev 3.0
+                Session["Master_ProductDetails"] = dtFillGrid;
+                // End of Rev 3.0
                 cityGrid.DataSource = dtFillGrid;
                 cityGrid.DataBind();
             }
             else
             {
+                // Rev 3.0
+                Session["Master_ProductDetails"] = null;
+                // End of Rev 3.0
                 cityGrid.DataSource = null;
                 cityGrid.DataBind();
 
@@ -605,6 +616,11 @@ namespace ERP.OMS.Management.Store.Master
             Int32 Filter = int.Parse(Convert.ToString(drdExport.SelectedItem.Value));
             if (Filter != 0)
             {
+                // Rev 3.0
+                cityGrid.DataSource = Session["Master_ProductDetails"];
+                cityGrid.DataBind();
+                // End of Rev 3.0
+
                 if (Session["exportval"] == null)
                 {
                     Session["exportval"] = Filter;
