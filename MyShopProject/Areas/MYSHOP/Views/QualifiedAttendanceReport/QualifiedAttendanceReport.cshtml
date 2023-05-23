@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                07-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*2.0                09-05-2023        2.0.39           Pallab              26072: Qualified Attendance report parameter alignment issue fix for small device *@
 @*====================================================== Revision History ==========================================================*@
 
 @model System.Data.DataSet
@@ -807,6 +808,7 @@
         padding-left: 8px;
         padding-right: 8px;
     }
+
     .dxeCalendarSelected_PlasticBlue {
         color: White;
         background-color: #185598;
@@ -1148,6 +1150,11 @@
 
                                 </div>
                             </td>
+                            
+
+                        </tr>
+                        <tr>
+                            @*Rev 2.0: this "td" part added in this "tr" from upper "tr"*@
                             <td class="w10 inputSpacer">
                                 @*Rev 1.0*@
                                 @*<input type="checkbox" id="IsEmpWDAll" name="IsEmpWDAll" onchange="CheckEmployeeWDSelection()" value="0"><span class="w140">Select All</span>*@
@@ -1155,9 +1162,6 @@
                                 <label for="">Select All</label>
                                 @*Rev end 1.0*@
                             </td>
-
-                        </tr>
-                        <tr>
                             <td style="padding-top: 22px;width:200px;">
                                 <label></label>
                                 <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
@@ -1167,7 +1171,7 @@
                                     <option value="5">CSV</option>
                                 </select>
                             </td>
-                            <td></td>
+                            @*<td></td>*@
                         </tr>
                     </table>
                 </div>

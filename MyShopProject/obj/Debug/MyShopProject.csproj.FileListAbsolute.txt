@@ -39,7 +39,6 @@ E:\PROJECTS\BreezeFSMGIT_VS22\MyShopProject\bin\DevExpress.XtraScheduler.v15.1.C
 E:\PROJECTS\BreezeFSMGIT_VS22\MyShopProject\bin\EntityLayer.dll
 E:\PROJECTS\BreezeFSMGIT_VS22\MyShopProject\bin\UtilityLayer.dll
 E:\PROJECTS\BreezeFSMGIT_VS22\MyShopProject\bin\Aspose.Pdf.Kit.dll
-E:\PROJECTS\BreezeFSMGIT_VS22\MyShopProject\bin\Ionic.Zip.dll
 E:\PROJECTS\BreezeFSMGIT_VS22\MyShopProject\bin\DevExpress.Map.v15.1.Core.dll
 E:\PROJECTS\BreezeFSMGIT_VS22\MyShopProject\bin\DevExpress.Sparkline.v15.1.Core.dll
 E:\PROJECTS\BreezeFSMGIT_VS22\MyShopProject\bin\DevExpress.XtraGauges.v15.1.Win.dll
@@ -462,7 +461,6 @@ D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\DataAccessLayer.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\EntityLayer.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\UtilityLayer.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\Aspose.Pdf.Kit.dll
-D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\Ionic.Zip.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\BusinessLogicLayer.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\DataAccessLayer.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\EntityLayer.pdb

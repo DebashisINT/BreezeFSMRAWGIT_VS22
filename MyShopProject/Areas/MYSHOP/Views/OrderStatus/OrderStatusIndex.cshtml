@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                20-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                05-05-2023        2.0.39           Pallab              26039: Design enhancement for small device of Order Status page *@
 @*====================================================== Revision History ==========================================================*@
 
 @model MyShop.Models.OrderStatusModel
@@ -638,7 +639,7 @@
 
     .calendar-icon {
         position: absolute;
-        bottom: 8px;
+        bottom: 13px;
         right: 20px;
         z-index: 0;
         cursor: pointer;
@@ -664,7 +665,7 @@
         .h-branch-select::after {
             content: '<';
             position: absolute;
-            top: 34px;
+            top: 28px;
             right: 13px;
             font-size: 18px;
             transform: rotate(269deg);
@@ -681,35 +682,34 @@
             z-index: 0;
         }
 
-    .whclass.selectH , #ddlShowReport {
+    .whclass.selectH, #ddlShowReport {
         -webkit-appearance: none;
         position: relative;
         z-index: 1;
         background-color: transparent;
     }
 
-        .whclass.selectH
-        {
-            padding-right: 30px;
-        }
+    .whclass.selectH {
+        padding-right: 30px;
+    }
 
-        #ddlShowReport:focus-visible {
-            box-shadow: none;
-            outline: none;
-            border: 1px solid #164f93;
-        }
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
 
-        #ddlShowReport:focus {
-            border: 1px solid #164f93;
-        }
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
 
-        .whclass.selectH:focus-visible {
-            outline: none;
-        }
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
 
-        .whclass.selectH:focus {
-            border: 1px solid #164f93;
-        }
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
 
     .dxeButtonEdit_PlasticBlue {
         border: 1px Solid #ccc;
@@ -892,6 +892,37 @@
     .eqpadtbl > tbody > tr > td:not(:last-child) {
         padding-right: 20px;
     }
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+    label {
+        margin-bottom: 0px;
+    }
+    .tblspace > tbody > tr > td {
+        padding-bottom: 5px;
+    }
     /*Rev end 1.0*/
 </style>
 
@@ -950,7 +981,14 @@
 
                     }).GetHtml()
                 </td>
-                <td style="width:190px;">
+
+                @*Rev 1.0*@
+                @*<td style="width:190px;">*@
+
+            </tr>
+            <tr>
+                @*Rev 2.0: 3 td added in this tr, from last tr*@
+                <td style="width:190px;" class="for-cust-icon">
                     <label>From Date </label>
                     @Html.DevExpress().DateEditFor(x => x.FromDate,
                                 deSettings =>
@@ -964,9 +1002,12 @@
                                     deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
                                     deSettings.Properties.EditFormatString = "dd-MM-yyyy";
                                 }).GetHtml()
+                    @*Rev 1.0*@
+                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                    @*Rev end 1.0*@
                 </td>
 
-                <td style="width:190px;">
+                <td style="width:190px;" class="for-cust-icon">
                     <label>To Date </label>
                     @Html.DevExpress().DateEditFor(x => x.ToDate,
                                 deSettings =>
@@ -979,11 +1020,13 @@
                                     deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
                                     deSettings.Properties.EditFormatString = "dd-MM-yyyy";
                                 }).GetHtml()
+                    @*Rev 1.0*@
+                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                    @*Rev end 1.0*@
                 </td>
-                @*Rev 1.0*@
-                @*<td style="width:190px;">*@
+
                 <td style="width:190px;" class="h-branch-select">
-                 @*Rev end 1.0*@
+                    @*Rev end 1.0*@
                     <label>Show Report on </label>
                     <select name="ddlShowReport" class="from-control" id="ddlShowReport" style="width:100%">
                         <option value="0">Order Date</option>
@@ -991,8 +1034,6 @@
 
                     </select>
                 </td>
-            </tr>
-            <tr>
                 @*Rev 1.0*@
                 @*<td style="padding-top: 20px; width: 192px;">*@
                 <td style="padding-top: 20px; width: 230px;">

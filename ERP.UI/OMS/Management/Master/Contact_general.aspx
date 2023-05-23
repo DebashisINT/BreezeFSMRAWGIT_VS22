@@ -2,6 +2,7 @@
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                01/01/2023        V2.0.38          Pallab              Salesman add/edit page design modification 
 2.0                21/02/2023        V2.0.39          Pallab              Master module design modification. refer: 25656
+3.0                24/04/2023        V2.0.39          Pallab              Two Console error after loading "Add/Edit Salesman/Agents" module. refer: 25901
 ====================================================== Revision History ==========================================================--%>
 
 <%@ Page Language="C#" MasterPageFile="~/OMS/MasterPage/Erp.Master" AutoEventWireup="True"
@@ -776,11 +777,15 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 document.getElementById("td_only").style.display = 'none';
             }
             else {
-                document.getElementById("td_red").style.display = 'none';
-                document.getElementById("td_green").style.display = 'inline';
+                /*Rev 3.0*/
+                //document.getElementById("td_red").style.display = "none";
+                //document.getElementById("td_green").style.display = 'inline';
+                /*Rev end 3.0*/
                 document.getElementById("td_one").style.display = 'none';
                 document.getElementById("td_two").style.display = 'none';
-                document.getElementById("td_only").style.display = 'inline';
+                /*Rev 3.0*/
+                /*document.getElementById("td_only").style.display = 'inline';*/
+                /*Rev end 3.0*/
 
 
 
@@ -797,7 +802,10 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 document.getElementById("Trincorporation").style.display = 'inline';
             }
             var comboid = document.getElementById('cmbContactStatus');
-            var comboval = comboid.value;
+            /*Rev 3.0*/
+            /*var comboval = comboid.value;*/
+            var comboval = comboid?.value || '';
+            /*Rev end 3.0*/
             if (comboval == '1') {
                 document.getElementById("TrContact").style.display = 'none';
             }
@@ -1508,6 +1516,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             font-family: 'Poppins', sans-serif !important;
             /*margin-top: 10px !important;
             margin-bottom: 5px !important;*/
+            font-size: 14px;
+            line-height: 18px;
+
         }
 
         .lblMtop10
@@ -1696,6 +1707,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
     label {
         font-weight: 500;
+        font-size: 14px;
+    line-height: 18px;
     }
 
     .dxgvHeader_PlasticBlue {

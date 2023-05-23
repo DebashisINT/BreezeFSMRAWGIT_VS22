@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.38     Debashis    24/01/2023      A new parameter has been added.Row: 807
+//2.0   V2.0.39     Debashis    17/05/2023      Two new parameters have been added.Row: 840
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,10 @@ namespace ShopAPI.Models
         //Rev 1.0 Row: 807
         public string IsDistributorwiseNearbyShopVisit { get; set; }
         //End of Rev 1.0 Row: 807
+        //Rev 2.0 Row: 840
+        public int visit_location_id { get; set; }
+        public int area_location_id { get; set; }
+        //End of Rev 2.0 Row: 840
     }
 
 

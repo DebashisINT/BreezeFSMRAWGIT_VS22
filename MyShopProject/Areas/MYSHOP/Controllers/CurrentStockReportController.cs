@@ -1,11 +1,19 @@
-﻿using BusinessLogicLayer.SalesmanTrack;
+﻿//====================================================== Revision History ==========================================================
+//1.0  18-05-2023    2.0.40    Priti     0026136: Modification in CURRENT STOCK REGISTER report
+//====================================================== Revision History ==========================================================
+
+using BusinessLogicLayer;
+using BusinessLogicLayer.SalesmanTrack;
+using DataAccessLayer;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
+using Models;
 using MyShop.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,6 +22,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
 {
     public class CurrentStockReportController : Controller
     {
+        CommonBL objSystemSettings = new CommonBL();
         CurrentStockReportBL obj = new CurrentStockReportBL();
         public ActionResult Index()
         {
@@ -111,6 +120,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         public IEnumerable GetReport(string ispageload)
         {
+            //Rev 1.0
+            string IsAttachmentAvailableForCurrentStock = objSystemSettings.GetSystemSettingsResult("IsAttachmentAvailableForCurrentStock");//REV 1.0
+            ViewBag.IsAttachmentAvailableForCurrentStock = IsAttachmentAvailableForCurrentStock;
+            //Rev 1.0 End
             DataTable dtColmn = obj.GetPageRetention(Session["userid"].ToString(), "Current Stock Register");
             if (dtColmn != null && dtColmn.Rows.Count > 0)
             {
@@ -521,5 +534,98 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 return RedirectToAction("Logout", "Login", new { Area = "" });
             }
         }
-	}
+
+        //Rev 1.0
+        public ActionResult LoadImageDocument(string CURRENTSTKID)
+        {           
+            string weburl = Server.MapPath("~/CommonFolder/CurrentStockImage/");           
+            weburl = weburl.Replace("PORTAL", "APP");
+            List<ReimbursementApplicationbills> list = new List<ReimbursementApplicationbills>();
+
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTSCURRENTSTOCK_REPORT");
+            proc.AddPara("@ACTION", "LOADIMAGE");           
+            proc.AddPara("@CURRENTSTKID", CURRENTSTKID);
+            dt = proc.GetTable();
+
+
+            if (dt != null && dt.Rows.Count > 0)
+            {                
+                string dir = weburl + "CURRENTSTOCK_Attachment";
+                // If directory does not exist, create it
+                if (!Directory.Exists(dir))
+                {
+                    Directory.CreateDirectory(dir);
+                }
+
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    string _FileName1 = Convert.ToString(row["STOCKIMAGEPATH1"]);
+                    if (_FileName1 != "")
+                    {
+
+                        string filename1 = Path.GetFileName(_FileName1);
+                        var source = weburl + filename1;
+                        var destination = weburl + "CURRENTSTOCK_Attachment/" + filename1;
+
+                        //Do your job with "file"  
+                        if (!System.IO.File.Exists(destination))
+                        {
+                            System.IO.File.Copy(source, destination);
+                        }
+                    }
+
+
+                    string _FileName2 = Convert.ToString(row["STOCKIMAGEPATH2"]);
+                    if (_FileName2 != "")
+                    {
+                        string filename2 = Path.GetFileName(_FileName2);
+                        var source1 = weburl + filename2;
+                        var destination1 = weburl + "CURRENTSTOCK_Attachment/" + filename2;
+
+                        //Do your job with "file"  
+                        if (!System.IO.File.Exists(destination1))
+                        {
+                            System.IO.File.Copy(source1, destination1);
+                        }
+                    }
+                }
+
+
+                using (var zip = new Ionic.Zip.ZipFile())
+                {                  
+
+                    zip.AddFiles(Directory.GetFiles(weburl + "CURRENTSTOCK_Attachment"), "CurrentStockImage");
+                    zip.Save(weburl + "CURRENTSTOCK_Attachment.zip");
+                }
+
+
+                System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+                response.ClearHeaders();
+                response.ClearContent();
+                response.Buffer = true;
+                response.Clear();
+                response.ContentType = "image/jpeg";
+                response.AddHeader("Content-Disposition", "attachment; filename=Reimbursement_Attachment.zip;");
+                response.TransmitFile(weburl + "CURRENTSTOCK_Attachment.zip");
+                response.Flush();
+                response.End();
+
+                if (Directory.Exists(dir))
+                {
+                    System.IO.Directory.Delete(dir, true);
+                }
+
+                string zippath = weburl + "CURRENTSTOCK_Attachment.zip";
+                if (System.IO.File.Exists(zippath))
+                {
+                    System.IO.File.Delete(zippath);
+                }
+            }
+
+            return null;
+        }
+        //Rev 1.0 End
+    }
 }

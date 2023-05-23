@@ -1,4 +1,8 @@
-﻿using System;
+﻿/**************************************************************************************************************************
+ * Rev 1.0      Sanchita     V2.0.40        Console error after click "Total Employees" box in FSM dashboard attendance tab
+ *                                          Refer: 25894
+ *************************************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -322,8 +326,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
                 }
 
-
-                return Json(list);
+                // Rev 1.0
+                //return Json(list);
+                var jsonResult = Json(list, JsonRequestBehavior.AllowGet);
+                jsonResult.MaxJsonLength = int.MaxValue;
+                return jsonResult;
+                // End of Rev 1.0
             }
             catch
             {

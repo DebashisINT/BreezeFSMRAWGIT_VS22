@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.39     Debashis    17/05/2023      A new method has been added.Row: 836
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,17 +23,17 @@ namespace ShopAPI.Controllers
         {
             OrderAddoutput omodel = new OrderAddoutput();
             UserClass oview = new UserClass();
-            String username = System.Configuration.ConfigurationSettings.AppSettings["username"];
-            String password = System.Configuration.ConfigurationSettings.AppSettings["password"];
-            String Provider = System.Configuration.ConfigurationSettings.AppSettings["Provider"];
-            String sender = System.Configuration.ConfigurationSettings.AppSettings["sender"];
+            String username = System.Configuration.ConfigurationManager.AppSettings["username"];
+            String password = System.Configuration.ConfigurationManager.AppSettings["password"];
+            String Provider = System.Configuration.ConfigurationManager.AppSettings["Provider"];
+            String sender = System.Configuration.ConfigurationManager.AppSettings["sender"];
             try
             {
                 string products = "";
                 string token = string.Empty;
                 string versionname = string.Empty;
                 System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
-                String tokenmatch = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String tokenmatch = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
 
                 if (!ModelState.IsValid)
                 {
@@ -44,7 +47,7 @@ namespace ShopAPI.Controllers
                     {
                         string sessionId = "";
                         DataTable dt = new DataTable();
-                        String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                        String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                         List<StockProductlist> omedl2 = new List<StockProductlist>();
 
                         foreach (var s2 in model.product_list)
@@ -68,16 +71,16 @@ namespace ShopAPI.Controllers
                         sqlcon.Open();
 
                         sqlcmd = new SqlCommand("Proc_FTS_Stock", sqlcon);
-                        sqlcmd.Parameters.Add("@user_id", model.user_id);
-                        sqlcmd.Parameters.Add("@SessionToken", model.session_token);
-                        sqlcmd.Parameters.Add("@stock_amount", model.stock_amount);
-                        sqlcmd.Parameters.Add("@Stock_Code", model.stock_id);
-                        sqlcmd.Parameters.Add("@Shop_Id", model.shop_id);
-                        sqlcmd.Parameters.Add("@Stock_Address", model.address);
-                        sqlcmd.Parameters.Add("@Stock_date", model.stock_date_time);
-                        sqlcmd.Parameters.Add("@Lat", model.latitude);
-                        sqlcmd.Parameters.Add("@Long", model.longitude);
-                        sqlcmd.Parameters.Add("@Product_List", JsonXML);
+                        sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                        sqlcmd.Parameters.AddWithValue("@SessionToken", model.session_token);
+                        sqlcmd.Parameters.AddWithValue("@stock_amount", model.stock_amount);
+                        sqlcmd.Parameters.AddWithValue("@Stock_Code", model.stock_id);
+                        sqlcmd.Parameters.AddWithValue("@Shop_Id", model.shop_id);
+                        sqlcmd.Parameters.AddWithValue("@Stock_Address", model.address);
+                        sqlcmd.Parameters.AddWithValue("@Stock_date", model.stock_date_time);
+                        sqlcmd.Parameters.AddWithValue("@Lat", model.latitude);
+                        sqlcmd.Parameters.AddWithValue("@Long", model.longitude);
+                        sqlcmd.Parameters.AddWithValue("@Product_List", JsonXML);
                         sqlcmd.CommandType = CommandType.StoredProcedure;
                         SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                         da.Fill(dt);
@@ -145,18 +148,18 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                     string sessionId = "";
 
                     List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                     DataSet ds = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("Proc_FTS_StockListDetails", sqlcon);
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
                    // sqlcmd.Parameters.Add("@Date", model.date);
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -266,7 +269,7 @@ namespace ShopAPI.Controllers
                 string token = string.Empty;
                 string versionname = string.Empty;
                 System.Net.Http.Headers.HttpRequestHeaders headers = this.Request.Headers;
-                String tokenmatch = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String tokenmatch = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
 
                 if (!ModelState.IsValid)
                 {
@@ -278,7 +281,7 @@ namespace ShopAPI.Controllers
                 {
                         string sessionId = "";
                         DataTable dt = new DataTable();
-                        String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                        String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                         List<CurrentStockProductlist> omedl2 = new List<CurrentStockProductlist>();
 
                         foreach (var s2 in model.stock_product_list)
@@ -298,12 +301,12 @@ namespace ShopAPI.Controllers
                         sqlcon.Open();
 
                         sqlcmd = new SqlCommand("Proc_FTS_CurrentStock", sqlcon);
-                        sqlcmd.Parameters.Add("@user_id", model.user_id);
-                        sqlcmd.Parameters.Add("@SessionToken", model.session_token);
-                        sqlcmd.Parameters.Add("@Stock_Code", model.stock_id);
-                        sqlcmd.Parameters.Add("@Shop_Id", model.shop_id);
-                        sqlcmd.Parameters.Add("@Stock_date", model.visited_datetime);
-                        sqlcmd.Parameters.Add("@Product_List", JsonXML);
+                        sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                        sqlcmd.Parameters.AddWithValue("@SessionToken", model.session_token);
+                        sqlcmd.Parameters.AddWithValue("@Stock_Code", model.stock_id);
+                        sqlcmd.Parameters.AddWithValue("@Shop_Id", model.shop_id);
+                        sqlcmd.Parameters.AddWithValue("@Stock_date", model.visited_datetime);
+                        sqlcmd.Parameters.AddWithValue("@Product_List", JsonXML);
                         sqlcmd.CommandType = CommandType.StoredProcedure;
                         SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                         da.Fill(dt);
@@ -357,19 +360,19 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                     string sessionId = "";
 
                     List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                     DataSet ds = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("Proc_FTS_CurrentStockList", sqlcon);
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@Date", model.date);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@Date", model.date);
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                     da.Fill(ds);
@@ -432,5 +435,54 @@ namespace ShopAPI.Controllers
                 return message;
             }
         }
+
+        //Rev 1.0 Row: 836
+        [HttpPost]
+        public HttpResponseMessage CurrentStockImageLink(CurrentStockImageLinkInput model)
+        {
+            CurrentStockImageLinkOutput omodel = new CurrentStockImageLinkOutput();
+            String APIHostingPort = System.Configuration.ConfigurationManager.AppSettings["APIHostingPort"];
+            List<StockWiseImageList> oview = new List<StockWiseImageList>();
+            if (!ModelState.IsValid)
+            {
+                omodel.status = "213";
+                omodel.message = "Some input parameters are missing.";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_FTSAPICURRENTSTOCKIMAGEINFO", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "CURRENTSTOCKIMAGELINK");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@STOCK_CODE", model.stock_id);
+                sqlcmd.Parameters.AddWithValue("@BaseURL", APIHostingPort);
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    oview = APIHelperMethods.ToModelList<StockWiseImageList>(dt);
+                    omodel.user_id = model.user_id;
+                    omodel.stock_id = model.stock_id;
+                    omodel.stockwise_image_list = oview;
+                    omodel.status = "200";
+                    omodel.message = "Successfully get Images lists.";
+                }
+                else
+                {
+                    omodel.status = "205";
+                    omodel.message = "No data found";
+                }
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+        //End of Rev 1.0 Row: 836
     }
 }

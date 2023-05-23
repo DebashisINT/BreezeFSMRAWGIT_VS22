@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.39     Debashis    17/05/2023      A new method has been added.Row: 837
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -42,13 +45,13 @@ namespace ShopAPI.Controllers
                     string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
 
                     DataTable dt = new DataTable();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("Proc_API_ActivityLocationUpdate", sqlcon);
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@JsonXML", JsonXML);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@JsonXML", JsonXML);
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -89,12 +92,12 @@ namespace ShopAPI.Controllers
                 else
                 {
                     DataTable dt = new DataTable();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("Proc_API_ActivityLocationList", sqlcon);
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -124,5 +127,59 @@ namespace ShopAPI.Controllers
                 return message;
             }
         }
+        //Rev 1.0 Row: 837
+        [HttpPost]
+        public HttpResponseMessage VisitLocationList(VisitLocationListInput model)
+        {
+            VisitLocationListOutput omodel = new VisitLocationListOutput();
+            List<VisitLocationListDetail> oview = new List<VisitLocationListDetail>();
+            string sdatetime = DateTime.Now.ToString();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    omodel.status = "213";
+                    omodel.message = "Some input parameters are missing.";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+                }
+                else
+                {
+                    DataTable dt = new DataTable();
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("PRC_FTSAPIVISITLOCATIONINFO", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "VISITLOCATIONLIST");
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(dt);
+                    sqlcon.Close();
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        omodel.status = "200";
+                        omodel.message = "Successfully get Visit Location.";
+                        oview = APIHelperMethods.ToModelList<VisitLocationListDetail>(dt);
+                        omodel.visit_location_list = oview;
+                    }
+                    else
+                    {
+                        omodel.status = "205";
+                        omodel.message = "No data found";
+                    }
+                    var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                omodel.status = "204";
+                omodel.message = ex.Message;
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+        //End of Rev 1.0 Row: 837
     }
 }

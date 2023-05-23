@@ -1,4 +1,8 @@
-﻿using System;
+﻿/****************************************************************************************************************
+ * 1.0      24-04-2023        2.0.39      Pallab/Sanchita       Event banner should dynamically change according to the date. Refer: 25861
+ *****************************************************************************************************************/
+
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,6 +14,9 @@ using System.Net.NetworkInformation;
 using System.Management;
 
 using System.Runtime.InteropServices;
+// Rev 1.0
+using DataAccessLayer;
+// End of Rev 1.0
 
 public partial class pLogin : System.Web.UI.Page
 {
@@ -90,7 +97,9 @@ public partial class pLogin : System.Web.UI.Page
             this.txtPassword.Text = "";
             //this.lblMessage.Visible = false;
 
-
+            // Rev 1.0
+            EV1.Src = oDBEngine.GetEventImage();
+            // End of Rev 1.0
 
 
             if (Request.QueryString["rurl"] != null)

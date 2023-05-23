@@ -1,4 +1,8 @@
-﻿using SalesmanTrack;
+﻿/**********************************************************************************************************************************
+ * 1.0		Sanchita		V2.0.40		24-04-2023		In TRAVELLING ALLOWANCE -- Approve/Reject Page: One Coloumn('Confirm/Reject') required 
+													    before 'Approve/Reject' coloumn. refer: 25809
+***********************************************************************************************************************************/
+using SalesmanTrack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +22,7 @@ using System.Web.Script.Serialization;
 using System.Text;
 using System.IO;
 using BusinessLogicLayer;
+using DataAccessLayer;
 
 namespace MyShop.Areas.MYSHOP.Controllers
 {
@@ -143,7 +148,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             }
             dt = objgps.GetReimbursementListReport(month, Userid, state, desig, empcode, year);
-
+            // Rev 1.0
+            string isExpenseFeatureAvailable = "0";
+            DBEngine obj1 = new DBEngine();
+            isExpenseFeatureAvailable = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='isExpenseFeatureAvailable'").Rows[0][0]);
+            ViewBag.isExpenseFeatureAvailable = isExpenseFeatureAvailable;
+            // End of Rev 1.0
             return PartialView("PartialGetReimbursementList", LGetReimbursement(frmdate));
         }
 
@@ -299,6 +309,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         private GridViewSettings GetEmployeeBatchGridViewSettings()
         {
+            //Rev 1.0
+            string isExpenseFeatureAvailable = "0";
+            DBEngine obj1 = new DBEngine();
+            isExpenseFeatureAvailable = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='isExpenseFeatureAvailable'").Rows[0][0]);
+            // End of Rev 1.0
+
             var settings = new GridViewSettings();
             settings.Name = "Reimbursement";
             settings.CallbackRouteValues = new { Controller = "SalesReportSummary", Action = "GetReimbursementList" };
@@ -354,6 +370,17 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Pending";
                 column.FieldName = "PENDING_COUNT";
             });
+
+            // Rev 1.0
+            if (isExpenseFeatureAvailable == "1")
+            {
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Confirmed";
+                    column.FieldName = "CONFIRMED_COUNT";
+                });
+            }
+            // End of Rev 1.0
 
             settings.Columns.Add(column =>
             {
@@ -417,6 +444,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
             reimbursementDetails.GetReimbursementDetailsList = APIHelperMethods.ToModelList<ReimbursementDetailsList>(dtReimbursementDet);
             TempData["grddata"] = reimbursementDetails.GetReimbursementDetailsList;
             TempData.Keep();
+            // Rev 1.0
+            string isExpenseFeatureAvailable = "0";
+            DBEngine obj1 = new DBEngine();
+            isExpenseFeatureAvailable = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='isExpenseFeatureAvailable'").Rows[0][0]);
+            ViewBag.isExpenseFeatureAvailable = isExpenseFeatureAvailable;
+            // End of Rev 1.0
             return PartialView("_ReimbursementListViewList", reimbursementDetails);
         }
         public ActionResult GetViewReimbursementGrid(ReimbursementDetails reimbursementDetails)
@@ -424,6 +457,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
             reimbursementDetails.GetReimbursementDetailsList = (List<ReimbursementDetailsList>)TempData["grddata"];
             TempData["grddata"] = reimbursementDetails.GetReimbursementDetailsList;
             TempData.Keep();
+            // Rev 1.0
+            string isExpenseFeatureAvailable = "0";
+            DBEngine obj1 = new DBEngine();
+            isExpenseFeatureAvailable = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='isExpenseFeatureAvailable'").Rows[0][0]);
+            ViewBag.isExpenseFeatureAvailable = isExpenseFeatureAvailable;
+            // End of Rev 1.0
             return PartialView("_ReimbursementDetailsGrid", reimbursementDetails.GetReimbursementDetailsList);
         }
 
@@ -437,53 +476,117 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return PartialView("_ReimbursementDetailsDataApproved", reimbursementDetailsEdit);
         }
 
+        // Rev 1.0
+        public ActionResult GetReimbursementConfirmDetailsDataEdit(string user_contactId, string Conf_Rej_Remarks)
+        {
+            ReimbursementDetailsEdit reimbursementDetailsEdit = new ReimbursementDetailsEdit();
+            reimbursementDetailsEdit.user_contactId = user_contactId;
+           
+            return PartialView("_ReimbursementDetailsDataConfirmed", reimbursementDetailsEdit);
+        }
+        // End of Rev 1.0
+
 
         [ValidateInput(false)]
         public ActionResult BatchEditingUpdateReimbursement(MVCxGridViewBatchUpdateValues<ReimbursementDetailsList, int> updateValues, ReimbursementDetailsList options)
         {
-            DataTable dtReimbursementDet = new DataTable();
-            ReimbursementDetails reimbursementDetails = new ReimbursementDetails();
-            Boolean IsProcess = false;
-            Boolean Success = false;
-            foreach (var product in updateValues.Update)
+            // Rev 1.0
+            string isExpenseFeatureAvailable = "0";
+            DBEngine obj1 = new DBEngine();
+            isExpenseFeatureAvailable = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='isExpenseFeatureAvailable'").Rows[0][0]);
+            ViewBag.isExpenseFeatureAvailable = isExpenseFeatureAvailable;
+
+            Boolean chkOk = true;
+
+            if (isExpenseFeatureAvailable == "1")
             {
-                if (updateValues.IsValid(product))
+                if(options.is_ApprovedReject==1 || options.is_ApprovedReject == 2)
                 {
-                    Success = ReimbursementInsertUpdate(product, options);
-                    IsProcess = true;
-                    if (Success == true)
-                    {
-                        DBEngine objDB = new DBEngine();
-                        DataTable dt = objDB.GetDataTable("select UserID,Expence_type,COnvert(VARCHAR(10),[Date],105) dts from FTS_Reimbursement_Application_Verified WHERE ApplicationID='" + product.ApplicationID + "'");
-                        string msg = "";
-                        if (options.is_ApprovedReject == 1)
-                        {
-                            msg = "Reimbursement for " + Convert.ToString(dt.Rows[0]["Expence_type"]) + " approved for the date " + Convert.ToString(dt.Rows[0]["dts"]) + ". Thanks.";
-                            ViewBag.Message = "Approved successfully";
-                            SendNotification(Convert.ToString(dt.Rows[0]["UserID"]), msg);
-                        }
-                        else if (options.is_ApprovedReject == 2)
-                        {
-                            msg = "Reimbursement for " + Convert.ToString(dt.Rows[0]["Expence_type"]) + " rejected for the date " + Convert.ToString(dt.Rows[0]["dts"]) + ". Thanks.";
-                            ViewBag.Message = "Rejected successfully";
-                            SendNotification(Convert.ToString(dt.Rows[0]["UserID"]), msg);
+                    DataTable dtCNT_NOTCONF = new DataTable();
+                    ProcedureExecute proc = new ProcedureExecute("prc_ReimbursementConfirmed_Check");
 
+                    proc.AddPara("@ACTION", "CONFIRMED_CHECK");
+                    proc.AddPara("@APPLICATIONID_LIST", Convert.ToString(options.ListAppCode));
+                    dtCNT_NOTCONF = proc.GetTable();
 
-                        }
-                    }
-                    else
+                    if (dtCNT_NOTCONF.Rows.Count > 0 && Convert.ToInt16(dtCNT_NOTCONF.Rows[0]["CNT_NOTCONF"]) > 0)
                     {
-                        options.is_ApprovedReject = 0;
-                        ViewBag.Message = TempData["Message"];
+                        chkOk = false;
                     }
                 }
-
             }
-            dtReimbursementDet = objgps.GetReimbursementDetailsReport(options.Userid, options.Month, options.Year);
-            reimbursementDetails.GetReimbursementDetailsList = APIHelperMethods.ToModelList<ReimbursementDetailsList>(dtReimbursementDet);
-            TempData["grddata"] = reimbursementDetails.GetReimbursementDetailsList;
-            TempData.Keep();
-            return PartialView("_ReimbursementDetailsGrid", reimbursementDetails.GetReimbursementDetailsList);
+
+            if (chkOk == true)
+            {
+                // End of Rev 1.0
+                DataTable dtReimbursementDet = new DataTable();
+                ReimbursementDetails reimbursementDetails = new ReimbursementDetails();
+                Boolean IsProcess = false;
+                Boolean Success = false;
+                foreach (var product in updateValues.Update)
+                {
+                    if (updateValues.IsValid(product))
+                    {
+                        Success = ReimbursementInsertUpdate(product, options);
+                        IsProcess = true;
+                        if (Success == true)
+                        {
+                            DBEngine objDB = new DBEngine();
+                            DataTable dt = objDB.GetDataTable("select UserID,Expence_type,COnvert(VARCHAR(10),[Date],105) dts from FTS_Reimbursement_Application_Verified WHERE ApplicationID='" + product.ApplicationID + "'");
+                            string msg = "";
+                            if (options.is_ApprovedReject == 1)
+                            {
+                                msg = "Reimbursement for " + Convert.ToString(dt.Rows[0]["Expence_type"]) + " approved for the date " + Convert.ToString(dt.Rows[0]["dts"]) + ". Thanks.";
+                                ViewBag.Message = "Approved successfully";
+                                SendNotification(Convert.ToString(dt.Rows[0]["UserID"]), msg);
+                            }
+                            else if (options.is_ApprovedReject == 2)
+                            {
+                                msg = "Reimbursement for " + Convert.ToString(dt.Rows[0]["Expence_type"]) + " rejected for the date " + Convert.ToString(dt.Rows[0]["dts"]) + ". Thanks.";
+                                ViewBag.Message = "Rejected successfully";
+                                SendNotification(Convert.ToString(dt.Rows[0]["UserID"]), msg);
+
+
+                            }
+                            // Rev 1.0
+                            else if (options.is_ApprovedReject == 3)
+                            {
+                                //msg = "Reimbursement for " + Convert.ToString(dt.Rows[0]["Expence_type"]) + " rejected for the date " + Convert.ToString(dt.Rows[0]["dts"]) + ". Thanks.";
+                                ViewBag.Message = "Confirmed successfully";
+                                //SendNotification(Convert.ToString(dt.Rows[0]["UserID"]), msg);
+
+                            }
+                            // End of Rev 1.0
+                        }
+                        else
+                        {
+                            options.is_ApprovedReject = 0;
+                            ViewBag.Message = TempData["Message"];
+                        }
+                    }
+
+                }
+                dtReimbursementDet = objgps.GetReimbursementDetailsReport(options.Userid, options.Month, options.Year);
+                reimbursementDetails.GetReimbursementDetailsList = APIHelperMethods.ToModelList<ReimbursementDetailsList>(dtReimbursementDet);
+                TempData["grddata"] = reimbursementDetails.GetReimbursementDetailsList;
+                TempData.Keep();
+                return PartialView("_ReimbursementDetailsGrid", reimbursementDetails.GetReimbursementDetailsList);
+                // Rev 1.0
+            }
+            else
+            {
+                DataTable dtReimbursementDet = new DataTable();
+                ReimbursementDetails reimbursementDetails = new ReimbursementDetails();
+                dtReimbursementDet = objgps.GetReimbursementDetailsReport(options.Userid, options.Month, options.Year);
+                reimbursementDetails.GetReimbursementDetailsList = APIHelperMethods.ToModelList<ReimbursementDetailsList>(dtReimbursementDet);
+                TempData["grddata"] = reimbursementDetails.GetReimbursementDetailsList;
+                TempData.Keep();
+                ViewBag.Message = "Wish to Approve/Reject? Please 'Confirm' first and then proceed.";
+                return PartialView("_ReimbursementDetailsGrid", reimbursementDetails.GetReimbursementDetailsList);
+            }
+            // End of Rev 1.0
+
+            
         }
 
 
@@ -597,7 +700,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     int pos = Array.IndexOf(listAppCode, obj.ApplicationID);
                     if (pos > -1)
                     {
-                        DataTable dt = objgps.ReimbursementInsertUpdate(obj2.user_contactId, obj.ApplicationID, obj2.is_ApprovedReject, obj.Apprvd_Dist, obj.Apprvd_Amt, obj.App_Rej_Remarks);
+                        // Rev 1.0 [ obj.Conf_Rej_Remarks added ]
+                        DataTable dt = objgps.ReimbursementInsertUpdate(obj2.user_contactId, obj.ApplicationID, obj2.is_ApprovedReject, obj.Apprvd_Dist, obj.Apprvd_Amt, obj.App_Rej_Remarks, obj.Conf_Rej_Remarks);
                         if (dt != null && dt.Rows.Count > 0)
                         {
                             foreach (DataRow row in dt.Rows)

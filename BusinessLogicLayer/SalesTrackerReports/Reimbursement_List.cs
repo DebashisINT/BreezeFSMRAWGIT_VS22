@@ -1,4 +1,8 @@
-﻿using DataAccessLayer;
+﻿/**********************************************************************************************************************************
+ * 1.0		Sanchita		V2.0.40		24-04-2023		In TRAVELLING ALLOWANCE -- Approve/Reject Page: One Coloumn('Confirm/Reject') required 
+													    before 'Approve/Reject' coloumn. refer: 25809
+***********************************************************************************************************************************/
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -39,7 +43,8 @@ namespace BusinessLogicLayer.SalesTrackerReports
             return ds;
         }
 
-        public DataTable ReimbursementInsertUpdate(string user_contactId, string ApplicationID, int is_ApprovedReject, decimal Apprvd_Dist, decimal Apprvd_Amt, string App_Rej_Remarks)
+        // Rev 1.0 [ Conf_Rej_Remarks added ]
+        public DataTable ReimbursementInsertUpdate(string user_contactId, string ApplicationID, int is_ApprovedReject, decimal Apprvd_Dist, decimal Apprvd_Amt, string App_Rej_Remarks, string Conf_Rej_Remarks)
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("prc_ReimbursementApplication_Verified_InsertUpdate");
@@ -50,6 +55,9 @@ namespace BusinessLogicLayer.SalesTrackerReports
             proc.AddPara("@APPRVD_AMT", Apprvd_Amt);
             proc.AddPara("@IS_ApprovedReject", is_ApprovedReject);
             proc.AddPara("@APP_REJ_REMARKS", App_Rej_Remarks);
+            // Rev 1.0
+            proc.AddPara("@CONF_REJ_REMARKS", Conf_Rej_Remarks);
+            // End of Rev 1.0
 
             ds = proc.GetTable();
             return ds;

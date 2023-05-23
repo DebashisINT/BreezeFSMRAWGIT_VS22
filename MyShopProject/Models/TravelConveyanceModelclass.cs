@@ -1,4 +1,8 @@
-﻿using System;
+﻿/****************************************************************************************************************************
+1.0     v2.0.40     Priti    19/05/2023      0026145:Modification in the ‘Configure Travelling Allowance’ page.
+*********************************************************************************************************************************/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -53,7 +57,12 @@ namespace MyShop.Models
         public string DateConveyance { get; set; }
         public long Slno { get; set; }
 
-
+        //Rev 1.0
+        public List<string> BranchId { get; set; }
+        public List<string> AreaId { get; set; }
+        public string BranchName { get; set; }
+        public string AreaName { get; set; }
+        //Rev 1.0 End
     }
 
 

@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                06-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*2.0                09-05-2023        2.0.39           Pallab              26073: Team Visit report parameter alignment issue fix for small device *@
 @*====================================================== Revision History ==========================================================*@
 
 @model System.Data.DataSet
@@ -1501,13 +1502,13 @@
 
                                 @*<select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
 
-                <option value="0">All</option>
-                @foreach (var item in ViewBag.HeadBranch)
-                    {SelectList
-                        <option value="@item.BRANCH_ID">@item.CODE</option>
-                    }
+                                        <option value="0">All</option>
+                                        @foreach (var item in ViewBag.HeadBranch)
+                                            {SelectList
+                                                <option value="@item.BRANCH_ID">@item.CODE</option>
+                                            }
 
-            </select>*@
+                                    </select>*@
                                 @*Rev Debashis 0025198*@
                                 @*@Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), "ALL", new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })*@
                                 @Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })
@@ -1535,29 +1536,29 @@
                                 </div>
                             </td>
                             @*<td class="w150">
-            <label>Select AE(s)</label>
-            <div>
+                                    <label>Select AE(s)</label>
+                                    <div>
 
-                @Html.DevExpress().ButtonEdit(
-            settings =>
-            {
-                settings.Name = "EmployeeTxt";
+                                        @Html.DevExpress().ButtonEdit(
+                                    settings =>
+                                    {
+                                        settings.Name = "EmployeeTxt";
 
-                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                //settings.Text = Model.AssignedTo;
-                settings.ReadOnly = true;
-                settings.Properties.Buttons.Add("...");
-                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
-                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+                                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        //settings.Text = Model.AssignedTo;
+                                        settings.ReadOnly = true;
+                                        settings.Properties.Buttons.Add("...");
+                                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
 
-            }).GetHtml()
+                                    }).GetHtml()
 
-            </div>
-        </td>*@
+                                    </div>
+                                </td>*@
                             @*<td class="w10 inputSpacer">
 
-            <input type="checkbox" id="IsEmpAeAll" name="IsEmpAeAll" onchange="CheckEmployeeAESelection()" value="0"><span class="w140">Select All</span>
-        </td>*@
+                                    <input type="checkbox" id="IsEmpAeAll" name="IsEmpAeAll" onchange="CheckEmployeeAESelection()" value="0"><span class="w140">Select All</span>
+                                </td>*@
 
                             <td class="w150">
                                 <label> Select WD(s)</label>
@@ -1580,6 +1581,11 @@
 
                                 </div>
                             </td>
+                            
+
+                        </tr>
+                        <tr>
+                            @*Rev 2.0: this "td" part added in this "tr" from upper "tr"*@
                             <td class="w10 inputSpacer">
                                 @*Rev 1.0*@
                                 @*<input type="checkbox" id="IsEmpWDAll" name="IsEmpWDAll" onchange="CheckEmployeeWDSelection()" value="0"><span class="w140">Select All</span>*@
@@ -1588,34 +1594,29 @@
                                 @*Rev end 1.0*@
                             </td>
 
-                        </tr>
-                        <tr>
-
-
-
 
                             @*<td class="w150">
-                                    <label>Select DS/TL(s)</label>
-                                    <div>
-                                        @Html.DevExpress().ButtonEdit(
-                                    settings =>
-                                    {
-                                        settings.Name = "EmployeeDSTxt";
+            <label>Select DS/TL(s)</label>
+            <div>
+                @Html.DevExpress().ButtonEdit(
+            settings =>
+            {
+                settings.Name = "EmployeeDSTxt";
 
-                                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                        //settings.Text = Model.AssignedTo;
-                                        settings.ReadOnly = true;
-                                        settings.Properties.Buttons.Add("...");
-                                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeDSButnClick(s,e);}";
-                                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){EmployeeDS_KeyDown(s,e);}";
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                //settings.Text = Model.AssignedTo;
+                settings.ReadOnly = true;
+                settings.Properties.Buttons.Add("...");
+                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeDSButnClick(s,e);}";
+                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){EmployeeDS_KeyDown(s,e);}";
 
-                                    }).GetHtml()
+            }).GetHtml()
 
-                                    </div>
-                                </td>*@
+            </div>
+        </td>*@
                             @*<td class="w10 inputSpacer">
-                                    <input type="checkbox" id="IsEmpDSAll" name="IsEmpDSAll" onchange="CheckEmployeeDSSelection()" value="0"><span>Select All</span>
-                                </td>*@
+            <input type="checkbox" id="IsEmpDSAll" name="IsEmpDSAll" onchange="CheckEmployeeDSSelection()" value="0"><span>Select All</span>
+        </td>*@
 
 
 
@@ -1631,7 +1632,7 @@
                                 </select>
 
                             </td>
-                            <td></td>
+                            @*<td></td>*@
                         </tr>
                     </table>
                 </div>

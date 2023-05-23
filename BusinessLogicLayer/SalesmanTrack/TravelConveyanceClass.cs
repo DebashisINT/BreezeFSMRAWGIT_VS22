@@ -1,4 +1,8 @@
-﻿using DataAccessLayer;
+﻿/****************************************************************************************************************************
+1.0     v2.0.40     Priti    19/05/2023      0026145:Modification in the ‘Configure Travelling Allowance’ page.
+*********************************************************************************************************************************/
+
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -65,16 +69,19 @@ namespace BusinessLogicLayer
 
 
 
-        public int GetConveyanceConfig( DataTable dttravel ,string UserID, string Action, bool IsActive)
+        public int GetConveyanceConfig( DataTable dttravel ,string UserID, string Action, bool IsActive,DataTable dtBranch, DataTable dtArea)
         {
             DataTable dt = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("Proc_ReimbesementConfiguration");
             int i = 0;
-
             proc.AddPara("@Conveyance", dttravel);
             proc.AddPara("@USERID", UserID);
             proc.AddPara("@Action", Action);
             proc.AddPara("@IsActive", IsActive);
+            //Rev 1.0
+            proc.AddPara("@BranchList", dtBranch);
+            proc.AddPara("@AreaList", dtArea);
+            //Rev 1.0 End
             //proc.AddPara("@TcID", TcID);
             i = proc.RunActionQuery();
             return i;

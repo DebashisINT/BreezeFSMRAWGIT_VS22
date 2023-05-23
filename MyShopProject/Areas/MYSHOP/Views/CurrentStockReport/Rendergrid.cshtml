@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                07-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*2.0                18-05-2023        2.0.40           Priti               0026136: Modification in CURRENT STOCK REGISTER report*@
 @*====================================================== Revision History ==========================================================*@
 
 @Html.DevExpress().GridView(settings =>
@@ -386,8 +387,36 @@
             x.Width = 100;
         }
     });
+    // Rev 2.0
+    if (ViewBag.IsAttachmentAvailableForCurrentStock == "1")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.Caption = "Attachments";
+            x.VisibleIndex = 15;
+            x.Width = 100;
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
 
+            x.SetDataItemTemplateContent(c =>
+            {
+                if (Convert.ToInt32(DataBinder.Eval(c.DataItem, "IS_IMAGE")) == 1)
+                {
+                    ViewContext.Writer.Write(
+                          "<a style='cursor:pointer' onclick=\"OpenCurrentStockImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "CURRENTSTKID")) + "')\"> <img src='/assests/images/document.png' title='Click to View' /></a>"
+                      );
 
+                }
+                else
+                {
+                    ViewContext.Writer.Write(
+                                      "<a style='cursor:pointer' class='disableHref'> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
+                                 );
+                }
+            });
+
+        });
+    }
+    // Rev 2.0 End
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "QUANTITY").DisplayFormat = "0.00";
 
 

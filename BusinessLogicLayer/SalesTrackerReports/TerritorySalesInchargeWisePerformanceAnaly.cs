@@ -10,7 +10,7 @@ namespace BusinessLogicLayer.SalesTrackerReports
 {
     public class TerritorySalesInchargeWisePerformanceAnaly
     {
-        public DataTable GetTerritorySalesInchargeWisePerformanceAnalyReport(string fromdate,string todate, string stateID, string empid, string userid)
+         public DataTable GetTerritorySalesInchargeWisePerformanceAnalyReport(string fromdate,string todate, string stateID, string empid, string userid)
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("PRC_FTSTERRITORYSALESINCHARGEPERFORMANCEANALY_REPORT");

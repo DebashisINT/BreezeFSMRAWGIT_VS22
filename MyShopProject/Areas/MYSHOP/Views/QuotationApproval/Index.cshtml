@@ -1,6 +1,8 @@
 ﻿@*====================================================== Revision History ===================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
+@*2.0                19-04-2023        V2.0.39          Sanchita            System will check the duplicate quotation number & restrict
+                                                                            while approving the quotation in FSM. Refer: 25843*@
 @*====================================================== Revision History ===================================================*@
 
 @model MyShop.Models.QuotationApprovalModel
@@ -321,7 +323,10 @@
             type: 'POST',
             success: function (returnValue)
             {
-                if (returnValue != "") {
+                // Rev 2.0
+                //if (returnValue != "") {
+                if (returnValue != "" && returnValue !="QUOTATION_NUMBER_EXISTS") {
+                // End of Rev 2.0
                     if (returnValue == "Rejected") {
                         message = "Your quotation document " + DOCUMENT_NUMBER + " has been rejected. ";
                         jAlert("Quotation rejected successfully.");
@@ -353,13 +358,27 @@
 
 
                     $('#myApproveRejectModal').modal('hide');
+
+                    // Rev 2.0
+                    gridQuotationApproval.Refresh();
+                    gridQuotationApproval.Refresh();
+                    // End of Rev 2.0
                 }
                 else {
-                    jAlert("Approved/Rejected failed.");
+                    // Rev 2.0
+                    //jAlert("Approved/Rejected failed.");
+                    if (returnValue == "QUOTATION_NUMBER_EXISTS") {
+                        jAlert("Approval Quotation Number exists. Approved/Rejected failed.");
+                    }
+                    else {
+                        jAlert("Approved/Rejected failed.");
+                    }
+                    // End of Rev 2.0
                 }
-
-                gridQuotationApproval.Refresh();
-                gridQuotationApproval.Refresh();
+                // Rev 2.0
+                //gridQuotationApproval.Refresh();
+                //gridQuotationApproval.Refresh();
+                // End of Rev 2.0
             },
                 error: function () {
             },
@@ -1144,20 +1163,20 @@
 
 
                             @*<td class="w150">
-            <label>State </label>
-            <div>
-                @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
-            </div>
-        </td>*@
+                                    <label>State </label>
+                                    <div>
+                                        @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
+                                    </div>
+                                </td>*@
                             @*<td class="w150">
-            <label>Designation</label>
-            <div>
+                                    <label>Designation</label>
+                                    <div>
 
-                @Html.Action("GetDesigList", "SalesReportSummary")
+                                        @Html.Action("GetDesigList", "SalesReportSummary")
 
 
-            </div>
-        </td>*@
+                                    </div>
+                                </td>*@
                             <td class="w150">
                                 <label>Employee(s)</label>
                                 <div>
@@ -1201,7 +1220,7 @@
                             @*Rev 1.0*@
                             @*<td style="padding-top: 22px;width:170px;">*@
                             <td style="padding-top: 24px;width:190px;">
-                            @*Rev end 1.0*@
+                                @*Rev end 1.0*@
                                 <label></label>
                                 <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
                                 <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
@@ -1227,14 +1246,14 @@
         <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
         @*<input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />*@
         @*Rev 1.0*@
-    @*</div>
-</div>*@
-@*Rev end 1.0*@
-<div style="clear: both;"><br /></div>
-@*Rev 1.0*@
-@*<div class="container">
-    <div class="backBox p-4 ">*@
-    @*Rev end 1.0*@
+        @*</div>
+            </div>*@
+        @*Rev end 1.0*@
+        <div style="clear: both;"><br /></div>
+        @*Rev 1.0*@
+        @*<div class="container">
+            <div class="backBox p-4 ">*@
+        @*Rev end 1.0*@
         <div class="options">
             <div class="options-item">
                 @Html.DevExpress().Button(settings =>

@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.38     Debashis    24/01/2023      A new parameter has been added.Row: 807
+//2.0   V2.0.39     Debashis    17/05/2023      Two new parameters have been added.Row: 840
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -302,6 +303,10 @@ namespace ShopAPI.Controllers
                     //Rev 1.0 Row: 807
                     sqlcmd.Parameters.AddWithValue("@IsDistributorwiseNearbyShopVisit", model.IsDistributorwiseNearbyShopVisit);
                     //End of Rev 1.0 Row: 807
+                    //Rev 2.0 Row: 840
+                    sqlcmd.Parameters.AddWithValue("@VISIT_LOCATION_ID", model.visit_location_id);
+                    sqlcmd.Parameters.AddWithValue("@AREA_LOCATION_ID", model.area_location_id);
+                    //End of Rev 2.0 Row: 840
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

@@ -94,3 +94,4 @@ E:\GIT22\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.cspro
 E:\GIT22\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.csproj.CopyComplete
 E:\GIT22\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.dll
 E:\GIT22\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.pdb
+D:\GIT\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll

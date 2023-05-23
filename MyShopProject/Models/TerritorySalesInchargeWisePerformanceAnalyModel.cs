@@ -33,5 +33,6 @@ namespace Models
         public String EmployeeCode { get; set; }
         public Int32 is_procfirst { get; set; }
 
+
     }
 }

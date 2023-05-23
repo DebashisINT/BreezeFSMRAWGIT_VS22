@@ -2,6 +2,8 @@
 <%--====================================================== Revision History ===========================================================
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                14-01-2023        2.0.38           Pallab              Design change if we provide wrong password: fix 
+2.0                07-04-2023        2.0.39           Pallab              25805 : TEAM BEHIND and theme change features add in FSM login page
+3.0                24-04-2023        2.0.39           Pallab/Sanchita     25861 : Event banner should dynamically change according to the date
 ====================================================== Revision History ===========================================================--%>
 
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="pLogin"
@@ -312,9 +314,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     
     
     
-    <script src="/assests/pluggins/amchart/core.js"></script>
-    <script src="/assests/pluggins/amchart/charts.js"></script>
-    <script src="/assests/pluggins/amchart/themes/animated.js"></script>
+    <%--<script src="/assests/pluggins/amchart/core.js"></script>--%>
+    <%--<script src="/assests/pluggins/amchart/charts.js"></script>--%>
+    <%--<script src="/assests/pluggins/amchart/themes/animated.js"></script>--%>
     <script>
         $(document).ready(function () {
             $('.form-control').focusout(function () {
@@ -327,118 +329,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
         });
        
-        // chart
-        am4core.ready(function () {
-
-            // Themes begin
-            am4core.useTheme(am4themes_animated);
-            // Themes end
-
-            /**
-             * Define data for each year
-             */
-            var chartData = {
-                "1995": [
-                  { "sector": "Agriculture", "size": 1 },
-                  { "sector": "Mining and Quarrying", "size": 5 },
-                  { "sector": "Manufacturing", "size": 12 },
-                  { "sector": "Electricity and Water", "size": 8 },
-                  { "sector": "Construction", "size": 4 },
-                ],
-                "1996": [
-                  { "sector": "Agriculture", "size": 13 },
-                  { "sector": "Mining and Quarrying", "size": 7 },
-                  { "sector": "Manufacturing", "size": 3 },
-                  { "sector": "Electricity and Water", "size": 8 },
-                  { "sector": "Construction", "size": 5 },
-                ],
-                "1997": [
-                  { "sector": "Agriculture", "size": 4 },
-                  { "sector": "Mining and Quarrying", "size": 13 },
-                  { "sector": "Manufacturing", "size": 2 },
-                  { "sector": "Electricity and Water", "size": 5 },
-                  { "sector": "Construction", "size": 8 },
-                ],
-                "1998": [
-                  { "sector": "Agriculture", "size": 13 },
-                  { "sector": "Mining and Quarrying", "size": 1 },
-                  { "sector": "Manufacturing", "size": 7 },
-                  { "sector": "Electricity and Water", "size": 3 },
-                  { "sector": "Construction", "size": 6 },
-                ],
-                "1999": [
-                  { "sector": "Agriculture", "size": 8 },
-                  { "sector": "Mining and Quarrying", "size": 3 },
-                  { "sector": "Manufacturing", "size": 10 },
-                  { "sector": "Electricity and Water", "size": 4 },
-                  { "sector": "Construction", "size": 11 },
-                ]
-            };
-
-            // Create chart instance
-            var chart = am4core.create("chartdiv", am4charts.PieChart);
-
-            // Add data
-            chart.data = [
-              { "sector": "Agriculture", "size": 6 },
-              { "sector": "Mining and Quarrying", "size": 10 },
-              { "sector": "Manufacturing", "size": 3 },
-              { "sector": "Electricity and Water", "size": 8 },
-              { "sector": "Construction", "size": 2 },
-
-            ];
-
-            // Add label
-
-            var label = chart.seriesContainer.createChild(am4core.Label);
-            label.text = "1995";
-            label.horizontalCenter = "middle";
-            label.verticalCenter = "middle";
-            label.fontSize = 50;
-
-            // Add and configure Series
-            var pieSeries = chart.series.push(new am4charts.PieSeries());
-            pieSeries.dataFields.value = "size";
-            pieSeries.dataFields.category = "sector";
-            pieSeries.ticks.template.disabled = true;
-            pieSeries.alignLabels = false;
-            pieSeries.labels.template.text = "{value.percent.formatNumber('#.')}%";
-            pieSeries.labels.template.radius = am4core.percent(-40);
-            pieSeries.labels.template.fill = am4core.color("white");
-            pieSeries.hideCredits = true;
-            pieSeries.tooltip.disabled = true;
-            pieSeries.colors.list = [
-                   am4core.color("#845EC2"),
-  am4core.color("#D65DB1"),
-  am4core.color("#FF6F91"),
-  am4core.color("#FF9671"),
-  am4core.color("#FFC75F"),
-  am4core.color("#F9F871"),
-            ];
-            // Animate chart data
-            var currentYear = 1995;
-            function getCurrentData() {
-                label.text = currentYear;
-                var data = chartData[currentYear];
-                currentYear++;
-                if (currentYear > 1999)
-                    currentYear = 1995;
-                return data;
-            }
-
-            function loop() {
-                //chart.allLabels[0].text = currentYear;
-                var data = getCurrentData();
-                for (var i = 0; i < data.length; i++) {
-                    chart.data[i].size = data[i].size;
-                }
-                chart.invalidateRawData();
-                chart.setTimeout(loop, 1500);
-            }
-
-            loop();
-
-        }); // end am4core.ready()
+        
     </script>
     <link href="/assests/css/newlogin.css" rel="stylesheet" />
      <style type="text/css">
@@ -475,7 +366,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             width: 100%;
             height: 100vh;
         }
-        .contentArea {
+        /*Rev 2.0*/
+        .screenLight .contentArea {
             width: 65%;
             overflow: hidden;
             position: relative;
@@ -484,11 +376,40 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             /*background: #333 url('/assests/images/NLogin/LoginDark_bg.png') no-repeat top left;*/
             background: url('/assests/images/NLogin/LoginDark_bg2.jpg') no-repeat top left;
             /*Rev end Pallab*/
-            background-size:cover
+            background-size:cover;
         }
-        .formArea {
+        .screenDark .contentArea
+        {
+            width: 65%;
+            /*overflow: hidden;
+            position: relative;
+            text-align: center;
+            background: url('/assests/images/NLogin/LoginDark_bg2.jpg') no-repeat top left;
+            background-size:cover;*/
+        }
+
+        .screenDark .flexArea
+        {
+            background: url('/assests/images/NLogin/fsm-dark-bg.jpg') no-repeat top left;
+            background-size:cover;
+            position: relative;
+            text-align: center;
+        }
+        .screenLight .formArea {
             width: 35%;
         }
+        .screenDark .formArea
+        {
+            width: 35%;
+            /*height: 95vh;*/
+            /*position: absolute;
+            right: 20px;
+            top: 2.5vh;
+            background: #fff;
+            border-radius: 14px;*/
+            text-align:left !important;
+        }
+        /*Rev end 2.0*/
         .scrImage {
             max-width: 50%;
             bottom: -15px;
@@ -878,7 +799,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             border-radius: 10px;
             margin-top: 15px;
             width: 300px;
-            height: 135px;
+            /*height: 135px;*/
             margin-left:auto;
             margin-right: auto;
             margin-bottom: 15px;
@@ -942,15 +863,255 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             .right-text-part h5{
                 margin-bottom: 5px;
             }
+
+            /*Rev 2.0*/
+
+            .creditsSec {
+                position: absolute;
+                left: 20px;
+                bottom: 20px;
+                z-index: 109;
+            }
+
+            .droper {
+                position: absolute;
+                bottom: 90%;
+                color: #fff;
+                background: #17158f;
+                min-width: 250px;
+                border-radius: 11px;
+                overflow: hidden;
+                display:none;
+                opacity: 0;
+                -webkit-transition: all 0.3s ease-in-out;
+                transition: all 0.3s ease-in-out;
+                box-shadow: 0px 0px 15px rgb(0 0 0 / 20%);
+            }
+
+                .droper.active {
+                    display:block;
+                    opacity: 1;
+                    bottom: 120%;
+                }
+
+            .mnHeader {
+                padding: 7px 15px;
+                border-bottom: 1px solid #0b1322;
+                font-size: 1.6rem;
+                font-weight: 500;
+                text-transform: uppercase;
+            }
+
+            .scrCnter {
+                padding: 8px 12px;
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+                .scrCnter ul {
+                    list-style-type: none;
+                    padding: 0;
+                }
+
+                    .scrCnter ul > li {
+                        padding: 7px 0 7px 7px;
+                        border-bottom: 1px solid #273958;
+                    }
+
+                    .scrCnter ul > li.crhdss {
+                            background: #e2f5e7;
+                            font-weight: 500;
+                            border-bottom: 1px dashed;
+                        }
+
+                    #clCr {
+                float: right;
+                cursor: pointer;
+            }
+
+        .secToggler {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            border: 1px solid #9ab2ef;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease-in;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        .secToggler i {
+            font-size: 23px;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .secToggler:hover {
+            background: #e7eaff;
+            border-color: #fff;
+            box-shadow: 0 0 0 3px #288fce, 0 0 0 4px rgb(255 255 255 / 20%);
+        }
+
+
+        /*switch*/
+        #switchArea {
+            position: absolute;
+            bottom: 11px;
+            left: 60px;
+            z-index: 9;
+            padding: 10px;
+        }
+        .switch {
+              position: relative;
+                display: inline-block;
+                width: 40px;
+                height: 26px;
+            }
+
+            .switch input { 
+              opacity: 0;
+              width: 0;
+              height: 0;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #c9c9c9;
+                -webkit-transition: .4s;
+                transition: .4s;
+                border: 1px solid #163f5f;
+            }
+
+            .slider:before {
+              position: absolute;
+                content: "";
+                height: 18px;
+                width: 18px;
+                left: 4px;
+                bottom: 3px;
+                background-color: #133e5e;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked + .slider, input:checked:focus + .slider {
+              background-color: #f7f96a;
+            }
+            
+            input:focus + .slider {
+              background-color: #fff;
+            }
+
+            input:checked + .slider:before {
+                  -webkit-transform: translateX(14px);
+    -ms-transform: translateX(14px);
+    transform: translateX(14px);
+            }
+
+            /* Rounded sliders */
+            .slider.round {
+              border-radius: 24px;
+            }
+
+            .slider.round:before {
+              border-radius: 50%;
+            }
+            .spEmpa {
+                font-weight: 600;
+                color: #3a5ac6;
+                font-family: 'Playfair Display', serif;
+            }
+            .screenDark  .spEmpa {
+                color: #fff !important;
+                border-bottom: 3px solid #dbdb2b;
+            }
+            .screenDark  .mainlist li {
+                color:#fff
+            }
+
+            .img-visible{
+                display: block !important;
+            }
+
+            .img-hide{
+                display: none !important;
+            }
+
+            /*Rev end 2.0*/
     </style>
     
+    <script>
+        $(document).ready(function () {
+            $(".secToggler").on("click", function () {
+                $(".droper").toggleClass("active");
+            });
+            $("#clCr").click(function () {
+                $(".droper").removeClass("active");
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $(".switch input").click(function () {
+                var input = $(".switch input").is(':checked');
+                var bodyClass = $("#themeClass").hasClass("screenDark");
+                var theme = localStorage.getItem('theme');
+
+                //alert(bodyClass)
+                if (bodyClass) {
+                    $("#themeClass").removeClass("screenDark").addClass("screenLight");
+                    localStorage.setItem('theme', 'screenLight');
+                } else {
+                    $("#themeClass").removeClass("screenLight").addClass("screenDark");
+                    localStorage.setItem('theme', 'screenDark');
+                }
+                /*Rev 2.0*/
+                //image toogle
+                //if ($('.light-design').hasClass('img-hide')) {
+                //    $('.light-design').removeClass('img-hide');
+                //    $('.dark-design').addClass('img-hide');
+                //}
+                //else {
+                //    $('.dark-design').removeClass('img-hide');
+                //    $('.light-design').addClass('img-hide');
+                //}
+                /*Rev end 2.0*/
+            })
+        })
+        window.addEventListener('load', function (event) {
+            var theme = localStorage.getItem('theme').toString();
+            console.log(theme)
+            if (theme != '' || theme != undefined) {
+                $("#themeClass").attr('class', '').addClass(theme);
+            } else {
+                $("#themeClass").addClass('screenDark');
+            }
+
+        });
+    </script>
 </head>
 <body onload="noBack();setInterval('blinkIt()',500);" onpageshow="if (event.persisted) noBack();" onunload="">
-
-    
-    <div class="mainLogin">
+    <%--Rev 2.0--%>
+    <div id="switchArea" class="">
+        <label class="switch">
+          <input type="checkbox" checked />
+          <span class="slider round"></span>
+        </label>
+    </div>
+    <%--Rev end 2.0--%>
+    <%--Rev 2.0 : "themeClass" id and "screenLight" class add --%>
+    <div id="themeClass" class="mainLogin screenLight">
          <div class="flexArea">
-             <div class="contentArea">
+             <div class="contentArea img-wrapper">
                  <%--<div class="tagLine"><h3>Field Sales Management</h3><h1 class="emp">Make Your Field Agents FUTURE READY!</h1><h4>Simple, Intuitive and Easy to use</h4></div>
                  <div class="xoptions">
                      <ul>
@@ -963,7 +1124,10 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                      <img src="/assests/images/NLogin/screen1.png" class="scrImage wow bounceInUp"  />
                      <div class="chartArea"><div class="hider"></div><div id="chartdiv"></div></div>
                  </div>--%>
-                 <img src="/assests/images/NLogin/left-top-image.png" class="left-top-image" />
+                 <img src="/assests/images/NLogin/left-top-image.png" class="left-top-image light-design"  />
+                 <%--Rev 2.0 : img add--%>
+                 <%--<img src="/assests/images/NLogin/fsm-left-lgt-design.png" class="left-top-image dark-design img-hide" />--%>
+                 <%--Rev end 2.0--%>
              </div>
             
              <div class="formArea">
@@ -972,7 +1136,10 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                      <div><img src="/assests/images/NLogin/logo.png" class="mlogos" /></div>
                  <div class="login-part">
                     <div class="event-img">
-                         <img src="/assests/images/event-banner.jpg" />
+                        <%--Rev 3.0 : id="EV1" & runat="server" added--%>
+                         <%--<img src="/assests/images/Events/event-banner.jpg" />--%>   
+                         <img id="EV1" runat="server" src="" />
+                        <%--End of Rev 3.0--%>
                      </div>
                      <div style="margin: 5px 0 10px 0; font-size: 22px; color: #3737bb; font-weight: 600; font-family: 'Open Sans', sans-serif; text-align: center; ">Login to your Account</div>
                      <%--<p style="font-family: poppins;">A single dashboard to manage all your team members with real time updates and notifications.</p>--%>
@@ -1025,6 +1192,67 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                      </div>
                 </div>
          </div>
+
+        <%--Rev 2.0 : TEAM BEHIND part add--%>
+        <!--Credit-->
+         <div class="creditsSec " id="rc_app_1562">
+            <div class="secToggler" id="rc_app_15652"><img src="/assests/images/group.png" style="width:28px" /></div>
+            <div class="droper">
+                <div class="mnHeader">Team Behind <span id="clCr"><i class="fa fa-close"></i></span></div>
+                <div class="scrCnter" id="rc_app_156655">
+                    <ul class="tc_s5621f_fg">
+                        
+                        <li><span class="nameCR">Abhinav Dahiwade</span></li>
+                        <li><span class="nameCR">Abhishek Munshi</span></li>
+                        <li><span class="nameCR">Ananya Deb</span></li>
+                        <li><span class="nameCR">Ankan Das</span></li>
+                        <li><span class="nameCR">Arindam Ghosal</span></li>
+                        <li><span class="nameCR">Arunabha Saha</span></li>
+                        <li><span class="nameCR">Ashmita Roy Chowdhury</span></li>
+                        <li><span class="nameCR">Avijit Bonu</span></li>
+                        <li><span class="nameCR">Bapi Dutta</span></li> 
+                        <li><span class="nameCR">Bhaskar Chatterjee</span></li>
+                        <li><span class="nameCR">Chinmoy Maiti</span></li>
+                        <li class="tc_sfsf_fg"><span class="nameCR">Debashis Talukder</span></li>
+                        <li><span class="nameCR">Debjyoti Dhar</span></li>
+                        <li><span class="nameCR">Deep Narayan Mahajan</span></li>
+                        <li><span class="nameCR">Goutam Kumar Das</span></li>
+                        <li><span class="nameCR">Indranil Dey</span></li>
+                        <li><span class="nameCR">Jitendra Jha</span></li>
+                        <li><span class="nameCR">Kaushik Gupta</span></li>
+                        <li><span class="nameCR">Maynak Nandi</span></li>
+                        <li><span class="nameCR">Pallab Mukherjee</span></li>
+                        <li><span class="nameCR">Pijush Kumar Bhattacharya</span></li>
+                         <li><span class="nameCR">Pratik Ghosh</span></li>
+                        <li class="tc_s5221f_fg"><span class="nameCR">Priti Ghosh</span></li>
+                        <li><span class="nameCR">Priyanka</span></li>
+                        <li><span class="nameCR">Rajdip Mukherjee</span></li>
+                        <li><span class="nameCR">Saheli Bhattacharya</span></li>
+                        <li><span class="nameCR">Saikat Das</span></li> 
+                        <li><span class="nameCR">Sanchita Saha</span></li>
+                        <li><span class="nameCR">Sanjoy Ganguly</span></li>
+                        <li><span class="nameCR">Santanu Mukherjee</span></li>
+                        <li><span class="nameCR">Sayantani Mandal</span></li>
+                        <li><span class="nameCR">Shantanu Saha</span></li>
+                        <li><span class="nameCR">Sneha das</span></li>
+                        <li><span class="nameCR">Sourav Goswami</span></li>
+                        <li><span class="nameCR">Subhra Mukherjee</span></li>
+                        <li><span class="nameCR">Sudip Biswas</span></li>
+                        <li><span class="nameCR">Sudip Kumar Pal</span></li>
+                        <li><span class="nameCR">Suman Bachar</span></li>
+                        <li><span class="nameCR">Suman Roy</span></li>  
+                        <li><span class="nameCR">Surojit Chatterjee</span></li>
+                        <li><span class="nameCR">Susanta Kundu</span></li>
+                        <li><span class="nameCR">Suvankar Dey</span></li> 
+                        <li><span class="nameCR">Swatilekha Mukherjee</span></li>   
+                        <li><span class="nameCR">Tanmoy Ghosh</span></li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <%--Rev end 2.0--%>
      </div>
     <div class="fts">
              <div class="container">

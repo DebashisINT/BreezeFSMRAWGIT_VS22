@@ -50,8 +50,8 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
-                    String profileImg = System.Configuration.ConfigurationSettings.AppSettings["ProfileImageURL"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                    String profileImg = System.Configuration.ConfigurationManager.AppSettings["ProfileImageURL"];
                     Encryption epasswrd = new Encryption();
                     string Encryptpass = epasswrd.Encrypt(model.password);
                     string sessionId = "";
@@ -71,7 +71,7 @@ namespace ShopAPI.Controllers
 
 
                     DataSet dt = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
 
                     SqlConnection sqlcon = new SqlConnection(con);
@@ -79,17 +79,17 @@ namespace ShopAPI.Controllers
 
 
                     sqlcmd = new SqlCommand("Sp_ApiShopUserLogin", sqlcon);
-                    sqlcmd.Parameters.Add("@userName", model.username);
-                    sqlcmd.Parameters.Add("@password", Encryptpass);
-                    sqlcmd.Parameters.Add("@SessionToken", sessionId);
-                    sqlcmd.Parameters.Add("@latitude", model.latitude);
-                    sqlcmd.Parameters.Add("@longitude", model.longitude);
-                    sqlcmd.Parameters.Add("@login_time", model.login_time);
-                    sqlcmd.Parameters.Add("@ImeiNo", model.Imei);
-                    sqlcmd.Parameters.Add("@location_name", location_name);
-                    sqlcmd.Parameters.Add("@version_name", model.version_name);
-                    sqlcmd.Parameters.Add("@Weburl", profileImg);
-                    sqlcmd.Parameters.Add("@device_token", model.device_token);
+                    sqlcmd.Parameters.AddWithValue("@userName", model.username);
+                    sqlcmd.Parameters.AddWithValue("@password", Encryptpass);
+                    sqlcmd.Parameters.AddWithValue("@SessionToken", sessionId);
+                    sqlcmd.Parameters.AddWithValue("@latitude", model.latitude);
+                    sqlcmd.Parameters.AddWithValue("@longitude", model.longitude);
+                    sqlcmd.Parameters.AddWithValue("@login_time", model.login_time);
+                    sqlcmd.Parameters.AddWithValue("@ImeiNo", model.Imei);
+                    sqlcmd.Parameters.AddWithValue("@location_name", location_name);
+                    sqlcmd.Parameters.AddWithValue("@version_name", model.version_name);
+                    sqlcmd.Parameters.AddWithValue("@Weburl", profileImg);
+                    sqlcmd.Parameters.AddWithValue("@device_token", model.device_token);
                     
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*1.0		05-05-2023   	V2.0.40		Sanchita		In TRAVELLING ALLOWANCE -- Approve/Reject Page: One Coloumn('Confirm/Reject') required
+                                                        before 'Approve/Reject' coloumn. refer: 25809*@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridreimbursementdetails";
 
@@ -27,7 +32,7 @@
     settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "Reimbursement", Action = "BatchEditingUpdateReimbursement" };
 
     settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
-    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "20","50","100" };
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "20", "50", "100" };
     settings.SettingsPager.PageSizeItemSettings.Visible = true;
     settings.SettingsPager.PageSize = 5;
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
@@ -38,9 +43,11 @@
     settings.CommandColumn.Width = 40;
 
     settings.CommandColumn.VisibleIndex = 0;
-    settings.CommandColumn.FixedStyle = GridViewColumnFixedStyle.Left;;
+    settings.CommandColumn.FixedStyle = GridViewColumnFixedStyle.Left; ;
     settings.CommandColumn.ShowClearFilterButton = true;
-    settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    // Rev 1.0
+    //settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+    // End of Rev 1.0
     settings.ClientSideEvents.RowClick = "rowClick";
 
 
@@ -63,8 +70,8 @@
         x.Caption = "Employee Name";
         x.VisibleIndex = 2;
         x.Width = 0;
-//x.ColumnType = MVCxGridViewColumnType.TextBox;
-       // x.EditFormSettings.Visible = DefaultBoolean.False;
+        //x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.EditFormSettings.Visible = DefaultBoolean.False;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
         x.FixedStyle = GridViewColumnFixedStyle.Left;
     });
@@ -83,14 +90,14 @@
 
     settings.Columns.Add(x =>
     {
-     x.FieldName = "Employee_Grade";
-     x.Caption = "Grade";
-     x.VisibleIndex = 4;
-     x.Width = 60;
-     x.ColumnType = MVCxGridViewColumnType.TextBox;
-     x.EditFormSettings.Visible = DefaultBoolean.False;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-     x.FixedStyle = GridViewColumnFixedStyle.Left;
+        x.FieldName = "Employee_Grade";
+        x.Caption = "Grade";
+        x.VisibleIndex = 4;
+        x.Width = 60;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
     });
 
     settings.Columns.Add(x =>
@@ -126,15 +133,15 @@
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
     });
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "TravelMode";
-          x.Caption = "Mode of Travel";
-          x.VisibleIndex = 8;
-          x.Width = 110;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-          x.EditFormSettings.Visible = DefaultBoolean.False;
-          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-      });
+    {
+        x.FieldName = "TravelMode";
+        x.Caption = "Mode of Travel";
+        x.VisibleIndex = 8;
+        x.Width = 110;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
 
 
     settings.Columns.Add(x =>
@@ -162,16 +169,16 @@
 
 
     settings.Columns.Add(x =>
-  {
-      x.FieldName = "To_location";
-      x.Caption = "To location";
-      x.VisibleIndex = 11;
-      x.Width = 90;
-      x.ColumnType = MVCxGridViewColumnType.TextBox;
-      x.EditFormSettings.Visible = DefaultBoolean.False;
-      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    {
+        x.FieldName = "To_location";
+        x.Caption = "To location";
+        x.VisibleIndex = 11;
+        x.Width = 90;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
-  });
+    });
 
     settings.Columns.Add(x =>
     {
@@ -225,11 +232,63 @@
         x.EditFormSettings.Visible = DefaultBoolean.False;
     });
 
+    // Rev Sanchita
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Remark";
+        x.Caption = "Applied Remarks";
+        x.VisibleIndex = 17;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DefaultBoolean.False;
+    });
+
+    if (ViewBag.isExpenseFeatureAvailable == "1")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "Conf_Rej_Remarks";
+            x.Caption = "Conf/Rej Remarks";
+            x.VisibleIndex = 18;
+            x.Width = 140;
+            x.ColumnType = MVCxGridViewColumnType.TextBox;
+            x.EditFormSettings.Visible = DefaultBoolean.True;
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.Caption = "Confirm/Reject";
+            x.FieldName = "";
+            x.VisibleIndex = 19;
+            x.Width = 140;
+            x.EditFormSettings.Visible = DefaultBoolean.False;
+            x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+            x.SetDataItemTemplateContent(c =>
+            {
+                if (Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_ApprovedPermision")) == 1)
+                {
+                    ViewContext.Writer.Write(
+                       "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"OpenReimbursementDetailsGridConfirmedData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "user_contactId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "ApplicationID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Conf_Rej_Remarks")) + "')\"> <img src='/assests/images/verified.png' title='Click to Edit' /></a>"
+                  );
+                }
+                else
+                {
+                    ViewContext.Writer.Write(
+                                         "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"CheckApprovedPermission('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Checked_Message")) + "')\"> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
+                                  );
+                }
+            });
+
+        });
+    }
+    // End of Rev Sanchita
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "Apprvd_Dist";
         x.Caption = "Approved Distance(KM)";
-        x.VisibleIndex = 17;
+        x.VisibleIndex = 20;
         x.Width = 140;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         x.EditFormSettings.Visible = DefaultBoolean.True;
@@ -240,27 +299,29 @@
     {
         x.FieldName = "Apprvd_Amt";
         x.Caption = "Approved Amt";
-        x.VisibleIndex = 18;
+        x.VisibleIndex = 21;
         x.Width = 100;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         x.EditFormSettings.Visible = DefaultBoolean.True;
     });
 
-    settings.Columns.Add(x =>
-    {
-        x.FieldName = "Remark";
-        x.Caption = "Applied Remarks";
-        x.VisibleIndex = 19;
-        x.Width = 140;
-        x.ColumnType = MVCxGridViewColumnType.TextBox;
-        x.EditFormSettings.Visible = DefaultBoolean.False;
-    });
+    // Rev Sanchita
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "Remark";
+    //    x.Caption = "Applied Remarks";
+    //    x.VisibleIndex = 21;
+    //    x.Width = 140;
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.EditFormSettings.Visible = DefaultBoolean.False;
+    //});
+    // End of Rev Sanchita
 
-   settings.Columns.Add(x =>
+    settings.Columns.Add(x =>
     {
         x.FieldName = "App_Rej_Remarks";
         x.Caption = "App/Rej Remarks";
-        x.VisibleIndex = 20;
+        x.VisibleIndex = 22;
         x.Width = 140;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         x.EditFormSettings.Visible = DefaultBoolean.True;
@@ -270,18 +331,20 @@
     {
         x.Caption = "Approve/Reject";
         x.FieldName = "";
-        x.VisibleIndex = 21;
+        x.VisibleIndex = 23;
         x.EditFormSettings.Visible = DefaultBoolean.False;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
 
-       x.SetDataItemTemplateContent(c =>
+        x.SetDataItemTemplateContent(c =>
         {
-            if(Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_ApprovedPermision")) == 1){
-                        ViewContext.Writer.Write(
-                                   "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"OpenReimbursementDetailsGridApprovedData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "user_contactId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "ApplicationID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Dist")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Amt")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "App_Rej_Remarks")) + "')\"> <img src='/assests/images/document.png' title='Click to Edit' /></a>"
-                              );
+            if (Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_ApprovedPermision")) == 1)
+            {
+                ViewContext.Writer.Write(
+                           "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"OpenReimbursementDetailsGridApprovedData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "user_contactId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "ApplicationID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Dist")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Amt")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "App_Rej_Remarks")) + "')\"> <img src='/assests/images/document.png' title='Click to Edit' /></a>"
+                      );
             }
-            else{
+            else
+            {
                 ViewContext.Writer.Write(
                                      "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"CheckApprovedPermission('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Checked_Message")) + "')\"> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
                               );
@@ -293,32 +356,33 @@
     settings.Columns.Add(x =>
     {
         x.Caption = "See Attached";
-        x.VisibleIndex = 22;
+        x.VisibleIndex = 24;
         x.EditFormSettings.Visible = DefaultBoolean.False;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
 
         x.SetDataItemTemplateContent(c =>
         {
-            if(Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_Image")) == 1){
-                    ViewContext.Writer.Write(
-                          "<a style='cursor:pointer' onclick=\"OpenReimbursementImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "MapExpenseID")) + "')\"> <img src='/assests/images/document.png' title='Click to View' /></a>"
-                      );
+            if (Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_Image")) == 1)
+            {
+                ViewContext.Writer.Write(
+                      "<a style='cursor:pointer' onclick=\"OpenReimbursementImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "MapExpenseID")) + "')\"> <img src='/assests/images/document.png' title='Click to View' /></a>"
+                  );
 
-             }
+            }
             else
             {
-                 ViewContext.Writer.Write(
-                                   "<a style='cursor:pointer' class='disableHref'> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
-                              );
+                ViewContext.Writer.Write(
+                                  "<a style='cursor:pointer' class='disableHref'> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
+                             );
             }
 
-            });
+        });
 
 
     });
 
 
-settings.Columns.Add(x =>
+    settings.Columns.Add(x =>
     {
         x.FieldName = "user_contactId";
         x.Caption = "";
@@ -349,7 +413,7 @@ settings.Columns.Add(x =>
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Applied_Amt").DisplayFormat = "0.00";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Apprvd_Dist").DisplayFormat = "0.00";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "Apprvd_Amt").DisplayFormat = "0.00";
-    
+
 
 }).Bind(Model).GetHtml()
 

@@ -1,0 +1,77 @@
+﻿@***********************************************************************************************************************************@
+@*Create by : PRITI on 08-05-2023. Refer:
+0026145:Modification in the ‘Configure Travelling Allowance’ page. *@
+@**********************************************************************************************************************************@
+
+@Html.DevExpress().GridLookup(
+    settings =>
+    {
+        settings.Properties.Caption = "";
+        settings.Properties.CaptionCellStyle.CssClass = "hide";
+        settings.Name = "BranchGridLookup";
+        settings.KeyFieldName = "BRANCH_ID";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Properties.ClientInstanceName = "BranchGridLookup";
+        settings.GridViewClientSideEvents.SelectionChanged = "BranchSelectionChanged";
+        settings.Properties.ClientSideEvents.ValueChanged = "BranchSelectionChanged";
+        settings.GridViewClientSideEvents.BeginCallback = "BranchStartCallback";
+        settings.Properties.ClientSideEvents.DropDown = "BranchLookupValChange";
+        settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+        settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.None;
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "CODE";
+            column.Caption = "Branch";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(85);
+        });
+
+        settings.Properties.Caption = " ";
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+
+        //  settings.Properties.TextFormatString = "{1}";
+        settings.Properties.MultiTextSeparator = ", ";
+        // settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+        settings.Properties.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+        settings.GridViewProperties.CallbackRouteValues = new { Controller = "MasterPopulate", Action = "GetBranchList" };
+        // settings.GridViewClientSideEvents.BeginCallback = "function(s,e){OnBeginCallback(s,e);}";
+        settings.GridViewProperties.Settings.ShowFilterRow = true;
+        settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+        //settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+        //{
+
+        //    ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+        //    Html.DevExpress().Button(btnSettings =>
+        //    {
+        //        btnSettings.Name = "btnDeSelectAll";
+        //        btnSettings.UseSubmitBehavior = false;
+        //        btnSettings.Text = "DeSelect All";
+        //        btnSettings.ClientSideEvents.Click = "DeSelectAllGridLookup";
+        //    }).Render();
+        //    ViewContext.Writer.Write("</div>");
+        //    ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+        //    Html.DevExpress().Button(btnSettings =>
+        //    {
+        //        btnSettings.Name = "btnSelectAll";
+        //        btnSettings.UseSubmitBehavior = false;
+        //        btnSettings.Text = "Select All";
+        //        btnSettings.ClientSideEvents.Click = "SelectAllGridLookup";
+        //    }).Render();
+        //    ViewContext.Writer.Write("</div>");
+        //});
+        settings.DataBound = (sender, e) =>
+        {
+            var gridLookup = (MVCxGridLookup)sender;
+            gridLookup.GridView.Width = 310;
+        };
+
+    }).BindList(Model).GetHtml()
+

@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.39     Debashis    06/04/2023      A new output has been added.Row: 818
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -70,6 +73,9 @@ namespace ShopAPI.Models
         public string dd_latitude { get; set; }
         public string dd_longitude { get; set; }
         //End of Rev Debashis
+        //Rev 1.0 Row:818
+        public string address { get; set; }
+        //End of Rev 1.0 Row:818
     }
 
     public class AssigntoshopDDOutput

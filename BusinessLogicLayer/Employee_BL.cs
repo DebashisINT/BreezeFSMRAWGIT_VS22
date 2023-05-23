@@ -1,5 +1,7 @@
 ﻿/******************************************************************************************************
  * Rev 1.0      Priti       20/02/2023      V2.0.39    	0025676: Employee Import Facility
+ * Rev 2.0      Sanchita    22-05-2023      v2.0.40     The first name field of the employee master should consider 150 character from the application end. 
+                                                        Refer: 26187
  *******************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -108,7 +110,10 @@ namespace BusinessLogicLayer
 
                     proc.AddVarcharPara("@cnt_salutation", 100, cnt_salutation);
 
-                    proc.AddVarcharPara("@cnt_firstName", 100, cnt_firstName);
+                    // Rev 2.0
+                    //proc.AddVarcharPara("@cnt_firstName", 100, cnt_firstName);
+                    proc.AddVarcharPara("@cnt_firstName", 150, cnt_firstName);
+                    // End of Rev 2.0
 
                     proc.AddVarcharPara("@cnt_middleName", 100, cnt_middleName);
 

@@ -1,3 +1,7 @@
+//********************************************************************************************************************************
+// 1.0   20-04-2023      2.0.40         Sanchita         Under City master, Lat long need to be stored manually. Two new fields(Lat and Long) need to be added. 
+//                                                       (Non Mandatory and same as Shop Master). refer: 25826
+//*********************************************************************************************************************************
 using System;
 using System.Data;
 using System.Web;
@@ -93,8 +97,10 @@ namespace ERP.OMS.Management.Master
             oGenericMethod = new BusinessLogicLayer.GenericMethod();
 
             DataTable dtFillGrid = new DataTable();
+            // Rev 1.0 [ columns city_lat and city_long added ]
             dtFillGrid = oGenericMethod.GetDataTable(@" SELECT city_id,state_id,cou_id,city_name,state,cou_country,City_NSECode,City_BSECode,City_MCXCode,
-		                                                   City_MCXSXCode,City_NCDEXCode,City_CDSLCode,City_NSDLCode,City_NDMLCode,City_CVLCode,City_DotExCode
+		                                                   City_MCXSXCode,City_NCDEXCode,City_CDSLCode,City_NSDLCode,City_NDMLCode,City_CVLCode,City_DotExCode,
+                                                           ISNULL(City_Lat,'0.0') City_Lat, ISNULL(City_Long,'0.0') City_Long
                                                     FROM tbl_master_state INNER JOIN tbl_master_country ON countryId = cou_id 
                                                                           INNER JOIN tbl_master_city ON id = state_id order by city_id desc");
             AspxHelper oAspxHelper = new AspxHelper();
@@ -125,7 +131,10 @@ namespace ERP.OMS.Management.Master
 
         public void bindexport(int Filter)
         {
-            cityGrid.Columns[6].Visible = false;
+            // Rev 1.0
+            //cityGrid.Columns[6].Visible = false;
+            cityGrid.Columns[8].Visible = false;
+            // End of Rev 1.0
 
             string filename = "City";
             exporter.FileName = filename;
@@ -246,7 +255,10 @@ namespace ERP.OMS.Management.Master
                     cityGrid.JSProperties["cpExists"] = "Exists";
                 else
                 {
-                    insertcount = oGenericMethod.Insert_Table("tbl_master_city", "city_name,state_id", "'" + txtcityName.Text.Trim() + "','" + CmbState.Value + "'");
+                    // Rev 1.0
+                    //insertcount = oGenericMethod.Insert_Table("tbl_master_city", "city_name,state_id", "'" + txtcityName.Text.Trim() + "','" + CmbState.Value + "'");
+                    insertcount = oGenericMethod.Insert_Table("tbl_master_city", "city_name,state_id,City_Lat,City_Long", "'" + txtcityName.Text.Trim() + "','" + CmbState.Value + "','" + txtCityLat.Text.Trim() + "','" + txtCityLong.Text.Trim() + "'");
+                    // End of Rev 1.0
 
                     if (insertcount > 0)
                     {
@@ -269,7 +281,10 @@ namespace ERP.OMS.Management.Master
                         stateID = Convert.ToInt32(CmbState.SelectedItem.Value.ToString());
                 if (stateID != 0)
                 {
-                    updtcnt = oGenericMethod.Update_Table("tbl_master_city", "city_name='" + txtcityName.Text.Trim() + "',state_id='" + stateID + "'", "city_id=" + WhichType + "");
+                    // Rev 1.0
+                    //updtcnt = oGenericMethod.Update_Table("tbl_master_city", "city_name='" + txtcityName.Text.Trim() + "',state_id='" + stateID + "'", "city_id=" + WhichType + "");
+                    updtcnt = oGenericMethod.Update_Table("tbl_master_city", "city_name='" + txtcityName.Text.Trim() + "',state_id='" + stateID + "',City_Lat='" + txtCityLat.Text.Trim() + "',City_Long='" + txtCityLong.Text.Trim() + "'", "city_id=" + WhichType + "");
+                    // End of Rev 1.0
                     if (updtcnt > 0)
                     {
                         cityGrid.JSProperties["cpUpdate"] = "Success";
@@ -309,9 +324,10 @@ namespace ERP.OMS.Management.Master
             }
             if (WhichCall == "Edit")
             {
+                // Rev 1.0 [ columns "City_Lat" and "City_Long" added]
                 DataTable dtEdit = oGenericMethod.GetDataTable(@"Select city_name,state_id,(select countryId from tbl_master_state where id=state_id) as country_id,
 	                                                                City_NSECode,City_BSECode,City_MCXCode,City_MCXSXCode,City_NCDEXCode,City_CDSLCode,City_NSDLCode,
-                                                                    City_NDMLCode,City_CVLCode,City_DotExCode	        			 
+                                                                    City_NDMLCode,City_CVLCode,City_DotExCode,City_Lat,	City_Long         			 
                                                               From tbl_master_city Where city_id=" + WhichType + "");
 
                 if (dtEdit.Rows.Count > 0 && dtEdit != null)
@@ -330,8 +346,13 @@ namespace ERP.OMS.Management.Master
                     string ndmlcode =Convert.ToString( dtEdit.Rows[0]["City_NDMLCode"]);
                     string cvlcode = Convert.ToString(dtEdit.Rows[0]["City_CVLCode"]);
                     string dotexcode = Convert.ToString(dtEdit.Rows[0]["City_DotExCode"]);
+                    // Rev 1.0
+                    string city_lat = Convert.ToString(dtEdit.Rows[0]["City_Lat"]);
+                    string city_long = Convert.ToString(dtEdit.Rows[0]["City_Long"]);
+                    // End of Rev 1.0
 
-                    cityGrid.JSProperties["cpEdit"] = city + "~" + stateID + "~" + countryID + "~" + nsecode + "~" + bsecode + "~" + mcxcode + "~" + mcxsxcode + "~" + ncdexcode + "~" + cdslcode + "~" + nsdlcode + "~" + ndmlcode + "~" + cvlcode + "~" + dotexcode + "~" + WhichType;
+                    // Rev 1.0 [ city_lat and city_long added ]
+                    cityGrid.JSProperties["cpEdit"] = city + "~" + stateID + "~" + countryID + "~" + nsecode + "~" + bsecode + "~" + mcxcode + "~" + mcxsxcode + "~" + ncdexcode + "~" + cdslcode + "~" + nsdlcode + "~" + ndmlcode + "~" + cvlcode + "~" + dotexcode + "~" + WhichType + "~" + city_lat + "~" + city_long;
                 }
             }
         }

@@ -4,6 +4,9 @@ Rev 2.0     Sanchita    V2.0.39     08/02/2023      When a product is Modified a
                                                     button, the product attributes becomes blank in mapping tables. Refer: 25655
 Rev 3.0     Pallab      V2.0.39     13/02/2023      Master module design modification. Refer: 25656
 Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : Listing - Implement Show Button. Refer: 25709
+Rev 5.0     Pallab      V2.0.39     18/04/2023      Dropdown window is not showing for Colour & Gender while selecting Configure Product Attribute in Product master. Refer: 25851
+Rev 6.0     Pallab      V2.0.39     25/04/2023      Products module all search popup auto focus add and "cancel" button color change. Refer: 25914
+Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount percentage import facility required while importing Product Master. Refer: 25785
 -------------------------------------------------------------------------------------------------------------------------- --%>
 <%@ Page Title="Products" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
     Inherits="ERP.OMS.Management.Store.Master.management_master_Store_sProducts" CodeBehind="sProducts.aspx.cs" %>
@@ -174,7 +177,43 @@ Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : List
             width: 100%;
             text-align: left;
             border-radius: 4px !important;
+            /*Rev 5.0*/
+            background: #fff;
+            border: 1px Solid #ccc;
+                overflow: hidden;
+            /*Rev end 5.0*/
         }
+        /*Rev 5.0*/
+        .btn-default .caret
+        {
+            background: #094e8c;
+    width: 18px;
+    height: 92%;
+    position: absolute;
+    right: -3px;
+    top: -8px;
+    border-radius: 4px;
+    border:none;
+    
+        }
+
+        .btn-default .caret::after
+        {
+            content: '';
+            position: absolute;
+            top: 12px;
+            right: 4px;
+            font-size: 13px;
+            /* transform: rotate(269deg); */
+            font-weight: 500;
+            /* width: 10px; */
+            /* height: 10px; */
+            border-top: 5px solid #ffffff;
+            border-right: 5px solid transparent;
+            border-bottom: 0 dotted;
+            border-left: 5px solid transparent;
+        }
+        /*Rev end 5.0*/
 
         .fullMulti .multiselect-native-select .multiselect .caret {
             float: right;
@@ -561,9 +600,9 @@ Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : List
         border-radius: 0 4px 4px 0;
     }
 
-    .btn .caret {
+    /*.btn .caret {
         display: none;
-    }
+    }*/
 
     .iminentSpan button.multiselect.dropdown-toggle {
         height: 34px;
@@ -2660,7 +2699,27 @@ Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : List
         {
             border-radius: 4px;
         }
+
+        /*Rev 6.0*/
+            /*#txtEmployeeSearch {
+                margin-bottom: 10px;
+            }*/
+
+            .btn-default {
+                background-color: #e0e0e0;
+            }
+        /*Rev end 6.0*/
     </style>
+
+    <script>
+        /*Rev 6.0*/
+        $(document).ready(function () {
+            $('#ProductModel').on('shown.bs.modal', function () {
+                $('#txtProdSearch').focus();
+            })
+        });
+        /*Rev end 6.0*/
+    </script>
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -3416,7 +3475,7 @@ Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : List
 
                                 </div>
                             </div>
-                            <div class="col-md-6 mt-3" id="Div1">
+                            <div class="col-md-6 mt-2" id="Div1">
                                 <%--<div class="cityDiv" style="height: auto;">
 
                                     <asp:Label ID="Label26" runat="server" Text="Gender" CssClass="newLbl"></asp:Label>
@@ -4818,24 +4877,37 @@ Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : List
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>
 
-
-                        <dxe:GridViewDataTextColumn Caption="Status" FieldName="STATUS" 
+                        <%--Rev 7.0--%>
+                        <dxe:GridViewDataTextColumn Caption="MRP" FieldName="MRP"
                             Visible="True" VisibleIndex="5">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>
 
-                        <dxe:GridViewDataTextColumn Caption="Remarks" FieldName="REASON" 
+                        <dxe:GridViewDataTextColumn Caption="Discount" FieldName="DISCOUNT" 
                             Visible="True" VisibleIndex="6">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>
+                        <%--End of Rev 7.0--%>
 
+                        <dxe:GridViewDataTextColumn Caption="Status" FieldName="STATUS" 
+                            Visible="True" VisibleIndex="7">
+                            <Settings AutoFilterCondition="Contains" />
+                            <EditFormSettings Visible="True" />
+                            <Settings AllowAutoFilterTextInputTimer="False" />
+                        </dxe:GridViewDataTextColumn>
 
+                        <dxe:GridViewDataTextColumn Caption="Remarks" FieldName="REASON" 
+                            Visible="True" VisibleIndex="8">
+                            <Settings AutoFilterCondition="Contains" />
+                            <EditFormSettings Visible="True" />
+                            <Settings AllowAutoFilterTextInputTimer="False" />
+                        </dxe:GridViewDataTextColumn>
 
-
+                        
 
                     </Columns>
                     <SettingsContextMenu Enabled="true"></SettingsContextMenu>
@@ -4892,7 +4964,7 @@ Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : List
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btnSaveProduct" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('ProductSource')">OK</button>
+                    <button type="button" id="btnSaveProduct" class="btnOkformultiselection btn btn-success" data-dismiss="modal" onclick="OKPopup('ProductSource')">OK</button>
                     <button type="button" id="btnCloseProduct" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>

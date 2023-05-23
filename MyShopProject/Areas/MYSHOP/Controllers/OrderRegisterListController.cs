@@ -128,12 +128,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     TempData.Keep();
                 }
                 //End of Rev Debashis && 0025066
+                
                 double days = (Convert.ToDateTime(dattoat) - Convert.ToDateTime(datfrmat)).TotalDays;
 
                 //if (days <= 7)
                 //if (days <= 30)
                 //{
-                    dt = objgps.GetOrderRegisterListReport(datfrmat, dattoat, Userid, state, desig, empcode);
+                dt = objgps.GetOrderRegisterListReport(datfrmat, dattoat, Userid, state, desig, empcode);
                 //}
 
                 return PartialView("PartialGetOrderRegisterListSummary", OrderRegisterListSummary(frmdate));
