@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 788
 //2.0   V2.0.38     Debashis    02/02/2023      Some new parameters have been added.Row: 810 to 811
+//3.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 822
 #endregion===================================End of Revision History==================================================
 using System.ComponentModel.DataAnnotations;
 using System;
@@ -589,4 +590,31 @@ namespace ShopAPI.Models
         public string message { get; set; }
     }
     //End of Rev 2.0 Row: 810 to 811
+    //Rev 3.0 Row: 822
+    public class PartyNotVisitListInput
+    {
+        public string session_token { get; set; }
+        [Required]
+        public long user_id { get; set; }
+        [Required]
+        public string from_date { get; set; }
+        [Required]
+        public string to_date { get; set; }
+    }
+    public class PartyNotVisitListOutput
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public List<PartyNotVisitLists> last_visit_order_list { get; set; }
+    }
+    public class PartyNotVisitLists
+    {
+        public string shop_name { get; set; }
+        public string shop_id { get; set; }
+        public int shop_Type { get; set; }
+        public string shop_TypeName { get; set; }
+        public string last_visited_date { get; set; }
+        public string last_order_date { get; set; }
+    }
+    //End of Rev 3.0 Row: 822
 }

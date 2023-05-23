@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@****************************************************************************************************************************************
+    1.0     Sanchita       V2.0.40      11-05-2023      Feedback column is required in Horizontal Performance Summary & Detail Report. 
+                                                        Refer: 25786
+****************************************************************************************************************************************@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridPerformanceDetails";
 
@@ -87,32 +92,32 @@
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "MOBILENO";
-     x.Caption = "Customer Mobile";
-     x.VisibleIndex = 3;
-     x.Visible = true;
-     //x.Width = 100;
-     x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
-     //if (ViewBag.RetentionColumn != null)
-     //{
-     //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGEDOUT'");
-     //    if (row != null && row.Length > 0)  /// Check now
-     //    {
-     //        x.Visible = false;
-     //    }
-     //    else
-     //    {
-     //        x.Visible = true;
-     //        x.Width = 100;
-     //    }
-     //}
-     //else
-     //{
-     //    x.Visible = true;
-     //    x.Width = 100;
-     //}
- });
+    {
+        x.FieldName = "MOBILENO";
+        x.Caption = "Customer Mobile";
+        x.VisibleIndex = 3;
+        x.Visible = true;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        //if (ViewBag.RetentionColumn != null)
+        //{
+        //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGEDOUT'");
+        //    if (row != null && row.Length > 0)  /// Check now
+        //    {
+        //        x.Visible = false;
+        //    }
+        //    else
+        //    {
+        //        x.Visible = true;
+        //        x.Width = 100;
+        //    }
+        //}
+        //else
+        //{
+        //    x.Visible = true;
+        //    x.Width = 100;
+        //}
+    });
 
     settings.Columns.Add(x =>
     {
@@ -121,7 +126,7 @@
         x.VisibleIndex = 4;
         x.Visible = true;
         //x.Width = 100;
-        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(16);
         //if (ViewBag.RetentionColumn != null)
         //{
         //    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACTNO'");
@@ -144,11 +149,22 @@
 
     });
 
+    // Rev 1.0
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BEAT";
+        x.Caption = "Beat";
+        x.VisibleIndex = 5;
+        x.Visible = true;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+    });
+    // End of Rev 1.0
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "VISITDATE";
         x.Caption = "Visited Date";
-        x.VisibleIndex = 5;
+        x.VisibleIndex = 6;
         x.Visible = true;
         //x.Width = 100;
         x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
@@ -178,7 +194,7 @@
     {
         x.FieldName = "VISITTIME";
         x.Caption = "Visited Time";
-        x.VisibleIndex = 6;
+        x.VisibleIndex = 7;
         x.Visible = true;
         //x.Width = 100;
         x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
@@ -209,7 +225,7 @@
         x.Caption = "Duration Spent";
         x.Visible = true;
         //x.Width = 100;
-        x.VisibleIndex = 7;
+        x.VisibleIndex = 8;
         x.Width = System.Web.UI.WebControls.Unit.Percentage(14);
         //if (ViewBag.RetentionColumn != null)
         //{
@@ -232,7 +248,18 @@
         //}
     });
 
-    
+    // Rev 1.0
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "FEEDBACK";
+        x.Caption = "Feedback";
+        x.VisibleIndex = 9;
+        x.Visible = true;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(16);
+
+    });
+    // End of Rev 1.0
+
 
     //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_VISIT").DisplayFormat = "0";
     //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "RE_VISITED").DisplayFormat = "0";

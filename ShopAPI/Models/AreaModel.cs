@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.39     Debashis    17/05/2023      Some new Parameters have been added.Row: 840
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -47,4 +50,28 @@ namespace ShopAPI.Models
         public string message { get; set; }
         public string distance { get; set; }
     }
+    //Rev 1.0 Row: 840
+    public class AreaListByCityInput
+    {
+        public string session_token { get; set; }
+        [Required]
+        public long user_id { get; set; }
+        [Required]
+        public int city_id { get; set;}
+    }
+    public class AreaListByCityOutPut
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public List<AreaListByCity> area_list_by_city { get; set; }
+    }
+
+    public class AreaListByCity
+    {
+        public string area_location_id { get; set; }
+        public string area_location_name { get; set; }
+        public string area_lat { get; set; }
+        public string area_long { get; set; }
+    }
+    //End of Rev 1.0 Row: 840
 }

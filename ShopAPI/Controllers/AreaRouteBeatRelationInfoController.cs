@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================
 //Written By : Debashis Talukder On 18/01/2023
 //Purpose : For New Area/Route/Beat informations.Row 794 to 795
+//1.0   V2.0.39     Debashis    19/05/2023      A new method has been added.Row: 842
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -153,5 +154,59 @@ namespace ShopAPI.Controllers
                 return message;
             }
         }
+
+        //Rev 1.0 Row: 842
+        [HttpPost]
+        public HttpResponseMessage BeatAreaRouteList(BeatAreaRouteListInput model)
+        {
+            BeatAreaRouteListOutput omodel = new BeatAreaRouteListOutput();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    omodel.status = "213";
+                    omodel.message = "Some input parameters are missing.";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+                }
+                else
+                {
+                    DataTable dt = new DataTable();
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("PRC_APIAREAROUTEBEATRELATIONINFO", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "BEATAREAROUTELIST");
+                    sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(dt);
+                    sqlcon.Close();
+                    if (dt.Rows.Count > 0)
+                    {
+                        omodel.status = "200";
+                        omodel.message = "Success.";
+                        omodel.user_id = Convert.ToString(dt.Rows[0]["user_id"]);
+                        omodel.PLAN_ASSNBEATID = Convert.ToString(dt.Rows[0]["PLAN_ASSNBEATID"]);
+                        omodel.PLAN_ASSNBEATName = Convert.ToString(dt.Rows[0]["PLAN_ASSNBEATName"]);
+                        omodel.PLAN_ASSNAREAID = Convert.ToString(dt.Rows[0]["PLAN_ASSNAREAID"]);
+                        omodel.PLAN_ASSNAREAName = Convert.ToString(dt.Rows[0]["PLAN_ASSNAREAName"]);
+                        omodel.PLAN_ASSNROUTEID = Convert.ToString(dt.Rows[0]["PLAN_ASSNROUTEID"]);
+                        omodel.PLAN_ASSNROUTEName = Convert.ToString(dt.Rows[0]["PLAN_ASSNROUTEName"]);
+                    }
+                    var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                omodel.status = "204";
+                omodel.message = ex.Message;
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+        //End of Rev 1.0 Row: 842
     }
 }

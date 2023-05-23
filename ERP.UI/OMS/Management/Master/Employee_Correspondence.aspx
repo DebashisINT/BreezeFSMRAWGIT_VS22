@@ -1,3 +1,8 @@
+<%--====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                20-04-2023        2.0.40           Sanchita            Under City master, Lat long need to be stored manually. Two new fields (Lat and Long) need to be added. 
+                                                                          (Non Mandatory and same as Shop Master). refer : 25826
+====================================================== Revision History ==========================================================--%>
 <%@ Page Title="Correspondence" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true"
     Inherits="ERP.OMS.Management.Master.management_master_Employee_Correspondence" CodeBehind="Employee_Correspondence.aspx.cs" %>
 
@@ -1344,6 +1349,12 @@
 
 
     </div>
+    <%--Rev 1.0 [ UpdateCommand changed to StoredProcedure ]
+    UpdateCommand="update tbl_master_address set add_addressType=@Type,add_address1=@Address1,add_address2=@Address2,
+        add_address3=@Address3,add_city=@City,add_landMark=@LandMark,add_country=@Country,add_state=@State,
+        add_area=@area,add_pin=@PinCode,LastModifyDate=getdate(),LastModifyUser=@CreateUser 
+        where add_id=@Id">    
+    --%>
     <asp:SqlDataSource ID="Address" runat="server" ConnectionString="<%$ ConnectionStrings:crmConnectionString %>"
         SelectCommand="select DISTINCT  tbl_master_address.add_id AS Id, tbl_master_address.add_addressType AS Type,
                         tbl_master_address.add_address1 AS Address1,  tbl_master_address.add_address2 AS Address2, 
@@ -1360,7 +1371,7 @@
                         from tbl_master_address where add_cntId=@insuId"
         DeleteCommand="contactDelete"
         DeleteCommandType="StoredProcedure" InsertCommand="insert_correspondence" InsertCommandType="StoredProcedure"
-        UpdateCommand="update tbl_master_address set add_addressType=@Type,add_address1=@Address1,add_address2=@Address2,add_address3=@Address3,add_city=@City,add_landMark=@LandMark,add_country=@Country,add_state=@State,add_area=@area,add_pin=@PinCode,LastModifyDate=getdate(),LastModifyUser=@CreateUser where add_id=@Id">
+        UpdateCommand="Update_correspondence"  UpdateCommandType="StoredProcedure">
 
         <SelectParameters>
             <asp:SessionParameter Name="insuId" SessionField="KeyVal_InternalID" Type="String" />
@@ -1370,6 +1381,10 @@
             <asp:SessionParameter Name="CreateUser" SessionField="userid" Type="Int32" />
         </DeleteParameters>
         <UpdateParameters>
+            <%--Rev 1.0 --%>
+            <asp:SessionParameter Name="insuId" SessionField="KeyVal_InternalID" Type="String" />
+            <asp:SessionParameter Name="contacttype" SessionField="ContactType" Type="string" />
+            <%--End of Rev 1.0--%>
             <asp:Parameter Name="Type" Type="string" />
             <asp:Parameter Name="Address1" Type="string" />
             <asp:Parameter Name="Address2" Type="string" />

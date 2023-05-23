@@ -1,7 +1,9 @@
-﻿/****************************************************************************************************************************
+﻿/**************************************************************Revision History**************************************************************
 *   1.0     v2.0.36     Sanchita    10/01/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True" then 
 *                                                   data in portal shall be populated based on Hierarchy Only. Refer: 25504
-*********************************************************************************************************************************/
+*   2.0     v2.0.40     Priti       19/05/2023      0026145:Modification in the ‘Configure Travelling Allowance’ page.
+
+ *************************************************************End Revision History************************************************************/
 
 using DataAccessLayer;
 using System;
@@ -56,12 +58,30 @@ namespace SalesmanTrack
             ds = proc.GetTable();
             return ds;
         }
-
+        //Rev 2.0
+        public DataTable GetBranchList(string StateId)
+        {
+            DataTable ds = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_Branch");
+            proc.AddPara("@Action", "AllBranch");
+            proc.AddPara("@StateId", StateId);
+            ds = proc.GetTable();
+            return ds;
+        }
+        public DataTable GetArealistByBranch(string BranchId)
+        {
+            DataTable ds = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_Area_Userwise");
+            proc.AddPara("@Action", "GetAreaByBranch");
+            proc.AddPara("@BranchId", BranchId);
+            ds = proc.GetTable();
+            return ds;
+        }
+        //Rev 2.0 End
         public DataTable GetDepartmentList()
         {
             DataTable ds = new DataTable();
-            ProcedureExecute proc = new ProcedureExecute("Prc_Department_Userwise");
-
+            ProcedureExecute proc = new ProcedureExecute("Prc_Department_Userwise");           
             ds = proc.GetTable();
             return ds;
         }

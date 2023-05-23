@@ -4,6 +4,12 @@
 //3.0   V2.0.38     Debashis    02/02/2023      Some new parameters have been added.Row: 809
 //4.0   V2.0.38     Debashis    08/02/2023      Some new parameter has been added.Row: 812
 //5.0   V2.0.38     Debashis    22/03/2023      A new parameter has been added.Row: 815
+//6.0   V2.0.39     Debashis    06/04/2023      A new parameter has been added.Row: 817
+//7.0   V2.0.39     Debashis    24/04/2023      A new parameter has been added.Row: 824
+//8.0   V2.0.39     Debashis    08/05/2023      Some new parameters have been added.Row: 825,826,827
+//9.0   V2.0.39     Debashis    16/05/2023      A new parameter has been added.Row: 833
+//10.0  V2.0.39     Debashis    16/05/2023      A new parameter has been added.Row: 838
+//11.0  V2.0.39     Debashis    19/05/2023      A new parameter has been added.Row: 841
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -195,6 +201,33 @@ namespace ShopAPI.Models
         //Rev 5.0 Row:815
         public bool ShowApproxDistanceInNearbyShopList { get; set; }
         //End of Rev 5.0 Row:815
+        //Rev 6.0 Row:817
+        public bool IsAssignedDDAvailableForAllUser { get; set; }
+        //End of Rev 6.0 Row:817
+        //Rev 7.0 Row:824
+        public bool IsShowEmployeePerformance { get; set; }
+        //End of Rev 7.0 Row:824
+        //Rev 8.0 Row:825,826,827
+        public bool IsShowPrivacyPolicyInMenu { get; set; }
+        public bool IsAttendanceCheckedforExpense { get; set; }
+        public bool IsShowLocalinExpense { get; set; }
+        public bool IsShowOutStationinExpense { get; set; }
+        public bool IsTAAttachment1Mandatory { get; set; }
+        public bool IsTAAttachment2Mandatory { get; set; }
+        public bool IsSingleDayTAApplyRestriction { get; set; }
+        public string NameforConveyanceAttachment1 { get; set; }
+        public string NameforConveyanceAttachment2 { get; set; }
+        public bool IsTaskManagementAvailable { get; set; }
+        //End of Rev 8.0 Row:825,826,827
+        //Rev 9.0 Row:833
+        public bool IsAttachmentAvailableForCurrentStock { get; set; }
+        //End of Rev 9.0 Row:833
+        //Rev 10.0 Row:838
+        public bool IsShowReimbursementTypeInAttendance { get; set; }
+        //End of Rev 10.0 Row:838
+        //Rev 11.0 Row:841
+        public bool IsBeatPlanAvailable { get; set; }
+        //End of Rev 11.0 Row:841
     }
 
     public class ConfigurationModelInput

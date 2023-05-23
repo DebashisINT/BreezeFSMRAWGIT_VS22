@@ -1,4 +1,8 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*/*************************************************************************************************************************
+    1.0		Sanchita		V2.0.40		24-04-2023		In TRAVELLING ALLOWANCE -- Approve/Reject Page: One Coloumn('Confirm/Reject') required
+                                                        before 'Approve/Reject' coloumn. refer: 25809
+**********************************************************************************************************************/*@
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridreimbursementregister";
 
@@ -101,7 +105,7 @@
         //Rev 1.0
         //x.Width = 100;
         x.Width = 120;
-        //Rev end 1.0 
+        //Rev end 1.0
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
     });
@@ -114,7 +118,7 @@
         //Rev 1.0
         //x.Width = 100;
         x.Width = 140;
-        //Rev end 1.0 
+        //Rev end 1.0
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
     });
@@ -127,20 +131,33 @@
         //Rev 1.0
         //x.Width = 80;
         x.Width = 120;
-        //Rev end 1.0 
+        //Rev end 1.0
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
     });
+
+    // Rev 1.0
+    if (ViewBag.isExpenseFeatureAvailable == "1")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "CONFIRMED_COUNT";
+            x.Caption = "Tot. Confirmed";
+            x.VisibleIndex = 9;
+            x.Width = 120;
+        });
+    }
+    // End of Rev 1.0
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "APPROVED_COUNT";
         x.Caption = "Tot. Approved";
-        x.VisibleIndex = 9;
+        x.VisibleIndex = 10;
         //Rev 1.0
         //x.Width = 85;
         x.Width = 100;
-        //Rev end 1.0 
+        //Rev end 1.0
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
     });
@@ -149,11 +166,11 @@
     {
         x.FieldName = "REJECTED_COUNT";
         x.Caption = "Tot. Reject";
-        x.VisibleIndex = 10;
+        x.VisibleIndex = 11;
         //Rev 1.0
         //x.Width = 70;
         x.Width = 90;
-        //Rev end 1.0 
+        //Rev end 1.0
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
     });
@@ -162,7 +179,7 @@
     {
         x.FieldName = "REPORTTO";
         x.Caption = "Supervisor";
-        x.VisibleIndex = 11;
+        x.VisibleIndex = 12;
         x.Width = 140;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
@@ -175,7 +192,7 @@
     {
         x.FieldName = "REPORTCONTACT";
         x.Caption = "Contact";
-        x.VisibleIndex = 12;
+        x.VisibleIndex = 13;
         x.Width = 80;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
 
@@ -199,7 +216,7 @@
     {
         x.FieldName = "STATUS";
         x.Caption = "Status";
-        x.VisibleIndex = 13;
+        x.VisibleIndex = 14;
         x.Width = 100;
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
@@ -209,7 +226,7 @@
     {
         x.FieldName = "UPDATEDBY";
         x.Caption = "Updated By";
-        x.VisibleIndex = 14;
+        x.VisibleIndex = 15;
         //Rev 1.0
         //x.Width = 80;
         x.Width = 90;
@@ -222,7 +239,7 @@
     {
         x.FieldName = "LASTUPDATED_ON";
         x.Caption = "Last Updated On";
-        x.VisibleIndex = 15;
+        x.VisibleIndex = 16;
         //Rev 1.0
         //x.Width = 110;
         x.Width = 120;
@@ -233,7 +250,7 @@
     settings.Columns.Add(x =>
     {
         x.Caption = "Approved";
-        x.VisibleIndex = 16;
+        x.VisibleIndex = 17;
         x.Width = 80;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
 

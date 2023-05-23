@@ -3,6 +3,12 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 1.0                09-02-2023        2.0.39           Pallab              25656 : Master module design modification 
 2.0                17/02/2023        2.0.39           Sanchita            A setting required for 'User Account' Master module in FSM Portal
                                                                           Refer: 25669  
+3.0                20/04/2023        2.0.40           Pallab              Add User Account module employee search popup auto focus add and "cancel" button color change
+                                                                          Refer: 25866
+4.0                22-05-2023       v2.0.40           Sanchita            The first name field of the employee master should consider 150 character from the application end. 
+                                                                          For this module the First Name is increased up to 50 since both Employee name
+                                                                          and User Name saved from the Fist Name data. In TBL_MASTER_USER, the column first_name has has length 50.  
+                                                                          Refer: 26187
 ====================================================== Revision History ==========================================================--%>
 
 <%--<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="UserAccountAdd.aspx.cs" Inherits="ERP.OMS.Management.Master.UserAccountAdd" %>--%>
@@ -1126,6 +1132,18 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     }
 
     /*Rev end 1.0*/
+
+    /*Rev 3.0*/
+    #txtReportToSearch , #txtAdditionalReportingHeadSearch , #txtColleagueSearch , #txtColleague1Search , #txtColleague2Search , #txtChannelSearch , #txtCircleSearch , #txtSectionSearch
+    {
+        margin-bottom: 10px;
+    }
+
+    .btn-default
+    {
+            background-color: #e0e0e0;
+    }
+    /*Rev end 3.0*/
     </style>
     <%--  <link href="../../css/choosen.min.css" rel="stylesheet" />--%>
 
@@ -1180,6 +1198,27 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             //$(".chzn-select").chosen();
             //$(".chzn-select-deselect").chosen({ allow_single_deselect: true });
         });
+
+        /*Rev 3.0*/
+        $(document).ready(function () {
+            $('#ReportToModel').on('shown.bs.modal', function () {
+                $('#txtReportToSearch').focus();
+            })
+            $('#AdditionalReportingHeadModel').on('shown.bs.modal', function () {
+                $('#txtAdditionalReportingHeadSearch').focus();
+            })
+            
+            $('#ChannelModel').on('shown.bs.modal', function () {
+                $('#txtChannelSearch').focus();
+            })
+            $('#CircleModel').on('shown.bs.modal', function () {
+                $('#txtCircleSearch').focus();
+            })
+            $('#SectionModel').on('shown.bs.modal', function () {
+                $('#txtSectionSearch').focus();
+            })
+        });
+        /*Rev end 3.0*/
     </script>
 
 
@@ -1205,7 +1244,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                     <div style="position: relative">
                                         <%--Rev work start 26.07.2022 mantise no:25046--%>
                                         <%--<asp:TextBox ID="txtFirstNmae" runat="server" Width="100%" MaxLength="20" CssClass="form-control"></asp:TextBox>--%>
-                                        <asp:TextBox ID="txtFirstNmae" runat="server" Width="100%" MaxLength="20" CssClass="form-control" TabIndex="1"></asp:TextBox>
+                                        <%--Rev 4.0 [MaxLength="20" changed to MaxLength="50" ] --%>
+                                        <asp:TextBox ID="txtFirstNmae" runat="server" Width="100%" MaxLength="50" CssClass="form-control" TabIndex="1"></asp:TextBox>
                                         <%--Rev work close 26.07.2022 mantise no:25046--%>
                                         <span id="MandatoryFirstName" class="pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; right: -4px; top: 10px; display: none" title="Mandatory"></span>
                                         <%--  <dxe:ASPxTextBox ID="txtFirstNmae" runat="server" Width="225px" TabIndex="2">
@@ -1512,7 +1552,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnSaveChannel" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('ChannelSource')">OK</button>
+                        <button type="button" id="btnSaveChannel" class="btnOkformultiselection  btn btn-success" data-dismiss="modal" onclick="OKPopup('ChannelSource')">OK</button>
                         <button type="button" id="btnCloseChannel" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -1544,7 +1584,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnSaveCircle" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('CircleSource')">OK</button>
+                        <button type="button" id="btnSaveCircle" class="btnOkformultiselection  btn btn-success" data-dismiss="modal" onclick="OKPopup('CircleSource')">OK</button>
                         <button type="button" id="btnCloseCircle" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -1576,7 +1616,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="btnSaveSection" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('SectionSource')">OK</button>
+                        <button type="button" id="btnSaveSection" class="btnOkformultiselection btn btn-success" data-dismiss="modal" onclick="OKPopup('SectionSource')">OK</button>
                         <button type="button" id="btnCloseSection" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>

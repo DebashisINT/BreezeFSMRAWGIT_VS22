@@ -1,0 +1,168 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridBeatPlan";
+    settings.KeyFieldName = "PLAN_ID";
+    settings.CallbackRouteValues = new { Action = "PartialBeatPlanGridList", Controller = "BeatPlan" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 400;
+
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "FROM_DATE";
+        x.Caption = "From Date";
+        x.VisibleIndex = 1;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        (x.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TO_DATE";
+        x.Caption = "To Date";
+        x.VisibleIndex = 2;
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        (x.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "Employee";
+        x.VisibleIndex = 3;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BEATNAME";
+        x.Caption = "Plan Beat";
+        x.VisibleIndex = 4;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ROUTENAME";
+        x.Caption = "Plan Route";
+        x.VisibleIndex = 5;
+        x.Width = 150;
+    });
+    //Mantis Issue 24928
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AREANAME";
+        x.Caption = "Plan Area";
+        x.VisibleIndex = 6;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DEVIATION";
+        x.Caption = "Deviate";
+        x.VisibleIndex = 7;
+        x.Width = 100;
+    });
+    //End of Mantis Issue 24928
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DEV_BEATNAME";
+        x.Caption = "Dev. Beat";
+        x.VisibleIndex = 8;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITED";
+        x.Caption = "Visited";
+        x.VisibleIndex = 9;
+        x.Width = 100;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_VISITED";
+        x.Caption = "Total Outlet Visited";
+        x.VisibleIndex = 10;
+        x.Width = 120;
+    });
+
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.SetDataItemTemplateContent(tc =>
+    //    {
+    //        ViewContext.Writer.Write(
+    //            "<div class=''><a href=\"javascript:void(0);\" onclick=\"OnClickEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PLAN_ID")) + "')\" class=\"\" title=\"Edit\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+    //             "" +
+    //             "<a href=\"javascript:void(0);\" onclick=\"OnClickReassign('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PLAN_ID")) + "')\" class=\"\" title=\"Re-assign\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
+    //              "" +
+    //            "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PLAN_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+    //        );
+    //    });
+    //    x.Settings.AllowDragDrop = DefaultBoolean.False;
+    //    x.Settings.AllowSort = DefaultBoolean.False;
+    //    x.Width = 120;
+    //    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+    //    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+
+    //    x.Caption = "Action";
+    //    x.VisibleIndex = 38;
+
+    //});
+
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OnClickEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PLAN_ID")) + "')\" class=\"\" title=\"Edit\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                  "" +
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PLAN_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+            );
+        });
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.False;
+        x.Width = 120;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+
+        x.Caption = "Action";
+        x.VisibleIndex = 38;
+
+    });
+
+
+}).Bind(Model).GetHtml()
+
+
+

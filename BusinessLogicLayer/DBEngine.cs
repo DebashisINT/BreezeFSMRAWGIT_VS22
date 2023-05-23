@@ -1,6 +1,7 @@
 ﻿//====================================================== Revision History ==========================================================
-//1.0  20-02-2023    2.0.39    Priti      Close sql connection after close the SqlDataReader
-//2.0  21-03-2023    2.0.39    Sanchita   Dashboard optimization. Refer: 25741
+//1.0  20-02-2023    2.0.39    Priti             Close sql connection after close the SqlDataReader
+//2.0  21-03-2023    2.0.39    Sanchita          Dashboard optimization. Refer: 25741
+//3.0  24-04-2023    2.0.39    Pallab/Sanchita   Event banner should dynamically change according to the date. Refer: 25861
 //====================================================== Revision History ==========================================================
 
 using System;
@@ -8032,6 +8033,35 @@ namespace BusinessLogicLayer
 
 
         }
+
+        // Rev 3.0
+        public string GetEventImage()
+        {
+            string strEventImage = "";
+
+            if (ConfigurationManager.AppSettings["ErpConnectionMaster"] != null)
+            {
+                DataTable dtInst = new DataTable();
+                SqlConnection con = new SqlConnection(Convert.ToString(ConfigurationManager.AppSettings["ErpConnectionMaster"]));
+
+                SqlCommand cmd = new SqlCommand("PRC_MASTER_EVENTBANNERIMAGEDETAILS", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@ACTION", "GETEVENTIMAGE");
+
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter Adap = new SqlDataAdapter();
+                Adap.SelectCommand = cmd;
+                Adap.Fill(dtInst);
+
+                if (dtInst.Rows.Count > 0)
+                {
+                    strEventImage = dtInst.Rows[0]["Value"].ToString();
+                }
+            }
+            return strEventImage;
+        }
+        // End of Rev 3.0
+
         //rev Pratik
         //public DataTable GetDataTable(
         //                   String query)    // TableName from which the field value is to be fetched

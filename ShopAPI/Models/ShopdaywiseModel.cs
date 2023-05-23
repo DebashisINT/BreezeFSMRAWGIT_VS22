@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 787
+//2.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 821
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,10 @@ namespace ShopAPI.Models
         public string multi_contact_name { get; set; }
         public string multi_contact_number { get; set; }
         //End of Rev 1.0 Row:787
+        //Rev 2.0 Row:821
+        public decimal distFromProfileAddrKms { get; set; }
+        public int stationCode { get; set; }
+        //End of Rev 2.0 Row:821
     }
 
 

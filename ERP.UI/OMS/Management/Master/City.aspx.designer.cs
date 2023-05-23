@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ERP.OMS.Management.Master {
-    
-    
-    public partial class management_master_City {
-        
+namespace ERP.OMS.Management.Master
+{
+
+
+    public partial class management_master_City
+    {
+
         /// <summary>
         /// drdExport control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList drdExport;
-        
+
         /// <summary>
         /// cityGrid control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridView cityGrid;
-        
+
         /// <summary>
         /// Popup_Empcitys control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxPopupControl Popup_Empcitys;
-        
+
         /// <summary>
         /// CmbCountryName control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxComboBox CmbCountryName;
-        
+
         /// <summary>
         /// CmbState control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxComboBox CmbState;
-        
+
         /// <summary>
         /// txtcityName control.
         /// </summary>
@@ -65,7 +67,25 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxTextBox txtcityName;
-        
+
+        /// <summary>
+        /// txtCityLat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox txtCityLat;
+
+        /// <summary>
+        /// txtCityLong control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox txtCityLong;
+
         /// <summary>
         /// btnSave_citys control.
         /// </summary>
@@ -74,7 +94,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxButton btnSave_citys;
-        
+
         /// <summary>
         /// btnCancel_citys control.
         /// </summary>
@@ -83,7 +103,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxButton btnCancel_citys;
-        
+
         /// <summary>
         /// exporter control.
         /// </summary>
@@ -92,7 +112,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxGridViewExporter exporter;
-        
+
         /// <summary>
         /// hiddenedit control.
         /// </summary>

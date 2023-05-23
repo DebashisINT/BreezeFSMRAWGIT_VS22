@@ -131,7 +131,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                 string FromDate = model.Fromdate;
                 string ToDate = model.Todate;
-
+                
                 if (model.is_pageload == "1")
                 {
                     double days = (Convert.ToDateTime(ToDate) - Convert.ToDateTime(FromDate)).TotalDays;

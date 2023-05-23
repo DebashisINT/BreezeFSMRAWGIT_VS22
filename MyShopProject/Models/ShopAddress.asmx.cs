@@ -1,7 +1,8 @@
 ﻿//********************************************************************************************************************
 // 1.0      v2.0.38    Sanchita    13/01/2023  DD Type should be shown based on the Type_ID & Parent_ID mapping as
 //                                              per tbl_shoptypeDetails table. Refer: 25578
-// 2.0      V2.0.38     Sanchita    27/01/2023  Assign to DD is not showing while making shop from Portal. Refer: 25606
+// 2.0      V2.0.38    Sanchita    27/01/2023  Assign to DD is not showing while making shop from Portal. Refer: 25606
+// 3.0      V2.0.40    Sanchita    04-05-2023  A New Expense Report is Required for BP Poddar. Refer: 25833*
 // ********************************************************************************************************************
 using DataAccessLayer;
 using System;
@@ -295,6 +296,36 @@ namespace MyShop.Models
             return listUser;
         }
         //End of Mantis Issue 25133
+        // Rev 3.0
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetEmployeeListHQWise(string SearchKey, string HQid)
+        {
+            List<EmployeeModel> listEmployee = new List<EmployeeModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                //BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+                //DataTable Shop = oDBEngine.GetDataTable("select top(10)cnt_internalId,Replace(ISNULL(cnt_firstName,'')+' '+ISNULL(cnt_middleName,'')+ ' '+ISNULL(cnt_lastName,''),'''','&#39;') AS Employee_Name,cnt_UCC from tbl_master_contact where (cnt_firstName like '%" + SearchKey + "%') or  (cnt_middleName like '%" + SearchKey + "%') or  (cnt_lastName like '%" + SearchKey + "%')");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_EmployeeNameSearchByHQ");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                proc.AddPara("@HQid", HQid);
+                dt = proc.GetTable();
+
+                listEmployee = (from DataRow dr in dt.Rows
+                                select new EmployeeModel()
+                                {
+                                    id = Convert.ToString(dr["cnt_internalId"]),
+                                    Employee_Code = Convert.ToString(dr["cnt_UCC"]),
+                                    Employee_Name = Convert.ToString(dr["Employee_Name"])
+                                }).ToList();
+            }
+
+            return listEmployee;
+        }
+        // End of Rev 3.0
     }
 
     public class PPModel

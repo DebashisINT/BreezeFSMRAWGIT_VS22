@@ -1,6 +1,8 @@
 <%--====================================================== Revision History ==========================================================
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                09-02-2023        2.0.39           Pallab              25656 : Master module design modification 
+2.0                20-04-2023        2.0.40           Sanchita            Under City master, Lat long need to be stored manually. Two new fields (Lat and Long) need to be added. 
+                                                                          (Non Mandatory and same as Shop Master). refer : 25826
 ====================================================== Revision History ==========================================================--%>
 
 <%@ Page Title="City" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" Inherits="ERP.OMS.Management.Master.management_master_City" CodeBehind="City.aspx.cs" %>
@@ -42,6 +44,10 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             ctxtcityName.SetText('');
             cCmbCountryName.SetValue("1");
             cCmbState.SetSelectedIndex(0);
+            // Rev 2.0
+            ctxtCityLat.SetValue(0.0);
+            ctxtCityLong.SetValue(0.0);
+            // End of Rev 2.0
             //ctxtNseCode.SetText('');
             //ctxtBseCode.SetText('');
             //ctxtMcxCode.SetText('');
@@ -123,6 +129,10 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 //ctxtCvlCode.SetText(grid.cpEdit.split('~')[11]);
                 //ctxtDotexCode.SetText(grid.cpEdit.split('~')[12]);
                 GetObjectID('<%=hiddenedit.ClientID%>').value = grid.cpEdit.split('~')[13];
+                // Rev 2.0
+                ctxtCityLat.SetValue(grid.cpEdit.split('~')[14]);
+                ctxtCityLong.SetValue(grid.cpEdit.split('~')[15]);
+                // End of Rev 2.0
                 cPopup_Empcitys.Show();
             }
             if (grid.cpUpdate != null) {
@@ -600,6 +610,13 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     }
 
     /*Rev end 1.0*/
+
+    /*Rev 2.0*/
+    #txtCityLat , #txtCityLong
+    {
+        min-width: 195px !important;
+    }
+    /*Rev end 2.0*/
     </style>
     <script>
         $(document).ready(function () {
@@ -683,19 +700,29 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 Visible="False" FixedStyle="Left" VisibleIndex="2">
                                 <EditFormSettings Visible="False" />
                             </dxe:GridViewDataTextColumn>
-                            <dxe:GridViewDataTextColumn Caption="City" FieldName="city_name" Width="30%" FixedStyle="Left"
+                            <dxe:GridViewDataTextColumn Caption="City" FieldName="city_name" Width="20%" FixedStyle="Left"
                                 Visible="True" VisibleIndex="3" PropertiesTextEdit-MaxLength="50">
                                 <EditFormSettings Visible="True" />
                             </dxe:GridViewDataTextColumn>
-                            <dxe:GridViewDataTextColumn Caption="State" FieldName="state" Width="30%" FixedStyle="Left"
+                            <dxe:GridViewDataTextColumn Caption="State" FieldName="state" Width="20%" FixedStyle="Left"
                                 Visible="True" VisibleIndex="4">
                                 <EditFormSettings Visible="True" />
                             </dxe:GridViewDataTextColumn>
                             <dxe:GridViewDataTextColumn Caption="Country" FieldName="cou_country" Visible="True"
-                                Width="30%" VisibleIndex="5">
+                                Width="20%" VisibleIndex="5">
                                 <CellStyle CssClass="gridcellleft" Wrap="False">
                                 </CellStyle>
                             </dxe:GridViewDataTextColumn>
+                            <%--Rev 2.0--%>
+                            <dxe:GridViewDataTextColumn Caption="City Location Lat" FieldName="City_Lat" Visible="True" 
+                                Width="17%" VisibleIndex="6">
+                                <PropertiesTextEdit DisplayFormatString="d"></PropertiesTextEdit>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn Caption="City Location Long" FieldName="City_Long" Visible="True" 
+                                Width="17%" VisibleIndex="7">
+                                <PropertiesTextEdit DisplayFormatString="d"></PropertiesTextEdit>
+                            </dxe:GridViewDataTextColumn>
+                            <%--End of Rev 2.0--%>
                             <%-- <dxe:GridViewDataTextColumn Caption="NSECode" FieldName="City_NSECode" Visible="True"
                             Width="6%" VisibleIndex="6">
                             <CellStyle CssClass="gridcellleft" Wrap="False">
@@ -812,6 +839,30 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                         </div>
 
                                     </div>
+                                    <%--Rev 2.0--%>
+                                     <div style="margin-bottom: 5px; position: relative" class="col-md-4">
+                                        <div class="cityDiv" style="padding-top: 5px;">
+                                            City Location Lat
+                                        </div>
+                                        <div class="Left_Content" style="padding-top: 5px;">
+                                            <dxe:ASPxTextBox ID="txtCityLat" ClientInstanceName="ctxtCityLat" runat="server" 
+                                                Width="100%">
+                                                <MaskSettings Mask="&lt;0..9999999999&gt;.&lt;0..999999999999999&gt;" />
+                                            </dxe:ASPxTextBox>
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom: 5px; position: relative" class="col-md-4">
+                                        <div class="cityDiv" style="padding-top: 5px;">
+                                            City Location Long
+                                        </div>
+                                        <div class="Left_Content" style="padding-top: 5px;">
+                                            <dxe:ASPxTextBox ID="txtCityLong" ClientInstanceName="ctxtCityLong" runat="server" 
+                                                Width="100%">
+                                                <MaskSettings Mask="&lt;0..9999999999&gt;.&lt;0..999999999999999&gt;" />
+                                            </dxe:ASPxTextBox>
+                                        </div>
+                                    </div>
+                                    <%--End of Rev 2.0--%>
                                 </div>
                                 <div class="ContentDiv">
                                     <%--<div style="height: 20px; width: 100%; background-color: Gray; text-align:center;">

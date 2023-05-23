@@ -1,0 +1,61 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+
+@* Added by Sanchita for V2.0.40 on 26-04-2023     A New Expense Report is Required for BP Poddar, Refer: 25833  *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridLookup(
+    settings =>
+    {
+        settings.Properties.Caption = " ";
+        settings.Properties.CaptionCellStyle.CssClass = "hide";
+        settings.Name = "HQGridLookup";
+        settings.KeyFieldName = "HQid";
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Properties.EnableClientSideAPI = true;
+        settings.Properties.ClientInstanceName = "HQGridLookup";
+        settings.GridViewClientSideEvents.SelectionChanged = "HQSelectionChanged";
+        settings.Properties.ClientSideEvents.ValueChanged = "HQSelectionChanged";
+        settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "HQname";
+            column.Caption = "HQ Name";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(85);
+        });
+
+        settings.Properties.Caption = " ";
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+
+        //  settings.Properties.TextFormatString = "{1}";
+        settings.Properties.MultiTextSeparator = ", ";
+        settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+        settings.Properties.Width = System.Web.UI.WebControls.Unit.Percentage(80);
+
+        settings.GridViewProperties.CallbackRouteValues = new { Controller = "ExpenseReport", Action = "GetHQNameList" };
+        // settings.GridViewClientSideEvents.BeginCallback = "function(s,e){OnBeginCallback(s,e);}";
+        settings.GridViewProperties.Settings.ShowFilterRow = true;
+        settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+
+        settings.DataBound = (sender, e) =>
+        {
+            var gridLookup = (MVCxGridLookup)sender;
+            gridLookup.GridView.Width = 310;
+
+            //gridLookup.GridView.Settings.wi
+        };
+
+    }).BindList(Model).GetHtml()
+

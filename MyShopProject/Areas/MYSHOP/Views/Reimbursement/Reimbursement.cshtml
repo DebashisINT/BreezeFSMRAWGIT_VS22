@@ -1,6 +1,9 @@
 ﻿@*====================================================== Revision History ==========================================================*@
-@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
-@*1.0                10-02-2023        2.0.39           Pallab              25656 : Master module design modification *@
+@*Rev Number    DATE              VERSION          DEVELOPER        CHANGES*@
+@*1.0           10-02-2023        2.0.38           Pallab           25656 : Master module design modification *@
+@*2.0           17-04-2023        2.0.38           Pallab           25831 : Traveling Allowance Pop Up Height issue fixing *@
+@*3.0		    20-04-2023   	  V2.0.40		   Sanchita		    In TRAVELLING ALLOWANCE -- Approve/Reject Page: One Coloumn('Confirm/Reject') required
+                                                                    before 'Approve/Reject' coloumn. refer: 25809*@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.ReimbursementReport
@@ -318,6 +321,48 @@
     function ReimbursementCancel() {
         pcModalReimbursement.Hide();
     }
+
+    // Rev 3.0
+    function OpenReimbursementDetailsGridConfirmedData(user_contactId, ApplicationID, Conf_Rej_Remarks) {
+        usercontactId = user_contactId;
+        applicationid = ApplicationID;
+        if(jQuery.inArray(applicationid, appcode) !== -1){
+        $.ajax({
+                type: "POST",
+                url: "@Url.Action("GetReimbursementConfirmDetailsDataEdit", "Reimbursement")",
+            data: { user_contactId: user_contactId, Conf_Rej_Remarks: Conf_Rej_Remarks },
+                success: function (response) {
+                    if (response) {
+                        pcModalReimbursementConfirmedDetails.SetContentHtml(response);
+                        MVCxClientUtils.FinalizeCallback();
+                        pcModalReimbursementConfirmedDetails.Show();
+                        $('#idConfirmedRejectRemarks').val(gridreimbursementdetails.batchEditApi.GetCellValue(glovalrowIndex, "Conf_Rej_Remarks"));
+                    }
+                }
+            });
+        }
+    }
+
+    function ReimbursementConfirmedOk() {
+        if (appcode.length > 0) {
+            globalApprovedorReject = 3;
+            gridreimbursementdetails.UpdateEdit();
+
+        }
+        else {
+            jAlert("Please check atleast one record!");
+        }
+    }
+
+    function ConfirmCancel() {
+        pcModalReimbursementConfirmedDetails.Hide();
+    }
+    function ConfirmOKSaved() {
+        var idConfirmedRejectRemarks = $('#idConfirmedRejectRemarks').val();
+        gridreimbursementdetails.batchEditApi.SetCellValue(glovalrowIndex, "Conf_Rej_Remarks", idConfirmedRejectRemarks);
+        pcModalReimbursementConfirmedDetails.Hide();
+    }
+    // End of Rev 3.0
 
     function isNumberKey(evt, e) {
         var $this = $(e);
@@ -904,7 +949,16 @@
     }
 
     /*Rev end 1.0*/
+
+    /*Rev 2.0*/
+    #pcModalReimbursement_PWC-1 {
+        display: block !important;
+        height: 590px;
+        overflow-y: auto;
+    }
+    /*Rev end 2.0*/
 </style>
+
 <link href="~/Content/media.css" rel="stylesheet" />
 
 <div class="breadCumb">
@@ -1028,6 +1082,30 @@
      settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);}";
  }).GetHtml()
 
+@*Rev 3.0*@
+@Html.DevExpress().PopupControl(
+ settings =>
+ {
+     settings.Name = "pcModalReimbursementConfirmedDetails";
+     settings.Width = 280;
+     //settings.Height = 400;
+     //settings.ScrollBars.v
+     settings.AllowDragging = true;
+     settings.CloseAction = CloseAction.CloseButton;
+     settings.CloseOnEscape = true;
+     settings.PopupAnimationType = AnimationType.None;
+     settings.HeaderText = "Travelling Allowance Confirmed Details";
+     settings.Modal = true;
+     settings.AutoUpdatePosition = true;
+     settings.Top = 50;
+     settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+     settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+     settings.SetContent(() =>
+     { });
+
+     settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);}";
+ }).GetHtml()
+@*End of Rev 3.0*@
 
 @Html.DevExpress().PopupControl(
     settings =>

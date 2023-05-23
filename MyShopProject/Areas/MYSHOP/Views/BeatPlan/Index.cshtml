@@ -1,0 +1,1630 @@
+﻿@*====================================================== Revision History ===========================================================*@
+@* Written by Sanchita for V2.0.40 on 15-05-2023    Beat Plan
+    @*====================================================== Revision History ===========================================================*@
+
+@using MyShop.Models;
+@model MyShop.Models.BeatPlanModel
+@{
+    ViewBag.Title = "Beat Plan";
+}
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script src="~/Scripts/SearchPopup.js"></script>
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+
+<script>
+    $(function () {
+
+
+        $(document).ready(function () {
+            $('#EmployeeModel').on('shown.bs.modal', function () {
+                $('#txtEmployeeSearch').focus();
+            })
+
+            if ($("#ddlPlan").val() != 'Custom') {
+                txtAssignedFrom.SetEnabled(false);
+                txtAssignedTo.SetEnabled(false);
+            }
+            else {
+                txtAssignedFrom.SetEnabled(true);
+                txtAssignedTo.SetEnabled(true);
+            }
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                //var desg = $("#drpdesignation").val();
+                //var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporBeatPlanList", "BeatPlan", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+
+        $('#ddlPlan').on('change', function () {
+            if ($("#ddlPlan option:selected").index() >= 0) {
+                var selectedValue = $(this).val();
+
+                $.ajax({
+                    url: "@Url.Action("GetFromToDate", "BeatPlan")",
+                    async: false,
+                    data: {
+                        Plan: selectedValue
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        txtAssignedFrom.SetText(data.date_AssignedFrom);
+                        txtAssignedTo.SetText(data.date_AssignedTo);
+
+                        if ($("#ddlPlan").val() != 'Custom') {
+                            txtAssignedFrom.SetEnabled(false);
+                            txtAssignedTo.SetEnabled(false);
+                        }
+                        else {
+                            txtAssignedFrom.SetEnabled(true);
+                            txtAssignedTo.SetEnabled(true);
+                        }
+
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        });
+
+
+        $('#ddlBeat').on('change', function () {
+            if ($("#ddlBeat option:selected").index() >= 0) {
+
+                //$("#ddlBeat").val(data.BeatId);
+                $("#ddlArea").val('0');
+                $("#ddlRoute").val('0');
+
+                //var selectedValue = $(this).val();
+
+                //$.ajax({
+                //    url: "@Url.Action("GetAreaRouteChain", "BeatPlan")",
+                //    async: false,
+                //    data: {
+                //        code_type: 'BEAT',
+                //        code_id: selectedValue
+                //    },
+                //    type: 'POST',
+                //    success: function (data) {
+                //        //$("#ddlBeat").val(data.BeatId);
+                //        $("#ddlArea").val(data.AreaId);
+                //        $("#ddlRoute").val(data.RouteId);
+                //    },
+                //    error: function () {
+                //    },
+                //});
+            }
+        });
+
+
+        $('#ddlRoute').on('change', function () {
+            if ($("#ddlRoute option:selected").index() >= 0) {
+
+                $("#ddlBeat").val('0');
+                $("#ddlArea").val('0');
+                //$("#ddlRoute").val('0');
+
+                //var selectedValue = $(this).val();
+
+                //$.ajax({
+                //    url: "@Url.Action("GetAreaRouteChain", "BeatPlan")",
+                //    async: false,
+                //    data: {
+                //        code_type: 'ROUTE',
+               //         code_id: selectedValue
+                //    },
+                //    type: 'POST',
+               //     success: function (data) {
+               //         $("#ddlBeat").val('0');
+               //         $("#ddlArea").val(data.AreaId);
+               //        // $("#ddlRoute").val(data.RouteId);
+               //     },
+              //      error: function () {
+              //      },
+              //  });
+            }
+        });
+
+
+        $('#ddlArea').on('change', function () {
+            if ($("#ddlArea option:selected").index() >= 0) {
+                $("#ddlBeat").val('0');
+                $("#ddlRoute").val('0');
+            }
+        });
+
+        // Parameter Branch
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        lookup.GetGridView().Refresh();
+        // Parameter Branch
+
+        $('body').on('click', '#btnshow', function () {
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeListId").val());
+            var emp = empId.join(',');
+            var Branch = BranchId.join(',');
+
+            if (dtFrom.GetText() == "" || dtFrom.GetText() == null || dtFrom.GetText() == "01-01-0100" ||
+            dtTo.GetText() == "" || dtTo.GetText() == null || dtTo.GetText() == "01-01-0100") {
+                jAlert('Please enter From and To Date.');
+            }
+            else {
+                Is_PageLoad = "1";
+
+                $.ajax({
+                    url: "@Url.Action("GetBeatPlanList", "BeatPlan")",
+                    async: false,
+                    data: {
+                        Fromdate: dtFrom.GetText(),
+                        Todate: dtTo.GetText(),
+                        Empcode: emp,
+                        BranchId: Branch,
+                        Is_PageLoad: Is_PageLoad,
+                    },
+                    type: 'POST',
+                    success: function (data) {
+                        gridBeatPlan.Refresh();
+                        gridBeatPlan.Refresh();
+                    },
+                    error: function () {
+                    },
+                });
+            }
+
+
+
+        });
+    });
+
+</script>
+
+<script>
+    var Is_PageLoad = "Ispageload";
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                //callonServer("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+                callonServer("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetEmployee");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetEmployee(id, Name) {
+        var key = id;
+        $('#hdnEmployeeId').val(id)
+        if (key != null && key != '') {
+            $('#EmployeeModel').modal('hide');
+            EmployeeTxt.SetText(Name);
+            EmployeeTxt.SetFocus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    //function SetSelectedValues(Id, Name, ArrName) {
+    //    if (ArrName == 'EmployeeSource') {
+    //        var key = Id;
+    //        if (key != null && key != '') {
+    //            $('#EmployeeModel').modal('hide');
+    //            EmployeeTxt.SetText(Name);
+    //            $('#hdnEmployeeId').val(key);
+    //        }
+    //        else {
+    //            EmployeeTxt.SetText('');
+    //            $('#hdnEmployeeId').val('');
+    //        }
+    //    }
+    //}
+
+    function ClearData() {
+        $("#hdnMode").val('ADDBEATPLAN');
+        $("#hdnPLAN_ID").val(0);
+        $("#divPlan").addClass('show');
+        EmployeeTxt.SetEnabled(true);
+
+        $("#myModalLabel").text("Add Beat Plan");
+        $("#ddlPlan").val('Daily');
+
+        $('#hdnEmployeeId').val('0');
+        EmployeeTxt.SetText('');
+
+        $("#ddlBeat").val('0');
+        $("#ddlArea").val('0');
+        $("#ddlRoute").val('0');
+
+        $("#txtBeatOld").val('');
+        $("#txtRouteOld").val('');
+        $("#txtAreaOld").val('');
+        $("#txtRemarks").val('');
+    }
+
+    function AddBeatPlan() {
+        var mode = $("#hdnMode").val();
+        datefrm = txtAssignedFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+        var startdate = new Date(Date.parse(newdatefrom));
+        var PLAN_ID = $("#hdnPLAN_ID").val();
+
+        dateto = txtAssignedTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (mode == "ADDBEATPLAN") {
+            if (txtAssignedFrom.GetText() == "" || txtAssignedFrom.GetText() == null || txtAssignedFrom.GetText() == "01-01-0100") {
+                jAlert("Please enter From Date.", "Alert", function () {
+                    setTimeout(function () {
+                        //txtAssignedFrom.focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+
+            if (txtAssignedTo.GetText() == "" || txtAssignedTo.GetText() == null || txtAssignedTo.GetText() == "01-01-0100") {
+                jAlert("Please enter To Date.", "Alert", function () {
+                    setTimeout(function () {
+                        // txtAssignedTo.focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+
+            if ($('#hdnEmployeeId').val() == "" || $('#hdnEmployeeId').val() == "0") {
+                jAlert("Please select Employee.", "Alert", function () {
+                    setTimeout(function () {
+                        //EmployeeTxt.focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+        }
+
+
+        if ($("#ddlPlan").val() == "Custom") {
+            if ((Math.ceil((endDate - startdate) / (1000 * 60 * 60 * 24))) > 31) {
+                jAlert("Difference of From Date and To Date cannot be more than 31 days.", "Alert", function () {
+                    setTimeout(function () {
+                        //ddlPlan.focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+        }
+
+        if (($("#ddlBeat").val() == null || $("#ddlBeat").val() == "0") && ($("#ddlArea").val() == null || $("#ddlArea").val() == "0")
+            && ($("#ddlRoute").val() == null || $("#ddlRoute").val() == "0") ) {
+            jAlert("Please either Beat or Area or Route.", "Alert", function () {
+                setTimeout(function () {
+                    //$("#ddlBeat").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        var data = {
+            Mode: mode,
+            PLAN_ID: PLAN_ID,
+            FromDate: datefrm,
+            ToDate: dateto,
+            Plan: $("#ddlPlan").val(),
+            EmpCntId: $('#hdnEmployeeId').val(),
+            BeatId: $("#ddlBeat").val(),
+            RouteId: $("#ddlRoute").val(),
+            AreaId: $("#ddlArea").val(),
+            Remarks: $("#txtRemarks").val()
+        }
+
+        $.ajax({
+            url: "@Url.Action("SaveBeatPlan", "BeatPlan")",
+            async: false,
+            data: { data: data },
+            type: 'POST',
+            success: function (returnValue
+                ) {
+                // Mantis Issue 24603 (Return value "returnValue" added )
+                if (returnValue == "SUCCESS") {
+                    jAlert("Beat Plan saved successfully.");
+                    ClearData();
+                    $('#myModal').modal('hide');
+                    GridShow();
+                }
+                else if (returnValue == "EXISTS") {
+                    jAlert("Beat Plan already exists.");
+                }
+                else {
+                    jAlert("Unable to save.");
+                }
+
+
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+    function GridShow() {
+        // Show Button Click
+        GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeListId").val());
+        var emp = empId.join(',');
+        var Branch = BranchId.join(',');
+
+        if (dtFrom.GetText() == "" || dtFrom.GetText() == null || dtFrom.GetText() == "01-01-0100" ||
+        dtTo.GetText() == "" || dtTo.GetText() == null || dtTo.GetText() == "01-01-0100") {
+            jAlert('Please enter From and To Date.');
+        }
+        else {
+            Is_PageLoad = "1";
+
+            $.ajax({
+                url: "@Url.Action("GetBeatPlanList", "BeatPlan")",
+                async: false,
+                data: {
+                    Fromdate: dtFrom.GetText(),
+                    Todate: dtTo.GetText(),
+                    Empcode: emp,
+                    BranchId: Branch,
+                    Is_PageLoad: Is_PageLoad,
+                },
+                type: 'POST',
+                success: function (data) {
+                    gridBeatPlan.Refresh();
+                    gridBeatPlan.Refresh();
+                },
+                error: function () {
+                },
+            });
+        }
+    }
+
+    function OnClickDeleteForm(PLAN_ID) {
+        var url = '/BeatPlan/BeatPlanDelete/';
+
+        jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+            if (ret == true) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'PLAN_ID': PLAN_ID }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "Delete Succesfully.") {
+                            jAlert("Successfully Deleted.");
+                            GridShow();
+                        }
+                        else {
+                            jAlert(response);
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["empcode"] = empId;
+        e.customArgs["BranchId"] = BranchId;
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+
+    function DownloadMonthlyPlanFormat() {
+        var url = '@Url.Action("DownloadMonthlyPlanFormat", "BeatPlan")'
+        window.location.href = url;
+    }
+
+    function DownloadDailyPlanFormat() {
+        var url = '@Url.Action("DownloadDailyPlanFormat", "BeatPlan")'
+        window.location.href = url;
+    }
+
+    function ImportPlanPopOpen() {
+        $("#myImportPlanModal").modal('show');
+    }
+
+    function ImportPlan() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("ImportPlanExcel", "BeatPlan")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        $("#myImportPlanModal").modal('hide');
+                        GridShow();
+
+                       // $.ajax({
+                       //     type: "POST",
+                       //     url: "@Url.Action("GetPlanImportLog", "BeatPlan")",
+                       //     success: function (response) {
+                       //         if (response) {
+                      //              pcModalTemplateImportLogMode.Show();
+                       //             gridTemplateImportLogList.Refresh();
+                       //             gridTemplateImportLogList.Refresh();
+                      //          }
+                      //      }
+                      //  });
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+
+    // Parameter Branch
+    var BranchId = [];
+    var Branch_Id = "";
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
+
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+
+        BranchId = [];
+        Branch_Id = "";
+    }
+
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+    // Parameter Branch
+
+    function OnClickEdit(PLAN_ID) {
+        var x = "";
+        var dt = "";
+        $.ajax({
+            url: "@Url.Action("ShowBeatPlanDetails", "BeatPlan")",
+            async: false,
+            data: { PLAN_ID: PLAN_ID },
+            type: 'POST',
+            success: function (data) {
+
+                $("#hdnMode").val('MODIFYBEATPLAN');
+                $("#hdnPLAN_ID").val(PLAN_ID);
+
+                $("#divPlan").addClass('hide');
+                EmployeeTxt.SetEnabled(false)
+                txtAssignedFrom.SetEnabled(false);
+                txtAssignedTo.SetEnabled(false);
+                $("#myModalLabel").text("Edit Beat Plan");
+
+                $("#ddlPlan").val(data.Plan);
+               // $('#hdnEmployeeId').val(data.EmpCntId);
+                EmployeeTxt.SetText(data.EMPNAME);
+
+                $("#ddlBeat").val(data.BeatId);
+                $("#ddlArea").val(data.AreaId);
+                $("#ddlRoute").val(data.RouteId);
+
+                $("#txtBeatOld").val(data.BeatNameOld);
+                $("#txtRouteOld").val(data.RouteNameOld);
+                $("#txtAreaOld").val(data.AreaNameOld);
+
+                $("#txtRemarks").val(data.Remarks);
+
+
+                $('#myModal').modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeListModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeListSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeListButnClick(s, e) {
+        $('#EmployeeListModel').modal('show');
+    }
+
+    function EmployeeList_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeListModel').modal('show');
+        }
+    }
+
+    function EmployeeListkeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeListSearch").val()) == "" || $.trim($("#txtEmployeeListSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeListSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeListSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTableList", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeListSearch').focus();
+        else
+            $('#txtEmployeeListSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeListModel').modal('hide');
+                EmployeeListTxt.SetText(Name);
+                $('#hdnEmployeeListId').val(key);
+            }
+            else {
+                EmployeeListTxt.SetText('');
+                $('#hdnEmployeeListId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+<style>
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 20px 20px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 76%;
+    }
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 30px;
+        padding: 3px 12px;
+    }
+
+    .modalScroll .modal-body {
+        max-height: 75vh !important;
+        overflow-y: auto;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+    }
+
+    .new-popup-width .modal-dialog {
+        width: 90% !important;
+    }
+
+    #myImportModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+
+    .btn {
+        margin-bottom: 15px;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        min-height: 30px;
+        border-radius: 4px;
+        border: 1px solid #cdcdcd;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    #myModal label {
+        margin-top: 8px;
+        font-size: 13px;
+        margin-bottom: 2px;
+    }
+
+    .General-part {
+        padding-bottom: 20px;
+        background: #fff4eb;
+        padding-top: 12px;
+        padding-left: 4px;
+        /*border-left: 5px solid #9b0909;*/
+        border-bottom: 1px solid #9b090991;
+    }
+
+    .party-info {
+        padding-bottom: 20px;
+        background: #ebfff0;
+        padding-top: 12px;
+        padding-left: 4px;
+        /*border-left: 5px solid #33974c;*/
+        border-bottom: 1px solid #33974c91;
+    }
+
+    .contact-info {
+        padding-bottom: 20px;
+        background: #f8ebff;
+        padding-top: 12px;
+        padding-left: 4px;
+        /*border-left: 5px solid #7e3ea1;*/
+        border-bottom: 1px solid #7e3ea191;
+    }
+
+    .account-info {
+        padding-bottom: 20px;
+        background: #fffff0;
+        padding-top: 12px;
+        padding-left: 4px;
+        /* border-left: 5px solid #2d84b3; */
+        border-bottom: 1px solid #c3b66391;
+    }
+
+    .other-info {
+        padding-bottom: 20px;
+        background: #fff3f3;
+        padding-top: 12px;
+        padding-left: 4px;
+        /*border-left: 5px solid #9eb329;*/
+        border-bottom: 1px solid #ef2a2a91;
+    }
+
+    .pmsModal .modal-body {
+        padding-top: 15px;
+        padding-right: 15px;
+        padding-left: 15px;
+        padding-bottom: 15px;
+    }
+
+    .General-part h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #8c0909;
+        padding-left: 8px;
+    }
+
+    .party-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #33974c;
+        padding-left: 8px;
+    }
+
+    .contact-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #7e3ea1;
+        padding-left: 8px;
+    }
+
+    .account-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #bfaa15;
+        padding-left: 8px;
+    }
+
+    .other-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #e54949;
+        padding-left: 8px;
+    }
+
+    .col-md-3, .col-md-6, .col-md-4 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        padding: 3px 5px;
+    }
+
+    .red {
+        font-size: 12px;
+    }
+
+    #EmployeeTable table tr th,
+    #PPModel table tr th,
+    .dynamicPopupTbl > tbody > tr > td input {
+        font-family: 'Poppins', sans-serif !important;
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .w-50 {
+        width: 50% !important
+    }
+
+    #txtDOB_DDD_PW-1, #txtAnniversary_DDD_PW-1 {
+        left: 20px !important;
+    }
+
+    #pcModalImportLogViewMode_PW-1 .mTop5, #pcModalImportGroupBeatLogViewMode_PW-1 .mTop5 {
+        margin-top: 15px;
+    }
+
+    #dtFrom, #dtTo, #txtAssignedFrom, #txtAssignedTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 7px;
+        right: 19px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .calendar-icon-2 {
+        position: absolute;
+        bottom: 7px;
+        right: 13px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1, #txtAssignedFrom_B-1, #txtAssignedTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img, #txtAssignedFrom_B-1 #txtAssignedFrom_B-1Img, #txtAssignedTo_B-1 #txtAssignedTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I, #txtAssignedFrom_I, #txtAssignedTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 2;
+    }
+
+    .pmsModal .modal-content {
+        overflow: hidden;
+    }
+
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+        min-width: 340px;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .iminentSpan > span {
+        display: block;
+    }
+
+    .btn-excel {
+        float: right;
+        margin-right: 38px;
+        margin-top: -4px;
+    }
+
+    .gridbinded {
+        position: absolute;
+        right: 15px;
+        top: 11px;
+    }
+
+    #cmbState + .btn-group > button {
+        border-radius: 4px;
+        height: 34px;
+    }
+
+    span.multiselect-native-select button {
+        border: 1px solid #c9c9c9 !important;
+        border-radius: 5px !important;
+    }
+
+    .pmsModal.w30 .modal-dialog {
+        max-width: 45%;
+    }
+
+    .mTop35 {
+        margin-top: 35px !important;
+    }
+
+    .dropdown-menu, .multiselect-container {
+        position: static !important;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .btn.multiselect-clear-filter {
+        margin-bottom: 0;
+        border-radius: 0 4px 4px 0 !important;
+        height: 32px;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 43px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlShowReport {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    #txtEmployeeSearch {
+        margin-bottom: 10px;
+    }
+
+    .btn-default {
+        background-color: #e0e0e0;
+    }
+
+    /*Parameter Branch*/
+    #BranchGridLookup_CC {
+        width: 100%;
+    }
+    /*Parameter Branch*/
+
+    .custom-select, .custom-select-2 {
+        position: relative;
+    }
+
+        .custom-select::after, .custom-select-2::after {
+            content: '<';
+            position: absolute;
+            top: 26px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 26px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        .custom-select-2::after {
+            top: 35px !important;
+            right: 6px !important;
+        }
+
+            select:not(.btn) {
+                height: 30px;
+                z-index: 1;
+                position: relative;
+                background: transparent;
+                -webkit-appearance: none;
+            }
+
+    select:not(.btn):focus-visible
+    {
+        outline:none;
+        box-shadow:none;
+    }
+
+    #myModal .modal-content .modal-body {
+        overflow-y: visible;
+    }
+</style>
+
+<div class="breadCumb">
+    <span>BEAT PLAN</span>
+</div>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 px-5">
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                            Add Plan
+                        </button>
+                        @*<button type="button" class="btn btn-info mr-1" onclick="DownloadMonthlyPlanFormat();">
+                            Download Monthly Plan Format
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="ImportPlanPopOpen();">
+                            Import Monthly Plan
+                        </button>
+                        <button type="button" class="btn btn-info mr-1" onclick="DownloadDailyPlanFormat();">
+                            Download Daily Plan Format
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="ImportPlanPopOpen();">
+                            Import Daily Plan
+                        </button>*@
+
+                    </div>
+                    <div class="clear"></div>
+
+                    @*Parameter Branch*@
+                    <div class="col-md-2 custom-select">
+                        <span>Head Branch : </span>
+                        <div>
+                            @Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 for-cust-icon">
+                        <span>Branch</span>
+                        <div>
+                            @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                        </div>
+                    </div>
+                    @*Parameter Branch*@
+
+                    <div class="col-md-2 for-cust-icon">
+                        <span>Employee(s)</span>
+                        <div>
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "EmployeeListTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                //settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeListButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){EmployeeList_KeyDown(s,e);}";
+
+                            }).GetHtml()
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 for-cust-icon">
+                        <span>From Date</span>
+                        <div>
+                            @Html.DevExpress().DateEdit(
+                            settings =>
+                            {
+                                settings.Name = "dtFrom";
+                                settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                settings.Properties.EditFormatString = "dd-MM-yyyy";
+
+                                settings.Properties.EditFormat = EditFormat.DateTime;
+                                settings.Date = DateTime.Now;
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            }).GetHtml()
+                            @*Rev 1.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 1.0*@
+                        </div>
+                    </div>
+                    <div class="col-md-2 for-cust-icon">
+                        <span>To Date</span>
+                        <div>
+                            @Html.DevExpress().DateEdit(
+                            settings =>
+                            {
+                                settings.Name = "dtTo";
+                                settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                settings.Properties.EditFormatString = "dd-MM-yyyy";
+
+                                settings.Properties.EditFormat = EditFormat.DateTime;
+                                settings.Date = DateTime.Now;
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            }).GetHtml()
+                            @*Rev 1.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 1.0*@
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-12" style="padding-top: 13px;">
+                        <span></span>
+                        <div>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="2">XLSX</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialBeatPlanGridList", "BeatPlan", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload", Branch = Model.BranchId, Employee = Model.Empcode });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade pmsModal w70 font-pp modalScroll" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Beat Plan</h4>
+            </div>
+            <input type="hidden" id="hdnShopCode" value="" />
+            <div class="modal-body inputShrink">
+                <div class="row">
+                    <div>
+                        <div class="col-md-4 custom-select-2" id="divPlan">
+                            <label>Beat Plan <span class="red">*</span></label>
+                            <div>
+                                <select class="form-control" name="ddlPlan" id="ddlPlan">
+                                    <option value="Daily">Daily</option>
+                                    <option value="Weekly">Weekly</option>
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Custom">Custom</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="col-md-4 for-cust-icon">
+                            <label>From Date <span class="red">*</span></label>
+                            <div>
+                                @Html.DevExpress().DateEdit(
+                                settings =>
+                                {
+                                    settings.Name = "txtAssignedFrom";
+                                    settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    settings.Properties.EditFormatString = "dd-MM-yyyy";
+
+                                    settings.Properties.EditFormat = EditFormat.DateTime;
+                                    settings.Date = DateTime.Now;
+                                    //settings.Date = Model.date_AssignedFrom;
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                }).GetHtml()
+                                @*Rev 1.0*@
+                                <img src="/assests/images/calendar-icon.png" class="calendar-icon-2" />
+                                @*Rev end 1.0*@
+                            </div>
+                        </div>
+                        <div class="col-md-4 for-cust-icon">
+                            <label>To Date <span class="red">*</span></label>
+                            <div>
+                                @Html.DevExpress().DateEdit(
+                                settings =>
+                                {
+                                    settings.Name = "txtAssignedTo";
+                                    settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    settings.Properties.EditFormatString = "dd-MM-yyyy";
+
+                                    settings.Properties.EditFormat = EditFormat.DateTime;
+                                    settings.Date = DateTime.Now;
+                                    //settings.Date = Model.date_AssignedTo;
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                }).GetHtml()
+                                @*Rev 1.0*@
+                                <img src="/assests/images/calendar-icon.png" class="calendar-icon-2" />
+                                @*Rev end 1.0*@
+                            </div>
+                        </div>
+                        <div class="col-md-4" id="DivAssignTo">
+                            <label>Employee <span class="red">*</span></label>
+                            <div>
+                                @Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "EmployeeTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    settings.Text = Model.AssignedTo;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                                }).GetHtml()
+
+                                <input type="hidden" id="hdnEmployeeId" value="@Model.AssignedEMPCode">
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+
+                        <div class="col-md-4 custom-select-2">
+                            <label>Assigned Beat <span class="red">*</span></label>
+                            <div id="Citydiv">
+                                @Html.DropDownListFor(m => m.Beat, new SelectList(Model.BeatList, "id", "name", Model.BeatId), new { @id = "ddlBeat", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 custom-select-2">
+                            <label>Assigned Route <span class="red">*</span></label>
+                            <div id="Citydiv">
+                                @Html.DropDownListFor(m => m.Route, new SelectList(Model.RouteList, "id", "name", Model.RouteId), new { @id = "ddlRoute", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 custom-select-2">
+                            <label>Assigned Area <span class="red">*</span></label>
+                            <div id="Citydiv">
+                                @Html.DropDownListFor(m => m.Area, new SelectList(Model.AreaList, "id", "name", Model.AreaId), new { @id = "ddlArea", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+
+                        <div class="col-md-4">
+                            <label>Old Assigned Beat </label>
+                            <div>
+                                @Html.TextBoxFor(m => m.Beat_Old, new { @class = "form-control", @id = "txtBeatOld", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Old Assigned Route </label>
+                            <div>
+                                @Html.TextBoxFor(m => m.Route_Old, new { @class = "form-control", @id = "txtRouteOld", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Old Assigned Area </label>
+                            <div>
+                                @Html.TextBoxFor(m => m.Area_Old, new { @class = "form-control", @id = "txtAreaOld", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="clear"></div>
+
+                        <div class="col-md-12">
+                            <label>Remarks (if any)</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control", @id = "txtRemarks" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" onclick="AddBeatPlan();">Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ClearData();">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<input type="hidden" id="hdnMode" />
+<input type="hidden" id="hdnPLAN_ID" />
+
+<div id="myImportPlanModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Import Excel Template For Beat Plan</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5 mt-4"><input type="submit" value="Import (Add/Update)" onclick="return ImportPlan();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!--EmployeeList Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeListModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="EmployeeListkeydown(event)" id="txtEmployeeListSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTableList">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeListId" runat="server" />
+<!--EmployeeList Modal -->

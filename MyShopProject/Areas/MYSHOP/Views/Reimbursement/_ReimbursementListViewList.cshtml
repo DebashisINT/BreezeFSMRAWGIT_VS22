@@ -1,4 +1,8 @@
-﻿@model Models.ReimbursementDetails
+﻿@*/*************************************************************************************************************************
+1.0		Sanchita		V2.0.40		24-04-2023		In TRAVELLING ALLOWANCE -- Approve/Reject Page: One Coloumn('Confirm/Reject') required
+													before 'Approve/Reject' coloumn. refer: 25809
+**********************************************************************************************************************/*@
+@model Models.ReimbursementDetails
 
 <div class="">
     <input type="hidden" id="hdnUserid" />
@@ -35,12 +39,19 @@
 
         <div id="refreshgrid">
             @{
-                    Html.RenderAction("GetViewReimbursementGrid", "Reimbursement", Model.GetReimbursementDetailsList);
+                Html.RenderAction("GetViewReimbursementGrid", "Reimbursement", Model.GetReimbursementDetailsList);
             }
         </div>
 
         <div class="text-center mTop10">
-            <button type="button" class="btn btn-success" onclick="ReimbursementOk();">Approved</button>
+            @*Rev 1.0*@
+            @if (ViewBag.isExpenseFeatureAvailable == "1")
+            {
+                <button type="button" class="btn btn-success" onclick="ReimbursementConfirmedOk();">Confirm</button>
+            }
+            @*End of Rev 1.0*@
+
+            <button type="button" class="btn btn-success" onclick="ReimbursementOk();">Approve</button>
             <button type="button" class="btn btn-danger" onclick="ReimbursementReject();">Reject</button>
             <button type="button" class="btn btn-primary" onclick="ReimbursementCancel();">Cancel</button>
         </div>

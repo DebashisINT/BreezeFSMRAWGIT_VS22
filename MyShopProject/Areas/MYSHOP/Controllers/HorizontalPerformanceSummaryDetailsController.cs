@@ -1,4 +1,9 @@
-﻿using BusinessLogicLayer.SalesTrackerReports;
+﻿//****************************************************************************************************************************************
+//    1.0     Sanchita      V2.0.40      11-05-2023      Feedback column is required in Horizontal Performance Summary & Detail Report. 
+//                                                        Refer: 25786
+//* ***************************************************************************************************************************************
+
+using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
 using DevExpress.Export;
 using DevExpress.Web;
@@ -538,11 +543,21 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Visible = true;
             });
 
+            // Rev 1.0
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "BEAT";
+                x.Caption = "Beat";
+                x.VisibleIndex = 5;
+                x.Visible = true;
+            });
+            // End of Rev 1.0
+
             settings.Columns.Add(x =>
             {
                 x.FieldName = "VISITDATE";
                 x.Caption = "Visited Date";
-                x.VisibleIndex = 5;
+                x.VisibleIndex = 6;
                 x.Width = 100;
                 x.Visible = true;
             });
@@ -552,7 +567,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "VISITTIME";
                 x.Caption = "Visited Time";
-                x.VisibleIndex = 6;
+                x.VisibleIndex = 7;
                 x.Width = 120;
                 x.Visible = true;
             });
@@ -561,11 +576,20 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "SPENTDURATION";
                 x.Caption = "Duration Spent";
-                x.VisibleIndex = 7;
+                x.VisibleIndex = 8;
                 x.Width = 120;
                 x.Visible = true;
-            });        
+            });
 
+            // Rev 1.0
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "FEEDBACK";
+                x.Caption = "Feedback";
+                x.VisibleIndex = 9;
+                x.Visible = true;
+            });
+            // End of Rev 1.0
 
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;

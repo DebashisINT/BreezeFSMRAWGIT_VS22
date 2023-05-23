@@ -2,6 +2,11 @@
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                09-02-2023        2.0.39           Pallab              25656 : Master module design modification 
 2.0                13-03-2023        2.0.39           Pallab              25731 : Check box design issue in User Master 
+3.0                26-04-2023       V2.0.40           Sanchita            A checkbox required for performance module,check box name is Show Employee Performance.
+                                                                          Refer: 25911
+4.0                08-05-2023       V2.0.40           Sanchita            In user table a column exist as IsShowBeatInMenu. 
+                                                                          This will show in portal under user settings as"ShowBeatInMenu".
+                                                                          Refer: 25947
 ====================================================== Revision History ==========================================================--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" EnableEventValidation="false"
@@ -3708,6 +3713,32 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </tr>
                             </table>
                         </td>
+                        <%--Rev 3.0--%>
+                         <td id="divShowEmployeePerformance" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkShowEmployeePerformance" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Show Employee Performance </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <%-- End of Rev 3.0--%>
+                        <%--Rev 4.0--%>
+                        <td id="divShowBeatInMenu" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkShowBeatInMenu" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Show Beat In Menu </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <%--End of Rev 4.0--%>
                     </tr>
                     <%--End of Mantis Issue 25207--%>
 

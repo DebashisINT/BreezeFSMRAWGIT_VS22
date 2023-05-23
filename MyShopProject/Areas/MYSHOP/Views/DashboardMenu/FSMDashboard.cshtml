@@ -1,7 +1,14 @@
-﻿@model MyShop.Models.FSMDashBoardFilter
+﻿<!--====================================================== Revision History ==============================================
+Rev Number   DATE            VERSION     DEVELOPER       CHANGES
+1.0          06-01-2023      2.0.37      pallab          25570: show button position change
+2.0          30-03-2023      2.0.39      pallab          25767: When attendance tab active by default, showing wrong tab details
+3.0          05-04-2023      V2.0.40     Sanchita        ITC user dashboard is taking too much time to respond
+                                                         for AE & AM users login credentials. refer: 25781
+4.0          21-04-2023      V2.0.40     Pallab          FSM Dashboard Visit tab console error. refer: 25878
+====================================================== Revision History ==============================================-->
 
-@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
-@*1.0                06-01-2023        2.0.37           pallab              25570: show button position change *@
+@model MyShop.Models.FSMDashBoardFilter
+
 
 @{
     ViewBag.Title = "Field Sales Management Dashboard";
@@ -1682,7 +1689,9 @@
         gridsummarydashboardclickTeamVisitH(null, null);
         $('#backSpnTeamH').attr("Style", "Display:none;");
         griddashboardTeamH.Refresh();
-        griddashboardTeamH.Refresh();
+        // Rev 3.0
+        //griddashboardTeamH.Refresh();
+        // End of Rev 3.0
     }
 
     function AtWorkClickTeamVisitH(elem) {
@@ -1703,7 +1712,9 @@
         gridsummarydashboardclickTeamVisitH(null, null);
         $('#backSpnTeam').attr("Style", "Display:none;");
         griddashboardTeamH.Refresh();
-        griddashboardTeamH.Refresh();
+        // Rev 3.0
+        //griddashboardTeamH.Refresh();
+        // End of Rev 3.0
     }
 
     function OnLeaveClickTeamVisitH(elem) {
@@ -1723,9 +1734,11 @@
         gridsummarydashboardclickTeamVisitH(null, null);
         $('#backSpnTeam').attr("Style", "Display:none;");
         griddashboardTeamH.Refresh();
-        setTimeout(function () {
-            griddashboardTeamH.Refresh();
-        }, 100)
+        // Rev 3.0
+        //setTimeout(function () {
+        //    griddashboardTeamH.Refresh();
+        //}, 100)
+        // End of Rev 3.0
     }
 
     function NotLoggedInClickTeamVisitH(elem) {
@@ -1746,7 +1759,9 @@
         gridsummarydashboardclickTeamVisitH(null, null);
         $('#backSpnTeam').attr("Style", "Display:none;");
         griddashboardTeamH.Refresh();
-        griddashboardTeamH.Refresh();
+        // Rev 3.0
+        //griddashboardTeamH.Refresh();
+        // End of Rev 3.0
     }
 
     function gridsummarydashboardclickTeamVisitH(desig, state) {
@@ -1785,7 +1800,9 @@
 
         $("#griddetailsHeadedtextTeamH").text("Employee Attendance details - " + summaryof + "");
         griddashboardTeamH.Refresh();
-        griddashboardTeamH.Refresh();
+        // Rev 3.0
+        //griddashboardTeamH.Refresh();
+        // End of Rev 3.0
 
 
     }
@@ -1995,10 +2012,12 @@
 
 
     $(function () {
-        $("#tbsalesman").click(function () {
-            dbgridsalesman.Refresh();
-            dbgridsalesman.Refresh();
-        });
+        /*Rev 4.0 : For Dashboard Visit tab console error fix*/
+        //$("#tbsalesman").click(function () {
+        //    dbgridsalesman.Refresh();
+        //    dbgridsalesman.Refresh();
+        //});
+        /*Rev end 4.0*/
         $("#tbdistributor").click(function () {
             dbgriddistributor.Refresh();
             dbgriddistributor.Refresh();
@@ -2197,7 +2216,14 @@
             $(".tab-pane#teamVisitH, #tbteamVisitH").addClass("active");
             $(".tab-pane#profile").addClass("hide");
             // End of Mantis Issue 25468
-        } else {
+        }
+        /*Rev 2.0*/
+        else if (getTabDetail == "Attendance Analytics") {
+            $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
+            $(".tab-pane#attendanceTB, #tbsP").addClass("active");
+            $(".tab-pane#profile").addClass("hide");
+        }/*Rev end 2.0*/
+        else {
             $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
             $(".tab-pane#profile, #tbsalesman").addClass("active");
             $(".tab-pane#profile").removeClass("hide");
@@ -2287,71 +2313,71 @@
 </script>
 
 <style>
-        .tabs {
-            font-size: inherit !important
-        }
+    .tabs {
+        font-size: inherit !important
+    }
 
-        .padTabl > tbody > tr > td {
-            padding: 3px 10px;
-        }
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
 
-        #tblshoplist > thead > tr > th {
-            background: #5F65AD !important;
-            border-top: 1px solid #0f87cc;
-            color: #fff;
-        }
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
 
-        #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
-            padding: 1px 5px !important;
-        }
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
 
-        .scrooler {
-            width: 100%;
-            overflow-x: scroll;
-        }
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
 
-        .w1 {
-            width: 107px;
-        }
+    .w1 {
+        width: 107px;
+    }
 
-        .date {
-            width: 62px;
-        }
+    .date {
+        width: 62px;
+    }
 
-        .labelTbl > tbody > tr > td {
-            padding-right: 20px;
-            padding-bottom: 5px;
-        }
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
 
-        #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
-            display: none;
-        }
+    #StateGridLookup_ET > tbody > tr > td:first-child, #ShopGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
 
-        .float-right {
-            float: right;
-        }
+    .float-right {
+        float: right;
+    }
 
-        #summary-show-btn img {
-            width: 30px;
-        }
+    #summary-show-btn img {
+        width: 30px;
+    }
 
-        .hands:before {
-            /*content: "👇";*/
-            content: url('/assests/images/click-hand.png');
-            font-size: 30px;
-            /*transform: rotate(180deg);*/
-            right: 15px;
-            top: 28px;
-            animation: up-down 1s infinite;
-            position: absolute;
-        }
-        /*.details-btn .hands:before, .details-btn .hands:after {
+    .hands:before {
+        /*content: "👇";*/
+        content: url('/assests/images/click-hand.png');
+        font-size: 30px;
+        /*transform: rotate(180deg);*/
+        right: 15px;
+        top: 28px;
+        animation: up-down 1s infinite;
+        position: absolute;
+    }
+    /*.details-btn .hands:before, .details-btn .hands:after {
             content: "👇";
             font-size: 40px;
             opacity: 0;
             transition: 0.4s ease-in-out;
         }*/
-        /*.details-btn .hands:before {
+    /*.details-btn .hands:before {
             transform: rotate(-60deg);
             left: -45px;
             top: -10px;
@@ -2361,7 +2387,7 @@
             right: 30px;
             top: 30px;
         }*/
-        /*.details-btn:hover .hands:before {
+    /*.details-btn:hover .hands:before {
             opacity: 1;
             left: -35px;
         }
@@ -2370,19 +2396,19 @@
             top: 20px;
         }*/
 
-        @@keyframes up-down {
-            50% {
-                margin-top: -10px;
-            }
+    @@keyframes up-down {
+        50% {
+            margin-top: -10px;
         }
+    }
 
-        .tooltip-custom {
-            max-width: 300px !important;
-        }
+    .tooltip-custom {
+        max-width: 300px !important;
+    }
 
 
-        /*custom tooltips css*/
-        /*.cust-tooltip-cls {
+    /*custom tooltips css*/
+    /*.cust-tooltip-cls {
             color: #e91e63;
             font-family: monospace;
             white-space: nowrap;
@@ -2411,76 +2437,76 @@
 
 
 
-        /*== start of code for tooltips ==*/
-        .tool {
-            position: relative;
+    /*== start of code for tooltips ==*/
+    .tool {
+        position: relative;
+    }
+
+
+        /*== common styles for both parts of tool tip ==*/
+        .tool::before,
+        .tool::after {
+            left: 50%;
+            opacity: 0;
+            position: absolute;
+            z-index: -100;
+        }
+
+        .tool:hover::before,
+        .tool:focus::before,
+        .tool:hover::after,
+        .tool:focus::after {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            z-index: 100;
         }
 
 
-            /*== common styles for both parts of tool tip ==*/
-            .tool::before,
-            .tool::after {
-                left: 50%;
-                opacity: 0;
-                position: absolute;
-                z-index: -100;
-            }
-
-            .tool:hover::before,
-            .tool:focus::before,
-            .tool:hover::after,
-            .tool:focus::after {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-                z-index: 100;
-            }
-
-
-            /*== pointer tip ==*/
-            .tool::before {
-                border-style: solid;
-                border-width: 1em 0.75em 0 0.75em;
-                border-color: #2614bf transparent transparent transparent;
-                bottom: 100%;
-                content: "";
-                margin-left: -0.5em;
-                transition: all .3s cubic-bezier(.84,-0.18,.31,1.26), opacity .3s .5s;
-                transform: scale(.6) translateY(-90%);
-                top: -20px;
-            }
-
-            .tool:hover::before,
-            .tool:focus::before {
-                transition: all .65s cubic-bezier(.84,-0.18,.31,1.26) .2s;
-            }
-
-
-            /*== speech bubble ==*/
-            .tool::after {
-                background: #2614bf;
-                border-radius: .25em;
-                bottom: 180%;
-                color: #EDEFF0;
-                content: attr(data-tip);
-                margin-left: -16.75em;
-                padding: 8px 12px;
-                transition: all .3s cubic-bezier(.84,-0.18,.31,1.26) .2s;
-                transform: scale(.6) translateY(50%);
-                width: 275px;
-            }
-
-            .tool:hover::after,
-            .tool:focus::after {
-                transition: all .3s cubic-bezier(.84,-0.18,.31,1.26);
-            }
-
-        @@media (max-width: 760px) {
-            .tool::after {
-                font-size: .75em;
-                margin-left: -5em;
-                width: 10em;
-            }
+        /*== pointer tip ==*/
+        .tool::before {
+            border-style: solid;
+            border-width: 1em 0.75em 0 0.75em;
+            border-color: #2614bf transparent transparent transparent;
+            bottom: 100%;
+            content: "";
+            margin-left: -0.5em;
+            transition: all .3s cubic-bezier(.84,-0.18,.31,1.26), opacity .3s .5s;
+            transform: scale(.6) translateY(-90%);
+            top: -20px;
         }
+
+        .tool:hover::before,
+        .tool:focus::before {
+            transition: all .65s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+        }
+
+
+        /*== speech bubble ==*/
+        .tool::after {
+            background: #2614bf;
+            border-radius: .25em;
+            bottom: 180%;
+            color: #EDEFF0;
+            content: attr(data-tip);
+            margin-left: -16.75em;
+            padding: 8px 12px;
+            transition: all .3s cubic-bezier(.84,-0.18,.31,1.26) .2s;
+            transform: scale(.6) translateY(50%);
+            width: 275px;
+        }
+
+        .tool:hover::after,
+        .tool:focus::after {
+            transition: all .3s cubic-bezier(.84,-0.18,.31,1.26);
+        }
+
+    @@media (max-width: 760px) {
+        .tool::after {
+            font-size: .75em;
+            margin-left: -5em;
+            width: 10em;
+        }
+    }
 </style>
 <!--Leave list end-->
 
@@ -2559,6 +2585,12 @@
             <input type="hidden" class="getTabDetail" value="Team Visit - Hierarchy" />
         }
         // End of Mantis Issue 25468
+        // Rev 2.0
+        else if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Attendance Analytics").Count() > 0)
+        {
+            <input type="hidden" class="getTabDetail" value="Attendance Analytics" />
+        }
+        // Rev end 2.0
         else
         {
             <input type="hidden" class="getTabDetail" value="Visit" />
@@ -2724,23 +2756,23 @@
                                 @*rev 1.0*@
                                 @*rev Mantis Issue 25455*@
                                 <!--<div class="row">
-            <div class="col-md-12 text-right clearfix py-0 marg-b-50">
-                <table class="float-right">
-                    <tr>
+                                <div class="col-md-12 text-right clearfix py-0 marg-b-50">
+                                    <table class="float-right">
+                                        <tr>
 
-                        <td>
-                            <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                            <td>
+                                                <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
                                 @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowFieldVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
                                 <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowFieldVisitData()" style=" line-height: 20px;">
-                                    <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
-                                    <div class="hands fieldvisit-tb-hand"></div>
-                                </button>
-                        </span>
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>-->
+                                                                <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
+                                                                <div class="hands fieldvisit-tb-hand"></div>
+                                                            </button>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>-->
                                 @*rev end Mantis Issue 25455*@
                                 @*rev end  1.0*@
                                 <div class="">
@@ -2890,19 +2922,20 @@
                                 </div>
                             </div>
                         }
-
-                    <div role="tabpanel" class="tab-pane active" id="profile">
-                        @*rev  1.0*@
-                        @*rev Mantis Issue 25455*@
-                        <!--<div class="row">
+                        @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Visit").Count() > 0)
+                        {
+                            <div role="tabpanel" class="tab-pane active" id="profile">
+                                @*rev  1.0*@
+                                @*rev Mantis Issue 25455*@
+                                <!--<div class="row">
                                 <div class="col-md-12 text-right clearfix py-0 marg-b-50">
                                     <table class="float-right">
                                         <tr>-->
-                                                    @*<td><button type="button" class="btn btn-success" onclick="ShowVisitData()">Show</button></td>*@
-                                                    <!--<td>
+                                @*<td><button type="button" class="btn btn-success" onclick="ShowVisitData()">Show</button></td>*@
+                                <!--<td>
                                 <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
-                                                    @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-custom-class="tooltip-custom" data-original-title="Click to Show Dashboard Summary">*@
-                                                    <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowVisitData()" style=" line-height: 20px;" title="">
+                                @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-custom-class="tooltip-custom" data-original-title="Click to Show Dashboard Summary">*@
+                                <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowVisitData()" style=" line-height: 20px;" title="">
                                                                 <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
                                                                 <div class="hands visit-tb-hand"></div>
                                                             </button>
@@ -2912,157 +2945,159 @@
                                         </table>
                                     </div>
                                 </div>-->
-                        @*rev end Mantis Issue 25455*@
-                        @*rev end  1.0*@
-                        <div class="">
-                            @Html.Action("DashboardAttendance", new { list = Model.DashboardSettingMappedList })
-                        </div>
-                        <div class="">
-                            <div class="row " id="griddetails">
-                                <div class="col-md-12">
-                                    <div class=" hide noShaded" id="dashDetails1">
-                                        <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-                                            <div class="">
-                                                <div class="panel-heading row" role="tab" id="headingOne">
-                                                    @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
+                                @*rev end Mantis Issue 25455*@
+                                @*rev end  1.0*@
+                                <div class="">
+                                    @Html.Action("DashboardAttendance", new { list = Model.DashboardSettingMappedList })
+                                </div>
+                                <div class="">
+                                    <div class="row " id="griddetails">
+                                        <div class="col-md-12">
+                                            <div class=" hide noShaded" id="dashDetails1">
+                                                <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading row" role="tab" id="headingOne">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
 
-                                                        <span id="griddetailsHeadedtext" class="f6 translate-y-big"></span>
+                                                                <span id="griddetailsHeadedtext" class="f6 translate-y-big"></span>
 
-                                                        <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
-                                                            <span class="translate-y hide">Export To Excel</span>
-                                                            <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexport()" /></span>
-                                                        </span>
-                                                        <span class="btn-prime">REFRESH</span>
-                                                        <span id="backSpn" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
-                                                    <div class="overflx">
-                                                        @Html.Partial("DashboardGridView", new System.Data.DataTable())
+                                                                <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                    <span class="translate-y hide">Export To Excel</span>
+                                                                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexport()" /></span>
+                                                                </span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span id="backSpn" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="overflx">
+                                                                @Html.Partial("DashboardGridView", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row " id="gridsummary">
-                                <div class=" col-md-12">
-                                    <div class="boxWidget hide noShaded mt-2" id="dashDetails2">
-                                        <div class="" id="accordion">
-                                            <div class="">
-                                                <div class="panel-heading" role="tab" id="headingOne">
-                                                    @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
+                                    <div class="row " id="gridsummary">
+                                        <div class=" col-md-12">
+                                            <div class="boxWidget hide noShaded mt-2" id="dashDetails2">
+                                                <div class="" id="accordion">
+                                                    <div class="">
+                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="">
 
-                                                        <span id="gridHeadedtext"></span>
-                                                        <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexport" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
-                                                        <span class="btn-prime">REFRESH</span>
-                                                        <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
+                                                                <span id="gridHeadedtext"></span>
+                                                                <span class="btn-excel"><img src="~/assests/images/excel.png" style="width: 24px;" id="imgexport" title="Export To Excel" onclick="gridsummarydashboardExport()" /></span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span class="closeAc clstyle"><i class="fa fa-close"></i> </span>
 
-                                                    </h4>
-                                                </div>
-                                                <div id="collapseTwo" class="">
-                                                    <div class="overflx" id="dsGridWrap">
-                                                        @Html.Partial("DashboardSummaryGridView", new System.Data.DataTable())
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwo" class="">
+                                                            <div class="overflx" id="dsGridWrap">
+                                                                @Html.Partial("DashboardSummaryGridView", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row hide" id="gridthirdlevel">
-                                <div class=" col-md-12">
-                                    <div class="boxWidget  noShaded mt-2" id="dashDetails3">
-                                        <div class="" id="accordion" role="tablist" aria-multiselectable="true">
-                                            <div class="">
-                                                <div class="panel-heading" role="tab" id="headingOne">
-                                                    @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
-                                                    <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
+                                    <div class="row hide" id="gridthirdlevel">
+                                        <div class=" col-md-12">
+                                            <div class="boxWidget  noShaded mt-2" id="dashDetails3">
+                                                <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading" role="tab" id="headingOne">
+                                                            @*data-toggle="collapse" data-parent="#accordion" href="#collapseOne"*@
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseThree">
 
-                                                        <span id="gridshoptext"></span>
-                                                        <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexport()" /></span>
-                                                        <span class="btn-prime">REFRESH</span>
-                                                        <span class="closeAcDetails2 clstyle" style="margin-top: 5px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
-                                                    </h4>
-                                                </div>
-                                                <div id="collapseTwo" class="" role="tabpanel" aria-labelledby="headingOne">
-                                                    <div class="overflx">
-                                                        @Html.Partial("DashboardGridViewDetails", new System.Data.DataTable())
+                                                                <span id="gridshoptext"></span>
+                                                                <span class="btn-excel" style="margin-right: 39px"><img src="~/assests/images/excel.png" style="width: 24px;" title="Export To Excel" onclick="griddashboardgridviewdetailsexport()" /></span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span class="closeAcDetails2 clstyle" style="margin-top: 5px;" title="Back"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseTwo" class="" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div class="overflx">
+                                                                @Html.Partial("DashboardGridViewDetails", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
 
-                            <div class="row" id="mapdeatsils">
-                                <div class="col-md-12">
-                                    <div class="boxWidget">
-                                        <h3 class="Widgheading relative"> User Indivisual Tracking <span class="closer clstyle" id="close1"><i class="fa fa-arrow-left"></i> </span></h3>
+                                    <div class="row" id="mapdeatsils">
+                                        <div class="col-md-12">
+                                            <div class="boxWidget">
+                                                <h3 class="Widgheading relative"> User Indivisual Tracking <span class="closer clstyle" id="close1"><i class="fa fa-arrow-left"></i> </span></h3>
 
-                                        <div class="mapContainer">
-                                            <div class="row">
-                                                <div class="col-md-8 pdright0">
-                                                    <div id="mapdetailsshow" style="width: 100%; height: 400px;"></div>
+                                                <div class="mapContainer">
+                                                    <div class="row">
+                                                        <div class="col-md-8 pdright0">
+                                                            <div id="mapdetailsshow" style="width: 100%; height: 400px;"></div>
+                                                        </div>
+                                                        <div class="col-md-4 pdleft0">
+                                                            <h2 id="directionname"></h2>
+                                                            <div id="directions_panel" style="background-color: #FFFFFF;"></div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-4 pdleft0">
-                                                    <h2 id="directionname"></h2>
-                                                    <div id="directions_panel" style="background-color: #FFFFFF;"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <input type="hidden" id="lbltotaldistancecovered" />
+
+                                    <div class="row hide" id="map">
+                                        <div class="col-md-12 ">
+                                            <div class="boxWidget noShaded ">
+                                                <h1 class="Widgheading relative">
+                                                    Live Track  Employees At Work On Map
+                                                    <span class="closerCss clstyle" id="spanClosemap" onclick="mapcloseclick();"><i class="fa fa-close"></i> </span>
+                                                    <i class="fa fa-search" id="showMapSearch" style="float: right;"></i>
+
+                                                </h1>
+
+                                                <div class="mapContainer ">
+                                                    @Html.Action("DashboardNew")
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                </div>
-                            </div>
 
-                            <input type="hidden" id="lbltotaldistancecovered" />
+                                    @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
+                                    {
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="boxWidget noShaded mt-2">
+                                                    <div class="panel-heading" role="tab" id="headingOne">
 
-                            <div class="row hide" id="map">
-                                <div class="col-md-12 ">
-                                    <div class="boxWidget noShaded ">
-                                        <h1 class="Widgheading relative">
-                                            Live Track  Employees At Work On Map
-                                            <span class="closerCss clstyle" id="spanClosemap" onclick="mapcloseclick();"><i class="fa fa-close"></i> </span>
-                                            <i class="fa fa-search" id="showMapSearch" style="float: right;"></i>
+                                                        <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
 
-                                        </h1>
-
-                                        <div class="mapContainer ">
-                                            @Html.Action("DashboardNew")
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "State wise Summary").Count() > 0)
-                            {
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="boxWidget noShaded mt-2">
-                                            <div class="panel-heading" role="tab" id="headingOne">
-
-                                                <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseTwo">
-
-                                                    <span id="salesmanheader"></span>
-                                                    <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
-                                                    <span class="btn-prime">REFRESH</span>
-                                                    <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
-                                                </h4>
+                                                            <span id="salesmanheader"></span>
+                                                            <span class="btn-excel mr0 salesExport"><img src="~/assests/images/excel.png" title="Export To Excel" style="width: 24px;" onclick="gridsalesmanExport()" /></span>
+                                                            <span class="btn-prime">REFRESH</span>
+                                                            <span class="closerCss hide clstyle" id="spanClose" onclick="salesbackclick();"><i class="fa fa-arrow-left"></i> </span>
+                                                        </h4>
+                                                    </div>
+                                                    @Html.Partial("DashboardGridViewSalesmanDetail", new System.Data.DataTable())
+                                                </div>
                                             </div>
-                                            @Html.Partial("DashboardGridViewSalesmanDetail", new System.Data.DataTable())
                                         </div>
-                                    </div>
-                                </div>
-                            }
-                        </div><!--End of container -->
-                    </div>
+                                    }
+                                </div><!--End of container -->
+                            </div>
+                        }
+
 
                         @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Team Visit").Count() > 0)
                         {
@@ -3070,23 +3105,23 @@
                                 @*rev 1.0*@
                                 @*rev Mantis Issue 25455*@
                                 <!--<div class="row">
-                                        <div class="col-md-12 text-right clearfix py-0 marg-b-50">
-                                            <table class="float-right">
-                                                <tr>-->
-                                                                    @*<td><button type="button" class="btn btn-success" onclick="ShowTeamVisitData()">Show</button></td>*@
-                                                                    <!--<td>
-                                        <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
-                                                                    @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
-                                                                    <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitData()" style=" line-height: 20px;">
-                                                                    <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
-                                                                    <div class="hands teamvisit-tb-hand"></div>
-                                                                </button>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>-->
+                                <div class="col-md-12 text-right clearfix py-0 marg-b-50">
+                                    <table class="float-right">
+                                        <tr>-->
+                                @*<td><button type="button" class="btn btn-success" onclick="ShowTeamVisitData()">Show</button></td>*@
+                                <!--<td>
+                                <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                                <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitData()" style=" line-height: 20px;">
+                                                            <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
+                                                            <div class="hands teamvisit-tb-hand"></div>
+                                                        </button>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>-->
                                 @*rev end Mantis Issue 25455*@
                                 @*rev end 1.0*@
                                 <div class="">
@@ -3212,23 +3247,23 @@
                             <div role="tabpanel" class="tab-pane " id="teamVisitH">
                                 @*rev  1.0*@
                                 <!--<div class="row">
-                                        <div class="col-md-12 text-right clearfix py-0 marg-b-50">
-                                            <table class="float-right">
-                                                <tr>-->
-                                                                    @*<td><button type="button" class="btn btn-success" onclick="ShowTeamVisitHData()">Show</button></td>*@
-                                                                    <!--<td>
-                                        <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
-                                                                    @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitHData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
-                                                                    <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitHData()" style=" line-height: 20px;">
-                                                                    <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
-                                                                    <div class="hands teamVisitH-tb-hand"></div>
-                                                                </button>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                        </div>-->
+                                <div class="col-md-12 text-right clearfix py-0 marg-b-50">
+                                    <table class="float-right">
+                                        <tr>-->
+                                @*<td><button type="button" class="btn btn-success" onclick="ShowTeamVisitHData()">Show</button></td>*@
+                                <!--<td>
+                                <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitHData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                                <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowTeamVisitHData()" style=" line-height: 20px;">
+                                                            <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
+                                                            <div class="hands teamVisitH-tb-hand"></div>
+                                                        </button>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>-->
                                 @*rev end  1.0*@
                                 <div class="">
                                     @Html.Action("DashboardAttendanceTVH", new { list = Model.DashboardSettingMappedList })
@@ -3348,20 +3383,21 @@
                             </div><!--Team Visit - Hierarchy & Channel Wise End-->
                         }
                         @*End of Mantis Issue 25468*@
+                        @*Rev 2.0: if statement add in Attendance tab *@
                         @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Attendance Analytics").Count() > 0)
                         {
                             <div role="tabpanel" class="tab-pane" id="attendanceTB">
                                 @*rev  1.0*@
                                 @*rev Mantis Issue 25455*@
                                 <!--<div class="row">
-                                        <div class="col-md-12 text-right clearfix py-0 marg-b-50">
-                                            <table class="float-right">
-                                                <tr>-->
-                                                    @*<td><button type="button" class="btn btn-success" onclick="ShowAttendanceData()">Show</button></td>*@
-                                                      <!--<td>
-                                        <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
-                                                     @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
-                                                       <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;">
+                                <div class="col-md-12 text-right clearfix py-0 marg-b-50">
+                                    <table class="float-right">
+                                        <tr>-->
+                                @*<td><button type="button" class="btn btn-success" onclick="ShowAttendanceData()">Show</button></td>*@
+                                <!--<td>
+                                <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">-->
+                                @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                                <!--<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;">
                                                                <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;">
                                                                <div class="hands attendance-tb-hand"></div>
                                                        </button>

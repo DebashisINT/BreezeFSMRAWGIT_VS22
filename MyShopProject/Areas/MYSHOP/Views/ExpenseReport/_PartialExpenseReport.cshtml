@@ -1,0 +1,217 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+
+@* Added by Sanchita for V2.0.40 on 26-04-2023     A New Expense Report is Required for BP Poddar, Refer: 25833  *@
+
+@*Rev 1.0      Sanchita    V2.0.40     19/05/2023      ‘Other Allowance’ Coloumn name should be renamed as ‘Travelling Allowance’
+                                                        when IsShowReimbursementTypeInAttendance=1. Refer: 26146*@
+@*Rev 2.0      Sanchita    V2.0.40     22-05-2023      Need to implement Branch and Area in the Expense Register Report. Refer: 26185*@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridExpenseReport";
+
+    settings.CallbackRouteValues = new { Action = "_PartialExpenseReport", Controller = "ExpenseReport" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Styles.Header.Wrap = DevExpress.Utils.DefaultBoolean.True;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SL";
+        x.Caption = "SL";
+        // x.VisibleIndex = 1;
+        x.Width = 0;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REIMBURSEMENT_DATE";
+        x.Caption = "Date of Reimbursement";
+        x.VisibleIndex = 1;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        (x.PropertiesEdit as DateEditProperties).DisplayFormatString = "dd-MM-yyyy";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "HQ_NAME";
+        x.Caption = "HQ Name";
+        x.VisibleIndex = 2;
+        x.Width = 150;
+    });
+
+    // Rev 2.0
+    if (ViewBag.IsShowReimbursementTypeInAttendance == "1")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "BRANCHNAME";
+            x.Caption = "Branch";
+            x.VisibleIndex = 3;
+            x.Width = 200;
+
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "AREANAME";
+            x.Caption = "Area";
+            x.VisibleIndex = 4;
+            x.Width = 200;
+
+        });
+    }
+    // End of Rev 2.0
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMP_NAME";
+        x.Caption = "Employee Name";
+        x.VisibleIndex = 5;
+        x.Width = 200;
+    });
+
+    //Rev Debashis 0025198
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 6;
+        x.Width = 200;
+    });
+    //End of Rev Debashis 0025198
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMP_DESIGNATION";
+        x.Caption = "Designation";
+        x.VisibleIndex = 7;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "REPORTTO_NAME";
+        x.Caption = "Reporting Manager";
+        x.VisibleIndex = 8;
+        x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EXPENSE_TYPE";
+        x.Caption = "Expense Type";
+        x.VisibleIndex = 9;
+        x.Width = 200;
+
+    });
+
+    // Rev 1.0
+    //settings.Columns.Add(x =>
+    //    {
+    //        x.FieldName = "OTHER_ALLOWANCE";
+    //        x.Caption = "Other Allowance";
+    //        x.VisibleIndex = 8;
+    //        x.Width = 200;
+
+    //    });
+
+    if (ViewBag.IsShowReimbursementTypeInAttendance == "1")
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "OTHER_ALLOWANCE";
+            x.Caption = "Travelling Allowance";
+            x.VisibleIndex = 10;
+            x.Width = 200;
+
+        });
+    }
+    else
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "OTHER_ALLOWANCE";
+            x.Caption = "Other Allowance";
+            x.VisibleIndex = 11;
+            x.Width = 200;
+
+        });
+    }
+    // End of Rev 1.0
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DAILY_ALLOWANCE";
+        x.Caption = "Daily Allowance";
+        x.VisibleIndex = 12;
+        x.Width = 200;
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOTAL_ALLOWANCE";
+        x.Caption = "Total Allowance";
+        x.VisibleIndex = 13;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Attachments";
+        x.VisibleIndex = 14;
+        x.Width = 100;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            if (Convert.ToInt32(DataBinder.Eval(c.DataItem, "IS_IMAGE")) == 1)
+            {
+                ViewContext.Writer.Write(
+                      "<a style='cursor:pointer' onclick=\"OpenReimbursementImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "REIMBURSEMENT_DATE")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPID")) + "')\"> <img src='/assests/images/document.png' title='Click to View' /></a>"
+                  );
+
+            }
+            else
+            {
+                ViewContext.Writer.Write(
+                                  "<a style='cursor:pointer' class='disableHref'> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
+                             );
+            }
+            //ViewContext.Writer.Write(
+            //    "<a style='cursor:pointer' onclick=\"OpenReimbursementImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "REIMBURSEMENT_DATE")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPID")) + "')\"> <img src='/assests/images/download.png' title='Click to Download' /></a>"
+            //    );
+        });
+
+    });
+
+
+    ///Summary
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "OTHER_ALLOWANCE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "DAILY_ALLOWANCE").DisplayFormat = "0.00";
+    settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ALLOWANCE").DisplayFormat = "0.00";
+
+
+}).Bind(Model).GetHtml()

@@ -27,13 +27,13 @@ namespace ShopAPI.Controllers
             {
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_VisitRemarks", sqlcon);
-                sqlcmd.Parameters.Add("@Action", "List");
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@Action", "List");
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

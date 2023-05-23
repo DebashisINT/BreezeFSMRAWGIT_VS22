@@ -1,6 +1,9 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 786
-//2.0   V2.0.38     Debashis    13/03/2023      A new parameter has been added.Row: 814
+//2.0   V2.0.39     Debashis    27/03/2023      A new parameter has been added.Row: 814 & Refer: 0025749
+//3.0   V2.0.39     Debashis    04/04/2023      Optimized Shopsubmission/ShopVisited & Shopsubmission/ITCShopVisited API.
+//                                              Refer: 0025779
+//4.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 820
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -92,8 +95,12 @@ namespace ShopAPI.Controllers
                             multi_contact_number= s2.multi_contact_number,
                             //End of Rev 1.0 Row:786
                             //Rev 2.0 Row:814
-                            IsShopUpdate=s2.IsShopUpdate
+                            IsShopUpdate=s2.IsShopUpdate,
                             //End of Rev 2.0 Row:814
+                            //Rev 4.0 Row:820
+                            distFromProfileAddrKms= s2.distFromProfileAddrKms,
+                            stationCode= s2.stationCode
+                            //End of Rev 4.0 Row:820
                         });
 
 
@@ -120,201 +127,257 @@ namespace ShopAPI.Controllers
 
                         svisitlog = svisitlog + " Shop:" + s2.shop_id + "  Visit:" + s2.visited_time;
                     }
+                    //Rev 2.0 Mantis: 0025749
+                    //if (logprint == "1")
+                    //{
+                    //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+                    //    {
+                    //        stream.WriteLine("Revisit  Start " + "Start Time:" + DateTime.Now.ToString() + "End Time:" + DateTime.Now + "Status:(Shopsubmission/ShopVisited)[200]" + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
+                    //    }
 
-                    if (logprint == "1")
+                    //}
+                    
+                    //del ldMainAct = new del(InsertShopVisit);
+                    //ldMainAct.BeginInvoke(model, omedl2, null, null);
+
+
+                    ////string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
+                    ////DataTable dt = new DataTable();
+                    ////String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    ////SqlCommand sqlcmd = new SqlCommand();
+                    ////SqlConnection sqlcon = new SqlConnection(con);
+                    ////sqlcmd.CommandTimeout = 60;
+                    ////sqlcon.Open();
+                    ////sqlcmd = new SqlCommand("Sp_ApiShop_Activitysubmit", sqlcon);
+                    ////sqlcmd.Parameters.Add("@session_token", model.session_token);
+                    ////sqlcmd.Parameters.Add("@user_id", model.user_id);
+                    ////sqlcmd.Parameters.Add("@JsonXML", JsonXML);
+                    ////sqlcmd.CommandType = CommandType.StoredProcedure;
+                    ////SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    ////da.Fill(dt);
+                    ////sqlcon.Close();
+
+
+                    ////if (dt.Rows.Count > 0)
+                    ////{
+                    ////    oview = APIHelperMethods.ToModelList<DatalistsSumission>(dt);
+                    ////    omodel.status = "200";
+                    ////    omodel.message = "Shop details successfully updated.";
+                    ////    omodel.shop_list = oview;
+
+                    ////    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+                    ////    {
+                    ////        stream.WriteLine("   Revisit  Start " + "Start Time:" + sdatetime + "End Time:" + DateTime.Now + "Status:Success(Shopsubmission/ShopVisited)[200]" + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
+                    ////        //txt.Close();
+                    ////    }
+                    ////}
+
+                    ////else
+                    ////{
+                    ////    omodel.status = "202";
+                    ////    omodel.message = "Records not updated.";
+                    ////    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+                    ////    {
+                    ////        stream.WriteLine("   Revisit  Start " + "Start Time:" + sdatetime + "End Time:" + DateTime.Now + "Status:Records not updated(Shopsubmission/ShopVisited)[202]" + "User ID:" + model.user_id +svisitlog+ "   Revisit  END ");
+                    ////    }
+
+                    ////          //txt.Close();
+                    ////}
+
+
+                    //oview = omed3;
+                    //omodel.status = "200";
+                    //omodel.message = "Shop details successfully updated.";
+                    //omodel.shop_list = oview;
+                    //var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    //return message;
+
+                    string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
+                    String dates = DateTime.Now.ToString("ddMMyyyyhhmmssffffff");
+                    DataTable dt = new DataTable();
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcmd.CommandTimeout = 60;
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("Proc_ApiShop_Activitysubmit", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@session_token", model.session_token);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@isnewShop", model.isnewShop);
+                    sqlcmd.Parameters.AddWithValue("@JsonXML", JsonXML);
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(dt);
+                    sqlcon.Close();
+
+                    if (dt.Rows.Count > 0 && Convert.ToString(dt.Rows[0]["STRMESSAGE"]) == "Success")
                     {
-                        using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
-                        {
-                            stream.WriteLine("Revisit  Start " + "Start Time:" + DateTime.Now.ToString() + "End Time:" + DateTime.Now + "Status:(Shopsubmission/ShopVisited)[200]" + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
-                        }
-
+                        oview = APIHelperMethods.ToModelList<DatalistsSumission>(dt);
+                        omodel.status = "200";
+                        omodel.message = "Shop details successfully updated.";
+                        omodel.shop_list = oview;
+                        //Rev 3.0 Mantis: 0025779
+                        //if (logprint == "1")
+                        //{
+                        //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+                        //    {
+                        //        stream.WriteLine("Revisit Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Success(Shopsubmission/ShopVisited)[200]" + "User ID:" + model.user_id + svisitlog + " Revisit END");
+                        //    }
+                        //}
+                        //End of Rev 3.0 Mantis: 0025779
                     }
-                    del ldMainAct = new del(InsertShopVisit);
-                    ldMainAct.BeginInvoke(model, omedl2, null, null);
-
-
-                    //string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
-                    //DataTable dt = new DataTable();
-                    //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
-                    //SqlCommand sqlcmd = new SqlCommand();
-                    //SqlConnection sqlcon = new SqlConnection(con);
-                    //sqlcmd.CommandTimeout = 60;
-                    //sqlcon.Open();
-                    //sqlcmd = new SqlCommand("Sp_ApiShop_Activitysubmit", sqlcon);
-                    //sqlcmd.Parameters.Add("@session_token", model.session_token);
-                    //sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    //sqlcmd.Parameters.Add("@JsonXML", JsonXML);
-                    //sqlcmd.CommandType = CommandType.StoredProcedure;
-                    //SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
-                    //da.Fill(dt);
-                    //sqlcon.Close();
-
-
-                    //if (dt.Rows.Count > 0)
-                    //{
-                    //    oview = APIHelperMethods.ToModelList<DatalistsSumission>(dt);
-                    //    omodel.status = "200";
-                    //    omodel.message = "Shop details successfully updated.";
-                    //    omodel.shop_list = oview;
-
-                    //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
-                    //    {
-                    //        stream.WriteLine("   Revisit  Start " + "Start Time:" + sdatetime + "End Time:" + DateTime.Now + "Status:Success(Shopsubmission/ShopVisited)[200]" + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
-                    //        //txt.Close();
-                    //    }
-                    //}
-
-                    //else
-                    //{
-                    //    omodel.status = "202";
-                    //    omodel.message = "Records not updated.";
-                    //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
-                    //    {
-                    //        stream.WriteLine("   Revisit  Start " + "Start Time:" + sdatetime + "End Time:" + DateTime.Now + "Status:Records not updated(Shopsubmission/ShopVisited)[202]" + "User ID:" + model.user_id +svisitlog+ "   Revisit  END ");
-                    //    }
-
-                    //          //txt.Close();
-                    //}
-
-
-                    oview = omed3;
-                    omodel.status = "200";
-                    omodel.message = "Shop details successfully updated.";
-                    omodel.shop_list = oview;
+                    else
+                    {
+                        omodel.status = "205";
+                        omodel.message = "Records not updated.";
+                        //Rev 3.0 Mantis: 0025779
+                        //if (logprint == "1")
+                        //{
+                        //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+                        //    {
+                        //        stream.WriteLine("Revisit Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Fail(Shopsubmission/ShopVisited)[205]" + "User ID:" + model.user_id + svisitlog + " Revisit END");
+                        //    }
+                        //}
+                        //End of Rev 3.0 Mantis: 0025779
+                    }
                     var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
                     return message;
-
+                    //End of Rev 2.0 Mantis: 0025749
                 }
             }
             catch (Exception ex)
             {
                 omodel.status = "204";
                 omodel.message = ex.Message;
-                if (logprint == "1")
-                {
-                    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
-                    {
-                        stream.WriteLine("   Revisit  Start " + "Start Time:" + sdatetime + "End Time:" + DateTime.Now + "Status:Error(Shopsubmission/ShopVisited)[204]" + ex.Message + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
-                        //txt.Close();
-                    }
-                }
+                //Rev 3.0 Mantis: 0025779
+                //if (logprint == "1")
+                //{
+                //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+                //    {
+                //        stream.WriteLine("   Revisit  Start " + "Start Time:" + sdatetime + "End Time:" + DateTime.Now + "Status:Error(Shopsubmission/ShopVisited)[204]" + ex.Message + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
+                //        //txt.Close();
+                //    }
+                //}
+                //End of Rev 3.0 Mantis: 0025779
                 var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
                 return message;
             }
         }
 
+        //Rev 2.0 Mantis: 0025749
+        //public void InsertShopVisit(ShopsubmissionInput model, List<ShopsubmissionModel> omedl2)
+        //{
+        //    // String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
 
-        public void InsertShopVisit(ShopsubmissionInput model, List<ShopsubmissionModel> omedl2)
-        {
-            // String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+        //    //Rev Debashis : Mantis:0025493
+        //    //String folderLocation = System.Configuration.ConfigurationSettings.AppSettings["ShopSubmitXMLURL"];
+        //    String folderLocation = System.Configuration.ConfigurationManager.AppSettings["ShopSubmitXMLURL"];
+        //    //End of Rev Debashis : Mantis:0025493
 
-            //Rev Debashis : Mantis:0025493
-            //String folderLocation = System.Configuration.ConfigurationSettings.AppSettings["ShopSubmitXMLURL"];
-            String folderLocation = System.Configuration.ConfigurationManager.AppSettings["ShopSubmitXMLURL"];
-            //End of Rev Debashis : Mantis:0025493
+        //    //string sessionId = "";
 
-            //string sessionId = "";
+        //    string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
+        //    String dates = DateTime.Now.ToString("ddMMyyyyhhmmssffffff");
+        //    DataTable dt = new DataTable();
+        //    try
+        //    {
+        //        //Rev Debashis : Mantis:0025493
+        //        //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+        //        String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+        //        //End of Rev Debashis : Mantis:0025493
+        //        SqlCommand sqlcmd = new SqlCommand();
+        //        SqlConnection sqlcon = new SqlConnection(con);
+        //        sqlcmd.CommandTimeout = 60;
+        //        sqlcon.Open();
+        //        sqlcmd = new SqlCommand("Proc_ApiShop_Activitysubmit", sqlcon);
+        //        //sqlcmd = new SqlCommand("Sp_ApiShop_Activitysubmit", sqlcon);
+        //        //Rev Debashis : Mantis:0025493
+        //        //sqlcmd.Parameters.Add("@session_token", model.session_token);
+        //        //sqlcmd.Parameters.Add("@user_id", model.user_id);
+        //        //sqlcmd.Parameters.Add("@JsonXML", JsonXML);
+        //        sqlcmd.Parameters.AddWithValue("session_token", model.session_token.ToString());
+        //        sqlcmd.Parameters.AddWithValue("@user_id", model.user_id.ToString());
+        //        //Rev Debashis : Mantis:0025529 & Row:779
+        //        sqlcmd.Parameters.AddWithValue("@isnewShop", model.isnewShop);
+        //        //End of Rev Debashis : Mantis:0025529 & Row:779
+        //        sqlcmd.Parameters.AddWithValue("@JsonXML", JsonXML);
+        //        //End of Rev Debashis : Mantis:0025493
+        //        sqlcmd.CommandType = CommandType.StoredProcedure;
+        //        SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+        //        da.Fill(dt);
+        //        sqlcon.Close();
+        //    }
+        //    catch
+        //    {
+        //        //File.WriteAllText("\\\\10.0.8.251\\Location\\Processing\\" + model.user_id + "_" + dates + ".xml", JsonXML);
+        //        return;
+        //    }
+        //    finally
+        //    {
 
-            string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
-            String dates = DateTime.Now.ToString("ddMMyyyyhhmmssffffff");
-            DataTable dt = new DataTable();
-            try
-            {
-                //Rev Debashis : Mantis:0025493
-                //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
-                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
-                //End of Rev Debashis : Mantis:0025493
-                SqlCommand sqlcmd = new SqlCommand();
-                SqlConnection sqlcon = new SqlConnection(con);
-                sqlcmd.CommandTimeout = 60;
-                sqlcon.Open();
-                sqlcmd = new SqlCommand("Proc_ApiShop_Activitysubmit", sqlcon);
-                //sqlcmd = new SqlCommand("Sp_ApiShop_Activitysubmit", sqlcon);
-                //Rev Debashis : Mantis:0025493
-                //sqlcmd.Parameters.Add("@session_token", model.session_token);
-                //sqlcmd.Parameters.Add("@user_id", model.user_id);
-                //sqlcmd.Parameters.Add("@JsonXML", JsonXML);
-                sqlcmd.Parameters.AddWithValue("session_token", model.session_token.ToString());
-                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id.ToString());
-                //Rev Debashis : Mantis:0025529 & Row:779
-                sqlcmd.Parameters.AddWithValue("@isnewShop", model.isnewShop);
-                //End of Rev Debashis : Mantis:0025529 & Row:779
-                sqlcmd.Parameters.AddWithValue("@JsonXML", JsonXML);
-                //End of Rev Debashis : Mantis:0025493
-                sqlcmd.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
-                da.Fill(dt);
-                sqlcon.Close();
-            }
-            catch
-            {
-                //File.WriteAllText("\\\\10.0.8.251\\Location\\Processing\\" + model.user_id + "_" + dates + ".xml", JsonXML);
-                return;
-            }
-            finally
-            {
+        //    }
 
-            }
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        oview = APIHelperMethods.ToModelList<DatalistsSumission>(dt);
+        //        omodel.status = "200";
+        //        omodel.message = "Shop details successfully updated.";
+        //        // omodel.shop_list = omedl2;
+        //        if (logprint == "1")
+        //        {
+        //            using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+        //            {
+        //                stream.WriteLine("Revisit  Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Success(Shopsubmission/ShopVisited)[215]" + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        omodel.status = "202";
+        //        omodel.message = "Records not updated.";
+        //        if (logprint == "1")
+        //        {
+        //            using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+        //            {
+        //                stream.WriteLine("Revisit  Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Records not updated(Shopsubmission/ShopVisited)[216]" + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
+        //            }
+        //        }
+        //        // File.WriteAllText("\\\\10.0.8.251\\Location\\Processing\\" + model.user_id + "_" + dates + ".xml", JsonXML);
+        //        return;
+        //        //txt.Close();
+        //    }
 
-            if (dt.Rows.Count > 0)
-            {
-                oview = APIHelperMethods.ToModelList<DatalistsSumission>(dt);
-                omodel.status = "200";
-                omodel.message = "Shop details successfully updated.";
-                // omodel.shop_list = omedl2;
-                if (logprint == "1")
-                {
-                    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
-                    {
-                        stream.WriteLine("Revisit  Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Success(Shopsubmission/ShopVisited)[215]" + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
-                    }
-                }
-            }
-            else
-            {
-                omodel.status = "202";
-                omodel.message = "Records not updated.";
-                if (logprint == "1")
-                {
-                    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
-                    {
-                        stream.WriteLine("Revisit  Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Records not updated(Shopsubmission/ShopVisited)[216]" + "User ID:" + model.user_id + svisitlog + "   Revisit  END ");
-                    }
-                }
-                // File.WriteAllText("\\\\10.0.8.251\\Location\\Processing\\" + model.user_id + "_" + dates + ".xml", JsonXML);
-                return;
-                //txt.Close();
-            }
-
-            //if (Convert.ToInt32(model.user_id)<=1000)
-            //{
-            //    File.WriteAllText(folderLocation+"\\user100\\" + model.user_id + "_" + dates + ".xml", JsonXML);
-            //}
-            //else if (Convert.ToInt32(model.user_id)<=2000 && Convert.ToInt32(model.user_id)>1000)
-            //{
-            //    File.WriteAllText(folderLocation+"\\user200\\" + model.user_id + "_" + dates + ".xml", JsonXML);  
-            //}
-            //else if (Convert.ToInt32(model.user_id) <= 3000 && Convert.ToInt32(model.user_id) > 2000)
-            //{
-            //    File.WriteAllText(folderLocation + "\\user300\\" + model.user_id + "_" + dates + ".xml", JsonXML);
-            //}
-            //else if (Convert.ToInt32(model.user_id) <= 4000 && Convert.ToInt32(model.user_id) > 3000)
-            //{
-            //    File.WriteAllText(folderLocation + "\\user400\\" + model.user_id + "_" + dates + ".xml", JsonXML);
-            //}
-            //else if (Convert.ToInt32(model.user_id) <= 5000 && Convert.ToInt32(model.user_id) > 4000)
-            //{
-            //    File.WriteAllText(folderLocation + "\\user500\\" + model.user_id + "_" + dates + ".xml", JsonXML);
-            //}
-            //else if (Convert.ToInt32(model.user_id) <= 6000 && Convert.ToInt32(model.user_id) > 5000)
-            //{
-            //    File.WriteAllText(folderLocation + "\\user600\\" + model.user_id + "_" + dates + ".xml", JsonXML);
-            //}
-            //else if (Convert.ToInt32(model.user_id) > 6000)
-            //{
-            //    File.WriteAllText(folderLocation + "\\user700\\" + model.user_id + "_" + dates + ".xml", JsonXML);
-            //}
-        }
+        //    //if (Convert.ToInt32(model.user_id)<=1000)
+        //    //{
+        //    //    File.WriteAllText(folderLocation+"\\user100\\" + model.user_id + "_" + dates + ".xml", JsonXML);
+        //    //}
+        //    //else if (Convert.ToInt32(model.user_id)<=2000 && Convert.ToInt32(model.user_id)>1000)
+        //    //{
+        //    //    File.WriteAllText(folderLocation+"\\user200\\" + model.user_id + "_" + dates + ".xml", JsonXML);  
+        //    //}
+        //    //else if (Convert.ToInt32(model.user_id) <= 3000 && Convert.ToInt32(model.user_id) > 2000)
+        //    //{
+        //    //    File.WriteAllText(folderLocation + "\\user300\\" + model.user_id + "_" + dates + ".xml", JsonXML);
+        //    //}
+        //    //else if (Convert.ToInt32(model.user_id) <= 4000 && Convert.ToInt32(model.user_id) > 3000)
+        //    //{
+        //    //    File.WriteAllText(folderLocation + "\\user400\\" + model.user_id + "_" + dates + ".xml", JsonXML);
+        //    //}
+        //    //else if (Convert.ToInt32(model.user_id) <= 5000 && Convert.ToInt32(model.user_id) > 4000)
+        //    //{
+        //    //    File.WriteAllText(folderLocation + "\\user500\\" + model.user_id + "_" + dates + ".xml", JsonXML);
+        //    //}
+        //    //else if (Convert.ToInt32(model.user_id) <= 6000 && Convert.ToInt32(model.user_id) > 5000)
+        //    //{
+        //    //    File.WriteAllText(folderLocation + "\\user600\\" + model.user_id + "_" + dates + ".xml", JsonXML);
+        //    //}
+        //    //else if (Convert.ToInt32(model.user_id) > 6000)
+        //    //{
+        //    //    File.WriteAllText(folderLocation + "\\user700\\" + model.user_id + "_" + dates + ".xml", JsonXML);
+        //    //}
+        //}
+        //End of Rev 2.0 Mantis: 0025749
 
         [HttpPost]
         public HttpResponseMessage MeetingVisited(MeetingVisitInput model)
@@ -561,7 +624,7 @@ namespace ShopAPI.Controllers
 
                         svisitlog = svisitlog + " Shop:" + s2.shop_id + "  Visit:" + s2.visited_time;
                     }
-
+                    //Rev 3.0 Mantis: 0025779
                     //if (logprint == "1")
                     //{
                     //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
@@ -569,7 +632,7 @@ namespace ShopAPI.Controllers
                     //        stream.WriteLine("Revisit Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Success(Shopsubmission/ShopVisited)[200]" + "User ID:" + model.user_id + svisitlog + " Revisit END ");
                     //    }
                     //}
-
+                    //End of Rev 3.0 Mantis: 0025779
                     string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
                     String dates = DateTime.Now.ToString("ddMMyyyyhhmmssffffff");
                     DataTable dt = new DataTable();
@@ -602,25 +665,29 @@ namespace ShopAPI.Controllers
                         omodel.status = "200";
                         omodel.message = "Shop details successfully updated.";
                         omodel.shop_list = oview;
-                        if (logprint == "1")
-                        {
-                            using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
-                            {
-                                stream.WriteLine("Revisit Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Success(Shopsubmission/ShopVisited)[200]" + "User ID:" + model.user_id + svisitlog + " Revisit END");
-                            }
-                        }
+                        //Rev 3.0 Mantis: 0025779
+                        //if (logprint == "1")
+                        //{
+                        //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+                        //    {
+                        //        stream.WriteLine("Revisit Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Success(Shopsubmission/ShopVisited)[200]" + "User ID:" + model.user_id + svisitlog + " Revisit END");
+                        //    }
+                        //}
+                        //End of Rev 3.0 Mantis: 0025779
                     }
                     else
                     {
                         omodel.status = "205";
                         omodel.message = "Records not updated.";
-                        if (logprint == "1")
-                        {
-                            using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
-                            {
-                                stream.WriteLine("Revisit Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Fail(Shopsubmission/ShopVisited)[205]" + "User ID:" + model.user_id + svisitlog + " Revisit END");
-                            }
-                        }
+                        //Rev 3.0 Mantis: 0025779
+                        //if (logprint == "1")
+                        //{
+                        //    using (StreamWriter stream = new FileInfo((Path.Combine(System.Web.Hosting.HostingEnvironment.MapPath(uploadtext)))).AppendText())
+                        //    {
+                        //        stream.WriteLine("Revisit Start " + "Start Time:" + DateTime.Now + "End Time:" + DateTime.Now + "Status:Fail(Shopsubmission/ShopVisited)[205]" + "User ID:" + model.user_id + svisitlog + " Revisit END");
+                        //    }
+                        //}
+                        //End of Rev 3.0 Mantis: 0025779
                     }
                     var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
                     return message;

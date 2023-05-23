@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2 .0.39    PRITI       13/02/2023      0025663:Last Visit fields shall be available in Outlet Reports
+//2.0   V2 .0.39    Debashis    12/05/2023      Optimization required for Employee Outlet Master.Refer: 0026020
 #endregion===================================End of Revision History==================================================================
 
 using BusinessLogicLayer.SalesTrackerReports;
@@ -192,7 +193,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 double days = (Convert.ToDateTime(ToDate) - Convert.ToDateTime(FromDate)).TotalDays;
                 if (days <= 35)
                 {
-                    dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id);
+                    //Rev 2.0 0026020
+                    //dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id);
+                    dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id,model.is_pageload);
+                    //End of Rev 2.0 0026020
                 }
                 //dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id);
                 //End of Mantis Issue 24728
@@ -212,7 +216,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             
         }
 
-        public DataTable GetEmployeeOutletMaster(string Employee, string start_date, string end_date, string Branch_Id)
+        //Rev 2.0 0026020
+        //public DataTable GetEmployeeOutletMaster(string Employee, string start_date, string end_date, string Branch_Id)
+        public DataTable GetEmployeeOutletMaster(string Employee, string start_date, string end_date, string Branch_Id,string IsPageLoad)
+        //End of Rev 2.0 0026020
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("PRC_FTSEMPLOYEEOUTLETMASTER_REPORT");
@@ -220,6 +227,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
             proc.AddPara("@TODATE", end_date);
             proc.AddPara("@BRANCHID", Branch_Id);
             proc.AddPara("@EMPID", Employee);
+            //Rev 2.0 0026020
+            proc.AddPara("@ISPAGELOAD", IsPageLoad);
+            //End of Rev 2.0 0026020
             proc.AddPara("@USERID", Convert.ToInt32(Session["userid"]));
             ds = proc.GetTable();
             return ds;

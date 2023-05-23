@@ -1,4 +1,8 @@
-﻿using DataAccessLayer;
+﻿/*****************************************************************************************************
+ * Rev 1.0      Sanchita       V2.0.40      04-05-2023      After Giving Selfie Attendance the Selfie is 
+ *                                                          not sync-ed in the Portal. refer: 25962
+ * *****************************************************************************************************/
+using DataAccessLayer;
 using DevExpress.Export;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -112,7 +116,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
         {
 
             string frmdate = string.Empty;
-            String Path = System.Configuration.ConfigurationSettings.AppSettings["Path"];
+            // Rev 1.0
+            //String Path = System.Configuration.ConfigurationSettings.AppSettings["Path"];
+            String Path = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
+            // End of Rev 1.0
             String weburl = Path + "AttendanceImageDemo/";
 
             if (model.is_pageload == "0")

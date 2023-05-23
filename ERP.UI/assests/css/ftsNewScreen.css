@@ -3,6 +3,7 @@
 /*1.0            06-01-2023       2.0.37        Pallab            Dashboard grid title hyperlink sign issue fix */
 /*2.0            10-01-2023       2.0.37        Pallab            "Export to" button color-profile change */
 /*3.0            12-01-2023       2.0.37        Pallab            25576: Report page design modification */
+/*4.0            17-04-2023       2.0.39        Pallab            25840: Employee master module employee search popup auto focus add and "cancel" button color change */
 /*=============================================== Revision History ================================================*/
 @font-face {
     font-family: ProximaNova;
@@ -1689,3 +1690,8 @@ table.dxgvTable_PlasticBlue > tbody > tr.dxgvFooter_PlasticBlue {
     padding: 6px 10px;
 }
 /*Rev end 3.0*/
+/*Rev 4.0*/
+#btnCloseEmployee, #btnCloseUser {
+    background-color: #e8e8e8 !important;
+}
+/*Rev end 4.0*/

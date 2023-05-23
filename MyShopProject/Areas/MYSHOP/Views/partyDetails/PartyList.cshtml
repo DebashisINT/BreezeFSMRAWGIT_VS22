@@ -7,6 +7,7 @@
 @*5.0                27-01-2023        2.0.38           Pallab              Party list module all popup design issue fix. Refer: 25628 *@
 @*6.0                27/01/2023        V2.0.38          Sanchita            Assign to DD is not showing while making shop from Portal. Refer: 25606*@
 @*7.0                02/02/2023        V2.0.38          Pallab              Add party popup scroll position issue fix*@
+@*8.0                24/04/2023        V2.0.39          Pallab              Party List module all search popup auto focus add and "cancel" button color change. Refer: 25899*@
 @*====================================================== Revision History ===========================================================*@
 
 @using MyShop.Models;
@@ -2788,6 +2789,15 @@
 
     /*Rev end 5.0*/
 
+    /*Rev 8.0*/
+    #txtEmployeeSearch {
+        margin-bottom: 10px;
+    }
+
+    .btn-default {
+        background-color: #e0e0e0;
+    }
+    /*Rev end 8.0*/
 
 </style>
 
@@ -3103,8 +3113,38 @@
         }
     }
 
+
 </script>
 @*End of Mantis Issue 25133*@
+
+<script>
+    /*Rev 8.0*/
+    $(document).ready(function () {
+        $('#PPModel').on('shown.bs.modal', function () {
+            $('#txtPPSearch').focus();
+        })
+        $('#DDModel').on('shown.bs.modal', function () {
+            $('#txtDDSearch').focus();
+        })
+
+        $('#UserSearchModel').on('shown.bs.modal', function () {
+            $('#txtUserSearch').focus();
+        })
+        $('#OldUserSearchModel').on('shown.bs.modal', function () {
+            $('#txtOldUserSearch').focus();
+        })
+        $('#NewAssignUserSearchModel').on('shown.bs.modal', function () {
+            $('#txtNewAssignUserSearch').focus();
+        })
+        $('#NewAssignGroupBeatSearchModel').on('shown.bs.modal', function () {
+            $('#txtNewAssignGroupBeatSearch').focus();
+        })
+        $('#NewAssignUserAreaRouteBeatSearchModel').on('shown.bs.modal', function () {
+            $('#txtNewAssignUserAreaRouteBeatSearch').focus();
+        })
+    });
+        /*Rev end 8.0*/
+</script>
 <div class="breadCumb">
     <span>Party List</span>
 </div>
@@ -4700,8 +4740,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
-                    <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                    <button type="button" class="btnOkformultiselection btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                    <button type="button" class="btnOkformultiselection  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
                     @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
                 </div>
             </div>

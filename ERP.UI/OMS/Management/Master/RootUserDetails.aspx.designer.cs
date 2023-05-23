@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ERP.OMS.Management.Master {
-    
-    
-    public partial class management_master_RootUserDetails {
-        
+namespace ERP.OMS.Management.Master
+{
+
+
+    public partial class management_master_RootUserDetails
+    {
+
         /// <summary>
         /// txtusername control.
         /// </summary>
@@ -20,7 +22,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtusername;
-        
+
         /// <summary>
         /// txtuserid control.
         /// </summary>
@@ -29,7 +31,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtuserid;
-        
+
         /// <summary>
         /// user_password control.
         /// </summary>
@@ -38,7 +40,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl user_password;
-        
+
         /// <summary>
         /// txtpassword control.
         /// </summary>
@@ -47,7 +49,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtpassword;
-        
+
         /// <summary>
         /// lstAssociatedEmployee control.
         /// </summary>
@@ -56,7 +58,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox lstAssociatedEmployee;
-        
+
         /// <summary>
         /// txtReportTo_hidden control.
         /// </summary>
@@ -65,7 +67,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField txtReportTo_hidden;
-        
+
         /// <summary>
         /// txtgps control.
         /// </summary>
@@ -74,7 +76,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtgps;
-        
+
         /// <summary>
         /// hdnentrymode control.
         /// </summary>
@@ -83,7 +85,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnentrymode;
-        
+
         /// <summary>
         /// ddDataEntry control.
         /// </summary>
@@ -92,7 +94,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddDataEntry;
-        
+
         /// <summary>
         /// txtIp1 control.
         /// </summary>
@@ -101,7 +103,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtIp1;
-        
+
         /// <summary>
         /// txtIp2 control.
         /// </summary>
@@ -110,7 +112,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtIp2;
-        
+
         /// <summary>
         /// txtIp3 control.
         /// </summary>
@@ -119,7 +121,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtIp3;
-        
+
         /// <summary>
         /// txtIp4 control.
         /// </summary>
@@ -128,7 +130,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtIp4;
-        
+
         /// <summary>
         /// cbSuperUser control.
         /// </summary>
@@ -137,7 +139,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox cbSuperUser;
-        
+
         /// <summary>
         /// grdUserAccess control.
         /// </summary>
@@ -146,7 +148,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView grdUserAccess;
-        
+
         /// <summary>
         /// dropdownlistbranch control.
         /// </summary>
@@ -155,7 +157,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList dropdownlistbranch;
-        
+
         /// <summary>
         /// ddlGroups control.
         /// </summary>
@@ -164,7 +166,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlGroups;
-        
+
         /// <summary>
         /// DivisHomeRestrictAttendance control.
         /// </summary>
@@ -173,7 +175,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivisHomeRestrictAttendance;
-        
+
         /// <summary>
         /// ddlRestrictionHomeLocation control.
         /// </summary>
@@ -182,7 +184,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlRestrictionHomeLocation;
-        
+
         /// <summary>
         /// DTdshopLocAccuracy control.
         /// </summary>
@@ -191,7 +193,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DTdshopLocAccuracy;
-        
+
         /// <summary>
         /// txtshopLocAccuracy control.
         /// </summary>
@@ -200,7 +202,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxTextBox txtshopLocAccuracy;
-        
+
         /// <summary>
         /// DTdhomeLocDistance control.
         /// </summary>
@@ -209,7 +211,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DTdhomeLocDistance;
-        
+
         /// <summary>
         /// txthomeLocDistance control.
         /// </summary>
@@ -218,7 +220,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxTextBox txthomeLocDistance;
-        
+
         /// <summary>
         /// Div1 control.
         /// </summary>
@@ -227,7 +229,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Div1;
-        
+
         /// <summary>
         /// ddlPartyType control.
         /// </summary>
@@ -236,7 +238,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlPartyType;
-        
+
         /// <summary>
         /// hdnPartyType control.
         /// </summary>
@@ -245,7 +247,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnPartyType;
-        
+
         /// <summary>
         /// divType control.
         /// </summary>
@@ -254,7 +256,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divType;
-        
+
         /// <summary>
         /// ddlType control.
         /// </summary>
@@ -263,7 +265,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlType;
-        
+
         /// <summary>
         /// IsShowUserType control.
         /// </summary>
@@ -272,7 +274,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField IsShowUserType;
-        
+
         /// <summary>
         /// IsUserTypeMandatory control.
         /// </summary>
@@ -281,7 +283,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField IsUserTypeMandatory;
-        
+
         /// <summary>
         /// DivDeviceInfoMin control.
         /// </summary>
@@ -290,7 +292,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl DivDeviceInfoMin;
-        
+
         /// <summary>
         /// txtDeviceInfoMin control.
         /// </summary>
@@ -299,7 +301,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxTextBox txtDeviceInfoMin;
-        
+
         /// <summary>
         /// chkIsActive control.
         /// </summary>
@@ -308,7 +310,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsActive;
-        
+
         /// <summary>
         /// chkmac control.
         /// </summary>
@@ -317,7 +319,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkmac;
-        
+
         /// <summary>
         /// TdHierarchywiseTargetSettings control.
         /// </summary>
@@ -326,7 +328,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdHierarchywiseTargetSettings;
-        
+
         /// <summary>
         /// chkTargetSettings control.
         /// </summary>
@@ -335,7 +337,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkTargetSettings;
-        
+
         /// <summary>
         /// DivEnableLeaveonApproval control.
         /// </summary>
@@ -344,7 +346,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivEnableLeaveonApproval;
-        
+
         /// <summary>
         /// chkLeaveEanbleSettings control.
         /// </summary>
@@ -353,7 +355,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkLeaveEanbleSettings;
-        
+
         /// <summary>
         /// DivEnableLeaveonApprover control.
         /// </summary>
@@ -362,7 +364,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivEnableLeaveonApprover;
-        
+
         /// <summary>
         /// chkLeaveApprover control.
         /// </summary>
@@ -371,7 +373,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkLeaveApprover;
-        
+
         /// <summary>
         /// DivActiveautomaticRevisit control.
         /// </summary>
@@ -380,7 +382,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivActiveautomaticRevisit;
-        
+
         /// <summary>
         /// chkRevisitSettings control.
         /// </summary>
@@ -389,7 +391,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkRevisitSettings;
-        
+
         /// <summary>
         /// DivInputDayPlan control.
         /// </summary>
@@ -398,7 +400,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivInputDayPlan;
-        
+
         /// <summary>
         /// chkPlanDetailsSettings control.
         /// </summary>
@@ -407,7 +409,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkPlanDetailsSettings;
-        
+
         /// <summary>
         /// DivActiveMoreDetailsMandatory control.
         /// </summary>
@@ -416,7 +418,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivActiveMoreDetailsMandatory;
-        
+
         /// <summary>
         /// chkMoreDetailsMandatorySettings control.
         /// </summary>
@@ -425,7 +427,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkMoreDetailsMandatorySettings;
-        
+
         /// <summary>
         /// DivDisplayMoreDetailswhilenewVisit control.
         /// </summary>
@@ -434,7 +436,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivDisplayMoreDetailswhilenewVisit;
-        
+
         /// <summary>
         /// chkShowMoreDetailsSettings control.
         /// </summary>
@@ -443,7 +445,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowMoreDetailsSettings;
-        
+
         /// <summary>
         /// DivShowMeetingsOption control.
         /// </summary>
@@ -452,7 +454,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivShowMeetingsOption;
-        
+
         /// <summary>
         /// chkMeetingsSettings control.
         /// </summary>
@@ -461,7 +463,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkMeetingsSettings;
-        
+
         /// <summary>
         /// DivShowProductRateinApp control.
         /// </summary>
@@ -470,7 +472,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivShowProductRateinApp;
-        
+
         /// <summary>
         /// chkRateEditableSettings control.
         /// </summary>
@@ -479,7 +481,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkRateEditableSettings;
-        
+
         /// <summary>
         /// DivShowTeam control.
         /// </summary>
@@ -488,7 +490,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivShowTeam;
-        
+
         /// <summary>
         /// chkShowTeam control.
         /// </summary>
@@ -497,7 +499,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowTeam;
-        
+
         /// <summary>
         /// DivAllowPJPupdateforTeam control.
         /// </summary>
@@ -506,7 +508,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivAllowPJPupdateforTeam;
-        
+
         /// <summary>
         /// chkAllowPJPupdateforTeam control.
         /// </summary>
@@ -515,7 +517,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkAllowPJPupdateforTeam;
-        
+
         /// <summary>
         /// DivwillReportShow control.
         /// </summary>
@@ -524,7 +526,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivwillReportShow;
-        
+
         /// <summary>
         /// chkwillReportShow control.
         /// </summary>
@@ -533,7 +535,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillReportShow;
-        
+
         /// <summary>
         /// DivIsFingerPrintMandatoryForAttendance control.
         /// </summary>
@@ -542,7 +544,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivIsFingerPrintMandatoryForAttendance;
-        
+
         /// <summary>
         /// chkIsFingerPrintMandatoryForAttendance control.
         /// </summary>
@@ -551,7 +553,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsFingerPrintMandatoryForAttendance;
-        
+
         /// <summary>
         /// DivIsFingerPrintMandatoryForVisit control.
         /// </summary>
@@ -560,7 +562,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivIsFingerPrintMandatoryForVisit;
-        
+
         /// <summary>
         /// chkIsFingerPrintMandatoryForVisit control.
         /// </summary>
@@ -569,7 +571,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsFingerPrintMandatoryForVisit;
-        
+
         /// <summary>
         /// DivIsSelfieMandatoryForAttendance control.
         /// </summary>
@@ -578,7 +580,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell DivIsSelfieMandatoryForAttendance;
-        
+
         /// <summary>
         /// chkIsSelfieMandatoryForAttendance control.
         /// </summary>
@@ -587,7 +589,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsSelfieMandatoryForAttendance;
-        
+
         /// <summary>
         /// TdisAttendanceReportShow control.
         /// </summary>
@@ -596,7 +598,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAttendanceReportShow;
-        
+
         /// <summary>
         /// chkisAttendanceReportShow control.
         /// </summary>
@@ -605,7 +607,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAttendanceReportShow;
-        
+
         /// <summary>
         /// TdisPerformanceReportShow control.
         /// </summary>
@@ -614,7 +616,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisPerformanceReportShow;
-        
+
         /// <summary>
         /// chkisPerformanceReportShow control.
         /// </summary>
@@ -623,7 +625,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisPerformanceReportShow;
-        
+
         /// <summary>
         /// TdisVisitReportShow control.
         /// </summary>
@@ -632,7 +634,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisVisitReportShow;
-        
+
         /// <summary>
         /// chkisVisitReportShow control.
         /// </summary>
@@ -641,7 +643,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisVisitReportShow;
-        
+
         /// <summary>
         /// TdwillTimesheetShow control.
         /// </summary>
@@ -650,7 +652,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillTimesheetShow;
-        
+
         /// <summary>
         /// chkwillTimesheetShow control.
         /// </summary>
@@ -659,7 +661,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillTimesheetShow;
-        
+
         /// <summary>
         /// TdHorizontalPerformanceReportShow control.
         /// </summary>
@@ -668,7 +670,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdHorizontalPerformanceReportShow;
-        
+
         /// <summary>
         /// chkisHorizontalReportShow control.
         /// </summary>
@@ -677,7 +679,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisHorizontalReportShow;
-        
+
         /// <summary>
         /// TdisAttendanceFeatureOnly control.
         /// </summary>
@@ -686,7 +688,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAttendanceFeatureOnly;
-        
+
         /// <summary>
         /// chkisAttendanceFeatureOnly control.
         /// </summary>
@@ -695,7 +697,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAttendanceFeatureOnly;
-        
+
         /// <summary>
         /// TdisOrderShow control.
         /// </summary>
@@ -704,7 +706,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisOrderShow;
-        
+
         /// <summary>
         /// chkisOrderShow control.
         /// </summary>
@@ -713,7 +715,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisOrderShow;
-        
+
         /// <summary>
         /// TdisVisitShow control.
         /// </summary>
@@ -722,7 +724,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisVisitShow;
-        
+
         /// <summary>
         /// chkisVisitShow control.
         /// </summary>
@@ -731,7 +733,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisVisitShow;
-        
+
         /// <summary>
         /// TdiscollectioninMenuShow control.
         /// </summary>
@@ -740,7 +742,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdiscollectioninMenuShow;
-        
+
         /// <summary>
         /// chkiscollectioninMenuShow control.
         /// </summary>
@@ -749,7 +751,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkiscollectioninMenuShow;
-        
+
         /// <summary>
         /// TdisShopAddEditAvailable control.
         /// </summary>
@@ -758,7 +760,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShopAddEditAvailable;
-        
+
         /// <summary>
         /// chkisShopAddEditAvailable control.
         /// </summary>
@@ -767,7 +769,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShopAddEditAvailable;
-        
+
         /// <summary>
         /// TdisEntityCodeVisible control.
         /// </summary>
@@ -776,7 +778,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisEntityCodeVisible;
-        
+
         /// <summary>
         /// chkisEntityCodeVisible control.
         /// </summary>
@@ -785,7 +787,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisEntityCodeVisible;
-        
+
         /// <summary>
         /// TdisAreaMandatoryInPartyCreation control.
         /// </summary>
@@ -794,7 +796,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAreaMandatoryInPartyCreation;
-        
+
         /// <summary>
         /// chkisAreaMandatoryInPartyCreation control.
         /// </summary>
@@ -803,7 +805,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAreaMandatoryInPartyCreation;
-        
+
         /// <summary>
         /// TdisShowPartyInAreaWiseTeam control.
         /// </summary>
@@ -812,7 +814,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowPartyInAreaWiseTeam;
-        
+
         /// <summary>
         /// chkisShowPartyInAreaWiseTeam control.
         /// </summary>
@@ -821,7 +823,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowPartyInAreaWiseTeam;
-        
+
         /// <summary>
         /// TdisChangePasswordAllowed control.
         /// </summary>
@@ -830,7 +832,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisChangePasswordAllowed;
-        
+
         /// <summary>
         /// chkisChangePasswordAllowed control.
         /// </summary>
@@ -839,7 +841,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisChangePasswordAllowed;
-        
+
         /// <summary>
         /// TdisQuotationShow control.
         /// </summary>
@@ -848,7 +850,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisQuotationShow;
-        
+
         /// <summary>
         /// chkisQuotationShow control.
         /// </summary>
@@ -857,7 +859,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisQuotationShow;
-        
+
         /// <summary>
         /// TdIsStateMandatoryinReport control.
         /// </summary>
@@ -866,7 +868,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsStateMandatoryinReport;
-        
+
         /// <summary>
         /// chkIsStateMandatoryinReport control.
         /// </summary>
@@ -875,7 +877,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsStateMandatoryinReport;
-        
+
         /// <summary>
         /// TdisQuotationPopupShow control.
         /// </summary>
@@ -884,7 +886,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisQuotationPopupShow;
-        
+
         /// <summary>
         /// chkisQuotationPopupShow control.
         /// </summary>
@@ -893,7 +895,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisQuotationPopupShow;
-        
+
         /// <summary>
         /// TdisAchievementEnable control.
         /// </summary>
@@ -902,7 +904,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAchievementEnable;
-        
+
         /// <summary>
         /// chkisAchievementEnable control.
         /// </summary>
@@ -911,7 +913,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAchievementEnable;
-        
+
         /// <summary>
         /// TdisTarVsAchvEnable control.
         /// </summary>
@@ -920,7 +922,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisTarVsAchvEnable;
-        
+
         /// <summary>
         /// chkisTarVsAchvEnable control.
         /// </summary>
@@ -929,7 +931,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisTarVsAchvEnable;
-        
+
         /// <summary>
         /// TdisOrderReplacedWithTeam control.
         /// </summary>
@@ -938,7 +940,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisOrderReplacedWithTeam;
-        
+
         /// <summary>
         /// chkisOrderReplacedWithTeam control.
         /// </summary>
@@ -947,7 +949,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisOrderReplacedWithTeam;
-        
+
         /// <summary>
         /// TdisMultipleAttendanceSelection control.
         /// </summary>
@@ -956,7 +958,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisMultipleAttendanceSelection;
-        
+
         /// <summary>
         /// chkisMultipleAttendanceSelection control.
         /// </summary>
@@ -965,7 +967,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisMultipleAttendanceSelection;
-        
+
         /// <summary>
         /// TdisOfflineTeam control.
         /// </summary>
@@ -974,7 +976,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisOfflineTeam;
-        
+
         /// <summary>
         /// chkisOfflineTeam control.
         /// </summary>
@@ -983,7 +985,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisOfflineTeam;
-        
+
         /// <summary>
         /// TdisDDShowForMeeting control.
         /// </summary>
@@ -992,7 +994,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisDDShowForMeeting;
-        
+
         /// <summary>
         /// chkisDDShowForMeeting control.
         /// </summary>
@@ -1001,7 +1003,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisDDShowForMeeting;
-        
+
         /// <summary>
         /// TdisDDMandatoryForMeeting control.
         /// </summary>
@@ -1010,7 +1012,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisDDMandatoryForMeeting;
-        
+
         /// <summary>
         /// chkisDDMandatoryForMeeting control.
         /// </summary>
@@ -1019,7 +1021,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisDDMandatoryForMeeting;
-        
+
         /// <summary>
         /// TdisAllTeamAvailable control.
         /// </summary>
@@ -1028,7 +1030,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAllTeamAvailable;
-        
+
         /// <summary>
         /// chkisAllTeamAvailable control.
         /// </summary>
@@ -1037,7 +1039,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAllTeamAvailable;
-        
+
         /// <summary>
         /// TdisRecordAudioEnable control.
         /// </summary>
@@ -1046,7 +1048,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisRecordAudioEnable;
-        
+
         /// <summary>
         /// chkisRecordAudioEnable control.
         /// </summary>
@@ -1055,7 +1057,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisRecordAudioEnable;
-        
+
         /// <summary>
         /// TdisNextVisitDateMandatory control.
         /// </summary>
@@ -1064,7 +1066,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisNextVisitDateMandatory;
-        
+
         /// <summary>
         /// chkisNextVisitDateMandatory control.
         /// </summary>
@@ -1073,7 +1075,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisNextVisitDateMandatory;
-        
+
         /// <summary>
         /// TdisShowCurrentLocNotifiaction control.
         /// </summary>
@@ -1082,7 +1084,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowCurrentLocNotifiaction;
-        
+
         /// <summary>
         /// chkisShowCurrentLocNotifiaction control.
         /// </summary>
@@ -1091,7 +1093,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowCurrentLocNotifiaction;
-        
+
         /// <summary>
         /// TdisUpdateWorkTypeEnable control.
         /// </summary>
@@ -1100,7 +1102,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisUpdateWorkTypeEnable;
-        
+
         /// <summary>
         /// chkisUpdateWorkTypeEnable control.
         /// </summary>
@@ -1109,7 +1111,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisUpdateWorkTypeEnable;
-        
+
         /// <summary>
         /// TdisLeaveEnable control.
         /// </summary>
@@ -1118,7 +1120,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisLeaveEnable;
-        
+
         /// <summary>
         /// chkisLeaveEnable control.
         /// </summary>
@@ -1127,7 +1129,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisLeaveEnable;
-        
+
         /// <summary>
         /// TdisOrderMailVisible control.
         /// </summary>
@@ -1136,7 +1138,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisOrderMailVisible;
-        
+
         /// <summary>
         /// chkisOrderMailVisible control.
         /// </summary>
@@ -1145,7 +1147,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisOrderMailVisible;
-        
+
         /// <summary>
         /// TdLateVisitSMS control.
         /// </summary>
@@ -1154,7 +1156,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdLateVisitSMS;
-        
+
         /// <summary>
         /// chkLateVisitSMS control.
         /// </summary>
@@ -1163,7 +1165,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkLateVisitSMS;
-        
+
         /// <summary>
         /// TdisShopEditEnable control.
         /// </summary>
@@ -1172,7 +1174,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShopEditEnable;
-        
+
         /// <summary>
         /// chkisShopEditEnable control.
         /// </summary>
@@ -1181,7 +1183,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShopEditEnable;
-        
+
         /// <summary>
         /// TdisTaskEnable control.
         /// </summary>
@@ -1190,7 +1192,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisTaskEnable;
-        
+
         /// <summary>
         /// chkisTaskEnable control.
         /// </summary>
@@ -1199,7 +1201,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisTaskEnable;
-        
+
         /// <summary>
         /// TdisAppInfoEnable control.
         /// </summary>
@@ -1208,7 +1210,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAppInfoEnable;
-        
+
         /// <summary>
         /// chkisAppInfoEnable control.
         /// </summary>
@@ -1217,7 +1219,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAppInfoEnable;
-        
+
         /// <summary>
         /// TdwillDynamicShow control.
         /// </summary>
@@ -1226,7 +1228,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillDynamicShow;
-        
+
         /// <summary>
         /// chkwillDynamicShow control.
         /// </summary>
@@ -1235,7 +1237,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillDynamicShow;
-        
+
         /// <summary>
         /// TdwillActivityShow control.
         /// </summary>
@@ -1244,7 +1246,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillActivityShow;
-        
+
         /// <summary>
         /// chkwillActivityShow control.
         /// </summary>
@@ -1253,7 +1255,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillActivityShow;
-        
+
         /// <summary>
         /// TdisDocumentRepoShow control.
         /// </summary>
@@ -1262,7 +1264,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisDocumentRepoShow;
-        
+
         /// <summary>
         /// chkisDocumentRepoShow control.
         /// </summary>
@@ -1271,7 +1273,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisDocumentRepoShow;
-        
+
         /// <summary>
         /// TdisChatBotShow control.
         /// </summary>
@@ -1280,7 +1282,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisChatBotShow;
-        
+
         /// <summary>
         /// chkisChatBotShow control.
         /// </summary>
@@ -1289,7 +1291,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisChatBotShow;
-        
+
         /// <summary>
         /// TdisAttendanceBotShow control.
         /// </summary>
@@ -1298,7 +1300,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAttendanceBotShow;
-        
+
         /// <summary>
         /// chkisAttendanceBotShow control.
         /// </summary>
@@ -1307,7 +1309,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAttendanceBotShow;
-        
+
         /// <summary>
         /// TdisVisitBotShow control.
         /// </summary>
@@ -1316,7 +1318,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisVisitBotShow;
-        
+
         /// <summary>
         /// chkisVisitBotShow control.
         /// </summary>
@@ -1325,7 +1327,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisVisitBotShow;
-        
+
         /// <summary>
         /// TdisInstrumentCompulsory control.
         /// </summary>
@@ -1334,7 +1336,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisInstrumentCompulsory;
-        
+
         /// <summary>
         /// chkisInstrumentCompulsory control.
         /// </summary>
@@ -1343,7 +1345,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisInstrumentCompulsory;
-        
+
         /// <summary>
         /// TdisBankCompulsory control.
         /// </summary>
@@ -1352,7 +1354,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisBankCompulsory;
-        
+
         /// <summary>
         /// chkisBankCompulsory control.
         /// </summary>
@@ -1361,7 +1363,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisBankCompulsory;
-        
+
         /// <summary>
         /// TdisComplementaryUser control.
         /// </summary>
@@ -1370,7 +1372,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisComplementaryUser;
-        
+
         /// <summary>
         /// chkisComplementaryUser control.
         /// </summary>
@@ -1379,7 +1381,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisComplementaryUser;
-        
+
         /// <summary>
         /// TdisVisitPlanShow control.
         /// </summary>
@@ -1388,7 +1390,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisVisitPlanShow;
-        
+
         /// <summary>
         /// chkisVisitPlanShow control.
         /// </summary>
@@ -1397,7 +1399,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisVisitPlanShow;
-        
+
         /// <summary>
         /// TdisVisitPlanMandatory control.
         /// </summary>
@@ -1406,7 +1408,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisVisitPlanMandatory;
-        
+
         /// <summary>
         /// chkisVisitPlanMandatory control.
         /// </summary>
@@ -1415,7 +1417,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisVisitPlanMandatory;
-        
+
         /// <summary>
         /// TdisAttendanceDistanceShow control.
         /// </summary>
@@ -1424,7 +1426,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAttendanceDistanceShow;
-        
+
         /// <summary>
         /// chkisAttendanceDistanceShow control.
         /// </summary>
@@ -1433,7 +1435,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAttendanceDistanceShow;
-        
+
         /// <summary>
         /// TdwillTimelineWithFixedLocationShow control.
         /// </summary>
@@ -1442,7 +1444,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillTimelineWithFixedLocationShow;
-        
+
         /// <summary>
         /// chkwillTimelineWithFixedLocationShow control.
         /// </summary>
@@ -1451,7 +1453,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillTimelineWithFixedLocationShow;
-        
+
         /// <summary>
         /// TdisShowOrderRemarks control.
         /// </summary>
@@ -1460,7 +1462,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowOrderRemarks;
-        
+
         /// <summary>
         /// chkisShowOrderRemarks control.
         /// </summary>
@@ -1469,7 +1471,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowOrderRemarks;
-        
+
         /// <summary>
         /// TdisShowOrderSignature control.
         /// </summary>
@@ -1478,7 +1480,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowOrderSignature;
-        
+
         /// <summary>
         /// chkisShowOrderSignature control.
         /// </summary>
@@ -1487,7 +1489,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowOrderSignature;
-        
+
         /// <summary>
         /// TdisShowSmsForParty control.
         /// </summary>
@@ -1496,7 +1498,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowSmsForParty;
-        
+
         /// <summary>
         /// chkisShowSmsForParty control.
         /// </summary>
@@ -1505,7 +1507,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowSmsForParty;
-        
+
         /// <summary>
         /// TdisShowTimeline control.
         /// </summary>
@@ -1514,7 +1516,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowTimeline;
-        
+
         /// <summary>
         /// chkisShowTimeline control.
         /// </summary>
@@ -1523,7 +1525,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowTimeline;
-        
+
         /// <summary>
         /// TdwillScanVisitingCard control.
         /// </summary>
@@ -1532,7 +1534,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillScanVisitingCard;
-        
+
         /// <summary>
         /// chkwillScanVisitingCard control.
         /// </summary>
@@ -1541,7 +1543,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillScanVisitingCard;
-        
+
         /// <summary>
         /// TdisCreateQrCode control.
         /// </summary>
@@ -1550,7 +1552,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisCreateQrCode;
-        
+
         /// <summary>
         /// chkisCreateQrCode control.
         /// </summary>
@@ -1559,7 +1561,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisCreateQrCode;
-        
+
         /// <summary>
         /// TdisScanQrForRevisit control.
         /// </summary>
@@ -1568,7 +1570,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisScanQrForRevisit;
-        
+
         /// <summary>
         /// chkisScanQrForRevisit control.
         /// </summary>
@@ -1577,7 +1579,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisScanQrForRevisit;
-        
+
         /// <summary>
         /// TdisShowLogoutReason control.
         /// </summary>
@@ -1586,7 +1588,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowLogoutReason;
-        
+
         /// <summary>
         /// chkisShowLogoutReason control.
         /// </summary>
@@ -1595,7 +1597,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowLogoutReason;
-        
+
         /// <summary>
         /// TdwillShowHomeLocReason control.
         /// </summary>
@@ -1604,7 +1606,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillShowHomeLocReason;
-        
+
         /// <summary>
         /// chkwillShowHomeLocReason control.
         /// </summary>
@@ -1613,7 +1615,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillShowHomeLocReason;
-        
+
         /// <summary>
         /// TdwillShowShopVisitReason control.
         /// </summary>
@@ -1622,7 +1624,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillShowShopVisitReason;
-        
+
         /// <summary>
         /// chkwillShowShopVisitReason control.
         /// </summary>
@@ -1631,7 +1633,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillShowShopVisitReason;
-        
+
         /// <summary>
         /// TdwillShowPartyStatus control.
         /// </summary>
@@ -1640,7 +1642,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillShowPartyStatus;
-        
+
         /// <summary>
         /// chkwillShowPartyStatus control.
         /// </summary>
@@ -1649,7 +1651,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillShowPartyStatus;
-        
+
         /// <summary>
         /// TdwillShowEntityTypeforShop control.
         /// </summary>
@@ -1658,7 +1660,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdwillShowEntityTypeforShop;
-        
+
         /// <summary>
         /// chkwillShowEntityTypeforShop control.
         /// </summary>
@@ -1667,7 +1669,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkwillShowEntityTypeforShop;
-        
+
         /// <summary>
         /// TdisShowRetailerEntity control.
         /// </summary>
@@ -1676,7 +1678,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowRetailerEntity;
-        
+
         /// <summary>
         /// chkisShowRetailerEntity control.
         /// </summary>
@@ -1685,7 +1687,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowRetailerEntity;
-        
+
         /// <summary>
         /// TdisShowDealerForDD control.
         /// </summary>
@@ -1694,7 +1696,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowDealerForDD;
-        
+
         /// <summary>
         /// chkisShowDealerForDD control.
         /// </summary>
@@ -1703,7 +1705,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowDealerForDD;
-        
+
         /// <summary>
         /// TdisShowBeatGroup control.
         /// </summary>
@@ -1712,7 +1714,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowBeatGroup;
-        
+
         /// <summary>
         /// chkisShowBeatGroup control.
         /// </summary>
@@ -1721,7 +1723,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowBeatGroup;
-        
+
         /// <summary>
         /// TdisShowShopBeatWise control.
         /// </summary>
@@ -1730,7 +1732,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowShopBeatWise;
-        
+
         /// <summary>
         /// chkisShowShopBeatWise control.
         /// </summary>
@@ -1739,7 +1741,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowShopBeatWise;
-        
+
         /// <summary>
         /// TdisShowOTPVerificationPopup control.
         /// </summary>
@@ -1748,7 +1750,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowOTPVerificationPopup;
-        
+
         /// <summary>
         /// chkisShowOTPVerificationPopup control.
         /// </summary>
@@ -1757,7 +1759,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowOTPVerificationPopup;
-        
+
         /// <summary>
         /// TdisShowMicroLearing control.
         /// </summary>
@@ -1766,7 +1768,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowMicroLearing;
-        
+
         /// <summary>
         /// chkisShowMicroLearing control.
         /// </summary>
@@ -1775,7 +1777,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowMicroLearing;
-        
+
         /// <summary>
         /// TdisMultipleVisitEnable control.
         /// </summary>
@@ -1784,7 +1786,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisMultipleVisitEnable;
-        
+
         /// <summary>
         /// chkisMultipleVisitEnable control.
         /// </summary>
@@ -1793,7 +1795,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisMultipleVisitEnable;
-        
+
         /// <summary>
         /// TdisShowVisitRemarks control.
         /// </summary>
@@ -1802,7 +1804,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowVisitRemarks;
-        
+
         /// <summary>
         /// chkisShowVisitRemarks control.
         /// </summary>
@@ -1811,7 +1813,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowVisitRemarks;
-        
+
         /// <summary>
         /// TdisShowNearbyCustomer control.
         /// </summary>
@@ -1820,7 +1822,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShowNearbyCustomer;
-        
+
         /// <summary>
         /// chkisShowNearbyCustomer control.
         /// </summary>
@@ -1829,7 +1831,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShowNearbyCustomer;
-        
+
         /// <summary>
         /// TdisServiceFeatureEnable control.
         /// </summary>
@@ -1838,7 +1840,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisServiceFeatureEnable;
-        
+
         /// <summary>
         /// chkisServiceFeatureEnable control.
         /// </summary>
@@ -1847,7 +1849,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisServiceFeatureEnable;
-        
+
         /// <summary>
         /// TdisPatientDetailsShowInOrder control.
         /// </summary>
@@ -1856,7 +1858,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisPatientDetailsShowInOrder;
-        
+
         /// <summary>
         /// chkisPatientDetailsShowInOrder control.
         /// </summary>
@@ -1865,7 +1867,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisPatientDetailsShowInOrder;
-        
+
         /// <summary>
         /// TdisPatientDetailsShowInCollection control.
         /// </summary>
@@ -1874,7 +1876,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisPatientDetailsShowInCollection;
-        
+
         /// <summary>
         /// chkisPatientDetailsShowInCollection control.
         /// </summary>
@@ -1883,7 +1885,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisPatientDetailsShowInCollection;
-        
+
         /// <summary>
         /// TdisAttachmentMandatory control.
         /// </summary>
@@ -1892,7 +1894,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisAttachmentMandatory;
-        
+
         /// <summary>
         /// chkisAttachmentMandatory control.
         /// </summary>
@@ -1901,7 +1903,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAttachmentMandatory;
-        
+
         /// <summary>
         /// TdisShopImageMandatory control.
         /// </summary>
@@ -1910,7 +1912,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisShopImageMandatory;
-        
+
         /// <summary>
         /// chkisShopImageMandatory control.
         /// </summary>
@@ -1919,7 +1921,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisShopImageMandatory;
-        
+
         /// <summary>
         /// TdisLogShareinLogin control.
         /// </summary>
@@ -1928,7 +1930,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdisLogShareinLogin;
-        
+
         /// <summary>
         /// chkisLogShareinLogin control.
         /// </summary>
@@ -1937,7 +1939,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisLogShareinLogin;
-        
+
         /// <summary>
         /// TdIsCompetitorenable control.
         /// </summary>
@@ -1946,7 +1948,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsCompetitorenable;
-        
+
         /// <summary>
         /// chkIsCompetitorenable control.
         /// </summary>
@@ -1955,7 +1957,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsCompetitorenable;
-        
+
         /// <summary>
         /// TdIsOrderStatusRequired control.
         /// </summary>
@@ -1964,7 +1966,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsOrderStatusRequired;
-        
+
         /// <summary>
         /// chkIsOrderStatusRequired control.
         /// </summary>
@@ -1973,7 +1975,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsOrderStatusRequired;
-        
+
         /// <summary>
         /// TdIsCurrentStockEnable control.
         /// </summary>
@@ -1982,7 +1984,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsCurrentStockEnable;
-        
+
         /// <summary>
         /// chkIsCurrentStockEnable control.
         /// </summary>
@@ -1991,7 +1993,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsCurrentStockEnable;
-        
+
         /// <summary>
         /// TdIsCurrentStockApplicableforAll control.
         /// </summary>
@@ -2000,7 +2002,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsCurrentStockApplicableforAll;
-        
+
         /// <summary>
         /// chkIsCurrentStockApplicableforAll control.
         /// </summary>
@@ -2009,7 +2011,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsCurrentStockApplicableforAll;
-        
+
         /// <summary>
         /// TdIscompetitorStockRequired control.
         /// </summary>
@@ -2018,7 +2020,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIscompetitorStockRequired;
-        
+
         /// <summary>
         /// chkIscompetitorStockRequired control.
         /// </summary>
@@ -2027,7 +2029,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIscompetitorStockRequired;
-        
+
         /// <summary>
         /// TdIsCompetitorStockforParty control.
         /// </summary>
@@ -2036,7 +2038,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsCompetitorStockforParty;
-        
+
         /// <summary>
         /// chkIsCompetitorStockforParty control.
         /// </summary>
@@ -2045,7 +2047,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsCompetitorStockforParty;
-        
+
         /// <summary>
         /// TdShowFaceRegInMenu control.
         /// </summary>
@@ -2054,7 +2056,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdShowFaceRegInMenu;
-        
+
         /// <summary>
         /// chkShowFaceRegInMenu control.
         /// </summary>
@@ -2063,7 +2065,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowFaceRegInMenu;
-        
+
         /// <summary>
         /// TdIsFaceDetection control.
         /// </summary>
@@ -2072,7 +2074,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsFaceDetection;
-        
+
         /// <summary>
         /// chkIsFaceDetection control.
         /// </summary>
@@ -2081,7 +2083,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsFaceDetection;
-        
+
         /// <summary>
         /// TdIsUserwiseDistributer control.
         /// </summary>
@@ -2090,7 +2092,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsUserwiseDistributer;
-        
+
         /// <summary>
         /// chkIsUserwiseDistributer control.
         /// </summary>
@@ -2099,7 +2101,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsUserwiseDistributer;
-        
+
         /// <summary>
         /// TdIsPhotoDeleteShow control.
         /// </summary>
@@ -2108,7 +2110,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsPhotoDeleteShow;
-        
+
         /// <summary>
         /// chkIsPhotoDeleteShow control.
         /// </summary>
@@ -2117,7 +2119,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsPhotoDeleteShow;
-        
+
         /// <summary>
         /// TdIsAllDataInPortalwithHeirarchy control.
         /// </summary>
@@ -2126,7 +2128,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsAllDataInPortalwithHeirarchy;
-        
+
         /// <summary>
         /// chkIsAllDataInPortalwithHeirarchy control.
         /// </summary>
@@ -2135,7 +2137,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAllDataInPortalwithHeirarchy;
-        
+
         /// <summary>
         /// TdIsFaceDetectionWithCaptcha control.
         /// </summary>
@@ -2144,7 +2146,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsFaceDetectionWithCaptcha;
-        
+
         /// <summary>
         /// chkIsFaceDetectionWithCaptcha control.
         /// </summary>
@@ -2153,7 +2155,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsFaceDetectionWithCaptcha;
-        
+
         /// <summary>
         /// TdIsShowMenuAddAttendance control.
         /// </summary>
@@ -2162,7 +2164,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuAddAttendance;
-        
+
         /// <summary>
         /// chkIsShowMenuAddAttendance control.
         /// </summary>
@@ -2171,7 +2173,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuAddAttendance;
-        
+
         /// <summary>
         /// TdIsShowMenuAttendance control.
         /// </summary>
@@ -2180,7 +2182,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuAttendance;
-        
+
         /// <summary>
         /// chkIsShowMenuAttendance control.
         /// </summary>
@@ -2189,7 +2191,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuAttendance;
-        
+
         /// <summary>
         /// TdIsShowMenuShops control.
         /// </summary>
@@ -2198,7 +2200,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuShops;
-        
+
         /// <summary>
         /// chkIsShowMenuShops control.
         /// </summary>
@@ -2207,7 +2209,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuShops;
-        
+
         /// <summary>
         /// TdIsShowMenuOutstandingDetailsPPDD control.
         /// </summary>
@@ -2216,7 +2218,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuOutstandingDetailsPPDD;
-        
+
         /// <summary>
         /// chkIsShowMenuOutstandingDetailsPPDD control.
         /// </summary>
@@ -2225,7 +2227,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuOutstandingDetailsPPDD;
-        
+
         /// <summary>
         /// TdIsShowMenuStockDetailsPPDD control.
         /// </summary>
@@ -2234,7 +2236,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuStockDetailsPPDD;
-        
+
         /// <summary>
         /// chkIsShowMenuStockDetailsPPDD control.
         /// </summary>
@@ -2243,7 +2245,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuStockDetailsPPDD;
-        
+
         /// <summary>
         /// TdIsShowMenuTA control.
         /// </summary>
@@ -2252,7 +2254,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuTA;
-        
+
         /// <summary>
         /// chkIsShowMenuTA control.
         /// </summary>
@@ -2261,7 +2263,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuTA;
-        
+
         /// <summary>
         /// TdIsShowMenuMISReport control.
         /// </summary>
@@ -2270,7 +2272,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuMISReport;
-        
+
         /// <summary>
         /// chkIsShowMenuMISReport control.
         /// </summary>
@@ -2279,7 +2281,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuMISReport;
-        
+
         /// <summary>
         /// TdIsShowMenuReimbursement control.
         /// </summary>
@@ -2288,7 +2290,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuReimbursement;
-        
+
         /// <summary>
         /// chkIsShowMenuReimbursement control.
         /// </summary>
@@ -2297,7 +2299,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuReimbursement;
-        
+
         /// <summary>
         /// TdIsShowMenuAchievement control.
         /// </summary>
@@ -2306,7 +2308,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuAchievement;
-        
+
         /// <summary>
         /// chkIsShowMenuAchievement control.
         /// </summary>
@@ -2315,7 +2317,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuAchievement;
-        
+
         /// <summary>
         /// TdIsShowMenuMapView control.
         /// </summary>
@@ -2324,7 +2326,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuMapView;
-        
+
         /// <summary>
         /// chkIsShowMenuMapView control.
         /// </summary>
@@ -2333,7 +2335,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuMapView;
-        
+
         /// <summary>
         /// TdIsShowMenuShareLocation control.
         /// </summary>
@@ -2342,7 +2344,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuShareLocation;
-        
+
         /// <summary>
         /// chkIsShowMenuShareLocation control.
         /// </summary>
@@ -2351,7 +2353,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuShareLocation;
-        
+
         /// <summary>
         /// TdIsShowMenuHomeLocation control.
         /// </summary>
@@ -2360,7 +2362,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuHomeLocation;
-        
+
         /// <summary>
         /// chkIsShowMenuHomeLocation control.
         /// </summary>
@@ -2369,7 +2371,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuHomeLocation;
-        
+
         /// <summary>
         /// TdIsShowMenuWeatherDetails control.
         /// </summary>
@@ -2378,7 +2380,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuWeatherDetails;
-        
+
         /// <summary>
         /// chkIsShowMenuWeatherDetails control.
         /// </summary>
@@ -2387,7 +2389,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuWeatherDetails;
-        
+
         /// <summary>
         /// TdIsShowMenuChat control.
         /// </summary>
@@ -2396,7 +2398,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuChat;
-        
+
         /// <summary>
         /// chkIsShowMenuChat control.
         /// </summary>
@@ -2405,7 +2407,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuChat;
-        
+
         /// <summary>
         /// TdIsShowMenuScanQRCode control.
         /// </summary>
@@ -2414,7 +2416,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuScanQRCode;
-        
+
         /// <summary>
         /// chkIsShowMenuScanQRCode control.
         /// </summary>
@@ -2423,7 +2425,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuScanQRCode;
-        
+
         /// <summary>
         /// TdIsShowMenuPermissionInfo control.
         /// </summary>
@@ -2432,7 +2434,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuPermissionInfo;
-        
+
         /// <summary>
         /// chkIsShowMenuPermissionInfo control.
         /// </summary>
@@ -2441,7 +2443,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuPermissionInfo;
-        
+
         /// <summary>
         /// TdIsShowMenuAnyDesk control.
         /// </summary>
@@ -2450,7 +2452,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMenuAnyDesk;
-        
+
         /// <summary>
         /// chkIsShowMenuAnyDesk control.
         /// </summary>
@@ -2459,7 +2461,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMenuAnyDesk;
-        
+
         /// <summary>
         /// TdIsDocRepoFromPortal control.
         /// </summary>
@@ -2468,7 +2470,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsDocRepoFromPortal;
-        
+
         /// <summary>
         /// chkIsDocRepoFromPortal control.
         /// </summary>
@@ -2477,7 +2479,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsDocRepoFromPortal;
-        
+
         /// <summary>
         /// TdIsDocRepShareDownloadAllowed control.
         /// </summary>
@@ -2486,7 +2488,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsDocRepShareDownloadAllowed;
-        
+
         /// <summary>
         /// chkIsDocRepShareDownloadAllowed control.
         /// </summary>
@@ -2495,7 +2497,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsDocRepShareDownloadAllowed;
-        
+
         /// <summary>
         /// TdIsScreenRecorderEnable control.
         /// </summary>
@@ -2504,7 +2506,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsScreenRecorderEnable;
-        
+
         /// <summary>
         /// chkIsScreenRecorderEnable control.
         /// </summary>
@@ -2513,7 +2515,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsScreenRecorderEnable;
-        
+
         /// <summary>
         /// TdIsShowPartyOnAppDashboard control.
         /// </summary>
@@ -2522,7 +2524,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowPartyOnAppDashboard;
-        
+
         /// <summary>
         /// chkIsShowPartyOnAppDashboard control.
         /// </summary>
@@ -2531,7 +2533,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowPartyOnAppDashboard;
-        
+
         /// <summary>
         /// TdIsShowAttendanceOnAppDashboard control.
         /// </summary>
@@ -2540,7 +2542,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowAttendanceOnAppDashboard;
-        
+
         /// <summary>
         /// chkIsShowAttendanceOnAppDashboard control.
         /// </summary>
@@ -2549,7 +2551,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowAttendanceOnAppDashboard;
-        
+
         /// <summary>
         /// TdIsShowTotalVisitsOnAppDashboard control.
         /// </summary>
@@ -2558,7 +2560,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowTotalVisitsOnAppDashboard;
-        
+
         /// <summary>
         /// chkIsShowTotalVisitsOnAppDashboard control.
         /// </summary>
@@ -2567,7 +2569,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowTotalVisitsOnAppDashboard;
-        
+
         /// <summary>
         /// TdIsShowVisitDurationOnAppDashboard control.
         /// </summary>
@@ -2576,7 +2578,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowVisitDurationOnAppDashboard;
-        
+
         /// <summary>
         /// chkIsShowVisitDurationOnAppDashboard control.
         /// </summary>
@@ -2585,7 +2587,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowVisitDurationOnAppDashboard;
-        
+
         /// <summary>
         /// TdIsShowDayStart control.
         /// </summary>
@@ -2594,7 +2596,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowDayStart;
-        
+
         /// <summary>
         /// chkIsShowDayStart control.
         /// </summary>
@@ -2603,7 +2605,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowDayStart;
-        
+
         /// <summary>
         /// TdIsshowDayStartSelfie control.
         /// </summary>
@@ -2612,7 +2614,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsshowDayStartSelfie;
-        
+
         /// <summary>
         /// chkIsshowDayStartSelfie control.
         /// </summary>
@@ -2621,7 +2623,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsshowDayStartSelfie;
-        
+
         /// <summary>
         /// TdIsShowDayEnd control.
         /// </summary>
@@ -2630,7 +2632,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowDayEnd;
-        
+
         /// <summary>
         /// chkIsShowDayEnd control.
         /// </summary>
@@ -2639,7 +2641,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowDayEnd;
-        
+
         /// <summary>
         /// TdIsshowDayEndSelfie control.
         /// </summary>
@@ -2648,7 +2650,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsshowDayEndSelfie;
-        
+
         /// <summary>
         /// chkIsshowDayEndSelfie control.
         /// </summary>
@@ -2657,7 +2659,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsshowDayEndSelfie;
-        
+
         /// <summary>
         /// TdIsShowLeaveInAttendance control.
         /// </summary>
@@ -2666,7 +2668,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowLeaveInAttendance;
-        
+
         /// <summary>
         /// chkIsShowLeaveInAttendance control.
         /// </summary>
@@ -2675,7 +2677,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowLeaveInAttendance;
-        
+
         /// <summary>
         /// TdIsLeaveGPSTrack control.
         /// </summary>
@@ -2684,7 +2686,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsLeaveGPSTrack;
-        
+
         /// <summary>
         /// chkIsLeaveGPSTrack control.
         /// </summary>
@@ -2693,7 +2695,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsLeaveGPSTrack;
-        
+
         /// <summary>
         /// TdIsShowActivitiesInTeam control.
         /// </summary>
@@ -2702,7 +2704,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowActivitiesInTeam;
-        
+
         /// <summary>
         /// chkIsShowActivitiesInTeam control.
         /// </summary>
@@ -2711,7 +2713,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowActivitiesInTeam;
-        
+
         /// <summary>
         /// TdIsShowMarkDistVisitOnDshbrd control.
         /// </summary>
@@ -2720,7 +2722,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsShowMarkDistVisitOnDshbrd;
-        
+
         /// <summary>
         /// chkIsShowMarkDistVisitOnDshbrd control.
         /// </summary>
@@ -2729,7 +2731,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMarkDistVisitOnDshbrd;
-        
+
         /// <summary>
         /// TdIsRevisitRemarksMandatory control.
         /// </summary>
@@ -2738,7 +2740,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsRevisitRemarksMandatory;
-        
+
         /// <summary>
         /// chkIsRevisitRemarksMandatory control.
         /// </summary>
@@ -2747,7 +2749,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsRevisitRemarksMandatory;
-        
+
         /// <summary>
         /// TdIsGPSAlert control.
         /// </summary>
@@ -2756,7 +2758,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsGPSAlert;
-        
+
         /// <summary>
         /// chkGPSAlert control.
         /// </summary>
@@ -2765,7 +2767,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkGPSAlert;
-        
+
         /// <summary>
         /// TdIsGPSAlertwithSound control.
         /// </summary>
@@ -2774,7 +2776,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdIsGPSAlertwithSound;
-        
+
         /// <summary>
         /// chkGPSAlertwithSound control.
         /// </summary>
@@ -2783,7 +2785,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkGPSAlertwithSound;
-        
+
         /// <summary>
         /// TdFaceRegistrationFrontCamera control.
         /// </summary>
@@ -2792,7 +2794,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdFaceRegistrationFrontCamera;
-        
+
         /// <summary>
         /// chkFaceRegistrationFrontCamera control.
         /// </summary>
@@ -2801,7 +2803,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkFaceRegistrationFrontCamera;
-        
+
         /// <summary>
         /// TdMRPInOrder control.
         /// </summary>
@@ -2810,7 +2812,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdMRPInOrder;
-        
+
         /// <summary>
         /// chkMRPInOrder control.
         /// </summary>
@@ -2819,7 +2821,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkMRPInOrder;
-        
+
         /// <summary>
         /// TdDistributerwisePartyOrderReport control.
         /// </summary>
@@ -2828,7 +2830,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdDistributerwisePartyOrderReport;
-        
+
         /// <summary>
         /// chkDistributerwisePartyOrderReport control.
         /// </summary>
@@ -2837,7 +2839,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkDistributerwisePartyOrderReport;
-        
+
         /// <summary>
         /// TdShowAttednaceClearmenu control.
         /// </summary>
@@ -2846,7 +2848,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell TdShowAttednaceClearmenu;
-        
+
         /// <summary>
         /// chkShowAttednaceClearmenu control.
         /// </summary>
@@ -2855,7 +2857,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowAttednaceClearmenu;
-        
+
         /// <summary>
         /// AllowProfileUpdate control.
         /// </summary>
@@ -2864,7 +2866,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell AllowProfileUpdate;
-        
+
         /// <summary>
         /// chkAllowProfileUpdate control.
         /// </summary>
@@ -2873,7 +2875,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkAllowProfileUpdate;
-        
+
         /// <summary>
         /// AutoDDSelect control.
         /// </summary>
@@ -2882,7 +2884,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell AutoDDSelect;
-        
+
         /// <summary>
         /// chkAutoDDSelect control.
         /// </summary>
@@ -2891,7 +2893,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkAutoDDSelect;
-        
+
         /// <summary>
         /// BatterySetting control.
         /// </summary>
@@ -2900,7 +2902,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell BatterySetting;
-        
+
         /// <summary>
         /// chkBatterySetting control.
         /// </summary>
@@ -2909,7 +2911,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkBatterySetting;
-        
+
         /// <summary>
         /// CommonAINotification control.
         /// </summary>
@@ -2918,7 +2920,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell CommonAINotification;
-        
+
         /// <summary>
         /// chkCommonAINotification control.
         /// </summary>
@@ -2927,7 +2929,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkCommonAINotification;
-        
+
         /// <summary>
         /// Custom_Configuration control.
         /// </summary>
@@ -2936,7 +2938,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell Custom_Configuration;
-        
+
         /// <summary>
         /// chkCustom_Configuration control.
         /// </summary>
@@ -2945,7 +2947,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkCustom_Configuration;
-        
+
         /// <summary>
         /// isAadharRegistered control.
         /// </summary>
@@ -2954,7 +2956,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell isAadharRegistered;
-        
+
         /// <summary>
         /// chkisAadharRegistered control.
         /// </summary>
@@ -2963,7 +2965,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisAadharRegistered;
-        
+
         /// <summary>
         /// IsActivateNewOrderScreenwithSize control.
         /// </summary>
@@ -2972,7 +2974,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsActivateNewOrderScreenwithSize;
-        
+
         /// <summary>
         /// chkIsActivateNewOrderScreenwithSize control.
         /// </summary>
@@ -2981,7 +2983,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsActivateNewOrderScreenwithSize;
-        
+
         /// <summary>
         /// IsAllowBreakageTracking control.
         /// </summary>
@@ -2990,7 +2992,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAllowBreakageTracking;
-        
+
         /// <summary>
         /// chkIsAllowBreakageTracking control.
         /// </summary>
@@ -2999,7 +3001,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAllowBreakageTracking;
-        
+
         /// <summary>
         /// IsAllowBreakageTrackingunderTeam control.
         /// </summary>
@@ -3008,7 +3010,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAllowBreakageTrackingunderTeam;
-        
+
         /// <summary>
         /// chkIsAllowBreakageTrackingunderTeam control.
         /// </summary>
@@ -3017,7 +3019,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAllowBreakageTrackingunderTeam;
-        
+
         /// <summary>
         /// IsAllowClickForPhotoRegister control.
         /// </summary>
@@ -3026,7 +3028,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAllowClickForPhotoRegister;
-        
+
         /// <summary>
         /// chkIsAllowClickForPhotoRegister control.
         /// </summary>
@@ -3035,7 +3037,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAllowClickForPhotoRegister;
-        
+
         /// <summary>
         /// IsAllowClickForVisit control.
         /// </summary>
@@ -3044,7 +3046,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAllowClickForVisit;
-        
+
         /// <summary>
         /// chkIsAllowClickForVisit control.
         /// </summary>
@@ -3053,7 +3055,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAllowClickForVisit;
-        
+
         /// <summary>
         /// IsAllowClickForVisitForSpecificUser control.
         /// </summary>
@@ -3062,7 +3064,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAllowClickForVisitForSpecificUser;
-        
+
         /// <summary>
         /// chkIsAllowClickForVisitForSpecificUser control.
         /// </summary>
@@ -3071,7 +3073,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAllowClickForVisitForSpecificUser;
-        
+
         /// <summary>
         /// IsAllowShopStatusUpdate control.
         /// </summary>
@@ -3080,7 +3082,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAllowShopStatusUpdate;
-        
+
         /// <summary>
         /// chkIsAllowShopStatusUpdate control.
         /// </summary>
@@ -3089,7 +3091,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAllowShopStatusUpdate;
-        
+
         /// <summary>
         /// IsAlternateNoForCustomer control.
         /// </summary>
@@ -3098,7 +3100,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAlternateNoForCustomer;
-        
+
         /// <summary>
         /// chkIsAlternateNoForCustomer control.
         /// </summary>
@@ -3107,7 +3109,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAlternateNoForCustomer;
-        
+
         /// <summary>
         /// IsAttendVisitShowInDashboard control.
         /// </summary>
@@ -3116,7 +3118,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAttendVisitShowInDashboard;
-        
+
         /// <summary>
         /// chkIsAttendVisitShowInDashboard control.
         /// </summary>
@@ -3125,7 +3127,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAttendVisitShowInDashboard;
-        
+
         /// <summary>
         /// IsAutoLeadActivityDateTime control.
         /// </summary>
@@ -3134,7 +3136,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsAutoLeadActivityDateTime;
-        
+
         /// <summary>
         /// chkIsAutoLeadActivityDateTime control.
         /// </summary>
@@ -3143,7 +3145,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsAutoLeadActivityDateTime;
-        
+
         /// <summary>
         /// IsBeatRouteReportAvailableinTeam control.
         /// </summary>
@@ -3152,7 +3154,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsBeatRouteReportAvailableinTeam;
-        
+
         /// <summary>
         /// chkIsBeatRouteReportAvailableinTeam control.
         /// </summary>
@@ -3161,7 +3163,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsBeatRouteReportAvailableinTeam;
-        
+
         /// <summary>
         /// IsCollectionOrderWise control.
         /// </summary>
@@ -3170,7 +3172,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsCollectionOrderWise;
-        
+
         /// <summary>
         /// chkIsCollectionOrderWise control.
         /// </summary>
@@ -3179,7 +3181,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsCollectionOrderWise;
-        
+
         /// <summary>
         /// IsFaceRecognitionOnEyeblink control.
         /// </summary>
@@ -3188,7 +3190,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsFaceRecognitionOnEyeblink;
-        
+
         /// <summary>
         /// chkIsFaceRecognitionOnEyeblink control.
         /// </summary>
@@ -3197,7 +3199,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsFaceRecognitionOnEyeblink;
-        
+
         /// <summary>
         /// isFaceRegistered control.
         /// </summary>
@@ -3206,7 +3208,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell isFaceRegistered;
-        
+
         /// <summary>
         /// chkisFaceRegistered control.
         /// </summary>
@@ -3215,7 +3217,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkisFaceRegistered;
-        
+
         /// <summary>
         /// IsFeedbackAvailableInShop control.
         /// </summary>
@@ -3224,7 +3226,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsFeedbackAvailableInShop;
-        
+
         /// <summary>
         /// chkIsFeedbackAvailableInShop control.
         /// </summary>
@@ -3233,7 +3235,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsFeedbackAvailableInShop;
-        
+
         /// <summary>
         /// IsFeedbackHistoryActivated control.
         /// </summary>
@@ -3242,7 +3244,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsFeedbackHistoryActivated;
-        
+
         /// <summary>
         /// chkIsFeedbackHistoryActivated control.
         /// </summary>
@@ -3251,7 +3253,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsFeedbackHistoryActivated;
-        
+
         /// <summary>
         /// IsFromPortal control.
         /// </summary>
@@ -3260,7 +3262,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsFromPortal;
-        
+
         /// <summary>
         /// chkIsFromPortal control.
         /// </summary>
@@ -3269,7 +3271,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsFromPortal;
-        
+
         /// <summary>
         /// IsIMEICheck control.
         /// </summary>
@@ -3278,7 +3280,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsIMEICheck;
-        
+
         /// <summary>
         /// chkIsIMEICheck control.
         /// </summary>
@@ -3287,7 +3289,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsIMEICheck;
-        
+
         /// <summary>
         /// IslandlineforCustomer control.
         /// </summary>
@@ -3296,7 +3298,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IslandlineforCustomer;
-        
+
         /// <summary>
         /// chkIslandlineforCustomer control.
         /// </summary>
@@ -3305,7 +3307,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIslandlineforCustomer;
-        
+
         /// <summary>
         /// IsNewQuotationfeatureOn control.
         /// </summary>
@@ -3314,7 +3316,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsNewQuotationfeatureOn;
-        
+
         /// <summary>
         /// chkIsNewQuotationfeatureOn control.
         /// </summary>
@@ -3323,7 +3325,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsNewQuotationfeatureOn;
-        
+
         /// <summary>
         /// IsNewQuotationNumberManual control.
         /// </summary>
@@ -3332,7 +3334,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsNewQuotationNumberManual;
-        
+
         /// <summary>
         /// chkIsNewQuotationNumberManual control.
         /// </summary>
@@ -3341,7 +3343,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsNewQuotationNumberManual;
-        
+
         /// <summary>
         /// IsPendingCollectionRequiredUnderTeam control.
         /// </summary>
@@ -3350,7 +3352,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsPendingCollectionRequiredUnderTeam;
-        
+
         /// <summary>
         /// chkIsPendingCollectionRequiredUnderTeam control.
         /// </summary>
@@ -3359,7 +3361,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsPendingCollectionRequiredUnderTeam;
-        
+
         /// <summary>
         /// IsprojectforCustomer control.
         /// </summary>
@@ -3368,7 +3370,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsprojectforCustomer;
-        
+
         /// <summary>
         /// chkIsprojectforCustomer control.
         /// </summary>
@@ -3377,7 +3379,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsprojectforCustomer;
-        
+
         /// <summary>
         /// IsRateEnabledforNewOrderScreenwithSize control.
         /// </summary>
@@ -3386,7 +3388,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsRateEnabledforNewOrderScreenwithSize;
-        
+
         /// <summary>
         /// chkIsRateEnabledforNewOrderScreenwithSize control.
         /// </summary>
@@ -3395,7 +3397,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsRateEnabledforNewOrderScreenwithSize;
-        
+
         /// <summary>
         /// IsRestrictNearbyGeofence control.
         /// </summary>
@@ -3404,7 +3406,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsRestrictNearbyGeofence;
-        
+
         /// <summary>
         /// chkIsRestrictNearbyGeofence control.
         /// </summary>
@@ -3413,7 +3415,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsRestrictNearbyGeofence;
-        
+
         /// <summary>
         /// IsReturnEnableforParty control.
         /// </summary>
@@ -3422,7 +3424,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsReturnEnableforParty;
-        
+
         /// <summary>
         /// chkIsReturnEnableforParty control.
         /// </summary>
@@ -3431,7 +3433,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsReturnEnableforParty;
-        
+
         /// <summary>
         /// IsShowHomeLocationMap control.
         /// </summary>
@@ -3440,7 +3442,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsShowHomeLocationMap;
-        
+
         /// <summary>
         /// chkIsShowHomeLocationMap control.
         /// </summary>
@@ -3449,7 +3451,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowHomeLocationMap;
-        
+
         /// <summary>
         /// IsShowManualPhotoRegnInApp control.
         /// </summary>
@@ -3458,7 +3460,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsShowManualPhotoRegnInApp;
-        
+
         /// <summary>
         /// chkIsShowManualPhotoRegnInApp control.
         /// </summary>
@@ -3467,7 +3469,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowManualPhotoRegnInApp;
-        
+
         /// <summary>
         /// IsShowMyDetails control.
         /// </summary>
@@ -3476,7 +3478,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsShowMyDetails;
-        
+
         /// <summary>
         /// chkIsShowMyDetails control.
         /// </summary>
@@ -3485,7 +3487,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowMyDetails;
-        
+
         /// <summary>
         /// IsShowNearByTeam control.
         /// </summary>
@@ -3494,7 +3496,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsShowNearByTeam;
-        
+
         /// <summary>
         /// chkIsShowNearByTeam control.
         /// </summary>
@@ -3503,7 +3505,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowNearByTeam;
-        
+
         /// <summary>
         /// IsShowRepeatOrderinNotification control.
         /// </summary>
@@ -3512,7 +3514,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsShowRepeatOrderinNotification;
-        
+
         /// <summary>
         /// chkIsShowRepeatOrderinNotification control.
         /// </summary>
@@ -3521,7 +3523,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowRepeatOrderinNotification;
-        
+
         /// <summary>
         /// IsShowRepeatOrdersNotificationinTeam control.
         /// </summary>
@@ -3530,7 +3532,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsShowRepeatOrdersNotificationinTeam;
-        
+
         /// <summary>
         /// chkIsShowRepeatOrdersNotificationinTeam control.
         /// </summary>
@@ -3539,7 +3541,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowRepeatOrdersNotificationinTeam;
-        
+
         /// <summary>
         /// IsShowRevisitRemarksPopup control.
         /// </summary>
@@ -3548,7 +3550,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsShowRevisitRemarksPopup;
-        
+
         /// <summary>
         /// chkIsShowRevisitRemarksPopup control.
         /// </summary>
@@ -3557,7 +3559,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowRevisitRemarksPopup;
-        
+
         /// <summary>
         /// IsShowTypeInRegistration control.
         /// </summary>
@@ -3566,7 +3568,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsShowTypeInRegistration;
-        
+
         /// <summary>
         /// chkIsShowTypeInRegistration control.
         /// </summary>
@@ -3575,7 +3577,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowTypeInRegistration;
-        
+
         /// <summary>
         /// IsTeamAttendance control.
         /// </summary>
@@ -3584,7 +3586,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsTeamAttendance;
-        
+
         /// <summary>
         /// chkIsTeamAttendance control.
         /// </summary>
@@ -3593,7 +3595,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsTeamAttendance;
-        
+
         /// <summary>
         /// IsTeamAttenWithoutPhoto control.
         /// </summary>
@@ -3602,7 +3604,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsTeamAttenWithoutPhoto;
-        
+
         /// <summary>
         /// chkIsTeamAttenWithoutPhoto control.
         /// </summary>
@@ -3611,7 +3613,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsTeamAttenWithoutPhoto;
-        
+
         /// <summary>
         /// IsWhatsappNoForCustomer control.
         /// </summary>
@@ -3620,7 +3622,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell IsWhatsappNoForCustomer;
-        
+
         /// <summary>
         /// chkIsWhatsappNoForCustomer control.
         /// </summary>
@@ -3629,7 +3631,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkIsWhatsappNoForCustomer;
-        
+
         /// <summary>
         /// Leaveapprovalfromsupervisor control.
         /// </summary>
@@ -3638,7 +3640,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell Leaveapprovalfromsupervisor;
-        
+
         /// <summary>
         /// chkLeaveapprovalfromsupervisor control.
         /// </summary>
@@ -3647,7 +3649,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkLeaveapprovalfromsupervisor;
-        
+
         /// <summary>
         /// Leaveapprovalfromsupervisorinteam control.
         /// </summary>
@@ -3656,7 +3658,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell Leaveapprovalfromsupervisorinteam;
-        
+
         /// <summary>
         /// chkLeaveapprovalfromsupervisorinteam control.
         /// </summary>
@@ -3665,7 +3667,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkLeaveapprovalfromsupervisorinteam;
-        
+
         /// <summary>
         /// LogoutWithLogFile control.
         /// </summary>
@@ -3674,7 +3676,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell LogoutWithLogFile;
-        
+
         /// <summary>
         /// chkLogoutWithLogFile control.
         /// </summary>
@@ -3683,7 +3685,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkLogoutWithLogFile;
-        
+
         /// <summary>
         /// MarkAttendNotification control.
         /// </summary>
@@ -3692,7 +3694,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell MarkAttendNotification;
-        
+
         /// <summary>
         /// chkMarkAttendNotification control.
         /// </summary>
@@ -3701,7 +3703,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkMarkAttendNotification;
-        
+
         /// <summary>
         /// PartyUpdateAddrMandatory control.
         /// </summary>
@@ -3710,7 +3712,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell PartyUpdateAddrMandatory;
-        
+
         /// <summary>
         /// chkPartyUpdateAddrMandatory control.
         /// </summary>
@@ -3719,7 +3721,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkPartyUpdateAddrMandatory;
-        
+
         /// <summary>
         /// PowerSaverSetting control.
         /// </summary>
@@ -3728,7 +3730,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell PowerSaverSetting;
-        
+
         /// <summary>
         /// chkPowerSaverSetting control.
         /// </summary>
@@ -3737,7 +3739,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkPowerSaverSetting;
-        
+
         /// <summary>
         /// ShopScreenAftVisitRevisit control.
         /// </summary>
@@ -3746,7 +3748,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShopScreenAftVisitRevisit;
-        
+
         /// <summary>
         /// chkShopScreenAftVisitRevisit control.
         /// </summary>
@@ -3755,7 +3757,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShopScreenAftVisitRevisit;
-        
+
         /// <summary>
         /// Show_App_Logout_Notification control.
         /// </summary>
@@ -3764,7 +3766,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell Show_App_Logout_Notification;
-        
+
         /// <summary>
         /// chkShow_App_Logout_Notification control.
         /// </summary>
@@ -3773,7 +3775,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShow_App_Logout_Notification;
-        
+
         /// <summary>
         /// ShowAmountNewQuotation control.
         /// </summary>
@@ -3782,7 +3784,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowAmountNewQuotation;
-        
+
         /// <summary>
         /// chkShowAmountNewQuotation control.
         /// </summary>
@@ -3791,7 +3793,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowAmountNewQuotation;
-        
+
         /// <summary>
         /// ShowAutoRevisitInAppMenu control.
         /// </summary>
@@ -3800,7 +3802,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowAutoRevisitInAppMenu;
-        
+
         /// <summary>
         /// chkShowAutoRevisitInAppMenu control.
         /// </summary>
@@ -3809,7 +3811,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowAutoRevisitInAppMenu;
-        
+
         /// <summary>
         /// ShowAutoRevisitInDashboard control.
         /// </summary>
@@ -3818,7 +3820,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowAutoRevisitInDashboard;
-        
+
         /// <summary>
         /// chkShowAutoRevisitInDashboard control.
         /// </summary>
@@ -3827,7 +3829,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowAutoRevisitInDashboard;
-        
+
         /// <summary>
         /// ShowCollectionAlert control.
         /// </summary>
@@ -3836,7 +3838,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowCollectionAlert;
-        
+
         /// <summary>
         /// chkShowCollectionAlert control.
         /// </summary>
@@ -3845,7 +3847,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowCollectionAlert;
-        
+
         /// <summary>
         /// ShowCollectionOnlywithInvoiceDetails control.
         /// </summary>
@@ -3854,7 +3856,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowCollectionOnlywithInvoiceDetails;
-        
+
         /// <summary>
         /// chkShowCollectionOnlywithInvoiceDetails control.
         /// </summary>
@@ -3863,7 +3865,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowCollectionOnlywithInvoiceDetails;
-        
+
         /// <summary>
         /// ShowQuantityNewQuotation control.
         /// </summary>
@@ -3872,7 +3874,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowQuantityNewQuotation;
-        
+
         /// <summary>
         /// chkShowQuantityNewQuotation control.
         /// </summary>
@@ -3881,7 +3883,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowQuantityNewQuotation;
-        
+
         /// <summary>
         /// ShowTotalVisitAppMenu control.
         /// </summary>
@@ -3890,7 +3892,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowTotalVisitAppMenu;
-        
+
         /// <summary>
         /// chkShowTotalVisitAppMenu control.
         /// </summary>
@@ -3899,7 +3901,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowTotalVisitAppMenu;
-        
+
         /// <summary>
         /// ShowUserwiseLeadMenu control.
         /// </summary>
@@ -3908,7 +3910,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowUserwiseLeadMenu;
-        
+
         /// <summary>
         /// chkShowUserwiseLeadMenu control.
         /// </summary>
@@ -3917,7 +3919,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowUserwiseLeadMenu;
-        
+
         /// <summary>
         /// ShowZeroCollectioninAlert control.
         /// </summary>
@@ -3926,7 +3928,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowZeroCollectioninAlert;
-        
+
         /// <summary>
         /// chkShowZeroCollectioninAlert control.
         /// </summary>
@@ -3935,7 +3937,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowZeroCollectioninAlert;
-        
+
         /// <summary>
         /// UpdateOtherID control.
         /// </summary>
@@ -3944,7 +3946,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell UpdateOtherID;
-        
+
         /// <summary>
         /// chkUpdateOtherID control.
         /// </summary>
@@ -3953,7 +3955,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkUpdateOtherID;
-        
+
         /// <summary>
         /// UpdateUserID control.
         /// </summary>
@@ -3962,7 +3964,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell UpdateUserID;
-        
+
         /// <summary>
         /// chkUpdateUserID control.
         /// </summary>
@@ -3971,7 +3973,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkUpdateUserID;
-        
+
         /// <summary>
         /// UpdateUserName control.
         /// </summary>
@@ -3980,7 +3982,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell UpdateUserName;
-        
+
         /// <summary>
         /// chkUpdateUserName control.
         /// </summary>
@@ -3989,7 +3991,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkUpdateUserName;
-        
+
         /// <summary>
         /// WillRoomDBShareinLogin control.
         /// </summary>
@@ -3998,7 +4000,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell WillRoomDBShareinLogin;
-        
+
         /// <summary>
         /// chkWillRoomDBShareinLogin control.
         /// </summary>
@@ -4007,7 +4009,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkWillRoomDBShareinLogin;
-        
+
         /// <summary>
         /// ShowPurposeInShopVisit control.
         /// </summary>
@@ -4016,7 +4018,7 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlTableCell ShowPurposeInShopVisit;
-        
+
         /// <summary>
         /// chkShowPurposeInShopVisit control.
         /// </summary>
@@ -4025,7 +4027,43 @@ namespace ERP.OMS.Management.Master {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowPurposeInShopVisit;
-        
+
+        /// <summary>
+        /// divShowEmployeePerformance control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowEmployeePerformance;
+
+        /// <summary>
+        /// chkShowEmployeePerformance control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowEmployeePerformance;
+
+        /// <summary>
+        /// divShowBeatInMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowBeatInMenu;
+
+        /// <summary>
+        /// chkShowBeatInMenu control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowBeatInMenu;
+
         /// <summary>
         /// btnUpdate control.
         /// </summary>

@@ -1,7 +1,8 @@
-﻿@model List<MyShop.Models.DashboardSettingMapped>
+﻿@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                06-01-2023        2.0.37           Pallab              25570: show button position change and data default value change(added '*' instead of '0') *@
+@*2.0                24-04-2023        2.0.39           Pallab              25896: Console error after click "Not Logged In" box in FSM dashboard Team Visit - Hierarchy tab *@
 
-@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
-@*1.0                06-01-2023        2.0.37           pallab              25570: show button position change and data default value change(added '*' instead of '0') *@
+@model List<MyShop.Models.DashboardSettingMapped>
 
 @if (Model != null)
 {
@@ -304,8 +305,10 @@
                 e.preventDefault()
 
                 var position = $(this).attr("data-scroll");
-                var p = $('#' + position).offset().top;
-
+                /*Rev 2.0*/
+                /*var p = $('#' + position).offset().top;*/
+                var p = $('#' + position).offset();
+                /*Rev end 2.0*/
                 $("body, html").animate({
                     scrollTop: 150
                 } /* speed */);

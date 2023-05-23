@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                07-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*2.0                18-05-2023        2.0.40           Priti               0026136: Modification in CURRENT STOCK REGISTER report*@
 @*====================================================== Revision History ==========================================================*@
 
 @model MyShop.Models.CurrentStockReportModel
@@ -308,6 +309,12 @@
         });
 
     }
+    //Rev 2.0
+    function OpenCurrentStockImage(CURRENTSTKID) {
+        var url = '@Url.Action("LoadImageDocument", "CurrentStockReport", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 1) + "&CURRENTSTKID=" + CURRENTSTKID  ;
+    }
+    //Rev 2.0 End
 
 </script>
 
@@ -800,7 +807,7 @@
             @*Rev 1.0*@
             @*<div class="col-md-2 col-lg-2">*@
             <div class="col-md-2 col-lg-2 for-cust-icon">
-            @*Rev end 1.0*@
+                @*Rev end 1.0*@
                 <label>To Date</label>
                 <div>
 

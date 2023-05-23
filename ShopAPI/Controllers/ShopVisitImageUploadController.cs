@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿/*****************************************************************************************************************
+ * 1.0      V2.0.40     28-04-2023      When Revisit Shop Image is added, it is not showing in 
+ *                                      Dashboard - Employee At Work - Shop Visited image. Refer: 25925
+ ******************************************************************************************************************/
+using Newtonsoft.Json.Linq;
 using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -57,7 +61,10 @@ namespace ShopAPI.Controllers
 
                             case "visit_datetime":
                                 {
-                                    String value1 = Convert.ToDateTime(item.Value).ToString("yyyy-MM-dd HH:MM:ss");
+                                    // Rev 1.0
+                                    //String value1 = Convert.ToDateTime(item.Value).ToString("yyyy-MM-dd HH:MM:ss");
+                                    String value1 = Convert.ToDateTime(value).ToString("yyyy-MM-dd HH:MM:ss");
+                                    // End of Rev 1.0
                                     omm.visit_datetime = Convert.ToDateTime(value1);
                                     break;
                                 }

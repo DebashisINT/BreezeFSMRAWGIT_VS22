@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.39     Debashis    17/05/2023      A new method has been added.Row: 840
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -104,5 +107,54 @@ namespace ShopAPI.Controllers
                 return message;
             }
         }
+        //Rev 1.0 Row: 840
+        [HttpPost]
+        public HttpResponseMessage AreaListByCity(AreaListByCityInput model)
+        {
+            AreaListByCityOutPut odata = new AreaListByCityOutPut();
+
+            if (!ModelState.IsValid)
+            {
+                odata.status = "213";
+                odata.message = "Some input parameters are missing.";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, odata);
+            }
+            else
+            {
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+
+                List<AreaListByCity> omedl2 = new List<AreaListByCity>();
+
+                DataTable ds = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_FTSAPIAREALISTBYCITY", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "AreaListByCity");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@CITY_ID", model.city_id);
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(ds);
+                sqlcon.Close();
+                if (ds.Rows.Count > 0)
+                {
+                    omedl2 = APIHelperMethods.ToModelList<AreaListByCity>(ds);
+                    odata.message = "Successfully get list";
+                    odata.status = "200";
+                    odata.area_list_by_city = omedl2;
+                }
+                else
+                {
+                    odata.message = "No Data found.";
+                    odata.status = "205";
+                }
+
+                var message = Request.CreateResponse(HttpStatusCode.OK, odata);
+                return message;
+            }
+        }
+        //End of Rev 1.0 Row: 840
     }
 }

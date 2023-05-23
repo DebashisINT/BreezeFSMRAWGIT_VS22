@@ -1,0 +1,28 @@
+﻿@model Models.ReimbursementDetailsEdit
+
+<div class="">
+    <input type="hidden" id="hdnUserid" />
+
+    <div class="row">
+        <ul class="myAssignTarget" id="myAssignTargetpopup">
+            <div class="col-lg-12 ">
+                <label><b>Confirm/Reject Remarks</b></label>
+                <input type="text" id="idConfirmedRejectRemarks" value=@Model.Conf_Rej_Remarks />
+            </div>
+
+        </ul>
+
+
+
+
+        <div class=" col-md-12">
+
+            <div class=" mTop10">
+                <button type="button" class="btn btn-primary" onclick="ConfirmOKSaved();">Ok</button>
+                <button type="button" class="btn btn-danger" onclick="ConfirmCancel();">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>

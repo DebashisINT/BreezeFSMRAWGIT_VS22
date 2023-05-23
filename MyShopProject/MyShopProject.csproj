@@ -110,6 +110,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\FTSEntityframework.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
@@ -245,6 +248,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\AttendanceuserwiseController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\AttendanceVsProductivityRatioController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\BeatController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\BeatPlanController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\BreakageTrackingRegisterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ChatController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ChemistActivityReportController.cs" />
@@ -289,6 +293,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\EmployeeTargetvsAchvController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\EntityRatingController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ERPSettingsController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\ExpenseReportController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\GPSStatisticsReportController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\GPSStatusController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\HierarchyWiseTargetController.cs" />
@@ -374,6 +379,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\SystemsettingsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\TargetVsAchivementSummaryController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\TargetvsAchvTodayController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\TaskManagementController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\TeamVisitChannelHierarchyController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\TeamVisitReportController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\TerritorySalesInchargeWisePerformanceAnalyController.cs" />
@@ -407,6 +413,7 @@
     <Compile Include="Models\ActivityReportModel.cs" />
     <Compile Include="Models\AddPartyDetailsModel.cs" />
     <Compile Include="Models\BeatModel.cs" />
+    <Compile Include="Models\BeatPlanModel.cs" />
     <Compile Include="Models\BreakageTrackingRegisterModel.cs" />
     <Compile Include="Models\ChemistActivityModel.cs" />
     <Compile Include="Models\ChemistStockistDetailsModel.cs" />
@@ -429,6 +436,7 @@
     <Compile Include="Models\EmployeeActivityDetailsModel.cs" />
     <Compile Include="Models\EmployeeActivityStatusModel.cs" />
     <Compile Include="Models\EmployeeMasterReport.cs" />
+    <Compile Include="Models\ExpenseReport.cs" />
     <Compile Include="Models\FormulaApply.cs" />
     <Compile Include="Models\HorizontalAttendanceModel.cs" />
     <Compile Include="Models\HorizontalPerformanceReport.cs" />
@@ -516,6 +524,7 @@
     <Compile Include="Models\SystemsettingsModel.cs" />
     <Compile Include="Models\TargetVsAchivementClass.cs" />
     <Compile Include="Models\TargetVsAchivementRangeClass.cs" />
+    <Compile Include="Models\TaskManagementModel.cs" />
     <Compile Include="Models\TeamVisitChannelHierarchyModel.cs" />
     <Compile Include="Models\TeamVisitModel.cs" />
     <Compile Include="Models\TerritorySalesInchargeWisePerformanceAnalyModel.cs" />
@@ -1493,6 +1502,15 @@
     <Content Include="Scripts\pluggins\multiselect\bootstrap-multiselect.js" />
     <Content Include="Scripts\SearchMultiPopup.js" />
     <Content Include="Scripts\SearchPopup.js" />
+    <Content Include="Views\Common\_PartialMenu.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Layout1.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1951,15 +1969,20 @@
     <Content Include="Areas\MYSHOP\Views\PerformanceAnalytics\Report.cshtml" />
     <Content Include="Areas\MYSHOP\Views\partyDetails\_BulkModifyManualLogView.cshtml" />
     <Content Include="Areas\MYSHOP\Views\partyDetails\BulkModifyLog.cshtml" />
-    <Content Include="Views\Common\_PartialMenu.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_Layout1.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\Reimbursement\_ReimbursementDetailsDataConfirmed.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ExpenseReport\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ExpenseReport\_ExpenseTypePartial.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ExpenseReport\_HQNamePartial.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ExpenseReport\_PartialExpenseReport.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\TaskManagement\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\TaskManagement\PartialTaskManagementGridList.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\TaskManagement\_TaskManagementBulkAssign.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\TaskManagement\_TaskManagementBulkReAssign.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\TaskManagement\_TaskManagementFromPartial.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\BeatPlan\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\BeatPlan\PartialBeatPlanGridList.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\SearchingInputs\_AreaBranchWisePartial.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\SearchingInputs\_BranchPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3075,11 +3098,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5735</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5735/</IISUrl>
+          <IISUrl>http://localhost:5738/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

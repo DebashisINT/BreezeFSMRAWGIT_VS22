@@ -1,4 +1,9 @@
-﻿using DataAccessLayer;
+﻿//====================================================== Revision History ==========================================================
+//1.0  18-05-2023    2.0.40    Priti     0026136: Modification in CURRENT STOCK REGISTER report
+//====================================================== Revision History ==========================================================
+
+using DataAccessLayer;
+//using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -14,7 +19,10 @@ namespace BusinessLogicLayer.SalesmanTrack
        {
            DataTable ds = new DataTable();
            ProcedureExecute proc = new ProcedureExecute("PRC_FTSCURRENTSTOCK_REPORT");
-           proc.AddPara("@FROMDATE", fromdate);
+            //Rev 1.0
+           proc.AddPara("@ACTION", "LIST");
+            //Rev 1.0 End
+            proc.AddPara("@FROMDATE", fromdate);
            proc.AddPara("@TODATE", todate);
            proc.AddPara("@STATEID", stateID);
            proc.AddPara("@USERID", userid);

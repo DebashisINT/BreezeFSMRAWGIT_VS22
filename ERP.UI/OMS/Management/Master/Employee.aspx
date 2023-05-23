@@ -4,6 +4,7 @@
    Rev 3.0      Sanchita/Pallab    15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal. 
    Rev 4.0      Priti              20/02/2023      V2.0.39     0025676: Employee Import Facility. Refer: 25668 
    Rev 5.0      Pallab             20/02/2023      V2.0.39     parameters and grid issue fix for small screen
+   Rev 6.0      Pallab             17/04/2023      V2.0.39     25840: Employee master module employee search popup auto focus add and "cancel" button color change
  *******************************************************************************************************--%>
 
 <%@ Page Title="Employee" Language="C#" AutoEventWireup="True" Inherits="ERP.OMS.Management.Master.management_master_Employee" CodeBehind="Employee.aspx.cs" MasterPageFile="~/OMS/MasterPage/ERP.Master" %>
@@ -1690,6 +1691,13 @@ padding: 7px;
         function ClearChannelData() {
             $("#modalEmployeeChannel").modal('hide');
         }
+        /*Rev 6.0*/
+        $(document).ready(function () {
+            $('#EmployeeModel').on('shown.bs.modal', function () {
+                $('#txtEmployeeSearch').focus();
+            })
+        })
+        /*Rev end 6.0*/
     </script>
     <%--End of Mantis Issue 25001--%>
    
@@ -2795,7 +2803,7 @@ padding: 7px;
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="btnSaveEmployee" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                    <button type="button" id="btnSaveEmployee" class="btnOkformultiselection btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
                     <button type="button" id="btnCloseEmployee" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>

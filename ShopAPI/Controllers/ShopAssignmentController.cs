@@ -32,20 +32,20 @@ namespace ShopAPI.Controllers
                 //string user = certificate.Issuer;
                 //string sub = certificate.Subject;
 
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 string sessionId = "";
 
                 List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("Proc_ShopAssignmen", sqlcon);
-                sqlcmd.Parameters.Add("@Action", "PP");
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@state_id", model.state_id);
+                sqlcmd.Parameters.AddWithValue("@Action", "PP");
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@state_id", model.state_id);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -58,9 +58,6 @@ namespace ShopAPI.Controllers
                     odata.assigned_to_pp_list = oview;
                     odata.status = "200";
                     odata.message = "Order details  available";
-
-
-
                 }
                 else
                 {
@@ -93,20 +90,20 @@ namespace ShopAPI.Controllers
                 //string user = certificate.Issuer;
                 //string sub = certificate.Subject;
 
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 string sessionId = "";
 
                 List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("Proc_ShopAssignmen", sqlcon);
-                sqlcmd.Parameters.Add("@Action", "DD");
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@state_id", model.state_id);
+                sqlcmd.Parameters.AddWithValue("@Action", "DD");
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@state_id", model.state_id);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -146,20 +143,20 @@ namespace ShopAPI.Controllers
             else
             {
 
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                 string sessionId = "";
 
                 List<Locationupdate> omedl2 = new List<Locationupdate>();
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("Proc_ShopAssignmen", sqlcon);
-                sqlcmd.Parameters.Add("@Action", "Shop");
-                sqlcmd.Parameters.Add("@user_id", model.user_id);
-                sqlcmd.Parameters.Add("@state_id", model.state_id);
+                sqlcmd.Parameters.AddWithValue("@Action", "Shop");
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@state_id", model.state_id);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

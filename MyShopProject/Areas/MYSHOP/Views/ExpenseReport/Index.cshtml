@@ -1,0 +1,1057 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+
+@* Added by Sanchita for V2.0.40 on 26-04-2023     A New Expense Report is Required for BP Poddar, Refer: 25833  *@
+@*====================================================== Revision History ==========================================================*@
+
+@model MyShop.Models.ExpenseReport
+
+@{
+    ViewBag.Title = "Expense register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assests/pluggins/driver/driver.min.css" rel="stylesheet" />
+<script src="~/assests/pluggins/driver/driver.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+        //var driver = new Driver();
+
+        // Define the steps for introduction
+
+
+
+        $('#circle-rip').click(function (e) {
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            var driver = new Driver();
+            driver.defineSteps([
+                {
+                    element: '#mnthIntro',
+                    popover: {
+                        className: 'first-step-popover-class',
+                        title: 'Step by Step Guide',
+                        description: 'Select Month by clicking on the Down arrow button to filter the data in this report',
+                        position: 'bottom'
+                    }
+                },
+                {
+                    element: '#YersIntro',
+                    popover: {
+                        className: 'first-step-popover-class',
+                        title: 'Step by Step Guide',
+                        description: 'Select Year by clicking on the Down arrow button to filter the data in this report',
+                        position: 'bottom'
+                    }
+                },
+                {
+                    element: '#stateIntro',
+                    popover: {
+                        title: 'Step by Step Guide',
+                        description: 'Select State by clicking on the Down arrow button to filter the data in this report',
+                        position: 'bottom'
+                    }
+                },
+                {
+                    element: '#desigIntro',
+                    popover: {
+                        title: 'Step by Step Guide',
+                        description: 'Select Designation by clicking on the Down arrow button to filter the data in this report',
+                        position: 'bottom'
+                    }
+                },
+                {
+                    element: '#empIntro',
+                    popover: {
+                        title: 'Step by Step Guide',
+                        description: 'Select Employee by clicking on the Down arrow button to filter the data in this report',
+                        position: 'bottom'
+                    }
+                },
+                {
+                    element: '#btnshow',
+                    popover: {
+                        title: 'Step by Step Guide',
+                        description: 'Click on this button to display data in this report.',
+                        position: 'bottom'
+                    }
+                },
+            ]);
+            driver.start();
+        });
+
+
+        // Start the introduction
+
+    });
+</script>
+
+
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<script src="~/Scripts/SearchPopup.js"></script>
+@*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+
+<script>
+    var is_pageload = "0";
+    var is_procfirst = "0";
+    // Required for speed-up of call backs (http://www.devexpress.com/Support/Center/Question/Details/Q569354)
+    function RemoveElementFromArray(array, element) {
+        var index = array.indexOf(element);
+        if (index < 0) return array;
+        array[index] = null;
+        var result = [];
+        for (var i = 0; i < array.length; i++) {
+            if (array[i] === null)
+                continue;
+            result.push(array[i]);
+        }
+        return result;
+    }
+
+
+    $(function () {
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+
+        ////Rev Debashis 0025198
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        //lookup.GetGridView().Refresh();
+        ////End of Rev Debashis 0025198
+
+
+        $('#ddlSumExport').on('change', function () {
+            if ($("#ddlSumExport option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlSumExport').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporSummaryList", "ExpenseReport", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+    })
+
+    function OnStartCallback(s, e) {
+        e.customArgs["ispageload"] = "0";
+        e.customArgs["StartDate"] = StartDate.GetText();
+        e.customArgs["EndDate"] = EndDate.GetText();
+        e.customArgs["HQid"] = HQId;
+        e.customArgs["expid"] = ExpId;
+
+    }
+
+    function OnEndCallback(s, e) {
+        var message = $('#hdnUpdateMessage').val();
+        if (message != "" && message != null && message != "null") {
+            jAlert(message);
+            $('#hdnUpdateMessage').val('');
+        }
+    }
+
+
+
+    var HQId = [];
+    function HQSelectionChanged(s, e) {
+        HQGridLookup.gridView.GetSelectedFieldValues("HQid", GetHQSelectedFieldValuesCallback);
+    }
+    function GetHQSelectedFieldValuesCallback(values) {
+        try {
+            HQId = [];
+            for (var i = 0; i < values.length; i++) {
+                HQId.push(values[i]);
+            }
+        } finally {
+            console.log(HQId);
+        }
+    }
+
+    var ExpId = [];
+    function ExpSelectionChanged(s, e) {
+        ExpGridLookup.gridView.GetSelectedFieldValues("expid", GetExpSelectedFieldValuesCallback);
+    }
+    function GetExpSelectedFieldValuesCallback(values) {
+        try {
+            ExpId = [];
+            for (var i = 0; i < values.length; i++) {
+                ExpId.push(values[i]);
+            }
+        } finally {
+            console.log(ExpId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["HQId"] = HQId;
+        e.customArgs["ExpId"] = ExpId;
+    }
+
+    function GetData() {
+        GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+        var emp = empId.join(',');
+        var HQid = HQId.join(',');
+        var expid = ExpId.join(',');
+
+        var obj = {};
+        obj.emp = emp;
+        obj.HQid = HQid;
+        obj.expid = expid;
+
+        obj.fromdate = StartDate.GetDate();
+        obj.todate = EndDate.GetDate();
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GetExpenseLINQTable", "ExpenseReport")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+            async: false,
+            success: function (response) {
+                gridExpenseReport.Refresh();
+                gridExpenseReport.Refresh();
+
+            }
+        });
+    }
+    function OpenReimbursementImage(REIMBURSEMENT_DATE, EMPID) {
+
+        var url = '@Url.Action("LoadImageDocument", "ExpenseReport", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 1) + "&REIMBURSEMENT_DATE=" + REIMBURSEMENT_DATE + "&EMPID=" + EMPID ;
+
+       
+    }
+
+</script>
+
+<style>
+    .backBox label {
+        font-weight: 500;
+        margin-top: 10px;
+    }
+
+    .expTypeImg {
+        list-style-type: none;
+        padding: 0;
+    }
+
+        .expTypeImg > li {
+            display: inline-block;
+        }
+
+            .expTypeImg > li > div {
+                position: relative;
+            }
+
+                .expTypeImg > li > div > img {
+                }
+
+                .expTypeImg > li > div .imageCap {
+                    position: absolute;
+                    bottom: 0;
+                    z-index: 5;
+                    width: 100%;
+                    color: #fff;
+                    background: #bd9f9f;
+                    padding: 5px 10px;
+                    text-align: center;
+                }
+
+    .mTop10 {
+        margin-top: 10px;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        background: #fff;
+    }
+
+
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .disableHref {
+        opacity: 0.3;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #BranchGridLookup_ET > tbody > tr > td:first-child, #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    #gridsalessummaryregister {
+        width: 100% !important;
+    }
+
+    .myAssignTarget {
+        margin-bottom: 0;
+    }
+
+        .myAssignTarget > li {
+            list-style-type: none;
+            display: inline-block;
+            font-size: 11px;
+            text-align: center;
+        }
+
+            .myAssignTarget > li:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .myAssignTarget > li.mainCircle {
+                border: 1px solid #a2d3d8;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+
+            .myAssignTarget > li .heading {
+                padding: 2px 12px;
+                background: #6d82c5;
+                color: #fff;
+            }
+
+            .myAssignTarget > li .Num {
+                font-size: 14px;
+            }
+
+            .myAssignTarget > li.mainHeadCenter {
+                font-size: 12px;
+                transform: translateY(-16px);
+            }
+
+    #myAssignTargetpopup {
+        padding: 0;
+    }
+
+        #myAssignTargetpopup > li .heading {
+            padding: 6px 12px;
+            background: #7f96dc;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        #myAssignTargetpopup li .Num {
+            font-size: 14px;
+            padding: 5px;
+        }
+
+    .linerHd {
+        background: #dedede;
+        padding: 3px 15px;
+        margin-bottom: 5px;
+    }
+
+    .popheader {
+        font-size: 16px;
+        font-weight: 500;
+        padding-bottom: 8px;
+        padding-left: 7px;
+    }
+
+    .lightbox {
+        z-index: 10000000;
+    }
+
+    .lightboxOverlay {
+        z-index: 9999999;
+    }
+
+    .btn-excel {
+        position: absolute;
+        right: 6px;
+        top: 8px;
+    }
+
+    .padding-top-30 {
+        padding-top: 34px !important;
+    }
+    /*Rev Pallab*/
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #txtEmployeeSearch {
+        margin-bottom: 12px;
+    }
+    /*Rev End Pallab*/
+</style>
+@*Rev Debashis 0025198*@
+<style>
+    #BranchGridLookup_CC {
+        width: 100%;
+    }
+</style>
+@*End of Rev Debashis 0025198*@
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+        OtherDetails.HQid = HQId.join(',');
+       
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+               // callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeListHQWise", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+<style>
+    /*Rev 1.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 24px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 43px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .whclass.selectH, #ddlDuration {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+    }
+
+    #StartDate, #EndDate {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #StartDate_B-1, #EndDate_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #StartDate_B-1 #StartDate_B-1Img,
+        #EndDate_B-1 #EndDate_B-1Img {
+            display: none;
+        }
+
+    #StartDate_I, #EndDate_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .dxeButtonEditSys .dxeButton {
+        height: 13px;
+    }
+
+        .dxeButtonEditSys .dxeButton img {
+            margin-top: 3px;
+        }
+
+    #refreshgridperformancewisemonth {
+        margin-top: 15px;
+    }
+    /*Rev end 1.0*/
+</style>
+
+<link href="~/Content/media.css" rel="stylesheet" />
+
+
+<div class="breadCumb">
+    <span class="relative">Expense register <span class="circle-rip hide" id="circle-rip" title="Click for Help">? </span></span>
+</div>
+
+
+<div class="container mt-5">
+    <div class="backBox mt-3 p-4">
+        <div class="row">
+            <div class="col-md-2  for-cust-icon" id="mnthIntro">
+                <label>From Date</label>
+                <div>
+                    @Html.DevExpress().DateEdit(
+                    settings =>
+                    {
+                        settings.Name = "StartDate";
+                        settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                        settings.Properties.EditFormatString = "dd-MM-yyyy";
+
+                        settings.Properties.EditFormat = EditFormat.DateTime;
+                        //settings.Date = DateTime.Now;
+                        settings.Date = Model.dtFromDate;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml()
+                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                </div>
+            </div>
+            <div class="col-md-2 for-cust-icon" id="YersIntro">
+                <label>To Date</label>
+                <div>
+                    @Html.DevExpress().DateEdit(
+                    settings =>
+                    {
+                        settings.Name = "EndDate";
+                        settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                        settings.Properties.EditFormat = EditFormat.DateTime;
+                        settings.Properties.EditFormatString = "dd-MM-yyyy";
+                        //settings.Date = DateTime.Now;
+                        settings.Date = Model.dtToDate;
+                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    }).GetHtml()
+                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2" id="stateIntro">
+                <label>HQ Name</label>
+                <div>
+                    @Html.Action("GetHQNameList", "ExpenseReport")
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2" id="empIntro">
+                <label>Employee(s)</label>
+                <div>
+                    @*@Html.Action("GetEmpList", "MasterPopulate")*@
+                    @Html.DevExpress().ButtonEdit(
+                settings =>
+                {
+                    settings.Name = "EmployeeTxt";
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    //settings.Text = Model.AssignedTo;
+                    settings.ReadOnly = true;
+                    settings.Properties.Buttons.Add("...");
+                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                }).GetHtml()
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-2" id="desigIntro">
+                <label>Expense Type</label>
+                <div>
+
+                    @Html.Action("GetExpenseTypeList", "ExpenseReport")
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-3 pad-md-18 padding-top-30">
+                <label></label>
+                <button type="button" id="btnshow" class="btn btn-success btnwidth" onclick="GetData();" tabindex=4>Show</button>
+                <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    @*<option value="4">RTF</option>*@
+                    <option value="5">CSV</option>
+
+                </select>
+            </div>
+
+        </div>
+
+        <div id="refreshgridperformancewisemonth">
+
+            @{
+                Html.RenderAction("_PartialExpenseReport", "ExpenseReport", new { ispageload = "1", StartDate = Model.FromDate, EndDate = Model.ToDate });
+            }
+        </div>
+    </div>
+</div>
+
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<!--Employee Modal -->

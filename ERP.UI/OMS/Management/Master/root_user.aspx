@@ -1,7 +1,9 @@
 <%--******************************************************************************************************
  * Rev 1.0      Sanchita            07/02/2023      V2.0.36     FSM Employee & User Master - To implement Show button. refer: 25641
    Rev 2.0      Pallab              09/02/2023      V2.0.36     Master module design modification. refer: 25656
-   Rev 3.0      Sanchita/Pallab     15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal. 
+   Rev 3.0      Sanchita/Pallab     15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal.
+   Rev 4.0      Sanchita            05-05-2023      V2.0.40     In Portal -> Master -> Organization -> User  -> Logedin user in app is shows green which is ok but after 
+                                                                pressing refresh button from action it is not turning red . Refer: 25947
  *******************************************************************************************************--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_root_user" CodeBehind="root_user.aspx.cs" %>
@@ -797,9 +799,11 @@
                 success: function (msg) {
 
                     if (msg.d == true) {
-
-                        grid.Refresh();
-
+                        // Rev 4.0
+                        //grid.Refresh();
+                        $("#hfIsFilter").val("Y");
+                        grid.PerformCallback("Show");
+                        // End of Rev 4.0
                     }
                     else {
 
@@ -1443,6 +1447,14 @@
                 }
             })
         }
+
+        /*Rev 3.0*/
+        $(document).ready(function () {
+            $('#UserModel').on('shown.bs.modal', function () {
+                $('#txtUserSearch').focus();
+            })
+        })
+        /*Rev end 3.0*/
     </script>
     <%-- Show details Party Assign --%>
 </asp:Content>

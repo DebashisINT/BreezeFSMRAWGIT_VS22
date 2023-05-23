@@ -1,9 +1,12 @@
 ﻿/****************************************************************************************************************************
 *   1.0     v2.0.36     Sanchita    10/01/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True" then 
 *                                                   data in portal shall be populated based on Hierarchy Only. Refer: 25504
-*********************************************************************************************************************************/
+*   2.0     v2.0.40     Priti    19/05/2023         0026145:Modification in the ‘Configure Travelling Allowance’ page.
+  
+ *********************************************************************************************************************************/
 
 using Models;
+using MyShop.Models;
 using SalesmanTrack;
 using System;
 using System.Collections.Generic;
@@ -40,6 +43,88 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 return RedirectToAction("Logout", "Login", new { Area = "" });
             }
         }
+
+        //Rev 2.0
+        public ActionResult GetBranchList(TravelConveyanceModelclass model)
+        {
+            try
+            {
+                string StateId = "";
+                int i = 1;
+
+                if (model.StateId != null && model.StateId.Count > 0)
+                {
+                    foreach (string item in model.StateId)
+                    {
+                        if (i > 1)
+                            StateId = StateId + "," + item;
+                        else
+                            StateId = item;
+                        i++;
+                    }
+
+                }
+                List<GetBranch> modelBranch = new List<GetBranch>();
+                DataTable dtBranch = lstuser.GetBranchList(StateId);
+                modelBranch = APIHelperMethods.ToModelList<GetBranch>(dtBranch);
+
+                return PartialView("~/Areas/MYSHOP/Views/SearchingInputs/_BranchPartial.cshtml", modelBranch);
+            }
+            catch
+            {
+                return RedirectToAction("Logout", "Login", new { Area = "" });
+            }
+        }
+        public ActionResult GetAreaBranchWise(TravelConveyanceModelclass model)
+        {
+            try
+            {
+                string BranchId = "";
+                int i = 1;
+
+                if (model.BranchId != null && model.BranchId.Count > 0)
+                {
+                    foreach (string item in model.BranchId)
+                    {
+                        if (i > 1)
+                            BranchId = BranchId + "," + item;
+                        else
+                            BranchId = item;
+                        i++;
+                    }
+
+                }
+
+                List<GetmasterArea> modelBranch = new List<GetmasterArea>();
+                DataTable dtArea = lstuser.GetArealistByBranch(BranchId);
+                modelBranch = APIHelperMethods.ToModelList<GetmasterArea>(dtArea);
+
+                return PartialView("~/Areas/MYSHOP/Views/SearchingInputs/_AreaBranchWisePartial.cshtml", dtArea);
+
+
+
+                //DataTable dtemp = lstuser.Getemplist(state, desig, Convert.ToString(Session["userid"]), dept);
+               
+
+
+                //DataView view = new DataView(dtemp);
+                //DataTable distinctValues = view.ToTable(true, "empcode", "empname");
+
+                //List<GetAllEmployee> modelemp = new List<GetAllEmployee>();
+                //modelemp = APIHelperMethods.ToModelList<GetAllEmployee>(distinctValues);
+
+                //return PartialView("~/Areas/MYSHOP/Views/SearchingInputs/_EmpPartial.cshtml", modelemp);
+
+
+
+            }
+            catch
+            {
+                return RedirectToAction("Logout", "Login", new { Area = "" });
+
+            }
+        }
+        //Rev 2.0 End
 
         public ActionResult GetShopList(EmployeeListModel model)
         {
