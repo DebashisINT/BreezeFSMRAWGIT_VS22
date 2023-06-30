@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer.SalesmanTrack;
+﻿/***************************************************************************************************************************
+ * Rev 1.0      Sanchita    V2.0.41     30-06-2023      The Export Format is not Proper in PJP Vs Actual Details Report. refer: 26436
+ ****************************************************************************************************************************/
+using BusinessLogicLayer.SalesmanTrack;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
 using MyShop.Models;
@@ -137,22 +140,37 @@ namespace MyShop.Areas.MYSHOP.Controllers
         {
             switch (type)
             {
-                case 1:
-                    return GridViewExtension.ExportToXlsx(GetGridViewSettings(), GetReport(IsPageload));
-                //break;
-                case 2:
-                    return GridViewExtension.ExportToXls(GetGridViewSettings(), GetReport(IsPageload));
-                //break;
-                case 3:
-                    return GridViewExtension.ExportToPdf(GetGridViewSettings(), GetReport(IsPageload));
-                case 4:
-                    return GridViewExtension.ExportToCsv(GetGridViewSettings(), GetReport(IsPageload));
-                case 5:
-                    return GridViewExtension.ExportToRtf(GetGridViewSettings(), GetReport(IsPageload));
-                //break;
+                // Rev 1.0
+                //case 1:
+                //    return GridViewExtension.ExportToXlsx(GetGridViewSettings(), GetReport(IsPageload));
+                ////break;
+                //case 2:
+                //    return GridViewExtension.ExportToXls(GetGridViewSettings(), GetReport(IsPageload));
+                ////break;
+                //case 3:
+                //    return GridViewExtension.ExportToPdf(GetGridViewSettings(), GetReport(IsPageload));
+                //case 4:
+                //    return GridViewExtension.ExportToCsv(GetGridViewSettings(), GetReport(IsPageload));
+                //case 5:
+                //    return GridViewExtension.ExportToRtf(GetGridViewSettings(), GetReport(IsPageload));
+                ////break;
 
+                //default:
+                //    break;
+
+                case 1:
+                    return GridViewExtension.ExportToPdf(GetGridViewSettings(), GetReport(IsPageload));
+                case 2:
+                    return GridViewExtension.ExportToXlsx(GetGridViewSettings(), GetReport(IsPageload));
+                case 3:
+                    return GridViewExtension.ExportToXls(GetGridViewSettings(), GetReport(IsPageload));
+                case 4:
+                    return GridViewExtension.ExportToRtf(GetGridViewSettings(), GetReport(IsPageload));
+                case 5:
+                    return GridViewExtension.ExportToCsv(GetGridViewSettings(), GetReport(IsPageload));
                 default:
                     break;
+                 // End of Rev 1.0
             }
 
             return null;
@@ -166,6 +184,19 @@ namespace MyShop.Areas.MYSHOP.Controllers
             // Export-specific settings
             settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
             settings.SettingsExport.FileName = "PJPvsActualDetailsReport";
+
+            // Rev 1.0
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "Date";
+                column.FieldName = "Date";
+                column.ColumnType = MVCxGridViewColumnType.TextBox;
+                column.ColumnType = MVCxGridViewColumnType.DateEdit;
+                column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+                (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+                column.Width = 100;
+            });
+            // End of Rev 1.0
 
             settings.Columns.Add(column =>
             {
