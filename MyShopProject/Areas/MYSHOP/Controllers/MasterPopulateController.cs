@@ -1,10 +1,11 @@
 ﻿/****************************************************************************************************************************
 *   1.0     v2.0.36     Sanchita    10/01/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True" then 
 *                                                   data in portal shall be populated based on Hierarchy Only. Refer: 25504
-*   2.0     v2.0.40     Priti    19/05/2023         0026145:Modification in the ‘Configure Travelling Allowance’ page.
-  
+*   2.0     v2.0.40     Priti       19/05/2023      0026145:Modification in the ‘Configure Travelling Allowance’ page.
+*   3.0     V2.0.41     Sanchita    02/06/2023      FSM - Message will be fired from first tab when logged out from the 2nd tab. Refer: 26273  
  *********************************************************************************************************************************/
 
+using DataAccessLayer;
 using Models;
 using MyShop.Models;
 using SalesmanTrack;
@@ -733,5 +734,24 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
+
+        // Rev 3.0
+        public ActionResult checkSessionLogout()
+        {
+            SessionLogoutCheck ret = new SessionLogoutCheck();
+
+            if (Session["userid"] == null)
+            {
+                ret.SessionLoddedOut = "1";
+            }
+            else
+            {
+                ret.SessionLoddedOut = "0";
+            }
+
+            return Json(ret, JsonRequestBehavior.AllowGet);
+
+        }
+        // End of Rev 3.0
     }
 }

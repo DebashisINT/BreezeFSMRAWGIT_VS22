@@ -681,7 +681,7 @@
         <table class="pull-left tblspace smblock mb-3">
             <tr>
                 <td class="w1" id="dtstate">State : </td>
-                <td id="dtdesg2" style="width:200px;">
+                <td id="dtdesg2" style="width:180px;">
                     @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
                 </td>
 
@@ -736,7 +736,7 @@
         @*Rev 3.0 : replace into div*@
         <div class="row pt-4">
             @*Rev 2.0 Mantis:0025585*@
-            <div class="col-md-3 pt-2">
+            <div class="col-md-4 pt-2">
                 @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
                     <span class="">Show Multiple Contact Details</span>*@
                 <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">

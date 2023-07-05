@@ -1,5 +1,7 @@
 ﻿/******************************************************************************************************************
- * Rev 1.0      21-03-2023      Sanchita    V2.0.39         Dashboard optimization. Refer: 25741
+ * Rev 1.0      21-03-2023      Sanchita    V2.0.39     Dashboard optimization. Refer: 25741
+ * Rev 2.0      27-06-2023      Sanchita    V2.0.41     State & Branch selection facility is required in the Order Analytics in Dashboard
+ *                                                      Refer: 26309
  *******************************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -977,7 +979,112 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             return PartialView(list);
         }
-       public ActionResult CheckDashboardDataExists()
+
+        // Rev Sanchita
+        public ActionResult DashboardStateComboboxOrder()
+        {
+            FSMDashBoardFilter dashboard = new FSMDashBoardFilter();
+            string userid = Session["userid"].ToString();
+            //string userid = "0";
+            List<StateData> statedate = new List<StateData>();
+            List<StateData> statedateobj = new List<StateData>();
+
+            if (TempData["statedateobj"] == null)
+            {
+                try
+                {
+                    StateData obj = null;
+                    statedate = dashboard.GetStateList(Convert.ToInt32(userid));
+                    foreach (var item in statedate)
+                    {
+                        obj = new StateData();
+                        obj.StateID = !String.IsNullOrEmpty(item.id) ? Convert.ToInt32(item.id) : 0;
+                        obj.name = item.name;
+                        statedateobj.Add(obj);
+                    }
+                }
+                catch { }
+                ViewBag.StateListCount = statedate.Count;
+
+            }
+            else
+            {
+                statedate = (List<StateData>)TempData["statedate"];
+                statedateobj = (List<StateData>)TempData["statedateobj"];
+
+                ViewBag.StateListCount = statedate.Count;
+            }
+            return PartialView(statedateobj);
+        }
+
+        public ActionResult DashboardBranchComboboxOrder(string stateid)
+        {
+
+            FSMDashBoardFilter dashboard = new FSMDashBoardFilter();
+            string userid = Session["userid"].ToString();
+            int chkState = 0;
+            if (stateid == null)
+            {
+                chkState = 1;
+            }
+
+            List<BranchData> branchdate = new List<BranchData>();
+            List<BranchData> branchdateobj = new List<BranchData>();
+
+            if (TempData["branchdateobj"] == null)
+            {
+                string stateIds = dashboard.StateId;
+                try
+                {
+                    BranchData obj = null;
+                    if (stateid == null)
+                    {
+                        stateid = "";
+                    }
+
+                    if (TempData["branchdate"] != null)
+                    {
+                        branchdate = (List<BranchData>)TempData["branchdate"];
+                    }
+                    else
+                    {
+                        branchdate = dashboard.GetBranchList(Convert.ToInt32(userid), stateid);
+                    }
+            
+                    foreach (var item in branchdate)
+                    {
+                        obj = new BranchData();
+                        obj.BranchID = !String.IsNullOrEmpty(Convert.ToString(item.BranchID)) ? Convert.ToInt32(item.BranchID) : 0;
+                        obj.name = item.name;
+                        branchdateobj.Add(obj);
+                    }
+                }
+                catch { }
+                ViewBag.BranchListCount = branchdate.Count;
+
+            }
+            else
+            {
+                branchdate = (List<BranchData>)TempData["branchdate"];
+                branchdateobj = (List<BranchData>)TempData["branchdateobj"];
+
+                ViewBag.BranchListCount = branchdate.Count;
+            }
+       
+            if (chkState == 1)
+            {
+                return PartialView("DashboardBranchComboboxOrder", branchdateobj);
+            }
+            else
+            {
+                Session["PageloadChk"] = "0";
+                Session["BranchList"] = branchdateobj;
+                return Json(branchdate, JsonRequestBehavior.AllowGet);
+            }
+        }
+        // End of Rev Sanchita
+
+        public ActionResult CheckDashboardDataExists()
         {
             ViewData["ExportDashboardSummaryGridList"] = TempData["ExportDashboardSummaryGridList"];
             TempData.Keep();
@@ -1618,8 +1725,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         }
 
-
-        public JsonResult GetOrderAnalyticTotalOrderCount(string fromDate, string toDate)
+        // Rev 2.0
+        //public JsonResult GetOrderAnalyticTotalOrderCount(string fromDate, string toDate)
+        public JsonResult GetOrderAnalyticTotalOrderCount(string fromDate, string toDate, string stateid, string branchid)
+            // End of Rev 2.0
         {
 
 
@@ -1627,7 +1736,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<TotalOrderCount> caldata = new List<TotalOrderCount>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDCNT", Session["userid"].ToString());
+                // Rev 2.0
+                //DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDCNT", Session["userid"].ToString());
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDCNT", stateid, branchid, Session["userid"].ToString());
+                // End of Rev 2.0
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1644,15 +1756,17 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
             return Json(caldata);
         }
-        public JsonResult GetOrderAnalyticTotalOrderValue(string fromDate, string toDate)
-        {
 
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult GetOrderAnalyticTotalOrderValue(string fromDate, string toDate, string stateid, string branchid)
+        {
 
             Dashboard dashboarddataobj = new Dashboard();
             List<TotalOrderValue> caldata = new List<TotalOrderValue>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDVALUE", Session["userid"].ToString());
+                // Rev 2.0 [parameters , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDVALUE", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1669,7 +1783,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
             return Json(caldata);
         }
-        public JsonResult GetOrderAnalyticAvgOrderValue(string fromDate, string toDate)
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult GetOrderAnalyticAvgOrderValue(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1677,7 +1792,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<AvgOrderValue> caldata = new List<AvgOrderValue>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "AVGORDVALUE", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "AVGORDVALUE", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1695,7 +1811,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return Json(caldata);
         }
 
-        public JsonResult GetOrderAnalyticOrderDelivered(string fromDate, string toDate)
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult GetOrderAnalyticOrderDelivered(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1703,7 +1820,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<OrderDelivered> caldata = new List<OrderDelivered>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDDELV", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDDELV", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1721,7 +1839,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return Json(caldata);
         }
         // order top 10 value
-        public JsonResult Gettop10orderValue(string fromDate, string toDate)
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult Gettop10orderValue(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1729,7 +1848,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<OrderValueTopClass> caldata = new List<OrderValueTopClass>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "TOP10ITEMSVAL", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "TOP10ITEMSVAL", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1747,7 +1867,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return Json(caldata);
         }
         // order quantity
-        public JsonResult Gettop10orderQuantity(string fromDate, string toDate)
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult Gettop10orderQuantity(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1755,7 +1876,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<OrderQuantityTopClass> caldata = new List<OrderQuantityTopClass>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "TOP10ITEMSQTY", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "TOP10ITEMSQTY", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1773,7 +1895,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return Json(caldata);
         }
         // top customers
-        public JsonResult GettopCustomers(string fromDate, string toDate)
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult GettopCustomers(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1781,7 +1904,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<topCustomerClass> caldata = new List<topCustomerClass>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "TOP10CUSTVAL", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "TOP10CUSTVAL", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1798,7 +1922,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
             return Json(caldata);
         }
-        public JsonResult GettopOrdersStateWise(string fromDate, string toDate)
+
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult GettopOrdersStateWise(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1806,7 +1932,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<topOrderStateClass> caldata = new List<topOrderStateClass>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "TOP10STVAL", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "TOP10STVAL", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1826,7 +1953,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
         }
 
         // OrdercountChart
-        public JsonResult OrdercountChart(string fromDate, string toDate)
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult OrdercountChart(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1834,7 +1962,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<orderCountChartClass> caldata = new List<orderCountChartClass>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDCNTDATE", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDCNTDATE", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1852,7 +1981,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return Json(caldata);
         }
         //OrderTotalChart
-        public JsonResult OrderTotalChart(string fromDate, string toDate)
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult OrderTotalChart(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1860,7 +1990,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<orderTotalChartClass> caldata = new List<orderTotalChartClass>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDVALDT", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDVALDT", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows
@@ -1878,7 +2009,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return Json(caldata);
         }
 
-        public JsonResult OrderDeliveredChart(string fromDate, string toDate)
+        // Rev 2.0 [parameters , string stateid, string branchid added]
+        public JsonResult OrderDeliveredChart(string fromDate, string toDate, string stateid, string branchid)
         {
 
 
@@ -1886,7 +2018,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
             List<orderDeliveredChartClass> caldata = new List<orderDeliveredChartClass>();
             try
             {
-                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDVALDELV", Session["userid"].ToString());
+                // Rev 2.0 [ parameter , stateid, branchid added]
+                DataSet objData = dashboarddataobj.GetOrderAnalytics(fromDate, toDate, "ORDVALDELV", stateid, branchid, Session["userid"].ToString());
                 if (objData != null && objData.Tables[0] != null && objData.Tables[0].Rows.Count > 0)
                 {
                     caldata = (from DataRow dr in objData.Tables[0].Rows

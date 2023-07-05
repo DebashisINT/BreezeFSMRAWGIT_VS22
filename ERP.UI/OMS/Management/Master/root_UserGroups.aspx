@@ -1,6 +1,7 @@
 ﻿<%--====================================================== Revision History ==========================================================
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                08-02-2023        2.0.39           Pallab              25656 : Master module design modification 
+2.0                27-06-2023        2.0.41           Pallab              26446 : User Groups module responsive issue fix and make mobile friendly
 ====================================================== Revision History ==========================================================--%>
 
 <%@ Page Title="User Groups" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" CodeBehind="root_UserGroups.aspx.cs" Inherits="ERP.OMS.Management.Master.management_master_root_UserGroups" %>
@@ -468,7 +469,19 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     }
 
     /*Rev end 1.0*/
-        
+
+    /*Rev 2.0*/
+
+    .backBox
+    {
+        overflow-x: auto;
+    }
+    .breadCumb > span
+    {
+        padding: 9px 24px;
+    }
+
+    /*Rev end 2.0*/    
     </style>
 
     <script type="text/javascript" src="/assests/pluggins/easyui/jquery.easyui.min.js"></script>

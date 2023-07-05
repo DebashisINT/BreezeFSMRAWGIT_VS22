@@ -3,7 +3,9 @@
 @*1.0                06-01-2023        2.0.38           Pallab              25570: show button position change and data default value change(added '*' instead of '0') *@
 @*2.0                11-01-2023        2.0.38           Pallab              25570: Attendance, Order, Reimbursement, Target/Achievement tab box design change *@
 @*3.0                11-01-2023        2.0.38           Pallab              "Monthly Attendance Summary" chart bar color change and month active color change *@
-@*4.0                01-02-2023        2.0.38           Pallab              View full screen issue fix  *@
+@*4.0                07-06-2023        2.0.41           Pallab              26304: Zoom in not happening in the Attendance, Order, Reimbursement tab  *@
+@*5.0                07-06-2023        2.0.41           Pallab              26305: am chart version update in FSM  *@
+@*6.0                26-06-2023        2.0.41           Pallab              26413: FSM dashboard tab boxes click event disable, when "show data" button not clicked  *@
 @*====================================================== Revision History ===========================================================*@
 
 <link href="~/assests/css/pignose.calendar.min.css" rel="stylesheet" />
@@ -11,14 +13,30 @@
 
 <script src="~/assests/js/frmCDN/moment.js"></script>
 <script src="~/assests/pluggins/pignose.calendar.min.js"></script>
+@*Rev 5.0*@
+@*<script src="~/assests/pluggins/amchart/core.js"></script>
+    <script src="~/assests/pluggins/amchart/charts.js"></script>
+    <script src="~/assests/pluggins/amchart/themes/animated.js"></script>*@
 
-<script src="~/assests/pluggins/amchart/core.js"></script>
-<script src="~/assests/pluggins/amchart/charts.js"></script>
-<script src="~/assests/pluggins/amchart/themes/animated.js"></script>
 
+
+<script src="~/assests/pluggins/amchart5/index.js"></script>
+<script src="~/assests/pluggins/amchart5/xy.js"></script>
+<script src="~/assests/pluggins/amchart5/Animated.js"></script>
+<script src="~/assests/pluggins/amchart5/exporting.js"></script>
+@*Rev end 5.0*@
+
+<script src="/assests/pluggins/choosen/choosen.min.js"></script>
+
+<script src="/assests/pluggins/choosen/choosen.min.js"></script>
+<link href="../../../assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="../../../Scripts/SearchPopup.js"></script>
+<script src="../../../Scripts/SearchMultiPopup.js"></script>
 
 
 <script type="text/javascript">
+
+
     $(function () {
 
         $('#userID').on('change', function () {
@@ -261,9 +279,22 @@
             contentType: 'application/json',
             success: function (msg) {
                 //console.log(msg);
+
                 $(".calendar").pignoseCalendar({
+
                     date: sdate,
                     format: 'DD-MM-YYYY',
+                    lang: 'en',
+                    monthNames: [
+                        'January', 'February', 'March', 'April', 'May', 'June',
+                        'July', 'August', 'September', 'October', 'November', 'December'
+                    ],
+                    formatOptions: {
+                        shortMonthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                        fullMonthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+
+                    },
+
                     scheduleOptions: {
                         colors: {
                             Absent: "#e83636",
@@ -298,7 +329,9 @@
                         //console.log(text);
                         openCalClick(usrId, text);
                         $('.calPopup, .calBackdrop').addClass('in');
-                    }
+                    },
+
+
                 });
             }
         });
@@ -352,7 +385,23 @@
          });
     }
     @*Mantis Issue 25455*@
-    function ShowAttendanceData(){
+
+    /*Rev 6.0*/
+    var isShowAttendanceDataClicked = false;
+    /*Rev end 6.0*/
+
+    function ShowAttendanceData() {
+        /*Rev 6.0*/
+        isShowAttendanceDataClicked = true;
+        var element4atten = document.getElementById("getTotalA");
+        var element1atten = document.getElementById("getOnTimeToday");
+        var element2atten = document.getElementById("getLateToday");
+        var element3atten = document.getElementById("getAbsentToday");
+        element4atten.style.cursor = "pointer";
+        element3atten.style.cursor = "pointer";
+        element2atten.style.cursor = "pointer";
+        element1atten.style.cursor = "pointer";
+        /*Rev end 6.0*/
         var Url = '@Url.Action("GetAttendanceResults", "DashboardMenu")'
 
             $.ajax({
@@ -416,87 +465,206 @@
 
 
             // Monthly attendance
-            var mnthUrl = '@Url.Action("GetMonthlyAttendance", "DashboardMenu")';
-            $.ajax({
-                type: "POST",
-                url: mnthUrl,
-                processData: false,
-                contentType: 'application/json',
-                success: function (msg) {
-                    console.log('chartdiv', msg);
-                    am4core.ready(function () {
-                        // Themes begin
-                        am4core.useTheme(am4themes_animated);
-                        // Themes end
+        var mnthUrl = '@Url.Action("GetMonthlyAttendance", "DashboardMenu")';
+        @* Rev 5.0 *@
+            //$.ajax({
+            //    type: "POST",
+            //    url: mnthUrl,
+            //    processData: false,
+            //    contentType: 'application/json',
+            //    success: function (msg) {
+            //        console.log('chartdiv', msg);
+            //        am4core.ready(function () {
+            //            // Themes begin
+            //            am4core.useTheme(am4themes_animated);
+            //            // Themes end
 
-                        // Create chart instance
-                        var chart = am4core.create("chartdiv", am4charts.XYChart);
-                        chart.scrollbarX = new am4core.Scrollbar();
-                        // Export
-                        chart.exporting.menu = new am4core.ExportMenu();
-                        chart.logo.disabled = true;
-                        // Data for both series
-                        var data = msg;
+            //            // Create chart instance
+            //            var chart = am4core.create("chartdiv", am4charts.XYChart3D);
+            //            chart.scrollbarX = new am4core.Scrollbar();
+            //            // Export
+            //            chart.exporting.menu = new am4core.ExportMenu();
+            //            chart.logo.disabled = true;
+            //            // Data for both series
+            //            var data = msg;
 
-                        /* Create axes */
-                        var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-                        categoryAxis.dataFields.category = "MONTH";
-                        categoryAxis.renderer.minGridDistance = 30;
-                        categoryAxis.renderer.labels.template.horizontalCenter = "right";
-                        categoryAxis.renderer.labels.template.verticalCenter = "middle";
-                        categoryAxis.renderer.labels.template.rotation = 270;
-                        categoryAxis.tooltip.disabled = true;
-                        categoryAxis.renderer.minHeight = 110;
-                        /* Create value axis */
-                        var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+            //            /* Create axes */
+            //            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+            //            categoryAxis.dataFields.category = "MONTH";
+            //            categoryAxis.renderer.minGridDistance = 30;
+            //            categoryAxis.renderer.labels.template.horizontalCenter = "right";
+            //            categoryAxis.renderer.labels.template.verticalCenter = "middle";
+            //            categoryAxis.renderer.labels.template.rotation = 270;
+            //            categoryAxis.tooltip.disabled = true;
+            //            categoryAxis.renderer.minHeight = 110;
+            //            /* Create value axis */
+            //            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
 
-                        /* Create series */
-                        var columnSeries = chart.series.push(new am4charts.ColumnSeries());
-                        columnSeries.name = "Attendance";
-                        columnSeries.dataFields.valueY = "EMP_COUNT";
-                        columnSeries.dataFields.categoryX = "MONTH";
-                        /*Rev 3.0*/
-                        columnSeries.fill = am4core.color("#175295");
-                        /*Rev end 3.0*/
+            //            /* Create series */
+            //            var columnSeries = chart.series.push(new am4charts.ColumnSeries3D());
+            //            columnSeries.name = "Attendance";
+            //            columnSeries.dataFields.valueY = "EMP_COUNT";
+            //            columnSeries.dataFields.categoryX = "MONTH";
+            //            /*Rev 3.0*/
+            //            columnSeries.fill = am4core.color("#175295");
+            //            /*Rev end 3.0*/
 
-                        columnSeries.columns.template.tooltipText =
-                          "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
-                        columnSeries.columns.template.propertyFields.fillOpacity =
-                          "fillOpacity";
-                        columnSeries.columns.template.propertyFields.stroke = "stroke";
-                        columnSeries.columns.template.propertyFields.strokeWidth =
-                          "strokeWidth";
-                        columnSeries.columns.template.propertyFields.strokeDasharray =
-                          "columnDash";
-                        columnSeries.tooltip.label.textAlign = "middle";
-                        columnSeries.columns.template.events.on("hit", function (ev) {
-                            subAttChart(ev.target.dataItem._dataContext.ord);
+            //            columnSeries.columns.template.tooltipText =
+            //              "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+            //            columnSeries.columns.template.propertyFields.fillOpacity =
+            //              "fillOpacity";
+            //            columnSeries.columns.template.propertyFields.stroke = "stroke";
+            //            columnSeries.columns.template.propertyFields.strokeWidth =
+            //              "strokeWidth";
+            //            columnSeries.columns.template.propertyFields.strokeDasharray =
+            //              "columnDash";
+            //            columnSeries.tooltip.label.textAlign = "middle";
+            //            columnSeries.columns.template.events.on("hit", function (ev) {
+            //                subAttChart(ev.target.dataItem._dataContext.ord);
+            //            });
+
+            //            var lineSeries = chart.series.push(new am4charts.LineSeries());
+            //            lineSeries.name = "Expenses";
+            //            lineSeries.dataFields.valueY = "expenses";
+            //            lineSeries.dataFields.categoryX = "year";
+
+            //            lineSeries.stroke = am4core.color("#fdd400");
+            //            lineSeries.strokeWidth = 3;
+            //            lineSeries.propertyFields.strokeDasharray = "lineDash";
+            //            lineSeries.tooltip.label.textAlign = "middle";
+
+            //            var bullet = lineSeries.bullets.push(new am4charts.Bullet());
+            //            bullet.fill = am4core.color("#fdd400"); // tooltips grab fill from parent by default
+            //            bullet.tooltipText =
+            //              "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
+            //            var circle = bullet.createChild(am4core.Circle);
+            //            circle.radius = 4;
+            //            circle.fill = am4core.color("#fff");
+            //            circle.strokeWidth = 3;
+
+            //            chart.data = data;
+            //        }); // end am4core.ready()
+
+            //    }
+            //});
+
+        $.ajax({
+            type: "POST",
+            url: mnthUrl,
+            processData: false,
+            contentType: 'application/json',
+            success: function (msg) {
+                console.log('chartdiv', msg);
+                am5.ready(function () {
+
+                    var root = am5.Root.new("chartdiv");
+
+                    root.setThemes([
+                        am5themes_Animated.new(root)
+                    ]);
+
+                    // Create chart
+                    var chart = root.container.children.push(am5xy.XYChart.new(root, {
+                        panX: true,
+                        panY: true,
+                        wheelX: "panX",
+                        wheelY: "zoomX",
+                        pinchZoomX: true
+                    }));
+
+
+
+                    // Add cursor
+                    var cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+                    cursor.lineY.set("visible", false);
+
+                    // Create axes
+                    var xRenderer = am5xy.AxisRendererX.new(root, { minGridDistance: 30 });
+                    xRenderer.labels.template.setAll({
+                        rotation: -90,
+                        centerY: am5.p50,
+                        centerX: am5.p100,
+                        paddingRight: 15
+                    });
+
+                    var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+                        maxDeviation: 0.3,
+                        categoryField: "MONTH", //add your field name
+                        renderer: xRenderer,
+                        tooltip: am5.Tooltip.new(root, {})
+                    }));
+
+                    var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+                        maxDeviation: 0.3,
+                        //min: 0,
+                        renderer: am5xy.AxisRendererY.new(root, {})
+                    }));
+
+                    // Create series
+                    var series = chart.series.push(am5xy.ColumnSeries.new(root, {
+                        name: "Attendance",
+                        xAxis: xAxis,
+                        yAxis: yAxis,
+                        valueYField: "EMP_COUNT", //add your field name
+                        sequencedInterpolation: true,
+                        categoryXField: "MONTH", //add your field name
+                        tooltip: am5.Tooltip.new(root, {
+                            labelText: "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]"
+                        }),
+                    }));
+
+                    series.columns.template.setAll({
+                        cornerRadiusTL: 5,
+                        cornerRadiusTR: 5,
+                        width: am5.percent(40)
+                    });
+                    series.columns.template.adapters.add("fill", function (fill, target) {
+                        return chart.get("colors").getIndex(series.columns.indexOf(target));
+                    });
+
+                    series.columns.template.adapters.add("stroke", function (stroke, target) {
+                        return chart.get("colors").getIndex(series.columns.indexOf(target));
+                    });
+
+                    //dynamic data pass
+                    var chart_data = [];
+                    for (var i = 0; i < msg.length; i++) {
+                        chart_data.push({
+                            "MONTH": msg[i].MONTH,
+                            "EMP_COUNT": parseInt(msg[i].EMP_COUNT)
                         });
+                    }
+                    console.log(chart_data);
 
-                        var lineSeries = chart.series.push(new am4charts.LineSeries());
-                        lineSeries.name = "Expenses";
-                        lineSeries.dataFields.valueY = "expenses";
-                        lineSeries.dataFields.categoryX = "year";
+                    //var exporting = am5plugins_exporting.Exporting.new(root, {
+                    //    menu: am5plugins_exporting.ExportingMenu.new(root, {
+                    //        align: "right",
+                    //        valign: "bottom",
+                    //        container: document.getElementById("exportdiv"),
 
-                        lineSeries.stroke = am4core.color("#fdd400");
-                        lineSeries.strokeWidth = 3;
-                        lineSeries.propertyFields.strokeDasharray = "lineDash";
-                        lineSeries.tooltip.label.textAlign = "middle";
+                    //    }),
+                    //    dataSource: chart_data,
+                    //    filePrefix: "Monthly Attendance Summary"
+                    //});
 
-                        var bullet = lineSeries.bullets.push(new am4charts.Bullet());
-                        bullet.fill = am4core.color("#fdd400"); // tooltips grab fill from parent by default
-                        bullet.tooltipText =
-                          "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]";
-                        var circle = bullet.createChild(am4core.Circle);
-                        circle.radius = 4;
-                        circle.fill = am4core.color("#fff");
-                        circle.strokeWidth = 3;
+                    //exporting.events.on("dataprocessed", function (ev) {
+                    //    for (var i = 0; i < ev.chart_data.length; i++) {
+                    //        ev.chart_data[i].sum = ev.chart_data[i].MONTH + ev.chart_data[i].value2;
+                    //    }
+                    //});
 
-                        chart.data = data;
-                    }); // end am4core.ready()
+                    xAxis.data.setAll(chart_data);
+                    series.data.setAll(chart_data);
 
-                }
-            });
+                    // Make stuff animate on load
+                    series.appear(1000);
+                    chart.appear(1000, 100);
+
+                }); // end am5.ready()
+                @* Rev end 5.0 *@
+            }
+        });
+
               var employeeUrl = '@Url.Action("GetUserData", "DashboardMenu")'
                 $.ajax({
                     type: "POST",
@@ -520,12 +688,18 @@
     }
 @*End of Mantis Issue 25455*@
 </script>
+
 <script>
     $(document).ready(function () {
         $('.calPopup .closbtn').click(function () {
             $('.calPopup, .calBackdrop').removeClass('in');
         })
         $("#getTotalA").click(function () {
+            /*Rev 6.0*/
+            if (!isShowAttendanceDataClicked) {
+                return; // Disable click event
+            }
+            /*Rev end 6.0*/
             var Url = '@Url.Action("GetTotalAttendance", "Attendance")'
 
             $.ajax({
@@ -559,6 +733,11 @@
             });
         })
         $("#getAbsentToday").click(function () {
+            /*Rev 6.0*/
+            if (!isShowAttendanceDataClicked) {
+                return; // Disable click event
+            }
+            /*Rev end 6.0*/
             var Url = '@Url.Action("GetAbsentToday", "Attendance")'
 
             $.ajax({
@@ -592,6 +771,11 @@
             });
         });
         $("#getOnTimeToday").click(function () {
+            /*Rev 6.0*/
+            if (!isShowAttendanceDataClicked) {
+                return; // Disable click event
+            }
+            /*Rev end 6.0*/
             var Url = '@Url.Action("GetOntime", "Attendance")'
 
             $.ajax({
@@ -625,6 +809,11 @@
             });
         });
         $("#getLateToday").click(function () {
+            /*Rev 6.0*/
+            if (!isShowAttendanceDataClicked) {
+                return; // Disable click event
+            }
+            /*Rev end 6.0*/
             var Url = '@Url.Action("GetLateToday", "Attendance")'
 
             $.ajax({
@@ -662,13 +851,47 @@
             });
         });
         /*rev 4.0*/
-        $('.toggleFullScreen').click(function () {
-            $(this).parent('.box-full').toggleClass('');
-            if ($(this).parent(".box-full").hasClass("full-screen")) {
-                $(this).parent(".box-full").removeClass("full-screen");
-            } else {
-                $(this).parent(".box-full").addClass("full-screen");
-            }
+        //$('.toggleFullScreen').click(function () {
+        //    $(this).parent('.box-full').toggleClass('');
+        //    if ($(this).parent(".box-full").hasClass("full-screen")) {
+        //        $(this).parent(".box-full").removeClass("full-screen");
+        //    } else {
+        //        $(this).parent(".box-full").addClass("full-screen");
+        //    }
+        //});
+
+        //var toggleFullScreenElements = document.querySelectorAll('.toggleFullScreen');
+        //toggleFullScreenElements.forEach(function (element) {
+        //    element.addEventListener('click', function () {
+        //        var parentBoxFull = this.parentNode;
+        //        parentBoxFull.classList.toggle('full-screen');
+        //        if (parentBoxFull.classList.contains('full-screen')) {
+        //            parentBoxFull.classList.remove('full-screen');
+        //            this.setAttribute('data-original-title', 'Minimize');
+        //        } else {
+        //            parentBoxFull.classList.add('full-screen');
+        //            this.setAttribute('data-original-title', 'Maximize');
+        //        }
+        //    });
+        //});
+
+        var toggleFullScreenElements = document.querySelectorAll('.toggleFullScreen');
+        toggleFullScreenElements.forEach(function (element) {
+            element.addEventListener('click', function () {
+                var parentBoxFull = this.parentNode;
+                parentBoxFull.classList.toggle('full-screen');
+
+                var toggleButton = this.querySelector('img');
+                if (parentBoxFull.classList.contains('full-screen')) {
+                    parentBoxFull.classList.remove('full-screen');
+                    this.setAttribute('data-original-title', 'Minimize');
+                    toggleButton.src = '/assests/images/minimize.png';
+                } else {
+                    parentBoxFull.classList.add('full-screen');
+                    this.setAttribute('data-original-title', 'Maximize');
+                    toggleButton.src = '/assests/images/maximize.png';
+                }
+            });
         });
         /*rev end 4.0*/
     });
@@ -767,9 +990,9 @@
         color: #082f5c;
     }
 
-        .infoWrp > .txts {
-            font-size: 80%;
-        }
+    .infoWrp > .txts {
+        font-size: 80%;
+    }
 
     .mrLinks {
         /*cursor: pointer;*/
@@ -825,6 +1048,7 @@
             font-size: 15px;
             font-weight: 600;
             padding: 8px 15px;
+            color: #555;
         }
 
         .box-holder .bxd-cont {
@@ -885,12 +1109,14 @@
         color: #fff
     }
 
-    #getTotalA, #getAbsentToday, #getOnTimeToday, #getLateToday {
+    /*#getTotalA, #getAbsentToday, #getOnTimeToday, #getLateToday {
         cursor: pointer;
-    }
+    }*/
 
-    .font-normal {
-        font-size: 14px !important;
+    .emp-dropdown-title > .font-normal {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #555 !important;
     }
 
     .pignose-calendar {
@@ -918,31 +1144,37 @@
             }
 
     .sltemp {
-        padding: 5px 10px 0 15px;
+        padding: 0px 10px 0 15px;
         /* margin-top: 5px; */
         max-width: 150px;
     }
 
     .lagendInfo {
-        font-size: 14px;
+        font-size: 16px !important;
         margin: 10px 0;
+        font-weight: 500 !important;
     }
 
-        .lagendInfo .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 15px;
-            display: inline-block;
-            margin-right: 7px;
+    #leavesS tr td {
+        font-size: 14px !important;
+        font-weight: 400 !important;
+    }
+
+    .lagendInfo .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 15px;
+        display: inline-block;
+        margin-right: 7px;
+    }
+
+        .lagendInfo .dot.Present {
+            background: #50c36e;
         }
 
-            .lagendInfo .dot.Present {
-                background: #50c36e;
-            }
-
-            .lagendInfo .dot.Leave {
-                background: #757272;
-            }
+        .lagendInfo .dot.Leave {
+            background: #757272;
+        }
 
     .separt {
         width: 20px;
@@ -1022,6 +1254,15 @@
         background-color: #175295;
     }
     /*Rev end 3.0*/
+
+    .am5exporting-menu.am5exporting-align-right, .am5exporting-icon.am5exporting-align-right, .am5exporting-list.am5exporting-align-right {
+        right: 12px !important;
+        bottom: 4px;
+    }
+
+    .am5exporting-icon {
+        background: rgb(207 207 207);
+    }
 </style>
 
 <div class="row">
@@ -1129,12 +1370,12 @@
 
                 @*<td><button type="button" class="btn btn-success" onclick="ShowAttendanceData()">Show</button></td>*@
                 <td>
-                    <span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">
-                        @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
-                        <button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;">
-                            <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;" /> click here to show data
-                            @*<div class="hands attendance-tb-hand"></div>*@
-                        </button>
+                    @*<span class="tool cust-tooltip-cls" data-tip="Click to Show Dashboard Summary" tabindex="1">*@
+                    @*<button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;" data-toggle="tooltip" title="" data-placement="top" data-original-title="Click to Show Dashboard Summary">*@
+                    <button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowAttendanceData()" style=" line-height: 20px;">
+                        <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;" /> click here to show data
+                        @*<div class="hands attendance-tb-hand"></div>*@
+                    </button>
                     </span>
                 </td>
             </tr>
@@ -1158,7 +1399,7 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <table style="width: 100%; margin-top: 5px;">
+                        <table style="width: 100%; margin-top: 10px;">
                             <tr>
                                 <td class="emp-dropdown-title"><span class="font-normal">Employee</span></td>
                                 <td class="sltemp">
@@ -1166,6 +1407,7 @@
                                         <option></option>
                                     </select>
                                 </td>
+
                             </tr>
                         </table>
 
@@ -1183,8 +1425,9 @@
     </div>
     <div class="col-md-7">
         <div class="box-holder mTop10 box-full">
-            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                <img src="/assests/images/maximize.png" />
             </span>
             <div class="clearfix">
                 <div class="row">
@@ -1495,6 +1738,37 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
             </div>
         </div>
     </div>

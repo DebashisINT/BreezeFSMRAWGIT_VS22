@@ -671,6 +671,14 @@
         padding-top: 24px;
     }
     /*Rev end 2.0*/
+
+    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11
+    {
+        margin-bottom: 10px;
+    }
+    label {
+        margin-bottom: 0px;
+    }
 </style>
 
 <script>
@@ -821,15 +829,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <table class="eqpadtbl mb-3">
-                            <tr>
-                                @*Rev 2.0*@
-                                @*<td class="w150 relative">*@
-                                <td class="w150 relative for-cust-icon">
-                                    @*Rev end 2.0*@
-                                    <label>From Date</label>
-                                    <div>
-                                        @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                        <div class="col-md-3 relative for-cust-icon">
+                            <label>From Date</label>
+                            <div>
+                                @Html.DevExpress().DateEditFor(x => x.Fromdate,
                                 deSettings =>
                                 {
                                     deSettings.Name = "dtFrom";
@@ -842,22 +845,19 @@
                                     deSettings.Properties.ShowOutOfRangeWarning = false;
                                     deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
                                 }).GetHtml()
-                                        @*Rev 2.0*@
-                                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
-                                        @*Rev end 2.0*@
-                                        <span id="MandatoryFromDate" style="display: none" class="validclass">
-                                            <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                                        </span>
-                                    </div>
-                                </td>
                                 @*Rev 2.0*@
-                                @*<td class="w150 relative">*@
-                                <td class="w150 relative for-cust-icon">
-                                    @*Rev end 2.0*@
-                                    <label>To Date</label>
-                                    <div>
-                                        @*@Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true, @tabindex = 3 })*@
-                                        @Html.DevExpress().DateEditFor(x => x.Todate,
+                                <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                @*Rev end 2.0*@
+                                <span id="MandatoryFromDate" style="display: none" class="validclass">
+                                    <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 relative for-cust-icon">
+                            <label>To Date</label>
+                            <div>
+                                @*@Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true, @tabindex = 3 })*@
+                                @Html.DevExpress().DateEditFor(x => x.Todate,
                                 deSettings =>
                                 {
                                     deSettings.Name = "dtTo";
@@ -871,36 +871,37 @@
                                     deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
 
                                 }).GetHtml()
-                                        @*Rev 2.0*@
-                                        <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
-                                        @*Rev end 2.0*@
-                                        <span id="MandatoryToDate" style="display: none" class="validclass">
-                                            <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                                        </span>
-                                    </div>
-                                </td>
-
-                                <td class="w150">
-                                    <label>State </label>
-                                    <div>
-                                        @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
-                                        @*<span id="MandatoryState" style="display: none" class="validclass">
+                                @*Rev 2.0*@
+                                <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                @*Rev end 2.0*@
+                                <span id="MandatoryToDate" style="display: none" class="validclass">
+                                    <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label>State </label>
+                            <div>
+                                @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
+                                @*<span id="MandatoryState" style="display: none" class="validclass">
                     <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
                 </span>*@
-                                    </div>
-                                </td>
-                                <td class="w150">
-                                    <label>Designation</label>
-                                    <div>
-                                        @Html.Action("GetDesigList", "SalesReportSummary")
-                                    </div>
-                                </td>
-                                <td class="w150">
-                                    <label>Employee(s)</label>
-                                    <div>
-                                        @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
+                            </div>
+                        </div>
 
-                                        @Html.DevExpress().ButtonEdit(
+                        <div class="col-md-3">
+                            <label>Designation</label>
+                            <div>
+                                @Html.Action("GetDesigList", "SalesReportSummary")
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Employee(s)</label>
+                            <div>
+                                @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
+
+                                @Html.DevExpress().ButtonEdit(
                                 settings =>
                                 {
                                     settings.Name = "EmployeeTxt";
@@ -913,40 +914,33 @@
 
                                 }).GetHtml()
 
-                                    </div>
-                                </td>
-                                @*Rev 1.0 Mantis:0025586*@
-                            <td class="w10 inputSpacer" style="padding-top: 21px; width: 230px;">
-                                @*Rev 2.0*@
-                                @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>*@
-                                <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
-                                <label for="">Show Revisit Contact Details</label>
-                                @*Rev end 2.0*@
-                            </td>
-                                @*End of Rev 1.0 Mantis:0025586*@
-                            </tr>
-                            <tr>
-                                @*Rev 2.0*@
-                                @*<td style="padding-top: 22px;width:170px;">*@
-                                <td style="padding-top: 22px;width:190px;">
-                                    @*Rev end 2.0*@
-                                    <label></label>
-                                    <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
-                                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                                        <option value="0">Export to</option>
-                                        <option value="1">PDF</option>
-                                        <option value="2">XLSX</option>
-                                        <option value="3">XLS</option>
-                                        <option value="4">RTF</option>
-                                        <option value="5">CSV</option>
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="padding-top: 25px; width: 260px;">
+                            @*Rev 2.0*@
+                            @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>*@
+                            <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
+                            <label for="">Show Revisit Contact Details</label>
+                            @*Rev end 2.0*@
+                        </div>
+                        <div class="col-md-3" style="padding-top: 21px;">
+                            @*Rev end 2.0*@
+                            <label></label>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="1">PDF</option>
+                                <option value="2">XLSX</option>
+                                <option value="3">XLS</option>
+                                <option value="4">RTF</option>
+                                <option value="5">CSV</option>
 
-                                    </select>
+                            </select>
+                        </div>
 
-                                </td>
-                            </tr>
-                        </table>
+                            
+                        </div>
                     </div>
-                </div>
 
             </div>
             <input type="hidden" id="hdnuser_id" />

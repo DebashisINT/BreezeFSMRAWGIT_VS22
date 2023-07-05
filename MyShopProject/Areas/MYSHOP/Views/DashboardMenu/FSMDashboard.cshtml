@@ -5,6 +5,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 3.0          05-04-2023      V2.0.40     Sanchita        ITC user dashboard is taking too much time to respond
                                                          for AE & AM users login credentials. refer: 25781
 4.0          21-04-2023      V2.0.40     Pallab          FSM Dashboard Visit tab console error. refer: 25878
+5.0          22-06-2023      V2.0.41     Pallab          FSM dashboard tab boxes click event disable, when "show data" button not clicked. refer: 26413
 ====================================================== Revision History ==============================================-->
 
 @model MyShop.Models.FSMDashBoardFilter
@@ -1339,8 +1340,16 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
     var Type = "";
     var FilterName = "";
-
+    /*Rev 5.0*/
+    var isShowVisitDataClicked = false;
+    /*Rev end 5.0*/
     function AtWorkClick(elem) {
+        /*Rev 5.0*/
+        if (!isShowVisitDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1353,7 +1362,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         //divBGcolor = $(elem).css('background');
 
         divBGcolor = "transparent";
-        $('#a1').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a1').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a1').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "AT_WORK";
@@ -1371,6 +1384,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
 
     function NotLoggedInClick(elem) {
+        /*Rev 5.0*/
+        if (!isShowVisitDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1381,7 +1400,9 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a3').addClass('activeW');
+        /*$('#a3').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a3').addClass('active');
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "NOT_LOGIN";
@@ -1399,6 +1420,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
 
     function OnLeaveClick(elem) {
+        /*Rev 5.0*/
+        if (!isShowVisitDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1409,7 +1436,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a2').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a2').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a2').addClass('active');
+        /*Rev 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "ON_LEAVE";
@@ -1427,7 +1458,15 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         }, 100)
     }
 
+    
+
     function OnTotalClick(elem) {
+        /*Rev 5.0*/
+        if (!isShowVisitDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1437,7 +1476,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a4').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a4').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a4').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "EMP";
@@ -1453,6 +1496,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
     //TeamVisit Section
     function AtWorkClickTeamVisit(elem) {
+        /*Rev 5.0*/
+        if (!isShowTeamVisitDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+    /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1465,7 +1514,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         //divBGcolor = $(elem).css('background');
 
         divBGcolor = "transparent";
-        $('#a1').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a1').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a1tv').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "AT_WORK";
@@ -1483,6 +1536,13 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
 
     function NotLoggedInClickTeamVisit(elem) {
+        /*Rev 5.0*/
+        if (!isShowTeamVisitDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        elem.removeAttribute('title');
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1493,7 +1553,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2Team').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a3').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a3').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a3tv').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "NOT_LOGIN";
@@ -1511,6 +1575,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
 
     function OnLeaveClickTeamVisit(elem) {
+        /*Rev 5.0*/
+        if (!isShowTeamVisitDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1521,7 +1591,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2Team').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a2').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a2').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a2tv').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "ON_LEAVE";
@@ -1540,6 +1614,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
 
     function OnTotalClickTeamVisit(elem) {
+        /*Rev 5.0*/
+        if (!isShowTeamVisitDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByTeam').val();
         document.getElementById("griddetailsTeam").style.display = "none";
         //document.getElementById("gridsummaryTeam").style.display = "block";
@@ -1549,7 +1629,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2Team').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a4').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a4').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a4tv').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "EMP";
@@ -1670,8 +1754,15 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         $('#map').removeClass('hide');
     }
 
+
     // Mantis Issue 25468
     function OnTotalClickTeamVisitH(elem) {
+        /*Rev 5.0*/
+        if (!isShowTeamVisitHDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByTeamH').val();
         document.getElementById("griddetailsTeamH").style.display = "none";
 
@@ -1679,7 +1770,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2TeamH').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a4').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a4').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a4tvh').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
 
         Type = "Attendance";
@@ -1695,6 +1790,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
 
     function AtWorkClickTeamVisitH(elem) {
+        /*Rev 5.0*/
+        if (!isShowTeamVisitHDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByH').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1703,7 +1804,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         $('.boxWidget').removeClass('activeW');
 
         divBGcolor = "transparent";
-        $('#a1').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a1').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a1tvh').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "AT_WORK";
@@ -1718,6 +1823,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
 
     function OnLeaveClickTeamVisitH(elem) {
+        /*Rev 5.0*/
+        if (!isShowTeamVisitHDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1725,7 +1836,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2Team').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a2').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a2').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a2tvh').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "ON_LEAVE";
@@ -1742,6 +1857,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
 
     function NotLoggedInClickTeamVisitH(elem) {
+        /*Rev 5.0*/
+        if (!isShowTeamVisitHDataClicked) {
+            elem.title = "Please click 'show data' button";
+            return; // Disable click event
+        }
+        /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -1750,7 +1871,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         $('#dashDetails2Team').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
-        $('#a3').addClass('activeW');
+        /*Rev 5.0*/
+        /*$('#a3').addClass('activeW');*/
+        $('.widgBox').removeClass('active');
+        $('#a3tvh').addClass('active');
+        /*Rev end 5.0*/
         $('#collapseTwo').addClass('in');
         Type = "Attendance";
         FilterName = "NOT_LOGIN";
@@ -4037,6 +4162,21 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
     // Mantis Issue 25455
     function ShowVisitData() {
+        /*Rev 5.0*/
+        isShowVisitDataClicked = true;
+        $('#a4').addClass('zoom');
+        $('#a1').addClass('zoom');
+        $('#a2').addClass('zoom');
+        $('#a3').addClass('zoom');
+        var element4v = document.getElementById("a4");
+        var element1v = document.getElementById("a1");
+        var element2v = document.getElementById("a2");
+        var element3v = document.getElementById("a3");
+        element1v.removeAttribute('title');
+        element2v.removeAttribute('title');
+        element3v.removeAttribute('title');
+        element4v.removeAttribute('title');
+        /*Rev end 5.0*/
         if (settingsid == "1") {
             var obj = {};
             obj.ID = "1";
@@ -4173,6 +4313,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
             //}
 
         }
+
     }
     // End of Mantis Issue 25455
 </script>

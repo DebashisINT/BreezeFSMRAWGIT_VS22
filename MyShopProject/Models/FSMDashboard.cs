@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer;
+﻿/*********************************************************************************************************
+ * 1.0     V2.0.41     Sanchita    02/06/2023      FSM - Message will be fired from first tab when logged out from the 2nd tab. Refer: 26273  
+ *********************************************************************************************************************************/
+using BusinessLogicLayer;
 using DataAccessLayer;
 using System;
 using System.Collections.Generic;
@@ -76,8 +79,8 @@ namespace MyShop.Models
         // Rev Sachita
         public string BranchId { get; set; }
         public string BranchIdTV { get; set; }
-      
-        // End of Rev Sanchita
+
+        // End of Rev Sachita
 
         public List<StateData> GetStateList(Int32 userid)
         {
@@ -333,4 +336,10 @@ namespace MyShop.Models
         public List<TargetAchievementEmployeeData> employeewisedata { get; set; }
     }
 
+    // Rev 1.0
+    public class SessionLogoutCheck
+    {
+        public string SessionLoddedOut;
+    }
+    // End of Rev 1.0
 }

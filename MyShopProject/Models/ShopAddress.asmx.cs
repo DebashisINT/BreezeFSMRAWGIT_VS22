@@ -3,8 +3,11 @@
 //                                              per tbl_shoptypeDetails table. Refer: 25578
 // 2.0      V2.0.38    Sanchita    27/01/2023  Assign to DD is not showing while making shop from Portal. Refer: 25606
 // 3.0      V2.0.40    Sanchita    04-05-2023  A New Expense Report is Required for BP Poddar. Refer: 25833*
+// 4.0      V2.0.41    Sanchita    06-06-2023  Inactive DD/PP is showing in the Assign to PP/DD list while creating any Shop
+//                                             Refer: 26262 
 // ********************************************************************************************************************
 using DataAccessLayer;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -33,7 +36,15 @@ namespace MyShop.Models
                 BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
 
                 // Mantis Issue 24450,24451 [column "Shop_Owner_Contact" added]
-                DataTable Shop = oDBEngine.GetDataTable("select top(10)Shop_Code,Entity_Location,Replace(Shop_Name,'''','&#39;') as Shop_Name,EntityCode,Shop_Owner_Contact from tbl_Master_shop where (type=2 and Shop_Name like '%" + SearchKey + "%') or  (type=2 and EntityCode like '%" + SearchKey + "%') or (type=2 and Shop_Owner_Contact like '%" + SearchKey + "%')");
+                // Rev 4.0
+                //DataTable Shop = oDBEngine.GetDataTable("select top(10)Shop_Code,Entity_Location,Replace(Shop_Name,'''','&#39;') as Shop_Name,EntityCode,Shop_Owner_Contact from tbl_Master_shop where (type=2 and Shop_Name like '%" + SearchKey + "%') or  (type=2 and EntityCode like '%" + SearchKey + "%') or (type=2 and Shop_Owner_Contact like '%" + SearchKey + "%')");
+
+                ProcedureExecute proc = new ProcedureExecute("PRC_FTSInsertUpdateNewParty");
+                proc.AddPara("@ACTION", "GetPPShop");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                DataTable Shop = proc.GetTable();
+                // End of Rev 4.0
 
                 // Mantis Issue 24450,24451 [ "Shop_Owner_Contact" added]
                 listShop = (from DataRow dr in Shop.Rows

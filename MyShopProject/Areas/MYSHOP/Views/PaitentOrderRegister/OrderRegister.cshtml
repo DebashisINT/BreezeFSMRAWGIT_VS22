@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                24-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                16-06-2023        2.0.40           Pallab              26362: Patient - Order Register report parameter design issue fix *@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.ReportPaitentOrderRegisterInput
@@ -786,21 +787,21 @@
                                         @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
 
                                         @*<select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                    <option value="">Select</option>
+                        <option value="">Select</option>
 
-                    @foreach (var item in Model.states)
-                    {
-                        if (Model.StateId == item.ID)
+                        @foreach (var item in Model.states)
                         {
-                            <option value="@item.ID" selected="selected">@item.StateName</option>
+                            if (Model.StateId == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.StateName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.StateName</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@item.ID">@item.StateName</option>
-                        }
-                    }
 
-                </select>*@
+                    </select>*@
 
                                     </div>
                                 </td>
@@ -810,19 +811,19 @@
                                         @Html.Action("GetShopList", "MasterPopulate")
 
                                         @*<select id="drpshop" name="drpshop" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                    <option value="">Select</option>
-                    @foreach (var item in Model.shoplist)
-                    {
-                        if (Model.shopId == item.ID)
+                        <option value="">Select</option>
+                        @foreach (var item in Model.shoplist)
                         {
-                            <option value="@item.ID" selected="selected">@item.Name</option>
+                            if (Model.shopId == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
                         }
-                        else
-                        {
-                            <option value="@item.ID">@item.Name</option>
-                        }
-                    }
-                </select>*@
+                    </select>*@
 
                                     </div>
                                 </td>
@@ -844,20 +845,20 @@
                                 }).GetHtml()
                                         @*<select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
 
-                    <option value="">All</option>
-                    @foreach (var item in Model.userlsit)
-                    {
-                        if (Model.selectedusrid == item.UserID)
+                        <option value="">All</option>
+                        @foreach (var item in Model.userlsit)
                         {
-                            <option value="@item.UserID" selected="selected">@item.username</option>
-                        }
-                        else
-                        {
-                            <option value="@item.UserID">@item.username</option>
+                            if (Model.selectedusrid == item.UserID)
+                            {
+                                <option value="@item.UserID" selected="selected">@item.username</option>
+                            }
+                            else
+                            {
+                                <option value="@item.UserID">@item.username</option>
 
+                            }
                         }
-                    }
-                </select>*@
+                    </select>*@
 
                                     </div>
                                 </td>
@@ -919,7 +920,10 @@
                                     @*Rev end 1.0*@
                                 </td>
                                 @*End of Mantis Issue 24593*@
-                                <td style="padding-top: 22px;width:185px;">
+                                @*Rev 2.0: create 2nd table row(tr) For parameter alignment issue fix*@
+                            </tr>
+                            <tr>
+                                <td style="padding-top: 18px;width:185px;">
                                     <label></label>
                                     <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
                                     <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
@@ -934,6 +938,7 @@
 
                                 </td>
                             </tr>
+                            @*End of Rev 2.0*@
                         </table>
                     </div>
                 </div>

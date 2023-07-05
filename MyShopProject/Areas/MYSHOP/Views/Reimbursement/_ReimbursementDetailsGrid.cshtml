@@ -340,13 +340,13 @@
             if (Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_ApprovedPermision")) == 1)
             {
                 ViewContext.Writer.Write(
-                           "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"OpenReimbursementDetailsGridApprovedData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "user_contactId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "ApplicationID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Dist")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Amt")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "App_Rej_Remarks")) + "')\"> <img src='/assests/images/document.png' title='Click to Edit' /></a>"
+                           "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"OpenReimbursementDetailsGridApprovedData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "user_contactId")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "ApplicationID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Dist")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "Apprvd_Amt")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "App_Rej_Remarks")) + "')\"> <img src='/assests/images/appr-rej-icon.png' title='Click to Edit' /></a>"
                       );
             }
             else
             {
                 ViewContext.Writer.Write(
-                                     "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"CheckApprovedPermission('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Checked_Message")) + "')\"> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
+                                     "<a style='cursor:pointer' class='disableHref clsReimbursementDetailsGridApprovedData' onclick=\"CheckApprovedPermission('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Checked_Message")) + "')\"> <img src='/assests/images/appr-rej-icon.png' title='Not Applicable' /></a>"
                               );
             }
         });
@@ -365,14 +365,14 @@
             if (Convert.ToInt32(DataBinder.Eval(c.DataItem, "is_Image")) == 1)
             {
                 ViewContext.Writer.Write(
-                      "<a style='cursor:pointer' onclick=\"OpenReimbursementImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "MapExpenseID")) + "')\"> <img src='/assests/images/document.png' title='Click to View' /></a>"
+                      "<a style='cursor:pointer' class='hover-effect' onclick=\"OpenReimbursementImage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "MapExpenseID")) + "')\"> <img src='/assests/images/Attached.png' title='Click to View' /></a>"
                   );
 
             }
             else
             {
                 ViewContext.Writer.Write(
-                                  "<a style='cursor:pointer' class='disableHref'> <img src='/assests/images/document.png' title='Not Applicable' /></a>"
+                                  "<a style='cursor:pointer' class='disableHref hover-effect'> <img src='/assests/images/Attached.png' title='Not Applicable' /></a>"
                              );
             }
 

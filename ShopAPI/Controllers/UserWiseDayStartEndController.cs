@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.40     Debashis    30/06/2023      One new method has been added.Row: 854
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -25,30 +28,30 @@ namespace ShopAPI.Controllers
             }
             else
             {
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APIUSERWISEDAYSTARTEND", sqlcon);
-                sqlcmd.Parameters.Add("@ACTION", "INSERTDATA");
-                sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                sqlcmd.Parameters.Add("@STARTENDDATE", model.date);
-                sqlcmd.Parameters.Add("@LOCATION_NAME", model.location_name);
-                sqlcmd.Parameters.Add("@LATITUDE", model.latitude);
-                sqlcmd.Parameters.Add("@LONGITUDE", model.longitude);
-                sqlcmd.Parameters.Add("@SHOP_TYPE", model.shop_type);
-                sqlcmd.Parameters.Add("@SHOP_ID", model.shop_id);
-                sqlcmd.Parameters.Add("@ISSTART", model.isStart);
-                sqlcmd.Parameters.Add("@ISEND", model.isEnd);
-                sqlcmd.Parameters.Add("@SALE_VALUE", model.sale_Value);
-                sqlcmd.Parameters.Add("@REMARKS", model.remarks);
-                sqlcmd.Parameters.Add("@VISITDDID", model.visit_distributor_id);
-                sqlcmd.Parameters.Add("@VISITDDNAME", model.visit_distributor_name);
-                sqlcmd.Parameters.Add("@VISITDDDATE", model.visit_distributor_date_time);
-                sqlcmd.Parameters.Add("@ISDDVISTEDONCEBYDAY", model.IsDDvistedOnceByDay);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "INSERTDATA");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@STARTENDDATE", model.date);
+                sqlcmd.Parameters.AddWithValue("@LOCATION_NAME", model.location_name);
+                sqlcmd.Parameters.AddWithValue("@LATITUDE", model.latitude);
+                sqlcmd.Parameters.AddWithValue("@LONGITUDE", model.longitude);
+                sqlcmd.Parameters.AddWithValue("@SHOP_TYPE", model.shop_type);
+                sqlcmd.Parameters.AddWithValue("@SHOP_ID", model.shop_id);
+                sqlcmd.Parameters.AddWithValue("@ISSTART", model.isStart);
+                sqlcmd.Parameters.AddWithValue("@ISEND", model.isEnd);
+                sqlcmd.Parameters.AddWithValue("@SALE_VALUE", model.sale_Value);
+                sqlcmd.Parameters.AddWithValue("@REMARKS", model.remarks);
+                sqlcmd.Parameters.AddWithValue("@VISITDDID", model.visit_distributor_id);
+                sqlcmd.Parameters.AddWithValue("@VISITDDNAME", model.visit_distributor_name);
+                sqlcmd.Parameters.AddWithValue("@VISITDDDATE", model.visit_distributor_date_time);
+                sqlcmd.Parameters.AddWithValue("@ISDDVISTEDONCEBYDAY", model.IsDDvistedOnceByDay);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);
@@ -82,17 +85,17 @@ namespace ShopAPI.Controllers
             }
             else
             {
-                String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
 
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APIUSERWISEDAYSTARTEND", sqlcon);
-                sqlcmd.Parameters.Add("@ACTION", "FETCHDATA");
-                sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                sqlcmd.Parameters.Add("@STARTENDDATE", model.date);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "FETCHDATA");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@STARTENDDATE", model.date);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);
@@ -132,16 +135,16 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
 
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APIUSERWISEDAYSTARTEND", sqlcon);
-                sqlcmd.Parameters.Add("@ACTION", "DAYSTARTENDLIST");
-                sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                sqlcmd.Parameters.Add("@START_DATE", model.start_date);
-                sqlcmd.Parameters.Add("@END_DATE", model.end_date);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "DAYSTARTENDLIST");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@START_DATE", model.start_date);
+                sqlcmd.Parameters.AddWithValue("@END_DATE", model.end_date);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
 
@@ -183,17 +186,17 @@ namespace ShopAPI.Controllers
             else
             {
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
 
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_APIDELETEDAYSTARTENDINFO", sqlcon);
-                sqlcmd.Parameters.Add("@ACTION", "DELETEDAYSTARTENDATTENDANCE");
-                sqlcmd.Parameters.Add("@USER_ID", model.user_id);
-                sqlcmd.Parameters.Add("@DATE", model.date);
-                sqlcmd.Parameters.Add("@ISDAYSTARTDEL", model.isdaystartdel);
-                sqlcmd.Parameters.Add("@ISDAYENDDEL", model.isdayenddel);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "DELETEDAYSTARTENDATTENDANCE");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@DATE", model.date);
+                sqlcmd.Parameters.AddWithValue("@ISDAYSTARTDEL", model.isdaystartdel);
+                sqlcmd.Parameters.AddWithValue("@ISDAYENDDEL", model.isdayenddel);
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
 
@@ -216,5 +219,52 @@ namespace ShopAPI.Controllers
             }
         }
         //End of Rev Debashis Row: 736
+        //Rev 1.0 Row: 854
+        [HttpPost]
+        public HttpResponseMessage UserAttendanceSummary(UserAttendanceSummaryInput model)
+        {
+            UserAttendanceSummaryOutput odata = new UserAttendanceSummaryOutput();
+
+            if (!ModelState.IsValid)
+            {
+                odata.status = "213";
+                odata.message = "Some input parameters are missing.";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, odata);
+            }
+            else
+            {
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+
+                DataTable dt = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_APIUSERWISEDAYSTARTEND", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "USERATTENDANCESUMMARY");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    odata.status = "200";
+                    odata.message = "Success.";
+                    odata.total_work_day = Convert.ToInt16(dt.Rows[0]["total_work_day"].ToString());
+                    odata.total_present_day = Convert.ToInt16(dt.Rows[0]["total_present_day"].ToString());
+                    odata.total_absent_day = Convert.ToInt16(dt.Rows[0]["total_absent_day"].ToString());
+                    odata.total_qualified_day = Convert.ToInt16(dt.Rows[0]["total_qualified_day"].ToString());
+                }
+                else
+                {
+                    odata.status = "205";
+                    odata.message = "No data found.";
+                }
+                var message = Request.CreateResponse(HttpStatusCode.OK, odata);
+                return message;
+            }
+        }
+        //End of Rev 1.0 Row: 854
     }
 }

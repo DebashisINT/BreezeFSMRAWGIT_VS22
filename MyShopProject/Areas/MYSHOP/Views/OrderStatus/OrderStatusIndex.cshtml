@@ -2,6 +2,7 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                20-01-2023        2.0.38           Pallab              25576: Report page design modification *@
 @*2.0                05-05-2023        2.0.39           Pallab              26039: Design enhancement for small device of Order Status page *@
+@*3.0                01-06-2023        2.0.40           Pallab              26276: Order Status module "Product List" popup design issue fix *@
 @*====================================================== Revision History ==========================================================*@
 
 @model MyShop.Models.OrderStatusModel
@@ -439,7 +440,7 @@
 
 <style>
     .modal-content {
-        border-radius: 0px;
+        border-radius: 6px;
     }
 
     .modal-header {
@@ -892,6 +893,7 @@
     .eqpadtbl > tbody > tr > td:not(:last-child) {
         padding-right: 20px;
     }
+
     .for-cust-icon {
         position: relative;
         z-index: 1;
@@ -902,6 +904,7 @@
         z-index: 1;
         background: transparent;
     }
+
     #dtFrom_B-1, #dtTo_B-1 {
         background: transparent !important;
         border: none;
@@ -917,13 +920,19 @@
     #dtFrom_I, #dtTo_I {
         background: transparent;
     }
+
     label {
         margin-bottom: 0px;
     }
+
     .tblspace > tbody > tr > td {
         padding-bottom: 5px;
     }
     /*Rev end 1.0*/
+
+    #divModalBody {
+        padding: 10px;
+    }
 </style>
 
 
@@ -1092,8 +1101,12 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Product List</h4>
             </div>
-            <div style="height: 267px;">
-                <div id="divModalBody" style="padding-left:20px;">
+            @*Rev 3.0*@
+            @*<div style="height: 267px;">*@
+            <div style="">
+                @*<div id="divModalBody" style="padding-left:20px;">*@
+                <div id="divModalBody" style="">
+                    @*Rev end 3.0*@
                     <div>
                         @{
                             Html.RenderAction("PartialOrderStatusAllProducts", "OrderStatus");

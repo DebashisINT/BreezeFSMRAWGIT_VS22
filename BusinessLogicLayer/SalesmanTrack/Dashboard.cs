@@ -1,4 +1,8 @@
-﻿using DataAccessLayer;
+﻿/******************************************************************************************************************
+ * Rev 1.0      27-06-2023      Sanchita V2.0.41     State & Branch selection facility is required in the Order Analytics in Dashboard
+ *                                                      Refer: 26309
+ * ******************************************************************************************************************/
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -344,7 +348,10 @@ namespace BusinessLogicLayer.SalesmanTrack
 
             return ds;
         }
-        public DataSet GetOrderAnalytics(string fromDate, string toDate, string reportType, string USERID="0")
+        // Rev 1.0
+        //public DataSet GetOrderAnalytics(string fromDate, string toDate, string reportType, string USERID="0")
+        public DataSet GetOrderAnalytics(string fromDate, string toDate, string reportType, string stateid, string branchid, string USERID = "0")
+            // End of Rev 1.0
         {
             DataSet ds = new DataSet();
             ProcedureExecute proc = new ProcedureExecute("PRC_FTSORDERDBWITHANOTHERTAB_REPORT");
@@ -354,6 +361,10 @@ namespace BusinessLogicLayer.SalesmanTrack
             //proc.AddPara("@REPORTTYPE", reportType);
             proc.AddPara("@REPORTTYPE", reportType);
             proc.AddPara("@USERID", USERID);
+            // Rev 1.0
+            proc.AddPara("@STATEID", stateid);
+            proc.AddPara("@BRANCHID", branchid);
+            // End of Rev 1.0
             ds = proc.GetDataSet();
 
             return ds;

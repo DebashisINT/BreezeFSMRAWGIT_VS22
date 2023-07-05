@@ -5,7 +5,7 @@
     settings.CallbackRouteValues = new { Action = "PartialOrderSummary", Controller = "OrderSummary" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallback";
 
-    
+
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
@@ -102,13 +102,13 @@
         });
 
         settings.Columns.Add(x =>
-      {
-          x.FieldName = "order_amount";
-          x.Caption = "Order Value";
-          x.VisibleIndex = 10;
-          x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-          x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
-      });
+        {
+            x.FieldName = "order_amount";
+            x.Caption = "Order Value";
+            x.VisibleIndex = 10;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+        });
 
         settings.Columns.Add(x =>
         {
@@ -116,7 +116,8 @@
             x.VisibleIndex = 11;
             x.SetDataItemTemplateContent(c =>
             {
-                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">View</a>");
+                //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">View</a>");
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/eye2.png\" /></a>");
             });
 
 
@@ -127,7 +128,8 @@
             x.VisibleIndex = 12;
             x.SetDataItemTemplateContent(c =>
             {
-                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Delete</a>");
+                //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Delete</a>");
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/Delete.png\" /></a>");
             });
 
         });
@@ -141,12 +143,13 @@
                 x.VisibleIndex = 18;
                 x.SetDataItemTemplateContent(c =>
                 {
-                    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"PrintOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Print</a>");
+                    //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"PrintOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Print</a>");
+                    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"PrintOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/print.png\" /></a>");
                 });
 
             });
         }
-        
+
         //End of Mantis Issue 24944
     }
     if (TempData["IsPaitentDetails"].ToString() == "1")
@@ -237,7 +240,7 @@
             x.FieldName = "Hospital";
             x.Caption = "Patient Hospital";
             x.VisibleIndex = 11;
-           // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+            // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         });
 
         settings.Columns.Add(x =>
@@ -247,7 +250,7 @@
             x.VisibleIndex = 12;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         });
-        
+
         settings.Columns.Add(x =>
         {
             x.FieldName = "date";
@@ -295,11 +298,11 @@
             });
 
         });
-        
+
     }
     //End of Rev Debashis
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "order_amount").DisplayFormat = "0.00";
-    
-    
-    
+
+
+
 }).Bind(Model).GetHtml()

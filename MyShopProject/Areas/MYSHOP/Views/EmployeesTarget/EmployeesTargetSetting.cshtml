@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                10-02-2023        2.0.39           Pallab              25656 : Master module design modification *@
+@*2.0                30-06-2023        2.0.41           Pallab              26471 : Employees Target Setting module responsive issue fix and make mobile friendly *@
 @*====================================================== Revision History ==========================================================*@
 
 @using MyShop.Models;
@@ -375,6 +376,7 @@
         position: relative;
         z-index: 1;
         background-color: transparent;
+        padding: 2px 23px 2px 5px;
     }
 
     .dxgvControl_PlasticBlue a {
@@ -394,6 +396,41 @@
     }
 
     /*Rev end 1.0*/
+    /*Rev 2.0*/
+    @@media only screen and (max-width: 768px) {
+        .breadCumb {
+            padding: 0 12%;
+        }
+
+        .breadCumb > span {
+           padding: 9px 12px;
+        }
+        .myAssignTarget > li.mainHeadCenter {
+            display: block !important;
+            font-size: 16px !important;
+        }
+
+        .myAssignTarget > li:not(:last-child) {
+            margin-right: 0 !important;
+        }
+
+        .myAssignTarget > li.mainCircle {
+            width: 49%;
+        }
+
+        .assigned-target-box {
+            padding: 22px 10px 3px !important;
+        }
+
+        .secboxback {
+            margin-bottom: 12px;
+        }
+
+        .parameter-action-buttons button {
+            margin-bottom: 8px;
+        }
+    }
+    /*Rev end 2.0*/
 </style>
 
 <div class="breadCumb">
@@ -402,7 +439,7 @@
 </div>
 
 <div class="container">
-    <div class="pull-right clearfix" style="background: #fff; margin-top: 15px; padding: 7px 10px 3px; border-radius: 10px;">
+    <div class="pull-right clearfix assigned-target-box" style="background: #fff; margin-top: 15px; padding: 7px 10px 3px; border-radius: 10px;">
         <ul class="myAssignTarget">
             <li class="mainHeadCenter">
                 Assigned Target
@@ -996,7 +1033,7 @@
                     @*Rev 1.0*@
                     @*<div class="col-lg-5">*@
                     <div class="col-lg-5 h-branch-select">
-                    @*Rev end 1.0*@
+                        @*Rev end 1.0*@
                         <label><b> Target</b></label>
                         @Html.DropDownList("ddlEmpType", new SelectList(Model.TypeList, "EmployeesTargetSettingEmpTypeID", "TypeName"), new { @id = "ddlEmpType", @class = "form-control", @onChange = "EmpTargetTypeChange()" })
                     </div>
@@ -1074,7 +1111,7 @@
                 </div>
             </div>
             <div class="clear"></div>
-            <div class="col-md-12  mt-3 mb-3">
+            <div class="col-md-12  mt-3 mb-3 parameter-action-buttons">
                 <button type="button" onclick="getEmployeesTargetSettingList();" id="btnSearch" class="btn btn-success">Search</button>
 
                 <button type="button" onclick="getDownloadTemplateSettings();" class="btn btn-info">Download Template</button>

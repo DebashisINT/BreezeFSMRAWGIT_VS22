@@ -71,7 +71,7 @@
                 {
                     @*<span>Employee Attendance Summary/*Add to check*/</span>*@
                 }
-                <ul class="mapShowlist">
+                <ul class="mapShowlist clearfix">
                     <li class="relative">
                         @Html.Action("DashboardStateComboboxTV")
                     </li>
@@ -159,7 +159,7 @@
                     @if (Model.Where(x => x.DetailsName == "Total Employees for Team Visit").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox c2" id="a4" onclick="OnTotalClickTeamVisit(this);">
+                            <div class="widgBox c2" id="a4tv" onclick="OnTotalClickTeamVisit(this);">
                                 <div class="d-flex  align-items-center">
                                     <div class="icon">
                                         @*<span class="lnr lnr-users"></span>*@
@@ -183,7 +183,7 @@
                     @if (Model.Where(x => x.DetailsName == "At Work for Team Visit").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox c3" id="" onclick="AtWorkClickTeamVisit(this);">
+                            <div class="widgBox c3" id="a1tv" onclick="AtWorkClickTeamVisit(this);">
                                 <div class="d-flex  align-items-center">
                                     <div class="icon">
                                         @*<span class="lnr lnr-briefcase"></span>*@
@@ -206,7 +206,7 @@
                     @if (Model.Where(x => x.DetailsName == "On Leave for Team Visit").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox c5" id="" onclick="OnLeaveClickTeamVisit(this);">
+                            <div class="widgBox c5" id="a2tv" onclick="OnLeaveClickTeamVisit(this);">
                                 <div class="d-flex  align-items-center">
                                     <div class="icon">
                                         @*<span class="lnr lnr-calendar-full"></span>*@
@@ -229,7 +229,7 @@
                     @if (Model.Where(x => x.DetailsName == "Not Logged In for Team Visit").Count() > 0)
                     {
                         <div class="flex-itm scr ">
-                            <div class="widgBox c4" id="" onclick="NotLoggedInClickTeamVisit(this);">
+                            <div class="widgBox c4" id="a3tv" onclick="NotLoggedInClickTeamVisit(this);">
                                 <div class="d-flex  align-items-center">
                                     <div class="icon">
                                         @*<span class="lnr lnr-power-switch transNotLogged"></span>*@

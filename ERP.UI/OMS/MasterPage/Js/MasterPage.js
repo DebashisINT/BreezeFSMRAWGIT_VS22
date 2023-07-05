@@ -1,9 +1,6 @@
-﻿
-window.onunload = function () {
+﻿window.onunload = function () {
     eraseCookie('ERPACTIVEURL');
 };
-
-
 
 (function (global) {
 

@@ -474,6 +474,17 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         padding: 7px 10px !important;
     }
 
+    #PopupCountry_PW-1
+    {
+        width: 90% !important;
+        left: 5% !important;
+    }
+
+    .stateDiv
+    {
+        margin-bottom: 5px !important;
+    }
+
     /*Rev end 1.0*/
     </style>
 

@@ -1144,6 +1144,18 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             background-color: #e0e0e0;
     }
     /*Rev end 3.0*/
+
+    @media only screen and (max-width: 768px) 
+    {
+        .breadCumb {
+            padding: 0 18%;
+        }
+
+        .breadCumb > span
+        {
+            padding: 9px 15px;
+        }
+    }
     </style>
     <%--  <link href="../../css/choosen.min.css" rel="stylesheet" />--%>
 

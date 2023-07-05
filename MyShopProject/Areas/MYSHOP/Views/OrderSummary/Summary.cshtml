@@ -2,7 +2,8 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                20-01-2023        2.0.38           Pallab              25576: Report page design modification *@
 @*2.0                03-02-2023        2.0.38           PRITI               0025604: Enhancement Required in the Order Summary Report *@
-
+@*3.0                30-0-2023         2.0.41           Sanchita            Employee filtration is not working in Order summary Report. 
+                                                                            Refer: 26260    *@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.Reportorderregisterinput
@@ -91,6 +92,9 @@
         });
 
         $('body').on('click', '#btnshow', function () {
+            // Rev 3.0
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+            // End of Rev 3.0
             var flag = true;
             datefrm = dtFrom.GetText();
             var newdatefrom = datefrm.split("-").reverse().join("-");
@@ -863,6 +867,10 @@
         padding-right: 20px;
     }
     /*Rev end 1.0*/
+
+    .cust-margin-top {
+        margin-top: 26px !important;
+    }
 </style>
 
 
@@ -871,7 +879,7 @@
         $('#EmployeeModel').on('shown.bs.modal', function () {
             $('#txtEmployeeSearch').focus();
         })
-        
+
     })
     var ProdArr = new Array();
     $(document).ready(function () {
@@ -1057,20 +1065,22 @@
                                 @*Rev end 1.0*@
                             </td>
                             @*End of Rev Debashis*@
-                            <td style="padding-top: 22px;width:180px;">
-                                <label></label>
-                                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
-                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                                    <option value="0">Export to</option>
-                                    <option value="1">PDF</option>
-                                    <option value="2">XLSX</option>
-                                    <option value="3">XLS</option>
-                                    <option value="2">RTF</option>
-                                    <option value="2">CSV</option>
+                        </tr>
+                        <tr>
+                        <td style="padding-top: 22px;width:180px;">
+                            <label></label>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="1">PDF</option>
+                                <option value="2">XLSX</option>
+                                <option value="3">XLS</option>
+                                <option value="2">RTF</option>
+                                <option value="2">CSV</option>
 
-                                </select>
+                            </select>
 
-                            </td>
+                        </td>
                         </tr>
                     </table>
                 </div>

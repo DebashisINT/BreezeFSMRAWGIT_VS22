@@ -702,7 +702,50 @@
                 font-size: 12px;
             }
         /*End of Rev 3.0*/
+
+        #userGrid a img
+        {
+            transition: all .3s;
+        }
+
+        #userGrid a:hover img
+        {
+            transform: scale(1.1, 1.1);
+        }
     /*Rev end 2.0*/
+
+    @media only screen and (max-width: 768px) {
+        .breadCumb {
+            padding: 0 28%;
+        }
+
+        .breadCumb > span {
+            padding: 9px 40px;
+        }
+
+        .FilterSide
+        {
+            width: 100% !important;
+        }
+
+        #marketsGrid_DXPEForm_PW-1
+        {
+            width: 330px !important;
+        }
+
+        #ShowFilter, #divUser, #show-btn
+        {
+                display: block;
+                margin-bottom: 10px;
+        }
+
+        .overflow-x-auto
+        {
+            overflow-x: auto;
+            width: 290px !important;
+        }
+
+    }
     </style>
     <link href="/assests/pluggins/Transfer/icon_font/css/icon_font.css" rel="stylesheet" />
     
@@ -1531,7 +1574,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>
+                                            <td id="show-btn">
                                                  <% if (rights.CanView)
                                                    { %>
                                                     <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
@@ -1552,180 +1595,183 @@
                 </tr>
                 <tr>
                     <td>
-                        <%--Rev 1.0 [ DataSourceID="EntityServerlogModeDataSource"  added ]--%>
-                        <dxe:ASPxGridView ID="userGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False" DataSourceID="EntityServerlogModeDataSource"
-                            KeyFieldName="user_id" Width="100%" OnCustomCallback="userGrid_CustomCallback" OnCustomJSProperties="userGrid_CustomJSProperties" SettingsBehavior-AllowFocusedRow="true"
-                            SettingsCookies-Enabled="true" SettingsCookies-StorePaging="true" SettingsCookies-StoreFiltering="true" SettingsCookies-StoreGroupingAndSorting="true" Settings-HorizontalScrollBarMode="Auto">
-                            <%--DataSourceID="RootUserDataSource"--%>
-                            <Columns>
-                                <%--Rev 1.0 [SortOrder="Descending"  added]   --%>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="0" FieldName="user_id" SortOrder="Descending"
-                                    Visible="False">
-                                    <EditFormSettings Visible="False"></EditFormSettings>
-                                </dxe:GridViewDataTextColumn>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="1" FieldName="user_name"
-                                    Caption="Name" Width="200px">
-                                    <PropertiesTextEdit>
-                                        <ValidationSettings ErrorDisplayMode="ImageWithText" ErrorTextPosition="Bottom" SetFocusOnError="True">
-                                            <RequiredField ErrorText="Please Enter user Name" IsRequired="True" />
-                                        </ValidationSettings>
-                                    </PropertiesTextEdit>
-                                    <EditFormSettings Caption="User Name:" Visible="True" />
-                                </dxe:GridViewDataTextColumn>
-                                <dxe:GridViewDataTextColumn VisibleIndex="2" Caption="Designation" FieldName="designation"  Width="200px">
-                                </dxe:GridViewDataTextColumn>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="3" FieldName="user_loginId"
-                                    Caption="Login ID" Width="120px">
-                                    <PropertiesTextEdit>
-                                        <ValidationSettings ErrorDisplayMode="ImageWithText" ErrorTextPosition="Bottom" SetFocusOnError="True">
-                                            <RequiredField ErrorText="Please Enter Login Id" IsRequired="True" />
-                                        </ValidationSettings>
-                                    </PropertiesTextEdit>
-                                    <EditFormSettings Caption="Login Id:" Visible="True" />
-                                </dxe:GridViewDataTextColumn>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="4" FieldName="AssignedUser"
-                                    Caption="Associated User" Width="150px">
-                                    <PropertiesTextEdit>
-                                    </PropertiesTextEdit>
-                                    <EditFormSettings Visible="false" />
-                                </dxe:GridViewDataTextColumn>
-                                <%--Mantis Issue 24740 --%>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="4" FieldName="AssignedUserID"
-                                    Caption="Associated ID"  Width="150px">
-                                    <PropertiesTextEdit>
-                                    </PropertiesTextEdit>
-                                    <EditFormSettings Visible="false" />
-                                </dxe:GridViewDataTextColumn>
-                                <%--End of Mantis Issue 24740 --%>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="5" FieldName="BranchName"
-                                    Caption="Branch" Width="220px" >
-                                    <PropertiesTextEdit>
-                                    </PropertiesTextEdit>
-                                    <EditFormSettings Visible="false" />
-                                </dxe:GridViewDataTextColumn>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="6" FieldName="grp_name"
-                                    Caption="Group" Width="220px">
-                                    <PropertiesTextEdit>
-                                    </PropertiesTextEdit>
-                                    <EditFormSettings Visible="false" />
-                                </dxe:GridViewDataTextColumn>
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="7" FieldName="Status"
-                                    Caption="User Status"  Width="100px">
-                                    <PropertiesTextEdit>
-                                        <ValidationSettings ErrorDisplayMode="ImageWithText" ErrorTextPosition="Bottom" SetFocusOnError="True">
-                                            <RequiredField ErrorText="Please Enter Login Id" IsRequired="True" />
-                                        </ValidationSettings>
-                                    </PropertiesTextEdit>
-                                    <EditFormSettings Caption="Login Id:" Visible="True" />
-                                </dxe:GridViewDataTextColumn>
+                        <div class="overflow-x-auto">
+                            <%--Rev 1.0 [ DataSourceID="EntityServerlogModeDataSource"  added ]--%>
+                            <dxe:ASPxGridView ID="userGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False" DataSourceID="EntityServerlogModeDataSource"
+                                KeyFieldName="user_id" Width="100%" OnCustomCallback="userGrid_CustomCallback" OnCustomJSProperties="userGrid_CustomJSProperties" SettingsBehavior-AllowFocusedRow="true"
+                                SettingsCookies-Enabled="true" SettingsCookies-StorePaging="true" SettingsCookies-StoreFiltering="true" SettingsCookies-StoreGroupingAndSorting="true" Settings-HorizontalScrollBarMode="Auto">
+                                <%--DataSourceID="RootUserDataSource"--%>
+                                <Columns>
+                                    <%--Rev 1.0 [SortOrder="Descending"  added]   --%>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="0" FieldName="user_id" SortOrder="Descending"
+                                        Visible="False">
+                                        <EditFormSettings Visible="False"></EditFormSettings>
+                                    </dxe:GridViewDataTextColumn>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="1" FieldName="user_name"
+                                        Caption="Name" Width="200px">
+                                        <PropertiesTextEdit>
+                                            <ValidationSettings ErrorDisplayMode="ImageWithText" ErrorTextPosition="Bottom" SetFocusOnError="True">
+                                                <RequiredField ErrorText="Please Enter user Name" IsRequired="True" />
+                                            </ValidationSettings>
+                                        </PropertiesTextEdit>
+                                        <EditFormSettings Caption="User Name:" Visible="True" />
+                                    </dxe:GridViewDataTextColumn>
+                                    <dxe:GridViewDataTextColumn VisibleIndex="2" Caption="Designation" FieldName="designation"  Width="200px">
+                                    </dxe:GridViewDataTextColumn>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="3" FieldName="user_loginId"
+                                        Caption="Login ID" Width="120px">
+                                        <PropertiesTextEdit>
+                                            <ValidationSettings ErrorDisplayMode="ImageWithText" ErrorTextPosition="Bottom" SetFocusOnError="True">
+                                                <RequiredField ErrorText="Please Enter Login Id" IsRequired="True" />
+                                            </ValidationSettings>
+                                        </PropertiesTextEdit>
+                                        <EditFormSettings Caption="Login Id:" Visible="True" />
+                                    </dxe:GridViewDataTextColumn>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="4" FieldName="AssignedUser"
+                                        Caption="Associated User" Width="150px">
+                                        <PropertiesTextEdit>
+                                        </PropertiesTextEdit>
+                                        <EditFormSettings Visible="false" />
+                                    </dxe:GridViewDataTextColumn>
+                                    <%--Mantis Issue 24740 --%>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="4" FieldName="AssignedUserID"
+                                        Caption="Associated ID"  Width="150px">
+                                        <PropertiesTextEdit>
+                                        </PropertiesTextEdit>
+                                        <EditFormSettings Visible="false" />
+                                    </dxe:GridViewDataTextColumn>
+                                    <%--End of Mantis Issue 24740 --%>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="5" FieldName="BranchName"
+                                        Caption="Branch" Width="220px" >
+                                        <PropertiesTextEdit>
+                                        </PropertiesTextEdit>
+                                        <EditFormSettings Visible="false" />
+                                    </dxe:GridViewDataTextColumn>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="6" FieldName="grp_name"
+                                        Caption="Group" Width="220px">
+                                        <PropertiesTextEdit>
+                                        </PropertiesTextEdit>
+                                        <EditFormSettings Visible="false" />
+                                    </dxe:GridViewDataTextColumn>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="7" FieldName="Status"
+                                        Caption="User Status"  Width="100px">
+                                        <PropertiesTextEdit>
+                                            <ValidationSettings ErrorDisplayMode="ImageWithText" ErrorTextPosition="Bottom" SetFocusOnError="True">
+                                                <RequiredField ErrorText="Please Enter Login Id" IsRequired="True" />
+                                            </ValidationSettings>
+                                        </PropertiesTextEdit>
+                                        <EditFormSettings Caption="Login Id:" Visible="True" />
+                                    </dxe:GridViewDataTextColumn>
 
 
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="8" FieldName="StatusMac"
-                                    Caption="Mac Lock">
-                                </dxe:GridViewDataTextColumn>
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="8" FieldName="StatusMac"
+                                        Caption="Mac Lock">
+                                    </dxe:GridViewDataTextColumn>
 
 
 
-                                <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="9" FieldName="Status" Settings-AllowAutoFilter="False"
-                                    Caption="Online Status" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">
+                                    <dxe:GridViewDataTextColumn ReadOnly="True" VisibleIndex="9" FieldName="Status" Settings-AllowAutoFilter="False"
+                                        Caption="Online Status" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">
 
-                                    <DataItemTemplate>
-
-
-                                        <%# Eval("Onlinestatus").ToString()=="1" ? "<img title='logged in' src='../../../assests/images/activeState.png' />" : "<img title='logged off' src='../../../assests/images/inactiveState.png' />" %>
-                                    </DataItemTemplate>
-                                    <HeaderTemplate>Online Status</HeaderTemplate>
-                                    <EditFormSettings Visible="False" />
-
-                                </dxe:GridViewDataTextColumn>
+                                        <DataItemTemplate>
 
 
-                                <dxe:GridViewDataTextColumn Caption="Company Add/Edit" VisibleIndex="10" Width="5%" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">
-                                    <DataItemTemplate>
+                                            <%# Eval("Onlinestatus").ToString()=="1" ? "<img title='logged in' src='../../../assests/images/activeState.png' />" : "<img title='logged off' src='../../../assests/images/inactiveState.png' />" %>
+                                        </DataItemTemplate>
+                                        <HeaderTemplate>Online Status</HeaderTemplate>
+                                        <EditFormSettings Visible="False" />
 
-                                        <a href="javascript:void(0);" onclick="AddCompany('<%# Container.KeyValue %>')" title="Add Company">
-                                            <img src="../../../assests/images/Add.png" />
-                                        </a>
-
-                                    </DataItemTemplate>
-                                    <EditFormSettings Visible="False" />
-                                    <HeaderTemplate>
-                                        <span>Company Add/Edit</span>
-                                    </HeaderTemplate>
-                                </dxe:GridViewDataTextColumn>
+                                    </dxe:GridViewDataTextColumn>
 
 
-                                <%--Rev work start 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
-                                <%--<dxe:GridViewDataTextColumn VisibleIndex="11" Width="6%" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">--%>
-                                <dxe:GridViewDataTextColumn VisibleIndex="11" Width="120px" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">
-                                <%--Rev work close 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
-                                    <DataItemTemplate>
+                                    <dxe:GridViewDataTextColumn Caption="Company Add/Edit" VisibleIndex="10" Width="5%" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">
+                                        <DataItemTemplate>
+
+                                            <a href="javascript:void(0);" onclick="AddCompany('<%# Container.KeyValue %>')" title="Add Company">
+                                                <img src="../../../assests/images/Add.png" />
+                                            </a>
+
+                                        </DataItemTemplate>
+                                        <EditFormSettings Visible="False" />
+                                        <HeaderTemplate>
+                                            <span>Company Add/Edit</span>
+                                        </HeaderTemplate>
+                                    </dxe:GridViewDataTextColumn>
 
 
-                                        <a href="javascript:void(0);" onclick="RefreshLoggoff('<%# Container.KeyValue %>')" title="Reset Online Status" class="pad">
-                                            <%--Rev 2.0--%>
-                                            <%--<span class="fa fa-refresh"></span>--%>
-                                            <img src="../../../assests/images/reset.png" /></a>
+                                    <%--Rev work start 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
+                                    <%--<dxe:GridViewDataTextColumn VisibleIndex="11" Width="6%" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">--%>
+                                    <dxe:GridViewDataTextColumn VisibleIndex="11" Width="200px" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">
+                                    <%--Rev work close 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
+                                        <DataItemTemplate>
 
-                                        <% if (rights.CanEdit)
-                                           { %>
-                                        <a href="javascript:void(0);" onclick="EditUserDetails('<%# Container.KeyValue %>')" title="Edit" class="pad">
-                                            <img src="../../../assests/images/Edit.png" /></a>
-                                        <% } %>
-                                        <%--Rev work start 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
-                                        <% if (rights.CanAdd)
-                                           { %>
-                                        <a href="javascript:void(0);" onclick="CopyUserDetails('<%# Container.KeyValue %>')" title="Copy" class="pad">
-                                            <%--Rev 2.0--%>
-                                            <%--<img src="../../../assests/images/copy.png" /></a>--%>
-                                            <img src="../../../assests/images/copy2.png" /></a>
-                                        <%--Rev end 2.0--%>
-                                        <% } %>
-                                         <%--Rev work close 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
-                                        <a href="javascript:void(0);" onclick="ChangePassword('<%# Container.KeyValue %>')" title="Change Password">
-                                            <%--Rev 2.0--%>
-                                            <%--<img src="../../../assests/images/change-dark.png" />--%>
-                                            <img src="../../../assests/images/change-dark2.png" /></a>
-                                        <%--Rev end 2.0--%>
-                                        <%--Mantis Issue 25116--%>
-                                        <a href="javascript:void(0);" onclick="AttendanceLeaveClear('<%# Container.KeyValue %>')" title="Attendance/Leave Clear">
-                                            <%--Rev 2.0--%>
-                                            <%--<img src="../../../assests/images/clear.png" / style="width:16px">--%>
-                                            <img src="../../../assests/images/clear2.png" / style="width:16px"></a>
-                                        <%--Rev end 2.0--%>
-                                        <%--End of Mantis Issue 25116--%>
 
-                                    </DataItemTemplate>
-                                    <HeaderTemplate>Actions</HeaderTemplate>
-                                    <EditFormSettings Visible="False" />
+                                            <a href="javascript:void(0);" onclick="RefreshLoggoff('<%# Container.KeyValue %>')" title="Reset Online Status" class="pad">
+                                                <%--Rev 2.0--%>
+                                                <%--<span class="fa fa-refresh"></span>--%>
+                                                <img src="../../../assests/images/reset-status.png" /></a>
 
-                                </dxe:GridViewDataTextColumn>
-                            </Columns>
-                            <%--<Styles>
-                            <LoadingPanel ImageSpacing="10px">
-                            </LoadingPanel>
-                            <Header ImageSpacing="5px" SortingImageSpacing="5px">
-                            </Header>
-                            <Cell CssClass="gridcellleft">
-                            </Cell>
-                        </Styles>--%>
-                            <SettingsSearchPanel Visible="True" />
-                            <Settings ShowStatusBar="Hidden" ShowFilterRow="true" ShowGroupPanel="True" ShowFilterRowMenu="true" />
-                            <%--<SettingsPager NumericButtonCount="20" PageSize="20" AlwaysShowPager="True" ShowSeparators="True">
-                            <FirstPageButton Visible="True">
-                            </FirstPageButton>
-                            <LastPageButton Visible="True">
-                            </LastPageButton>
-                        </SettingsPager>--%>
-                            <SettingsBehavior ConfirmDelete="True" />
-                            <ClientSideEvents EndCallback="function(s, e) {
-	EndCall(s.cpHeight);
-}" />
-                        </dxe:ASPxGridView>
-                        <%--Rev 1.0--%>
-                        <dx:linqservermodedatasource id="EntityServerlogModeDataSource" runat="server" onselecting="EntityServerModelogDataSource_Selecting"
-                                    contexttypename="ERPDataClassesDataContext" tablename="FSMUser_Master_List" />
-                        <%--End of Rev 1.0--%>
+                                            <% if (rights.CanEdit)
+                                               { %>
+                                            <a href="javascript:void(0);" onclick="EditUserDetails('<%# Container.KeyValue %>')" title="Edit" class="pad">
+                                                <img src="../../../assests/images/Edit.png" /></a>
+                                            <% } %>
+                                            <%--Rev work start 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
+                                            <% if (rights.CanAdd)
+                                               { %>
+                                            <a href="javascript:void(0);" onclick="ChangePassword('<%# Container.KeyValue %>')" title="Change Password">
+                                                <%--Rev 2.0--%>
+                                                <%--<img src="../../../assests/images/change-dark.png" />--%>
+                                                <img src="../../../assests/images/change-password.png" /></a>
+                                            <%--Rev end 2.0--%>
+                                            <a href="javascript:void(0);" onclick="CopyUserDetails('<%# Container.KeyValue %>')" title="Copy" class="pad">
+                                                <%--Rev 2.0--%>
+                                                <%--<img src="../../../assests/images/copy.png" /></a>--%>
+                                                <img src="../../../assests/images/copy2.png" /></a>
+                                            <%--Rev end 2.0--%>
+                                            <% } %>
+                                         
+                                        
+                                            <%--Mantis Issue 25116--%>
+                                            <a href="javascript:void(0);" onclick="AttendanceLeaveClear('<%# Container.KeyValue %>')" title="Attendance/Leave Clear">
+                                                <%--Rev 2.0--%>
+                                                <%--<img src="../../../assests/images/clear.png" / style="width:16px">--%>
+                                                <img src="../../../assests/images/clear2.png" / style=""></a>
+                                            <%--Rev end 2.0--%>
+                                            <%--End of Mantis Issue 25116--%>
+
+                                        </DataItemTemplate>
+                                        <HeaderTemplate>Actions</HeaderTemplate>
+                                        <EditFormSettings Visible="False" />
+
+                                    </dxe:GridViewDataTextColumn>
+                                </Columns>
+                                <%--<Styles>
+                                <LoadingPanel ImageSpacing="10px">
+                                </LoadingPanel>
+                                <Header ImageSpacing="5px" SortingImageSpacing="5px">
+                                </Header>
+                                <Cell CssClass="gridcellleft">
+                                </Cell>
+                            </Styles>--%>
+                                <SettingsSearchPanel Visible="True" />
+                                <Settings ShowStatusBar="Hidden" ShowFilterRow="true" ShowGroupPanel="True" ShowFilterRowMenu="true" />
+                                <%--<SettingsPager NumericButtonCount="20" PageSize="20" AlwaysShowPager="True" ShowSeparators="True">
+                                <FirstPageButton Visible="True">
+                                </FirstPageButton>
+                                <LastPageButton Visible="True">
+                                </LastPageButton>
+                            </SettingsPager>--%>
+                                <SettingsBehavior ConfirmDelete="True" />
+                                <ClientSideEvents EndCallback="function(s, e) {
+	    EndCall(s.cpHeight);
+    }" />
+                            </dxe:ASPxGridView>
+                            <%--Rev 1.0--%>
+                            <dx:linqservermodedatasource id="EntityServerlogModeDataSource" runat="server" onselecting="EntityServerModelogDataSource_Selecting"
+                                        contexttypename="ERPDataClassesDataContext" tablename="FSMUser_Master_List" />
+                            <%--End of Rev 1.0--%>
+                        </div>
                     </td>
                 </tr>
             </table>

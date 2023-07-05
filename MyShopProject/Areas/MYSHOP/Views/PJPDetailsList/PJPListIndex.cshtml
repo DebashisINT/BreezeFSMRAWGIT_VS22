@@ -913,6 +913,18 @@
         height: 34px;
     }
     /*Rev end 1.0*/
+
+    @@media only screen and (max-width: 768px) {
+        .pjp-parameter-btns {
+            width: 100% !important;
+            max-width: 300px !important;
+        }
+
+        .pjp-parameter-btns .btn
+        {
+            margin-bottom: 8px;
+        }
+    }
 </style>
 <link href="~/Content/media.css" rel="stylesheet" />
 
@@ -982,7 +994,7 @@
                                     @*Rev end 1.0*@
                                 </div>
                             </td>
-                            <td style="padding-top: 24px;width:430px !important;">
+                            <td style="padding-top: 24px;width:430px !important;" class="pjp-parameter-btns">
                                 <label></label>
                                 @if (ViewBag.CanView)
                                 {

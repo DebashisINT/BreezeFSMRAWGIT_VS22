@@ -575,7 +575,9 @@
 #cmbStateTV + .btn-group > button,
 #cmbBranchTV + .btn-group > button,
 #cmbStateTVH + .btn-group > button,
-#cmbBranchTVH + .btn-group > button {
+#cmbBranchTVH + .btn-group > button,
+#cmbStateOrder + .btn-group > button,
+#cmbBranchOrder + .btn-group > button {
     border-radius: 50px;
     overflow: hidden;
     border: none;
@@ -608,14 +610,15 @@
     /*#griddashboard_DXFooterRow {
         display: none;
     }*/
-    #griddashboard.dxgvControl_PlasticBlue, #griddashboard.dxgvDisabled_PlasticBlue {
-        border-top: none !important;
-        border: none !important;
-        font: 10px 'Montserrat', sans-serif !important;
-        background-color: none !important;
-        color: #000000;
-        cursor: default;
-    }
+#griddashboard.dxgvControl_PlasticBlue, #griddashboard.dxgvDisabled_PlasticBlue {
+    border-top: none !important;
+    border: none !important;
+    font: 12px 'Montserrat', sans-serif !important;
+    background-color: none !important;
+    color: #000000;
+    cursor: default;
+    font-family: 'Poppins', sans-serif !important;
+}
 
     #griddashboard .dxgvTable_PlasticBlue {
         background-color: none !important;
@@ -1842,7 +1845,11 @@
     border-radius: 12px 0 0 12px !important;
 }
 
-.newStyleMN .widgBox:hover .icon {
+/*.newStyleMN .widgBox:hover .icon {
+    top: 0px !important;
+    left: 0px !important;
+}*/
+.newStyleMN .widgBox.zoom:hover .icon {
     top: 0px !important;
     left: 0px !important;
 }
@@ -1866,12 +1873,13 @@
         background: linear-gradient(150deg, rgb(124 110 8 / 90%) 0%, rgb(211 191 58) 100%);
     }
 
-.widgBox.active.c2 {
+/*.widgBox.active.c2 */
+.widgBox.active.zoom.c2 {
     /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%) !important;*/
     background: #083b68 !important;
     box-shadow: 1px 1px 15px #2068b2c4;
 }
-    .widgBox.active.c2 .icon {
+    .widgBox.active.zoom.c2 .icon {
         /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%) !important;*/
         background: #072442 !important;
         color: #fff !important;
@@ -1894,14 +1902,16 @@
     /*background: linear-gradient(150deg, rgb(219 68 87) 0%, rgb(255 169 180) 100%);*/
     background: linear-gradient(150deg, rgb(5 129 94 / 90%) 0%, rgb(45 223 174 / 90%) 100%);
 }
-.widgBox.active.c3 {
+/*.widgBox.active.c3*/
+.widgBox.active.zoom.c3 
+{
     /*background: linear-gradient(150deg, rgb(189 37 56) 0%, rgb(255 169 180) 100%) !important;*/
     /*background: linear-gradient(150deg, rgb(6 157 115) 0%, rgb(45 211 165) 100%) !important;*/
     background: #083b68 !important;
     box-shadow: 1px 1px 15px #2068b2c4;
 }
 
-    .widgBox.active.c3 .icon {
+    .widgBox.active.zoom.c3 .icon {
         /*background: linear-gradient(150deg, rgb(6 157 115) 0%, rgb(45 211 165) 100%) !important;*/
         background: #072442 !important;
         color: #fff !important;
@@ -1952,14 +1962,14 @@
     /*background: linear-gradient(150deg, rgb(203 128 17) 0%, rgb(245 194 118) 100%);*/
     background: linear-gradient(150deg, rgb(46 100 6 / 90%) 0%, rgb(106 189 46) 100%);
 }
-.widgBox.active.c5 {
+.widgBox.active.zoom.c5 {
     /* background: linear-gradient(150deg, rgb(203 128 17) 0%, rgb(245 194 118) 100%) !important;*/
     /*background: linear-gradient(150deg, rgb(95 124 6) 0%, rgb(151 189 34) 100%) !important;*/
     background: #083b68 !important;
     box-shadow: 1px 1px 15px #2068b2c4;
 }
 
-    .widgBox.active.c5 .icon {
+    .widgBox.active.zoom.c5 .icon {
         /*background: linear-gradient(150deg, rgb(95 124 6) 0%, rgb(151 189 34) 100%) !important;*/
         background: #072442 !important;
         color: #fff !important;
@@ -2040,4 +2050,64 @@
 }*/
 
 
+.box-holder {
+    box-shadow: 1px 1px 10px #1111112e;
+    border-radius: 8px !important;
+    border: none !important;
+    border-top: 5px solid rgb(23 80 149) !important;
+    margin-top: 30px !important;
+    position: relative;
+}
+
+#pieOne.chartHolder, #pieTwo.chartHolder, #LineOne.chartHolder, #columnHori.chartHolder, #pie1chart.chartHolder, #pie2chart.chartHolder {
+    border: none !important;
+}
+
+.box-holder .hdd-rp {
+    padding: 12px 15px !important;
+}
+
+.toggleFullScreen {
+    top: 12px !important;
+    right: 28px !important;
+}
+
+.chartHolder {
+    border-radius: 8px !important;
+}
+
+.usrTabl > thead > tr > th {
+    background: #2071d3 !important;
+}
+
+.box-holder.full-screen, .box-full.full-screen
+{
+    margin-top:0px !important;
+}
+
+.pignose-calendar .pignose-calendar-top {
+    background-color: #0d4282 !important;
+    color: #fff !important;
+}
+
+    .pignose-calendar .pignose-calendar-top .pignose-calendar-top-year, .pignose-calendar .pignose-calendar-top .pignose-calendar-top-nav .pignose-calendar-top-icon {
+        color: #fff !important;
+    }
+
+.pignose-calendar .pignose-calendar-unit a {
+    color: #7e7e7e !important;
+    font-weight: 400 !important;
+    background: #f2f2f2 !important;
+    border-radius: 6px !important;
+}
+
+.pignose-calendar .pignose-calendar-unit.pignose-calendar-unit-active a {
+    background-color: #501795 !important;
+    border-radius: 6px !important;
+    color: #fff !important;
+}
+
+.pignose-calendar .pignose-calendar-header {
+    padding: 0 5px !important;
+}
     

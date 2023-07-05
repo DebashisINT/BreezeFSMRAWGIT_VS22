@@ -1,6 +1,7 @@
 <%--====================================================== Revision History ==========================================================
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                08-02-2023        2.0.39           Pallab              25656 : Master module design modification 
+2.0                27-06-2023        2.0.41           Pallab              26444: Area module responsive issue fix and make mobile friendly
 ====================================================== Revision History ==========================================================--%>
 
 <%@ Page Title="Area" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" Inherits="ERP.OMS.Management.Master.management_master_Area" CodeBehind="Area.aspx.cs" %>
@@ -542,8 +543,17 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     {
         height: 34px;
     }
+/*Rev end 1.0*/
+/*Rev 2.0*/
+    @media only screen and (max-width: 768px)
+    {
+        .breadCumb {
+            padding: 0 32%;
+        }
+    }
+    /*Rev end 2.0*/
 
-    /*Rev end 1.0*/
+    
     </style>
 </asp:Content>
 

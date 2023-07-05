@@ -1,131 +1,150 @@
-﻿@*@model MyShop.Models.DashboardModelC*@
+﻿@*====================================================== Revision History ==========================================================
+Rev Number         DATE              VERSION          DEVELOPER           CHANGES
+1.0                21-06-2023        2.0.40           Pallab              0026407: when no tabs are activated in dashboard, Welcome text cursor change
+====================================================== Revision History ==========================================================*@
+
+@*@model MyShop.Models.DashboardModelC*@
 @{
     ViewBag.Title = "Dashboard";
 }
 @*<style type="text/css">
-    .widgetBox {
-        position: relative;
-        margin-top: 20px;
-    }
+        .widgetBox {
+            position: relative;
+            margin-top: 20px;
+        }
 
-    .numCnt {
-        padding: 15px 25px;
-    }
+        .numCnt {
+            padding: 15px 25px;
+        }
 
-    .widgetBox .numCnt .number {
-        font-size: 26px;
-        font-weight: 700;
+        .widgetBox .numCnt .number {
+            font-size: 26px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .widgetBox .numCnt .text {
+            font-size: 15px;
+            color: #fff;
+        }
+
+        .widgetBox h4 {
+            padding: 10px 25px;
+            background: #398b9e;
+            color: #fff;
+        }
+
+        .widgetBox.one {
+            background: #4bacc3;
+        }
+
+        .widgetBox.two {
+            background: #4bc3ae;
+        }
+
+        .widgetBox.three {
+            background: #b6c72f;
+        }
+
+        .widgetBox.four {
+            background: #e47b5b;
+        }
+
+        .widgetBox.two h4 {
+            background: #36a995;
+        }
+
+        .widgetBox.three h4 {
+            background: #9ead26;
+        }
+
+        .widgetBox.four h4 {
+            background: #ce6646;
+        }
+
+        .widgetBox .fa {
+            position: absolute;
+            font-size: 43px;
+            color: rgba(53, 50, 50, 0.5);
+            top: 18px;
+            right: 18px;
+        }
+    </style>*@
+@*Rev 1.0*@
+<style type="text/css">
+    .blank-dashboard-text {
+        margin-top: 250px;
+        padding: 14px 30px;
+        cursor: default;
         color: #fff;
+        background-color: #f0ad4e;
+        display: inline-block;
+        border-radius: 5px;
     }
-
-    .widgetBox .numCnt .text {
-        font-size: 15px;
-        color: #fff;
-    }
-
-    .widgetBox h4 {
-        padding: 10px 25px;
-        background: #398b9e;
-        color: #fff;
-    }
-
-    .widgetBox.one {
-        background: #4bacc3;
-    }
-
-    .widgetBox.two {
-        background: #4bc3ae;
-    }
-
-    .widgetBox.three {
-        background: #b6c72f;
-    }
-
-    .widgetBox.four {
-        background: #e47b5b;
-    }
-
-    .widgetBox.two h4 {
-        background: #36a995;
-    }
-
-    .widgetBox.three h4 {
-        background: #9ead26;
-    }
-
-    .widgetBox.four h4 {
-        background: #ce6646;
-    }
-
-    .widgetBox .fa {
-        position: absolute;
-        font-size: 43px;
-        color: rgba(53, 50, 50, 0.5);
-        top: 18px;
-        right: 18px;
-    }
-</style>*@
-
+</style>
+@*Rev end 1.0*@
 
 <div class="row text-center">
-
-    <span  class="btn btn-warning" style="margin-top:250px;padding: 14px 30px;">Welcome to FSM Application. Ask your supervisor to configure Dashboard for you. Thanks.</span>
+    @*Rev 1.0*@
+    @*<span  class="btn btn-warning" style="margin-top: 250px; padding: 14px 30px; cursor: default;">Welcome to FSM Application. Ask your supervisor to configure Dashboard for you. Thanks.</span>*@
+    <span class="blank-dashboard-text" style="">Welcome to FSM Application. Ask your supervisor to configure Dashboard for you. Thanks.</span>
+    @*Rev end 1.0*@
 </div>
 
 @*<div>
-    <div class=" col-sm-3">
-        <a href='@Url.Action("GetVersonuser", "Userversion", new { User = @Model.Userid }) ' style="cursor:pointer">
+        <div class=" col-sm-3">
+            <a href='@Url.Action("GetVersonuser", "Userversion", new { User = @Model.Userid }) ' style="cursor:pointer">
 
-            <div class="widgetBox one">
-                <div class="numCnt">
-                    <div class="number">@Model.usercount </div>
-                    <div class="text">Total Users</div>
+                <div class="widgetBox one">
+                    <div class="numCnt">
+                        <div class="number">@Model.usercount </div>
+                        <div class="text">Total Users</div>
+                    </div>
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <h4></h4>
                 </div>
-                <i class="fa fa-user" aria-hidden="true"></i>
-                <h4></h4>
-            </div>
-        </a>
+            </a>
 
-    </div>
-    <div class=" col-sm-3">
-        <a href='@Url.Action("GetshopHiarchy", "ShopListHierarchy", new { User = @Model.Userid }) ' style="cursor:pointer">
+        </div>
+        <div class=" col-sm-3">
+            <a href='@Url.Action("GetshopHiarchy", "ShopListHierarchy", new { User = @Model.Userid }) ' style="cursor:pointer">
 
-            <div class="widgetBox two">
-                <div class="numCnt">
-                    <div class="number">@Model.shopcount </div>
-                    <div class="text">Total Shops </div>
+                <div class="widgetBox two">
+                    <div class="numCnt">
+                        <div class="number">@Model.shopcount </div>
+                        <div class="text">Total Shops </div>
+                    </div>
+                    <i class="fa fa-stop-circle" aria-hidden="true"></i>
+                    <h4></h4>
                 </div>
-                <i class="fa fa-stop-circle" aria-hidden="true"></i>
-                <h4></h4>
-            </div>
-        </a>
-    </div>
-    <div class=" col-sm-3">
+            </a>
+        </div>
+        <div class=" col-sm-3">
 
-        <a href='@Url.Action("Attendance", "Attendanceuserwise", new { User = @Model.Userid }) ' style="cursor:pointer">
+            <a href='@Url.Action("Attendance", "Attendanceuserwise", new { User = @Model.Userid }) ' style="cursor:pointer">
 
-            <div class="widgetBox three">
-                <div class="numCnt">
-                    <div class="number">@Model.activeusercount </div>
-                    <div class="text"> Total Logged-In Users</div>
+                <div class="widgetBox three">
+                    <div class="numCnt">
+                        <div class="number">@Model.activeusercount </div>
+                        <div class="text"> Total Logged-In Users</div>
+                    </div>
+                    <i class="fa fa-sign-in" aria-hidden="true"></i>
+                    <h4></h4>
                 </div>
-                <i class="fa fa-sign-in" aria-hidden="true"></i>
-                <h4></h4>
-            </div>
-        </a>
+            </a>
 
-    </div>
-    <div class=" col-sm-3">
-        <a href='@Url.Action("Users", "InactiveUser", new { User = @Model.Userid }) ' style="cursor:pointer">
+        </div>
+        <div class=" col-sm-3">
+            <a href='@Url.Action("Users", "InactiveUser", new { User = @Model.Userid }) ' style="cursor:pointer">
 
-            <div class="widgetBox four">
-                <div class="numCnt">
-                    <div class="number">@Model.Nonactiveuser </div>
-                    <div class="text">Total Non Logged-In Users</div>
+                <div class="widgetBox four">
+                    <div class="numCnt">
+                        <div class="number">@Model.Nonactiveuser </div>
+                        <div class="text">Total Non Logged-In Users</div>
+                    </div>
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
+                    <h4></h4>
                 </div>
-                <i class="fa fa-sign-out" aria-hidden="true"></i>
-                <h4></h4>
-            </div>
-        </a>
-    </div>
-</div>*@
+            </a>
+        </div>
+    </div>*@

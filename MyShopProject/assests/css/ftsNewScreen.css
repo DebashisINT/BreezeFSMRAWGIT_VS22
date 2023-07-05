@@ -5,6 +5,7 @@
 /*2.0            10-01-2023       2.0.37        Pallab            "Export to" button color-profile change */
 /*3.0            12-01-2023       2.0.37        Pallab            25576: Report page design modification */
 /*4.0            17-04-2023       2.0.39        Pallab            25840: Employee master module employee search popup auto focus add and "cancel" button color change */
+/*5.0            22-06-2023       2.0.41        Pallab            26413: FSM dashboard tab boxes click event disable, when "show data" button not clicked */
 /*=============================================== Revision History ================================================*/
 @font-face {
     font-family: ProximaNova;
@@ -361,24 +362,28 @@ ul{
     -moz-transition: transform 0.3s ease-in-out;
     transition: transform 0.3s ease-in-out;
     box-shadow: 0px 5px 20px rgba(0,0,0,0.23);
-    cursor: pointer !important;
+    /*cursor: pointer !important;*/
+    cursor: default;
     margin-bottom: 15px;
     padding-bottom: 40px;
     width: 100%;
 }
-.widgBox .icon {
-    width: 55px;
-    /*height: 60px;*/
-    height: 97px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #fff;
-    border-radius: 50%;
-    -webkit-box-shadow: 7px 8px 10px rgba(0, 0, 0, 0.22);
-    box-shadow: 7px 8px 10px rgba(0, 0, 0, 0.22);
-    font-size: 24px;
-}
+    .widgBox.zoom {
+        cursor: pointer !important;
+    }
+    .widgBox .icon {
+        width: 55px;
+        /*height: 60px;*/
+        height: 97px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #fff;
+        border-radius: 50%;
+        -webkit-box-shadow: 7px 8px 10px rgba(0, 0, 0, 0.22);
+        box-shadow: 7px 8px 10px rgba(0, 0, 0, 0.22);
+        font-size: 24px;
+    }
     .widgBox .txt {
         font-size: 16px;
         padding-left: 15px;
@@ -457,11 +462,18 @@ ul{
 .widgBox.active.c4 .icon {
     background: #5b4a4a;
 }
-.widgBox:not(.active):hover {
+/*Rev 5.0*/
+/*.widgBox:not(.active):hover {
     -webkit-transform: scale(1.06);
     -moz-transform: scale(1.06);
     transform: scale(1.06);
-}
+}*/
+    .widgBox.zoom:hover {
+        -webkit-transform: scale(1.06);
+        -moz-transform: scale(1.06);
+        transform: scale(1.06);
+    }
+    /*Rev end 5.0*/
     .widgBox:not(.active):hover icon {
         top: 0px !important;
         left: 0px !important;
@@ -1495,3 +1507,49 @@ table.dxgvTable_PlasticBlue > tbody >tr.dxgvFooter_PlasticBlue{
     background-color: #e8e8e8 !important;
 }
 /*Rev end 4.0*/
+/*Rev 5.0: css for "Session expired" alert*/
+div:where(.swal2-container) h2:where(.swal2-title) {
+    color: #111 !important;
+    padding: 0.5em 1em 0 !important;
+    font-size: 22px !important;
+}
+
+div:where(.swal2-container) .swal2-html-container {
+    font-size: 16px !important;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+    background-color: #1b5ca0 !important;
+    color: #fff !important;
+    font-size: 14px !important;
+    border-radius: 30px !important;
+    padding: 8px 20px !important;
+}
+
+div:where(.swal2-container) div:where(.swal2-popup) {
+    width: 44em !important;
+    border-radius: 15px !important;
+    padding: 6px 0 15px !important;
+    box-shadow: 1px 1px 15px #1111113d !important;
+}
+
+div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+    background: rgb(0 0 0 / 10%) !important;
+}
+/*Rev end 5.0*/
+
+.box-holder.full-screen, .box-full.full-screen {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    background: #fff;
+    left: 0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.35);
+    z-index: 99;
+    border-top: 4px solid rgb(13, 105, 67);
+    border-radius: 5px;
+    padding: 20px;
+    border-radius: 0px;
+    margin: 0;
+}
