@@ -36,7 +36,8 @@
         column.Caption = "Order Value";
         column.FieldName = "Order_Value";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.PropertiesEdit.DisplayFormatString = "0.00";
+        column.PropertiesEdit.DisplayFormatString = "N2";
+        column.HeaderStyle.CssClass = "right-align";
     });
 
     settings.Columns.Add(column =>

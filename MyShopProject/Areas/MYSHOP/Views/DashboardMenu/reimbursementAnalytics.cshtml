@@ -1,6 +1,9 @@
 ﻿@*====================================================== Revision History ===========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
-@*1.0                11-01-2023        2.0.37           Pallab              25570: Attendance, Order, Reimbursement, Target/Achievement tab box design change *@
+@*1.0               11-01-2023        2.0.37           Pallab              25570: Attendance, Order, Reimbursement, Target/Achievement tab box design change *@
+@*2.0               09-06-2023        V2.0.41          Sanchita            FSM Dashboard - Reimbursement tab - Applied Amount per Month - The months names getting overlapped.
+                                                                           Refer: 26314*@
+@*3.0               21-06-2023        2.0.41           Pallab              26356: Dashboard "Attendance" , "Order" , "Reimbursement" chart and others issue fix *@
 @*====================================================== Revision History ===========================================================*@
 
 <link href="~/assests/css/pignose.calendar.min.css" rel="stylesheet" />
@@ -74,7 +77,7 @@
         }
 
     .mrLinks {
-        cursor: pointer;
+        /*cursor: pointer;*/
         /*Rev 1.0*/
         /*background: rgba(0, 0, 0, 0.34);
         padding: 5px 10px;*/
@@ -240,6 +243,25 @@
         justify-content: center;
         align-items: center;
     }
+
+    .calendar-icon-new {
+        position: absolute;
+        bottom: 9px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .dateWidth {
+        position: relative;
+    }
+
+        .dateWidth input {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+            cursor: pointer;
+        }
 </style>
 <script type="text/javascript">
     $(function () {
@@ -259,8 +281,12 @@
     function getdataReimburse() {
         am4core.disposeAllCharts();
 
-        var fromDate = $('#fromDate').val();
-        var toDate = $('#toDate').val();
+        // Rev 2.0
+        //var fromDate = $('#fromDate').val();
+        //var toDate = $('#toDate').val();
+        var fromDate = $('#fromDateRE').val();
+        var toDate = $('#toDateRE').val();
+        // End of Rev 2.0
 
         var inputDatefrm = fromDate;
         var inputDateto = toDate;
@@ -301,7 +327,7 @@
 
                     // Create chart instance
                     var chart = am4core.create("LineOne", am4charts.XYChart);
-                    chart.paddingRight = 20;
+                    /*chart.paddingRight = 20;*/
 
                     // Add data
                     chart.data = msg;
@@ -329,7 +355,10 @@
                     series.dataFields.categoryX = "months";
                     series.strokeWidth = 3;
                     series.tensionX = 0.8;
+                    series.stroke = am4core.color("#ce55f1");
+                    series.fill = am4core.color("#1325cc");
                     series.tooltipText = "Amount: {valueY.value}";
+                    /*series.labels.template.wrap = true;*/
 
                     var bullet = series.bullets.push(new am4charts.CircleBullet());
                     bullet.strokeWidth = 0;
@@ -338,7 +367,7 @@
                         var values = target.dataItem.values;
 
                         return values.valueY.value >= 0
-                          ? am4core.color("red")
+                            ? am4core.color("#1325cc")
                           : fill;
                     });
 
@@ -354,8 +383,15 @@
                     chart.cursor.lineX.opacity = 0;
                     chart.cursor.lineY.opacity = 0;
 
+                    chart.mouseWheelBehavior = "zoomX";
+                    chart.paddingRight = "40px";
+                    /*Rev 3.0*/
+                    chart.responsive.enabled = true;
+                    /*Rev end 3.0*/
+
                     chart.scrollbarX = new am4core.Scrollbar();
                     chart.scrollbarX.parent = chart.bottomAxesContainer;
+                    chart.scrollbarX.disabled = true;
                 })
             }
         });
@@ -393,13 +429,28 @@
                     series.dataFields.categoryY = "Expence_type";
                     series.dataFields.valueX = "Amount";
                     series.name = "Amount";
-                    series.columns.template.fillOpacity = 0.5;
+                    series.columns.template.fillOpacity = 0.8;
                     series.columns.template.strokeOpacity = 0;
                     series.tooltipText = "Amount in {categoryY}";
+
+                    // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+                    //series.columns.template.adapter.add("fill", function (fill, target) {
+                    //    return chart.colors.getIndex(target.dataItem.index);
+                    //});
+                    // Define custom colors for the columns
+                    var colors = ["#1325cc", "#f83838", "#f8c21c", "#66ce1a", "#c96d14", "#b90909", "#387d01", "#a12e8f"]; // Add your custom colors here
+                    series.columns.template.adapter.add("fill", function (fill, target) {
+                        return colors[target.dataItem.index % colors.length];
+                    });
 
                     //add chart cursor
                     chart.cursor = new am4charts.XYCursor();
                     chart.cursor.behavior = "zoomY";
+
+                    chart.paddingRight = "40px";
+                    /*Rev 3.0*/
+                    chart.responsive.enabled = true;
+                    /*Rev end 3.0*/
 
                     //add legend
                     //chart.legend = new am4charts.Legend();
@@ -433,7 +484,7 @@
                     pieSeries.dataFields.value = "Amount";
                     pieSeries.dataFields.category = "Expence_type";
                     pieSeries.slices.template.stroke = am4core.color("#fff");
-                    pieSeries.slices.template.strokeWidth = 2;
+                    pieSeries.slices.template.strokeWidth = 1;
                     pieSeries.slices.template.strokeOpacity = 1;
 
                     // This creates initial animation
@@ -453,12 +504,38 @@
                     function hideSmall(hidden, target) {
                         return target.dataItem.values.value.percent < 5 ? true : false;
                     }
+                    var colorSet = new am4core.ColorSet();
+                    colorSet.list = ["#1325cc", "#f8c21c", "#f87738", "#66ce1a", "#b90909", "#c96d14", "#387d01", "#a12e8f"].map(function (color) {
+                        return new am4core.color(color);
+                    });
+                    pieSeries.colors = colorSet;
                     // Add a legend
                     chart.legend = new am4charts.Legend();
-                    chart.legend.position = "bottom";
-                    chart.legend.maxHeight = 250;
+                    //chart.legend.position = "right";
+                    //chart.legend.maxHeight = 250;
                     chart.legend.scrollable = true;
+                    /*Rev 3.0*/
+                    // Adjust legend position for mobile devices
+                    if (window.innerWidth <= 767) {
+                        chart.legend.position = "bottom";
+                        chart.legend.maxHeight = 100;
+                    } else {
+                        chart.legend.position = "right";
+                        chart.legend.maxHeight = 250;
+                    }
 
+                    // Redraw the chart when the window is resized
+                    $(window).on("resize", function () {
+                        if (window.innerWidth <= 767) {
+                            chart.legend.position = "bottom";
+                            chart.legend.maxHeight = 100;
+                        } else {
+                            chart.legend.position = "right";
+                            chart.legend.maxHeight = 250;
+                        }
+                        chart.invalidateRawData();
+                    });
+                    /*Rev end 3.0*/
                 }); // end am4core.ready()
             }
         });
@@ -491,7 +568,7 @@
                     pieSeries.dataFields.value = "Amount";
                     pieSeries.dataFields.category = "Expence_type";
                     pieSeries.slices.template.stroke = am4core.color("#fff");
-                    pieSeries.slices.template.strokeWidth = 2;
+                    pieSeries.slices.template.strokeWidth = 1;
                     pieSeries.slices.template.strokeOpacity = 1;
 
                     // This creates initial animation
@@ -511,13 +588,39 @@
                     function hideSmall(hidden, target) {
                         return target.dataItem.values.value.percent < 5 ? true : false;
                     }
+                    var colorSet = new am4core.ColorSet();
+                    colorSet.list = ["#f87738", "#14be94", "#1325cc", "#41721e", "#8909b9", "#c9be14", "#59b80d", "#127c97"].map(function (color) {
+                        return new am4core.color(color);
+                    });
+                    pieSeries.colors = colorSet;
                     // Add a legend
                     chart.legend = new am4charts.Legend();
-                    chart.legend.position = "bottom";
-                    chart.legend.maxHeight = 250;
+                    //chart.legend.position = "right";
+                    //chart.legend.maxHeight = 250;
                     chart.legend.scrollable = true;
-                    pieSeries.legendSettings.labelText = '{country}'
+                    /*pieSeries.legendSettings.labelText = '{country}'*/
+                    /*Rev 3.0*/
+                    // Adjust legend position for mobile devices
+                    if (window.innerWidth <= 767) {
+                        chart.legend.position = "bottom";
+                        chart.legend.maxHeight = 100;
+                    } else {
+                        chart.legend.position = "right";
+                        chart.legend.maxHeight = 250;
+                    }
 
+                    // Redraw the chart when the window is resized
+                    $(window).on("resize", function () {
+                        if (window.innerWidth <= 767) {
+                            chart.legend.position = "bottom";
+                            chart.legend.maxHeight = 100;
+                        } else {
+                            chart.legend.position = "right";
+                            chart.legend.maxHeight = 250;
+                        }
+                        chart.invalidateRawData();
+                    });
+                    /*Rev end 3.0*/
                 }); // end am4core.ready()
             }
         });
@@ -549,10 +652,12 @@
                         <td>From</td>
                         <td class="dateWidth">
                             <input type="text" id="fromDateRE" class="form-control datepicker" />
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon-new" />
                         </td>
                         <td>To</td>
                         <td class="dateWidth">
                             <input type="text" id="toDateRE" class="form-control datepicker" />
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon-new" />
                         </td>
                         <td><button type="button" class="btn btn-success" onclick="getdataReimburse()">Show Analysis</button></td>
                     </tr>
@@ -644,8 +749,10 @@
 <div class="row">
     <div class="col-md-6">
         <div class="box-holder mTop10 box-full">
-            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            @*<span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                <img src="/assests/images/maximize.png" />
             </span>
             <div class="clearfix">
                 <div class="row">
@@ -667,8 +774,10 @@
     </div>
     <div class="col-md-6">
         <div class="box-holder mTop10 box-full">
-            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            @*<span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                <img src="/assests/images/maximize.png" />
             </span>
             <div class="clearfix">
                 <div class="row">
@@ -693,8 +802,9 @@
 <div class="row">
     <div class="col-md-6">
         <div class="box-holder mTop10 box-full clearfix">
-            <span class="toggleFullScreen">
-                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                <img src="/assests/images/maximize.png" />
             </span>
             <div class="col-md-12">
                 <div class="clearfix">
@@ -721,8 +831,10 @@
     </div>
     <div class="col-md-6">
         <div class="box-holder mTop10 box-full clearfix">
-            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            @*<span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                <img src="/assests/images/maximize.png" />
             </span>
             <div class="col-md-12">
                 <div class="clearfix">

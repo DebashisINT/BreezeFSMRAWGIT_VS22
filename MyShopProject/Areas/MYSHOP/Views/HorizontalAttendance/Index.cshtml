@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                02-02-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                14-06-2023        2.0.41           Pallab              26337: Attendance Register report parameter design issue fix *@
 @*====================================================== Revision History ==========================================================*@
 
 @model System.Data.DataSet
@@ -809,6 +810,10 @@
     }
 
     /*Rev end 1.0*/
+
+    .pdt-18 {
+        padding-top: 18px;
+    }
 </style>
 
 
@@ -904,171 +909,185 @@
     <div class="backBox mt-5 p-3">
         <div class="row">
             <div class="col-md-12">
-                <table class="eqpadtbl  mb-1  tblspace">
-                    <tr>
-                        @*Rev 1.0*@
-                        @*<td class="w150 relative">*@
-                        <td class="w150 relative for-cust-icon">
-                            @*Rev end 1.0*@
-                            <label>From Date</label>
-                            <div>
+                @*Rev 2.0: change all parameter format(table structure to div structure)*@
+                <div class="row">
+                    <div class="col-md-3 for-cust-icon">
+                        <label>From Date</label>
+                        <div>
 
-                                @Html.DevExpress().DateEdit(
+                            @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "dtFrom";
+                            settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormatString = "dd-MM-yyyy";
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.Date = DateTime.Now;
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.ShowOutOfRangeWarning = false;
+                            settings.Properties.UseMaskBehavior = true;
+                            settings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                            //settings.Properties.ClientSideEvents.Init = "SetDefaultDate";
+
+                        }
+                    ).GetHtml()
+                            @*Rev 1.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 1.0*@
+                            <span id="MandatoryFromDate" style="display: none" class="validclass">
+                                <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 for-cust-icon">
+                        <label>To Date</label>
+                        <div>
+
+                            @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "dtTo";
+                            settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormatString = "dd-MM-yyyy";
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.Date = DateTime.Now;
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.ShowOutOfRangeWarning = false;
+                            settings.Properties.UseMaskBehavior = true;
+                            settings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+                            //settings.Properties.ClientSideEvents.Init = "SetDefaultDate";
+
+                        }
+                    ).GetHtml()
+                            @*Rev 1.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 1.0*@
+                            <span id="MandatoryToDate" style="display: none" class="validclass">
+                                <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3" id="empIntro">
+                        <label>Employee(s)</label>
+                        <div>
+                            @*@Html.Action("GetEmpList", "MasterPopulate")*@
+                            @Html.DevExpress().ButtonEdit(
                             settings =>
                             {
-                                settings.Name = "dtFrom";
-                                settings.Properties.DisplayFormatString = "dd-MM-yyyy";
-                                settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                settings.Name = "EmployeeTxt";
                                 settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                settings.Date = DateTime.Now;
-                                settings.Properties.EditFormat = EditFormat.Custom;
-                                settings.Properties.ShowOutOfRangeWarning = false;
-                                settings.Properties.UseMaskBehavior = true;
-                                settings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
-                                //settings.Properties.ClientSideEvents.Init = "SetDefaultDate";
+                                //settings.Text = Model.AssignedTo;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
 
-                            }
-                        ).GetHtml()
-                                @*Rev 1.0*@
-                                <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
-                                @*Rev end 1.0*@
-                                <span id="MandatoryFromDate" style="display: none" class="validclass">
-                                    <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                                </span>
-                            </div>
-                        </td>
-                        @*Rev 1.0*@
-                        @*<td class="w150 relative">*@
-                        <td class="w150 relative for-cust-icon">
+                            }).GetHtml()
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 hidden" id="empIntro">
+                        <label>Product(s)</label>
+                        <div>
+                            @Html.Action("GetProductList", "MasterPopulate")
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+
+                    <div class="col-md-3" id="empIntro">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">
                             @*Rev end 1.0*@
-                            <label>To Date</label>
-                            <div>
+                            <label for="vehicle1"> Total KM's Travelled</label><br>
 
-                                @Html.DevExpress().DateEdit(
-                            settings =>
-                            {
-                                settings.Name = "dtTo";
-                                settings.Properties.DisplayFormatString = "dd-MM-yyyy";
-                                settings.Properties.EditFormatString = "dd-MM-yyyy";
-                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                settings.Date = DateTime.Now;
-                                settings.Properties.EditFormat = EditFormat.Custom;
-                                settings.Properties.ShowOutOfRangeWarning = false;
-                                settings.Properties.UseMaskBehavior = true;
-                                settings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
-                                //settings.Properties.ClientSideEvents.Init = "SetDefaultDate";
+                        </div>
+                    </div>
 
-                            }
-                        ).GetHtml()
-                                @*Rev 1.0*@
-                                <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
-                                @*Rev end 1.0*@
-                                <span id="MandatoryToDate" style="display: none" class="validclass">
-                                    <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                                </span>
-                            </div>
-                        </td>
-                        <td class="w150" id="empIntro">
-                            <label>Employee(s)</label>
-                            <div>
-                                @*@Html.Action("GetEmpList", "MasterPopulate")*@
-                                @Html.DevExpress().ButtonEdit(
-                                settings =>
-                                {
-                                    settings.Name = "EmployeeTxt";
-                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                    //settings.Text = Model.AssignedTo;
-                                    settings.ReadOnly = true;
-                                    settings.Properties.Buttons.Add("...");
-                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
-                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">
+                            @*Rev end 1.0*@
+                            <label for="vehicle2"> Secondary Sales Value</label>
+                        </div>
+                    </div>
 
-                                }).GetHtml()
-                            </div>
-                        </td>
-                        <td class="w150 hidden" id="empIntro">
-                            <label>Product(s)</label>
-                            <div>
-                                @Html.Action("GetProductList", "MasterPopulate")
-                            </div>
-                        </td>
-                        <td class="w150 " id="empIntro">
-                            <div class="chkDs">
-                                @*Rev 1.0*@
-                                @*<input type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">*@
-                                <input class="styled-checkbox" type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">
-                                @*Rev end 1.0*@
-                                <label for="vehicle1"> Total KM's Travelled</label><br>
-
-                            </div>
-                        </td>
-                        <td>
-
-                            <div class="chkDs">
-                                @*Rev 1.0*@
-                                @*<input type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">*@
-                                <input class="styled-checkbox" type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">
-                                @*Rev end 1.0*@
-                                <label for="vehicle2"> Secondary Sales Value</label>
-                            </div>
-                        </td>
-
-                    </tr>
-                    <tr><td colspan="5" style="padding: 8px"></td></tr>
-                    <tr>
-
-                        <td>
+                    <div class="col-md-3">
+                        <div class="chkDs">
                             @*Rev 1.0*@
                             @*<input type="checkbox" id="chkIdleTimeCount" name="vehicle3" value="Boat">*@
                             <input class="styled-checkbox" type="checkbox" id="chkIdleTimeCount" name="vehicle3" value="Boat">
                             @*Rev end 1.0*@
                             <label for="vehicle2"> Idle Time Count</label><br>
-                        </td>
-                        <td>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="chkDs">
                             @*Rev 1.0*@
                             @*<input type="checkbox" id="chkShowAttendanceSelfie" name="vehicle4" value="Boat">*@
                             <input class="styled-checkbox" type="checkbox" id="chkShowAttendanceSelfie" name="vehicle4" value="Boat">
                             @*Rev end 1.0*@
                             <label for="vehicle2"> Show Attendance Selfie</label>
-                        </td>
-                        @*Mantise issue:0025111*@
-                        <td>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="chkDs">
                             @*Rev 1.0*@
                             @*<input type="checkbox" id="chkShowFullDay" name="vehicle5" value="Boat">*@
                             <input class="styled-checkbox" type="checkbox" id="chkShowFullDay" name="vehicle5" value="Boat">
                             @*Rev end 1.0*@
                             <label for="vehicle3"> Show Full Day</label>
-                        </td>
-                        <td>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="chkDs">
                             @*Rev 1.0*@
                             @*<input type="checkbox" id="chkShowLogIn" name="vehicle6" value="Boat">*@
                             <input class="styled-checkbox" type="checkbox" id="chkShowLogIn" name="vehicle6" value="Boat">
                             @*Rev end 1.0*@
                             <label for="vehicle6"> Show Login Location</label>
-                        </td>
-                        <td>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="chkDs">
                             @*Rev 1.0*@
                             @*<input type="checkbox" id="chkShowLogOut" name="vehicle7" value="Boat">*@
                             <input class="styled-checkbox" type="checkbox" id="chkShowLogOut" name="vehicle7" value="Boat">
                             @*Rev end 1.0*@
                             <label for="vehicle7"> Show Logout Location</label>
-                        </td>
-                        @*End of Mantise issue:0025111*@
-                        <td style="width:194px;">
-                            <label></label>
-                            <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
-                            <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
-                                <option value="0">Export to</option>
-                                @*<option value="1">PDF</option>*@
-                                <option value="2">XLSX</option>
-                                @*<option value="3">XLS</option>
-                                    <option value="4">RTF</option>
-                                    <option value="5">CSV</option>*@
+                        </div>
+                    </div>
 
-                            </select>
-                        </td>
-                    </tr>
-                </table>
+                    <div class="col-md-3 pdt-18">
+                        <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                        <select name="ddlSumExport" class="btn btn-sm btn-primary" id="ddlSumExport">
+                            <option value="0">Export to</option>
+                            @*<option value="1">PDF</option>*@
+                            <option value="2">XLSX</option>
+                            @*<option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>*@
+
+                        </select>
+                    </div>
+
+
+                </div>
+                @*Rev end 2.0*@
+
+            
+
             </div>
         </div>
         <div style="clear: both;"><br /></div>

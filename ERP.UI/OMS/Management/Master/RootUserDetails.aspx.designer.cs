@@ -465,13 +465,13 @@ namespace ERP.OMS.Management.Master
         protected global::DevExpress.Web.ASPxCheckBox chkMeetingsSettings;
 
         /// <summary>
-        /// DivShowProductRateinApp control.
+        /// DivRateEditableSettings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlTableCell DivShowProductRateinApp;
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell DivRateEditableSettings;
 
         /// <summary>
         /// chkRateEditableSettings control.
@@ -4063,6 +4063,132 @@ namespace ERP.OMS.Management.Master
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DevExpress.Web.ASPxCheckBox chkShowBeatInMenu;
+
+        /// <summary>
+        /// divShowWorkType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowWorkType;
+
+        /// <summary>
+        /// chkShowWorkType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowWorkType;
+
+        /// <summary>
+        /// divShowMarketSpendTimer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowMarketSpendTimer;
+
+        /// <summary>
+        /// chkShowMarketSpendTimer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowMarketSpendTimer;
+
+        /// <summary>
+        /// divShowUploadImageInAppProfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowUploadImageInAppProfile;
+
+        /// <summary>
+        /// chkShowUploadImageInAppProfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowUploadImageInAppProfile;
+
+        /// <summary>
+        /// divShowCalendar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowCalendar;
+
+        /// <summary>
+        /// chkShowCalendar control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowCalendar;
+
+        /// <summary>
+        /// divShowCalculator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowCalculator;
+
+        /// <summary>
+        /// chkShowCalculator control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowCalculator;
+
+        /// <summary>
+        /// divShowInactiveCustomer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowInactiveCustomer;
+
+        /// <summary>
+        /// chkShowInactiveCustomer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowInactiveCustomer;
+
+        /// <summary>
+        /// divShowAttendanceSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowAttendanceSummary;
+
+        /// <summary>
+        /// chkShowAttendanceSummary control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowAttendanceSummary;
 
         /// <summary>
         /// btnUpdate control.

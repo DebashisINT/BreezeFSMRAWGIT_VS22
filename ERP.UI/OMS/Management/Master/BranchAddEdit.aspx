@@ -1,6 +1,6 @@
 <%--====================================================== Revision History ==========================================================
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
-1.0                08-02-2023        2.0.39           Pallab              25656 : Master module design modification
+1.0                08-02-2023        2.0.39           Pallab              0025656 : Master module design modification
 2.0                22-03-2023        2.0.39           Priti               0025745 :While click the Add button of Branch Master, it is taking some time to load the page & take the input    
 ====================================================== Revision History ==========================================================--%>
 
@@ -881,7 +881,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             position: absolute;
             top: 2px;
             right: 3px;
-            font-size: 13px;
+            font-size: 11px;
             transform: rotate(269deg);
             font-weight: 500;
         }
@@ -1308,6 +1308,54 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         }
 
         /*Rev end 1.0*/
+
+        .close:hover, .close:focus
+        {
+            color: #fff;
+            opacity: .8;
+        }
+
+        #BranchHeadModelTable
+        {
+            margin-top: 10px !important;
+        }
+
+        #BranchHeadModelTable table tr th{
+            padding: 4px 5px;
+        }
+
+        #BranchHeadModelTableTbl_length label
+        {
+            display: flex;
+            align-items: center;
+        }
+        #BranchHeadModelTableTbl_length label select{
+            margin: 0 2px;
+        }
+
+        #BranchHeadModelTableTbl_filter input
+        {
+            height: 30px;
+            box-shadow: none;
+            outline: none;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            padding: 0 5px;
+        }
+
+        #BranchHeadModelTableTbl tbody tr td input:focus-visible{
+            border: none;
+            box-shadow: none;
+            outline: none;
+        }
+
+        @media only screen and (max-width: 768px)
+        {
+            .breadCumb > span
+            {
+                padding: 9px 12px;
+            }
+        }
     </style>
    <%-- Rev 2.0--%>
     <script>
@@ -2117,7 +2165,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn" data-dismiss="modal">Close</button>
                     </div>
                 </div>
 

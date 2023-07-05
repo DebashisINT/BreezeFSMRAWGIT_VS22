@@ -5,6 +5,7 @@
    Rev 4.0      Priti              20/02/2023      V2.0.39     0025676: Employee Import Facility. Refer: 25668 
    Rev 5.0      Pallab             20/02/2023      V2.0.39     parameters and grid issue fix for small screen
    Rev 6.0      Pallab             17/04/2023      V2.0.39     25840: Employee master module employee search popup auto focus add and "cancel" button color change
+   Rev 7.0      Pallab             27/06/2023      V2.0.41     26442: Employees module responsive issue fix and make mobile friendly
  *******************************************************************************************************--%>
 
 <%@ Page Title="Employee" Language="C#" AutoEventWireup="True" Inherits="ERP.OMS.Management.Master.management_master_Employee" CodeBehind="Employee.aspx.cs" MasterPageFile="~/OMS/MasterPage/ERP.Master" %>
@@ -1384,6 +1385,7 @@ padding: 7px;
     .nfc
     {
         padding: 5px 12px;
+            height: 32px;
     }
 
     @media only screen and (min-width: 1300px) and (max-width: 1500px)
@@ -1447,6 +1449,38 @@ padding: 7px;
     }
 
     /*Rev end 5.0*/
+
+    .dxgvControl_PlasticBlue a
+    {
+        margin: 0 2px !important;
+    }
+
+    /*Rev 7.0*/
+    @media only screen and (max-width: 768px)
+    {
+        #ShowFilter, #divEmp, #show-btn
+        {
+             width: 100%;
+            display: block;
+        }
+
+        #ShowFilter a, #ShowFilter select, #ShowFilter button
+        {
+            margin-bottom: 10px;
+        }
+
+        #divEmp
+        {
+            margin-bottom: 10px;
+        }
+
+        .grid-view
+        {
+            overflow-x: auto;
+            width: 280px;
+        }
+    }
+    /*Rev end 7.0*/
 
     </style>
 
@@ -1773,7 +1807,7 @@ padding: 7px;
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td id="show-btn">
                                  <% if (rights.CanView)
                                    { %>
                                     <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
@@ -2000,6 +2034,8 @@ padding: 7px;
             </tr>
             <tr>
                 <td colspan="2">
+                    <div class="grid-view">
+
                     <%--Mantise ID:0024752: Optimize FSM Employee Master [ DataSourceID="EntityServerlogModeDataSource"  added]
                      Rev work Swati Date:-15.03.2022--%>
                     <%--Rev 1.0 : Some columns width px to %--%>
@@ -2010,7 +2046,9 @@ padding: 7px;
                              Rev work close Swati Date:-15.03.2022--%>
                         <SettingsBehavior AllowFocusedRow="true" ConfirmDelete="True" ColumnResizeMode="NextColumn" />
                         <Styles>
-                            <Header SortingImageSpacing="5px" ImageSpacing="5px">
+                            
+                            
+                           <Header SortingImageSpacing="5px" ImageSpacing="5px">
                             </Header>
                             <LoadingPanel ImageSpacing="10px">
                             </LoadingPanel>
@@ -2124,7 +2162,7 @@ padding: 7px;
                             </dxe:GridViewCommandColumn>
                             <%--Rev work start 26.04.2022 0024853: Copy feature add in Employee master--%>
                             <%--<dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="17" Width="100px">--%>
-                            <dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="17" Width="110px">
+                            <dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="17" Width="150px">
                                 <%--Rev work close 26.04.2022 0024853: Copy feature add in Employee master--%>
                                 <DataItemTemplate>
                                     <% if (rights.CanContactPerson)
@@ -2150,7 +2188,7 @@ padding: 7px;
                                     <a href="javascript:void(0);" onclick="EMPIDBind('<%#Eval("ContactID") %>')" title="Update Employee ID" class="pad" style="text-decoration: none;">
                                         <%--Rev 2.0--%>
                                         <%--<img src="../../../assests/images/exchange.png" width="16px" />--%>
-                                        <img src="../../../assests/images/exchange2.png" width="16px" />
+                                        <img src="../../../assests/images/update-id.png" />
                                         <%--Rev end 2.0--%>
                                         <% } %>
 
@@ -2159,7 +2197,7 @@ padding: 7px;
 
 
                                         <a href="javascript:void(0);" onclick="StateBind('<%#Eval("ContactID") %>')" title="State Mapping" class="pad" style="text-decoration: none;">
-                                            <img src="../../../assests/images/icoaccts.gif" />
+                                            <img src="../../../assests/images/state-mapping.png" />
                                             <% if (rights.CanDelete)
                                                { %>
 
@@ -2181,7 +2219,7 @@ padding: 7px;
                                         <a href="javascript:void(0);" onclick="OnEmployeeChannelInfoClick('<%# Container.KeyValue %>')" class="pad" title="EmployeeChannel">
                                             <%--Rev 2.0--%>
                                             <%--<img src="../../../assests/images/doc.png" />--%>
-                                            <img src="../../../assests/images/doc2.png" /></a><% } %>
+                                            <img src="../../../assests/images/employee-channel.png" /></a><% } %>
                                             <%--Rev end 2.0--%>
                                             <%--End of Mantis Issue 24982--%>
 
@@ -2192,7 +2230,7 @@ padding: 7px;
                                                 <a href="javascript:void(0);" onclick="fn_BranchMap('<%# Container.KeyValue %>')" class="pad" title="Branch Mapping">
                                                     <%--Rev 2.0--%>
                                                     <%--<span class='ico deleteColor'><i class='fa fa-sitemap' aria-hidden='true'></i></span>--%>
-                                                    <img src="../../../assests/images/branch-map.png"  />
+                                                    <img src="../../../assests/images/branch-mapping.png"  />
                                                     <%--Rev end 2.0--%>
                                                 </a>
                                                 <%--End of Mantis Issue 25001--%>
@@ -2237,7 +2275,8 @@ padding: 7px;
                         <Settings ShowGroupPanel="True" ShowStatusBar="Hidden" ShowHorizontalScrollBar="False" ShowFilterRow="true" ShowFilterRowMenu="true" />
                         <SettingsLoadingPanel Text="Please Wait..." />
                     </dxe:ASPxGridView>
-
+                    
+                    </div>
                 </td>
             </tr>
         </table>

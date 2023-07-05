@@ -1,7 +1,10 @@
 ﻿@*====================================================== Revision History ===========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                11-01-2023        2.0.37           Pallab              25570: Attendance, Order, Reimbursement, Target/Achievement tab box design change *@
-@*====================================================== Revision History ===========================================================*@
+@*2.0                21-06-2023        2.0.41           Pallab              26356: Dashboard "Attendance" , "Order" , "Reimbursement" chart and others issue fix *@
+@*3.0                27-06-2023        2.0.41           Sanchita            State & Branch selection facility is required in the Order Analytics in Dashboard
+                                                                                Refer: 26309
+    @*====================================================== Revision History ===========================================================*@
 
 <style>
     ul.nopad {
@@ -63,7 +66,7 @@
         }
 
     .mrLinks {
-        cursor: pointer;
+        /*cursor: pointer;*/
         /*Rev 1.0*/
         /*background: rgba(0, 0, 0, 0.34);
         padding: 5px 10px;*/
@@ -166,6 +169,7 @@
         font-size: 15px;
         font-weight: 600;
         padding: 8px 15px;
+        color: #555;
     }
 
     .box-holder .bxd-cont {
@@ -229,6 +233,8 @@
 
         .tbleChoosedate > tbody > tr > td:not(:last-child) {
             padding-right: 15px;
+            font-size: 16px;
+            font-weight: 600;
         }
 
     .dateWidth {
@@ -276,12 +282,301 @@
 <link href="~/assests/pluggins/datePicker/datepicker.css" rel="stylesheet" />
 <script src="~/assests/pluggins/datePicker/bootstrap-datepicker.js"></script>
 <!-- Resources -->
-<script src="~/assests/pluggins/amchart/core.js"></script>
-<script src="~/assests/pluggins/amchart/charts.js"></script>
-<script src="~/assests/pluggins/amchart/themes/animated.js"></script>
+@*<script src="~/assests/pluggins/amchart/core.js"></script>
+    <script src="~/assests/pluggins/amchart/charts.js"></script>
+    <script src="~/assests/pluggins/amchart/themes/animated.js"></script>*@
+
 @*<script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>*@
+
+<script src="~/assests/pluggins/amchart5/index.js"></script>
+<script src="~/assests/pluggins/amchart5/xy.js"></script>
+<script src="/assests/pluggins/amchart5/Animated.js"></script>
+@*<script src="/assests/pluggins/amchart5/percent.js"></script>*@
+
+
+<style>
+    #pieOne {
+        width: 100%;
+        height: 300px;
+    }
+
+    .calendar-icon-new {
+        position: absolute;
+        bottom: 9px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .dateWidth {
+        position: relative;
+    }
+
+        .dateWidth input {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+            cursor: pointer;
+        }
+
+    .right-align {
+        text-align: right;
+    }
+
+    .usrTabl > tbody > tr > td {
+        font-size: 15px;
+        font-weight: 400;
+    }
+
+    .order-rating-title {
+        font-weight: 600 !important;
+        font-size: 16px !important;
+        color: #656565 !important;
+    }
+</style>
+
+@*Rev 3.0*@
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#cmbStateOrder').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            maxHeight: 400,
+            enableCaseInsensitiveFiltering: true,
+            onDropdownHide: function (event) {
+                GetSateValueOrder();
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+        $('#cmbBranchOrder').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            maxHeight: 400,
+            enableCaseInsensitiveFiltering: true,
+            onDropdownHide: function (event) {
+                GetBranchValueOrder();
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+
+        branchidsOrder = $('#cmbBranchOrder').val();
+
+        stateidsOrder = $('#cmbStateOrder').val();
+        var statelistcountOrder = $('#hdnStateListCountOrder').val();
+        if (statelistcountOrder > 0) {
+            var GroupBy = $('#hdnGridStatewiseSummaryGroupByOrder').val();
+            for (var i = objsettings.length - 1; i >= 0; i--) {
+                if (objsettings[i].ID == settingsid) {
+                    objsettings.splice(i, 1);
+                }
+            }
+
+
+        }
+        else {
+            $('.bodymain_areastatewise').hide();
+        }
+
+    });
+
+
+    var stateidsOrder = [];
+    var branchidsOrder = [];
+
+
+    function GetSateValueOrder() {
+        stateidsOrder = [];
+
+        var datalist = $('#cmbStateOrder').val();
+        if (datalist != null) {
+            stateidsOrder = datalist;
+        }
+        else {
+            stateidsOrder.push('999999');
+        }
+        cmbStatechangeOrder();
+    }
+
+    function GetBranchValueOrder() {
+        branchidsOrder = [];
+
+        var datalist = $('#cmbBranchOrder').val();
+        if (datalist != null) {
+            branchidsOrder = datalist;
+        }
+        else {
+            branchidsOrder.push('999999');
+        }
+        cmbBranchChangeOrder();
+    }
+
+    function cmbBranchChangeOrder() {
+        let newBranch = $('#cmbBranchOrder').val();
+
+        var isObject = typeof newBranch
+        if (isObject == "object") {
+            if (newBranch != null && newBranch.length > 0) {
+                branchidsOrder = newBranch.join(',');
+            } else {
+                branchidsOrder = "";
+
+            }
+        } else {
+            if (newBranch != null && newBranch.length > 0) {
+                branchidsOrder = newBranch;
+            }
+            else {
+                branchidsOrder = "";
+            }
+        }
+        reloadBoxDataOrder(branchidsOrder);
+    }
+
+    function cmbStatechangeOrder() {
+        settingsid = "1";
+
+        for (var i = objsettings.length - 1; i >= 0; i--) {
+            if (objsettings[i].ID == settingsid) {
+                objsettings.splice(i, 1);
+            }
+        }
+        if (settingsid == "1") {
+            var obj = {};
+            obj.ID = "1";
+            obj.action = "AT_WORK";
+            obj.rptype = "Summary";
+            obj.empid = "";
+            obj.stateid = stateidsOrder.join(',');//cmbState.GeOrderalue();
+            obj.designid = "";
+            // Mantis Issue 24729
+            var isObject = typeof branchidsOrder
+            if (isObject == "object") {
+                if (branchidsOrder != null && branchidsOrder.length > 0) {
+                    obj.branchid = branchidsOrder.join(',');
+                } else {
+                    obj.branchid = "";
+
+                }
+            } else {
+                if (branchidsOrder != null && branchidsOrder.length > 0) {
+                    obj.branchid = branchidsOrder;
+                }
+                else {
+                    obj.branchid = "";
+                }
+            }
+
+
+            // End of Mantis Issue 24729
+            objsettings.push(obj);
+        }
+        //  gridsalesman.ClearFilter();
+        if (!$('#dashDetails1').hasClass('hide')) {
+            $('#dashDetails1').addClass('hide');
+        }
+        if (!$('#dashDetails2').hasClass('hide')) {
+            $('#dashDetails2').addClass('hide');
+        }
+        if (!$('#gridthirdlevel').hasClass('hide')) {
+            $('#gridthirdlevel').addClass('hide');
+        }
+        $('.boxWidget').removeClass('activeW');
+
+        stateidOrder = stateidsOrder.join(','); //;cmbState.GetValue();
+        // Mantis Issue 24729
+        var obj1 = {};
+        obj1.stateid = stateidOrder;
+
+        $.ajax({
+            type: "POST",
+            url: "/DashboardMenu/DashboardBranchCombobox",
+            data: JSON.stringify(obj1),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                //console.log("res branch", response);
+                const mainData = response.map(function (item) {
+                    return {
+                        label: item.name,
+                        title: item.name,
+                        value: item.BranchID,
+                        selected: true
+                    }
+                    // arr.push(obj)
+                })
+
+                $("#cmbBranchOrder").multiselect('dataprovider', mainData);
+                var newBranch = $('#cmbBranchOrder').val();
+
+                var isObject = typeof newBranch
+                if (isObject == "object") {
+                    if (newBranch != null && newBranch.length > 0) {
+                        branchidsOrder = newBranch.join(',');
+                    } else {
+                        branchidsOrder = "";
+
+                    }
+                } else {
+                    if (newBranch != null && newBranch.length > 0) {
+                        branchidsOrder = newBranch;
+                    }
+                    else {
+                        branchidsOrder = "";
+                    }
+                }
+
+                reloadBoxDataOrder(branchidsOrder);
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+
+
+    }
+
+    function reloadBoxDataOrder(branchidsOrder) {
+        branchid = branchidsOrder;
+
+        objData = {};
+        $('#mapdeatsilsOrder').hide();
+        $('#mapOrder').show();
+
+        var obj = {};
+        obj.stateid = stateid;
+        // Mantis Issue 24729
+        obj.branchid = branchid;
+        // End of Mantis Issue 24729
+        $.ajax({
+            type: "POST",
+            url: "/DashboardMenu/GetDashboardDataVisit",
+            data: JSON.stringify(obj),
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                $("#EAWOrder").text(response.lblAtWork);
+                $("#EOLOrder").text(response.lblOnLeave);
+                $("#NLIOrder").text(response.lblNotLoggedIn);
+                $("#EMPOrder").text(response.lblTotal);
+                $("#lbltotalshopOrder").text(response.TotalVisit);
+                $("#lblnewvisitOrder").text(response.NewVisit);
+                $("#lblrevisitOrder").text(response.ReVisit);
+
+                $("#lblavgvisitsOrder").text(response.AvgPerDay);
+                $("#lblavgdurationOrder").text(response.AvgDurationPerShop);
+            },
+            error: function (response) {
+                jAlert("Please try again later");
+            }
+        });
+    }
+</script>
+
+@*End of Rev 3.0*@
+
 <script type="text/javascript">
     $(function () {
         $.fn.datepicker.defaults.format = "dd-mm-yyyy";
@@ -310,22 +605,60 @@
         var newDatefrm = changeDateFormat(inputDatefrm);
         var newDateto = changeDateFormat(inputDateto);
 
+        // Rev 3.0
+        var stateid = stateidsOrder.join(',');
+
+        var isObject = typeof branchidsOrder
+        if (isObject == "object") {
+            if (branchidsOrder != null && branchidsOrder.length > 0) {
+                var branchid = branchidsOrder.join(',');
+            } else {
+                var branchid = "";
+
+            }
+        } else {
+            if (branchidsOrder != null && branchidsOrder.length > 0) {
+                var branchid = branchidsOrder;
+            }
+            else {
+                var branchid = "";
+            }
+        }
+        // End of Rev 3.0
+
         console.log(inputDatefrm);
 
-        getTotalOrderCount(newDatefrm, newDateto);
-        getTotalOrderValue(newDatefrm, newDateto);
-        getAvgOrderValue(newDatefrm, newDateto);
-        getOrderDelivered(newDatefrm, newDateto);
+        // Rev 3.0
+        //getTotalOrderCount(newDatefrm, newDateto);
+        //getTotalOrderValue(newDatefrm, newDateto);
+        //getAvgOrderValue(newDatefrm, newDateto);
+        //getOrderDelivered(newDatefrm, newDateto);
 
-        gettop10orderValue(newDatefrm, newDateto);
-        gettop10orderQty(newDatefrm, newDateto);
+        //gettop10orderValue(newDatefrm, newDateto);
+        //gettop10orderQty(newDatefrm, newDateto);
 
-        getCustomer(newDatefrm, newDateto);
-        getOrderStateWise(newDatefrm, newDateto);
+        //getCustomer(newDatefrm, newDateto);
+        //getOrderStateWise(newDatefrm, newDateto);
 
-        getOrderCountChart(newDatefrm, newDateto);
-        getOrderTotalChart(newDatefrm, newDateto);
-        getOrderDeliverChart(newDatefrm, newDateto);
+        //getOrderCountChart(newDatefrm, newDateto);
+        //getOrderTotalChart(newDatefrm, newDateto);
+        //getOrderDeliverChart(newDatefrm, newDateto);
+
+        getTotalOrderCount(newDatefrm, newDateto, stateid, branchid);
+        getTotalOrderValue(newDatefrm, newDateto, stateid, branchid);
+        getAvgOrderValue(newDatefrm, newDateto, stateid, branchid);
+        getOrderDelivered(newDatefrm, newDateto, stateid, branchid);
+
+        gettop10orderValue(newDatefrm, newDateto, stateid, branchid);
+        gettop10orderQty(newDatefrm, newDateto, stateid, branchid);
+
+        getCustomer(newDatefrm, newDateto, stateid, branchid);
+        getOrderStateWise(newDatefrm, newDateto, stateid, branchid);
+
+        getOrderCountChart(newDatefrm, newDateto, stateid, branchid);
+        getOrderTotalChart(newDatefrm, newDateto, stateid, branchid);
+        getOrderDeliverChart(newDatefrm, newDateto, stateid, branchid);
+        // End of Rev 3.0
     }
     function changeDateFormat(inputDate) {  // expects Y-m-d
         var splitDate = inputDate.split('-');
@@ -342,10 +675,15 @@
 
 
     //order count chart
-    function getOrderCountChart(fromDate, toDate) {
+    // Rev 3.0 [ parameter , stateid, branchid added]
+    function getOrderCountChart(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("OrdercountChart", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -362,7 +700,8 @@
 
                         var chart = am4core.create("chartLine", am4charts.XYChart);
 
-
+                        chart.mouseWheelBehavior = "zoomX";
+                        chart.paddingRight = "20px";
 
                         chart.data = msg;
 
@@ -375,6 +714,7 @@
                         categoryAxis.dataFields.category = "ORDERDATE";
                         categoryAxis.startLocation = 0.4;
                         categoryAxis.endLocation = 0.6;
+                        categoryAxis.renderer.labels.template.fontSize = 14;
 
 
                         var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
@@ -387,8 +727,10 @@
                         lineSeries.dataFields.categoryX = "ORDERDATE";
                         lineSeries.dataFields.valueY = "ORDCNT";
                         lineSeries.tooltipText = "Order Count: {valueY.value}";
-                        lineSeries.fillOpacity = 0.5;
+                        lineSeries.fillOpacity = 0.3;
                         lineSeries.strokeWidth = 3;
+                        lineSeries.stroke = am4core.color("#f83838");
+                        lineSeries.fill = am4core.color("#1325cc");
                         lineSeries.propertyFields.stroke = "lineColor";
                         lineSeries.propertyFields.fill = "lineColor";
 
@@ -402,8 +744,8 @@
                         chart.cursor.lineX.opacity = 0;
                         chart.cursor.lineY.opacity = 0;
 
-                        chart.scrollbarX = new am4core.Scrollbar();
-                        chart.scrollbarX.parent = chart.bottomAxesContainer;
+                        //chart.scrollbarX = new am4core.Scrollbar();
+                        //chart.scrollbarX.parent = chart.bottomAxesContainer;
 
                     }); // end am4core.ready()
                 } else {
@@ -412,12 +754,18 @@
 
             }
         });
+
     }
     //order Total chart
-    function getOrderTotalChart(fromDate, toDate) {
+    // Rev 3.0 [ parameter , stateid, branchid added]
+    function getOrderTotalChart(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("OrderTotalChart", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -462,6 +810,8 @@
                     series.dataFields.categoryX = "ORDERDATE";
                     series.strokeWidth = 3;
                     series.tensionX = 0.8;
+                    series.stroke = am4core.color("#384af3");
+                    series.fill = am4core.color("#1325cc");
                     series.tooltipText = "Order Value: {valueY.value}";
 
                     var bullet = series.bullets.push(new am4charts.CircleBullet());
@@ -471,7 +821,7 @@
                         var values = target.dataItem.values;
 
                         return values.valueY.value >= 0
-                          ? am4core.color("red")
+                            ? am4core.color("#e38015")
                           : fill;
                     });
 
@@ -482,6 +832,33 @@
 
                     chart.scrollbarX = new am4core.Scrollbar();
                     chart.scrollbarX.parent = chart.bottomAxesContainer;
+                    chart.scrollbarX.disabled = true;
+
+                    chart.mouseWheelBehavior = "zoomX";
+                    /*chart.paddingRight = "40px";*/
+                    /*Rev 2.0*/
+                    // Adjust legend position for mobile devices
+                    if (window.innerWidth <= 767) {
+                        chart.paddingRight = "20px";
+                    } else {
+                        chart.paddingRight = "40px";
+                    }
+
+                    // Redraw the chart when the window is resized
+                    $(window).on("resize", function () {
+                        if (window.innerWidth <= 767) {
+                            chart.paddingRight = "20px";
+                        } else {
+                            chart.paddingRight = "40px";
+                        }
+                        chart.invalidateRawData();
+                    });
+                    /*Rev end 2.0*/
+                    //$(window).on("resize", function () {
+                    //    var chartContainer = $("#chartLine2");
+                    //    chart.width = chartContainer.width();
+                    //    chart.height = chartContainer.height();
+                    //});
 
                 } else {
                     $('#chartLine2').html('<div class="nCheck">No Data Available</div>');
@@ -492,10 +869,15 @@
     }
 
     // Order Delivered
-    function getOrderDeliverChart(fromDate, toDate) {
+    // Rev 3.0 [ parameter , stateid, branchid added]
+    function getOrderDeliverChart(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("OrderDeliveredChart", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -578,10 +960,15 @@
 
 
     // top customers
-    function getCustomer(fromDate, toDate) {
+    // Rev 3.0 [ parameter , stateid, branchid added]
+    function getCustomer(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("GettopCustomers", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -610,10 +997,15 @@
         });
     }
     // top order
-    function getOrderStateWise(fromDate, toDate) {
+    // Rev 3.0 [ parameter , stateid, branchid added]
+    function getOrderStateWise(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("GettopOrdersStateWise", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -642,10 +1034,15 @@
     }
 
     // top 10 order value
-    function gettop10orderValue(fromDate, toDate) {
+    // Rev 3.0 [parameters , stateid, branchid added]
+    function gettop10orderValue(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("Gettop10orderValue", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -687,12 +1084,38 @@
                         function hideSmall(hidden, target) {
                             return target.dataItem.values.value.percent < 5 ? true : false;
                         }
+                        var colorSet = new am4core.ColorSet();
+                        colorSet.list = ["#1325cc", "#eaab10", "#f83838", "#66ce1a", "#b90909", "#c9be14", "#387d01"].map(function (color) {
+                            return new am4core.color(color);
+                        });
+                        pieSeries.colors = colorSet;
                         // Add a legend
                         chart.legend = new am4charts.Legend();
-                        chart.legend.position = "right";
-                        chart.legend.maxHeight = 250;
+                        /*chart.legend.position = "right";
+                        chart.legend.maxHeight = 250;*/
                         chart.legend.scrollable = true;
+                        /*Rev 2.0*/
+                        // Adjust legend position for mobile devices
+                        if (window.innerWidth <= 767) {
+                            chart.legend.position = "bottom";
+                            chart.legend.maxHeight = 100;
+                        } else {
+                            chart.legend.position = "right";
+                            chart.legend.maxHeight = 250;
+                        }
 
+                        // Redraw the chart when the window is resized
+                        $(window).on("resize", function () {
+                            if (window.innerWidth <= 767) {
+                                chart.legend.position = "bottom";
+                                chart.legend.maxHeight = 100;
+                            } else {
+                                chart.legend.position = "right";
+                                chart.legend.maxHeight = 250;
+                            }
+                            chart.invalidateRawData();
+                        });
+                        /*Rev end 2.0*/
 
                     }); // end am4core.ready()
                 } else {
@@ -701,12 +1124,18 @@
 
             }
         });
+
     }
     // top 10 order quantity
-    function gettop10orderQty(fromDate, toDate) {
+    // Rev 3.0 [ parameter , stateid, branchid added]
+    function gettop10orderQty(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("Gettop10orderQuantity", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -747,11 +1176,38 @@
                         function hideSmall(hidden, target) {
                             return target.dataItem.values.value.percent < 5 ? true : false;
                         }
+                        var colorSet = new am4core.ColorSet();
+                        colorSet.list = ["#10a95f", "#6210b5", "#f83838", "#66ce1a", "#b90909", "#c9be14", "#387d01"].map(function (color) {
+                            return new am4core.color(color);
+                        });
+                        pieSeries.colors = colorSet;
                         // Add a legend
                         chart.legend = new am4charts.Legend();
-                        chart.legend.position = "right";
-                        chart.legend.maxHeight = 250;
+                        //chart.legend.position = "right";
+                        //chart.legend.maxHeight = 250;
                         chart.legend.scrollable = true;
+                        /*Rev 2.0*/
+                        // Adjust legend position for mobile devices
+                        if (window.innerWidth <= 767) {
+                            chart.legend.position = "bottom";
+                            chart.legend.maxHeight = 100;
+                        } else {
+                            chart.legend.position = "right";
+                            chart.legend.maxHeight = 250;
+                        }
+
+                        // Redraw the chart when the window is resized
+                        $(window).on("resize", function () {
+                            if (window.innerWidth <= 767) {
+                                chart.legend.position = "bottom";
+                                chart.legend.maxHeight = 100;
+                            } else {
+                                chart.legend.position = "right";
+                                chart.legend.maxHeight = 250;
+                            }
+                            chart.invalidateRawData();
+                        });
+                        /*Rev end 2.0*/
 
                     }); // end am4core.ready()
                 } else {
@@ -763,10 +1219,17 @@
         });
     }
 
-    function getTotalOrderCount(fromDate, toDate) {
+    // Rev 3.0
+    //function getTotalOrderCount(fromDate, toDate) {
+    function getTotalOrderCount(fromDate, toDate, stateid, branchid) {
+        // End of Rev 2.0
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("GetOrderAnalyticTotalOrderCount", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -780,10 +1243,17 @@
             }
         });
     }
-    function getTotalOrderValue(fromDate, toDate) {
+    // Rev 3.0
+    //function getTotalOrderValue(fromDate, toDate) {
+    function getTotalOrderValue(fromDate, toDate, stateid, branchid) {
+        // End of Rev 3.0
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("GetOrderAnalyticTotalOrderValue", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -797,10 +1267,15 @@
             }
         });
     }
-    function getAvgOrderValue(fromDate, toDate) {
+    // Rev 3.0 [parameters , stateid, branchid added]
+    function getAvgOrderValue(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("GetOrderAnalyticAvgOrderValue", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -814,10 +1289,15 @@
             }
         });
     }
-    function getOrderDelivered(fromDate, toDate) {
+    // Rev 3.0 [parameters , stateid, branchid added]
+    function getOrderDelivered(fromDate, toDate, stateid, branchid) {
         var obj = {};
         obj.fromDate = fromDate;
         obj.toDate = toDate;
+        // Rev 3.0
+        obj.stateid = stateid;
+        obj.branchid = branchid;
+        // End of Rev 3.0
         var Url = '@Url.Action("GetOrderAnalyticOrderDelivered", "DashboardMenu")';
         $.ajax({
             type: "POST",
@@ -852,6 +1332,23 @@
         return res;
     }
 </script>
+
+@*Rev 3.0*@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 Widgheading clearfix">
+            <ul class="mapShowlist clearfix">
+                <li class="relative">
+                    @Html.Action("DashboardStateComboboxOrder")
+                </li>
+                <li class="relative">
+                    @Html.Action("DashboardBranchComboboxOrder")
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+@*End of Rev 3.0*@
 <div class="row">
     <div class="col-md-12">
         <div class="row">
@@ -861,10 +1358,12 @@
                         <td>From</td>
                         <td class="dateWidth">
                             <input type="text" id="fromDate" class="form-control datepicker" />
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon-new" />
                         </td>
                         <td>To</td>
                         <td class="dateWidth">
                             <input type="text" id="toDate" class="form-control datepicker" />
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon-new" />
                         </td>
                         <td><button type="button" class="btn btn-success" onclick="getdata()">Show Analysis</button></td>
                     </tr>
@@ -947,8 +1446,10 @@
 <div class="row">
     <div class="col-md-6">
         <div class="box-holder mTop10 box-full">
-            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            @*<span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                <img src="/assests/images/maximize.png" />
             </span>
             <div class="clearfix">
                 <div class="row">
@@ -970,8 +1471,10 @@
     </div>
     <div class="col-md-6">
         <div class="box-holder mTop10 box-full">
-            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+            @*<span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                <img src="/assests/images/maximize.png" />
             </span>
             <div class="clearfix">
                 <div class="row">
@@ -1000,17 +1503,21 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="box-full">
-                            <span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                            @*<span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+                            <span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                                <img src="/assests/images/maximize.png" />
                             </span>
-                            <div id="chartLine" class="chartHolder font-normal pt-5"><div class="nCheck">Select date to refresh data</div></div>
+                            <div id="chartLine" class="chartHolder font-normal pt-5">@*<div class="nCheck">Select date to refresh data</div>*@</div>
                             <div class="hdd-rp text-center">Order Count</div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="box-full">
-                            <span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                            @*<span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+                            <span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                                <img src="/assests/images/maximize.png" />
                             </span>
                             <div id="chartLine2" class="chartHolder font-normal pt-5"><div class="nCheck">Select date to refresh data</div></div>
                             <div class="hdd-rp text-center">Order Total</div>
@@ -1018,8 +1525,10 @@
                     </div>
                     <div class="col-md-4">
                         <div class="box-full">
-                            <span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">
-                                <i class="fa fa-arrows-alt" aria-hidden="true"></i>
+                            @*<span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+                            <span class="toggleFullScreen" style="top:10px" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                                <img src="/assests/images/maximize.png" />
                             </span>
                             <div id="chartLine3" class="chartHolder font-normal pt-5"><div class="nCheck">Select date to refresh data</div></div>
                             <div class="hdd-rp text-center">Order Delivered</div>
@@ -1092,7 +1601,7 @@
 </div>
 
 <div class="row clearfix">
-    <div style="float: left; margin-left: 15px; margin-top: 28px;">Customer Order Rating</div>
+    <div style="float: left; margin-left: 15px; margin-top: 28px;" class="order-rating-title">Customer Order Rating</div>
     <div class="col-md-12">
         @{
             Html.RenderAction("Rendermainpage", "ShopOrderRating");

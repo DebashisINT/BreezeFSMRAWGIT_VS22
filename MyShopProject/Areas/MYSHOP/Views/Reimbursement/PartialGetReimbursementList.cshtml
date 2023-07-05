@@ -251,14 +251,15 @@
     {
         x.Caption = "Approved";
         x.VisibleIndex = 17;
-        x.Width = 80;
+        x.Width = 150;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
 
         x.SetDataItemTemplateContent(c =>
         {
             //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenReimbursementListEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "SEQ")) + "')\">Modify</a>");
             ViewContext.Writer.Write(
-                       "<a style='cursor:pointer' onclick=\"OpenReimbursementListEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "USER_ID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPNAME")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "DEG_DESIGNATION")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "REPORTTO")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "STATE")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "STATUS")) + "')\"> <img src='/assests/images/document.png' title='Click to Approved' /></a>"
+                       "<a style='cursor:pointer' class='hover-effect' onclick=\"OpenReimbursementListEdit('" + Convert.ToString(DataBinder.Eval(c.DataItem, "USER_ID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EMPNAME")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "DEG_DESIGNATION")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "REPORTTO")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "STATE")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "STATUS")) + "')\"> <img src='/assests/images/approved.png' title='Click to Approved' /></a>"
                    );
         });
 

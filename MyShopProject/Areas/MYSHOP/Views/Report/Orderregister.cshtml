@@ -744,21 +744,21 @@
                                     @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
 
                                     @*<select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                                            <option value="">Select</option>
+                        <option value="">Select</option>
 
-                                            @foreach (var item in Model.states)
-                                            {
-                                                if (Model.StateId == item.ID)
-                                                {
-                                                    <option value="@item.ID" selected="selected">@item.StateName</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@item.ID">@item.StateName</option>
-                                                }
-                                            }
+                        @foreach (var item in Model.states)
+                        {
+                            if (Model.StateId == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.StateName</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.StateName</option>
+                            }
+                        }
 
-                                        </select>*@
+                    </select>*@
 
                                 </div>
                             </td>
@@ -768,19 +768,19 @@
                                     @Html.Action("GetShopList", "MasterPopulate")
 
                                     @*<select id="drpshop" name="drpshop" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                                            <option value="">Select</option>
-                                            @foreach (var item in Model.shoplist)
-                                            {
-                                                if (Model.shopId == item.ID)
-                                                {
-                                                    <option value="@item.ID" selected="selected">@item.Name</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@item.ID">@item.Name</option>
-                                                }
-                                            }
-                                        </select>*@
+                        <option value="">Select</option>
+                        @foreach (var item in Model.shoplist)
+                        {
+                            if (Model.shopId == item.ID)
+                            {
+                                <option value="@item.ID" selected="selected">@item.Name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.ID">@item.Name</option>
+                            }
+                        }
+                    </select>*@
 
                                 </div>
                             </td>
@@ -802,20 +802,20 @@
                                 }).GetHtml()
                                     @*<select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
 
-                                            <option value="">All</option>
-                                            @foreach (var item in Model.userlsit)
-                                            {
-                                                if (Model.selectedusrid == item.UserID)
-                                                {
-                                                    <option value="@item.UserID" selected="selected">@item.username</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="@item.UserID">@item.username</option>
+                        <option value="">All</option>
+                        @foreach (var item in Model.userlsit)
+                        {
+                            if (Model.selectedusrid == item.UserID)
+                            {
+                                <option value="@item.UserID" selected="selected">@item.username</option>
+                            }
+                            else
+                            {
+                                <option value="@item.UserID">@item.username</option>
 
-                                                }
-                                            }
-                                        </select>*@
+                            }
+                        }
+                    </select>*@
 
                                 </div>
                             </td>
@@ -858,14 +858,16 @@
                                 </div>
                             </td>
                             @*Mantis Issue 24593*@
-                        <td class="w10 inputSpacer">
-                            @*Rev 1.0*@
-                            @*<input type="checkbox" id="IsSchemeDetails" name="IsSchemeDetails" value="0"><span class="w140">Scheme Details</span>*@
-                            <input class="styled-checkbox" type="checkbox" id="IsSchemeDetails" name="IsSchemeDetails" value="0">
-                            <label for="">Scheme Details</label>
-                            @*Rev end 1.0*@
-                        </td>
+                            <td class="w10 inputSpacer">
+                                @*Rev 1.0*@
+                                @*<input type="checkbox" id="IsSchemeDetails" name="IsSchemeDetails" value="0"><span class="w140">Scheme Details</span>*@
+                                <input class="styled-checkbox" type="checkbox" id="IsSchemeDetails" name="IsSchemeDetails" value="0">
+                                <label for="">Scheme Details</label>
+                                @*Rev end 1.0*@
+                            </td>
                             @*End of Mantis Issue 24593*@
+                        </tr>
+                        <tr>
                             <td style="padding-top: 22px;width:185px;">
                                 <label></label>
                                 <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>

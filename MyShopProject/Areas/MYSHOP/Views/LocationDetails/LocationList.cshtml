@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ===========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                13-01-2023        2.0.37           Pallab              25576: Report page design modification *@
+@*2.0                14-06-2023        2.0.41           Pallab              26338: Location List module loader visibility issue fix *@
 @*====================================================== Revision History ===========================================================*@
 
 @model Models.LocationInput
@@ -709,7 +710,6 @@
 
     .dxeButtonEdit_PlasticBlue {
         border-radius: 5px;
-        
     }
 
     #dtFrom, #dtTo {
@@ -851,10 +851,10 @@
         <tbody>
             <tr>
                 <td>
-                    @*Rev 1.0*@
-                    @*<img src='~/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">*@
-                    <img src='/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">
-                    @*Rev end 1.0*@
+                    @*Rev 2.0*@
+                    @*<img src='/Commonfolder/Processing.gif' style="border: none; background-color: transparent;">*@
+                    <img src='/assests/images/Processing.gif' style="border: none; background-color: transparent;">
+                    @*Rev end 2.0*@
                 </td>
             </tr>
         </tbody>

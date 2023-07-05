@@ -79,9 +79,14 @@
 
     .btn-excel {
         float: right;
-        margin-right: 38px;
+        margin-right: 30px;
         margin-top: -4px;
+        padding: 5px 5px 5px 10px;
+        border-radius: 30px;
     }
+        .btn-excel:hover {
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.12);
+        }
 
     .gridbinded {
         position: absolute;
@@ -451,6 +456,12 @@
         display: none;
     }
     /*Rev end 1.0*/
+
+    .btn-excel > .icn {
+        width: 40px;
+        height: 40px;
+        background: #e2e2e2;
+    }
 </style>
 <script>
 
@@ -619,7 +630,7 @@
             <div class="row">
                 <span class="btn-excel">
                     <span>Export To Excel</span>
-                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="gridexport()" /></span>
+                    <span class="icn"><img src="/assests/images/excel.png" style="width: 20px;" title="" onclick="gridexport()" /></span>
                 </span>
             </div>
             <div class="relative">

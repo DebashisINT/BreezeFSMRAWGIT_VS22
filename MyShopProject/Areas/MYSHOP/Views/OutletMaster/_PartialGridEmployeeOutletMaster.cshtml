@@ -1,6 +1,8 @@
 ﻿@*====================================================== Revision History ===========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0		         13-02-2023   	   V2.0.39		    PRITI			    0025663:Last Visit fields shall be available in Outlet Reports*@
+@*2.0                30-05-2023        V2.0.41          Sanchita            Employee Outlet Master : Report a column required "Status".*@
+@*                                                                          It will the Showing status 'Active' or 'Inactive'. refer: 26240*@
 @*====================================================== Revision History ===========================================================*@
 
 
@@ -400,7 +402,16 @@
     });
     //REV 1.0 END
 
-
+    // Rev 2.0
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Status";
+        x.FieldName = "OUTLETSTATUS";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+        x.VisibleIndex = 15;
+    });
+    // End of Rev 2.0
 
 
 

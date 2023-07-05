@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.40     Debashis    30/06/2023      A new parameter has been added.Row: 853
+//2.0   V2.0.40     Debashis    30/06/2023      Some new parameters have been added.Row: 854
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -75,6 +79,9 @@ namespace ShopAPI.Models
         public DateTime? dayStart_date_time { get; set; }
         public DateTime? dayEnd_date_time { get; set; }
         public string location_name { get; set; }
+        //Rev 1.0 Row: 853
+        public int isQualifiedAttendance { get; set; }
+        //End of Rev 1.0 Row: 853
     }
 
     //Rev Debashis Row: 736
@@ -93,4 +100,20 @@ namespace ShopAPI.Models
         public string message { get; set; }
     }
     //End of Rev Debashis Row: 736
+    //Rev 2.0 Row: 854
+    public class UserAttendanceSummaryInput
+    {
+        [Required]
+        public string user_id { get; set; }
+    }
+    public class UserAttendanceSummaryOutput
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public int total_work_day { get; set; }
+        public int total_present_day { get; set; }
+        public int total_absent_day { get; set; }
+        public int total_qualified_day { get; set; }
+    }
+    //End of Rev 2.0 Row: 854
 }

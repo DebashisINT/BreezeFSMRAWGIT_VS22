@@ -471,6 +471,30 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         height: 220px !important;
     }
 /*Rev end 1.0*/
+
+    @media only screen and (max-width: 768px) {
+        .breadCumb {
+            padding: 0 21%;
+        }
+
+        .breadCumb > span
+        {
+            padding: 9px 16px;
+        }
+        .form_main {
+    overflow-x: hidden !important;
+}
+        .overflow-x-auto {
+    overflow-x: auto !important;
+    width: 300px !important;
+}
+
+        #DocumentGrid_DXPEForm_PW-1
+        {
+            width: 280px !important;
+        }
+        
+    }
     </style>
     <script type="text/javascript">
         function ShowHideFilter(obj) {
@@ -762,7 +786,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             </tr>
             <tr>
                 <td>
-                    <dxe:ASPxGridView ID="DocumentGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False" OnRowDeleting="DocumentGrid_RowDeleting"
+                    <div class="overflow-x-auto">
+                        <dxe:ASPxGridView ID="DocumentGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False" OnRowDeleting="DocumentGrid_RowDeleting"
                         DataSourceID="DocumentType" KeyFieldName="dty_id" Width="100%" OnHtmlEditFormCreated="DocumentGrid_HtmlEditFormCreated"
                         OnHtmlRowCreated="DocumentGrid_HtmlRowCreated" OnCustomCallback="DocumentGrid_CustomCallback" OnCommandButtonInitialize="DocumentGrid_CommandButtonInitialize">
                         <ClientSideEvents EndCallback="function(s, e) {EndCall(s.cpEND);}"></ClientSideEvents>
@@ -875,7 +900,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </dxe:GridViewDataCheckColumn>
 
 
-                            <dxe:GridViewCommandColumn VisibleIndex="3" ShowEditButton="true" ShowDeleteButton="true" Width="6%">
+                            <dxe:GridViewCommandColumn VisibleIndex="3" ShowEditButton="true" ShowDeleteButton="true" Width="10%">
                                 <%--<DeleteButton Visible="True">
                                 </DeleteButton>
                                 <EditButton Visible="True">
@@ -952,6 +977,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </Templates>
 
                     </dxe:ASPxGridView>
+                    </div>
                 </td>
             </tr>
         </table>

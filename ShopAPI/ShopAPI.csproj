@@ -173,6 +173,7 @@
     <Folder Include="Views\LeaveList\" />
     <Folder Include="Views\Login\" />
     <Folder Include="Views\PhoneNo\" />
+    <Folder Include="Views\QRCodeImageInfo\" />
     <Folder Include="Views\ReimbursementForm\" />
     <Folder Include="Views\RubyLeadImage\" />
     <Folder Include="Views\SendMarketingdetails\" />
@@ -289,6 +290,8 @@
     <Compile Include="Controllers\PhoneNoController.cs" />
     <Compile Include="Controllers\PJPDetailsController.cs" />
     <Compile Include="Controllers\ProductListController.cs" />
+    <Compile Include="Controllers\QRCodeImageFetchDeleteController.cs" />
+    <Compile Include="Controllers\QRCodeImageInfoController.cs" />
     <Compile Include="Controllers\QuotationController.cs" />
     <Compile Include="Controllers\ReimbursementController.cs" />
     <Compile Include="Controllers\ReimbursementFormController.cs" />
@@ -413,6 +416,7 @@
     <Compile Include="Models\Productclass.cs" />
     <Compile Include="Models\ProfileImageupdation.cs" />
     <Compile Include="Models\PushnotificationModel.cs" />
+    <Compile Include="Models\QRCodeImageModel.cs" />
     <Compile Include="Models\QuotationModel.cs" />
     <Compile Include="Models\ReimbursementModel.cs" />
     <Compile Include="Models\ReviewConfirmmodel.cs" />

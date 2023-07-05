@@ -1,4 +1,10 @@
-﻿$(document).ready(function () {
+﻿//====================================================== Revision History ===========================================================
+//@* Rev Number         DATE                VERSION          DEVELOPER           CHANGES *@
+//@* 1.0                26 - 06 - 2023      2.0.41           Pallab              26413: FSM dashboard tab boxes click event disable, when "show data" button not clicked *@
+//====================================================== Revision History ===========================================================
+
+
+$(document).ready(function () {
 
     $('#cmbStateTVH').multiselect({
         includeSelectAllOption: true,
@@ -352,7 +358,27 @@ function cmbBranchChangeTVH() {
 //// End of Mantis Issue 25455
 
 // Mantis Issue 25468
+
+/*Rev 1.0*/
+var isShowTeamVisitHDataClicked = false;
+/*Rev end 1.0*/
+
 function ShowTeamVisitHData() {
+    /*Rev 1.0*/
+    isShowTeamVisitHDataClicked = true;
+    $('#a4tvh').addClass('zoom');
+    $('#a1tvh').addClass('zoom');
+    $('#a2tvh').addClass('zoom');
+    $('#a3tvh').addClass('zoom');
+    var element4tvh = document.getElementById("a4tvh");
+    var element1tvh = document.getElementById("a1tvh");
+    var element2tvh = document.getElementById("a2tvh");
+    var element3tvh = document.getElementById("a3tvh");
+    element1tvh.removeAttribute('title');
+    element2tvh.removeAttribute('title');
+    element3tvh.removeAttribute('title');
+    element4tvh.removeAttribute('title');
+    /*Rev end 1.0*/
     if (settingsid == "1") {
         var obj = {};
         obj.ID = "1";

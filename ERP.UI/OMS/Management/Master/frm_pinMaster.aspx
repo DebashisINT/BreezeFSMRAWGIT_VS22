@@ -823,6 +823,16 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     }
 
     /*Rev end 1.0*/
+
+    @media only screen and (max-width: 768px)
+    {
+        #Popup_Empcitys_PW-1
+        {
+           width: 90% !important;
+           left: 5% !important;
+        }
+
+    }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -979,7 +989,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </dxe:GridViewDataTextColumn>
 
 
-                            <dxe:GridViewDataTextColumn Caption="" VisibleIndex="3" Width="6%">
+                            <dxe:GridViewDataTextColumn Caption="" VisibleIndex="3" Width="10%">
                                 <CellStyle HorizontalAlign="Center">
                                 </CellStyle>
                                 <HeaderStyle HorizontalAlign="Center" />

@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.38     Debashis    02/02/2023      Two new methods have been added.Row: 810 to 811
 //2.0   V2.0.39     Debashis    24/04/2023      One new method has been added.Row: 822
+//3.0   V2.0.40     Debashis    30/06/2023      One new method has been added.Row: 852
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -838,5 +839,60 @@ namespace ShopAPI.Controllers
             }
         }
         //End of Rev 2.0 Row: 822
+        //Rev 3.0 Row: 852
+        [HttpPost]
+        public HttpResponseMessage ShopInactiveList(ShopsInactivelistInput model)
+        {
+            ShopsInactivelistOutput omodel = new ShopsInactivelistOutput();
+            List<ShopsInactivelists> oview = new List<ShopsInactivelists>();
+            InactiveDatalists odata = new InactiveDatalists();
+
+            if (!ModelState.IsValid)
+            {
+                omodel.status = "213";
+                omodel.message = "Some input parameters are missing.";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+            }
+            else
+            {
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                String weburl = System.Configuration.ConfigurationManager.AppSettings["SiteURL"];
+                string DoctorDegree = System.Configuration.ConfigurationManager.AppSettings["DoctorDegree"];
+
+                DataTable dt = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_APISHOPACTIVEINACTIVE", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@session_token", model.session_token);
+                sqlcmd.Parameters.AddWithValue("@USERID", model.user_id);
+                sqlcmd.Parameters.AddWithValue("@Weburl", weburl);
+                sqlcmd.Parameters.AddWithValue("@DoctorDegree", DoctorDegree);
+
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    oview = APIHelperMethods.ToModelList<ShopsInactivelists>(dt);
+                    odata.session_token = model.session_token;
+                    odata.shop_list = oview;
+                    omodel.status = "200";
+                    omodel.message = dt.Rows.Count.ToString() + " No. of Shop list available";
+                    omodel.data = odata;
+                }
+                else
+                {
+                    omodel.status = "205";
+                    omodel.message = "No data found";
+                }
+
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+        //End of Rev 3.0 Row: 852
     }
 }

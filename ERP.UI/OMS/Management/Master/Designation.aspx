@@ -475,7 +475,22 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         height: 135px !important;
     }
     
+    @media only screen and (max-width: 768px) {
+        
+        .form_main {
+    overflow-x: hidden !important;
+}
+        .overflow-x-auto {
+    overflow-x: auto !important;
+    width: 300px !important;
+}
 
+        #DesigGrid_DXPEForm_PW-1
+        {
+            width: 280px !important;
+        }
+        
+    }
     </style>
     <%--Rev end 1.0--%>
 </asp:Content>
@@ -487,6 +502,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
    
     <div class="container">
         <div class="backBox mt-5 p-3 ">
+            <div class="form_main">
         <table class="TableMain100">
             <%--<tr>
                 <td class="EHEADER" style="text-align: center">
@@ -551,7 +567,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             </tr>
             <tr>
                 <td>
-                    <dxe:ASPxGridView ID="DesigGrid" runat="server" AutoGenerateColumns="False" DataSourceID="designation"
+                    <div class="overflow-x-auto">
+                        <dxe:ASPxGridView ID="DesigGrid" runat="server" AutoGenerateColumns="False" DataSourceID="designation"
                         KeyFieldName="deg_id" ClientInstanceName="grid" Width="100%" OnHtmlEditFormCreated="DesigGrid_HtmlEditFormCreated"
                         OnHtmlRowCreated="DesigGrid_HtmlRowCreated" OnCustomCallback="DesigGrid_CustomCallback"
                         OnStartRowEditing="DesigGrid_StartRowEditing" OnCommandButtonInitialize="DesigGrid_CommandButtonInitialize"
@@ -577,7 +594,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 <EditFormCaptionStyle Wrap="False" HorizontalAlign="Right">
                                 </EditFormCaptionStyle>
                             </dxe:GridViewDataTextColumn>
-                            <dxe:GridViewCommandColumn VisibleIndex="1" ShowEditButton="true" ShowDeleteButton="true" HeaderStyle-HorizontalAlign="Center" Width="6%">
+                            <dxe:GridViewCommandColumn VisibleIndex="1" ShowEditButton="true" ShowDeleteButton="true" HeaderStyle-HorizontalAlign="Center" Width="10%">
                                 <%-- <DeleteButton Visible="True">
                                 </DeleteButton>
                                 <EditButton Visible="True">
@@ -649,6 +666,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </EditForm>
                         </Templates>
                     </dxe:ASPxGridView>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -675,5 +693,6 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             <br />
     </div>
         </div>
+    </div>
 </asp:Content>
 

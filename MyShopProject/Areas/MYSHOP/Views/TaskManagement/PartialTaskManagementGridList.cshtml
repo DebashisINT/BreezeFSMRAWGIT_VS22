@@ -3,6 +3,7 @@
     0026031:Copy the current Enquiry page, and create a duplicate and name it as 'Task Management'
     0026032: Customization in Task Management Page
     0026034: Customization in Add Task Page*@
+@*1.0                30/05/2023        V2.0.40          Pallab             0026263: Task Management module grid action icons change*@
 @*====================================================== Revision History ===================================================*@
 @Html.DevExpress().GridView(settings =>
 {
@@ -419,22 +420,27 @@
                 {
 
 
-
+                    //Rev 1.0: Grid all action icons change
                     string EnqRights = "<div class=''>";
-                    EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenTaskManagementforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
+
+                    //EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenTaskManagementforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
+                    EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenTaskManagementforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>";
 
                     if (ViewBag.CanAssign)
                     {
                         EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                  //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                  "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><img src=\"../../../assests/images/Useradd.png\" /></a>";
 
                     }
                     EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                  //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                  "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a>";
                     if (ViewBag.CanReassign)
                     {
                         EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickReAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Re-Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-share' aria-hidden='true'></i></span></a>";
+                  //"<a href=\"javascript:void(0);\" onclick=\"OnClickReAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Re-Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-share' aria-hidden='true'></i></span></a>";
+                  "<a href=\"javascript:void(0);\" onclick=\"OnClickReAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Re-Assign Salesman\"><img src=\"../../../assests/images/User-reassign.png\" /></a>";
 
                     }
                     EnqRights = EnqRights + "</div>";
@@ -446,16 +452,19 @@
 
 
                     string EnqRights = "<div class=''>";
-                    EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenTaskManagementforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
+                    //EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenTaskManagementforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
+                    EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenTaskManagementforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>";
 
                     if (ViewBag.CanAssign)
                     {
                         EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                  //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                  "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><img src=\"../../../assests/images/Useradd.png\" /></a>";
 
                     }
                     EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a>";
 
                     EnqRights = EnqRights + "</div>";
                     ViewContext.Writer.Write(EnqRights);
@@ -470,12 +479,15 @@
             x.SetDataItemTemplateContent(tc =>
             {
                 ViewContext.Writer.Write(
-                    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                    //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
                     "" +
-                    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TASK_ID")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a></div>"
                 );
             });
         }
+        //Rev end 1.0
         x.Settings.AllowDragDrop = DefaultBoolean.False;
         x.Settings.AllowSort = DefaultBoolean.False;
         x.Width = 120;

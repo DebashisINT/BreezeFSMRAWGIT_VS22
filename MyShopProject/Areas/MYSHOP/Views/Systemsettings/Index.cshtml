@@ -1,6 +1,8 @@
 ﻿@*====================================================== Revision History ===================================================*@
-@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
-@*1.0                17-02-2023        V2.0.39          Pallab              Settings/Options module design modification *@
+@*Rev Number   DATE              VERSION    DEVELOPER       CHANGES*@
+@* 1.0         17-02-2023        V2.0.39    Pallab          Settings/Options module design modification *@
+@* 2.0         30-06-2023        V2.0.41    Sanchita        Time format should be changed to 24 hours instead of 12 hours format in the
+                                                            System Settings, Intime and Intime. Refer: 26466                      *@
 @*====================================================== Revision History ===================================================*@
 
 @model IEnumerable<MyShop.Models.SystemsettingsModel>
@@ -57,13 +59,19 @@
 
         $('#timePicker').datetimepicker({
             useCurrent: false,
-            format: "hh:mm A"
+            // Rev 2.0
+            //format: "hh:mm A"
+            format: "HH:mm:ss"
+            // End of Rev 2.0
         }).on('dp.show', function () {
             if (firstOpen) {
                 time = moment().startOf('day');
                 firstOpen = false;
             } else {
-                time = "01:00 PM"
+                // Rev 2.0
+                //time = "01:00 PM"
+                time = "01:00:00"
+                // End of Rev 2.0
             }
 
             $(this).data('DateTimePicker').date(time);

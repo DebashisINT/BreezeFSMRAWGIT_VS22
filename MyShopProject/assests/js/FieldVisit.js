@@ -1,4 +1,9 @@
-﻿$(document).ready(function () {
+﻿//====================================================== Revision History ===========================================================
+//@* Rev Number         DATE                VERSION          DEVELOPER           CHANGES *@
+//@* 1.0                26 - 06 - 2023      2.0.41           Pallab              26413: FSM dashboard tab boxes click event disable, when "show data" button not clicked *@
+//====================================================== Revision History ===========================================================
+
+$(document).ready(function () {
 
     $('#cmbStateFV').multiselect({
         includeSelectAllOption: true,
@@ -242,7 +247,27 @@ function cmbBranchChangeFV() {
 
 // End of Mantis Issue 24729
 // Mantis Issue 25455
+/*Rev 1.0*/
+var isShowFieldVisitDataClicked = false;
+/*Rev end 1.0*/
+
 function ShowFieldVisitData() {
+    /*Rev 1.0*/
+    isShowFieldVisitDataClicked = true;
+    $('#a4fv').addClass('zoom');
+    $('#a1fv').addClass('zoom');
+    $('#a2fv').addClass('zoom');
+    $('#a3fv').addClass('zoom');
+    var element4fv = document.getElementById("a4fv");
+    var element1fv = document.getElementById("a1fv");
+    var element2fv = document.getElementById("a2fv");
+    var element3fv = document.getElementById("a3fv");
+    element1fv.removeAttribute('title');
+    element2fv.removeAttribute('title');
+    element3fv.removeAttribute('title');
+    element4fv.removeAttribute('title');
+    /*Rev end 1.0*/
+
     if (settingsid == "1") {
         var obj = {};
         obj.ID = "1";
@@ -655,7 +680,16 @@ function reloadBoxDataFV(branchidsFV) {
 var Type = "";
 var FilterName = "";
 
+
+
 function AtWorkClickFV(elem) {
+    /*Rev 1.0*/
+    if (!isShowFieldVisitDataClicked) {
+        elem.title = "Please click 'show data' button";
+        return; // Disable click event
+    }
+    /*Rev end 1.0*/
+
     var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByFV').val();
     document.getElementById("griddetailsFV").style.display = "none";
     document.getElementById("gridsummaryFV").style.display = "block";
@@ -668,7 +702,11 @@ function AtWorkClickFV(elem) {
     //divBGcolor = $(elem).css('background');
 
     divBGcolor = "transparent";
-    $('#a1FV').addClass('activeW');
+    /*Rev 1.0*/
+    /*$('#a1FV').addClass('activeW');*/
+    $('.widgBox').removeClass('active');
+    $('#a2fv').addClass('active');
+    /*Rev end 1.0*/
     $('#collapseTwoFV').addClass('in');
     Type = "Attendance";
     FilterName = "AT_WORK";
@@ -686,6 +724,12 @@ function AtWorkClickFV(elem) {
 }
 
 function NotLoggedInClickFV(elem) {
+    /*Rev 1.0*/
+    if (!isShowFieldVisitDataClicked) {
+        elem.title = "Please click 'show data' button";
+        return; // Disable click event
+    }
+    /*Rev end 1.0*/
     var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByFV').val();
     document.getElementById("griddetailsFV").style.display = "none";
     document.getElementById("gridsummaryFV").style.display = "block";
@@ -696,7 +740,11 @@ function NotLoggedInClickFV(elem) {
 
     $('#dashDetails2FV').removeClass('hide');
     $('.boxWidget').removeClass('activeW');
-    $('#a3FV').addClass('activeW');
+    /*Rev 1.0*/
+    /*$('#a3FV').addClass('activeW');*/
+    $('.widgBox').removeClass('active');
+    $('#a4fv').addClass('active');
+    /*Rev end 1.0*/
     $('#collapseTwoFV').addClass('in');
     Type = "Attendance";
     FilterName = "NOT_LOGIN";
@@ -714,6 +762,12 @@ function NotLoggedInClickFV(elem) {
 }
 
 function OnLeaveClickFV(elem) {
+    /*Rev 1.0*/
+    if (!isShowFieldVisitDataClicked) {
+        elem.title = "Please click 'show data' button";
+        return; // Disable click event
+    }
+    /*Rev end 1.0*/
     var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByFV').val();
     document.getElementById("griddetailsFV").style.display = "none";
     document.getElementById("gridsummaryFV").style.display = "block";
@@ -724,7 +778,11 @@ function OnLeaveClickFV(elem) {
 
     $('#dashDetails2FV').removeClass('hide');
     $('.boxWidget').removeClass('activeW');
-    $('#a2FV').addClass('activeW');
+    /*Rev 1.0*/
+    /*$('#a2FV').addClass('activeW');*/
+    $('.widgBox').removeClass('active');
+    $('#a3fv').addClass('active');
+    /*Rev end 1.0*/
     $('#collapseTwoFV').addClass('in');
     Type = "Attendance";
     FilterName = "ON_LEAVE";
@@ -743,6 +801,12 @@ function OnLeaveClickFV(elem) {
 }
 
 function OnTotalClickFV(elem) {
+    /*Rev 1.0*/
+    if (!isShowFieldVisitDataClicked) {
+        elem.title = "Please click 'show data' button";
+        return; // Disable click event
+    }
+    /*Rev end 1.0*/
     var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByFV').val();
     document.getElementById("griddetailsFV").style.display = "none";
     document.getElementById("gridsummaryFV").style.display = "block";
@@ -752,7 +816,11 @@ function OnTotalClickFV(elem) {
 
     $('#dashDetails2FV').removeClass('hide');
     $('.boxWidget').removeClass('activeW');
-    $('#a4FV').addClass('activeW');
+    /*Rev 1.0*/
+    /*$('#a4FV').addClass('activeW');*/
+    $('.widgBox').removeClass('active');
+    $('#a1fv').addClass('active');
+    /*Rev end 1.0*/
     $('#collapseTwoFV').addClass('in');
     Type = "Attendance";
     FilterName = "EMP";

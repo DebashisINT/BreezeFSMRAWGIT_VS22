@@ -4,6 +4,7 @@
 @*2.0           17-04-2023        2.0.38           Pallab           25831 : Traveling Allowance Pop Up Height issue fixing *@
 @*3.0		    20-04-2023   	  V2.0.40		   Sanchita		    In TRAVELLING ALLOWANCE -- Approve/Reject Page: One Coloumn('Confirm/Reject') required
                                                                     before 'Approve/Reject' coloumn. refer: 25809*@
+@*4.0           29-05-2023        V2.0.40          Pallab           Travelling Allowance popup grid icons visibility issue fixing. refer: 26244 *@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.ReimbursementReport
@@ -453,7 +454,10 @@
     }
 
     .disableHref {
-        opacity: 0.3;
+        /*Rev 4.0*/
+        /*opacity: 0.3;*/
+        opacity: 0.5;
+        /*Rev end 4.0*/
     }
 
     .scrooler {
@@ -957,6 +961,35 @@
         overflow-y: auto;
     }
     /*Rev end 2.0*/
+    /*Rev 4.0*/
+    #idApprovedRejectRemarks {
+        width: 100%;
+        height: 30px;
+        border-radius: 4px;
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #ccc;
+    }
+    /*Rev end 4.0*/
+
+    .clsReimbursementDetailsGridApprovedData img, .hover-effect img {
+        transition: all .3s;
+    }
+    .clsReimbursementDetailsGridApprovedData:hover img, .hover-effect:hover img {
+        transform: scale(1.1, 1.1);
+    }
+
+    @@media only screen and (max-width: 768px)
+    {
+        .breadCumb {
+            padding: 0 16%;
+        }
+
+        .breadCumb > span
+        {
+            padding: 9px 10px;
+        }
+    }
 </style>
 
 <link href="~/Content/media.css" rel="stylesheet" />
@@ -1031,9 +1064,11 @@
         @*<div id="refreshgridreimbursement " class="container">*@
         @*<div class="backBox mt-3 p-3 ">*@
         @*Rev end 1.0*@
-        @{
-            Html.RenderAction("GetReimbursementList", "Reimbursement", new { Month = "JAN", StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0", Year = "2018" });
-        }
+        <div class="overflow-x-auto">
+            @{
+                Html.RenderAction("GetReimbursementList", "Reimbursement", new { Month = "JAN", StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0", Year = "2018" });
+            }
+        </div>
     </div>
 </div>
 @Html.DevExpress().PopupControl(

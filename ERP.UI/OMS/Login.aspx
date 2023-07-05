@@ -4,6 +4,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 1.0                14-01-2023        2.0.38           Pallab              Design change if we provide wrong password: fix 
 2.0                07-04-2023        2.0.39           Pallab              25805 : TEAM BEHIND and theme change features add in FSM login page
 3.0                24-04-2023        2.0.39           Pallab/Sanchita     25861 : Event banner should dynamically change according to the date
+4.0                06-06-2023        2.0.41           Pallab              26302 : FSM portal login page make responsive and mobile friendly
 ====================================================== Revision History ===========================================================--%>
 
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="pLogin"
@@ -574,60 +575,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         /*.spaceColumn{
             padding: 60px 0;
         }*/
-        @media only screen and (max-width: 762px){
-            .textSection {
-                display:none
-            }
-            .formBox {
-                margin:50px auto
-            }
-            .container {
-                width:100%
-            }
-            .lister >li {
-                margin-bottom:10px
-            }
-            .creditsSec#rc_app_1562 {
-                display:none !important
-
-            }
-            .lister li:last-child {
-                margin-right: 35px ;
-            }
-        }
-        @media only screen and (min-width: 763px){
-
-            .onlySm {
-                display:none;
-            }
-        }
-         @media only screen and (max-width: 760px){
-             .flexArea {
-                 height:auto;
-                 width:100%
-             }
-            .contentArea {
-                display:none;
-            }
-            .formArea {
-                width:100%;
-                display:block;
-                height:100%
-            }
-            .responsiveImg {
-                max-width:100%
-            }
-            .fts h2, .mkHd {
-                font-size:28px;
-
-            }
-            .fts h2 span {
-                font-size:22px;
-            }
-            .spaceColumn {
-                padding: 7px 0;
-            }
-        }
+        
         /*login button*/
         .cta {
           position: relative;
@@ -1046,6 +994,95 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             }
 
             /*Rev end 2.0*/
+
+            /*Rev 4.0*/
+
+            @media only screen and (max-width: 762px){
+            .textSection {
+                display:none
+            }
+            .formBox {
+                margin:50px auto
+            }
+            .container {
+                width:100%
+            }
+            .lister >li {
+                margin-bottom:10px
+            }
+            /*.creditsSec#rc_app_1562 {
+                display:none !important
+
+            }*/
+            .lister li:last-child {
+                margin-right: 35px ;
+            }
+        }
+        @media only screen and (min-width: 763px){
+
+            .onlySm {
+                display:none;
+            }
+        }
+         @media only screen and (max-width: 760px){
+             .flexArea {
+                 height:auto;
+                 width:100%  !important;
+                 flex-direction: column-reverse;
+             }
+            .contentArea {
+                /*display:none;*/
+                width: 100% !important;
+                /*height: 80%;*/
+            }
+            .formArea {
+                width:100% !important;
+                /*display:block;*/
+                height:100%  !important;
+                padding: 30px 15px;
+            }
+            .responsiveImg {
+                max-width:100%
+            }
+            .fts h2, .mkHd {
+                font-size:26px;
+                margin-bottom: 20px;
+
+            }
+            .fts h2 span {
+                font-size:22px;
+            }
+            .spaceColumn {
+                padding: 7px 0;
+            }
+
+            .fts
+            {
+                padding: 30px 0 60px;
+            }
+
+            .login-about-box
+            {
+                margin-bottom: 15px;
+            }
+
+            .right-text-part
+            {
+                padding: 30px 20px 50px 20px;
+            }
+
+            .resp-pad-left-right
+            {
+                padding-left: 10px !important;
+                padding-bottom: 10px !important;
+            }
+
+            .creditsSec , #switchArea
+            {
+                display: none;
+            }
+        }
+         /*Rev end 4.0*/
     </style>
     
     <script>
@@ -1320,7 +1357,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         <%--</div>--%>
     </div>
     <div>
-        <div class="container text-center" style="padding:50px 0">
+        <div class="container text-center resp-pad-left-right" style="padding:50px 0">
             <h3 style="font-family: 'opcen', Montserrat, sans-serif !important;font-size:26px">Log in to Start Your Digital Journey with Breeze .</h3>
             <div style="height:30px"></div>
             <a href="#" class="cta" id="toLogin">

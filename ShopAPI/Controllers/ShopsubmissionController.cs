@@ -1,10 +1,14 @@
-﻿#region======================================Revision History=========================================================
+﻿#region======================================Revision History=============================================================================================================
 //1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 786
 //2.0   V2.0.39     Debashis    27/03/2023      A new parameter has been added.Row: 814 & Refer: 0025749
 //3.0   V2.0.39     Debashis    04/04/2023      Optimized Shopsubmission/ShopVisited & Shopsubmission/ITCShopVisited API.
 //                                              Refer: 0025779
 //4.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 820
-#endregion===================================End of Revision History==================================================
+//5.0   V2.0.40     Debashis    16/06/2023      Case : If IsUpdateVisitDataInTodayTable this settings is true then with Addshop api the data insert in both tbl_Master_shop & 
+//                                              Trans_ShopActivitySubmit_TodayData table.
+//                                              At app logout Shopsubmission/ITCShopVisited this api is called with some updated data for the shop & needs to be updated in
+//                                              Trans_ShopActivitySubmit_TodayData this table through Shopsubmission/ITCShopVisited this api.Refer: 0026359
+#endregion===================================End of Revision History======================================================================================================
 using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -675,6 +679,13 @@ namespace ShopAPI.Controllers
                         //}
                         //End of Rev 3.0 Mantis: 0025779
                     }
+                    //Rev 5.0 Mantis: 0026359
+                    else if (dt.Rows.Count > 0 && Convert.ToString(dt.Rows[0]["STRMESSAGE"]) == "Updated")
+                    {
+                        omodel.status = "200";
+                        omodel.message = "Shop details successfully updated.";
+                    }
+                    //End of Rev 5.0 Mantis: 0026359
                     else
                     {
                         omodel.status = "205";

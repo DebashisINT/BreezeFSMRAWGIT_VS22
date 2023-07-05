@@ -171,7 +171,6 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 default:
                     break;
                 // End of Rev 1.0
-
             }
 
             return null;

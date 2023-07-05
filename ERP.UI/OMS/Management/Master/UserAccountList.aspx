@@ -544,6 +544,24 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             color: #fff;
     }
 
+    @media only screen and (max-width: 768px) 
+    {
+        .overflow-x-auto {
+            overflow-x: auto !important;
+                width: 300px;
+        }
+
+        .backBox
+        {
+            overflow: hidden !important;
+        }
+
+        .breadCumb > span
+        {
+            padding: 9px 15px;
+        }
+    }
+
     /*Rev end 1.0*/
     </style>
     <link href="/assests/pluggins/Transfer/icon_font/css/icon_font.css" rel="stylesheet" />
@@ -617,8 +635,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 </tr>
                 <tr>
                     <td>
-                        <%--Rev 2.0: grid column width increase--%>
-                        <dxe:ASPxGridView ID="userGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False"
+                        <div class="overflow-x-auto">
+                            <%--Rev 2.0: grid column width increase--%>
+                            <dxe:ASPxGridView ID="userGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False"
                             KeyFieldName="USER_ID" Width="100%" OnCustomJSProperties="userGrid_CustomJSProperties" SettingsBehavior-AllowFocusedRow="true"
                             Settings-HorizontalScrollBarMode="Auto">                           
                             <Columns>
@@ -688,6 +707,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 	                            EndCall(s.cpHeight);
                             }" />
                         </dxe:ASPxGridView>
+                        </div>
                     </td>
                 </tr>
             </table>

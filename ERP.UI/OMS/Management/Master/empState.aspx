@@ -440,6 +440,15 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     }
 
     /*Rev end 1.0*/
+
+    @media only screen and (max-width: 768px)
+    {
+        .breadCumb {
+            padding: 0 30%;
+        }
+
+    }
+
     </style>
 
     <script type="text/javascript">

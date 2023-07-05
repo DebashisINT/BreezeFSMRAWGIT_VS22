@@ -478,6 +478,30 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         height: 135px !important;
     }
     
+    @media only screen and (max-width: 768px) {
+        
+        .breadCumb {
+    padding: 0 15%;
+}
+        .breadCumb > span
+        {
+            padding: 9px 20px;
+        }
+
+        .form_main {
+    overflow-x: hidden !important;
+}
+        .overflow-x-auto {
+    overflow-x: auto !important;
+    width: 300px !important;
+}
+
+        #DesigGrid_DXPEForm_PW-1
+        {
+            width: 280px !important;
+        }
+        
+    }
 
     </style>
     <%--Rev end 1.0--%>
@@ -490,7 +514,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     
     <div class="container">
         <div class="backBox mt-5 p-3 ">
-        <table class="TableMain100">
+            <div class="form_main">
+                <table class="TableMain100">
             <tr>
                 <td>
                     <table width="100%">
@@ -550,7 +575,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             </tr>
             <tr>
                 <td>
-                    <dxe:ASPxGridView ID="JobResponseGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False" OnStartRowEditing="JobResponseGrid_StartRowEditing"
+                    <div class="overflow-x-auto">
+                        <dxe:ASPxGridView ID="JobResponseGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False" OnStartRowEditing="JobResponseGrid_StartRowEditing"
                         DataSourceID="jobResponse" KeyFieldName="job_id" Width="100%" OnHtmlEditFormCreated="JobResponseGrid_HtmlEditFormCreated" OnHtmlRowCreated="JobResponseGrid_HtmlRowCreated" OnCustomCallback="JobResponseGrid_CustomCallback"
                          OnCommandButtonInitialize="JobResponseGrid_CommandButtonInitialize"  OnRowDeleting="JobResponseGrid_RowDeleting">
                         <clientsideevents endcallback="function(s, e) {EndCall(s.cpEND);}"></clientsideevents>
@@ -576,7 +602,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </dxe:GridViewDataTextColumn>
 
 
-                            <dxe:GridViewCommandColumn VisibleIndex="1" ShowEditButton="true" ShowDeleteButton="true" Width="6%">
+                            <dxe:GridViewCommandColumn VisibleIndex="1" ShowEditButton="true" ShowDeleteButton="true" Width="20%">
 
                                 <%--<DeleteButton Visible="True"></DeleteButton>
 
@@ -647,10 +673,11 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </Templates>
 
                     </dxe:ASPxGridView>
+                    </div>
                 </td>
             </tr>
         </table>
-        <asp:SqlDataSource ID="jobResponse" runat="server" ConflictDetection="CompareAllValues"
+                <asp:SqlDataSource ID="jobResponse" runat="server" ConflictDetection="CompareAllValues"
             DeleteCommand="DELETE FROM [tbl_master_jobResponsibility] WHERE [job_id] = @original_job_id"
             InsertCommand="IF NOT EXISTS (SELECT 'Y' FROM tbl_master_jobResponsibility WHERE job_responsibility = @job_responsibility) BEGIN INSERT INTO [tbl_master_jobResponsibility] ([job_responsibility],[CreateDate],[CreateUser]) VALUES (@job_responsibility,getdate(),@CreateUser) End"
             OldValuesParameterFormatString="original_{0}"
@@ -673,5 +700,6 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         </dxe:ASPxGridViewExporter>
         <br />
     </div>
+        </div>
         </div>
 </asp:Content>

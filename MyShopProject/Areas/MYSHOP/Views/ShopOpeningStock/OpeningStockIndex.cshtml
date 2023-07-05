@@ -515,6 +515,18 @@
         height: 34px;
     }
     /*Rev end 1.0*/
+
+    @@media only screen and (max-width: 768px) {
+        .breadCumb {
+            padding: 0 20%;
+        }
+
+            .breadCumb > span {
+                padding: 9px 30px;
+            }
+
+        
+    }
 </style>
 
 <script>
@@ -704,7 +716,7 @@
                             <label>Warehouse </label>
                             @Html.DropDownList("ddlWareHouse", new SelectList(Model.warehouse_List, "WAREHOUSE_ID", "WAREHOUSE_NAME"), new { @name = "from", @class = "form-control", @onchange = "WarehouseChanges();" })
                         </div>
-                        <div class="col-md-8" style="padding-top: 23px; padding-bottom: 6px;">
+                        <div class="col-md-8 parameter-btns" style="padding-top: 23px; padding-bottom: 6px;">
                             <select name="ddlAppIds" class="btn btn-primary" id="ddlAppIds">
                                 <option value="0">Export to</option>
                                 <option value="1">PDF</option>

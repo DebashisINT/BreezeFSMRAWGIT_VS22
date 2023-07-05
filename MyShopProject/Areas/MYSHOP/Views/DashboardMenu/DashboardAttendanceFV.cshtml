@@ -72,7 +72,7 @@
                 {
                     @*<span>Employee Attendance Summary/*Add to check*/</span>*@
                 }
-                <ul class="mapShowlist">
+                <ul class="mapShowlist clearfix">
                     <li class="relative">
                         @Html.Action("DashboardStateComboboxFV")
                     </li>
@@ -175,7 +175,7 @@
                     @if (Model.Where(x => x.DetailsName == "Total Employees for Field Visit").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox c2" id="" onclick="OnTotalClickFV(this);">
+                            <div class="widgBox c2" id="a1fv" onclick="OnTotalClickFV(this);">
                                 <div class="d-flex  align-items-center">
                                     <div class="icon">
                                         @*<span class="lnr lnr-users"></span>*@
@@ -200,7 +200,7 @@
                     @if (Model.Where(x => x.DetailsName == "At Work for Field Visit").Count() > 0)
                     {
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox c3" id="" onclick="AtWorkClickFV(this);">
+                            <div class="widgBox c3" id="a2fv" onclick="AtWorkClickFV(this);">
                                 <div class="d-flex  align-items-center">
                                     <div class="icon">
                                         @*<span class="lnr lnr-briefcase"></span>*@
@@ -226,7 +226,7 @@
                     {
 
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox c5" id="" onclick="OnLeaveClickFV(this);">
+                            <div class="widgBox c5" id="a3fv" onclick="OnLeaveClickFV(this);">
                                 <div class="d-flex  align-items-center">
                                     <div class="icon">
                                         @*<span class="lnr lnr-calendar-full"></span>*@
@@ -251,7 +251,7 @@
                     {
 
                         <div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox c4" id="" onclick="NotLoggedInClickFV(this);">
+                            <div class="widgBox c4" id="a4fv" onclick="NotLoggedInClickFV(this);">
                                 <div class="d-flex  align-items-center">
                                     <div class="icon">
                                         @*<span class="lnr lnr-power-switch transNotLogged"></span>*@

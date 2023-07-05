@@ -617,6 +617,14 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         min-width: 195px !important;
     }
     /*Rev end 2.0*/
+
+    @media only screen and (max-width: 768px)
+    {
+        .breadCumb {
+            padding: 0 33%;
+        }
+
+    }
     </style>
     <script>
         $(document).ready(function () {

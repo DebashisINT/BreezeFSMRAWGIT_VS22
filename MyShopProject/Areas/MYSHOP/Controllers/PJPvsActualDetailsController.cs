@@ -170,7 +170,6 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     return GridViewExtension.ExportToCsv(GetGridViewSettings(), GetReport(IsPageload));
                 default:
                     break;
-                 // End of Rev 1.0
             }
 
             return null;

@@ -594,6 +594,7 @@
     <Content Include="assests\css\newlogin.css" />
     <Content Include="assests\css\pignose.calendar.min.css" />
     <Content Include="assests\css\responsive.css" />
+    <Content Include="assests\css\sweetalert2.min.css" />
     <Content Include="assests\fonts\font-awesome\css\font-awesome.css" />
     <Content Include="assests\fonts\font-awesome\css\font-awesome.min.css" />
     <Content Include="assests\fonts\font-awesome\fonts\fontawesome-webfont.svg" />
@@ -1022,8 +1023,13 @@
     <Content Include="assests\js\jquery-1.12.4.min.js" />
     <Content Include="assests\js\jquery3.3.1.min.js" />
     <Content Include="assests\js\Leavelist.js" />
+    <Content Include="assests\js\sweetalert2.all.min.js" />
     <Content Include="assests\js\TeamVisit.js" />
     <Content Include="assests\js\TeamVisitH.js" />
+    <Content Include="assests\pluggins\amchart5\Animated.js" />
+    <Content Include="assests\pluggins\amchart5\exporting.js" />
+    <Content Include="assests\pluggins\amchart5\index.js" />
+    <Content Include="assests\pluggins\amchart5\xy.js" />
     <Content Include="assests\pluggins\amchart\charts.js" />
     <Content Include="assests\pluggins\amchart\core.js" />
     <Content Include="assests\pluggins\amchart\maps.js" />
@@ -1983,6 +1989,8 @@
     <Content Include="Areas\MYSHOP\Views\BeatPlan\PartialBeatPlanGridList.cshtml" />
     <Content Include="Areas\MYSHOP\Views\SearchingInputs\_AreaBranchWisePartial.cshtml" />
     <Content Include="Areas\MYSHOP\Views\SearchingInputs\_BranchPartial.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardBranchComboboxOrder.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardStateComboboxOrder.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

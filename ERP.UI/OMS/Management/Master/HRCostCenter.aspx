@@ -1,6 +1,7 @@
 <%--====================================================== Revision History ==========================================================
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                08-02-2023        2.0.39           Pallab              25656 : Master module design modification 
+2.0                27-06-2023        2.0.41           Pallab              26443: Cost Centers/Departments module responsive issue fix and make mobile friendly
 ====================================================== Revision History ==========================================================--%>
 
 <%@ Page Title="Cost Centers/Departments" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
@@ -450,6 +451,22 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     }
 
     /*Rev end 1.0*/
+
+    /*Rev 2.0*/
+
+    @media only screen and (max-width: 768px)
+    {
+        .breadCumb {
+            padding: 0 25px;
+        }
+
+        .breadCumb > span
+        {
+            padding: 9px 8px;
+        }
+    }
+    /*Rev end 2.0*/
+
     </style>
 </asp:Content>
 
@@ -598,7 +615,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </EditFormCaptionStyle>
                             </dxe:GridViewDataTextColumn>
 
-                            <dxe:GridViewDataTextColumn Caption="Details" VisibleIndex="2" CellStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" Width="6%">
+                            <dxe:GridViewDataTextColumn Caption="Details" VisibleIndex="2" CellStyle-HorizontalAlign="Center" HeaderStyle-HorizontalAlign="Center" Width="10%">
                                 <DataItemTemplate>
                                     <% if (rights.CanEdit)
                                                { %>

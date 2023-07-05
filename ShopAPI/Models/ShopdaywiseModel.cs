@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 787
 //2.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 821
+//3.0   V2.0.40     Debashis    20/06/2023      A new parameter has been added.Row: 850
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,9 @@ namespace ShopAPI.Models
         public decimal distFromProfileAddrKms { get; set; }
         public int stationCode { get; set; }
         //End of Rev 2.0 Row:821
+        //Rev 3.0 Row: 850
+        public bool Is_Newshopadd { get; set; }
+        //End of Rev 3.0 Row: 850
     }
 
 

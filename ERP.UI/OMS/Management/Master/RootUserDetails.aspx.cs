@@ -4,6 +4,8 @@
  * 2.0                08-05-2023       V2.0.40           Sanchita         In user table a column exist as IsShowBeatInMenu. 
  *                                                                        This will show in portal under user settings as"ShowBeatInMenu".
                                                                           Refer: 25947
+ * 3.0                06-06-2023       V2.0.41           Sanchita         Required below System settings + user wise settings in portal
+                                                                          Refer: 26245  
 *******************************************************************************************************************/
 using System;
 using System.Data;
@@ -2257,6 +2259,70 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                     chkShowBeatInMenu.Checked = false;
                 }
                 // End of Rev 2.0
+                // Rev 3.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowWorkType"]) == true)
+                {
+                    chkShowWorkType.Checked = true;
+                }
+                else
+                {
+                    chkShowWorkType.Checked = false;
+                }
+
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowMarketSpendTimer"]) == true)
+                {
+                    chkShowMarketSpendTimer.Checked = true;
+                }
+                else
+                {
+                    chkShowMarketSpendTimer.Checked = false;
+                }
+
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowUploadImageInAppProfile"]) == true)
+                {
+                    chkShowUploadImageInAppProfile.Checked = true;
+                }
+                else
+                {
+                    chkShowUploadImageInAppProfile.Checked = false;
+                }
+
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowCalendar"]) == true)
+                {
+                    chkShowCalendar.Checked = true;
+                }
+                else
+                {
+                    chkShowCalendar.Checked = false;
+                }
+
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowCalculator"]) == true)
+                {
+                    chkShowCalculator.Checked = true;
+                }
+                else
+                {
+                    chkShowCalculator.Checked = false;
+                }
+
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowInactiveCustomer"]) == true)
+                {
+                    chkShowInactiveCustomer.Checked = true;
+                }
+                else
+                {
+                    chkShowInactiveCustomer.Checked = false;
+                }
+
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowAttendanceSummary"]) == true)
+                {
+                    chkShowAttendanceSummary.Checked = true;
+                }
+                else
+                {
+                    chkShowAttendanceSummary.Checked = false;
+                }
+                // End of Rev 3.0
 
                 hdnPartyType.Value = dsUserDetail.Tables[1].Rows[0]["Shop_TypeId"].ToString();
 
@@ -2643,6 +2709,15 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 // Rev 2.0
                 int IsShowBeatInMenu = 0;
                 // End of Rev 2.0
+                // Rev 3.0
+                int IsShowWorkType = 0;
+                int IsShowMarketSpendTimer = 0;
+                int IsShowUploadImageInAppProfile = 0;
+                int IsShowCalendar = 0;
+                int IsShowCalculator = 0;
+                int IsShowInactiveCustomer = 0;
+                int IsShowAttendanceSummary = 0;
+                // End of Rev 3.0
 
                 if (chkIsActive.Checked == true)
                     isactive = "Y";
@@ -3990,6 +4065,42 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 else
                     IsShowBeatInMenu = 0;
                 // End of Rev 2.0
+                // Rev 3.0
+                if (chkShowWorkType.Checked == true)
+                    IsShowWorkType = 1;
+                else
+                    IsShowWorkType = 0;
+
+                if (chkShowMarketSpendTimer.Checked == true)
+                    IsShowMarketSpendTimer = 1;
+                else
+                    IsShowMarketSpendTimer = 0;
+
+                if (chkShowUploadImageInAppProfile.Checked == true)
+                    IsShowUploadImageInAppProfile = 1;
+                else
+                    IsShowUploadImageInAppProfile = 0;
+
+                if (chkShowCalendar.Checked == true)
+                    IsShowCalendar = 1;
+                else
+                    IsShowCalendar = 0;
+
+                if (chkShowCalculator.Checked == true)
+                    IsShowCalculator = 1;
+                else
+                    IsShowCalculator = 0;
+
+                if (chkShowInactiveCustomer.Checked == true)
+                    IsShowInactiveCustomer = 1;
+                else
+                    IsShowInactiveCustomer = 0;
+
+                if (chkShowAttendanceSummary.Checked == true)
+                    IsShowAttendanceSummary = 1;
+                else
+                    IsShowAttendanceSummary = 0;
+                // End of Rev 3.0
 
                 String PartyType = hdnPartyType.Value.ToString();
                 //Rev work start 26.04.2022 Mantise ID:0024856: Copy feature add in User master
@@ -4313,6 +4424,15 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             // Rev 2.0
                             proc.AddPara("@IsShowBeatInMenu", IsShowBeatInMenu);
                             // End of Rev 2.0
+                            // Rev 3.0
+                            proc.AddPara("@IsShowWorkType", IsShowWorkType);
+                            proc.AddPara("@IsShowMarketSpendTimer", IsShowMarketSpendTimer);
+                            proc.AddPara("@IsShowUploadImageInAppProfile", IsShowUploadImageInAppProfile);
+                            proc.AddPara("@IsShowCalendar", IsShowCalendar);
+                            proc.AddPara("@IsShowCalculator", IsShowCalculator);
+                            proc.AddPara("@IsShowInactiveCustomer", IsShowInactiveCustomer);
+                            proc.AddPara("@IsShowAttendanceSummary", IsShowAttendanceSummary);
+                            // End of Rev 3.0
 
                             DataTable dt = proc.GetTable();
 
@@ -4716,6 +4836,15 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             // Rev 2.0
                             proc.AddPara("@IsShowBeatInMenu", IsShowBeatInMenu);
                             // End of Rev 2.0
+                            // Rev 3.0
+                            proc.AddPara("@IsShowWorkType", IsShowWorkType);
+                            proc.AddPara("@IsShowMarketSpendTimer", IsShowMarketSpendTimer);
+                            proc.AddPara("@IsShowUploadImageInAppProfile", IsShowUploadImageInAppProfile);
+                            proc.AddPara("@IsShowCalendar", IsShowCalendar);
+                            proc.AddPara("@IsShowCalculator", IsShowCalculator);
+                            proc.AddPara("@IsShowInactiveCustomer", IsShowInactiveCustomer);
+                            proc.AddPara("@IsShowAttendanceSummary", IsShowAttendanceSummary);
+                            // End of Rev 3.0
 
                             DataTable dt = proc.GetTable();
 
@@ -5115,6 +5244,15 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             // Rev 2.0
                             proc.AddPara("@IsShowBeatInMenu", IsShowBeatInMenu);
                             // End of Rev 2.0
+                            // Rev 3.0
+                            proc.AddPara("@IsShowWorkType", IsShowWorkType);
+                            proc.AddPara("@IsShowMarketSpendTimer", IsShowMarketSpendTimer);
+                            proc.AddPara("@IsShowUploadImageInAppProfile", IsShowUploadImageInAppProfile);
+                            proc.AddPara("@IsShowCalendar", IsShowCalendar);
+                            proc.AddPara("@IsShowCalculator", IsShowCalculator);
+                            proc.AddPara("@IsShowInactiveCustomer", IsShowInactiveCustomer);
+                            proc.AddPara("@IsShowAttendanceSummary", IsShowAttendanceSummary);
+                            // End of Rev 3.0
 
                             DataTable dt = proc.GetTable();
 
@@ -5316,17 +5454,19 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             DivShowMeetingsOption.Style.Add("display", "none");
                         }
                     }
-                    else if (Convert.ToString(dr["key"]) == "ShowProductRateInApp")
-                    {
-                        if (Convert.ToString(dr["Value"]) == "1")
-                        {
-                            DivShowProductRateinApp.Style.Add("display", "table-cell");
-                        }
-                        else
-                        {
-                            DivShowProductRateinApp.Style.Add("display", "none");
-                        }
-                    }
+                    // Rev 3.0
+                    //else if (Convert.ToString(dr["key"]) == "ShowProductRateInApp")
+                    //{
+                    //    if (Convert.ToString(dr["Value"]) == "1")
+                    //    {
+                    //        DivShowProductRateinApp.Style.Add("display", "table-cell");
+                    //    }
+                    //    else
+                    //    {
+                    //        DivShowProductRateinApp.Style.Add("display", "none");
+                    //    }
+                    //}
+                    // End of Rev 3.0
                     else if (Convert.ToString(dr["key"]) == "isActivatePJPFeature")
                     {
                         if (Convert.ToString(dr["Value"]) == "1")
@@ -5806,7 +5946,10 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             TdwillDynamicShow.Style.Add("display", "none");
                         }
                     }
-                    else if (Convert.ToString(dr["key"]) == "IsCRMApplicable")
+                    // Rev 3.0
+                    //else if (Convert.ToString(dr["key"]) == "IsCRMApplicable")
+                    else if (Convert.ToString(dr["key"]) == "willActivityShow")
+                        // End of Rev 3.0
                     {
                         if (Convert.ToString(dr["Value"]) == "1")
                         {
@@ -6969,6 +7112,85 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                         }
                     }
                     // End of Rev 1.0
+                    // Rev 3.0
+                    else if (Convert.ToString(dr["key"]) == "IsShowWorkType")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divShowWorkType.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divShowWorkType.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsShowMarketSpendTimer")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divShowMarketSpendTimer.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divShowMarketSpendTimer.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsShowUploadImageInAppProfile")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divShowUploadImageInAppProfile.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divShowUploadImageInAppProfile.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsShowCalendar")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divShowCalendar.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divShowCalendar.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsShowCalculator")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divShowCalculator.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divShowCalculator.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsShowInactiveCustomer")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divShowInactiveCustomer.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divShowInactiveCustomer.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsShowAttendanceSummary")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divShowAttendanceSummary.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divShowAttendanceSummary.Style.Add("display", "none");
+                        }
+                    }
+                    // End of Rev 3.0
                 }
             }
         }

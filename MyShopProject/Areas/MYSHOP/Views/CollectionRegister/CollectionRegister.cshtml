@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                24-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                16-06-2023        2.0.40           Pallab              26363: Collection Register report parameter design issue fix *@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.CollectionRegisterModel
@@ -883,8 +884,8 @@
                                     <div>
                                         @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
                                         @*<span id="MandatoryState" style="display: none" class="validclass">
-                    <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                </span>*@
+                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>*@
                                     </div>
                                 </td>
                                 <td class="w150">
@@ -921,6 +922,9 @@
                                     @*Rev end 1.0*@
                                 </td>
                                 @*Rev 1.0*@
+                                @*Rev 2.0: create 2nd table row(tr) For parameter alignment issue fix*@
+                            </tr>
+                            <tr>
                                 @*<td style="padding-top: 22px;width:170px;">*@
                                 <td style="padding-top: 22px;width:190px;">
                                     @*Rev end 1.0*@
@@ -938,6 +942,7 @@
 
                                 </td>
                             </tr>
+                            @*End of Rev 2.0*@
                         </table>
                     </div>
                 </div>
@@ -950,11 +955,11 @@
             <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
         </div>
         @*Rev 1.0*@
-    @*</div>
-</div>*@
-<div style="clear: both;"><br /></div>
-@*<div class="container">
-    <div class="backBox mt-1 p-3 ">*@
+        @*</div>
+            </div>*@
+        <div style="clear: both;"><br /></div>
+        @*<div class="container">
+            <div class="backBox mt-1 p-3 ">*@
         @*Rev end 1.0*@
         <div class="mx-4">
             <div class="options">

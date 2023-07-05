@@ -9,7 +9,7 @@
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
     settings.Settings.VerticalScrollableHeight = 400;
-    
+
 
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
     settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
@@ -17,14 +17,14 @@
     settings.Settings.ShowFilterRow = true;
     settings.Settings.ShowGroupPanel = false;
     settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
- 
+
     settings.Settings.ShowFooter = true;
     settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
 
     settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
     settings.SettingsPager.PageSizeItemSettings.Visible = true;
     settings.SettingsPager.PageSize = 10;
-    
+
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
 
 
@@ -131,14 +131,14 @@
         x.VisibleIndex = 11;
         x.Width = 150;
     });
-   
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "PP_CODE";
         x.Caption = "PP Code";
         x.VisibleIndex = 12;
         x.Width = 100;
-    });   
+    });
 
     settings.Columns.Add(x =>
     {
@@ -146,7 +146,7 @@
         x.Caption = "PP Name";
         x.VisibleIndex = 13;
         x.Width = 200;
-    });       
+    });
 
     settings.Columns.Add(x =>
     {
@@ -178,8 +178,8 @@
         x.Caption = "DD Location";
         x.VisibleIndex = 17;
         x.Width = 250;
-    }); 
-    
+    });
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "Outlet_Code";
@@ -195,7 +195,7 @@
         x.VisibleIndex = 19;
         x.Width = 200;
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "Outlet_type";
@@ -203,7 +203,7 @@
         x.VisibleIndex = 20;
         x.Width = 100;
     });
-    
+
     // Mantis Issue 25421
     settings.Columns.Add(x =>
     {
@@ -221,7 +221,7 @@
         x.VisibleIndex = 22;
         x.Width = 150;
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "Outlet_ContactNo";
@@ -258,21 +258,21 @@
         //settings.Styles.Cell.ForeColor = System.Drawing.Color.Green;
         //x.CellStyle.ForeColor = System.Drawing.Color.Green;
         x.SetDataItemTemplateContent(c =>
-           {
-               string Temp = Convert.ToString(DataBinder.Eval(c.DataItem, "OutletStatus"));
-               if (Temp == "Active")
-                   // x.CellStyle.BackColor = 
-                   //x.CellStyle.ForeColor = System.Drawing.Color.Green;
-                   ViewContext.Writer.Write("<span style=\"color:Green\">" + c.Text + "</span>");
-               else
-                   //x.CellStyle.BackColor = DXColor.Red;
-                   //settings.Styles.Cell.ForeColor = System.Drawing.Color.Red;
-                   //x.CellStyle.ForeColor = System.Drawing.Color.Red;
-                   ViewContext.Writer.Write("<span style=\"color:Red\">" + c.Text + "</span>");
-           });
+        {
+            string Temp = Convert.ToString(DataBinder.Eval(c.DataItem, "OutletStatus"));
+            if (Temp == "Active")
+                // x.CellStyle.BackColor = 
+                //x.CellStyle.ForeColor = System.Drawing.Color.Green;
+                ViewContext.Writer.Write("<span style=\"color:Green\">" + c.Text + "</span>");
+            else
+                //x.CellStyle.BackColor = DXColor.Red;
+                //settings.Styles.Cell.ForeColor = System.Drawing.Color.Red;
+                //x.CellStyle.ForeColor = System.Drawing.Color.Red;
+                ViewContext.Writer.Write("<span style=\"color:Red\">" + c.Text + "</span>");
+        });
         //End of Mantis Issue 24928
-    }); 
-    
+    });
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "OutletSpecify";
@@ -344,9 +344,9 @@
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy HH:mm:ss";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy HH:mm:ss";
-    
+
     });
-    
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "CreateBy";
@@ -372,18 +372,22 @@
         x.Caption = "Updated By";
         x.VisibleIndex = 37;
         x.Width = 100;
-    });   
+    });
 
     settings.Columns.Add(x =>
     {
         x.SetDataItemTemplateContent(tc =>
         {
             ViewContext.Writer.Write(
-                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                //Rev 1.0: action icon change
+                //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
                  "" +
-                 "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
+                 //"<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
+                 "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><img src=\"../../../assests/images/change-status.png\" /></a>" +
                   "" +
-                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a></div>"
             );
         });
         x.Settings.AllowDragDrop = DefaultBoolean.False;
@@ -391,8 +395,8 @@
         x.Width = 120;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-               
-        
+
+
         x.Caption = "Action";
         x.VisibleIndex = 38;
         //x.Width = 50;
@@ -402,7 +406,7 @@
         //});
 
     });
-    
+
     //settings.Columns.Add(x =>
     //{
     //    x.Caption = "Change Status";
@@ -414,7 +418,7 @@
     //    });
 
     //});
-    
+
 
 }).Bind(Model).GetHtml()
 
