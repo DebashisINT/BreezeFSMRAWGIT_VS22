@@ -1,0 +1,320 @@
+﻿@*#region======================================Revision History=========================================================================*@
+@*1.0   V2.0.41    Debashis     13/07/2023      A New Report Required for ITC under Report > MIS > Outlet Revisit Details
+                                                And Parameter will be same as 'DS Visit Details' report.Refer: 0026473*@
+@*#endregion===================================End of Revision History==================================================================*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridOutletReVisitDetails";
+    settings.CallbackRouteValues = new { Action = "GetOutletReVisitDetailsList", Controller = "OutletReVisitDetails" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 1;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "HREPORTTOUID";
+
+        x.Caption = "AE ID";
+        x.VisibleIndex = 2;
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='HREPORTTOUID'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+
+        x.FieldName = "REPORTTOUID";
+
+        x.Caption = "WD ID";
+        x.VisibleIndex = 3;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='REPORTTOUID'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPID";
+        x.Caption = "DS ID";
+        x.VisibleIndex = 3;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPID'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 120;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 120;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMPNAME";
+        x.Caption = "DS Name";
+        x.VisibleIndex = 4;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 180;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 180;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITEDDATE";
+        x.Caption = "ReVisit Date";
+        x.VisibleIndex = 6;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VISITEDDATE'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "VISITEDTIME";
+        x.Caption = "Revisit Time";
+        x.VisibleIndex = 7;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VISITEDTIME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OUTLETID";
+        x.Caption = "Outlet ID";
+        x.VisibleIndex = 8;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETID'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "OUTLETNAME";
+        x.Caption = "Outlet Name";
+        x.VisibleIndex = 9;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETNAME'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LATITUDE";
+        x.Caption = "Latitude";
+        x.VisibleIndex = 10;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LATITUDE'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "LONGITUDE";
+        x.Caption = "Longitude";
+        x.VisibleIndex = 11;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LONGITUDE'");
+            if (row != null && row.Length > 0)
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+
+    });
+
+
+}).Bind(Model).GetHtml()
