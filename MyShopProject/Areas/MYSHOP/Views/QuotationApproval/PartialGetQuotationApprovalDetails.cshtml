@@ -515,7 +515,8 @@
         x.SetDataItemTemplateContent(tc =>
         {
             ViewContext.Writer.Write(
-                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenforApprove('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "DOCUMENT_NUMBER")) + "')\" class=\"\" title=\"Approve/Reject\"><span class='ico editColor mr-3'><i class='fa fa-eye' aria-hidden='true'></i></span></a>" +
+                //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenforApprove('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "DOCUMENT_NUMBER")) + "')\" class=\"\" title=\"Approve/Reject\"><span class='ico editColor mr-3'><i class='fa fa-eye' aria-hidden='true'></i></span></a>" +
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenforApprove('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "DOCUMENT_NUMBER")) + "')\" class=\"\" title=\"Approve/Reject\"><span class='ico editColor'><img src=\"../../../assests/images/eye2.png\" /></span></a>" +
                  ""
             );
         });

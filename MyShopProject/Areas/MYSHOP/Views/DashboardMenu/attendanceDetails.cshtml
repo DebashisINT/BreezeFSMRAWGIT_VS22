@@ -6,6 +6,7 @@
 @*4.0                07-06-2023        2.0.41           Pallab              26304: Zoom in not happening in the Attendance, Order, Reimbursement tab  *@
 @*5.0                07-06-2023        2.0.41           Pallab              26305: am chart version update in FSM  *@
 @*6.0                26-06-2023        2.0.41           Pallab              26413: FSM dashboard tab boxes click event disable, when "show data" button not clicked  *@
+@*7.0                10-07-2023        2.0.42           Pallab              26538: FSM when show data button not clicked, show a message, when box click  *@
 @*====================================================== Revision History ===========================================================*@
 
 <link href="~/assests/css/pignose.calendar.min.css" rel="stylesheet" />
@@ -697,6 +698,15 @@
         $("#getTotalA").click(function () {
             /*Rev 6.0*/
             if (!isShowAttendanceDataClicked) {
+                /*Rev 7.0*/
+                Swal.fire({
+                    /*position: 'top',*/
+                    title: 'Please select show data first, then view the details from here. Thanks.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass: "show-data-msg"
+                })
+                /*Rev end 7.0*/
                 return; // Disable click event
             }
             /*Rev end 6.0*/
@@ -735,6 +745,15 @@
         $("#getAbsentToday").click(function () {
             /*Rev 6.0*/
             if (!isShowAttendanceDataClicked) {
+                /*Rev 7.0*/
+                Swal.fire({
+                    /*position: 'top',*/
+                    title: 'Please select show data first, then view the details from here. Thanks.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass: "show-data-msg"
+                })
+                /*Rev end 7.0*/
                 return; // Disable click event
             }
             /*Rev end 6.0*/
@@ -773,6 +792,15 @@
         $("#getOnTimeToday").click(function () {
             /*Rev 6.0*/
             if (!isShowAttendanceDataClicked) {
+                /*Rev 7.0*/
+                Swal.fire({
+                    /*position: 'top',*/
+                    title: 'Please select show data first, then view the details from here. Thanks.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass: "show-data-msg"
+                })
+            /*Rev end 7.0*/
                 return; // Disable click event
             }
             /*Rev end 6.0*/
@@ -811,6 +839,15 @@
         $("#getLateToday").click(function () {
             /*Rev 6.0*/
             if (!isShowAttendanceDataClicked) {
+                /*Rev 7.0*/
+                Swal.fire({
+                    /*position: 'top',*/
+                    title: 'Please select show data first, then view the details from here. Thanks.',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    customClass: "show-data-msg"
+                })
+                /*Rev end 7.0*/
                 return; // Disable click event
             }
             /*Rev end 6.0*/

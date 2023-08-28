@@ -1,0 +1,130 @@
+﻿@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridCityMasterList";
+    settings.KeyFieldName = "ID";
+    settings.CallbackRouteValues = new { Action = "GetCityDetailsList", Controller = "CityMaster" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 400;
+
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "city_id";
+    //    x.Caption = "CityID";
+    //    x.VisibleIndex = 0;
+    //    x.Width = 200;
+    //    x.Visible = false;
+    //});
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "state_id";
+    //    x.Caption = "StateID";
+    //    x.VisibleIndex = 0;
+    //    x.Width = 100;
+    //    x.Visible = false;
+    //});
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "cou_id";
+    //    x.Caption = "CountryID";
+    //    x.VisibleIndex = 0;
+    //    x.Width = 100;
+    //    x.Visible = false;
+    //});
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "city_name";
+        x.Caption = "City";
+        x.VisibleIndex = 1;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "state";
+        x.Caption = "State";
+        x.VisibleIndex = 2;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "cou_country";
+        x.Caption = "Country";
+        x.VisibleIndex = 3;
+        x.Width = 150;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "City_Lat";
+        x.Caption = "City Location Lat";
+        x.VisibleIndex = 4;
+        x.Width = 200;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "City_Long";
+        x.Caption = "City Location Long";
+        x.VisibleIndex = 5;
+        x.Width = 200;
+    });
+
+
+
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                //Rev 1.0: action icon change
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"fn_Editcity('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "city_id")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
+                  "" +
+                "<a href=\"javascript:void(0);\" onclick=\"fn_Deletecity('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "city_id")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a></div>"
+            );
+        });
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.False;
+        x.Width = 120;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+
+        x.Caption = "Action";
+        x.VisibleIndex = 38;
+
+
+    });
+
+
+
+}).Bind(Model).GetHtml()
+
+
+

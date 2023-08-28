@@ -644,11 +644,11 @@
         font-weight: 500;
     }
 
-    .closerCss, .closeAc, .closeAcDetails, .closer, .closeAcDetails2 , .closeacdetails2FV {
-        position: absolute;
-        right: 2px;
-        top: 0px;
-    }
+.closerCss, .closeAc, .closeAcDetails, .closer, .closeAcDetails2, .closeacdetails2FV, .closeAcDetails2FV {
+    position: absolute;
+    right: 2px;
+    top: 0px;
+}
 
     #griddashboard > tbody > tr > td > table {
         table-layout: auto !important;
@@ -2110,4 +2110,16 @@
 .pignose-calendar .pignose-calendar-header {
     padding: 0 5px !important;
 }
-    
+
+
+.show-data-msg #swal2-title {
+    font-size: 16px !important;
+    color: #164f92 !important;
+    line-height: 25px !important;
+}
+
+.disabled-box {
+    filter: blur(5px); 
+    cursor: not-allowed; 
+    pointer-events: none;
+}

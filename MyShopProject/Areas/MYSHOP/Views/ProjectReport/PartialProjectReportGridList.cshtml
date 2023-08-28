@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ===================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                08-08-2023        V2.0.40          Pallab              26699: Project & Projection Entry icons create and change & others design issue fix *@
+@*====================================================== Revision History ===================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridProjectReport";
     settings.KeyFieldName = "PR_ID";
@@ -26,7 +31,7 @@
     settings.SettingsPager.PageSize = 10;
 
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
- 
+
     settings.SettingsBehavior.EnableCustomizationWindow = false;
     settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
 
@@ -236,7 +241,7 @@
         column.FieldName = "CONTACT_PERSON";
         column.Caption = "Contact Person";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-       // column.FixedStyle = GridViewColumnFixedStyle.Left;
+        // column.FixedStyle = GridViewColumnFixedStyle.Left;
         //column.Width = 80;
         if (ViewBag.RetentionColumn != null)
         {
@@ -408,12 +413,12 @@
         }
     });
 
-    
+
     settings.Columns.Add(column =>
     {
         column.FieldName = "EXECUTIVE_NAME";
         column.Caption = "Executive Name";
-       // column.FixedStyle = GridViewColumnFixedStyle.Left;
+        // column.FixedStyle = GridViewColumnFixedStyle.Left;
         //column.Width = 96;
         if (ViewBag.RetentionColumn != null)
         {
@@ -492,7 +497,7 @@
         }
         //End of Mantis Issue 24816
     });
-    
+
     // Mantis Issue 25203
     settings.Columns.Add(column =>
     {
@@ -594,7 +599,7 @@
             column.Width = 80;
         }
     });
-    
+
     settings.Columns.Add(column =>
     {
         column.FieldName = "HODREMARKS";
@@ -620,7 +625,7 @@
             column.Width = 120;
         }
     });
-        
+
     settings.Columns.Add(column =>
     {
         column.FieldName = "HODVISITEDON";
@@ -673,7 +678,7 @@
         }
     });
     // End of Mantis Issue 25203
-    
+
     settings.Columns.Add(x =>
     {
         x.SetDataItemTemplateContent(tc =>
@@ -683,19 +688,22 @@
 
             if (ViewBag.CanEdit)
             {
-                EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
+                //EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
+                EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>";
             }
 
             if (ViewBag.CanDelete)
             {
-                EnqRights = EnqRights + "&nbsp;" +
-                 "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                EnqRights = EnqRights +
+                 //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                 "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a>";
 
             }
             // Mantis Issue 25203
             if (ViewBag.CanEdit)
             {
-                EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenforHODRemarks('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"HOD Remarks\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                //EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenforHODRemarks('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"HOD Remarks\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenforHODRemarks('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "PR_ID")) + "')\" class=\"\" title=\"HOD Remarks\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/remarks.png\" /></span></a>";
             }
             // End of Mantis Issue 25203
 

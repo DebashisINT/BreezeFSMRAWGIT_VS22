@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ===========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
-@*1.0                16-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*1.0                16-01-2023        V2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                19-07-2023        V2.0.42           Priti               0026135: Branch Parameter is required for various FSM reports *@
 @*====================================================== Revision History ===========================================================*@
 
 @model Models.SalesSummaryReport
@@ -195,9 +196,7 @@
         //var StateId = StateGridLookup.gridView.GetSelectedKeysOnPage();
         //var desigId = DesigGridLookup.gridView.GetSelectedKeysOnPage();
         //var empId = EmpGridLookup.gridView.GetSelectedKeysOnPage();
-
         // alert(StateId);
-
 
         e.customArgs["Fromdate"] = dtFrom.GetText();
         e.customArgs["Todate"] = dtTo.GetText();
@@ -205,8 +204,10 @@
         e.customArgs["desgid"] = desigId;
         e.customArgs["empcode"] = empId;
         e.customArgs["is_pageload"] = is_pageload;
-
         // alert(e.customArgs["StateId"]);
+        //REV 2.0
+        e.customArgs["BranchId"] = BranchId;
+        //REV 2.0 END
 
     }
 
@@ -526,7 +527,6 @@
 
     .dxeButtonEdit_PlasticBlue {
         border-radius: 5px;
-        
     }
 
     #dtFrom, #dtTo {
@@ -674,7 +674,7 @@
         padding: 10px !important;
     }
 
-        #dtFrom_B-1 #dtFrom_B-1Img , 
+        #dtFrom_B-1 #dtFrom_B-1Img,
         #dtTo_B-1 #dtTo_B-1Img {
             display: none;
         }
@@ -682,7 +682,29 @@
     #dtFrom_I, #dtTo_I {
         background: transparent;
     }
+
+    .pad-md-18 {
+        padding-top: 22px;
+    }
     /*Rev end 1.0*/
+    @@media only screen and (max-width: 768px) {
+        .breadCumb > span {
+            padding: 9px 15px;
+            text-align: center;
+        }
+
+        .breadCumb {
+            padding: 0 16%;
+        }
+
+        .col-md-3 {
+            margin-bottom: 10px !important;
+        }
+
+        #refreshgridsalessummary {
+            overflow-x: auto;
+        }
+    }
 </style>
 
 <script>
@@ -769,7 +791,95 @@
         }
     }
 </script>
-
+<script>
+    //Rev 2.0
+    var BranchId = [];
+    var Branch_Id = "";
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+        $('#hdnEmployeeAEId').val('')
+        $('#hdnEmployeeWDId').val('')
+        $('#hdnEmployeeDSId').val('')
+        EmployeeTxt.SetText('')
+        EmployeeWDTxt.SetText('')
+        EmployeeDSTxt.SetText('')
+        BranchId = [];
+        Branch_Id = "";
+    }
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+    //Rev 2.0 End
+</script>
 
 <link href="~/Content/media.css" rel="stylesheet" />
 
@@ -831,6 +941,24 @@
                     @*Rev end 1.0*@
                 </div>
             </div>
+            @*REV 2.0*@
+            <div class="col-md-4 col-lg-2">
+                <label>Head Branch : </label>
+                <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                    @foreach (var item in Model.modelbranch)
+                    {
+                        <option value="@item.BRANCH_ID">@item.CODE</option>
+                    }
+                </select>
+            </div>
+            <div class="col-md-4 col-lg-2">
+                <label>Branch </label>
+                <div>
+                    @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                </div>
+            </div>
+            @*REV 2.0 END*@
+
             <div class="col-md-4 col-lg-2">
                 <label>State</label>
                 <div>
@@ -842,24 +970,26 @@
 
 
                     @*<select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                            <option value="">All</option>
+                    <option value="">All</option>
 
-                            @foreach (var item in Model.states)
-                            {
-                                if (Model.StateId == item.ID)
-                                {
-                                    <option value="@item.ID" selected="selected">@item.StateName</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.ID">@item.StateName</option>
-                                }
-                            }
+                    @foreach (var item in Model.states)
+                    {
+                        if (Model.StateId == item.ID)
+                        {
+                            <option value="@item.ID" selected="selected">@item.StateName</option>
+                        }
+                        else
+                        {
+                            <option value="@item.ID">@item.StateName</option>
+                        }
+                    }
 
-                        </select>*@
+                </select>*@
 
                 </div>
             </div>
+            <div class="clear"></div>
+
             <div class="col-md-3 ">
                 <label>Designation</label>
                 <div>
@@ -867,20 +997,20 @@
                     @Html.Action("GetDesigList", "SalesReportSummary")
                     @*<select id="drpdesig" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
 
-                            <option value="">All</option>
-                            @foreach (var item in Model.designation)
-                            {
-                                if (Model.desgid == item.desgid)
-                                {
-                                    <option value="@item.desgid" selected="selected">@item.designame</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.desgid">@item.designame</option>
+                    <option value="">All</option>
+                    @foreach (var item in Model.designation)
+                    {
+                        if (Model.desgid == item.desgid)
+                        {
+                            <option value="@item.desgid" selected="selected">@item.designame</option>
+                        }
+                        else
+                        {
+                            <option value="@item.desgid">@item.designame</option>
 
-                                }
-                            }
-                        </select>*@
+                        }
+                    }
+                </select>*@
 
                 </div>
             </div>
@@ -903,19 +1033,19 @@
                     }).GetHtml()
 
                     @*<select id="drpemp" name="drpshop" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                            <option value="">All</option>
-                            @foreach (var item in Model.employee)
-                            {
-                                if (Model.empcode == item.empcode)
-                                {
-                                    <option value="@item.empcode" selected="selected">@item.empname</option>
-                                }
-                                else
-                                {
-                                    <option value="@item.empcode">@item.empname</option>
-                                }
-                            }
-                        </select>*@
+                    <option value="">All</option>
+                    @foreach (var item in Model.employee)
+                    {
+                        if (Model.empcode == item.empcode)
+                        {
+                            <option value="@item.empcode" selected="selected">@item.empname</option>
+                        }
+                        else
+                        {
+                            <option value="@item.empcode">@item.empname</option>
+                        }
+                    }
+                </select>*@
 
                 </div>
             </div>
@@ -936,35 +1066,35 @@
             @*<div class="col-md-12">
 
 
-                  <table class="eqpadtbl">
-                      <tr>
-                          <td class="w150 relative">
+          <table class="eqpadtbl">
+              <tr>
+                  <td class="w150 relative">
 
-                          </td>
-                          <td class="w150 relative">
+                  </td>
+                  <td class="w150 relative">
 
-                          </td>
-
-
-
-                          <td class="w150">
-
-                          </td>
-                          <td class="w150">
-
-                          </td>
-                          <td class="w150">
-
-                          </td>
-
-                          <td style="padding-top: 22px;width:170px;">
+                  </td>
 
 
-                          </td>
-                      </tr>
-                  </table>
 
-                </div>*@
+                  <td class="w150">
+
+                  </td>
+                  <td class="w150">
+
+                  </td>
+                  <td class="w150">
+
+                  </td>
+
+                  <td style="padding-top: 22px;width:170px;">
+
+
+                  </td>
+              </tr>
+          </table>
+
+        </div>*@
 
         </div>
         <input type="hidden" id="hdnuser_id" />
@@ -977,8 +1107,13 @@
             <div id="refreshgridsalessummary">
 
                 @{
-                    Html.RenderAction("GetSalesSummaryList", "SalesReportSummary", new { Fromdate = Model.Fromdate, Todate = Model.Todate, StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0" });
+                    //Rev 2.0
+                    //Html.RenderAction("GetSalesSummaryList", "SalesReportSummary", new { Fromdate = Model.Fromdate, Todate = Model.Todate, StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0" });
+
+                    Html.RenderAction("GetSalesSummaryList", "SalesReportSummary", new { Fromdate = Model.Fromdate, Todate = Model.Todate, StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, BranchId = Model.BranchId, is_pageload = "0" });
+                    //Rev 2.0 End
                     // Html.RenderAction("GetSalesSummaryList1", "SalesReportSummary");
+
 
                 }
                 @*change for design*@

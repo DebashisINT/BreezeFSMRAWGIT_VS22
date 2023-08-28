@@ -229,7 +229,7 @@
     {
         x.Caption = "Target";
         x.VisibleIndex = 13;
-        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.EditFormSettings.Visible = DefaultBoolean.False;
@@ -240,14 +240,14 @@
             {
                 ViewContext.Writer.Write(
                         "<a style='cursor:pointer' onclick=\"SetEmployeesCounterWiseTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeTargetSettingID")) + "','" + ViewBag.CounterType + "',this,'" + c.VisibleIndex + "')\"> <img src='/assests/images/Edit.png' title='Counter wise target distribution' /></a>"
-                        + "<a style='cursor:pointer; margin-left: 12px;' onclick=\"RemoveEmployeesCounterWiseTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeTargetSettingID")) + "','EmployeesTargetSetting')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
+                        + "<a style='cursor:pointer; margin-left: 8px;' onclick=\"RemoveEmployeesCounterWiseTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeTargetSettingID")) + "','EmployeesTargetSetting')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
                     );
             }
             else
             {
                 ViewContext.Writer.Write(
                         "<a style='cursor:pointer; opacity: .8;'> <img src='/assests/images/Edit.png' title='Not applicable' /></a>"
-                        + "<a style='cursor:pointer; margin-left: 12px;' onclick=\"RemoveEmployeesCounterWiseTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeTargetSettingID")) + "','EmployeesTargetSetting')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
+                        + "<a style='cursor:pointer; margin-left: 8px;' onclick=\"RemoveEmployeesCounterWiseTarget('" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeCode")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "EmployeeTargetSettingID")) + "','EmployeesTargetSetting')\"> <img src='/assests/images/delete.png' title='Delete' class='mright8' /> </a>"
                     );
             }
         });

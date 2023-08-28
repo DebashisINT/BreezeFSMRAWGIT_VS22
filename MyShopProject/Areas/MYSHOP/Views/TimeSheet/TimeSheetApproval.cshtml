@@ -668,6 +668,24 @@
     }
 
     /*Rev end 1.0*/
+
+    @@media only screen and (max-width: 768px) {
+
+        .breadCumb {
+            padding: 0 10%;
+        }
+
+        .breadCumb > span {
+                padding: 9px 20px;
+        }
+
+        .w-100-mobile .btn
+        {
+            margin-bottom: 10px;
+        }
+
+        
+    }
 </style>
 
 <div class="breadCumb">
@@ -733,7 +751,7 @@
                                         </select>
                                     </div>
                                 </td>
-                                <td style="padding-top: 22px; width: 360px;">
+                                <td style="padding-top: 22px; width: 360px;" class="w-100-mobile">
                                     <label></label>
                                     <button type="button" id="btnshow" class="btn btn-success btnwidth" onclick="RefreshGrid();" tabindex=4>Show</button>
                                     <button type="button" id="btnMassApprove" class="btn btn-warning btnwidth" onclick="ShowCheckBox();" tabindex=4>Mass Approve/Reject</button>
@@ -756,7 +774,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div>
+                        <div class="overflow-x-auto">
                             @{
                                 Html.RenderAction("_PartialSheetApprovalGrid", "TimeSheet", new { isMassDeleteClicked = false, fromdate = "", todate = "", userid = "" });
                             }

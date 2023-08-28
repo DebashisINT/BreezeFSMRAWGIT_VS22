@@ -331,6 +331,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\OrderRegisterListController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\OrderStatusController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\OrderSummaryController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\OrderSummaryMTDController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\OutletMasterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\OutletRevisitDetailsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\OutletRouteController.cs" />
@@ -341,6 +342,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\PerformanceAnalyticsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PerformanceController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PerformanceSummaryMonthWiseController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\PerformanceSummaryMTDController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PerformanceVisitRegisterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PJPDetailsListController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PJPvsActualDetailsController.cs" />
@@ -481,11 +483,13 @@
     <Compile Include="Models\OpeningStockModel.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderStatusModel.cs" />
+    <Compile Include="Models\OrderSummaryMTDModel.cs" />
     <Compile Include="Models\OutletMasterReport.cs" />
     <Compile Include="Models\OutletRevisitDetailsModel.cs" />
     <Compile Include="Models\PaginationExample.cs" />
     <Compile Include="Models\partyDetailsModel.cs" />
     <Compile Include="Models\PerformanceSummaryMonthWiseReportModel.cs" />
+    <Compile Include="Models\PerformanceSummaryMTDModel.cs" />
     <Compile Include="Models\PJPListModel.cs" />
     <Compile Include="Models\PlanAchivReportVM.cs" />
     <Compile Include="Models\PPDDAddModel.cs" />
@@ -1993,8 +1997,12 @@
     <Content Include="Areas\MYSHOP\Views\SearchingInputs\_BranchPartial.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardBranchComboboxOrder.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardStateComboboxOrder.cshtml" />
-    <Content Include="Areas\MYSHOP\Views\OutletRevisitDetails\OutletRevisitDetails.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\PerformanceSummaryMTD\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\OrderSummaryMTD\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\PerformanceSummaryMTD\PerformanceSummeryMTDGridViewCallback.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\OrderSummaryMTD\OrderSummaryMTDGridViewCallback.cshtml" />
     <Content Include="Areas\MYSHOP\Views\OutletRevisitDetails\_PartialGridOutletRevisitDetails.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\OutletRevisitDetails\OutletRevisitDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

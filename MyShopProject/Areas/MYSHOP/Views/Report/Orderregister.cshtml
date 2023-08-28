@@ -1,31 +1,22 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
-@*1.0                20-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*1.0                20-01-2023        V2.0.38           Pallab              0025576: Report page design modification *@
+@*2.0                19-07-2023        V2.0.42           Priti               0026135: Branch Parameter is required for various FSM reports *@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.Reportorderregisterinput
 @{
     ViewBag.Title = "Order Register";
-
-
 }
-
-
 <script src="~/Scripts/SearchPopup.js"></script>
 @*<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />*@
 <link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
 <script src="~/assests/pluggins/choosen/choosen.min.js"></script>
 <script src="~/Scripts/SearchMultiPopup.js"></script>
-
 <script type="text/javascript" src="~/Scripts/globalize.js"></script>
 <script src="~/Scripts/cultures/globalize.cultures.js"></script>
-
-
 <script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
 <link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
-
-
-
 <script>
     var Is_PageLoad = "0";
     $(function () {
@@ -202,9 +193,12 @@
         else {
             e.customArgs["IsSchemeDetails"] = 0;
         }
-
         //End of Mantis Issue 24593
         e.customArgs["Is_PageLoad"] = Is_PageLoad;
+
+        //REV 2.0
+        e.customArgs["BranchId"] = BranchId;
+        //REV 2.0 END
     }
 
 
@@ -308,7 +302,7 @@
         StateGridLookup.GetGridView().Refresh();
     }
 </script>
-<style>
+<style>   
     .padTabl > tbody > tr > td {
         padding: 3px 10px;
     }
@@ -347,7 +341,6 @@
         display: none;
     }
 </style>
-
 
 <script>
     $(document).ready(function () {
@@ -434,7 +427,95 @@
     }
 
 </script>
-
+<script>
+    //Rev 2.0
+    var BranchId = [];
+    var Branch_Id = "";
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+        $('#hdnEmployeeAEId').val('')
+        $('#hdnEmployeeWDId').val('')
+        $('#hdnEmployeeDSId').val('')
+        EmployeeTxt.SetText('')
+        EmployeeWDTxt.SetText('')
+        EmployeeDSTxt.SetText('')
+        BranchId = [];
+        Branch_Id = "";
+    }
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+    //Rev 2.0 End
+</script>
 <link href="~/Content/media.css" rel="stylesheet" />
 <style>
     .inputSpacer {
@@ -520,8 +601,8 @@
         .h-branch-select::after {
             content: '<';
             position: absolute;
-            top: 8px;
-            right: -2px;
+            top: 35px;
+            right: 18px;
             font-size: 18px;
             transform: rotate(269deg);
             font-weight: 500;
@@ -726,6 +807,11 @@
             font-size: 12px;
         }
     /*Rev end 1.0*/
+
+    .w200-mob
+    {
+        width: 200px !important;
+    }
 </style>
 
 <div class="breadCumb">
@@ -738,27 +824,44 @@
                 <div class="row">
                     <table class="eqpadtbl mb-4 mx-4">
                         <tr>
+                            @*REV 2.0*@
+                            <td class="h-branch-select" style="width:175px;">
+                                <label>Head Branch : </label>
+                                <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                                    @foreach (var item in Model.modelbranch)
+                                    {
+                                        <option value="@item.BRANCH_ID">@item.CODE</option>
+                                    }
+                                </select>
+                            </td>
+                            <td class="w150 w200-mob">
+                                <label>Branch </label>
+                                <div>
+                                    @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                                </div>
+                            </td>
+                            @*REV 2.0 END*@
                             <td class="w150">
                                 <label>State</label>
                                 <div>
                                     @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
 
                                     @*<select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                        <option value="">Select</option>
+                    <option value="">Select</option>
 
-                        @foreach (var item in Model.states)
+                    @foreach (var item in Model.states)
+                    {
+                        if (Model.StateId == item.ID)
                         {
-                            if (Model.StateId == item.ID)
-                            {
-                                <option value="@item.ID" selected="selected">@item.StateName</option>
-                            }
-                            else
-                            {
-                                <option value="@item.ID">@item.StateName</option>
-                            }
+                            <option value="@item.ID" selected="selected">@item.StateName</option>
                         }
+                        else
+                        {
+                            <option value="@item.ID">@item.StateName</option>
+                        }
+                    }
 
-                    </select>*@
+                </select>*@
 
                                 </div>
                             </td>
@@ -768,19 +871,19 @@
                                     @Html.Action("GetShopList", "MasterPopulate")
 
                                     @*<select id="drpshop" name="drpshop" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                        <option value="">Select</option>
-                        @foreach (var item in Model.shoplist)
+                    <option value="">Select</option>
+                    @foreach (var item in Model.shoplist)
+                    {
+                        if (Model.shopId == item.ID)
                         {
-                            if (Model.shopId == item.ID)
-                            {
-                                <option value="@item.ID" selected="selected">@item.Name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.ID">@item.Name</option>
-                            }
+                            <option value="@item.ID" selected="selected">@item.Name</option>
                         }
-                    </select>*@
+                        else
+                        {
+                            <option value="@item.ID">@item.Name</option>
+                        }
+                    }
+                </select>*@
 
                                 </div>
                             </td>
@@ -802,20 +905,20 @@
                                 }).GetHtml()
                                     @*<select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
 
-                        <option value="">All</option>
-                        @foreach (var item in Model.userlsit)
+                    <option value="">All</option>
+                    @foreach (var item in Model.userlsit)
+                    {
+                        if (Model.selectedusrid == item.UserID)
                         {
-                            if (Model.selectedusrid == item.UserID)
-                            {
-                                <option value="@item.UserID" selected="selected">@item.username</option>
-                            }
-                            else
-                            {
-                                <option value="@item.UserID">@item.username</option>
-
-                            }
+                            <option value="@item.UserID" selected="selected">@item.username</option>
                         }
-                    </select>*@
+                        else
+                        {
+                            <option value="@item.UserID">@item.username</option>
+
+                        }
+                    }
+                </select>*@
 
                                 </div>
                             </td>
@@ -857,6 +960,10 @@
                                 }).GetHtml()
                                 </div>
                             </td>
+                            
+                        </tr>
+                        <tr>
+                            @*Rev 2.0*@
                             @*Mantis Issue 24593*@
                             <td class="w10 inputSpacer">
                                 @*Rev 1.0*@
@@ -866,8 +973,7 @@
                                 @*Rev end 1.0*@
                             </td>
                             @*End of Mantis Issue 24593*@
-                        </tr>
-                        <tr>
+                            @*Rev end 2.0*@
                             <td style="padding-top: 22px;width:185px;">
                                 <label></label>
                                 <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
@@ -905,10 +1011,13 @@
                     <div id="refreshgridstatusreportregister">
 
                         @{
+                            Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId, IsSchemeDetails = Model.IsSchemeDetails, Is_PageLoad = Model.Is_PageLoad, BranchId = Model.BranchId });
 
                             //Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId });
-                            Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId, IsSchemeDetails = Model.IsSchemeDetails, Is_PageLoad = Model.Is_PageLoad });
-                        }
+                            //Rev 2.0
+                            //Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId, IsSchemeDetails = Model.IsSchemeDetails, Is_PageLoad = Model.Is_PageLoad });
+                            //Rev 2.0 End
+                            }
                         @*change for design*@
 
                     </div>

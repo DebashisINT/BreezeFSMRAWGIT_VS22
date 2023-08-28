@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ===================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                08-08-2023        V2.0.40          Pallab              26697: Enquiries "Edit", "Assign Salesman" and "Delete" action icons change *@
+@*====================================================== Revision History ===================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridCRMEnquiries";
     settings.KeyFieldName = "CRM_ID";
@@ -414,9 +419,9 @@
         }
     });
     //End of Mantis Issue 24816
-    
 
-    
+
+
 
     settings.Columns.Add(column =>
     {
@@ -454,7 +459,7 @@
     //    column.FixedStyle = GridViewColumnFixedStyle.Left;
     //    column.Width = 80;
     //});
-    
+
     //settings.Columns.Add(column =>
     //{
     //    column.FieldName = "EMAIL";
@@ -462,7 +467,7 @@
     //    column.ColumnType = MVCxGridViewColumnType.TextBox;
     //   // column.FixedStyle = GridViewColumnFixedStyle.Left;
     //});
-    
+
     //settings.Columns.Add(column =>
     //{
     //    column.FieldName = "LOCATION";
@@ -476,7 +481,7 @@
         column.FieldName = "PRODUCT_REQUIRED";
         column.Caption = "Products Req.";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-       // column.FixedStyle = GridViewColumnFixedStyle.Left;
+        // column.FixedStyle = GridViewColumnFixedStyle.Left;
         //column.Width = 90;
         //Mantis Issue 24816
         if (ViewBag.RetentionColumn != null)
@@ -505,7 +510,7 @@
         column.FieldName = "QTY";
         column.Caption = "Qty.";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-       // column.FixedStyle = GridViewColumnFixedStyle.Left;
+        // column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
         column.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
         //column.Width = 80;
@@ -565,7 +570,7 @@
         column.FieldName = "ORDER_VALUE";
         column.Caption = "Order value";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-      //  column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //  column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
         column.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
         //column.Width = 80;
@@ -1052,7 +1057,7 @@
     {
         column.FieldName = "STATUS";
         column.Caption = "Status";
-        
+
         column.ColumnType = MVCxGridViewColumnType.TextBox;
         //column.Width = 80;
         //Mantis Issue 24816
@@ -1143,7 +1148,7 @@
         //if(ViewBag.CanReassign){
         if (ViewBag.CanReassign || ViewBag.CanAssign)
         {
-        //End of Mantis Issue 24832
+            //End of Mantis Issue 24832
             x.SetDataItemTemplateContent(tc =>
             {
                 //Mantis Issue 24776
@@ -1166,7 +1171,7 @@
                     //ViewContext.Writer.Write(
                     //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
                     //""
-                    
+
                     //+
                     //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
                     //""
@@ -1181,18 +1186,21 @@
                     //    //End of Mantis Issue 24776
                     //);
 
-
+                    //Rev 1.0 : action icons change
                     string EnqRights = "<div class=''>";
-                    EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
-                    
+                    //EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
+                    EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>";
+
                     if (ViewBag.CanAssign)
                     {
                         EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                    "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/assign-salesman.png\" /></span></a>";
 
                     }
                     EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a>";
                     if (ViewBag.CanReassign)
                     {
                         EnqRights = EnqRights + "&nbsp;" +
@@ -1206,51 +1214,57 @@
                 else
                 {
                     //Mantis Issue 24832
-                   // ViewContext.Writer.Write(
-                   //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
-                   //""
-                   //+
-                   //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
-                   //""
-                   //+
-                   
-                   //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
-                   //);
-                    
-                    
+                    // ViewContext.Writer.Write(
+                    //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                    //""
+                    //+
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
+                    //""
+                    //+
+
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                    //);
+
+
                     string EnqRights = "<div class=''>";
-                    EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
-                    
+                    //EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
+                    EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>";
+
                     if (ViewBag.CanAssign)
                     {
                         EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
+                    "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/assign-salesman.png\" /></span></a>";
 
                     }
                     EnqRights = EnqRights + "&nbsp;" +
-                  "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
-                   
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
+                    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a>";
+
                     EnqRights = EnqRights + "</div>";
                     ViewContext.Writer.Write(EnqRights);
                     //End of Mantis Issue 24832
                 }
                 //End of Mantis Issue 24776
-                
+
             });
         }
-        else{
+        else
+        {
             x.SetDataItemTemplateContent(tc =>
             {
                 ViewContext.Writer.Write(
-                    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                    //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+                    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
                     "" +
-                    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                    //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+                    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
                 );
             });
         }
         x.Settings.AllowDragDrop = DefaultBoolean.False;
         x.Settings.AllowSort = DefaultBoolean.False;
-        x.Width = 120;
+        x.Width = 150;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.Caption = "Action";

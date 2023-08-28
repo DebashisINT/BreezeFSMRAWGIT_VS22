@@ -1,4 +1,7 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.41     Debashis    18/07/2023      Some new parameters have been added.Row: 857 & Refer: 0026547
+#endregion===================================End of Revision History==================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,10 +18,15 @@ namespace ShopAPI.Models
         public string report_to { get; set; }
         public string order_vale { get; set; }
         public string collection_value { get; set; }
-
-
-
-
+        //Rev 1.0 Row: 857 & Mantis: 0026547
+        public string user_id { get; set; }
+        public int attendance_present_count { get; set; }
+        public int attendance_absent_count { get; set; }
+        public int visit_inactivity_party_count { get; set; }
+        public int order_inactivity_party_count { get; set; }
+        public string last_visited_date { get; set; }
+        public string last_order_date { get; set; }
+        //End of Rev 1.0 Row: 857 & Mantis: 0026547
     }
     public class AlarmperformanceInput
     {

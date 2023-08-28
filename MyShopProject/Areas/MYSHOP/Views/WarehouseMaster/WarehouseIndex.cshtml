@@ -496,6 +496,20 @@
         height: 220px !important;
     }
     /*Rev end 1.0*/
+    @@media only screen and (max-width: 768px) {
+        .breadCumb {
+            padding: 0 15%;
+        }
+
+            .breadCumb > span {
+                padding: 9px 10px;
+            }
+    }
+
+    #ShopGridLookup_DDD_PW-1 {
+        bottom: -490px !important;
+        top: auto !important;
+    }
 </style>
 
 <script>
@@ -1011,10 +1025,11 @@
                     <option value="5">CSV</option>
 
                 </select>
-
-                @{
-                    Html.RenderAction("WarehouseMasterGrid", "WarehouseMaster", new { Is_PageLoad = "Ispageload" });
-                }
+                <div class="overflow-x-auto">
+                    @{
+                        Html.RenderAction("WarehouseMasterGrid", "WarehouseMaster", new { Is_PageLoad = "Ispageload" });
+                    }
+                </div>
             </div>
         </div>
     </div>

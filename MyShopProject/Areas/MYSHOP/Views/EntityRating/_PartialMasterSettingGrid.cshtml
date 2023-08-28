@@ -15,7 +15,7 @@
         column.FieldName = "Code";
         column.Caption = "Code";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        
+
     });
 
     settings.Columns.Add(column =>
@@ -41,30 +41,30 @@
         column.ColumnType = MVCxGridViewColumnType.TextBox;
 
     }); settings.Columns.Add(column =>
- {
-     column.FieldName = "shop_type";
-     column.Caption = "Applicable For";
-     column.ColumnType = MVCxGridViewColumnType.TextBox;
+    {
+        column.FieldName = "shop_type";
+        column.Caption = "Applicable For";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
 
- }); settings.Columns.Add(column =>
-{
-    column.FieldName = "CreatedBy";
-    column.Caption = "Created By";
-    column.ColumnType = MVCxGridViewColumnType.TextBox;
+    }); settings.Columns.Add(column =>
+    {
+        column.FieldName = "CreatedBy";
+        column.Caption = "Created By";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
 
-}); settings.Columns.Add(column =>
-{
-    column.FieldName = "CreatedOn";
-    column.Caption = "Created On";
-    column.ColumnType = MVCxGridViewColumnType.TextBox;
+    }); settings.Columns.Add(column =>
+    {
+        column.FieldName = "CreatedOn";
+        column.Caption = "Created On";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
 
-}); settings.Columns.Add(column =>
-{
-    column.FieldName = "ModifiedBy";
-    column.Caption = "Modified By";
-    column.ColumnType = MVCxGridViewColumnType.TextBox;
+    }); settings.Columns.Add(column =>
+    {
+        column.FieldName = "ModifiedBy";
+        column.Caption = "Modified By";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
 
-});
+    });
 
     settings.Columns.Add(column =>
     {
@@ -75,12 +75,12 @@
     });
 
     settings.Columns.Add(x =>
-       {
-           x.Caption = "Action";
-           x.Width = 0;
-           x.ColumnType = MVCxGridViewColumnType.TextBox;
-           x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
-       });
+    {
+        x.Caption = "Action";
+        x.Width = 100;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+    });
 
 
 
@@ -90,13 +90,15 @@
         {
             MVCxGridView grid = (MVCxGridView)s;
             string ID = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Code" });
-           
+
             var buttonHtml = "";
             //if (ViewBag.CanEdit)
-                buttonHtml += string.Format("<div class=''><a onclick=\"EditClick('" + ID + "');\" title=\"\" class='ed mr-3'><span class='ico editColor'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>");
+            //buttonHtml += string.Format("<div class=''><a onclick=\"EditClick('" + ID + "');\" title=\"\" class='ed mr-3'><span class='ico editColor'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>");
+            buttonHtml += string.Format("<div class=''><a onclick=\"EditClick('" + ID + "');\" title=\"\" class='ed mr-2'><span class='ico editColor'><img src=\"../../../assests/images/Edit.png\" /></span></a>");
             //if (ViewBag.CanDelete)
-                buttonHtml += string.Format("<a onclick=\"DeleteClick('" + ID + "');\" title=\"\" class=''><span class='ico deleteColor'><i class='fa fa-trash' aria-hidden='true'></i></span></a>");
-            
+            //buttonHtml += string.Format("<a onclick=\"DeleteClick('" + ID + "');\" title=\"\" class=''><span class='ico deleteColor'><i class='fa fa-trash' aria-hidden='true'></i></span></a>");
+            buttonHtml += string.Format("<a onclick=\"DeleteClick('" + ID + "');\" title=\"\" class=''><span class='ico deleteColor'><img src=\"../../../assests/images/Delete.png\" /></span></a>");
+
             e.Cell.Text = buttonHtml;
         }
 

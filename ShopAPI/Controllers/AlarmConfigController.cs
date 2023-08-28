@@ -1,4 +1,7 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.41     Debashis    18/07/2023      Some new parameters have been added.Row: 857 & Refer: 0026547
+#endregion===================================End of Revision History==================================================
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -27,16 +30,16 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
-                    String profileImg = System.Configuration.ConfigurationSettings.AppSettings["ProfileImageURL"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+                    String profileImg = System.Configuration.ConfigurationManager.AppSettings["ProfileImageURL"];
 
                     DataSet dt = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
                     sqlcmd = new SqlCommand("Proc_AlarmConfiguration", sqlcon);
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                     da.Fill(dt);
@@ -103,12 +106,12 @@ namespace ShopAPI.Controllers
                 else
                 {
 
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                     string sessionId = "";
 
 
                     DataSet ds = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
@@ -117,8 +120,8 @@ namespace ShopAPI.Controllers
 
                     sqlcmd = new SqlCommand("PRC_FTSAPIEMPLOYEEATTENDANCE_REPORT", sqlcon);
 
-                    sqlcmd.Parameters.Add("@USERID", model.user_id);
-                    sqlcmd.Parameters.Add("@ASONDATE", model.date);
+                    sqlcmd.Parameters.AddWithValue("@USERID", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@ASONDATE", model.date);
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -179,7 +182,6 @@ namespace ShopAPI.Controllers
         [HttpPost]
         public HttpResponseMessage FetchPerformance(AlarmperformanceInput model)
         {
-
             try
             {
                 AlarmperformanceOutput odata = new AlarmperformanceOutput();
@@ -192,29 +194,24 @@ namespace ShopAPI.Controllers
                 }
                 else
                 {
-
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                     string sessionId = "";
 
-
                     DataSet ds = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
 
-
-
                     sqlcmd = new SqlCommand("PRC_FTSAPIEMPLOYEEPERFORMANCE_REPORT", sqlcon);
 
-                    sqlcmd.Parameters.Add("@USERID", model.user_id);
-                    sqlcmd.Parameters.Add("@FROMDATE", model.from_date);
-                    sqlcmd.Parameters.Add("@TODATE", model.to_date);
+                    sqlcmd.Parameters.AddWithValue("@USERID", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@FROMDATE", model.from_date);
+                    sqlcmd.Parameters.AddWithValue("@TODATE", model.to_date);
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                     da.Fill(ds);
                     sqlcon.Close();
-
 
                     if (ds.Tables[0].Rows.Count > 0)
                     {
@@ -222,35 +219,34 @@ namespace ShopAPI.Controllers
 
                         for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                         {
-
-
                             oview.Add(new Alarmperformance()
                             {
-
                                 member_name = Convert.ToString(ds.Tables[0].Rows[i]["EMPNAME"]),
                                 member_id = Convert.ToString(ds.Tables[0].Rows[i]["EMPCODE"]),
                                 total_shop_count = Convert.ToString(ds.Tables[0].Rows[i]["TOTAL_VISIT"]),
                                 total_travel_distance = Convert.ToString(ds.Tables[0].Rows[i]["DISTANCE_TRAVELLED"]),
                                 report_to = Convert.ToString(ds.Tables[0].Rows[i]["REPORTTO"]),
                                 order_vale = Convert.ToString(ds.Tables[0].Rows[i]["Total_Order_Booked_Value"]),
-                                collection_value = Convert.ToString(ds.Tables[0].Rows[i]["Total_Collection"])
+                                collection_value = Convert.ToString(ds.Tables[0].Rows[i]["Total_Collection"]),
+                                //Rev 1.0 Row: 857 & Mantis: 0026547
+                                user_id = Convert.ToString(ds.Tables[0].Rows[i]["user_id"]),
+                                attendance_present_count = Convert.ToInt32(ds.Tables[0].Rows[i]["attendance_present_count"]),
+                                attendance_absent_count = Convert.ToInt32(ds.Tables[0].Rows[i]["attendance_absent_count"]),
+                                visit_inactivity_party_count = Convert.ToInt32(ds.Tables[0].Rows[i]["visit_inactivity_party_count"]),
+                                order_inactivity_party_count = Convert.ToInt32(ds.Tables[0].Rows[i]["order_inactivity_party_count"]),
+                                last_visited_date = Convert.ToString(ds.Tables[0].Rows[i]["last_visited_date"]),
+                                last_order_date = Convert.ToString(ds.Tables[0].Rows[i]["last_order_date"])
+                                //End of Rev 1.0 Row: 857 & Mantis: 0026547
                             });
-
-
                         }
-
-
                         odata.performance_report_list = oview;
                         odata.status = "200";
                         odata.message = "Preformnace Report List";
-
                     }
                     else
                     {
-
                         odata.status = "205";
                         odata.message = "No data found";
-
                     }
 
                     var message = Request.CreateResponse(HttpStatusCode.OK, odata);
@@ -261,9 +257,7 @@ namespace ShopAPI.Controllers
             {
                 var message = Request.CreateResponse(HttpStatusCode.BadRequest, ex.Message);
                 return message;
-
             }
-
         }
 
 
@@ -284,12 +278,12 @@ namespace ShopAPI.Controllers
                 else
                 {
 
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                     string sessionId = "";
 
 
                     DataSet ds = new DataSet();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
@@ -298,9 +292,9 @@ namespace ShopAPI.Controllers
 
                     sqlcmd = new SqlCommand("PRC_FTSAPIEMPLOYEEVISIT_REPORT", sqlcon);
 
-                    sqlcmd.Parameters.Add("@USERID", model.user_id);
-                    sqlcmd.Parameters.Add("@FROMDATE", model.from_date);
-                    sqlcmd.Parameters.Add("@TODATE", model.to_date);
+                    sqlcmd.Parameters.AddWithValue("@USERID", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@FROMDATE", model.from_date);
+                    sqlcmd.Parameters.AddWithValue("@TODATE", model.to_date);
 
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;
@@ -406,12 +400,12 @@ namespace ShopAPI.Controllers
                 else
                 {
 
-                    String token = System.Configuration.ConfigurationSettings.AppSettings["AuthToken"];
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
                     string sessionId = "";
 
 
                     DataTable dt = new DataTable();
-                    String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                     SqlCommand sqlcmd = new SqlCommand();
                     SqlConnection sqlcon = new SqlConnection(con);
                     sqlcon.Open();
@@ -420,11 +414,11 @@ namespace ShopAPI.Controllers
 
                     sqlcmd = new SqlCommand("Proc_ReportConfirm", sqlcon);
 
-                    sqlcmd.Parameters.Add("@user_id", model.user_id);
-                    sqlcmd.Parameters.Add("@report_time", model.report_time);
-                    sqlcmd.Parameters.Add("@view_time", model.view_time);
-                    sqlcmd.Parameters.Add("@alarm_id", model.alarm_id);
-                    sqlcmd.Parameters.Add("@report_id", model.report_id);
+                    sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@report_time", model.report_time);
+                    sqlcmd.Parameters.AddWithValue("@view_time", model.view_time);
+                    sqlcmd.Parameters.AddWithValue("@alarm_id", model.alarm_id);
+                    sqlcmd.Parameters.AddWithValue("@report_id", model.report_id);
 
 
                     sqlcmd.CommandType = CommandType.StoredProcedure;

@@ -1,5 +1,6 @@
 ﻿//====================================================== Revision History ==========================================================
-//1.0  03-02-2023    2.0.38    Priti     0025604: Enhancement Required in the Order Summary Report
+//1.0  03-02-2023   V2.0.38    Priti     0025604: Enhancement Required in the Order Summary Report
+//2.0  19-07-2023   V2.0.42   Priti     0026135: Branch Parameter is required for various FSM reports
 //====================================================== Revision History ==========================================================
 using DataAccessLayer;
 using System;
@@ -35,7 +36,10 @@ namespace BusinessLogicLayer.SalesmanTrack
 
 
         #region Summary Details
-        public DataTable GetallorderListSummary(string stateid, string shopid, string fromdate, string todate, string EmployeeId, String Userid = "0")
+        //Rev 2.0
+        //public DataTable GetallorderListSummary(string stateid, string shopid, string fromdate, string todate, string EmployeeId, String Userid = "0")
+        public DataTable GetallorderListSummary(string stateid, string shopid, string fromdate, string todate, string EmployeeId, string Branch_Id, String Userid = "0")
+        //Rev 2.0 End
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("Proc_FTS_OrderSummaryBind");
@@ -45,8 +49,10 @@ namespace BusinessLogicLayer.SalesmanTrack
             proc.AddPara("@stateID", stateid);
             proc.AddPara("@shop_id", shopid);
             proc.AddPara("@Employee_id", EmployeeId);
-
             proc.AddPara("@LOGIN_ID", Userid);
+            //Rev 2.0
+            proc.AddPara("@BRANCHID", Branch_Id);
+            //Rev 2.0 End
             ds = proc.GetTable();
 
             return ds;

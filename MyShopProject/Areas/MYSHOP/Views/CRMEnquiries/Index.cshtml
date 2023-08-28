@@ -1,6 +1,8 @@
 ﻿@*====================================================== Revision History ===================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
+@*2.0                16-08-2023        V2.0.42          Sanchita            The enquiry doesn't showing in the listing after modification
+                                                                            Mantis: 26721 *@
 @*====================================================== Revision History ===================================================*@
 
 @using MyShop.Models;
@@ -826,6 +828,12 @@
                 $("#txt_enq_detls").val(data.Enq_Details);
                 $("#txt_UOM").val(data.UOM);
                 //ddlProvidedBy.selectedIndex = 0;
+                // Rev 2.0
+                document.getElementById('ddlProvidedBy').disabled=true;
+                 $("#divDate").hide();
+                 $("#divTxtDate").show();
+                 $("#txt_Date").val(data.txtDate);
+                // End of Rev 2.0
 
                 $('#myModal').modal('show');
             },
@@ -858,7 +866,11 @@
         $("#txt_enq_detls").val('');
         $("#txt_UOM").val('');
         ddlProvidedBy.selectedIndex = 0;
-
+        // Rev 2.0
+        document.getElementById('ddlProvidedBy').disabled=false
+        $("#divDate").show();
+        $("#divTxtDate").hide();
+        // End of Rev 2.0
 
 
     }
@@ -2024,22 +2036,22 @@
                         }
                         @*Mantis Issue 24832*@
                         @*@if(ViewBag.CanReassign){
-                <button type="button" class="btn btn-info" onclick="BulkAssign();">
-                    Bulk Assign
-                </button>
-                //Mantis Issue 24776
-                <button type="button" class="btn btn-info" onclick="BulkReAssign();">
-                    Bulk Re-Assign
-                </button>
-                //End of Mantis Issue 24776
-            }*@
+                                <button type="button" class="btn btn-info" onclick="BulkAssign();">
+                                    Bulk Assign
+                                </button>
+                                //Mantis Issue 24776
+                                <button type="button" class="btn btn-info" onclick="BulkReAssign();">
+                                    Bulk Re-Assign
+                                </button>
+                                //End of Mantis Issue 24776
+                            }*@
                         @*<button type="button" class="btn btn-info" onclick="BulkAssign();">
-                Bulk Assign
-            </button>
+                                Bulk Assign
+                            </button>
 
-            <button type="button" class="btn btn-info" onclick="BulkReAssign();">
-                Bulk Re-Assign
-            </button>*@
+                            <button type="button" class="btn btn-info" onclick="BulkReAssign();">
+                                Bulk Re-Assign
+                            </button>*@
                         @if (ViewBag.CanAssign)
                         {
                             <button type="button" class="btn btn-info" onclick="BulkAssign();">
@@ -2108,28 +2120,28 @@
                         </div>
                     </div>
                     @*<div class="col-md-2">
-            <span>Employee</span>
-            <div>
-                @Html.DevExpress().ButtonEdit(
-                settings =>
-                {
-                    settings.Name = "EmployeeTxt";
-                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                    settings.Text = Model.AssignedTo;
-                    settings.ReadOnly = true;
-                    settings.Properties.Buttons.Add("...");
-                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
-                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+                            <span>Employee</span>
+                            <div>
+                                @Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "EmployeeTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    settings.Text = Model.AssignedTo;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
 
-                }).GetHtml()
-            </div>
-        </div>*@
+                                }).GetHtml()
+                            </div>
+                        </div>*@
 
 
                     @*<div class="col-md-2" style="padding-top: 13px;">
-            <span>&nbsp;</span>
-            <input type="checkbox" id="chkIsAssignDate" /> Re-assigned Date
-        </div>*@
+                            <span>&nbsp;</span>
+                            <input type="checkbox" id="chkIsAssignDate" /> Re-assigned Date
+                        </div>*@
                     <div class="col-md-4" style="padding-top: 20px;">
                         <span></span>
                         <div>
@@ -2192,7 +2204,8 @@
             <div class="modal-body inputShrink">
                 <div class="row">
 
-                    <div class="col-md-3">
+                    @*Rev 2.0 [id="divDate" added] *@
+                    <div class="col-md-3" id="divDate">
                         <label>Date <span class="red">*</span></label>
                         <div>
                             @Html.DevExpress().DateEdit(
@@ -2212,6 +2225,14 @@
                                 </span>*@
                         </div>
                     </div>
+                    @*Rev 2.0*@
+                    <div class="col-md-3" id="divTxtDate">
+                        <label>Date <span class="red">*</span></label>
+                        <div>
+                            <input type="text" id="txt_Date" class="form-control" value="@Model.Date" disabled />
+                        </div>
+                    </div>
+                    @*End of Rev 2.0*@
                     <div class="col-md-3">
                         <label>Customer Name <span class="red">*</span></label>
                         <div>
@@ -2348,7 +2369,7 @@
             @*<input type="hidden" id="hdnuniqueid" value="" />*@
             <div class="modal-body inputShrink">
                 <div class="row">
-                    
+
                     <div class="col-md-12">
                         <table class="bulAssignTbl">
                             <tr>

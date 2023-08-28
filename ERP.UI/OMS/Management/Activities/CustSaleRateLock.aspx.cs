@@ -682,9 +682,7 @@ namespace ERP.OMS.Management.Activities
         {
             e.KeyExpression = "ID";
             string connectionString = Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]);
-
             ERPDataClassesDataContext dc = new ERPDataClassesDataContext(connectionString);
-
             var q = from d in dc.v_ProductRates
                     orderby d.ID descending
                     select d;

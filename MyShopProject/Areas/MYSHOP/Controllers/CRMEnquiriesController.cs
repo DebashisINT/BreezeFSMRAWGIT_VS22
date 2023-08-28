@@ -1,4 +1,10 @@
-﻿using BusinessLogicLayer;
+﻿/******************************************************************************************************************
+  1.0       16-08-2023        V2.0.42          Sanchita          The enquiry doesn't showing in the listing after modification
+                                                                 Mantis: 26721
+  2.0       18-08-2023        V2.0.42          Sanchita          Customisation required in Lead Activity for BreezeFSM App.
+                                                                 Mantis: 26727
+**************************************************************************************************************************/
+using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
 using DataAccessLayer;
 using DevExpress.Utils;
@@ -394,6 +400,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         _apply.Enq_Details = _getenq.Rows[0]["Enq_Details"].ToString();
                         _apply.Provided_By = _getenq.Rows[0]["vend_type"].ToString();
                         _apply.UOM = _getenq.Rows[0]["UOM"].ToString();
+                        // Rev 1.0
+                        _apply.txtDate = _getenq.Rows[0]["txtDate"].ToString();
+                        // End of Rev 1.0
                         //_apply.SUPERVISOR = Convert.ToBoolean(_getenq.Rows[0]["Supervisor"]);
                         //_apply.SALESMAN = Convert.ToBoolean(_getenq.Rows[0]["salesman"]);
                         //_apply.VERIFY = Convert.ToBoolean(_getenq.Rows[0]["verify"]);
@@ -2852,7 +2861,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     string Mssg = "";
                     string SalesMan_Nm = "";
                     string SalesMan_Phn = "";
-                    DataTable dt_CRM_IDS = odbengine.GetDataTable("select tci.Crm_Id,tci.Customer_Name,tci.PhoneNo from tbl_CRM_Import as tci where tci.Crm_Id in (select items from dbo.SplitString('" + Uniqueid + "','|'))");
+                    // Rev 2.0
+                    //DataTable dt_CRM_IDS = odbengine.GetDataTable("select tci.Crm_Id,tci.Customer_Name,tci.PhoneNo from tbl_CRM_Import as tci where tci.Crm_Id in (select items from dbo.SplitString('" + Uniqueid + "','|'))");
+
+                    string lead_date = "";
+                    string enquiry_type = "";
+                   
+                    DataTable dt_CRM_IDS = odbengine.GetDataTable("select tci.Crm_Id,tci.Customer_Name,tci.PhoneNo, CONVERT(VARCHAR(10), tci.Date,126) AS LEAD_DATE, tci.vend_type from tbl_CRM_Import as tci where tci.Crm_Id in (select items from dbo.SplitString('" + Uniqueid + "','|'))");
+                    // End of Rev 2.0
                     //DataTable dt_SalesMan = odbengine.GetDataTable("select phf_phoneNumber,user_name from tbl_master_user inner join tbl_master_phonefax on user_contactId=phf_cntId where user_id=" + SalesmanId + "");
                     DataTable dt_SalesMan = odbengine.GetDataTable("select user_loginId,user_name from tbl_master_user  where user_id=" + SalesmanId + "");
                     if (dt_SalesMan.Rows.Count > 0)
@@ -2864,8 +2880,16 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         {
                             for (int i = 0; i < dt_CRM_IDS.Rows.Count; i++)
                             {
-                                Mssg = "Hi, " + SalesMan_Nm + " Your Admin/Supervisor has assigned an enquiry of " + dt_CRM_IDS.Rows[i]["Customer_Name"].ToString() + ". Please take action on it.";
-                                SendNotification(SalesMan_Phn, Mssg);
+                                // Rev 2.0
+                                //Mssg = "Hi, " + SalesMan_Nm + " Your Admin/Supervisor has assigned an enquiry of " + dt_CRM_IDS.Rows[i]["Customer_Name"].ToString() + ". Please take action on it.";
+                                // SendNotification(SalesMan_Phn, Mssg);
+
+                                Mssg = "Hi, " + SalesMan_Nm + " Your Admin/Supervisor has assigned an enquiry of " + dt_CRM_IDS.Rows[i]["Customer_Name"].ToString() + ". Please take action on it. Lead date : "+ dt_CRM_IDS.Rows[i]["LEAD_DATE"].ToString()+". Enquiry Type : "+ dt_CRM_IDS.Rows[i]["vend_type"].ToString()+".";
+                                
+                                lead_date = dt_CRM_IDS.Rows[i]["LEAD_DATE"].ToString();
+                                enquiry_type = dt_CRM_IDS.Rows[i]["vend_type"].ToString();
+                                SendNotification(SalesMan_Phn, Mssg, lead_date, enquiry_type);
+                                // End of Rev 2.0
                             }
                         }
                     }
@@ -3002,10 +3026,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             }
         }
-        
+
         #endregion
         //Mantis Issue 0024759
-        public JsonResult SendNotification(string Mobiles, string messagetext)
+        // Rev 2.0 [parameters "lead_date" and "enquiry_type" added]
+        public JsonResult SendNotification(string Mobiles, string messagetext, string lead_date, string enquiry_type)
         {
             
             string status = string.Empty;
@@ -3020,7 +3045,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                         if (Convert.ToString(dt.Rows[i]["device_token"]) != "")
                         {
-                            SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]));
+                            // Rev 2.0
+                            //SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]));
+                            SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]), lead_date, enquiry_type);
+                            // End of 2.0
                         }
                     }
                     status = "200";
@@ -3043,7 +3071,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 return Json(status, JsonRequestBehavior.AllowGet);
             }
         }
-        public static void SendPushNotification(string message, string deviceid, string Customer, string Requesttype)
+        // Rev 2.0 [parameters "lead_date" and "enquiry_type" added]
+        public static void SendPushNotification(string message, string deviceid, string Customer, string Requesttype, string lead_date, string enquiry_type)
         {
             try
             {
@@ -3069,7 +3098,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                         UserName = Customer,
                         UserID = Requesttype,
-                        body = message
+                        body = message,
+                        // Rev 2.0
+                        type = "lead_work",
+                        lead_date = lead_date,
+                        enquiry_type = enquiry_type
+                        // End of Rev 2.0
                     }
                 };
 

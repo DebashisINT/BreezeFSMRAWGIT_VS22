@@ -722,6 +722,43 @@
             font-size: 12px;
         }
     /*Rev end 1.0*/
+
+    @@media only screen and (max-width: 768px) {
+        .breadCumb > span {
+            padding: 9px 15px;
+            text-align: center;
+        }
+
+        .breadCumb {
+            padding: 0 24%;
+        }
+
+        .col-md-3 {
+            margin-bottom: 10px !important;
+        }
+
+        #refreshgridsalessummary {
+            overflow-x: auto;
+        }
+
+        .tblspace > tbody > tr > td {
+            width: 100% !important;
+            padding-right: 0 !important;
+            margin-bottom: 10px;
+        }
+
+        .tblspace.smblock {
+            width: 100%;
+        }
+
+        .calendar-icon {
+            right: 4px;
+        }
+
+        .hg-0-mob {
+            height: 0;
+        }
+    }
 </style>
 
 <script>
@@ -845,7 +882,7 @@
 
                     }).GetHtml()
                 </td>
-                <td class="w1" id="dtstate"><h5>&nbsp;</h5></td>
+                <td class="w1 hg-0-mob" id="dtstate"><h5>&nbsp;</h5></td>
                 <td id="ddlshotype">
                     @*Rev 1.0*@
                     @*<input id="chkAll" class="acheckbox" type="checkbox" onclick="OnChangeCheckbox (this)" value="All" />All*@ @*checked="chkAll.IsChecked"*@

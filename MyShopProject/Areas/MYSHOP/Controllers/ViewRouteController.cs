@@ -4,6 +4,9 @@
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
 using DataAccessLayer;
+using DevExpress.Data.Mask;
+using DevExpress.XtraExport;
+using Microsoft.Owin.BuilderProperties;
 using Models;
 using MyShop.Models;
 using SalesmanTrack;
@@ -146,14 +149,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
         //Rev Work close 15.06.2022 0024954: Need to change View Route of FSM Dashboard
         public ActionResult GetParty(string StateID, string TYPE_ID, string PARTY_ID, string IS_Electician)
         {
+            
             List<PartyDashboard> AddressList = new List<PartyDashboard>();
-
+            
             //string newdate = Date.Split('-')[2] + '-' + Date.Split('-')[1] + '-' + Date.Split('-')[0];
 
             Dashboard model = new Dashboard();
             DataTable dtmodellatest = model.GETPartyDashboard(StateID, TYPE_ID, PARTY_ID, IS_Electician, Session["userid"].ToString());
             AddressList = APIHelperMethods.ToModelList<PartyDashboard>(dtmodellatest);
-
             return Json(AddressList);
         } 
         public ActionResult GetOutlets(string StateID, string PARTY_ID, string PartyStatus, string month, string year)

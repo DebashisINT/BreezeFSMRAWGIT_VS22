@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer.SalesTrackerReports;
+﻿//====================================================== Revision History ==========================================================
+//1.0  19-07-2023   V2 .0.42   Priti     0026135: Branch Parameter is required for various FSM reports
+//====================================================== Revision History ==========================================================
+using BusinessLogicLayer.SalesTrackerReports;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
 using Models;
@@ -33,7 +36,27 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     ViewBag.StateMandatory = dt.Rows[0]["IsStateMandatoryinReport"].ToString();
                 }
 
-
+                //REV 1.0
+                DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
+                DataTable dtBranchChild = new DataTable();
+                if (dtbranch.Rows.Count > 0)
+                {
+                    dtBranchChild = lstuser.GetChildBranch(Convert.ToString(Session["userbranchHierarchy"]));
+                    if (dtBranchChild.Rows.Count > 0)
+                    {
+                        DataRow dr;
+                        dr = dtbranch.NewRow();
+                        dr[0] = 0;
+                        dr[1] = "All";
+                        dtbranch.Rows.Add(dr);
+                        dtbranch.DefaultView.Sort = "BRANCH_ID ASC";
+                        dtbranch = dtbranch.DefaultView.ToTable();
+                    }
+                }
+                omodel.modelbranch = APIHelperMethods.ToModelList<GetBranch>(dtbranch);
+                string h_id = omodel.modelbranch.First().BRANCH_ID.ToString();
+                ViewBag.h_id = h_id;
+                //REV 1.0 End
                 return View(omodel);
             }
             catch
@@ -114,13 +137,31 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     k++;
                 }
             }
+            //Rev 1.0
+            string Branch_Id = "";
+            int l = 1;
+            if (model.BranchId != null && model.BranchId.Count > 0)
+            {
+                foreach (string item in model.BranchId)
+                {
+                    if (l > 1)
+                        Branch_Id = Branch_Id + "," + item;
+                    else
+                        Branch_Id = item;
+                    l++;
+                }
+            }
+            //Rev 1.0 End
 
             if (model.is_pageload != "0")
             {
                 double days = (Convert.ToDateTime(dattoat) - Convert.ToDateTime(datfrmat)).TotalDays;
                 if (days <= 30)
                 {
-                    dt = objgps.GetSalesSummaryReportDayWise(datfrmat, dattoat, Userid, state, desig, empcode);
+                    //Rev 1.0
+                    //dt = objgps.GetSalesSummaryReportDayWise(datfrmat, dattoat, Userid, state, desig, empcode);
+                    dt = objgps.GetSalesSummaryReportDayWise(datfrmat, dattoat, Userid, state, desig, empcode, Branch_Id);
+                    //Rev 1.0 End
                 }
             }
             TempData["ExportSalesDetailsS"] = dt;

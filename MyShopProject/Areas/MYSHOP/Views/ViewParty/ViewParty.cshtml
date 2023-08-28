@@ -1,7 +1,9 @@
 ﻿@************************************************************************************************************************************
-* 1.0    30-01-2023     2.0.39     Sanchita      View Party' option shall be available in FSM Dashboard along with
-                                                 Dashboard Setting rights. Refer: 25515
-* ********************************************************************************************************************************@
+    * 1.0    30-01-2023     2.0.39     Sanchita      View Party' option shall be available in FSM Dashboard along with
+                                                                     Dashboard Setting rights. Refer: 25515
+    * 2.0    31-07-2023     2.0.41     Pallab        Caption to be change in view party module Refer: 26640
+    * 3.0    02-08-2023     2.0.41     Pallab        Party on Map module page load optimize and test Refer: 26661
+    * ********************************************************************************************************************************@
 
 @{
     ViewBag.Title = "ViewParty";
@@ -41,7 +43,9 @@
         margin-right: 5px;
     }
 </style>
-<script type="text/javascript" src="https://github.com/douglascrockford/JSON-js/raw/master/json2.js"></script>
+@*Rev 3.0*@
+@*<script type="text/javascript" src="https://github.com/douglascrockford/JSON-js/raw/master/json2.js"></script>*@
+@*Rev end 3.0*@
 <script>
     $(document).ready(function () {
         var Url = '@Url.Action("GetType", "ViewParty")'
@@ -601,17 +605,369 @@
 
 </script>
 
+<script>
+    function addDays(date, daysToAdd) {
+        var _24HoursInMilliseconds = 86400000;
+        return new Date(date.getTime() + daysToAdd * _24HoursInMilliseconds);
+    };
+
+    $(document).ready(function () {
+        StatePopulate();
+
+        // Rev Sanchita
+        //setTimeout(function () {
+        //    $("#ddlState").val('15');
+        //}, 600);
+        // End of Rev Sanchita
+        setTimeout(function () {
+            showMap();
+        }, 600);
+
+        $('.eventToggler').click(function () {
+            $(this).parent('.dropSectionuser').toggleClass('open');
+            if ($('.dropSectionuser').hasClass('open')) {
+                $('.eventToggler').text('>');
+            } else {
+                $('.eventToggler').text('<');
+            }
+        });
+        var now = new Date();
+        var yesterday = addDays(now, -0);
+        dtTo.SetValue(yesterday);
+        dtTo.SetMaxDate(yesterday);
+
+        $('.closeFullMap').click(function () {
+
+            $(this).parent('.FullDiv').addClass('hide');
+        });
+        $('.leftFloakToggle').click(function () {
+            var pdiv = $(this).parent('.leftFloak');
+            if ($('.leftFloakToggle').parent().hasClass('open')) {
+               //console.log('remove')
+               $('.leftFloak').removeClass('open');
+               $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-left').addClass('lnr lnr-chevron-right');
+            } else {
+                //console.log('add')
+                $('.leftFloak').addClass('open');
+                $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-right').addClass('lnr lnr-chevron-left');
+            }
+        });
+
+    });
+
+    function showMap() {
+
+        //stateid = '15';// cmbState.GetValue();
+        stateid = $("#ddlState").val();
+        partyType = $("#ddlPartyType").val();
+        partyStatus = $("#ddlPartyStatus").val();
+        electrician = $("#electSelect").val();
+        console.log(stateid);
+        GetAddress(stateid, partyType, partyStatus, electrician);
+        // $('#map').removeClass('hide');
+    }
+
+
+    function GetAddress(StateID, partyType, partyStatus, electrician) {
+        $(".mLoader").css({ "opacity": "1", "display": "flex" });
+        $("#map_box").html("");
+        $("#map_box").html('<div id="map_canvas" style="border: 3px solid #dedede; width: 100%;  height: 400px; margin-top: 0px;"></div>');
+
+        var surl = '@Url.Action("GetParty", "ViewRoute")';
+        var date = dtTo.GetText();
+        $.ajax({
+            url: surl,
+            async: true,
+            data: { StateID: StateID, TYPE_ID: partyType, PARTY_ID: partyStatus, IS_Electician: electrician },
+            type: 'POST',
+
+            success: function (markers) {
+                console.log("ddAray", markers);
+                $(".mLoader").css({ "opacity": "0", "display": "none" });
+                //return false;
+                var data = markers;
+                //console.log(data)
+                if (markers.length > 0) {
+                    $('.dropSectionuser').addClass('open');
+                } else {
+                    $('.dropSectionuser').removeClass('open');
+                }
+                if (markers.length == 0) {
+                    $('#userList').html('<h3 class="noUser">User not Available');
+                    var mapOptions = {
+                        center: new google.maps.LatLng(22.572645, 88.363892),
+                        zoom: 6,
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        disableDefaultUI: true,
+                        mapTypeControl: true,
+                        mapTypeControlOptions: {
+                            mapTypeIds: [google.maps.MapTypeId.ROADMAP,
+                            google.maps.MapTypeId.HYBRID],
+                            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                            position: google.maps.ControlPosition.TOP_LEFT
+                        },
+                        scaleControl: false,
+                        zoomControl: true,
+                        zoomControlOptions: {
+                            position: google.maps.ControlPosition.RIGHT_BOTTOM
+                        },
+                        fullscreenControl: true,
+                        fullscreenControlOptions: {
+                            position: google.maps.ControlPosition.TOP_RIGHT
+                        }
+                    };
+
+
+                    var infoWindow = new google.maps.InfoWindow();
+                    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+                    var marker = new google.maps.Marker({
+                        // position: new google.maps.LatLng(22.572645, 88.363892),
+                        map: map
+                    });
+                    (function (marker, data) {
+                        google.maps.event.addListener(marker, "click", function (e) {
+
+                            infoWindow.open(map, marker);
+                        });
+                    })(marker, data)
+
+                }
+                else {
+                    // Susanta 27.12.2018
+
+                    var map = new google.maps.Map(document.getElementById('map_canvas'), {
+                        zoom: 2,
+                        scrollwheel: true,
+                        center: new google.maps.LatLng(markers[0].Shop_Lat, markers[0].Shop_Long),
+                        mapTypeId: google.maps.MapTypeId.ROADMAP,
+                        mapTypeControl: false
+
+                    });
+                    var i;
+                    var newMarkers = [];
+                   // console.log(markers);
+                    var strhtml = "";
+                    $('#userList').html(strhtml);
+                    for (i = 0; i < markers.length; i++) {
+                        //var pictureLabel = document.createElement("img");
+                        //pictureLabel.src = locations[i][7];
+                        var data = markers[i];
+                        var icnIm = "";
+                        if (data.MAP_COLOR == "GREEN") {
+                            icnIm = "<img src='/assests/images/mapsMarkerT1Green.png' />"
+                        } else if (data.MAP_COLOR == "RED") {
+                            icnIm = "<img src='/assests/images/mapsMarkerT1Red.png' />"
+                        } else {
+                            icnIm = "<img src='/assests/images/mapsMarkerT1.png' />"
+                        }
+                        if (data.Shop_Name == "GPTPL" || data.Shop_Name == "Meeting" || data.Shop_Name == "Company Name") {
+
+                        } else {
+                            strhtml = strhtml + '<li class="userlistItem marker-link clearfix" data-lat="' + data.Shop_Lat + '" data-long="' + data.Shop_Long + '" data-markerid="' + i + '"> ' + '<div class="userIcon">' + icnIm + '</div>' + '<div class="userName">' + data.Shop_Name + '</div>' + '<div class="userNUM">' + data.Shop_Owner_Contact + ' </div>' + '</li>';
+                        }
+                        //console.log(data);
+
+                        // user Click infobox
+
+
+                        var boxText = document.createElement("div");
+                        infoboxOptions = {
+                            content: boxText,
+                            disableAutoPan: false,
+                            //maxWidth: 150,
+                            pixelOffset: new google.maps.Size(-100, 0),
+                            zIndex: null,
+                            alignBottom: true,
+                            boxClass: "infobox-wrapper",
+                            enableEventPropagation: true,
+                            closeBoxMargin: "0px 0px -8px 0px",
+                            closeBoxURL: "/assests/pluggins/images/close-btn.png",
+                            infoBoxClearance: new google.maps.Size(1, 1)
+                        };
+                        //var marker = new MarkerWithLabel({
+                        //    //title: locations[i][0],
+                        //    position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
+                        //    map: map,
+                        //    icon: '/assests/images/locate.png',
+                        //    //labelContent: pictureLabel,
+                        //    animation: google.maps.Animation.DROP,
+                        //    labelAnchor: new google.maps.Point(50, 0),
+                        //    labelClass: "marker-style"
+                        //});
+                        if (data.MAP_COLOR == "GREEN") {
+                            var marker = new MarkerWithLabel({
+                                //title: locations[i][0],
+                                position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
+                                map: map,
+                                icon: '/assests/images/mapsMarkerT1Green.png',
+                                //labelContent: pictureLabel,
+                                animation: google.maps.Animation.DROP,
+                                labelAnchor: new google.maps.Point(50, 0),
+                                labelClass: "marker-style"
+                            });
+                        } else if (data.MAP_COLOR == "RED") {
+                            var marker = new MarkerWithLabel({
+                                //title: locations[i][0],
+                                position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
+                                map: map,
+                                icon: '/assests/images/mapsMarkerT1Red.png',
+                                //labelContent: pictureLabel,
+                                animation: google.maps.Animation.DROP,
+                                labelAnchor: new google.maps.Point(50, 0),
+                                labelClass: "marker-style"
+                            });
+                        } else {
+                            var marker = new MarkerWithLabel({
+                                //title: locations[i][0],
+                                position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
+                                map: map,
+                                icon: '/assests/images/mapsMarkerT1.png',
+                                //labelContent: pictureLabel,
+                                animation: google.maps.Animation.DROP,
+                                labelAnchor: new google.maps.Point(50, 0),
+                                labelClass: "marker-style"
+                            });
+                        }
+                        newMarkers.push(marker);
+                        // susanta 04.01.2019
+                        boxText.innerHTML =
+                               '<div class="infobox-inner">' +
+                                '<div class="clearfix">' +
+                                    '<div class="infobox-image" style="position: relative">' +
+                                        '<img src="/assests/pluggins/images/man.png" class="profileImage">' +
+                                        //'<span class="desig">ASO</span>' +
+                                   ' </div>' +
+                                    '<div class="statCont clearfix">' +
+                                        '<ul class="list-noStyle hide">' +
+                                            '<li>' +
+                                                '<div class="totalVisit"> 0 </div>' +
+                                                '<div class="text-center"><span class="badge mapBadge">TOTAL VISITS</span></div>' +
+                                            '</li>' +
+                                        '</ul>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="infobox-description">' +
+                                    '<div class="infobox-title"><a href="#">' + data.Shop_Name + ' </a></div>' +
+                                    '<div class="infobox-location"><b>Location :</b> ' + data.Address + ' </div>' +
+                                                           '<div class="infobox-cell"><i class="fa fa-phone"></i> <b> ' + data.Shop_Owner_Contact + ' </b></div>' +
+                                    '</div>' +
+                                '</div>';
+
+                        //Define the infobox
+                        newMarkers[i].infobox = new InfoBox(infoboxOptions);
+                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                            return function () {
+                                for (h = 0; h < newMarkers.length; h++) {
+                                    newMarkers[h].infobox.close();
+                                }
+                                newMarkers[i].infobox.open(map, this);
+                            }
+                        })(marker, i));
+
+                    }
+                    $('#userList').html(strhtml);
+
+                    $('.marker-link').on('click', function () {
+                        var lat = $(this).data('lat');
+                        var lon = $(this).data('long');
+                        //console.log(lat);
+                        //console.log(lon);
+                        google.maps.event.trigger(newMarkers[$(this).data('markerid')], 'click');
+
+                        var center = new google.maps.LatLng(lat, lon);
+                        map.panTo(center);
+                        map.setZoom(18);
+                    });
+                    var options = {
+                        valueNames: ['userName', 'userNUM'],
+                        item: ''
+                    };
+                    var userList = new List('users', options);
+
+
+                    var clusterStyles = [
+                    {
+                        url: '/assests/pluggins/images/cluster.png',
+                        height: 50,
+                        width: 50
+
+                    }
+                    ];
+                    var markerCluster = new MarkerClusterer(map, newMarkers, { styles: clusterStyles, maxZoom: 15 });
+
+                }
+
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    function StatePopulate() {
+        $.ajax({
+            type: "post",
+            url: "@Url.Action("SatetListView", "ViewRoute")",
+            data: {},
+            datatype: "json",
+            traditional: true,
+            success: function (data) {
+
+                var status = "<select id='ddlState' class = 'full form-control'>";
+                status = status + '<option value="0">select</option>';
+                for (var i = 0; i < data.length; i++) {
+                    // Rev 1.0
+                    //status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
+                    status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
+                    // End of Rev 1.0
+                }
+                status = status + '</select>';
+                $('#divState').html(status);
+            }
+        });
+    }
+
+    function filter() {
+        showMap();
+    }
+
+
+    $(document).ready(function () {
+        $("#electSelect").change(function () {
+            var v = $(this).val();
+            if (v == 1) {
+                $("#tdParty").css({ "display": "none" });
+            } else {
+                $("#tdParty").css({ "display": "table-cell" });
+            }
+        });
+        //$("#ddlPartyType").change(function () {
+        //    var v = $(this).val();
+        //    if (v == 2) {
+        //        $("#tdElect").css({ "display": "none" });
+        //    } else {
+
+        //        $("#tdElect").css({ "display": "table-cell" });
+        //    }
+        //});
+
+    })
+</script>
 
 <meta name="google" content="notranslate" />
-<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
-
+@*Rev 3.0*@
+@*<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />*@
+@*Rev end 3.0*@
 @*<link href="~/assests/media.css" rel="stylesheet" />*@
 <link href="~/Scripts/Charts/styles.css" rel="stylesheet" />
 @*<link href="~/Content/media.css" rel="stylesheet" />*@
-<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
-<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
-<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
-
+@*Rev 3.0*@
+@*<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+  <script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+  <script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>*@
+@*Rev end 3.0*@
 @*<link href="~/assests/pluggins/openstreetmap/leaflet.css" rel="stylesheet" />
     <link href="~/assests/pluggins/openstreetmap/MarkerCluster.css" rel="stylesheet" />
     <script src="~/assests/pluggins/openstreetmap/leaflet.js"></script>
@@ -2712,357 +3068,6 @@
 </style>
 
 
-
-<script>
-    function addDays(date, daysToAdd) {
-        var _24HoursInMilliseconds = 86400000;
-        return new Date(date.getTime() + daysToAdd * _24HoursInMilliseconds);
-    };
-
-    $(document).ready(function () {
-        StatePopulate();
-
-        // Rev Sanchita
-        //setTimeout(function () {
-        //    $("#ddlState").val('15');
-        //}, 600);
-        // End of Rev Sanchita
-        setTimeout(function () {
-            showMap();
-        }, 600);
-
-        $('.eventToggler').click(function () {
-            $(this).parent('.dropSectionuser').toggleClass('open');
-            if ($('.dropSectionuser').hasClass('open')) {
-                $('.eventToggler').text('>');
-            } else {
-                $('.eventToggler').text('<');
-            }
-        });
-        var now = new Date();
-        var yesterday = addDays(now, -0);
-        dtTo.SetValue(yesterday);
-        dtTo.SetMaxDate(yesterday);
-
-        $('.closeFullMap').click(function () {
-
-            $(this).parent('.FullDiv').addClass('hide');
-        });
-        $('.leftFloakToggle').click(function () {
-            var pdiv = $(this).parent('.leftFloak');
-            if ($('.leftFloakToggle').parent().hasClass('open')) {
-               //console.log('remove')
-               $('.leftFloak').removeClass('open');
-               $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-left').addClass('lnr lnr-chevron-right');
-            } else {
-                //console.log('add')
-                $('.leftFloak').addClass('open');
-                $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-right').addClass('lnr lnr-chevron-left');
-            }
-        });
-
-    });
-
-    function showMap() {
-
-        //stateid = '15';// cmbState.GetValue();
-        stateid = $("#ddlState").val();
-        partyType = $("#ddlPartyType").val();
-        partyStatus = $("#ddlPartyStatus").val();
-        electrician = $("#electSelect").val();
-        console.log(stateid);
-        GetAddress(stateid, partyType, partyStatus, electrician);
-        // $('#map').removeClass('hide');
-    }
-
-
-    function GetAddress(StateID, partyType, partyStatus, electrician) {
-        $(".mLoader").css({ "opacity": "1", "display": "flex" });
-        $("#map_box").html("");
-        $("#map_box").html('<div id="map_canvas" style="border: 3px solid #dedede; width: 100%;  height: 400px; margin-top: 0px;"></div>');
-
-        var surl = '@Url.Action("GetParty", "ViewRoute")';
-        var date = dtTo.GetText();
-        $.ajax({
-            url: surl,
-            async: true,
-            data: { StateID: StateID, TYPE_ID: partyType, PARTY_ID: partyStatus, IS_Electician: electrician },
-            type: 'POST',
-
-            success: function (markers) {
-                console.log("ddAray", markers);
-                $(".mLoader").css({ "opacity": "0", "display": "none" });
-                //return false;
-                var data = markers;
-                //console.log(data)
-                if (markers.length > 0) {
-                    $('.dropSectionuser').addClass('open');
-                } else {
-                    $('.dropSectionuser').removeClass('open');
-                }
-                if (markers.length == 0) {
-                    $('#userList').html('<h3 class="noUser">User not Available');
-                    var mapOptions = {
-                        center: new google.maps.LatLng(22.572645, 88.363892),
-                        zoom: 6,
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        disableDefaultUI: true,
-                        mapTypeControl: true,
-                        mapTypeControlOptions: {
-                            mapTypeIds: [google.maps.MapTypeId.ROADMAP,
-                            google.maps.MapTypeId.HYBRID],
-                            style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
-                            position: google.maps.ControlPosition.TOP_LEFT
-                        },
-                        scaleControl: false,
-                        zoomControl: true,
-                        zoomControlOptions: {
-                            position: google.maps.ControlPosition.RIGHT_BOTTOM
-                        },
-                        fullscreenControl: true,
-                        fullscreenControlOptions: {
-                            position: google.maps.ControlPosition.TOP_RIGHT
-                        }
-                    };
-
-
-                    var infoWindow = new google.maps.InfoWindow();
-                    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-
-                    var marker = new google.maps.Marker({
-                        // position: new google.maps.LatLng(22.572645, 88.363892),
-                        map: map
-                    });
-                    (function (marker, data) {
-                        google.maps.event.addListener(marker, "click", function (e) {
-
-                            infoWindow.open(map, marker);
-                        });
-                    })(marker, data)
-
-                }
-                else {
-                    // Susanta 27.12.2018
-
-                    var map = new google.maps.Map(document.getElementById('map_canvas'), {
-                        zoom: 2,
-                        scrollwheel: true,
-                        center: new google.maps.LatLng(markers[0].Shop_Lat, markers[0].Shop_Long),
-                        mapTypeId: google.maps.MapTypeId.ROADMAP,
-                        mapTypeControl: false
-
-                    });
-                    var i;
-                    var newMarkers = [];
-                   // console.log(markers);
-                    var strhtml = "";
-                    $('#userList').html(strhtml);
-                    for (i = 0; i < markers.length; i++) {
-                        //var pictureLabel = document.createElement("img");
-                        //pictureLabel.src = locations[i][7];
-                        var data = markers[i];
-                        var icnIm = "";
-                        if (data.MAP_COLOR == "GREEN") {
-                            icnIm = "<img src='/assests/images/mapsMarkerT1Green.png' />"
-                        } else if (data.MAP_COLOR == "RED") {
-                            icnIm = "<img src='/assests/images/mapsMarkerT1Red.png' />"
-                        } else {
-                            icnIm = "<img src='/assests/images/mapsMarkerT1.png' />"
-                        }
-                        if (data.Shop_Name == "GPTPL" || data.Shop_Name == "Meeting" || data.Shop_Name == "Company Name") {
-
-                        } else {
-                            strhtml = strhtml + '<li class="userlistItem marker-link clearfix" data-lat="' + data.Shop_Lat + '" data-long="' + data.Shop_Long + '" data-markerid="' + i + '"> ' + '<div class="userIcon">' + icnIm + '</div>' + '<div class="userName">' + data.Shop_Name + '</div>' + '<div class="userNUM">' + data.Shop_Owner_Contact + ' </div>' + '</li>';
-                        }
-                        //console.log(data);
-
-                        // user Click infobox
-
-
-                        var boxText = document.createElement("div");
-                        infoboxOptions = {
-                            content: boxText,
-                            disableAutoPan: false,
-                            //maxWidth: 150,
-                            pixelOffset: new google.maps.Size(-100, 0),
-                            zIndex: null,
-                            alignBottom: true,
-                            boxClass: "infobox-wrapper",
-                            enableEventPropagation: true,
-                            closeBoxMargin: "0px 0px -8px 0px",
-                            closeBoxURL: "/assests/pluggins/images/close-btn.png",
-                            infoBoxClearance: new google.maps.Size(1, 1)
-                        };
-                        //var marker = new MarkerWithLabel({
-                        //    //title: locations[i][0],
-                        //    position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
-                        //    map: map,
-                        //    icon: '/assests/images/locate.png',
-                        //    //labelContent: pictureLabel,
-                        //    animation: google.maps.Animation.DROP,
-                        //    labelAnchor: new google.maps.Point(50, 0),
-                        //    labelClass: "marker-style"
-                        //});
-                        if (data.MAP_COLOR == "GREEN") {
-                            var marker = new MarkerWithLabel({
-                                //title: locations[i][0],
-                                position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
-                                map: map,
-                                icon: '/assests/images/mapsMarkerT1Green.png',
-                                //labelContent: pictureLabel,
-                                animation: google.maps.Animation.DROP,
-                                labelAnchor: new google.maps.Point(50, 0),
-                                labelClass: "marker-style"
-                            });
-                        } else if (data.MAP_COLOR == "RED") {
-                            var marker = new MarkerWithLabel({
-                                //title: locations[i][0],
-                                position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
-                                map: map,
-                                icon: '/assests/images/mapsMarkerT1Red.png',
-                                //labelContent: pictureLabel,
-                                animation: google.maps.Animation.DROP,
-                                labelAnchor: new google.maps.Point(50, 0),
-                                labelClass: "marker-style"
-                            });
-                        } else {
-                            var marker = new MarkerWithLabel({
-                                //title: locations[i][0],
-                                position: new google.maps.LatLng(data.Shop_Lat, data.Shop_Long),
-                                map: map,
-                                icon: '/assests/images/mapsMarkerT1.png',
-                                //labelContent: pictureLabel,
-                                animation: google.maps.Animation.DROP,
-                                labelAnchor: new google.maps.Point(50, 0),
-                                labelClass: "marker-style"
-                            });
-                        }
-                        newMarkers.push(marker);
-                        // susanta 04.01.2019
-                        boxText.innerHTML =
-                               '<div class="infobox-inner">' +
-                                '<div class="clearfix">' +
-                                    '<div class="infobox-image" style="position: relative">' +
-                                        '<img src="/assests/pluggins/images/man.png" class="profileImage">' +
-                                        //'<span class="desig">ASO</span>' +
-                                   ' </div>' +
-                                    '<div class="statCont clearfix">' +
-                                        '<ul class="list-noStyle hide">' +
-                                            '<li>' +
-                                                '<div class="totalVisit"> 0 </div>' +
-                                                '<div class="text-center"><span class="badge mapBadge">TOTAL VISITS</span></div>' +
-                                            '</li>' +
-                                        '</ul>' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="infobox-description">' +
-                                    '<div class="infobox-title"><a href="#">' + data.Shop_Name + ' </a></div>' +
-                                    '<div class="infobox-location"><b>Location :</b> ' + data.Address + ' </div>' +
-                                                           '<div class="infobox-cell"><i class="fa fa-phone"></i> <b> ' + data.Shop_Owner_Contact + ' </b></div>' +
-                                    '</div>' +
-                                '</div>';
-
-                        //Define the infobox
-                        newMarkers[i].infobox = new InfoBox(infoboxOptions);
-                        google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                            return function () {
-                                for (h = 0; h < newMarkers.length; h++) {
-                                    newMarkers[h].infobox.close();
-                                }
-                                newMarkers[i].infobox.open(map, this);
-                            }
-                        })(marker, i));
-
-                    }
-                    $('#userList').html(strhtml);
-
-                    $('.marker-link').on('click', function () {
-                        var lat = $(this).data('lat');
-                        var lon = $(this).data('long');
-                        //console.log(lat);
-                        //console.log(lon);
-                        google.maps.event.trigger(newMarkers[$(this).data('markerid')], 'click');
-
-                        var center = new google.maps.LatLng(lat, lon);
-                        map.panTo(center);
-                        map.setZoom(18);
-                    });
-                    var options = {
-                        valueNames: ['userName', 'userNUM'],
-                        item: ''
-                    };
-                    var userList = new List('users', options);
-
-
-                    var clusterStyles = [
-                    {
-                        url: '/assests/pluggins/images/cluster.png',
-                        height: 50,
-                        width: 50
-
-                    }
-                    ];
-                    var markerCluster = new MarkerClusterer(map, newMarkers, { styles: clusterStyles, maxZoom: 15 });
-
-                }
-
-
-            },
-            error: function () {
-
-            },
-        });
-    }
-
-    function StatePopulate() {
-        $.ajax({
-            type: "post",
-            url: "@Url.Action("SatetListView", "ViewRoute")",
-            data: {},
-            datatype: "json",
-            traditional: true,
-            success: function (data) {
-
-                var status = "<select id='ddlState' class = 'full form-control'>";
-                status = status + '<option value="0">select</option>';
-                for (var i = 0; i < data.length; i++) {
-                    // Rev 1.0
-                    //status = status + '<option value=' + data[i].ID + '>' + data[i].StateName + '</option>';
-                    status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
-                    // End of Rev 1.0
-                }
-                status = status + '</select>';
-                $('#divState').html(status);
-            }
-        });
-    }
-
-    function filter() {
-        showMap();
-    }
-
-
-    $(document).ready(function () {
-        $("#electSelect").change(function () {
-            var v = $(this).val();
-            if (v == 1) {
-                $("#tdParty").css({ "display": "none" });
-            } else {
-                $("#tdParty").css({ "display": "table-cell" });
-            }
-        });
-        //$("#ddlPartyType").change(function () {
-        //    var v = $(this).val();
-        //    if (v == 2) {
-        //        $("#tdElect").css({ "display": "none" });
-        //    } else {
-
-        //        $("#tdElect").css({ "display": "table-cell" });
-        //    }
-        //});
-
-    })
-</script>
 <style>
     .mLoader {
         position: fixed;
@@ -3161,7 +3166,10 @@
     }).GetHtml()
 <div class="mLoader"><img src="~/assests/images/Rainbow.gif" /></div>
 <div class="breadCumb">
-    <span>View Employee on Map</span>
+    @*Rev 2.0*@
+    @*<span>View Employee on Map</span>*@
+    <span>Party on Map</span>
+    @*Rev end 2.0*@
     <div class="crossBtnN"><a href="#" onclick="window.location.href ='../DashboardMenu/FSMDashboard'"><i class="fa fa-times"></i></a></div>
 </div>
 <div class="FullDiv hide">

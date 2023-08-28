@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
 //                                              Refer: 0025585
+//2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,10 @@ namespace Models
         //Rev 1.0 Mantis:0025585
         public int IsRevisitContactDetails { get; set; }
         //End of Rev 1.0 Mantis:0025585
+        // Rev 2.0
+        public List<string> BranchId { get; set; }
+        public List<GetBranch> modelbranch = new List<GetBranch>();
+        // End of Rev 2.0
     }
 
     public class CounterStates

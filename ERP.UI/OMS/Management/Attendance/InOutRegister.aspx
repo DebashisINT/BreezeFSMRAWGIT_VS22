@@ -589,7 +589,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                        
 
 
-                        <td style="color: #006ac5" class="paddingright0">Branch
+                        <td style="color: #333" class="paddingright0">Branch
                         </td>
                         <td colspan="2">
                             <dxe:ASPxComboBox ID="cmbBranch" ClientInstanceName="ccmbBranch"
@@ -598,7 +598,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </dxe:ASPxComboBox>
                         </td>
 
-                         <td style="color: #006ac5; padding-right: 15px !important;" class="paddingright0">Employee</td>
+                         <td style="color: #333; padding-right: 15px !important;" class="paddingright0">Employee</td>
                         <td colspan="2">
                             <dxe:ASPxButtonEdit ID="empButtonEdit" ReadOnly="true" runat="server" ClientInstanceName="cempButtonEdit" ClientEnabled="true">
                                 <Buttons>
@@ -611,7 +611,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
 
 
-                        <td style="color: #006ac5" class="paddingright0">All
+                        <td style="color: #333" class="paddingright0">All
                         </td>
                         <td colspan="2">
                             <dxe:ASPxCheckBox ID="chkAllEmp" runat="server" ClientInstanceName="chkAllEmp" >
@@ -622,7 +622,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                        
 
 
-                        <td style="color: #006ac5; padding-right: 15px !important;" class="paddingright0">Date</td>
+                        <td style="color: #333; padding-right: 15px !important;" class="paddingright0">Date</td>
                         <%--Rev 2.0: "calendar-custom-icon" class add--%>
                         <td class="calendar-custom-icon">
                             <dxe:ASPxDateEdit ID="FormDate" runat="server" EditFormat="Custom" EditFormatString="dd-MM-yyyy" AllowNull="false"
@@ -638,7 +638,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
                     
                          
-                           <td style="color: #006ac5" class="paddingright0">Show Inactive</td>
+                           <td style="color: #333" class="paddingright0">Show Inactive</td>
                            <td>
                                <dxe:ASPxCheckBox ID="chkInactive" runat="server" ClientInstanceName="cchkInactive" Checked="true">
                                </dxe:ASPxCheckBox>

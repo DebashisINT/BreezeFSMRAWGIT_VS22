@@ -442,7 +442,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             content: url(../../../assests/images/left-arw.png);
             position: absolute;
             top: 2px;
-            right: 3px;
+            right: 5px;
             font-size: 13px;
             transform: rotate(269deg);
             font-weight: 500;
@@ -823,6 +823,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     }
 
     /*Rev end 1.0*/
+
 
     @media only screen and (max-width: 768px)
     {

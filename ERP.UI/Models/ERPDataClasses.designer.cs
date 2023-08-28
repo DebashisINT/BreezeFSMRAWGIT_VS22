@@ -36,7 +36,7 @@ namespace ERP.Models
     #endregion
 		
 		public ERPDataClassesDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["PK17092018ConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["RollickTestingConnectionString1"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -561,14 +561,6 @@ namespace ERP.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<v_ProductRate> v_ProductRates
-		{
-			get
-			{
-				return this.GetTable<v_ProductRate>();
-			}
-		}
-		
 		public System.Data.Linq.Table<v_GetAreaImportLog> v_GetAreaImportLogs
 		{
 			get
@@ -590,6 +582,14 @@ namespace ERP.Models
 			get
 			{
 				return this.GetTable<FSMUser_Master_List>();
+			}
+		}
+		
+		public System.Data.Linq.Table<v_ProductRate> v_ProductRates
+		{
+			get
+			{
+				return this.GetTable<v_ProductRate>();
 			}
 		}
 	}
@@ -22715,141 +22715,6 @@ namespace ERP.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.v_ProductRate")]
-	public partial class v_ProductRate
-	{
-		
-		private long _ID;
-		
-		private System.Nullable<long> _PRODUCT_ID;
-		
-		private System.Nullable<decimal> _DD_PRICE;
-		
-		private System.Nullable<decimal> _SHOP_PRICE;
-		
-		private System.Nullable<long> _STATE_ID;
-		
-		private string _sProducts_Description;
-		
-		private string _state;
-		
-		public v_ProductRate()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="BigInt NOT NULL")]
-		public long ID
-		{
-			get
-			{
-				return this._ID;
-			}
-			set
-			{
-				if ((this._ID != value))
-				{
-					this._ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCT_ID", DbType="BigInt")]
-		public System.Nullable<long> PRODUCT_ID
-		{
-			get
-			{
-				return this._PRODUCT_ID;
-			}
-			set
-			{
-				if ((this._PRODUCT_ID != value))
-				{
-					this._PRODUCT_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DD_PRICE", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> DD_PRICE
-		{
-			get
-			{
-				return this._DD_PRICE;
-			}
-			set
-			{
-				if ((this._DD_PRICE != value))
-				{
-					this._DD_PRICE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SHOP_PRICE", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> SHOP_PRICE
-		{
-			get
-			{
-				return this._SHOP_PRICE;
-			}
-			set
-			{
-				if ((this._SHOP_PRICE != value))
-				{
-					this._SHOP_PRICE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE_ID", DbType="BigInt")]
-		public System.Nullable<long> STATE_ID
-		{
-			get
-			{
-				return this._STATE_ID;
-			}
-			set
-			{
-				if ((this._STATE_ID != value))
-				{
-					this._STATE_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sProducts_Description", DbType="VarChar(300)")]
-		public string sProducts_Description
-		{
-			get
-			{
-				return this._sProducts_Description;
-			}
-			set
-			{
-				if ((this._sProducts_Description != value))
-				{
-					this._sProducts_Description = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_state", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string state
-		{
-			get
-			{
-				return this._state;
-			}
-			set
-			{
-				if ((this._state != value))
-				{
-					this._state = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.v_GetAreaImportLog")]
 	public partial class v_GetAreaImportLog
 	{
@@ -23952,6 +23817,213 @@ namespace ERP.Models
 				if ((this._USERID != value))
 				{
 					this._USERID = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.v_ProductRate")]
+	public partial class v_ProductRate
+	{
+		
+		private long _ID;
+		
+		private System.Nullable<long> _PRODUCT_ID;
+		
+		private System.Nullable<decimal> _DD_PRICE;
+		
+		private System.Nullable<decimal> _SHOP_PRICE;
+		
+		private System.Nullable<long> _STATE_ID;
+		
+		private System.Nullable<decimal> _SUPER_PRICE;
+		
+		private System.Nullable<decimal> _QTY_UNIT_DISTRIBUTOR;
+		
+		private System.Nullable<decimal> _SCHEME_QTY_DISTRIBUTOR;
+		
+		private System.Nullable<decimal> _EFFECTIVE_PRICE;
+		
+		private string _sProducts_Description;
+		
+		private string _state;
+		
+		public v_ProductRate()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ID", DbType="BigInt NOT NULL")]
+		public long ID
+		{
+			get
+			{
+				return this._ID;
+			}
+			set
+			{
+				if ((this._ID != value))
+				{
+					this._ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCT_ID", DbType="BigInt")]
+		public System.Nullable<long> PRODUCT_ID
+		{
+			get
+			{
+				return this._PRODUCT_ID;
+			}
+			set
+			{
+				if ((this._PRODUCT_ID != value))
+				{
+					this._PRODUCT_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DD_PRICE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> DD_PRICE
+		{
+			get
+			{
+				return this._DD_PRICE;
+			}
+			set
+			{
+				if ((this._DD_PRICE != value))
+				{
+					this._DD_PRICE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SHOP_PRICE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> SHOP_PRICE
+		{
+			get
+			{
+				return this._SHOP_PRICE;
+			}
+			set
+			{
+				if ((this._SHOP_PRICE != value))
+				{
+					this._SHOP_PRICE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE_ID", DbType="BigInt")]
+		public System.Nullable<long> STATE_ID
+		{
+			get
+			{
+				return this._STATE_ID;
+			}
+			set
+			{
+				if ((this._STATE_ID != value))
+				{
+					this._STATE_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SUPER_PRICE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> SUPER_PRICE
+		{
+			get
+			{
+				return this._SUPER_PRICE;
+			}
+			set
+			{
+				if ((this._SUPER_PRICE != value))
+				{
+					this._SUPER_PRICE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QTY_UNIT_DISTRIBUTOR", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> QTY_UNIT_DISTRIBUTOR
+		{
+			get
+			{
+				return this._QTY_UNIT_DISTRIBUTOR;
+			}
+			set
+			{
+				if ((this._QTY_UNIT_DISTRIBUTOR != value))
+				{
+					this._QTY_UNIT_DISTRIBUTOR = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SCHEME_QTY_DISTRIBUTOR", DbType="Decimal(18,4)")]
+		public System.Nullable<decimal> SCHEME_QTY_DISTRIBUTOR
+		{
+			get
+			{
+				return this._SCHEME_QTY_DISTRIBUTOR;
+			}
+			set
+			{
+				if ((this._SCHEME_QTY_DISTRIBUTOR != value))
+				{
+					this._SCHEME_QTY_DISTRIBUTOR = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EFFECTIVE_PRICE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> EFFECTIVE_PRICE
+		{
+			get
+			{
+				return this._EFFECTIVE_PRICE;
+			}
+			set
+			{
+				if ((this._EFFECTIVE_PRICE != value))
+				{
+					this._EFFECTIVE_PRICE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sProducts_Description", DbType="NVarChar(MAX)")]
+		public string sProducts_Description
+		{
+			get
+			{
+				return this._sProducts_Description;
+			}
+			set
+			{
+				if ((this._sProducts_Description != value))
+				{
+					this._sProducts_Description = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_state", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string state
+		{
+			get
+			{
+				return this._state;
+			}
+			set
+			{
+				if ((this._state != value))
+				{
+					this._state = value;
 				}
 			}
 		}

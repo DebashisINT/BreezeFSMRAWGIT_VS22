@@ -1,4 +1,9 @@
-﻿using BusinessLogicLayer.SalesTrackerReports;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2.0.41    Debashis     25/07/2023      DS Visit Details - Two Columns Required.Refer: 0026474
+//2.0   V2.0.41    Debashis     09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+#endregion===================================End of Revision History==================================================================
+
+using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -162,18 +167,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
                     
                 }
-                //Rev Debashis 0024906
-                if (model.is_pageload == "1")
+                //Rev 1.0 Mantis: 0026474
+                ////Rev Debashis 0024906
+                //if (model.is_pageload == "1")
+                //{
+                //    //End of Rev Debashis 0024906
+                //    double days = (Convert.ToDateTime(ToDate) - Convert.ToDateTime(FromDate)).TotalDays;
+                //    if (days <= 35)
+                //    {
+                //        dt = GetDSVisitDetails(Employee, FromDate, ToDate, Branch_Id);
+                //    }
+                ////Rev Debashis 0024906
+                //}
+                ////End of Rev Debashis 0024906
+                double days = (Convert.ToDateTime(ToDate) - Convert.ToDateTime(FromDate)).TotalDays;
+                if (days <= 35)
                 {
-                    //End of Rev Debashis 0024906
-                    double days = (Convert.ToDateTime(ToDate) - Convert.ToDateTime(FromDate)).TotalDays;
-                    if (days <= 35)
-                    {
-                        dt = GetDSVisitDetails(Employee, FromDate, ToDate, Branch_Id);
-                    }
-                //Rev Debashis 0024906
+                    dt = GetDSVisitDetails(Employee, FromDate, ToDate, Branch_Id,model.is_pageload);
                 }
-                //End of Rev Debashis 0024906
+                //End of Rev 1.0 Mantis: 0026474
 
                 return PartialView("_PartialGridDSVisitDetails", LGetDSVisitDetails(Is_PageLoad));
             }
@@ -185,7 +197,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         }
 
-        public DataTable GetDSVisitDetails(string Employee, string start_date, string end_date, string Branch_Id)
+        //Rev 1.0 Mantis: 0026474
+        //public DataTable GetDSVisitDetails(string Employee, string start_date, string end_date, string Branch_Id)
+        public DataTable GetDSVisitDetails(string Employee, string start_date, string end_date, string Branch_Id, string IsPageLoad)
+        //End of Rev 1.0 Mantis: 0026474
         {
             DataTable ds = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("PRC_FTSDSVISITDETAILS_REPORT");
@@ -193,6 +208,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
             proc.AddPara("@TODATE", end_date);
             proc.AddPara("@BRANCHID", Branch_Id);
             proc.AddPara("@EMPID", Employee);
+            //Rev 1.0 Mantis: 0026474
+            proc.AddPara("@ISPAGELOAD", IsPageLoad);
+            //End of Rev 1.0 Mantis: 0026474
             proc.AddPara("@USERID", Convert.ToInt32(Session["userid"]));
             ds = proc.GetTable();
             return ds;
@@ -424,11 +442,37 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
             });
             //Rev Debashis Mantis:0025218
+            //Rev 2.0 Mantis: 0026680
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "GENDERDESC";
+                x.Caption = "Gender";
+                x.VisibleIndex = 7;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='GENDERDESC'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.Width = 100;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 100;
+                }
+            });
+            //End of Rev 2.0 Mantis: 0026680
             settings.Columns.Add(x =>
             {
                 x.FieldName = "DSTYPE";
                 x.Caption = "DS Type";
-                x.VisibleIndex = 7;
+                x.VisibleIndex = 8;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DSTYPE'");
@@ -455,7 +499,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "LOGIN_DATETIME";
                 x.Caption = "Visit Date";
-                x.VisibleIndex = 8;
+                x.VisibleIndex = 9;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGIN_DATETIME'");
@@ -478,7 +522,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETSMAPPED";
                 x.Caption = "Outlets Mapped(Added)";
-                x.VisibleIndex = 9;
+                x.VisibleIndex = 10;
  
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -505,7 +549,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "RE_VISITED";
                 x.Caption = "Outlets Re-Visited";
-                x.VisibleIndex = 10;
+                x.VisibleIndex = 11;
                 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -526,7 +570,60 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             });
 
-            
+            //Rev 1.0 Mantis: 0026474
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "QUALIFIEDPRESENT";
+                x.Caption = "Qualified";
+                x.VisibleIndex = 12;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QUALIFIEDPRESENT'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.Width = 180;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 180;
+                }
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "ATTENDANCE";
+                x.Caption = "Present/Absent";
+                x.VisibleIndex = 13;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ATTENDANCE'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.Width = 180;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 180;
+                }
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            });
+            //End of Rev 1.0 Mantis: 0026474
+
             settings.Columns.Add(x =>
             {
                 x.FieldName = "DISTANCE_TRAVELLED";
@@ -534,7 +631,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //Rev Debashis 0024906
                 x.PropertiesEdit.DisplayFormatString = "0.00";
                 //End of Rev Debashis 0024906
-                x.VisibleIndex = 11;
+                x.VisibleIndex = 14;
                 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -564,7 +661,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //x.Caption = "Avg time spent in the market(HH:MM)";
                 x.Caption = "Total time spent in the market(HH:MM)";
                 //End of Rev Debashis 0024906
-                x.VisibleIndex = 12;
+                x.VisibleIndex = 15;
                 
                 x.PropertiesEdit.DisplayFormatString = "0.00";
                 
@@ -592,7 +689,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DAYSTTIME";
                 x.Caption = "Day Start(HH:MM)";
-                x.VisibleIndex = 13;
+                x.VisibleIndex = 16;
 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -616,7 +713,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DAYENDTIME";
                 x.Caption = "Day End(HH:MM)";
-                x.VisibleIndex = 14;
+                x.VisibleIndex = 17;
 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -645,7 +742,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
                 x.Caption = "Avg time spent in OL(CFT-New&Revisit)(HH:MM)";
                 //End of Rev Debashis 0024906
-                x.VisibleIndex = 15;
+                x.VisibleIndex = 18;
                 
                 if (ViewBag.RetentionColumn != null)
                 {

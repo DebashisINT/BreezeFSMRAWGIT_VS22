@@ -5,6 +5,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 2.0                07-04-2023        2.0.39           Pallab              25805 : TEAM BEHIND and theme change features add in FSM login page
 3.0                24-04-2023        2.0.39           Pallab/Sanchita     25861 : Event banner should dynamically change according to the date
 4.0                06-06-2023        2.0.41           Pallab              26302 : FSM portal login page make responsive and mobile friendly
+5.0                11-07-2023        2.0.42           Pallab              26550 : login page "Invalid UserID or Password!" visibility issue fix for small device
 ====================================================== Revision History ===========================================================--%>
 
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="pLogin"
@@ -1026,7 +1027,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         }
          @media only screen and (max-width: 760px){
              .flexArea {
-                 height:auto;
+                 /*height:auto;*/
+                 height:1000px;
                  width:100%  !important;
                  flex-direction: column-reverse;
              }
@@ -1083,6 +1085,49 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             }
         }
          /*Rev end 4.0*/
+
+         #lblMessage
+         {
+             text-align: center;
+             display: block;
+             font-size: 16px;
+         }
+         /*Rev 5.0*/
+         @media  only screen and (min-width: 767px) and (max-width: 1320px)
+         {
+             .mlogos
+             {
+                 margin-bottom: 0px;
+             }
+
+             .event-img
+             {
+                 margin-bottom: 10px;
+             }
+
+             .formBox
+             {
+                 margin-top: 12px;
+             }
+
+             .form-group {
+                margin-bottom: 10px;
+            }
+
+             .loginbtn
+             {
+                 margin-top: 15px;
+             }
+             .ftFooter
+             {
+                 margin-top: 8px;
+             }
+             .left-top-image
+             {
+                 margin-top: 2%;
+             }
+         }
+         /*Rev end 5.0*/
     </style>
     
     <script>
@@ -1169,7 +1214,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             
              <div class="formArea">
                 
-                      <div><asp:Label ID="lblMessage" runat="server" Text="" ForeColor="Red"></asp:Label></div>
+                      <%--<div><asp:Label ID="lblMessage" runat="server" Text="" ForeColor="Red"></asp:Label></div>--%>
                      <div><img src="/assests/images/NLogin/logo.png" class="mlogos" /></div>
                  <div class="login-part">
                     <div class="event-img">
@@ -1180,6 +1225,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                      </div>
                      <div style="margin: 5px 0 10px 0; font-size: 22px; color: #3737bb; font-weight: 600; font-family: 'Open Sans', sans-serif; text-align: center; ">Login to your Account</div>
                      <%--<p style="font-family: poppins;">A single dashboard to manage all your team members with real time updates and notifications.</p>--%>
+                     <div><asp:Label ID="lblMessage" runat="server" Text="" ForeColor="Red"></asp:Label></div>
                     <form action="" method="post" runat="server" novalidate="novalidate">
                     <input id="rurl" name="rurl" runat="server" type="hidden" value="" />
                      <div class="formBox">

@@ -1,15 +1,12 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                17-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                20-07-2023        V2.0.42          Priti               0026135: Branch Parameter is required for various FSM reports *@
 @*====================================================== Revision History ==========================================================*@
-
 @model MyShop.Models.EmployeeActivityDetailsModel
-
 @{
     ViewBag.Title = "Employee Activity Details";
 }
-
-
 <style>
     #mask {
         position: fixed;
@@ -112,8 +109,6 @@
         font-size: 16pt;
     }
 </style>
-
-
 <style>
     .modal-content {
         border-radius: 0px;
@@ -128,13 +123,9 @@
         height: 440px;
     }
 </style>
-
-
-
 <script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
 <link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
 <link href="~/Content/media.css" rel="stylesheet" />
-
 <script>
     var arr = [];
     var typeId;
@@ -297,6 +288,9 @@
         e.customArgs["FromDate"] = dtFrom.GetText();
         e.customArgs["ToDate"] = dtTo.GetText();
         e.customArgs["Ispageload"] = 1;
+        //REV 2.0
+        e.customArgs["BranchId"] = BranchId;
+        //REV 2.0 END
     }
 
 
@@ -345,11 +339,7 @@
         StateGridLookup.GetGridView().Refresh();
         StateGridLookup.GetGridView().Refresh();
     }
-
-
-
 </script>
-
 <script>
     function onShowChooserClick(s, e) {
         UpdateCustomizationWindowVisibility();
@@ -396,12 +386,8 @@
             error: function () {
             },
         });
-
     }
-
 </script>
-
-
 <style>
     #tblshoplist > thead > tr > th {
         background: #26669e;
@@ -502,8 +488,8 @@
         .h-branch-select::after {
             content: '<';
             position: absolute;
-            top: 12px;
-            right: 8px;
+            top: 34px;
+            right: 12px;
             font-size: 18px;
             transform: rotate(269deg);
             font-weight: 500;
@@ -586,7 +572,6 @@
 
     .dxeButtonEdit_PlasticBlue {
         border-radius: 5px;
-       
     }
 
     #dtFrom, #dtTo {
@@ -726,6 +711,7 @@
             font-family: 'Poppins', sans-serif !important;
             font-size: 12px;
         }
+
     #dtFrom_B-1, #dtTo_B-1 {
         background: transparent !important;
         border: none;
@@ -747,10 +733,146 @@
         z-index: 1;
     }
     /*Rev end 1.0*/
-</style>
 
+    #HeadBranch {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
 
+    #HeadBranch:focus-visible
+    {
+        outline: none;
+        box-shadow: none;
+    }
 
+    @@media only screen and (max-width: 768px) {
+        .breadCumb > span {
+            padding: 9px 15px;
+            text-align: center;
+        }
+
+        .breadCumb {
+            padding: 0 12%;
+        }
+
+        .col-md-3 {
+            margin-bottom: 10px !important;
+        }
+
+        #refreshgridsalessummary {
+            overflow-x: auto;
+        }
+
+        .tblspace > tbody > tr > td {
+            width: 100% !important;
+            padding-right: 0 !important;
+            margin-bottom: 10px;
+        }
+
+        .tblspace.smblock {
+            width: 100%;
+        }
+
+        .calendar-icon {
+            right: 4px !important;
+        }
+
+        .h-branch-select::after {
+            right: -3px;
+        }
+    }
+</style>    
+@*Rev 2.0*@
+<script>
+    var BranchId = [];
+    var Branch_Id = "";
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+        $('#hdnEmployeeAEId').val('')
+        $('#hdnEmployeeWDId').val('')
+        $('#hdnEmployeeDSId').val('')
+        EmployeeTxt.SetText('')
+        EmployeeWDTxt.SetText('')
+        EmployeeDSTxt.SetText('')
+        BranchId = [];
+        Branch_Id = "";
+    }
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+</script>
+@*Rev 2.0 End*@
 <div class="breadCumb">
     <span>Employee Activity Details</span>
 </div>
@@ -758,6 +880,23 @@
     <div class="form_main backBox p-3">
         <table class="pull-left tblspace smblock mb-3">
             <tr>
+                @*REV 2.0*@
+                <td class="h-branch-select" style="width:150px;">
+                    <label>Head Branch : </label>
+                    <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                        @foreach (var item in Model.modelbranch)
+                        {
+                            <option value="@item.BRANCH_ID">@item.CODE</option>
+                        }
+                    </select>
+                </td>
+                <td class="w150">
+                    <label>Branch </label>
+                    <div>
+                        @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                    </div>
+                </td>
+                @*REV 2.0 END*@
                 @*Rev 1.0*@
                 @*<td id="dtdesg2" style="width:150px;">*@
                 <td id="dtdesg2" style="width:160px;">
@@ -818,9 +957,13 @@
                     <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
                     @*Rev end 1.0*@
                 </td>
+
+            </tr>
+            @*Rev 2.0*@
+            <tr>
                 @*Rev 1.0*@
                 @*<td style="padding-top: 20px; width: 200px;">*@
-                <td style="padding-top: 24px; width: 200px;">
+                <td style="padding-top: 14px; width: 225px; padding-bottom: 20px">
                     @*Rev end 1.0*@
                     <button type="button" id="btnshow" class="btn btn-success btn-sm btnwidth">Show</button>
 
@@ -835,7 +978,7 @@
                     </select>
                 </td>
             </tr>
-            <tr></tr>
+            @*Rev end 2.0*@
         </table>
         <br /><br />
         <div class="clear"></div>
@@ -855,8 +998,12 @@
             @*scrooler*@
             <div id="refreshgrid">
                 @{
-                    Html.RenderAction("GetEmployeeActivityDetailslistPartial", "EmployeeActivityDetails", new { Employee = Model.EmployeeID, Fromdate = Model.FromDate, Todate = Model.ToDate, Ispageload = "0" });
-                }
+                    //Rev 2.0
+                    //Html.RenderAction("GetEmployeeActivityDetailslistPartial", "EmployeeActivityDetails", new { Employee = Model.EmployeeID, Fromdate = Model.FromDate, Todate = Model.ToDate, Ispageload = "0" });
+                    Html.RenderAction("GetEmployeeActivityDetailslistPartial", "EmployeeActivityDetails", new { Employee = Model.EmployeeID, Fromdate = Model.FromDate, Todate = Model.ToDate, BranchId = Model.BranchId, Ispageload = "0" });
+                    //Rev 2.0 End
+
+                    }
             </div>
         </div>
     </div>

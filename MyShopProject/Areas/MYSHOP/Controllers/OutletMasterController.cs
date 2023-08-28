@@ -3,6 +3,7 @@
 //2.0   V2 .0.39    Debashis    12/05/2023      Optimization required for Employee Outlet Master.Refer: 0026020
 //3.0   V2.0.41     Sanchita    30-05-2023      Employee Outlet Master : Report a column required "Status".
 //                                              It will the Showing status 'Active' or 'Inactive'. refer: 26240
+//4.0   V2 .0.41    Debashis    09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
 #endregion===================================End of Revision History==================================================================
 
 using BusinessLogicLayer.SalesTrackerReports;
@@ -473,11 +474,38 @@ namespace MyShop.Areas.MYSHOP.Controllers
             //    column.Caption = "Outlet ID";
             //    column.FieldName = "OUTLETID";
             //});
+            //Rev 4.0 Mantis: 0026680
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "GENDERDESC";
+                x.Caption = "Gender";
+                x.VisibleIndex = 6;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='GENDERDESC'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.Width = 100;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 100;
+                }
+            });
+            //End of Rev 4.0 Mantis: 0026680
+
             settings.Columns.Add(x =>
             {
                 x.FieldName = "OUTLETID";
                 x.Caption = "Outlet ID";
-                x.VisibleIndex = 6;
+                x.VisibleIndex = 7;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETID'");
@@ -505,7 +533,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETNAME";
                 x.Caption = "Outlet Name";
-                x.VisibleIndex = 7;
+                x.VisibleIndex = 8;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETNAME'");
@@ -533,7 +561,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETADDRESS";
                 x.Caption = "Outlet Address";
-                x.VisibleIndex = 8;
+                x.VisibleIndex = 9;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETADDRESS'");
@@ -561,7 +589,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETCONTACT";
                 x.Caption = "Outlet Contact No.";
-                x.VisibleIndex = 9;
+                x.VisibleIndex = 10;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETCONTACT'");
@@ -589,7 +617,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETLAT";
                 x.Caption = "Latitude";
-                x.VisibleIndex = 10;
+                x.VisibleIndex = 11;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLAT'");
@@ -617,7 +645,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETLANG";
                 x.Caption = "Longitude";
-                x.VisibleIndex = 11;
+                x.VisibleIndex = 12;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLANG'");
@@ -642,7 +670,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "LASTVISITDATE";
                 x.Caption = "Last Visit Date";
-                x.VisibleIndex = 12;
+                x.VisibleIndex = 13;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LASTVISITDATE'");
@@ -664,7 +692,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "LASTVISITTIME";
                 x.Caption = "Last Visit Time";
-                x.VisibleIndex = 13;
+                x.VisibleIndex = 14;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LASTVISITTIME'");
@@ -686,7 +714,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "LASTVISITEDBY";
                 x.Caption = "Last Visited By";
-                x.VisibleIndex = 14;
+                x.VisibleIndex = 15;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LASTVISITEDBY'");
@@ -710,7 +738,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETSTATUS";
                 x.Caption = "Status";
-                x.VisibleIndex = 15;
+                x.VisibleIndex = 16;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETSTATUS'");

@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
 //                                              Refer: 0025585
+//2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
 #endregion===================================End of Revision History==================================================================
 using DataAccessLayer;
 using System;
@@ -106,7 +107,8 @@ namespace SalesmanTrack
 
         //Rev 1.0 Mantis: 0025585
         //public DataTable GetShopListCounterwise(string shoptype, string weburl, string stateId, int Create_UserId = 0)
-        public DataTable GetShopListCounterwise(string shoptype, string weburl, string stateId, int IsRevisitContactDetails, int Create_UserId = 0)
+        // Rev 2.0 [ parameter string BranchId added ]
+        public DataTable GetShopListCounterwise(string BranchId, string shoptype, string weburl, string stateId, int IsRevisitContactDetails, int Create_UserId = 0)
         //End of Rev 1.0 Mantis: 0025585
         {
             DataTable ds = new DataTable();
@@ -119,6 +121,9 @@ namespace SalesmanTrack
             //Rev 1.0 Mantis: 0025585
             proc.AddPara("@ISREVISITCONTACTDETAILS", IsRevisitContactDetails);
             //End of Rev 1.0 Mantis: 0025585
+            // Rev 2.0
+            proc.AddPara("@BRANCHID", BranchId);
+            // End of Rev 2.0
             ds = proc.GetTable();
             return ds;
         }

@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FSM_ITC" Class="MastersDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.FTS_CityMaster_List" Member="FTS_CityMaster_Lists">
+    <Type Name="FTS_CityMaster_List">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="city_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="state_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="cou_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="city_name" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="state" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="cou_country" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="City_NSECode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_BSECode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_MCXCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_MCXSXCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_NCDEXCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_CDSLCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_NSDLCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_NDMLCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_CVLCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_DotExCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="City_Lat" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="City_Long" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

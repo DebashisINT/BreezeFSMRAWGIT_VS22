@@ -455,6 +455,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ERPDataClasses.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ExcelFile.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\OldUnitAssignReceivedEL.cs" />
     <Compile Include="Models\UserAuthorizeAttribute.cs" />

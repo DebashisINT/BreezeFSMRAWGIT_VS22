@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================================                                             
+//1.0   V2.0.42     Priti       20/07/2023      Branch Parameter is required for various FSM reports.Refer:0026135
+#endregion===================================End of Revision History==================================================================
+using Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +17,10 @@ namespace MyShop.Models
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string Ispageload { get; set; }
+        //Rev 1.0
+        public List<string> BranchId { get; set; }
+        public List<GetBranch> modelbranch = new List<GetBranch>();
+        //Rev 1.0 End
     }
 
     public class EmployeeActiveDetailsLists

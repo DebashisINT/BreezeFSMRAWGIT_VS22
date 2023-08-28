@@ -506,6 +506,44 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     {
         height: 135px !important;
     }
+
+    @media only screen and (max-width: 768px) {
+        /*.backBox
+        {
+                overflow: hidden;
+        }*/
+        /*.overflow-x-auto
+        {
+                width: 290px;
+        }*/
+
+        .breadCumb > span {
+            padding: 9px 10px;
+            text-align: center;
+        }
+
+        .breadCumb {
+            padding: 0 30%;
+        }
+
+        #DocGroupModal .modal-dialog {
+            width: 96% !important;
+        }
+
+        #DocGroupModal .modal-body, #DocGroupModal .modal-footer {
+            width: 100% !important;
+        }
+/*
+        #DesigGrid_DXPEForm_PW-1
+        {
+            width: 300px !important;
+        }*/
+
+        .FilterSide .btn
+        {
+            margin-bottom: 10px;
+        }
+    }
     
     </style>
     <%--Rev end 1.0--%>
@@ -551,7 +589,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
                 <tr>
                     <td>
-                        <dxe:ASPxGridView ID="gridtabimei" KeyFieldName="Id" runat="Server" ClientInstanceName="grid" SettingsBehavior-AllowFocusedRow="true">
+                        <div class="overflow-x-auto">
+                            <dxe:ASPxGridView ID="gridtabimei" KeyFieldName="Id" runat="Server" ClientInstanceName="grid" SettingsBehavior-AllowFocusedRow="true">
                             <SettingsSearchPanel Visible="True" />
                             <Settings ShowGroupPanel="True" ShowFilterRow="true" ShowFilterRowMenu="true" />
                             <Columns>
@@ -588,6 +627,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             <SettingsBehavior AllowFocusedRow="true" ColumnResizeMode="NextColumn" />
 
                         </dxe:ASPxGridView>
+                        </div>
                     </td>
                 </tr>
 

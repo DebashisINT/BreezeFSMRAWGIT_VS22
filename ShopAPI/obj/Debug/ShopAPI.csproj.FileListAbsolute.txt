@@ -18,3 +18,4 @@ D:\GIT\GitHub\BreezeFSMGIT_VS22\ShopAPI\obj\Debug\ShopAPI.csproj.CopyComplete
 D:\GIT\GitHub\BreezeFSMGIT_VS22\ShopAPI\obj\Debug\ShopAPI.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\ShopAPI\obj\Debug\ShopAPI.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\ShopAPI\bin\Newtonsoft.Json.xml
+E:\PROJECTS\BreezeFSMGIT_VS22\ShopAPI\bin\System.Web.Mvc.dll

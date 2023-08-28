@@ -1,4 +1,10 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ===================================================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                09-08-2023        V2.0.41          Debashis            A coloumn named as Gender needs to be added in all the ITC reports.*@
+@*                                                                          Refer: 0026680*@
+@*====================================================== Revision History ===================================================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridDSSummary";
     settings.CallbackRouteValues = new { Action = "GetDSSummaryList", Controller = "DSSummary" };
@@ -198,11 +204,38 @@
 
     });
 
+    //Rev 1.0 Mantis: 0026680
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "GENDERDESC";
+        x.Caption = "Gender";
+        x.VisibleIndex = 6;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='GENDERDESC'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+    });
+    //End of Rev 1.0 Mantis: 0026680
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "DATERANGE";
         x.Caption = "From-To Date";
-        x.VisibleIndex = 6;
+        x.VisibleIndex = 7;
         //x.Width = 150;
         //x.ColumnType = MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
@@ -215,23 +248,23 @@
             else
             {
                 x.Visible = true;
-                x.Width = 150;
+                x.Width = 200;
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = 150;
+            x.Width = 200;
         }
 
     });
-    
+
     //Rev Debashis 0024905
     settings.Columns.Add(x =>
     {
         x.FieldName = "OUTLETSMAPPED";
-        x.Caption = "Outlets Mapped";        
-        x.VisibleIndex = 7;
+        x.Caption = "Outlets Mapped";
+        x.VisibleIndex = 8;
         if (ViewBag.RetentionColumn != null)
         {
             System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETSMAPPED'");
@@ -261,7 +294,7 @@
         //x.Caption = "Outlets Mapped(Added)";
         x.Caption = "New Outlet Visit";
         //End of Rev Debashis 0024905
-        x.VisibleIndex = 8;
+        x.VisibleIndex = 9;
         //x.Width = 140;
         //x.ColumnType = MVCxGridViewColumnType.TextBox;
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
@@ -291,7 +324,7 @@
     {
         x.FieldName = "RE_VISITED";
         x.Caption = "Outlets Re-Visited";
-        x.VisibleIndex = 9;
+        x.VisibleIndex = 10;
         //x.Width = 120;
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         if (ViewBag.RetentionColumn != null)
@@ -319,7 +352,7 @@
     {
         x.FieldName = "TOTAL_VISIT";
         x.Caption = "Total Outlets Visited";
-        x.VisibleIndex = 10;
+        x.VisibleIndex = 11;
         //x.Width = 150;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         if (ViewBag.RetentionColumn != null)
@@ -347,7 +380,7 @@
     {
         x.FieldName = "DISTANCE_TRAVELLED";
         x.Caption = "Distance Travelled(Km.Mtr)";
-        x.VisibleIndex = 11;
+        x.VisibleIndex = 12;
         //rev Pratik
         x.PropertiesEdit.DisplayFormatString = "0.00";
         //End of rev Pratik
@@ -378,7 +411,7 @@
     {
         x.FieldName = "AVGTIMESPENTINMARKET";
         x.Caption = "Avg time spent in the market(HH:MM)";
-        x.VisibleIndex = 12;
+        x.VisibleIndex = 13;
         //x.Width = 220;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         if (ViewBag.RetentionColumn != null)
@@ -391,13 +424,13 @@
             else
             {
                 x.Visible = true;
-                x.Width = 220;
+                x.Width = 240;
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = 220;
+            x.Width = 240;
         }
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
     });
@@ -406,7 +439,7 @@
     {
         x.FieldName = "AVGSPENTDURATION";
         x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
-        x.VisibleIndex = 13;
+        x.VisibleIndex = 14;
         //x.Width = 320;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         if (ViewBag.RetentionColumn != null)
@@ -419,19 +452,19 @@
             else
             {
                 x.Visible = true;
-                x.Width = 320;
+                x.Width = 360;
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = 320;
+            x.Width = 360;
         }
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
     });
 
     //rev Pratik
-    
+
     //settings.Columns.Add(x =>
     //{
     //    x.FieldName = "USERID";
@@ -570,13 +603,13 @@
     //    }
 
     //});
-    
+
     //settings.Columns.Add(x =>
     //{
     //    x.FieldName = "STATE";
     //    x.Caption = "State";
     //    x.VisibleIndex = 18;
-        
+
     //    //x.Width = 180;
     //    // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
     //    if (ViewBag.RetentionColumn != null)

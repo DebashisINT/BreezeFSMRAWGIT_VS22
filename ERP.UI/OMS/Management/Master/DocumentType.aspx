@@ -918,7 +918,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             <dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="17" Width="100px">
                                 <DataItemTemplate>
                                     <a style='cursor: pointer' data-toggle='tooltip' title='Add Content' class='pad' onclick="AddDoc('<%#Eval("dty_id") %>','<%#Eval("dty_documentType") %>')">
-                                        <img src='../../../assests/images/Add.png' style='width: 16px; margin-right: 3px' /></a>
+                                        <img src='../../../assests/images/Add.png' style=' margin-right: 3px' /></a>
                                 </DataItemTemplate>
                                 <HeaderStyle HorizontalAlign="Center"></HeaderStyle>
                                 <CellStyle HorizontalAlign="Center"></CellStyle>

@@ -2,6 +2,8 @@
  * Rev 1.0      Sanchita    07/02/2023      V2.0.36     FSM Employee & User Master - To implement Show button. refer: 25641
  * Rev 2.0      Sanchita    15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal. 
  * Rev 3.0      Priti       15/02/2023      V2.0.39    	0025676: Employee Import Facility
+ * Rev 4.0      Sanchita    08-08-2023      V2.0.42     FSM - Masters - Organization - Employees - Change Supervisor should be On Demand Search. Mantis: 26700
+ * Rev 5.0      Sanchita    09-08-2023      V2.0.42     FSM Portal - Enhance the Export to excel in Employee Master. Mantis : 26708
  *******************************************************************************************************/
 using System;
 using System.Data;
@@ -25,8 +27,11 @@ using ERP.Models;
 using System.Linq;
 using iTextSharp.text.log;
 using EO.Web.Internal;
+//using DevExpress.Export.Xl;
+using LibDosPrint;
+using System.Data.SqlClient;
 /* Mantise ID:0024752: Optimize FSM Employee Master
-      Rev work Close Swati Date:-15.03.2022*/
+Rev work Close Swati Date:-15.03.2022*/
 namespace ERP.OMS.Management.Master
 {
     public partial class management_master_Employee : ERP.OMS.ViewState_class.VSPage// System.Web.UI.Page
@@ -65,6 +70,14 @@ namespace ERP.OMS.Management.Master
         // Rev Mantis Issue 25001
         public bool ActivateEmployeeBranchHierarchy { get; set; }
         // End of Rev Mantis Issue 25001
+
+        // Rev 5.0
+        ERP.Model.ExcelFile objExcel = new ERP.Model.ExcelFile();
+        DataTable CompanyInfo = new DataTable();
+        DataTable dtExport = new DataTable();
+        DataTable dtReportHeader = new DataTable();
+        DataTable dtReportFooter = new DataTable();
+        // End of Rev 5.0
 
         Employee_BL objEmploye = new Employee_BL();
         #endregion
@@ -256,7 +269,9 @@ namespace ERP.OMS.Management.Master
 
             if (!IsPostBack)
             {
-                GetemployeeSupervisor();
+                // Rev 4.0
+                //GetemployeeSupervisor();
+                // End of Rev 4.0
 
                 //Page.ClientScript.RegisterStartupScript(GetType(), "PageLD", "<script>Pageload();</script>");
                 //Initialize Variable
@@ -813,27 +828,159 @@ namespace ERP.OMS.Management.Master
             string filename = "Employees";
             exporter.FileName = filename;
 
-            exporter.PageHeader.Left = "Employees";
-            exporter.MaxColumnWidth = 70;
-            // exporter.LeftMargin = 0;
-            // exporter.Styles.Cell.Font.Size = 8;
-            exporter.PageFooter.Center = "[Page # of Pages #]";
-            exporter.PageFooter.Right = "[Date Printed]";
+            // Rev 5.0
+            //exporter.PageHeader.Left = "Employees";
+            //exporter.MaxColumnWidth = 70;
+            //// exporter.LeftMargin = 0;
+            //// exporter.Styles.Cell.Font.Size = 8;
+            //exporter.PageFooter.Center = "[Page # of Pages #]";
+            //exporter.PageFooter.Right = "[Date Printed]";
+            //switch (Filter)
+            //{
+            //    case 1:
+            //        exporter.WritePdfToResponse();
+            //        break;
+            //    case 2:
+            //        exporter.WriteXlsToResponse();
+            //        break;
+            //    case 3:
+            //        exporter.WriteRtfToResponse();
+            //        break;
+            //    case 4:
+            //        exporter.WriteCsvToResponse();
+            //        break;
+            //}
+
+            if (Filter == 1 || Filter == 2)
+            {
+                SqlConnection con = new SqlConnection(Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]));
+                con.Open();
+                string selectQuery = "SELECT Name [Name], Code as [Employee Code] ,Employee_Grade [Grade] , cnt_OtherID [Other ID], Company [Company], BranchName [Branch] ,Department [Department], Designation [Designation],CTC [CTC],DOJ [Joining On], ReportTo [Report To], AdditionalReportingHead [Additional Reporting Head], Colleague [Colleague], Colleague1 [Colleague1], Colleague2 [Colleague2] from FSMEmployee_Master Where USERID=" + Convert.ToInt32(Session["userid"]) + " order by cnt_id desc";
+                SqlDataAdapter myCommand = new SqlDataAdapter(selectQuery, con);
+
+                // Create and fill a DataSet.
+                DataSet ds = new DataSet();
+                myCommand.Fill(ds, "Main");
+                //myCommand = new SqlDataAdapter("Select DOC_TYPE,CONVERT(DECIMAL(18,2),REPLACE(REPLACE(BAL_AMOUNT,'(',CASE WHEN SUBSTRING(BAL_AMOUNT,1,1)='(' THEN '-' ELSE '' END),')','')) AS BAL_AMOUNT from PARTYOUTSTANDINGDET_REPORT Where USERID=" + Convert.ToInt32(Session["userid"]) + " AND SLNO=999999999 AND DOC_TYPE='Gross Outstanding:' AND PARTYTYPE='C'", con);
+                //myCommand.Fill(ds, "GrossTotal");
+                myCommand.Dispose();
+                con.Dispose();
+                Session["exportcustoutdetdataset"] = ds;
+
+                //string strduedatechk = (chkduedate.Checked) ? "1" : "0";
+                //string strprintdatechk = (chkprintdays.Checked) ? "1" : "0";
+                //string strsalesman = (chksalesman.Checked) ? "1" : "0";
+                //string strpartyordnodt = (chkPartyOrdNoDt.Checked) ? "1" : "0";
+                //string ProjectSelectInEntryModule = cbl.GetSystemSettingsResult("ProjectSelectInEntryModule");
+
+                dtExport = ds.Tables[0].Copy();
+                //dtExport.Clear();
+                //dtExport.Columns.Add(new DataColumn("Name", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Grade", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Other ID", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Joining On", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Department", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Branch", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("CTC", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Report To", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Additional Reporting Head", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Colleague", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Colleague1", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Colleague2", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Designation", typeof(string)));
+                //dtExport.Columns.Add(new DataColumn("Company", typeof(string)));
+               
+                //foreach (DataRow dr1 in ds.Tables[0].Rows)
+                //{
+                //    DataRow row2 = dtExport.NewRow();
+
+                //    row2["Name"] = dr1["Name"];
+                //    row2["Grade"] = dr1["Employee_Grade"];
+                //    row2["Other ID"] = dr1["cnt_OtherID"];
+                //    row2["Joining On"] = dr1["DOJ"];
+                //    row2["Department"] = dr1["Department"];
+                //    row2["Branch"] = dr1["BranchName"];
+                //    row2["CTC"] = dr1["CTC"];
+                //    row2["Report To"] = dr1["ReportTo"];
+                //    row2["Additional Reporting Head"] = dr1["AdditionalReportingHead"];
+                //    row2["Colleague"] = dr1["Colleague"];
+                //    row2["Colleague1"] = dr1["Colleague1"];
+                //    row2["Colleague2"] = dr1["Colleague2"];
+                //    row2["Designation"] = dr1["Designation"];
+                //    row2["Company"] = dr1["Company"];
+                    
+                //    dtExport.Rows.Add(row2);
+                //}
+
+                
+                //For Excel/PDF Header
+                BusinessLogicLayer.Reports GridHeaderDet = new BusinessLogicLayer.Reports();
+                dtReportHeader.Columns.Add(new DataColumn("Header", typeof(String)));
+
+                string GridHeader = "";
+                GridHeader = GridHeaderDet.CommonReportHeader(Convert.ToString(Session["LastCompany"]), Convert.ToString(Session["LastFinYear"]), true, false, false, false, false);
+                DataRow HeaderRow = dtReportHeader.NewRow();
+                HeaderRow[0] = GridHeader.ToString();
+                dtReportHeader.Rows.Add(HeaderRow);
+                DataRow HeaderRow1 = dtReportHeader.NewRow();
+                HeaderRow1[0] = Convert.ToString(Session["BranchNames"]);
+                dtReportHeader.Rows.Add(HeaderRow1);
+                GridHeader = GridHeaderDet.CommonReportHeader(Convert.ToString(Session["LastCompany"]), Convert.ToString(Session["LastFinYear"]), false, true, false, false, false);
+                DataRow HeaderRow2 = dtReportHeader.NewRow();
+                HeaderRow2[0] = GridHeader.ToString();
+                dtReportHeader.Rows.Add(HeaderRow2);
+                GridHeader = GridHeaderDet.CommonReportHeader(Convert.ToString(Session["LastCompany"]), Convert.ToString(Session["LastFinYear"]), false, false, true, false, false);
+                DataRow HeaderRow3 = dtReportHeader.NewRow();
+                HeaderRow3[0] = GridHeader.ToString();
+                dtReportHeader.Rows.Add(HeaderRow3);
+                GridHeader = GridHeaderDet.CommonReportHeader(Convert.ToString(Session["LastCompany"]), Convert.ToString(Session["LastFinYear"]), false, false, false, true, false);
+                DataRow HeaderRow4 = dtReportHeader.NewRow();
+                HeaderRow4[0] = GridHeader.ToString();
+                dtReportHeader.Rows.Add(HeaderRow4);
+                GridHeader = GridHeaderDet.CommonReportHeader(Convert.ToString(Session["LastCompany"]), Convert.ToString(Session["LastFinYear"]), false, false, false, false,true);
+                DataRow HeaderRow5 = dtReportHeader.NewRow();
+                HeaderRow5[0] = GridHeader.ToString();
+                dtReportHeader.Rows.Add(HeaderRow5);
+                DataRow HeaderRow6 = dtReportHeader.NewRow();
+                HeaderRow6[0] = "Employee Master";
+                dtReportHeader.Rows.Add(HeaderRow6);
+                //DataRow HeaderRow7 = dtReportHeader.NewRow();
+                //HeaderRow7[0] = "As On: " + Convert.ToDateTime(ASPxAsOnDate.Date).ToString("dd-MM-yyyy");
+                //dtReportHeader.Rows.Add(HeaderRow7);
+
+                //For Excel/PDF Footer
+                dtReportFooter.Columns.Add(new DataColumn("Footer", typeof(String))); //0
+                DataRow FooterRow1 = dtReportFooter.NewRow();
+                dtReportFooter.Rows.Add(FooterRow1);
+                DataRow FooterRow2 = dtReportFooter.NewRow();
+                dtReportFooter.Rows.Add(FooterRow2);
+                DataRow FooterRow = dtReportFooter.NewRow();
+                FooterRow[0] = "* * *  End Of Report * * *   ";
+                dtReportFooter.Rows.Add(FooterRow);
+            }
+            else
+            {
+                exporter.PageHeader.Font.Size = 10;
+                exporter.PageHeader.Font.Name = "Tahoma";
+                exporter.GridViewID = "GrdEmployee";
+            }
+
             switch (Filter)
             {
                 case 1:
-                    exporter.WritePdfToResponse();
+                    objExcel.ExportToExcelforExcel(dtExport, "Employee Master", "NOcompareString", "NOcompareString1", dtReportHeader, dtReportFooter);
                     break;
                 case 2:
-                    exporter.WriteXlsToResponse();
+                    objExcel.ExportToPDF(dtExport, "Employee Master", "NOcompareString", "NOcompareString1",  dtReportHeader, dtReportFooter);
                     break;
                 case 3:
-                    exporter.WriteRtfToResponse();
-                    break;
-                case 4:
                     exporter.WriteCsvToResponse();
                     break;
+
+                default:
+                    return;
             }
+            // End of Rev 5.0
         }
         protected void cmbExport_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -942,30 +1089,64 @@ namespace ERP.OMS.Management.Master
 
         SalesPersontracking ob = new SalesPersontracking();
 
-        public void GetemployeeSupervisor()
+        // Rev 4.0
+        //public void GetemployeeSupervisor()
+        //{
+        //    try
+        //    {
+
+        //        DataTable dtfromtosumervisor = ob.FetchEmployeeFTS("Past", Convert.ToString(Session["userid"]));
+
+        //        fromsuper.DataSource = dtfromtosumervisor;
+        //        fromsuper.DataTextField = "Name";
+        //        fromsuper.DataValueField = "Id";
+        //        fromsuper.DataBind();
+
+        //        DataTable dtfromtosumervisornew = ob.FetchEmployeeFTS("New", Convert.ToString(Session["userid"]));
+        //        tosupervisor.DataSource = dtfromtosumervisornew;
+        //        tosupervisor.DataTextField = "Name";
+        //        tosupervisor.DataValueField = "Id";
+        //        tosupervisor.DataBind();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Page.ClientScript.RegisterStartupScript(GetType(), "PageLD", ex.Message);
+
+        //    }
+        //}
+
+        public class EmployeeSuperModel
         {
-            try
-            {
-
-                DataTable dtfromtosumervisor = ob.FetchEmployeeFTS("Past", Convert.ToString(Session["userid"]));
-
-                fromsuper.DataSource = dtfromtosumervisor;
-                fromsuper.DataTextField = "Name";
-                fromsuper.DataValueField = "Id";
-                fromsuper.DataBind();
-
-                DataTable dtfromtosumervisornew = ob.FetchEmployeeFTS("New", Convert.ToString(Session["userid"]));
-                tosupervisor.DataSource = dtfromtosumervisornew;
-                tosupervisor.DataTextField = "Name";
-                tosupervisor.DataValueField = "Id";
-                tosupervisor.DataBind();
-            }
-            catch (Exception ex)
-            {
-                Page.ClientScript.RegisterStartupScript(GetType(), "PageLD", ex.Message);
-
-            }
+            public string Id { get; set; }
+            public string Name { get; set; }
+            public string Code { get; set; }
         }
+        [WebMethod]
+        public static object GetOnDemandEmployeefromsuper(string SearchKey, string Action)
+        {
+            List<EmployeeSuperModel> listSuperEmployee = new List<EmployeeSuperModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("Proc_FTS_ERP_EmployeeList");
+                proc.AddPara("@SearchKey", SearchKey);
+                proc.AddPara("@Action", Action);
+                proc.AddPara("@userid", Convert.ToInt32(HttpContext.Current.Session["userid"]));
+                dt = proc.GetTable();
+
+                listSuperEmployee = (from DataRow dr in dt.Rows
+                                select new EmployeeSuperModel()
+                                {
+                                    Id = Convert.ToString(dr["Id"]),
+                                    Name = Convert.ToString(dr["Name"]),
+                                    Code = Convert.ToString(dr["cnt_UCC"])
+                                }).ToList();
+            }
+
+            return listSuperEmployee;
+        }
+        // End of Rev 4.0
 
 
         [WebMethod]

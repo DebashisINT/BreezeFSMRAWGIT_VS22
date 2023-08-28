@@ -6,6 +6,10 @@
    Rev 5.0      Pallab             20/02/2023      V2.0.39     parameters and grid issue fix for small screen
    Rev 6.0      Pallab             17/04/2023      V2.0.39     25840: Employee master module employee search popup auto focus add and "cancel" button color change
    Rev 7.0      Pallab             27/06/2023      V2.0.41     26442: Employees module responsive issue fix and make mobile friendly
+   Rev 8.0      Pallab             11/07/2023      V2.0.42     26551: Employees module parameter break issue fix for small device
+   Rev 9.0      Pallab             02/08/2023      V2.0.42     26656: "View Log" popup loader and page size options showing outside in the popup issue fix
+   Rev 10.0     Sanchita           08/08/2023      V2.0.42     FSM - Masters - Organization - Employees - Change Supervisor should be On Demand Search. Mantis: 26700  
+   Rev 11.0     Sanchita           09/08/2023      V2.0.42     FSM Portal - Enhance the Export to excel in Employee Master. Mantis : 26708 
  *******************************************************************************************************--%>
 
 <%@ Page Title="Employee" Language="C#" AutoEventWireup="True" Inherits="ERP.OMS.Management.Master.management_master_Employee" CodeBehind="Employee.aspx.cs" MasterPageFile="~/OMS/MasterPage/ERP.Master" %>
@@ -203,6 +207,17 @@
                 font-family: 'Poppins', sans-serif !important;
                 font-size: 12px;
             }
+
+            /*Rev 10.0*/
+            #EmployeefromsuperTable table tr th {
+                font-family: 'Poppins', sans-serif !important;
+                font-size: 12px;
+            }
+            #EmployeetosupervisorTable table tr th {
+                font-family: 'Poppins', sans-serif !important;
+                font-size: 12px;
+            }
+            /*End of Rev 10.0*/
         /*End of Rev 3.0*/
     </style>
     <script type="text/javascript">
@@ -257,13 +272,26 @@
 
         function OnChangeSuperVisor() {
 
+            // Rev 10.0
+            $("#txtEmployeefromsuper_hidden").val("");
+            ctxtEmployeefromsuper.SetText("");
+
+            $("#txtEmployeetosupervisor_hidden").val("");
+            ctxtEmployeetosupervisor.SetText("");
+            // End of Rev 10.0
+
             cActivationPopupsupervisor.Show();
 
         }
         function OnserverCallSupervisorchanged() {
             var otherDetails = {};
-            otherDetails.fromsuper = $("#fromsuper").val();
-            otherDetails.tosuper = $("#tosupervisor").val();
+            // Rev 10.0
+            //otherDetails.fromsuper = $("#fromsuper").val();
+            //otherDetails.tosuper = $("#tosupervisor").val();
+
+            otherDetails.fromsuper = $("#txtEmployeefromsuper_hidden").val();
+            otherDetails.tosuper = $("#txtEmployeetosupervisor_hidden").val();
+            // End of Rev 10.0
 
             //{ 'fromsuper': $("#fromsuper").val(), 'tosuper': $("#tosupervisor").val() }
 
@@ -668,11 +696,107 @@
 
                 }
             }
-
-            
         }
 
         // End of Rev 3.0
+
+        // Rev 10.0
+
+        // ********************  fromsuper ********************** //
+        function EmployeefromsuperButnClick(s, e) {
+            $('#EmployeefromsuperModel').modal('show');
+            $("#txtEmployeefromsuperSearch").focus();
+        }
+
+        function EmployeefromsuperbtnKeyDown(s, e) {
+            if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+                $('#EmployeefromsuperModel').modal('show');
+                $("#txtEmployeefromsuperSearch").focus();
+            }
+        }
+
+        function Employeefromsuperkeydown(e) {
+
+            var OtherDetails = {}
+            OtherDetails.SearchKey = $("#txtEmployeefromsuperSearch").val();
+            OtherDetails.Action = "Past";
+            if ($.trim($("#txtEmployeefromsuperSearch").val()) == "" || $.trim($("#txtEmployeefromsuperSearch").val()) == null) {
+                return false;
+            }
+            if (e.code == "Enter" || e.code == "NumpadEnter") {
+                var HeaderCaption = [];
+                HeaderCaption.push("Employee Name");
+                HeaderCaption.push("Employee Code");
+                if ($("#txtEmployeefromsuperSearch").val() != null && $("#txtEmployeefromsuperSearch").val() != "") {
+                    //callonServerM("Employee.aspx/GetOnDemandEmployee", OtherDetails, "EmployeeTable", HeaderCaption, "EmployeeIndex", "SetEmployee");
+                    //callonServerM("Employee.aspx/GetOnDemandEmployee", OtherDetails, "EmployeeTable", HeaderCaption, "EmployeeIndex", "SetEmployee", "EmployeeSource");
+                    //callonServerM("Employee.aspx/GetOnDemandEmployeefromsuper", OtherDetails, "EmployeefromsuperTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeefromsuperSource");
+                    callonServer("Employee.aspx/GetOnDemandEmployeefromsuper", OtherDetails, "EmployeefromsuperTable", HeaderCaption, "dPropertyIndex", "SetEmployeefromsuper");
+                }
+            }
+            else if (e.code == "ArrowDown") {
+                if ($("input[EmployeeIndex=0]"))
+                    $("input[EmployeeIndex=0]").focus();
+            }
+        }
+
+        function SetEmployeefromsuper(Id, Name) {
+            $("#txtEmployeefromsuper_hidden").val(Id);
+            ctxtEmployeefromsuper.SetText(Name);
+            $('#EmployeefromsuperModel').modal('hide');
+           
+        }
+        // ********************  fromsuper ********************** //
+
+        // ********************  tosupervisor ********************** //
+        function EmployeetosupervisorButnClick(s, e) {
+            $('#EmployeetosupervisorModel').modal('show');
+            $("#txtEmployeetosupervisorSearch").focus();
+        }
+
+        function EmployeetosupervisorbtnKeyDown(s, e) {
+            if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+                $('#EmployeetosupervisorModel').modal('show');
+                $("#txtEmployeetosupervisorSearch").focus();
+            }
+        }
+
+        function Employeetosupervisorkeydown(e) {
+
+            var OtherDetails = {}
+            OtherDetails.SearchKey = $("#txtEmployeetosupervisorSearch").val();
+            OtherDetails.Action = "New";
+            if ($.trim($("#txtEmployeetosupervisorSearch").val()) == "" || $.trim($("#txtEmployeetosupervisorSearch").val()) == null) {
+                return false;
+            }
+            if (e.code == "Enter" || e.code == "NumpadEnter") {
+                var HeaderCaption = [];
+                HeaderCaption.push("Employee Name");
+                HeaderCaption.push("Employee Code");
+                if ($("#txtEmployeetosupervisorSearch").val() != null && $("#txtEmployeetosupervisorSearch").val() != "") {
+                    //callonServerM("Employee.aspx/GetOnDemandEmployee", OtherDetails, "EmployeeTable", HeaderCaption, "EmployeeIndex", "SetEmployee");
+                    //callonServerM("Employee.aspx/GetOnDemandEmployee", OtherDetails, "EmployeeTable", HeaderCaption, "EmployeeIndex", "SetEmployee", "EmployeeSource");
+                    //callonServerM("Employee.aspx/GetOnDemandEmployeefromsuper", OtherDetails, "EmployeetosupervisorTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeetosupervisorSource");
+                    callonServer("Employee.aspx/GetOnDemandEmployeefromsuper", OtherDetails, "EmployeetosupervisorTable", HeaderCaption, "dPropertyIndex", "SetEmployeetosupervisor");
+                }
+            }
+            else if (e.code == "ArrowDown") {
+                if ($("input[EmployeeIndex=0]"))
+                    $("input[EmployeeIndex=0]").focus();
+            }
+        }
+
+        function SetEmployeetosupervisor(Id, Name) {
+            $("#txtEmployeetosupervisor_hidden").val(Id);
+            ctxtEmployeetosupervisor.SetText(Name);
+            $('#EmployeetosupervisorModel').modal('hide');
+        }
+        // ********************  tosupervisor ********************** //
+
+        //}
+
+
+        // End of Rev 10.0
     </script>
 
 
@@ -694,6 +818,24 @@
             arrMultiPopup.push(EmployeeObj);
         })
         // End of Rev 3.0
+
+        // Rev 10.0
+        var EmployeefromsuperArr = new Array();
+        $(document).ready(function () {
+            var EmployeefromsuperObj = new Object();
+            EmployeefromsuperObj.Name = "EmployeefromsuperSource";
+            EmployeefromsuperObj.ArraySource = EmployeefromsuperArr;
+            arrMultiPopup.push(EmployeefromsuperObj);
+        })
+
+        var EmployeetosupervisorArr = new Array();
+        $(document).ready(function () {
+            var EmployeetosupervisorObj = new Object();
+            EmployeetosupervisorObj.Name = "EmployeetosupervisorSource";
+            EmployeetosupervisorObj.ArraySource = EmployeetosupervisorArr;
+            arrMultiPopup.push(EmployeetosupervisorObj);
+        })
+        // End of Rev 10.0
 
         var statelist = []
         function STATEPUSHPOP() {
@@ -970,6 +1112,43 @@ padding: 7px;
         }
 
    /*Rev end 3.0*/
+   /*Rev 10.0*/
+   #EmployeefromsuperTable {
+        margin-top: 10px;
+    }
+
+        #EmployeefromsuperTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeefromsuperTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    #EmployeefromsuperTable {
+        margin-top: 10px;
+    }
+
+        #EmployeefromsuperTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeefromsuperTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+   /*End of Rev 10.0*/
 
    /*Rev 5.0*/
 
@@ -1481,7 +1660,62 @@ padding: 7px;
         }
     }
     /*Rev end 7.0*/
+    /*Rev 8.0*/
+    @media  only screen and (min-width: 767px) and (max-width: 1320px)
+    {
+        #ShowFilter , #divEmp
+        {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+    /*Rev end 8.0*/
 
+    /*Rev 9.0*/
+    #GvImportDetailsSearch_LPV
+    {
+            left: 43% !important;
+    }
+
+    #GvImportDetailsSearch_DXPagerBottom_PSP
+    {
+            right: 41px !important;
+            left: auto !important;
+    }
+    /*Rev end 9.0*/
+
+    /*Rev 10.0*/
+    #EmployeefromsuperModel
+    {
+       z-index: 99999 !important;
+    }
+     #EmployeetosupervisorModel
+    {
+       z-index: 99999 !important;
+    }
+    
+
+    .dxeButtonEdit_PlasticBlue
+    {
+        width: 100%;
+    }
+
+    #txtEmployeefromsuper
+    {
+        margin-bottom: 15px;
+    }
+
+    .jpopup .dxpcLite_PlasticBlue .dxpc-content, .jpopup .dxdpLite_PlasticBlue .dxpc-content
+    {
+        padding: 12px 10px 12px;
+    }
+
+    .btn-default
+    {
+        background-color: #dadada;
+    }
+    /*End of Rev 10.0*/
     </style>
 
     <script>
@@ -1763,14 +1997,24 @@ padding: 7px;
 
                                 <% if (rights.CanExport)
                                    { %>
-                                <asp:DropDownList ID="drdExport" runat="server" CssClass="btn btn-primary nfc" OnSelectedIndexChanged="cmbExport_SelectedIndexChanged" AutoPostBack="true">
+                               <%--Rev 11.0--%>
+                               <%-- <asp:DropDownList ID="drdExport" runat="server" CssClass="btn btn-primary nfc" OnSelectedIndexChanged="cmbExport_SelectedIndexChanged" AutoPostBack="true">
                                     <asp:ListItem Value="0">Export to</asp:ListItem>
                                     <asp:ListItem Value="1">PDF</asp:ListItem>
                                     <asp:ListItem Value="2">XLS</asp:ListItem>
                                     <asp:ListItem Value="3">RTF</asp:ListItem>
                                     <asp:ListItem Value="4">CSV</asp:ListItem>
 
+                                </asp:DropDownList>--%>
+
+                                <asp:DropDownList ID="drdExport" runat="server" CssClass="btn btn-sm btn-primary"
+                                    OnSelectedIndexChanged="cmbExport_SelectedIndexChanged" AutoPostBack="true" OnChange="if(!AvailableExportOption()){return false;}">
+                                    <asp:ListItem Value="0">Export to</asp:ListItem>
+                                    <asp:ListItem Value="1">EXCEL</asp:ListItem>
+                                    <asp:ListItem Value="2">PDF</asp:ListItem>
+                                    <asp:ListItem Value="3">CSV</asp:ListItem>
                                 </asp:DropDownList>
+                                <%--End of Rev 11.0--%>
                                 <% } %>
 
                                 <% if (rights.CanExport)
@@ -1805,14 +2049,19 @@ padding: 7px;
                                         <asp:HiddenField ID="txtEmployee_hidden" runat="server" />
 
                                     </div>
+                                    <% if (rights.CanView)
+                                   { %>
+                                    <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
+                                <% } %>
                                 </div>
+                                
                             </td>
-                            <td id="show-btn">
+                            <%--<td id="show-btn">
                                  <% if (rights.CanView)
                                    { %>
                                     <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
                                 <% } %>
-                            </td>
+                            </td>--%>
                             <%--End of Rev 3.0--%>
                         <td>
                             
@@ -2173,7 +2422,7 @@ padding: 7px;
                                     <% if (rights.CanEdit)
                                        { %>
                                     <a href="javascript:void(0);" onclick="OnMoreInfoClick('<%# Container.KeyValue %>')" class="pad" title="More Info">
-                                        <img src="../../../assests/images/info.png" /></a><% } %>
+                                        <img src="../../../assests/images/Edit.png" /></a><% } %>
                                     <%--Rev work start 26.04.2022 0024853: Copy feature add in Employee master--%>
                                      <% if (rights.CanAdd)
                                        { %>
@@ -2341,7 +2590,7 @@ padding: 7px;
 
     <div class="PopUpArea">
         <dxe:ASPxPopupControl ID="popupsupervisorchange" runat="server" ClientInstanceName="cActivationPopupsupervisor"
-            Width="350px" HeaderText="Supervisor Change" PopupHorizontalAlign="WindowCenter"
+            Width="400px" HeaderText="Supervisor Change" PopupHorizontalAlign="WindowCenter"
             PopupVerticalAlign="WindowCenter" CloseAction="CloseButton"
             Modal="True" ContentStyle-VerticalAlign="Top" EnableHierarchyRecreation="True">
             <ContentCollection>
@@ -2352,14 +2601,39 @@ padding: 7px;
                             <dxe:PanelContent runat="server">
                                 <div>Past Supervisor</div>
                                 <div>
-                                    <asp:DropDownList ID="fromsuper" runat="server"></asp:DropDownList>
+                                    <%--Rev 10.0--%>
+                                    <%--<asp:DropDownList ID="fromsuper" runat="server"></asp:DropDownList>--%>
+                                    <div style="position: relative">
+                                        <dxe:ASPxButtonEdit ID="txtEmployeefromsuper" runat="server" ReadOnly="true" ClientInstanceName="ctxtEmployeefromsuper" >
+                                            <Buttons>
+                                                <dxe:EditButton>
+                                                </dxe:EditButton>
+                                            </Buttons>
+                                            <ClientSideEvents ButtonClick="function(s,e){EmployeefromsuperButnClick();}" KeyDown="EmployeefromsuperbtnKeyDown" />
+                                        </dxe:ASPxButtonEdit>
+                                        <asp:HiddenField ID="txtEmployeefromsuper_hidden" runat="server" />
+
+                                    </div>
+                                    <%--End of Rev 10.0--%>
                                 </div>
+
                                 <div id="">
-
-
                                     <div>New Supervisor</div>
+                                    <%--Rev 10.0--%>
+                                    <%--<asp:DropDownList ID="tosupervisor" runat="server"></asp:DropDownList>--%>
+                                    <div style="position: relative">
+                                        <dxe:ASPxButtonEdit ID="txtEmployeetosupervisor" runat="server" ReadOnly="true" ClientInstanceName="ctxtEmployeetosupervisor" >
+                                            <Buttons>
+                                                <dxe:EditButton>
+                                                </dxe:EditButton>
+                                            </Buttons>
+                                            <ClientSideEvents ButtonClick="function(s,e){EmployeetosupervisorButnClick();}" KeyDown="EmployeetosupervisorbtnKeyDown" />
+                                        </dxe:ASPxButtonEdit>
+                                        <asp:HiddenField ID="txtEmployeetosupervisor_hidden" runat="server" />
 
-                                    <asp:DropDownList ID="tosupervisor" runat="server"></asp:DropDownList>
+                                    </div>
+                                    <%--End of Rev 10.0--%>
+
                                 </div>
                                 <div class="text-center pTop10">
                                     <a href="javascript:void(0);" onclick="OnserverCallSupervisorchanged()" class="btn btn-primary"><span>Change Supervisor</span> </a>
@@ -2919,4 +3193,67 @@ padding: 7px;
         </div>
     </div>
   <%--  Rev 4.0 End--%>
+
+    <%--Rev 10.0--%>
+    <div class="modal fade pmsModal w80 " id="EmployeefromsuperModel" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Past Supervisor Search</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" onkeydown="Employeefromsuperkeydown(event)" id="txtEmployeefromsuperSearch" class="form-control" autofocus width="100%" placeholder="Search By Employee Code" />
+
+                    <div id="EmployeefromsuperTable">
+                        <table border='1' width="100%" class="dynamicPopupTbl">
+                            <tr class="HeaderStyle">
+                                <th class="hide">id</th>
+                                <th>Employee Name</th>
+                                <th>Employee Code</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSaveEmployeefromsuper" class="btnOkformultiselection btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeefromsuperSource')">OK</button>
+                    <button type="button" id="btnCloseEmployeefromsuper" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="modal fade pmsModal w80 " id="EmployeetosupervisorModel" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">New Supervisor Search</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" onkeydown="Employeetosupervisorkeydown(event)" id="txtEmployeetosupervisorSearch" class="form-control" autofocus width="100%" placeholder="Search By Employee Code" />
+
+                    <div id="EmployeetosupervisorTable">
+                        <table border='1' width="100%" class="dynamicPopupTbl">
+                            <tr class="HeaderStyle">
+                                <th class="hide">id</th>
+                                <th>Employee Name</th>
+                                <th>Employee Code</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSaveEmployeetosupervisor" class="btnOkformultiselection btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeetosupervisorSource')">OK</button>
+                    <button type="button" id="btnCloseEmployeetosupervisor" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <%--End of Rev 10.0--%>
 </asp:Content>

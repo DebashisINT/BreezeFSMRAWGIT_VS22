@@ -2,6 +2,7 @@
 //1.0   V2.0.37     Debashis    10/01/2023      Some new parameters have been added.Row: 786
 //2.0   V2.0.38     Debashis    13/03/2023      A new parameter has been added.Row: 814
 //3.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 820
+//4.0   V2.0.40     Debashis    10/07/2023      A new parameter has been added.Row: 855
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ using System.Web;
 
 namespace ShopAPI.Models
 {
-
     public class ShopsubmissionInput
     {
         public string session_token { get; set; }
@@ -173,6 +173,9 @@ namespace ShopAPI.Models
         public string agency_name { get; set; }
         public string approximate_1st_billing_value { get; set; }
         public bool IsShopUpdate { get; set; }
+        //Rev 4.0 Row: 855
+        public bool isNewShop { get; set; }
+        //End of Rev 4.0 Row: 855
     }
 
     public class ITCShopsubmissionOutput

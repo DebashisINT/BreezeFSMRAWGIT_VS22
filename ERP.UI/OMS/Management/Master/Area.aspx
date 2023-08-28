@@ -829,7 +829,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             
                         </dxe:PopupControlContentControl>
                     </ContentCollection>
-                    <HeaderStyle BackColor="LightGray" ForeColor="Black" />
+                    <HeaderStyle BackColor="LightGray" ForeColor="white" />
                 </dxe:ASPxPopupControl>
             <%--Log table--%>
              <dxe:ASPxPopupControl ID="Popup" runat="server" ClientInstanceName="cLogPopUp"

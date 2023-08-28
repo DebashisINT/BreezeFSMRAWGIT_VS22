@@ -886,6 +886,7 @@
         right: auto !important;
         left: 0;
         min-width: 340px;
+        margin-top: -12px;
     }
 
     .multiselect-container > li > a {
@@ -932,7 +933,9 @@
 
     .multiselect.dropdown-toggle {
         background: #fff;
-        border-radius: 0;
+        border-radius: 5px;
+        border: 1px solid #b7b7b7;
+        margin-bottom: 12px;
     }
 
     .iminentSpan > span {
@@ -941,8 +944,8 @@
 
     .btn-excel {
         float: right;
-        margin-right: 38px;
-        margin-top: -4px;
+        margin-right: 10px;
+        margin-top: 2px;
     }
 
     .gridbinded {
@@ -965,9 +968,13 @@
     .secboxback {
         box-shadow: 1px 1px 10px #00000040;
     }
+
+    #lblListName {
+        white-space: nowrap;
+    }
 </style>
-<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
-<script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
+<link href="/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>
 <script>
     $(function () {
         var hasstate = false;
@@ -1124,7 +1131,7 @@
 
         <div class="scrooler mTop5">
             <div id="refreshgrid" class="relative">
-                <span class="btn-excel gridbinded"><img src="~/assests/images/excel.png" style="width: 24px; cursor:pointer;" title="Export To Excel" onclick="gridemployeestargetlistexport()" /></span>
+                <span class="btn-excel gridbinded"><img src="/assests/images/excel.png" style="width: 24px; cursor:pointer;" title="Export To Excel" onclick="gridemployeestargetlistexport()" /></span>
                 @{
                     Html.RenderAction("GetEmployeesTargetList", "EmployeesTarget", new { State = "", EmpTypeID = 0, CounterType = 0, Designation = "", SettingMonth = 0, SettingYear = 0, EmpCodeList = "" });
                 }
