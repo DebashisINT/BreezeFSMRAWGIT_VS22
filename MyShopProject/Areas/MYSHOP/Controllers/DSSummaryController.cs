@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer.SalesTrackerReports;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2 .0.41    Debashis    09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+#endregion===================================End of Revision History==================================================================
+
+using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -442,6 +446,33 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
             });
 
+            //Rev 1.0 Mantis: 0026680
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "GENDERDESC";
+                x.Caption = "Gender";
+                x.VisibleIndex = 6;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='GENDERDESC'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.Width = 100;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 100;
+                }
+            });
+            //End of Rev 1.0 Mantis: 0026680
+
             //settings.Columns.Add(column =>
             //{
             //    column.Caption = "From-To Date";
@@ -451,7 +482,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DATERANGE";
                 x.Caption = "From-To Date";
-                x.VisibleIndex = 6;
+                x.VisibleIndex = 7;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DATERANGE'");
@@ -475,7 +506,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETSMAPPED";
                 x.Caption = "Outlets Mapped";
-                x.VisibleIndex = 7;
+                x.VisibleIndex = 8;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETSMAPPED'");
@@ -510,7 +541,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //x.Caption = "Outlets Mapped(Added)";
                 x.Caption = "New Outlet Visit";
                 //End of Rev Debashis 0024905
-                x.VisibleIndex = 8;
+                x.VisibleIndex = 9;
                 //x.Width = 180;
                 // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
                 if (ViewBag.RetentionColumn != null)
@@ -543,7 +574,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "RE_VISITED";
                 x.Caption = "Outlets Re-Visited";
-                x.VisibleIndex = 9;
+                x.VisibleIndex = 10;
                 //x.Width = 180;
                 // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
                 if (ViewBag.RetentionColumn != null)
@@ -576,7 +607,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "TOTAL_VISIT";
                 x.Caption = "Total Outlets Visited";
-                x.VisibleIndex = 10;
+                x.VisibleIndex = 11;
                 //x.Width = 180;
                 // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
                 if (ViewBag.RetentionColumn != null)
@@ -609,7 +640,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DISTANCE_TRAVELLED";
                 x.Caption = "Distance Travelled(Km.Mtr)";
-                x.VisibleIndex = 11;
+                x.VisibleIndex = 12;
                 //rev Pratik
                 x.PropertiesEdit.DisplayFormatString = "0.00";
                 //End of rev Pratik
@@ -645,7 +676,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "AVGTIMESPENTINMARKET";
                 x.Caption = "Avg time spent in the market(HH:MM)";
-                x.VisibleIndex = 12;
+                x.VisibleIndex = 13;
                 //x.Width = 180;
                 // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
                 if (ViewBag.RetentionColumn != null)
@@ -678,7 +709,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "AVGSPENTDURATION";
                 x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
-                x.VisibleIndex = 13;
+                x.VisibleIndex = 14;
                 //x.Width = 180;
                 // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
                 if (ViewBag.RetentionColumn != null)

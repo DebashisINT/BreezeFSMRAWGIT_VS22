@@ -3,6 +3,7 @@ Rev 1.0     Pallab      V2.0.41     02/06/2023      "Session expired" message ch
                                                     Refer: 26280
 Rev 2.0     Pallab      V2.0.41     22/06/2023      all module responsive work and make mobile friendly
                                                     Refer: 26442
+Rev 3.0     Pallab      V2.0.42     07-07-2023      FSM dashboard tab data not coming in ITC, when "Employees On Leave" box hide. refer: 26529
 **********************************************************************************************************************--%>
 
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ERP.master.cs" Inherits="ERP.OMS.MasterPage.ERP" %>
@@ -740,8 +741,10 @@ Rev 2.0     Pallab      V2.0.41     22/06/2023      all module responsive work a
                     $('body').toggleClass('navActivated');
                 });
                 $('.widgBox').click(function () {
-                    $('.widgBox').removeClass('active');
-                    $(this).addClass('active');
+                    /*Rev 3.0*/
+                    //$('.widgBox').removeClass('active');
+                    //$(this).addClass('active');
+                    /*Rev end 3.0*/
                 });
                 $('[data-toggle="tooltip"]').tooltip();
                 $('.stage3').each(function (a, b) {
@@ -790,7 +793,7 @@ Rev 2.0     Pallab      V2.0.41     22/06/2023      all module responsive work a
                 var dayDate = document.getElementById('dayDate');
                 setInterval(function () { dayDate.innerHTML = formatDate(new Date()); }, 1000);
             });
-    </script>
+        </script>
         
         <script type="text/javascript" src="/assests/bootstrap/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="/assests/js/main.js"></script>

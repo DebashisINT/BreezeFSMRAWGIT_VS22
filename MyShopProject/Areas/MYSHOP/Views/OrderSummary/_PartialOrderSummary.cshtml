@@ -1,4 +1,10 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                19-07-2023        2.0.41           Pallab              All action button should be under one column, cross icon add in "Select Design" popup in order summary 
+                                                                            Refer: 26596 *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridorderrsummary";
 
@@ -109,30 +115,31 @@
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
         });
+        //Rev 1.0
+        //settings.Columns.Add(x =>
+        //{
+        //    x.Caption = "Product Details";
+        //    x.VisibleIndex = 11;
+        //    x.SetDataItemTemplateContent(c =>
+        //    {
+        //        //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">View</a>");
+        //        //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/eye2.png\" /></a>");
+        //    });
 
-        settings.Columns.Add(x =>
-        {
-            x.Caption = "Product Details";
-            x.VisibleIndex = 11;
-            x.SetDataItemTemplateContent(c =>
-            {
-                //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">View</a>");
-                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/eye2.png\" /></a>");
-            });
 
+        //});
+        //settings.Columns.Add(x =>
+        //{
+        //    x.Caption = "Delete";
+        //    x.VisibleIndex = 12;
+        //    x.SetDataItemTemplateContent(c =>
+        //    {
+        //        //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Delete</a>");
+        //        //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/Delete.png\" /></a>");
+        //    });
 
-        });
-        settings.Columns.Add(x =>
-        {
-            x.Caption = "Delete";
-            x.VisibleIndex = 12;
-            x.SetDataItemTemplateContent(c =>
-            {
-                //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Delete</a>");
-                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/Delete.png\" /></a>");
-            });
-
-        });
+        //});
+        //Rev end 1.0
         //Rev Debashis
         //Mantis Issue 24944
         if (ViewBag.CanPrint == true)
@@ -143,8 +150,14 @@
                 x.VisibleIndex = 18;
                 x.SetDataItemTemplateContent(c =>
                 {
+                    //Rev 1.0
                     //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"PrintOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Print</a>");
-                    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"PrintOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/print.png\" /></a>");
+                    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img class=\"mr-2\" src=\"../../../assests/images/eye2.png\" /></a>");
+
+                    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"PrintOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img class=\"mr-2\" src=\"../../../assests/images/print.png\" /></a>");
+
+                    ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/Delete.png\" /></a>");
+                    //Rev end 1.0
                 });
 
             });
@@ -283,7 +296,10 @@
             x.VisibleIndex = 16;
             x.SetDataItemTemplateContent(c =>
             {
-                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">View</a>");
+                //Rev 1.0
+                //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">View</a>");
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img class=\"mr-2\" src=\"../../../assests/images/eye2.png\" /></a>");
+                //Rev end 1.0
             });
 
 
@@ -294,7 +310,10 @@
             x.VisibleIndex = 17;
             x.SetDataItemTemplateContent(c =>
             {
-                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Delete</a>");
+                //Rev 1.0
+                //ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\">Delete</a>");
+                ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"DeleteOrder('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img src=\"../../../assests/images/Delete.png\" /></a>");
+                //Rev end 1.0
             });
 
         });

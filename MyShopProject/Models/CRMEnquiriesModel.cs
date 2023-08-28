@@ -1,4 +1,8 @@
-﻿using System;
+﻿/******************************************************************************************************************
+  1.0       16-08-2023        V2.0.42          Sanchita          The enquiry doesn't showing in the listing after modification
+                                                                 Mantis: 26721
+**************************************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -55,6 +59,9 @@ namespace MyShop.Models
         public List<SalesmanUserAssign> SalesmanUserList { get; set; }
 
         // End Assign Salesman
+        // Rev 1.0
+        public string txtDate { get; set; }
+        // End of Rev 1.0
     }
 
     public class GetEnquiryFrom

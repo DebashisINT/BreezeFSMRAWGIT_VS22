@@ -1,6 +1,7 @@
 ﻿<%--====================================================== Revision History ===============================================
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                14-02-2023        V2.0.39          Pallab              25656 : Master module design modification 
+2.0                07-08-2023        V2.0.41          Pallab              26682: FSM Channel module popup design issue fix and "Mapping" icon change
 ====================================================== Revision History ===================================================--%>
 
 <%@ Page Title="Channel" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" Inherits="ERP.OMS.Management.Master.Channel" CodeBehind="Channel.aspx.cs" %>
@@ -629,9 +630,29 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
     #marketsGrid_DXPEForm_tcefnew, .dxgvPopupEditForm_PlasticBlue
     {
-        height: 135px !important;
+        height: 160px !important;
     }
     /*Rev end 1.0*/
+
+    @media only screen and (max-width: 768px) {
+        .backBox
+        {
+                overflow: hidden;
+        }
+        .overflow-x-auto
+        {
+                width: 290px;
+        }
+
+        .breadCumb {
+            padding: 0 27%;
+        }
+/*
+        #DesigGrid_DXPEForm_PW-1
+        {
+            width: 300px !important;
+        }*/
+    }
     </style>
 
     <script>
@@ -731,7 +752,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             </tr>
             <tr>
                 <td>
-                    <dxe:ASPxGridView ID="DesigGrid" runat="server" AutoGenerateColumns="False" DataSourceID="channel"
+                    <div class="overflow-x-auto">
+                        <dxe:ASPxGridView ID="DesigGrid" runat="server" AutoGenerateColumns="False" DataSourceID="channel"
                         KeyFieldName="ch_id" ClientInstanceName="grid" Width="100%" OnHtmlEditFormCreated="DesigGrid_HtmlEditFormCreated"
                         OnHtmlRowCreated="DesigGrid_HtmlRowCreated" OnCustomCallback="DesigGrid_CustomCallback"
                         OnStartRowEditing="DesigGrid_StartRowEditing" OnCommandButtonInitialize="DesigGrid_CommandButtonInitialize"
@@ -741,7 +763,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             <dxe:GridViewDataTextColumn Visible="False" ReadOnly="True" VisibleIndex="0" FieldName="ch_id">
                                 <EditFormSettings Visible="False"></EditFormSettings>
                             </dxe:GridViewDataTextColumn>
-                            <dxe:GridViewDataTextColumn VisibleIndex="0" FieldName="ch_Channel" Width="80%"
+                            <dxe:GridViewDataTextColumn VisibleIndex="0" FieldName="ch_Channel" Width="70%"
                                 Caption="Channel">
                                 <PropertiesTextEdit Width="300px" MaxLength="50">
                                     <ValidationSettings SetFocusOnError="True" ErrorTextPosition="Right" ErrorDisplayMode="ImageWithTooltip">
@@ -757,7 +779,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 <EditFormCaptionStyle Wrap="False" HorizontalAlign="Right">
                                 </EditFormCaptionStyle>
                             </dxe:GridViewDataTextColumn>
-                            <dxe:GridViewCommandColumn VisibleIndex="1" ShowEditButton="true" ShowDeleteButton="true" HeaderStyle-HorizontalAlign="Center" Width="6%">
+                            <dxe:GridViewCommandColumn VisibleIndex="1" ShowEditButton="true" ShowDeleteButton="true" HeaderStyle-HorizontalAlign="Center" Width="15%">
                                 <%-- <DeleteButton Visible="True">
                                 </DeleteButton>
                                 <EditButton Visible="True">
@@ -775,7 +797,11 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             <dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="1" Width="110px">
                                     <DataItemTemplate>
                                          <a href="javascript:void(0);" onclick="fn_DSTypeMap('<%# Container.KeyValue %>')" class="pad" title="DS Type Mapping">
-                                            <span class='ico deleteColor'><i class='fa fa-sitemap' aria-hidden='true'></i></span></a>
+                                             <%--Rev 2.0 : icon change--%>
+                                             <%--<span class='ico deleteColor'><i class='fa fa-sitemap' aria-hidden='true'></i></span>--%>
+                                             <span class='ico deleteColor'><img src="../../../assests/images/ds-mapping.png" /></span>
+                                             <%--Rev end 2.0--%>
+                                         </a>
                                      </DataItemTemplate>
                                 </dxe:GridViewDataTextColumn>
                             <%--End of Mantis Issue 25017--%>
@@ -837,6 +863,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </EditForm>
                         </Templates>
                     </dxe:ASPxGridView>
+                    </div>
                 </td>
             </tr>
         </table>

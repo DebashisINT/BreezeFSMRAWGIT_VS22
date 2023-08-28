@@ -1,6 +1,9 @@
 ﻿@*====================================================== Revision History ===================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
+@*2.0                25-07-2023        V2.0.42          Sanchita            zero value should be consider in the Approx Qty field
+                                                                            while making an entry in Project & Projection report. 
+                                                                            Mantis: 26617*@
 @*====================================================== Revision History ===================================================*@
 
 @using MyShop.Models;
@@ -598,7 +601,10 @@
             $("#txt_phoneno").focus();
             return false;
         }
-        if ($("#txt_ApproxQty").val() == 0 || $("#txt_ApproxQty").val() == null) {
+        // Rev 2.0
+        //if ($("#txt_ApproxQty").val() == 0 || $("#txt_ApproxQty").val() == null) {
+        if ($("#txt_ApproxQty").val() == '' || $("#txt_ApproxQty").val() == null) {
+            // End of Rev 2.0
             jAlert("Please enter Approx. Qty (Sqft) !");
             x = false;
             $("#txt_ApproxQty").focus();
@@ -1410,7 +1416,7 @@
         height: 34px;
     }
 
-    #dtFrom, #dtTo, #FormDate, #toDate, #proj_start_dt {
+    #dtFrom, #dtTo, #FormDate, #toDate, #proj_start_dt, #proj_complete_dt {
         position: relative;
         z-index: 1;
         background: transparent;
@@ -1543,7 +1549,7 @@
         padding-right: 20px;
     }
 
-    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #proj_start_dt_B-1 {
+    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #proj_start_dt_B-1, #proj_complete_dt_B-1 {
         background: transparent !important;
         border: none;
         width: 30px;
@@ -1551,11 +1557,12 @@
     }
 
         #dtFrom_B-1 #dtFrom_B-1Img,
-        #dtTo_B-1 #dtTo_B-1Img, #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img, #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #proj_start_dt_B-1 #proj_start_dt_B-1Img {
+        #dtTo_B-1 #dtTo_B-1Img, #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img, #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #proj_start_dt_B-1 #proj_start_dt_B-1Img,
+        #proj_complete_dt_B-1 #proj_complete_dt_B-1Img {
             display: none;
         }
 
-    #FormDate_I, #toDate_I, #proj_start_dt_I {
+    #FormDate_I, #toDate_I, #proj_start_dt_I, #proj_complete_dt_I {
         background: transparent;
     }
 
@@ -1629,10 +1636,41 @@
     #proj_start_dt_DDD_PW-1 {
         left: -21px !important;
     }
+
     .pmsModal .modal-header {
         background: #094e8c !important;
     }
     /*Rev end 1.0*/
+
+    .pmsModal .modal-content {
+        border-radius: 15px !important;
+    }
+
+    .pmsModal .modal-footer {
+        border-radius: 0 0 15px 15px !important;
+    }
+
+    .modal .modal-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+
+    @@media only screen and (max-width: 768px) {
+        .breadCumb {
+            padding: 0 18%;
+        }
+
+            .breadCumb > span {
+                padding: 9px 15px;
+            }
+
+        .backBox .btn {
+            margin-bottom: 10px;
+        }
+
+        .dxgvHSDC > div {
+            width: 100% !important;
+        }
+    }
 </style>
 
 
@@ -1905,8 +1943,8 @@
                             @*<input type="date" id="proj_start_dt" name="proj_start_dt" value="@Model.Date">*@
 
                             @*<span id="Mandatoryfrm_dt" style="display: none" class="validclass">
-                    <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                </span>*@
+                                    <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>*@
                             @*Rev 1.0*@
                             <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
                             @*Rev end 1.0*@

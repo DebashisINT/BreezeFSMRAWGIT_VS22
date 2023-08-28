@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Masters">
+  <DataContextMoniker Name="/MastersDataContext" />
+  <nestedChildShapes>
+    <classShape Id="8f850f42-c25e-436c-8e5d-c33ef83407b0" isExpanded="false" absoluteBounds="0.5, 0.5, 2, 0.45">
+      <DataClassMoniker Name="/MastersDataContext/FTS_CityMaster_List" />
+      <nestedChildShapes>
+        <elementListCompartment Id="0b9b233a-9a5a-46d9-a9ad-62376e68beeb" absoluteBounds="0.51499999999999968, 0.96, 1.9700000000000002, 4.095418294270833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

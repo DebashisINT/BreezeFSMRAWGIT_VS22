@@ -746,6 +746,21 @@
         }
 
     }
+
+    .pmsModal .modal-content
+    {
+        border-radius: 15px !important;
+    }
+
+    .pmsModal .modal-footer
+    {
+            border-radius: 0 0 15px 15px !important;
+    }
+
+    .modal .modal-header
+    {
+            border-radius: 15px 15px 0 0 !important;
+    }
     </style>
     <link href="/assests/pluggins/Transfer/icon_font/css/icon_font.css" rel="stylesheet" />
     

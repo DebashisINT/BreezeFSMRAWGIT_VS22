@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.41     Debashis    21/08/2023      Some new parameters have been added.Row: 865
+#endregion===================================End of Revision History==================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -64,6 +68,11 @@ namespace ShopAPI.Models
         public String stock_unit { get; set; }
         public bool isStockShow { get; set; }
         public bool isRateShow { get; set; }
+        //Rev 1.0 Row:865
+        public decimal Qty_per_Unit { get; set; }
+        public decimal Scheme_Qty { get; set; }
+        public decimal Effective_Rate { get; set; }
+        //End of Rev 1.0 Row:865
     }
 
     public class OfflineProductRateInput

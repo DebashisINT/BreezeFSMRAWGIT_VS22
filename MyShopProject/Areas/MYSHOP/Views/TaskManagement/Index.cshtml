@@ -4,6 +4,7 @@
     0026032: Customization in Task Management Page
     0026034: Customization in Add Task Page*@
 
+@*1.0                09-08-2023        V2.0.40          Pallab              26706: Task Management module border radius issue fix and popup calender hideing issue fix *@
 @*====================================================== Revision History ===================================================*@
 
 @using MyShop.Models;
@@ -414,7 +415,7 @@
                             $('#txt_Task_Name').val('');
                             $('#ddlPriority').val('');
                             $('#txt_task_detls').val('');
-                                    
+
 
                         }
                         else {
@@ -805,7 +806,7 @@
         $("#myModalLabel").val("Add Task Management");
         appcbl_frm_dt.SetDate(null);
         dt_due.SetDate(null);
-        $('#txt_Task_Name').val('');       
+        $('#txt_Task_Name').val('');
         $('#txt_task_detls').val('');
         ddlPriority.selectedIndex = 0;
     }
@@ -1736,7 +1737,48 @@
         margin: 0 2px;
         /*width: 24px;*/
     }
+
+    .pmsModal .modal-content {
+        border-radius: 15px !important;
+    }
+
+    .pmsModal .modal-footer {
+        border-radius: 0 0 15px 15px !important;
+    }
+
+    .modal .modal-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+
+    .modalScroll .modal-body {
+        overflow: visible !important;
+    }
+
     /*Rev end 1.0*/
+
+    @@media only screen and (max-width: 768px) {
+        /*        .backBox
+        {
+                overflow: hidden;
+        }
+        .overflow-x-auto
+        {
+                width: 290px;
+        }*/
+
+        .breadCumb {
+            padding: 0 18%;
+        }
+
+        .dxgvHSDC > div {
+            width: 100% !important;
+        }
+        /*
+        #DesigGrid_DXPEForm_PW-1
+        {
+            width: 300px !important;
+        }*/
+    }
 </style>
 
 <script>
@@ -2035,7 +2077,7 @@
 
                     <div class="col-md-4" style="padding-top: 20px;">
                         <span></span>
-                        <div> 
+                        <div>
                             @if (ViewBag.CanView)
                             {
                                 <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>

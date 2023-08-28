@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
 //                                              Refer: 0025585
+//2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -66,6 +67,27 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 modelcounter = APIHelperMethods.ToModelList<shopCounterTypes>(dtshoptypes);
                 omodel.Shoptypes = modelcounter;
 
+                // Rev 2.0
+                DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
+                DataTable dtBranchChild = new DataTable();
+                if (dtbranch.Rows.Count > 0)
+                {
+                    dtBranchChild = lstuser.GetChildBranch(Convert.ToString(Session["userbranchHierarchy"]));
+                    if (dtBranchChild.Rows.Count > 0)
+                    {
+                        DataRow dr;
+                        dr = dtbranch.NewRow();
+                        dr[0] = 0;
+                        dr[1] = "All";
+                        dtbranch.Rows.Add(dr);
+                        dtbranch.DefaultView.Sort = "BRANCH_ID ASC";
+                        dtbranch = dtbranch.DefaultView.ToTable();
+                    }
+                }
+                omodel.modelbranch = APIHelperMethods.ToModelList<GetBranch>(dtbranch);
+                string h_id = omodel.modelbranch.First().BRANCH_ID.ToString();
+                ViewBag.h_id = h_id;
+                // End of Rev 2.0
 
                 if (TempData["Exportcounterist"] != null)
                 {
@@ -190,13 +212,31 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     TempData.Keep();
                 }
                 //End of Rev  Mantis:0025585
+                // Rev 2.0
+                string Branch_Id = "";
+                int b = 1;
+                if (model.BranchId != null && model.BranchId.Count > 0)
+                {
+                    foreach (string item in model.BranchId)
+                    {
+                        if (b > 1)
+                            Branch_Id = Branch_Id + "," + item;
+                        else
+                            Branch_Id = item;
+                        b++;
+                    }
+                }
+                // End of Rev 2.0
                 if (model.Ispageload == "1")
                 {
                     //Rev Pallab
                     //dt = objshop.GetShopListCounterwise(model.TypeID, "", state, Convert.ToInt32(Session["userid"])); 
                     //Rev  Mantis: 0025585
                     //dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, Convert.ToInt32(Session["userid"]));
-                    dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]));
+                    // Rev 2.0
+                    //dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]));
+                    dt = objshop.GetShopListCounterwise(Branch_Id, model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]));
+                    // End of Rev 2.0
                     //End of Rev  Mantis: 0025585
                     //Rev end Pallab
                     if (dt.Rows.Count > 0)
@@ -320,7 +360,16 @@ namespace MyShop.Areas.MYSHOP.Controllers
             });
 
             // End of Mantis Issue 25421
-          
+
+            // Rev 2.0
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "Branch";
+                column.FieldName = "BRANCHDESC";
+
+            });
+            // End of Rev 2.0
+
             settings.Columns.Add(column =>
             {
                 column.Caption = "Address";

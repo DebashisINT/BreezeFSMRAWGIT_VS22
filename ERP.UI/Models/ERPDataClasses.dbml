@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FSM_ITC" Class="ERPDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=3.7.30.86,1480\SQLEXPRES;Initial Catalog=FSM_ITC;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PK17092018ConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=3.7.30.86,1480\SQLEXPRESS;Initial Catalog=FSM_ITC;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RollickTestingConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.v_FinanceReconciliationList" Member="v_FinanceReconciliationLists">
     <Type Name="v_FinanceReconciliationList">
       <Column Name="SrlNo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
@@ -1442,17 +1442,6 @@
       <Column Name="SCHEME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.v_ProductRate" Member="v_ProductRates">
-    <Type Name="v_ProductRate">
-      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
-      <Column Name="PRODUCT_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="DD_PRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="SHOP_PRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="STATE_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="sProducts_Description" Type="System.String" DbType="VarChar(300)" CanBeNull="true" />
-      <Column Name="state" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-    </Type>
-  </Table>
   <Table Name="dbo.v_GetAreaImportLog" Member="v_GetAreaImportLogs">
     <Type Name="v_GetAreaImportLog">
       <Column Name="area_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -1523,6 +1512,21 @@
       <Column Name="grp_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="AssignedUserID" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.v_ProductRate" Member="v_ProductRates">
+    <Type Name="v_ProductRate">
+      <Column Name="ID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="PRODUCT_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="DD_PRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="SHOP_PRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="STATE_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SUPER_PRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="QTY_UNIT_DISTRIBUTOR" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="SCHEME_QTY_DISTRIBUTOR" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="EFFECTIVE_PRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="sProducts_Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="state" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

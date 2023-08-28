@@ -933,6 +933,38 @@
         z-index: 1;
     }
     /*Rev end 1.0*/
+
+    .pmsModal .modal-header, .modal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content, .modal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title, .modal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close, .modal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    .pdtop-30
+    {
+        padding-top: 25px;
+    }
 </style>
 <link href="~/Content/media.css" rel="stylesheet" />
 
@@ -1272,7 +1304,7 @@
                             </div>
 
 
-                            <div class="col-md-4 pad-md-18">
+                            <div class="col-md-4 pad-md-18 pdtop-30">
                                 <label>&nbsp;</label>
                                 <button type="button" id="btnEdit" class="btn btn-success " tabindex=13>Update</button>
                                 <button type="button" id="btnclear" class="btn btn-success " tabindex=14>Cancel</button>

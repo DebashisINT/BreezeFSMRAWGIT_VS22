@@ -1,7 +1,8 @@
 ﻿@*======================================Revision History=========================================================================
-1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
-                                              Refer: 0025586
-2.0   V2.0.38     Pallab      25/01/2023      Report page design modification. Refer: 25576
+    1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
+                                                  Refer: 0025586
+    2.0   V2.0.38     Pallab      25/01/2023      Report page design modification. Refer: 25576
+    3.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in MIS -> Performance Summary report. Mantis : 26135
 ===================================End of Revision History=====================================================================*@
 @model Models.SalesSummaryReport
 
@@ -168,6 +169,15 @@
         StateGridLookup.GetGridView().Refresh();
         StateGridLookup.GetGridView().Refresh();
     }
+    // Rev 3.0
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+    // End of Rev 3.0
 
     function OnStartCallback(s, e) {
 
@@ -185,7 +195,9 @@
             e.customArgs["IsRevisitContactDetails"] = 0;
         }
         //End of Rev 1.0 Mantis:0025586
-
+        // Rev 3.0
+        e.customArgs["BranchId"] = BranchId;
+        // End of Rev 3.0
         // alert(e.customArgs["StateId"]);
 
     }
@@ -262,7 +274,87 @@
             }
         }
     }
+    // Rev 3.0
+    var BranchId = [];
+    var Branch_Id = "";
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
 
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+
+        BranchId = [];
+        Branch_Id = "";
+    }
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+
+    // End of Rev 3.0
 </script>
 <style>
     .padTabl > tbody > tr > td {
@@ -387,7 +479,7 @@
     .calendar-icon {
         position: absolute;
         bottom: 8px;
-        right: 24px;
+        right: 20px;
         z-index: 0;
         cursor: pointer;
     }
@@ -412,8 +504,8 @@
         .h-branch-select::after {
             content: '<';
             position: absolute;
-            top: 34px;
-            right: 18px;
+            top: 8px;
+            right: -2px;
             font-size: 18px;
             transform: rotate(269deg);
             font-weight: 500;
@@ -672,15 +764,21 @@
     }
     /*Rev end 2.0*/
 
-    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11
-    {
+    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11 {
         margin-bottom: 10px;
     }
+
     label {
         margin-bottom: 0px;
     }
 </style>
-
+@*Rev 3.0*@
+<style>
+    #BranchGridLookup_CC {
+        width: 100%;
+    }
+</style>
+@*End of Rev 3.0*@
 <script>
     function onShowChooserClick(s, e) {
         UpdateCustomizationWindowVisibility();
@@ -879,6 +977,27 @@
                                 </span>
                             </div>
                         </div>
+                        @*Rev 3.0*@
+                        <div class="col-md-3 relative for-cust-icon">
+                            <label>Head Branch :</label>
+                            <div class="h-branch-select">
+                                <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                                    @foreach (var item in Model.modelbranch)
+                                    {
+                                        <option value="@item.BRANCH_ID">@item.CODE</option>
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 relative for-cust-icon">
+                            <label>Branch :</label>
+                            <div>
+                                @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                            </div>
+                        </div>
+                        @*End of Rev 3.0*@
                         <div class="col-md-3">
                             <label>State </label>
                             <div>
@@ -888,59 +1007,59 @@
                 </span>*@
                             </div>
                         </div>
-
-                        <div class="col-md-3">
-                            <label>Designation</label>
-                            <div>
-                                @Html.Action("GetDesigList", "SalesReportSummary")
+                   
+                            <div class="col-md-3">
+                                <label>Designation</label>
+                                <div>
+                                    @Html.Action("GetDesigList", "SalesReportSummary")
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-md-3">
-                            <label>Employee(s)</label>
-                            <div>
-                                @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
+                            <div class="col-md-3">
+                                <label>Employee(s)</label>
+                                <div>
+                                    @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
 
-                                @Html.DevExpress().ButtonEdit(
-                                settings =>
-                                {
-                                    settings.Name = "EmployeeTxt";
-                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                    //settings.Text = Model.AssignedTo;
-                                    settings.ReadOnly = true;
-                                    settings.Properties.Buttons.Add("...");
-                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
-                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+                                    @Html.DevExpress().ButtonEdit(
+                                    settings =>
+                                    {
+                                        settings.Name = "EmployeeTxt";
+                                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        //settings.Text = Model.AssignedTo;
+                                        settings.ReadOnly = true;
+                                        settings.Properties.Buttons.Add("...");
+                                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
 
-                                }).GetHtml()
+                                    }).GetHtml()
 
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4" style="padding-top: 25px; width: 260px;">
-                            @*Rev 2.0*@
-                            @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>*@
-                            <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
-                            <label for="">Show Revisit Contact Details</label>
-                            @*Rev end 2.0*@
-                        </div>
-                        <div class="col-md-3" style="padding-top: 21px;">
-                            @*Rev end 2.0*@
-                            <label></label>
-                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
-                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                                <option value="0">Export to</option>
-                                <option value="1">PDF</option>
-                                <option value="2">XLSX</option>
-                                <option value="3">XLS</option>
-                                <option value="4">RTF</option>
-                                <option value="5">CSV</option>
+                            <div class="col-md-4" style="padding-top: 31px; width: 260px;">
+                                @*Rev 2.0*@
+                                @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>*@
+                                <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
+                                <label for="">Show Revisit Contact Details</label>
+                                @*Rev end 2.0*@
+                            </div>
+                            <div class="col-md-3" style="padding-top: 21px;">
+                                @*Rev end 2.0*@
+                                <label></label>
+                                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                    <option value="0">Export to</option>
+                                    <option value="1">PDF</option>
+                                    <option value="2">XLSX</option>
+                                    <option value="3">XLS</option>
+                                    <option value="4">RTF</option>
+                                    <option value="5">CSV</option>
 
-                            </select>
-                        </div>
+                                </select>
+                            </div>
 
-                            
-                        </div>
+
                     </div>
+                </div>
 
             </div>
             <input type="hidden" id="hdnuser_id" />
@@ -950,11 +1069,11 @@
             <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
         </div>
         @*Rev 2.0*@
-    @*</div>
-</div>*@
-<div style="clear: both;"><br /></div>
-@*<div class="container">
-    <div class="backBox mt-1 p-3 ">*@
+        @*</div>
+            </div>*@
+        <div style="clear: both;"><br /></div>
+        @*<div class="container">
+            <div class="backBox mt-1 p-3 ">*@
         @*Rev end 2.0*@
         <div class="mx-4 ">
             <div class="options">
@@ -971,7 +1090,8 @@
             <div class="row">
                 <div id="refreshgridsalessummary">
                     @{
-                        Html.RenderAction("GetSalesParformanceList", "Performance", new { Fromdate = Model.Fromdate, Todate = Model.Todate, StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0", IsRevisitContactDetails=Model.IsRevisitContactDetails });
+                        // Rev 3.0 [ BranchId = Model.BranchId added]
+                        Html.RenderAction("GetSalesParformanceList", "Performance", new { BranchId = Model.BranchId, Fromdate = Model.Fromdate, Todate = Model.Todate, StateId = Model.StateId, desgid = Model.desgid, empcode = Model.empcode, is_pageload = "0", IsRevisitContactDetails = Model.IsRevisitContactDetails });
                         // Html.RenderAction("GetSalesSummaryList1", "SalesReportSummary");
 
                     }

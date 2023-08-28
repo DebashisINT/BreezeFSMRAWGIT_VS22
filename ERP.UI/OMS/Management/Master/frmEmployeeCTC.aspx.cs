@@ -1,3 +1,7 @@
+//==================================================== Revision History =====================================================
+// 1.0  Priti V2.0.41  12-06-2023   0026291:In EMPLOYEE CTC module Admin can not select any Report to.
+//====================================================End Revision History===================================================
+
 using ClsDropDownlistNameSpace;
 using System;
 using System.Configuration;
@@ -101,6 +105,9 @@ namespace ERP.OMS.Management.Master
         //...............code end........
         private void ShowForm()
         {
+            // REV 1.0
+            hdnUnqid_empCTC.Value = Convert.ToString(HttpContext.Current.Session["KeyVal_InternalID"]);
+            // REV 1.0 END
             if (Request.QueryString["id"] != "ADD")
             {
                 string popupScript = "";
@@ -111,6 +118,7 @@ namespace ERP.OMS.Management.Master
                 string[,] ContactData;
                 string[,] CntExitEmp;
 
+               
 
                 //Code Added by  Sandip on 20032017 to prevent Branchid in during edit mode.
                 cmbBranch.Enabled = false;

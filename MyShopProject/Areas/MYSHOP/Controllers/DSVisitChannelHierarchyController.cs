@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer.SalesTrackerReports;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2.0.41    Debashis     09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+#endregion===================================End of Revision History==================================================================
+
+using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -420,11 +424,38 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
             });
 
+            //Rev 1.0 Mantis: 0026680
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "GENDERDESC";
+                x.Caption = "Gender";
+                x.VisibleIndex = 6;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='GENDERDESC'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.Width = 100;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 100;
+                }
+            });
+            //End of Rev 1.0 Mantis: 0026680
+
             settings.Columns.Add(x =>
             {
                 x.FieldName = "DSTYPE";
                 x.Caption = "DS Type";
-                x.VisibleIndex = 6;
+                x.VisibleIndex = 7;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DSTYPE'");
@@ -449,7 +480,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "CHANNEL";
                 x.Caption = "Channel";
-                x.VisibleIndex = 7;
+                x.VisibleIndex = 8;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CHANNEL'");
@@ -474,7 +505,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "SECTION";
                 x.Caption = "Section";
-                x.VisibleIndex = 8;
+                x.VisibleIndex = 9;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SECTION'");
@@ -499,7 +530,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "CIRCLE";
                 x.Caption = "Circle";
-                x.VisibleIndex = 9;
+                x.VisibleIndex = 10;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CIRCLE'");
@@ -524,7 +555,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "LOGIN_DATETIME";
                 x.Caption = "Visit Date";
-                x.VisibleIndex = 10;
+                x.VisibleIndex = 11;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGIN_DATETIME'");
@@ -550,7 +581,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "OUTLETSMAPPED";
                 x.Caption = "Outlets Mapped(Added)";
-                x.VisibleIndex = 11;
+                x.VisibleIndex = 12;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETSMAPPED'");
@@ -577,7 +608,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "RE_VISITED";
                 x.Caption = "Outlets Re-Visited";
-                x.VisibleIndex = 12;
+                x.VisibleIndex = 13;
 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -604,7 +635,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DISTANCE_TRAVELLED";
                 x.Caption = "Distance Travelled(Km.Mtr)";
-                x.VisibleIndex = 13;
+                x.VisibleIndex = 14;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -631,7 +662,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "AVGTIMESPENTINMARKET";
                 x.Caption = "Total time spent in the market(HH:MM)";
-                x.VisibleIndex = 14;
+                x.VisibleIndex = 15;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AVGTIMESPENTINMARKET'");
@@ -657,7 +688,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DAYSTTIME";
                 x.Caption = "Day Start(HH:MM)";
-                x.VisibleIndex = 15;
+                x.VisibleIndex = 16;
 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -683,7 +714,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DAYENDTIME";
                 x.Caption = "Day End(HH:MM)";
-                x.VisibleIndex = 16;
+                x.VisibleIndex = 17;
 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -709,7 +740,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "AVGSPENTDURATION";
                 x.Caption = "Avg time spent in OL(CFT-New&Revisit)(HH:MM)";
-                x.VisibleIndex = 17;
+                x.VisibleIndex = 18;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AVGSPENTDURATION'");

@@ -1,6 +1,8 @@
 ﻿//****************************************************************************************************************************************
 //    1.0     Sanchita      V2.0.40      11-05-2023      Feedback column is required in Horizontal Performance Summary & Detail Report. 
-//                                                        Refer: 25786
+//                                                       Refer: 25786
+//    2.0     Sanchita      V2.0.42      19/07/2023      Add Branch parameter in Listing of MIS - Horizontal Performance Summary & Detail.
+//                                                       Mantis : 26135
 //* ***************************************************************************************************************************************
 
 using BusinessLogicLayer.SalesTrackerReports;
@@ -49,6 +51,34 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 ds.Tables.Add(dt1);
                 ds.Tables.Add(dt2);
                 ds.Tables.Add(dt3);
+
+                // Rev 2.0
+                string h_id = "";
+                DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
+                DataTable dtBranchChild = new DataTable();
+                if (dtbranch.Rows.Count > 0)
+                {
+                    dtBranchChild = lstuser.GetChildBranch(Convert.ToString(Session["userbranchHierarchy"]));
+                    if (dtBranchChild.Rows.Count > 0)
+                    {
+                        DataRow dr;
+                        dr = dtbranch.NewRow();
+                        dr[0] = 0;
+                        dr[1] = "All";
+                        dtbranch.Rows.Add(dr);
+                        dtbranch.DefaultView.Sort = "BRANCH_ID ASC";
+                        dtbranch = dtbranch.DefaultView.ToTable();
+
+                        h_id = dtbranch.Rows[0]["BRANCH_ID"].ToString();
+                    }
+                }
+                ds.Tables.Add(dtbranch);
+
+                //omodel.modelbranch = APIHelperMethods.ToModelList<GetBranch>(dtbranch);
+                //string h_id = omodel.modelbranch.First().BRANCH_ID.ToString();
+                ViewBag.h_id = h_id;
+                // End of Rev 2.0
+
                 return View(ds);
                 //return View(omodel);
 
@@ -132,6 +162,21 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
 
             }
+            // Rev 2.0
+            string Branch_Id = "";
+            int b = 1;
+            if (model.BranchId != null && model.BranchId.Count > 0)
+            {
+                foreach (string item in model.BranchId)
+                {
+                    if (b > 1)
+                        Branch_Id = Branch_Id + "," + item;
+                    else
+                        Branch_Id = item;
+                    b++;
+                }
+            }
+            // End of Rev 2.0
 
             DataSet ds = new DataSet();
             if (model.is_pageload != "0" && model.is_pageload != null)
@@ -151,6 +196,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     proc.AddPara("@EMPCODES", empcode);
                     proc.AddPara("@REPORTTYPE", "Summary");
                     proc.AddPara("@USERID", Convert.ToInt32(Session["userid"]));
+                    // Rev 2.0
+                    proc.AddVarcharPara("@BRANCHID", -1, Branch_Id);
+                    // End of Rev 2.0
                     ds = proc.GetDataSet();
                 }
             }
@@ -237,6 +285,21 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
 
             }
+            // Rev 2.0
+            string Branch_Id = "";
+            int b = 1;
+            if (model.BranchId != null && model.BranchId.Count > 0)
+            {
+                foreach (string item in model.BranchId)
+                {
+                    if (b > 1)
+                        Branch_Id = Branch_Id + "," + item;
+                    else
+                        Branch_Id = item;
+                    b++;
+                }
+            }
+            // End of Rev 2.0
 
             DataSet ds = new DataSet();
             if (model.is_pageload != "0" && model.is_pageload != null)
@@ -257,7 +320,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     proc.AddPara("@REPORTTYPE", "Details");
                     proc.AddPara("@VISITTYPE", model.is_pageload);
                     proc.AddPara("@USERID", Convert.ToInt32(Session["userid"]));
-                    ds = proc.GetDataSet();
+                    // Rev 2.0
+                    proc.AddVarcharPara("@BRANCHID", -1, Branch_Id);
+                    // End of Rev 2.0
+                ds = proc.GetDataSet();
                 //}
             }
             else

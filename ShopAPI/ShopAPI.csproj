@@ -333,6 +333,7 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Controllers\VisitRemarksController.cs" />
+    <Compile Include="Controllers\WhatsAppMessageInfoController.cs" />
     <Compile Include="Controllers\WorktypesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -448,6 +449,7 @@
     <Compile Include="Models\UserWiseDayStartEndModel.cs" />
     <Compile Include="Models\VersionCheckingModel.cs" />
     <Compile Include="Models\VisitRemarksInput.cs" />
+    <Compile Include="Models\WhatsAppMessageInfoModel.cs" />
     <Compile Include="Models\WorkTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,0 +1,526 @@
+﻿
+@using FSMMaster.Models
+@{
+    ViewBag.Title = "City Master";
+}
+
+@*<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+    <script src="~/Scripts/SearchPopup.js"></script>
+    <link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+    <script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+    <script src="~/Scripts/SearchMultiPopup.js"></script>*@
+
+@*<link href="~/Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
+    <script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>*@
+
+<style>
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 20px 20px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        /*Rev 3.0*/
+        /*width: 70%;*/
+        width: 76%;
+        /*Rev end 3.0*/
+    }
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 30px;
+        padding: 3px 12px;
+    }
+
+    .modalScroll .modal-body {
+        max-height: 75vh !important;
+        overflow-y: auto;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+    }
+
+    .new-popup-width .modal-dialog {
+        width: 90% !important;
+    }
+
+    #myImportModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+    /*rev 1.0*/
+    .btn {
+        margin-bottom: 15px;
+    }
+    /*rev end 1.0*/
+
+    /*Rev 3.0*/
+    .dxeButtonEdit_PlasticBlue {
+        min-height: 30px;
+        border-radius: 4px;
+        border: 1px solid #cdcdcd;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    #myModal label {
+        margin-top: 8px;
+        font-size: 13px;
+        margin-bottom: 2px;
+    }
+
+    .General-part {
+        padding-bottom: 20px;
+        background: #fff4eb;
+        padding-top: 12px;
+        padding-left: 4px;
+        /*border-left: 5px solid #9b0909;*/
+        border-bottom: 1px solid #9b090991;
+    }
+
+    .party-info {
+        padding-bottom: 20px;
+        background: #ebfff0;
+        padding-top: 12px;
+        padding-left: 4px;
+        /*border-left: 5px solid #33974c;*/
+        border-bottom: 1px solid #33974c91;
+    }
+
+    .contact-info {
+        padding-bottom: 20px;
+        background: #f8ebff;
+        padding-top: 12px;
+        padding-left: 4px;
+        /*border-left: 5px solid #7e3ea1;*/
+        border-bottom: 1px solid #7e3ea191;
+    }
+
+    .account-info {
+        padding-bottom: 20px;
+        background: #fffff0;
+        padding-top: 12px;
+        padding-left: 4px;
+        /* border-left: 5px solid #2d84b3; */
+        border-bottom: 1px solid #c3b66391;
+    }
+
+    .other-info {
+        padding-bottom: 20px;
+        background: #fff3f3;
+        padding-top: 12px;
+        padding-left: 4px;
+        /*border-left: 5px solid #9eb329;*/
+        border-bottom: 1px solid #ef2a2a91;
+    }
+
+    .pmsModal .modal-body {
+        /*Rev 5.0*/
+        /*padding-top: 0;*/
+        padding-top: 15px;
+        /*Rev end 5.0*/
+        padding-right: 15px;
+        padding-left: 15px;
+        /*Rev 5.0*/
+        /*padding-bottom: 0;*/
+        padding-bottom: 15px;
+        /*Rev end 5.0*/
+    }
+
+    .General-part h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #8c0909;
+        padding-left: 8px;
+    }
+
+    .party-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #33974c;
+        padding-left: 8px;
+    }
+
+    .contact-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #7e3ea1;
+        padding-left: 8px;
+    }
+
+    .account-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #bfaa15;
+        padding-left: 8px;
+    }
+
+    .other-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #e54949;
+        padding-left: 8px;
+    }
+
+    .col-md-3, .col-md-6, .col-md-4 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        padding: 3px 5px;
+    }
+
+    .red {
+        font-size: 12px;
+    }
+
+
+    /*Rev end 3.0*/
+
+    /*Rev 5.0*/
+    #EmployeeTable table tr th,
+    #PPModel table tr th,
+    .dynamicPopupTbl > tbody > tr > td input {
+        font-family: 'Poppins', sans-serif !important;
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .w-50 {
+        width: 50% !important
+    }
+
+    #txtDOB_DDD_PW-1, #txtAnniversary_DDD_PW-1 {
+        left: 20px !important;
+    }
+
+    #pcModalImportLogViewMode_PW-1 .mTop5, #pcModalImportGroupBeatLogViewMode_PW-1 .mTop5 {
+        margin-top: 15px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 7px;
+        right: 19px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pmsModal .modal-content {
+        overflow: hidden;
+    }
+
+    /*Rev 4.0*/
+    .multiselect-container.dropdown-menu {
+        right: 0 !important;
+        left: auto;
+        min-width: 340px;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        right: auto !important;
+        left: 0;
+        min-width: 340px;
+    }
+
+    .multiselect-container > li > a {
+        padding: 5px 0;
+    }
+
+        .multiselect-container > li > a input[type="checkbox"] {
+            transform: translateY(3px);
+        }
+
+    .multiselect-container > li.active > a {
+        background: transparent !important;
+        color: #333;
+    }
+
+        .multiselect-container > li > a:hover, .multiselect-container > li.active > a:hover {
+            background: #f3f3f3 !important;
+            color: #333 !important;
+            padding: 5px 0;
+        }
+
+    .multiselect-item.multiselect-filter {
+        padding-bottom: 6px;
+        border-bottom: 1px solid #ccc;
+    }
+
+        .multiselect-item.multiselect-filter .form-control.multiselect-search {
+            height: 32px;
+        }
+
+        .multiselect-item.multiselect-filter .input-group-addon {
+            background: #41a8f1;
+            color: #fff;
+            border-color: #41a8f1;
+        }
+
+    .input-group-btn .multiselect-clear-filter {
+        background: #f98181;
+        color: #fffefe;
+        /* box-shadow: none; */
+        text-shadow: none;
+        border-color: #f96a6a;
+        padding: 5px 10px 4px 10px;
+    }
+
+    .multiselect.dropdown-toggle {
+        background: #fff;
+        border-radius: 0;
+    }
+
+    .iminentSpan > span {
+        display: block;
+    }
+
+    .btn-excel {
+        float: right;
+        margin-right: 38px;
+        margin-top: -4px;
+    }
+
+    .gridbinded {
+        position: absolute;
+        right: 15px;
+        top: 11px;
+    }
+
+    #cmbState + .btn-group > button {
+        border-radius: 4px;
+        height: 34px;
+    }
+
+    span.multiselect-native-select button {
+        border: 1px solid #c9c9c9 !important;
+        border-radius: 5px !important;
+    }
+
+    .pmsModal.w30 .modal-dialog {
+        max-width: 45%;
+    }
+
+    .mTop35 {
+        margin-top: 35px !important;
+    }
+
+    .dropdown-menu, .multiselect-container {
+        position: static !important;
+    }
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .btn.multiselect-clear-filter {
+        margin-bottom: 0;
+        border-radius: 0 4px 4px 0 !important;
+        height: 32px;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 43px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlShowReport {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    /*End of Rev 4.0*/
+
+    /*Rev end 5.0*/
+
+    /*Rev 8.0*/
+    #txtEmployeeSearch {
+        margin-bottom: 10px;
+    }
+
+    .btn-default {
+        background-color: #e0e0e0;
+    }
+    /*Rev end 8.0*/
+
+    .dxgvControl_PlasticBlue a {
+        margin: 0 3px;
+    }
+</style>
+
+<script>
+    var Is_PageLoad = "0";
+
+    $(function () {
+
+        $('body').on('click', '#btnshow', function () {
+            Is_PageLoad = "1";
+
+            gridCityMasterList.Refresh();
+
+        });
+
+    });
+
+    function OnStartCallback(s, e) {
+       e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+</script>
+
+<div class="breadCumb">
+    <span>City Master</span>
+</div>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 px-5">
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                            Add New
+                        </button>
+                    </div>
+                    <div class="col-md-12" style="padding-top: 13px;">
+                        <span></span>
+                        <div>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="1">PDF</option>
+                                <option value="2">XLS</option>
+                                <option value="3">RTF</option>
+                                <option value="4">CSV</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("GetCityDetailsList", "CityMaster", new { Is_PageLoad = "0" });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

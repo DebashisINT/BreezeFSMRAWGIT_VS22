@@ -6,6 +6,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
                                                          for AE & AM users login credentials. refer: 25781
 4.0          21-04-2023      V2.0.40     Pallab          FSM Dashboard Visit tab console error. refer: 25878
 5.0          22-06-2023      V2.0.41     Pallab          FSM dashboard tab boxes click event disable, when "show data" button not clicked. refer: 26413
+6.0          07-07-2023      V2.0.42     Pallab          FSM dashboard tab data not coming in ITC, when "Employees On Leave" box hide. refer: 26529
+7.0          07-07-2023      V2.0.42     Sanchita        FSM Dashboard - Hierarchy Tab - Console error when clicked on Show Data. Refer: 26530
+8.0          10-07-2023      V2.0.42     Pallab          When show data button not clicked, show a message, when box click. Refer: 26538
+9.0          03-08-2023      V2.0.42     Pallab          Clicked state or branch selection without click "show data" button, tab box number data showing, disable click event. Refer: 26663
+10.0         04-08-2023      V2.0.42     Sanchita        Data not comming in Field Visit and Team Visit tab when Visit tab is off. Mantis : 26672
 ====================================================== Revision History ==============================================-->
 
 @model MyShop.Models.FSMDashBoardFilter
@@ -300,6 +305,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     //    reloadboxdatatv(branchidstv);
     //}
     function cmbBranchChange() {
+        /*Rev 9.0*/
+        if (!isShowVisitDataClicked) {
+
+            return; // Disable click event
+        }
+        /*Rev end 9.0*/
         let newBranch = $('#cmbBranch').val();
 
         var isObject = typeof newBranch
@@ -987,6 +998,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
 
     function cmbStatechange() {
+        /*Rev 9.0*/
+        if (!isShowVisitDataClicked) {
+
+            return; // Disable click event
+        }
+        /*Rev end 9.0*/
         settingsid = "1";
 
         for (var i = objsettings.length - 1; i >= 0; i--) {
@@ -1171,6 +1188,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     // End of Mantis Issue 24729
     ///Team Visit
     function cmbStatechangeTV() {
+        /*Rev 9.0*/
+        if (!isShowTeamVisitDataClicked) {
+
+            return; // Disable click event
+        }
+        /*Rev end 9.0*/
         settingsid = "1";
 
         for (var i = objsettings.length - 1; i >= 0; i--) {
@@ -1346,7 +1369,18 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function AtWorkClick(elem) {
         /*Rev 5.0*/
         if (!isShowVisitDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            /*elem.title = "Please click 'show data' button";*/
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
@@ -1386,7 +1420,18 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function NotLoggedInClick(elem) {
         /*Rev 5.0*/
         if (!isShowVisitDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
@@ -1422,7 +1467,18 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function OnLeaveClick(elem) {
         /*Rev 5.0*/
         if (!isShowVisitDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            /*elem.title = "Please click 'show data' button";*/
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
@@ -1458,12 +1514,23 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         }, 100)
     }
 
-    
+
 
     function OnTotalClick(elem) {
         /*Rev 5.0*/
         if (!isShowVisitDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
@@ -1498,13 +1565,28 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function AtWorkClickTeamVisit(elem) {
         /*Rev 5.0*/
         if (!isShowTeamVisitDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
     /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
-        document.getElementById("griddetails").style.display = "none";
-        document.getElementById("gridsummary").style.display = "block";
+        // Rev 10.0
+        //document.getElementById("griddetails").style.display = "none";
+        //document.getElementById("gridsummary").style.display = "block";
+        document.getElementById("griddetailsTeam").style.display = "none";
+        document.getElementById("gridsummaryTeam").style.display = "block";
+        // End of Rev 10.0
 
 
 
@@ -1538,14 +1620,29 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function NotLoggedInClickTeamVisit(elem) {
         /*Rev 5.0*/
         if (!isShowTeamVisitDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         elem.removeAttribute('title');
         /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
-        document.getElementById("griddetails").style.display = "none";
-        document.getElementById("gridsummary").style.display = "block";
+        // Rev 10.0
+        //document.getElementById("griddetails").style.display = "none";
+        //document.getElementById("gridsummary").style.display = "block";
+        document.getElementById("griddetailsTeam").style.display = "none";
+        document.getElementById("gridsummaryTeam").style.display = "block";
+        // End of Rev 10.0
 
         //divBGcolor = $(elem).css('background');
 
@@ -1577,13 +1674,28 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function OnLeaveClickTeamVisit(elem) {
         /*Rev 5.0*/
         if (!isShowTeamVisitDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
-        document.getElementById("griddetails").style.display = "none";
-        document.getElementById("gridsummary").style.display = "block";
+        // Rev 10.0
+        //document.getElementById("griddetails").style.display = "none";
+        //document.getElementById("gridsummary").style.display = "block";
+        document.getElementById("griddetailsTeam").style.display = "none";
+        document.getElementById("gridsummaryTeam").style.display = "block";
+        // End of Rev 10.0
 
         // divBGcolor = $(elem).css('background');
         divBGcolor = "transparent";
@@ -1616,7 +1728,18 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function OnTotalClickTeamVisit(elem) {
         /*Rev 5.0*/
         if (!isShowTeamVisitDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
@@ -1648,8 +1771,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     }
     function TrackVisitClickTeamVisit() {
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
-        document.getElementById("griddetails").style.display = "none";
-        document.getElementById("gridsummary").style.display = "block";
+        // Rev 10.0
+        //document.getElementById("griddetails").style.display = "none";
+        //document.getElementById("gridsummary").style.display = "block";
+        document.getElementById("griddetailsTeam").style.display = "none";
+        document.getElementById("gridsummaryTeam").style.display = "block";
+        // End of Rev 10.0
 
         divBGcolor = "transparent";
 
@@ -1759,7 +1886,18 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function OnTotalClickTeamVisitH(elem) {
         /*Rev 5.0*/
         if (!isShowTeamVisitHDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
@@ -1792,13 +1930,28 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function AtWorkClickTeamVisitH(elem) {
         /*Rev 5.0*/
         if (!isShowTeamVisitHDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupByH').val();
-        document.getElementById("griddetails").style.display = "none";
-        document.getElementById("gridsummary").style.display = "block";
+        // Rev 7.0
+        //document.getElementById("griddetails").style.display = "none";
+        //document.getElementById("gridsummary").style.display = "block";
+        document.getElementById("griddetailsTeamH").style.display = "none";
+        document.getElementById("gridsummaryTeam").style.display = "block";
+        // End of Rev 7.0
 
         $('#dashDetails2Team').removeClass('hide');
         $('.boxWidget').removeClass('activeW');
@@ -1825,13 +1978,28 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function OnLeaveClickTeamVisitH(elem) {
         /*Rev 5.0*/
         if (!isShowTeamVisitHDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
-        document.getElementById("griddetails").style.display = "none";
-        document.getElementById("gridsummary").style.display = "block";
+        // Rev 7.0
+        //document.getElementById("griddetails").style.display = "none";
+        //document.getElementById("gridsummary").style.display = "block";
+        document.getElementById("griddetailsTeamH").style.display = "none";
+        document.getElementById("gridsummaryTeam").style.display = "block";
+        // End of Rev 7.0
         divBGcolor = "transparent";
 
         $('#dashDetails2Team').removeClass('hide');
@@ -1859,13 +2027,28 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     function NotLoggedInClickTeamVisitH(elem) {
         /*Rev 5.0*/
         if (!isShowTeamVisitHDataClicked) {
-            elem.title = "Please click 'show data' button";
+            /*Rev 6.0*/
+            //elem.title = "Please click 'show data' button";
+            /*Rev end 6.0*/
+            /*Rev 8.0*/
+            Swal.fire({
+                /*position: 'top',*/
+                title: 'Please select show data first, then view the details from here. Thanks.',
+                showConfirmButton: false,
+                timer: 2000,
+                customClass: "show-data-msg"
+            })
+            /*Rev end 8.0*/
             return; // Disable click event
         }
         /*Rev end 5.0*/
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
-        document.getElementById("griddetails").style.display = "none";
-        document.getElementById("gridsummary").style.display = "block";
+        // Rev 7.0
+        //document.getElementById("griddetails").style.display = "none";
+        //document.getElementById("gridsummary").style.display = "block";
+        document.getElementById("griddetailsTeamH").style.display = "none";
+        document.getElementById("gridsummaryTeam").style.display = "block";
+        // End of Rev 7.0
 
         divBGcolor = "transparent";
 
@@ -4168,14 +4351,16 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         $('#a1').addClass('zoom');
         $('#a2').addClass('zoom');
         $('#a3').addClass('zoom');
-        var element4v = document.getElementById("a4");
-        var element1v = document.getElementById("a1");
-        var element2v = document.getElementById("a2");
-        var element3v = document.getElementById("a3");
-        element1v.removeAttribute('title');
-        element2v.removeAttribute('title');
-        element3v.removeAttribute('title');
-        element4v.removeAttribute('title');
+        /*Rev 6.0*/
+        //var element4v = document.getElementById("a4");
+        //var element1v = document.getElementById("a1");
+        //var element2v = document.getElementById("a2");
+        //var element3v = document.getElementById("a3");
+        //element1v.removeAttribute('title');
+        //element2v.removeAttribute('title');
+        //element3v.removeAttribute('title');
+        //element4v.removeAttribute('title');
+        /*Rev end 6.0*/
         /*Rev end 5.0*/
         if (settingsid == "1") {
             var obj = {};

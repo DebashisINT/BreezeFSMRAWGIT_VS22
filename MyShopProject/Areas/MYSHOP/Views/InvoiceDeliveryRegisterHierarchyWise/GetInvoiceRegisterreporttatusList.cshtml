@@ -224,6 +224,8 @@
         x.Caption = "Action";
         x.VisibleIndex = 20;
         x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.SetDataItemTemplateContent(c =>
         {
             ViewContext.Writer.WriteLine("<a style='cursor:pointer' onclick=\"ReceiptEntry('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Invoice_Number"))+ "')\"><img src='/assests/images/Edit.png' /></a>");

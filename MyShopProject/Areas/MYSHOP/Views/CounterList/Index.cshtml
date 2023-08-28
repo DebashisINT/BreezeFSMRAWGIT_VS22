@@ -3,6 +3,8 @@
 @*1.0                13-01-2023        2.0.38           Pallab              25576: Report page design modification *@
 @*2.0                23-01-2023        2.0.38           Debashis            Multiple contact information to be displayed in the Shops report.Refer: 0025585*@
 @*3.0                24-01-2023        2.0.38           Pallab              Multiple contact information checkbox width issue fix*@
+@*4.0                19/07/2023        V2.0.41          Sanchita            Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135*@
+@*5.0                21/07/2023        V2.0.41          Pallab              FSM Shop listing page parameter design issue fix. Mantis : 26608*@
 @*====================================================== Revision History =================================================================================================*@
 
 @model Models.CounterClass
@@ -159,6 +161,13 @@
         }
 </style>
 
+@*Rev 4.0*@
+<style>
+    #BranchGridLookup_CC {
+        width: 100%;
+    }
+</style>
+@*End of Rev 4.0*@
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBif3telvlrJn61kkLXDQA0ViQdDVJWifk"></script>
 <script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
@@ -177,6 +186,13 @@
 
         var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
         lookup.GetGridView().Refresh();
+
+        // Rev 4.0
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        lookup.GetGridView().Refresh();
+        // End of Rev 4.0
 
         $("#drpuser").chosen({
             width: "100%"
@@ -199,6 +215,7 @@
                     return;
                 }
             }
+
             arr = [];
 
             $('input.acheckbox:checkbox:checked').each(function () {
@@ -358,6 +375,15 @@
 
 
     }
+    // Rev 4.0
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+    // End of Rev 4.0
 
     function OnStartCallback(s, e) {
         e.customArgs["StateId"] = StateId;
@@ -371,6 +397,9 @@
             e.customArgs["IsRevisitContactDetails"] = 0;
         }
         //End of Rev 2.0 Mantis:0025585
+        // Rev 4.0
+        e.customArgs["BranchId"] = BranchId;
+        // End of Rev 4.0
     }
 
 
@@ -391,6 +420,88 @@
         $('#mask').addClass('showing');
     }
     //Rev end Pallab 25448
+
+    // Rev 4.0
+    var BranchId = [];
+    var Branch_Id = "";
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
+
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+
+        BranchId = [];
+        Branch_Id = "";
+    }
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+
+    // End of Rev 4.0
 </script>
 <link href="~/Content/media.css" rel="stylesheet" />
 
@@ -491,8 +602,8 @@
         .h-branch-select::after {
             content: '<';
             position: absolute;
-            top: 33px;
-            right: 13px;
+            top: 8px;
+            right: -2px;
             font-size: 18px;
             transform: rotate(269deg);
             font-weight: 500;
@@ -669,6 +780,34 @@
     }
 
     /*Rev end 3.0*/
+
+    @@media only screen and (max-width: 768px) {
+        /*.breadCumb > span {
+            padding: 9px 10px;
+            text-align: center;
+        }*/
+
+        .breadCumb {
+            padding: 0 32%;
+        }
+
+        #dtdesg2 {
+            width: 100% !important;
+        }
+
+        #ddlshotype ul {
+            padding-top: 5px !important;
+            margin-bottom: 0px !important;
+        }
+
+            #ddlshotype ul li {
+                margin-bottom: 10px !important;
+            }
+
+        .tblspace.smblock {
+            margin-bottom: 0px !important;
+        }
+    }
 </style>
 
 <div class="breadCumb">
@@ -676,15 +815,70 @@
 </div>
 <div class="container">
     <div class="form_main backBox p-3">
+        @*Rev 5.0*@
+        <div class="row">
+            <div class="col-md-4">
+                <label class="" id="dtstate">Head Branch : </label>
+                <div id="dtdesg2">
+                    <div class="h-branch-select">
+                        <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                            @foreach (var item in Model.modelbranch)
+                            {
+                                <option value="@item.BRANCH_ID">@item.CODE</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
 
+            <div class="col-md-4">
+                <label class="" id="dtstate">Branch : </label>
+                <div id="dtdesg2">
+                    @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="" id="dtstate">State : </label>
+                <div id="dtdesg2">
+                    @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
+                </div>
+            </div>
+
+        </div>
+
+        @*Rev end 5.0*@
 
         <table class="pull-left tblspace smblock mb-3">
             <tr>
-                <td class="w1" id="dtstate">State : </td>
-                <td id="dtdesg2" style="width:180px;">
-                    @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
-                </td>
+                @*Rev 5.0*@
+                @*Rev 4.0*@
+                @*<td class="w1" id="dtstate">Head Branch : </td>
+        <td id="dtdesg2" style="width:180px;">
+            <div class="h-branch-select">
+                <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                    @foreach (var item in Model.modelbranch)
+                    {
+                        <option value="@item.BRANCH_ID">@item.CODE</option>
+                    }
+                </select>
+            </div>
+        </td>*@
 
+                @*<td class="w1" id="dtstate">Branch : </td>
+        <td id="dtdesg2" style="width:180px;">
+            @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+        </td>*@
+                @*End of Rev 4.0*@
+                @*<td class="w1" id="dtstate">State : </td>
+        <td id="dtdesg2" style="width:180px;">
+            @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
+        </td>*@
+                @*Rev 4.0*@
+                @*Rev end 5.0*@
+            </tr>
+            <tr>
+                @*End of Rev 4.0*@
                 <td class="w2" id="dtstate">Shop Types : </td>
 
                 <td id="ddlshotype">
@@ -714,20 +908,20 @@
                 @*Rev 3.0 : replace into div*@
                 @*Rev 2.0 Mantis:0025585*@
                 @*<td class="w10 inputSpacer" style="padding-top: 21px; width: 250px;">
-                        <input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>
-                    </td>*@
+                    <input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>
+                </td>*@
                 @*End of Rev 2.0 Mantis:0025585*@
                 @*<td style="padding-top:1px">
-                        <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
-                        <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                            <option value="0">Export to</option>
-                            <option value="1">PDF</option>
-                            <option value="2">XLSX</option>
-                            <option value="3">XLS</option>
-                            <option value="4">RTF</option>
-                            <option value="5">CSV</option>
-                        </select>
-                    </td>*@
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+                        <option value="1">PDF</option>
+                        <option value="2">XLSX</option>
+                        <option value="3">XLS</option>
+                        <option value="4">RTF</option>
+                        <option value="5">CSV</option>
+                    </select>
+                </td>*@
                 @*Rev end 3.0*@
             </tr>
 
@@ -736,9 +930,9 @@
         @*Rev 3.0 : replace into div*@
         <div class="row pt-4">
             @*Rev 2.0 Mantis:0025585*@
-            <div class="col-md-4 pt-2">
+            <div class="col-md-4 pt-2 mb-10-mob">
                 @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
-                    <span class="">Show Multiple Contact Details</span>*@
+                <span class="">Show Multiple Contact Details</span>*@
                 <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
                 <label for="">Show Multiple Contact Details</label>
             </div>
@@ -763,7 +957,8 @@
         <div class="scrooler">
             <div id="refreshgrid">
                 @{
-                    Html.RenderAction("GetCounterlistPartial", "CounterList", new { StateId = Model.StateId, TypeID = Model.TypeID, Ispageload = "0" });
+                    // Rev 4.0 [ BranchId = Model.BranchId added]
+                    Html.RenderAction("GetCounterlistPartial", "CounterList", new { BranchId = Model.BranchId, StateId = Model.StateId, TypeID = Model.TypeID, Ispageload = "0" });
                 }
             </div>
         </div>

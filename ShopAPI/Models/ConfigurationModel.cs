@@ -12,6 +12,10 @@
 //11.0  V2.0.39     Debashis    19/05/2023      A new parameter has been added.Row: 841
 //12.0  V2.0.39     Debashis    02/06/2023      A new parameter has been added.Row: 848
 //13.0  V2.0.40     Debashis    30/06/2023      A new parameter has been added.Row: 851
+//14.0  V2.0.41     Debashis    17/07/2023      A new parameter has been added.Row: 856
+//15.0  V2.0.41     Debashis    01/08/2023      Some new parameters have been added.Row: 860
+//16.0  V2.0.41     Debashis    17/08/2023      Some new parameters have been added.Row: 863
+//17.0  V2.0.41     Debashis    21/07/2023      A new parameter has been added.Row: 864
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -236,6 +240,20 @@ namespace ShopAPI.Models
         //Rev 13.0 Row:851
         public bool ConsiderInactiveShopWhileLogin { get; set; }
         //End of Rev 13.0 Row:851
+        //Rev 14.0 Row:856
+        public string ShopSyncIntervalInMinutes { get; set; }
+        //End of Rev 14.0 Row:856
+        //Rev 15.0 Row:860
+        public bool IsShowWhatsAppIconforVisit { get; set; }
+        public bool IsAutomatedWhatsAppSendforRevisit { get; set; }
+        //End of Rev 15.0 Row:860
+        //Rev 16.0 Row:863
+        public bool IsAllowBackdatedOrderEntry { get; set; }
+        public int Order_Past_Days { get; set; }
+        //End of Rev 16.0 Row:863
+        //Rev 17.0 Row:864
+        public bool Show_distributor_scheme_with_Product { get; set; }
+        //End of Rev 17.0 Row:864
     }
 
     public class ConfigurationModelInput

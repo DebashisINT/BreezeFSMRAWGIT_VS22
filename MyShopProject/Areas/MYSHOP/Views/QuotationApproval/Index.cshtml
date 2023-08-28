@@ -3,6 +3,7 @@
 @*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
 @*2.0                19-04-2023        V2.0.39          Sanchita            System will check the duplicate quotation number & restrict
                                                                             while approving the quotation in FSM. Refer: 25843*@
+@*3.0                09-08-2023        V2.0.40          Pallab              26704: Quotation Approval module action icon change and dorder radius issue fix *@
 @*====================================================== Revision History ===================================================*@
 
 @model MyShop.Models.QuotationApprovalModel
@@ -877,6 +878,19 @@
         left: -21px !important;
     }
     /*Rev end 1.0*/
+    /*Rev 3.0*/
+    .pmsModal .modal-content {
+        border-radius: 15px !important;
+    }
+
+    .pmsModal .modal-footer {
+        border-radius: 0 0 15px 15px !important;
+    }
+
+    .modal .modal-header {
+        border-radius: 15px 15px 0 0 !important;
+    }
+    /*Rev end 3.0*/
 </style>
 
 <script>

@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer;
+﻿//***************************************************************************************************************
+//1.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
+//*************************************************************************************************************
+using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
 using DataAccessLayer;
 using DevExpress.Utils;
@@ -44,10 +47,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             Dtls.Todate = DateTime.Now.ToString("dd-MM-yyyy");
             Dtls.Is_PageLoad = "Ispageload";
 
-            // Rev Sanchita
+            // Rev 1.0
             //EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/CRMEnquiries/Index");
             EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/ProjectReport/Index");
-            // End of Rev Sanchita
+            // End of Rev 1.0
             ViewBag.CanAdd = rights.CanAdd;
             ViewBag.CanView = rights.CanView;
             ViewBag.CanExport = rights.CanExport;
@@ -287,7 +290,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 string Userid = Convert.ToString(Session["userid"]);
 
-                // Rev Sanchita
+                // Rev 1.0
                 string StartDate = null;
                 string EndDate = null;
                 if (apply.Date != null && apply.Date != "01-01-0100")
@@ -298,7 +301,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     EndDate = apply.proj_complete_dt.Split('/')[2] + '-' + apply.proj_complete_dt.Split('/')[1] + '-' + apply.proj_complete_dt.Split('/')[0];
                 }
-                // End of Rev Sanchita
+                // End of Rev 1.0
 
                 DataTable dtImport = new DataTable();
                 ProcedureExecute proc1 = new ProcedureExecute("PRC_PROJECTREPORT_LISTING");
@@ -326,10 +329,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                 if (apply.proj_complete_dt != null)
                 {
-                    // Rev Sanchita
+                    // Rev 1.0
                     //proc1.AddPara("@proj_complete_dt", Convert.ToDateTime(apply.proj_complete_dt));
                     proc1.AddPara("@proj_complete_dt", EndDate);
-                    // End of Rev Sanchita
+                    // End of Rev 1.0
                 }
 
                 if (!String.IsNullOrEmpty(uniqueid))

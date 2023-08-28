@@ -1,6 +1,7 @@
 ﻿//====================================================== Revision History ==========================================================
-//1.0  03-02-2023    2.0.38    Priti     0025604: Enhancement Required in the Order Summary Report
-//2.0  17-03-2023    2.0.39    Priti     0025734: Separate Design required to exclude the MRP & Discount fields in the Sales Order output if these settings are off in Sales Order
+//1.0  03-02-2023   V2.0.38    Priti     0025604: Enhancement Required in the Order Summary Report
+//2.0  17-03-2023   V2.0.39    Priti     0025734: Separate Design required to exclude the MRP & Discount fields in the Sales Order output if these settings are off in Sales Order
+//3.0  19-07-2023   V2.0.42   Priti     0026135: Branch Parameter is required for various FSM reports
 //====================================================== Revision History ==========================================================
 
 using System;
@@ -8,6 +9,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Web.Mvc;
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -36,10 +38,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
         DataTable dtquery = new DataTable();
         public ActionResult Summary()
         {
-
             try
             {
-
                 Reportorderregisterinput omodel = new Reportorderregisterinput();
                 string userid = Session["userid"].ToString();
                 omodel.selectedusrid = userid;
@@ -55,6 +55,28 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/OrderSummary/Summary");
                 ViewBag.CanPrint = rights.CanPrint;
                 //End of Mantis Issue 24944
+
+                //REV 3.0
+                DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
+                DataTable dtBranchChild = new DataTable();
+                if (dtbranch.Rows.Count > 0)
+                {
+                    dtBranchChild = lstuser.GetChildBranch(Convert.ToString(Session["userbranchHierarchy"]));                  
+                    if (dtBranchChild.Rows.Count > 0)
+                    {
+                        DataRow dr;
+                        dr = dtbranch.NewRow();
+                        dr[0] = 0;
+                        dr[1] = "All";
+                        dtbranch.Rows.Add(dr);
+                        dtbranch.DefaultView.Sort = "BRANCH_ID ASC";
+                        dtbranch = dtbranch.DefaultView.ToTable();
+                    }                    
+                }
+                omodel.modelbranch = APIHelperMethods.ToModelList<GetBranch>(dtbranch);
+                string h_id = omodel.modelbranch.First().BRANCH_ID.ToString();
+                ViewBag.h_id = h_id;
+                //REV 3.0 End
                 return View(omodel);
 
             }
@@ -148,15 +170,37 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
                 //End of Rev Debashis
 
+                //Rev 3.0
+                string Branch_Id = "";
+                int l = 1;
+                if (model.BranchId != null && model.BranchId.Count > 0)
+                {
+                    foreach (string item in model.BranchId)
+                    {
+                        if (l > 1)
+                            Branch_Id = Branch_Id + "," + item;
+                        else
+                            Branch_Id = item;
+                        l++;
+                    }
+                }
+                //Rev 3.0 End
+
+
                 if (model.Is_PageLoad != "0")
                 {
                     double days = (Convert.ToDateTime(dattoat) - Convert.ToDateTime(datfrmat)).TotalDays;
                     if (days <= 30)
                     {
-                        dt = objshop.GetallorderListSummary(state, shop, datfrmat, dattoat, empcode, Userid);
+                        //Rev 3.0
+                        //dt = objshop.GetallorderListSummary(state, shop, datfrmat, dattoat, empcode, Userid);
+                        dt = objshop.GetallorderListSummary(state, shop, datfrmat, dattoat, empcode, Branch_Id, Userid);
+                        //Rev 3.0 End
                     }
                     omodel = APIHelperMethods.ToModelList<OrderDetailsSummary>(dt);
                 }
+                
+
                 //Mantis Issue 24944
                 EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/OrderSummary/Summary");
                 ViewBag.CanPrint = rights.CanPrint;

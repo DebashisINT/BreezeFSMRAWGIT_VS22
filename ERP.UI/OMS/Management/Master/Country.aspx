@@ -476,8 +476,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
     #PopupCountry_PW-1
     {
-        width: 90% !important;
-        left: 5% !important;
+        width: 24% !important;
+    left: 40% !important;
     }
 
     .stateDiv

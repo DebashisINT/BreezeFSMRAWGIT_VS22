@@ -753,6 +753,43 @@
     }
 
     /*Rev end 1.0*/
+
+    @@media only screen and (max-width: 768px) {
+
+        .breadCumb {
+            padding: 0 16%;
+        }
+
+            .breadCumb > span {
+                padding: 9px 15px;
+            }
+
+        #pcModalMode_PW-1 {
+            width: 100% !important;
+        }
+
+        .d-flex-mobile
+        {
+            display: flex;
+        }
+
+        .col-md-4 {
+            width: 40%;
+        }
+
+        .col-md-1 {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+        .filterCont .col-md-4 {
+            width: 100%;
+        }
+
+        .msg-buttons .btn {
+            margin-bottom: 8px;
+        }
+    }
 </style>
 
 
@@ -795,7 +832,7 @@
 
 
 
-        <div class="clearfix">
+        <div class="clearfix d-flex-mobile">
             <div class="col-md-4 lblmTop8">
                 <label><b>Users</b></label>
                 <div>
@@ -831,7 +868,7 @@
             </div>
         </div>
         <div class="clear"></div>
-        <div class="col-md-12">
+        <div class="col-md-12 msg-buttons">
             <button type="button" class="btn btn-success" onclick="SendMessage()">Send Message</button>
             <button type="button" class="btn btn-success" onclick="SendPushnotification()">Send Push Notification</button>
             <button type="button" class="btn btn-success" onclick="SendPushnotificationClearData()">Clear Data Notification</button>

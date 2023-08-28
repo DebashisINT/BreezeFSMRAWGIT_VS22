@@ -1,6 +1,8 @@
 ﻿#region======================================Revision History=========================================================================
-//1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
-//                                              Refer: 0025586
+
+//1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.Refer: 0025586                                              
+//2.0   V2.0.42     Priti       19/07/2023      Branch Parameter is required for various FSM reports.Refer:0026135
+
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -39,7 +41,8 @@ namespace Models
         //Rev 1.0 Mantis:0025586
         public int IsRevisitContactDetails { get; set; }
         //End of Rev 1.0 Mantis:0025586
-         //public List<SelectListItem> PopulateLeaveDropdown(string RID)
+
+        //public List<SelectListItem> PopulateLeaveDropdown(string RID)
         //{
         //    List<SelectListItem> items = new List<SelectListItem>();
         //    BusinessLogicLayer.DBEngine objEngine = new BusinessLogicLayer.DBEngine();
@@ -58,6 +61,10 @@ namespace Models
 
         //    return items;
         //}
+        //Rev 2.0
+        public List<string> BranchId { get; set; }
+        public List<GetBranch> modelbranch = new List<GetBranch>();
+        //Rev 2.0 End
     }
 
 

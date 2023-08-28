@@ -1,6 +1,8 @@
 ﻿/**********************************************************************************************************************************
  * Rev 1.0   Sanchita   V2.0.40     04-05-2023      A New Expense Report is Required for BP Poddar.Refer: 25833                                                 
  * Rev 2.0   Priti      v2.0.40     19-05-2023      0026145:Modification in the ‘Configure Travelling Allowance’ page.
+ * Rv  3.0   Sanchita   V2.0.42     07-08-2023      Branch and Area Coloumn needs to be implemented in the Export to file of Configure Travelling Expense module
+ *                                                  Refer: 26681
  * ***********************************************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -382,7 +384,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             DBEngine obj1 = new DBEngine();
             isExpenseFeatureAvailable = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='isExpenseFeatureAvailable'").Rows[0][0]);
             // End of Rev 1.0
-
+            // Rev 3.0
+            string IsShowReimbursementTypeInAttendance = "0";
+            IsShowReimbursementTypeInAttendance = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsShowReimbursementTypeInAttendance'").Rows[0][0]);
+            // End of Rev 3.0
 
             settings.Columns.Add(x =>
             {
@@ -452,6 +457,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
 
             });
+
+            // Rev 3.0
+            if (IsShowReimbursementTypeInAttendance == "1")
+            {
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "BranchName";
+                    x.Caption = "Branch";
+                    x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "AreaName";
+                    x.Caption = "Area";
+                    x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+                });
+            }
+            // End of Rev 3.0
 
             // Rev 1.0
             if (isExpenseFeatureAvailable == "0")

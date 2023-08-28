@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reports", "Reports\Reports.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAPI", "OpenAPI\OpenAPI.csproj", "{C41BF240-89AB-4E3F-AB80-4661992F4247}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMMaster", "FSMMaster\FSMMaster.csproj", "{1D25820D-7528-4594-86C7-F3BC16D39A02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{C41BF240-89AB-4E3F-AB80-4661992F4247}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C41BF240-89AB-4E3F-AB80-4661992F4247}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C41BF240-89AB-4E3F-AB80-4661992F4247}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D25820D-7528-4594-86C7-F3BC16D39A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D25820D-7528-4594-86C7-F3BC16D39A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D25820D-7528-4594-86C7-F3BC16D39A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D25820D-7528-4594-86C7-F3BC16D39A02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

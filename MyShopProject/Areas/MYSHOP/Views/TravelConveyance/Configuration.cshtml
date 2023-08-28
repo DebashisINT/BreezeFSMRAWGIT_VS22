@@ -3,7 +3,7 @@
 @*1.0           10-02-2023      2.0.39     Pallab         25656 : Master module design modification *@
 @*2.0           04-05-2023      V2.0.40    Sanchita       A New Expense Report is Required for BP Poddar. Refer: 25833 *@
 @*3.0           19-05-2023      V2.0.40    Priti          0026145:Modification in the ‘Configure Travelling Allowance’ page. *@
-
+@*4.0           03-08-2023      V2.0.41    Pallab         0026664: When clicked edit button in action column, need to scroll top in edit part *@
 @*====================================================== Revision History ==========================================================*@
 
 @model  MyShop.Models.TravelConveyanceModelclass
@@ -40,7 +40,7 @@
          if ('@ViewBag.IsShowReimbursementTypeInAttendance' == "1") {
              $("#DivBranch").removeClass("hidden");
              $("#DivArea").removeClass("hidden");
-             
+
         }
         else {
              $("#DivBranch").addClass("hidden");
@@ -357,6 +357,12 @@
         });
     })
     function EditConveyance(Tsid) {
+        /*Rev 4.0*/
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        /*Rev end 4.0*/
         $("#btnshow").hide();
         $("#btnEdit").show();
       //empgradeGridLookup.SetValue(null);
@@ -411,7 +417,7 @@
                 //StateGridLookup.SetValue(dataconvence.StateIdfetch);
                  //Rev 3.0
                 StateId = dataconvence.StateId;
-                
+
                  //Rev 3.0 End
             },
             error: function () {

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 8.5" name="ERPDataClasses">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 10.625" name="ERPDataClasses">
   <DataContextMoniker Name="/ERPDataClassesDataContext" />
   <nestedChildShapes>
     <classShape Id="42b8dce0-9bc6-4a34-82ff-c3e9bb571e8e" isExpanded="false" absoluteBounds="2.75, 5.5, 2, 0.45">
@@ -374,12 +374,6 @@
         <elementListCompartment Id="09eafdde-1826-480c-80e3-29ee835187d6" absoluteBounds="11.64, 6.585, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="70582992-23f3-4495-9d6f-4ed5d1d6e158" isExpanded="false" absoluteBounds="5.25, 6.875, 2, 0.45">
-      <DataClassMoniker Name="/ERPDataClassesDataContext/v_ProductRate" />
-      <nestedChildShapes>
-        <elementListCompartment Id="27c16c60-6b10-4360-80c4-8076ade0b8e0" absoluteBounds="5.265, 7.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="74b20743-b012-42d5-b123-42d2b73bd5fa" isExpanded="false" absoluteBounds="7.5, 6.875, 2, 0.45">
       <DataClassMoniker Name="/ERPDataClassesDataContext/v_GetAreaImportLog" />
       <nestedChildShapes>
@@ -396,6 +390,12 @@
       <DataClassMoniker Name="/ERPDataClassesDataContext/FSMUser_Master_List" />
       <nestedChildShapes>
         <elementListCompartment Id="553fb495-12b4-4829-beb2-45d522e7795b" absoluteBounds="0.51500000000000012, 7.9600000000000009, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c7ed301d-4328-4ed2-9f61-39b0c5ba5772" absoluteBounds="2.875, 7.5, 2, 2.9247054036458331">
+      <DataClassMoniker Name="/ERPDataClassesDataContext/v_ProductRate" />
+      <nestedChildShapes>
+        <elementListCompartment Id="feb1e1b3-1da9-47ce-934c-1790475028cf" absoluteBounds="2.89, 7.9600000000000009, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

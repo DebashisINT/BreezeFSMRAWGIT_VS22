@@ -451,6 +451,17 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     }
 
     /*Rev end 1.0*/
+
+    @media only screen and (max-width: 768px) {
+
+            .breadCumb > span {
+                padding: 9px 20px;
+            }
+            /*.form_main {
+    overflow: hidden !important;
+}*/
+        
+    }
     </style>
 
     <script type="text/javascript">
@@ -690,7 +701,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             </tr>
             <tr>
                 <td> <%--OnCustomErrorText="marketsGrid_CustomErrorText"--%>
-                    <dxe:ASPxGridView ID="marketsGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False"  OnStartRowEditing="marketsGrid_StartRowEditing"
+                    <div class="overflow-x-auto">
+                        <dxe:ASPxGridView ID="marketsGrid" ClientInstanceName="grid" runat="server" AutoGenerateColumns="False"  OnStartRowEditing="marketsGrid_StartRowEditing"
                         DataSourceID="markets" KeyFieldName="Color_ID" Width="100%" OnHtmlRowCreated="marketsGrid_HtmlRowCreated"
                         OnHtmlEditFormCreated="marketsGrid_HtmlEditFormCreated" OnCustomCallback="marketsGrid_CustomCallback" OnInitNewRow="marketsGrid_InitNewRow" 
                         OnCommandButtonInitialize="marketsGrid_CommandButtonInitialize" OnCustomErrorText="marketsGrid_CustomErrorText" SettingsBehavior-AllowFocusedRow="true">
@@ -836,6 +848,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </Templates>
                           
                     </dxe:ASPxGridView>
+                    </div>
                 </td>
             </tr>
         </table>

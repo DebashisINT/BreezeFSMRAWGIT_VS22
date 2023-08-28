@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
 //                                              Refer: 0025586
+//2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in MIS -> Performance Summary. Mantis : 26135
 #endregion===================================End of Revision History==================================================================
 using SalesmanTrack;
 using System;
@@ -42,6 +43,27 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     ViewBag.StateMandatory = dt.Rows[0]["IsStateMandatoryinReport"].ToString();
                 }
+                // Rev 2.0
+                DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
+                DataTable dtBranchChild = new DataTable();
+                if (dtbranch.Rows.Count > 0)
+                {
+                    dtBranchChild = lstuser.GetChildBranch(Convert.ToString(Session["userbranchHierarchy"]));
+                    if (dtBranchChild.Rows.Count > 0)
+                    {
+                        DataRow dr;
+                        dr = dtbranch.NewRow();
+                        dr[0] = 0;
+                        dr[1] = "All";
+                        dtbranch.Rows.Add(dr);
+                        dtbranch.DefaultView.Sort = "BRANCH_ID ASC";
+                        dtbranch = dtbranch.DefaultView.ToTable();
+                    }
+                }
+                omodel.modelbranch = APIHelperMethods.ToModelList<GetBranch>(dtbranch);
+                string h_id = omodel.modelbranch.First().BRANCH_ID.ToString();
+                ViewBag.h_id = h_id;
+                // End of Rev 2.0
 
                 return View(omodel);
 
@@ -140,6 +162,22 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //End of Rev 1.0 Mantis:0025586
                 double days = (Convert.ToDateTime(dattoat) - Convert.ToDateTime(datfrmat)).TotalDays;
 
+                // Rev 2.0
+                string Branch_Id = "";
+                int b = 1;
+                if (model.BranchId != null && model.BranchId.Count > 0)
+                {
+                    foreach (string item in model.BranchId)
+                    {
+                        if (b > 1)
+                            Branch_Id = Branch_Id + "," + item;
+                        else
+                            Branch_Id = item;
+                        b++;
+                    }
+                }
+                // End of Rev 2.0
+
                 //if (days <= 7)
                 //Mantis Issue 24728
                 //if (days <= 30)
@@ -148,7 +186,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     //Rev 1.0 Mantis: 0025586
                     //dt = objgps.GetSalesPerformanceReport(datfrmat, dattoat, Userid, state, desig, empcode);
-                    dt = objgps.GetSalesPerformanceReport(datfrmat, dattoat, Userid, state, desig, empcode,model.IsRevisitContactDetails);
+                    // Rev 2.0
+                    //dt = objgps.GetSalesPerformanceReport(datfrmat, dattoat, Userid, state, desig, empcode,model.IsRevisitContactDetails);
+                    dt = objgps.GetSalesPerformanceReport(Branch_Id, datfrmat, dattoat, Userid, state, desig, empcode, model.IsRevisitContactDetails);
+                    // End of Rev 2.0
                     //End of Rev 1.0 Mantis: 0025586
                 }
 

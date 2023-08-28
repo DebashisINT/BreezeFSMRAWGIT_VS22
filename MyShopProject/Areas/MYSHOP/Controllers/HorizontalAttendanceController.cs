@@ -1,6 +1,9 @@
 ﻿/*****************************************************************************************************
  * Rev 1.0      Sanchita       V2.0.40      04-05-2023      After Giving Selfie Attendance the Selfie is 
  *                                                          not sync-ed in the Portal. refer: 25962
+ * Rev 2.0      Sanchita       V2.0.42      19/07/2023      Add Branch parameter in Listing of MIS - Attendance Register. Mantis : 26135
+ * Rev 3.0      Sanchita       V2.0.42      11/08/2023      Two check box is required to show the first call time & last call time in Attendance Register Report
+ *                                                          Mantis : 26707
  * *****************************************************************************************************/
 using DataAccessLayer;
 using DevExpress.Export;
@@ -9,6 +12,7 @@ using DevExpress.Web.Mvc;
 using DevExpress.XtraPrinting;
 using Models;
 using MyShop.Models;
+using SalesmanTrack;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,6 +24,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
 {
     public class HorizontalAttendanceController : Controller
     {
+        // Rev 2.0
+        UserList lstuser = new UserList();
+        // End of Rev 2.0
         public ActionResult Index()
         {
             DataSet ds = new DataSet();
@@ -30,6 +37,34 @@ namespace MyShop.Areas.MYSHOP.Controllers
             ds.Tables.Add(dt);
             ds.Tables.Add(dt1);
             ds.Tables.Add(dt2);
+
+            // Rev 2.0
+            string h_id = "";
+            DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
+            DataTable dtBranchChild = new DataTable();
+            if (dtbranch.Rows.Count > 0)
+            {
+                dtBranchChild = lstuser.GetChildBranch(Convert.ToString(Session["userbranchHierarchy"]));
+                if (dtBranchChild.Rows.Count > 0)
+                {
+                    DataRow dr;
+                    dr = dtbranch.NewRow();
+                    dr[0] = 0;
+                    dr[1] = "All";
+                    dtbranch.Rows.Add(dr);
+                    dtbranch.DefaultView.Sort = "BRANCH_ID ASC";
+                    dtbranch = dtbranch.DefaultView.ToTable();
+
+                    h_id = dtbranch.Rows[0]["BRANCH_ID"].ToString();
+                }
+            }
+            ds.Tables.Add(dtbranch);
+
+            //omodel.modelbranch = APIHelperMethods.ToModelList<GetBranch>(dtbranch);
+            //string h_id = omodel.modelbranch.First().BRANCH_ID.ToString();
+            ViewBag.h_id = h_id;
+            // End of Rev 2.0
+
             return View(ds);
         }
 
@@ -88,6 +123,22 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
             }
 
+            // Rev 2.0
+            string Branch_Id = "";
+            int b = 1;
+            if (model.BranchId != null && model.BranchId.Count > 0)
+            {
+                foreach (string item in model.BranchId)
+                {
+                    if (b > 1)
+                        Branch_Id = Branch_Id + "," + item;
+                    else
+                        Branch_Id = item;
+                    b++;
+                }
+            }
+            // End of Rev 2.0
+
             DataSet ds = new DataSet();
             //if (model.is_pageload != "0" && model.is_pageload != null)
             //{
@@ -99,6 +150,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
             proc.AddVarcharPara("@FROM_DATE", 10, datfrmat);
             proc.AddVarcharPara("@TO_DATE", 10, dattoat);
             proc.AddVarcharPara("@EMPID", 500, empcode);
+            // Rev 2.0
+            proc.AddVarcharPara("@BRANCHID", -1, empcode);
+            // End of Rev 2.0
             ds = proc.GetDataSet();
             // }
             //}
@@ -172,6 +226,22 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
             }
 
+            // Rev 2.0
+            string Branch_Id = "";
+            int b = 1;
+            if (model.BranchId != null && model.BranchId.Count > 0)
+            {
+                foreach (string item in model.BranchId)
+                {
+                    if (b > 1)
+                        Branch_Id = Branch_Id + "," + item;
+                    else
+                        Branch_Id = item;
+                    b++;
+                }
+            }
+            // End of Rev 2.0
+
             DataSet ds = new DataSet();
             if (model.is_pageload != "0" && model.is_pageload != null)
             {
@@ -199,6 +269,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     proc.AddVarcharPara("@ISONLYLOGINDATA", 500,Convert.ToString(model.ShowLoginLocation));
                     proc.AddVarcharPara("@ISONLYLOGOUTDATA", 500,Convert.ToString(model.ShowLogoutLocation));
                     //End of Mantise work 0025111
+                    // Rev 2.0
+                    proc.AddVarcharPara("@BRANCHID", -1, Branch_Id);
+                    // End of Rev 2.0
+                    // Rev 3.0
+                    proc.AddVarcharPara("@ShowFirstVisitTime", 500, Convert.ToString(model.ShowFirstCallTime));
+                    proc.AddVarcharPara("@ShowLastVisitTime", 500, Convert.ToString(model.ShowLastCallTime));
+                    // End of Rev 3.0
                     ds = proc.GetDataSet();
                 }
             }

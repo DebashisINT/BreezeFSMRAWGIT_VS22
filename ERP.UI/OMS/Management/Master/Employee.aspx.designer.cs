@@ -402,22 +402,40 @@ namespace ERP.OMS.Management.Master
         protected global::DevExpress.Web.ASPxCallbackPanel ASPxCallbackPanel1;
 
         /// <summary>
-        /// fromsuper control.
+        /// txtEmployeefromsuper control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList fromsuper;
+        protected global::DevExpress.Web.ASPxButtonEdit txtEmployeefromsuper;
 
         /// <summary>
-        /// tosupervisor control.
+        /// txtEmployeefromsuper_hidden control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList tosupervisor;
+        protected global::System.Web.UI.WebControls.HiddenField txtEmployeefromsuper_hidden;
+
+        /// <summary>
+        /// txtEmployeetosupervisor control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButtonEdit txtEmployeetosupervisor;
+
+        /// <summary>
+        /// txtEmployeetosupervisor_hidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField txtEmployeetosupervisor_hidden;
 
         /// <summary>
         /// OFDBankSelect control.

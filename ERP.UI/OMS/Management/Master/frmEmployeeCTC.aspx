@@ -1,3 +1,7 @@
+<%--====================================================Revision History=========================================================================
+ 1.0  Priti   V2.0.41  12-06-2023   0026291:In EMPLOYEE CTC module Admin can not select any Report to.
+====================================================End Revision History===================================================--%>
+
 <%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_frmEmployeeCTC"
     CodeBehind="frmEmployeeCTC.aspx.cs" EnableEventValidation="false" %>
 
@@ -22,8 +26,18 @@
                     return true;
                 }
                 else {
-                    $('#redlstReportTo').attr('style', 'display:block');
-                    return false;
+                    //Rev 1.0
+                    var InternalID = $("#hdnUnqid_empCTC").val();                     
+                    if (InternalID != "EMB0000002") {
+                        //Rev 1.0 End
+                        $('#redlstReportTo').attr('style', 'display:block');
+                        return false;
+                        //Rev 1.0
+                    }
+                    else {
+                        return true;
+                    }
+                    //Rev 1.0 End
                 }
             });
         });
@@ -415,23 +429,34 @@
         }
 
         function ReportTokeydown(e) {
-
-            var OtherDetails = {}
-            OtherDetails.reqStr = $("#txtReportToSearch").val();
-            if ($.trim($("#txtReportToSearch").val()) == "" || $.trim($("#txtReportToSearch").val()) == null) {
+            //REV 1.0
+            var InternalID = $("#hdnUnqid_empCTC").val(); 
+            if (InternalID != "EMB0000002") {
+                //REV 1.0 End
+                var OtherDetails = {}
+                OtherDetails.reqStr = $("#txtReportToSearch").val();
+                if ($.trim($("#txtReportToSearch").val()) == "" || $.trim($("#txtReportToSearch").val()) == null) {
+                    return false;
+                }
+                if (e.code == "Enter" || e.code == "NumpadEnter") {
+                    var HeaderCaption = [];
+                    HeaderCaption.push("Name");
+                    if ($("#txtReportToSearch").val() != null && $("#txtReportToSearch").val() != "") {
+                        callonServer("frmEmployeeCTC.aspx/GetOnDemandEmpCTC", OtherDetails, "ReportToTable", HeaderCaption, "ReportToIndex", "SetReportTo");
+                    }
+                }
+                else if (e.code == "ArrowDown") {
+                    if ($("input[ReportToIndex=0]"))
+                        $("input[ReportToIndex=0]").focus();
+                }
+            //REV 2.0
+            }
+            else {
+                jAlert("Admin not requird Report To.");
                 return false;
             }
-            if (e.code == "Enter" || e.code == "NumpadEnter") {
-                var HeaderCaption = [];
-                HeaderCaption.push("Name");
-                if ($("#txtReportToSearch").val() != null && $("#txtReportToSearch").val() != "") {
-                    callonServer("frmEmployeeCTC.aspx/GetOnDemandEmpCTC", OtherDetails, "ReportToTable", HeaderCaption, "ReportToIndex", "SetReportTo");
-                }
-            }
-            else if (e.code == "ArrowDown") {
-                if ($("input[ReportToIndex=0]"))
-                    $("input[ReportToIndex=0]").focus();
-            }
+             //REV 2.0 End
+            
         }
 
         function SetReportTo(Id, Name) {
@@ -959,6 +984,8 @@
         <asp:HiddenField ID="Hidden_DOJ" runat="server" />
         <asp:HiddenField ID="Hidden_LEF" runat="server" />
         <asp:HiddenField ID="Hidden_CTCAppFrom" runat="server" />
+        <asp:HiddenField ID="hdnUnqid_empCTC" runat="server" />
+        
     </div>
 
     <%--Report To--%>
