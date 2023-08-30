@@ -57,6 +57,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                     h_id = dtbranch.Rows[0]["BRANCH_ID"].ToString();
                 }
+                // Rev Sanchita
+                else
+                {
+                    dtbranch = dtbranch.DefaultView.ToTable();
+                    h_id = dtbranch.Rows[0]["BRANCH_ID"].ToString();
+                }
+                // End of Rev Sanchita
             }
             ds.Tables.Add(dtbranch);
 
