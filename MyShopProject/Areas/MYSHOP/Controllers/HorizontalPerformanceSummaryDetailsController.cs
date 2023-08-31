@@ -20,6 +20,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using UtilityLayer;
 
 namespace MyShop.Areas.MYSHOP.Controllers
 {
@@ -53,7 +54,6 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 ds.Tables.Add(dt3);
 
                 // Rev 2.0
-                string h_id = "";
                 DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
                 DataTable dtBranchChild = new DataTable();
                 if (dtbranch.Rows.Count > 0)
@@ -68,21 +68,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         dtbranch.Rows.Add(dr);
                         dtbranch.DefaultView.Sort = "BRANCH_ID ASC";
                         dtbranch = dtbranch.DefaultView.ToTable();
-
-                        h_id = dtbranch.Rows[0]["BRANCH_ID"].ToString();
                     }
-                    // Rev Sanchita
-                    else
-                    {
-                        dtbranch = dtbranch.DefaultView.ToTable();
-                        h_id = dtbranch.Rows[0]["BRANCH_ID"].ToString();
-                    }
-                    // End of Rev Sanchita
                 }
-                ds.Tables.Add(dtbranch);
 
-                //omodel.modelbranch = APIHelperMethods.ToModelList<GetBranch>(dtbranch);
-                //string h_id = omodel.modelbranch.First().BRANCH_ID.ToString();
+                omodel.modelbranch = APIHelperMethods.ToModelList<GetBranch>(dtbranch);
+                string h_id = omodel.modelbranch.First().BRANCH_ID.ToString();
+                ViewBag.HeadBranch = omodel.modelbranch;
                 ViewBag.h_id = h_id;
                 // End of Rev 2.0
 
