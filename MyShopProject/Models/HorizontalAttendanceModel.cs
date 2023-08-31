@@ -3,6 +3,7 @@
  * Rev 2.0      Sanchita       V2.0.42      11/08/2023      Two check box is required to show the first call time & last call time in Attendance Register Report
  *                                                          Mantis : 26707
  * ******************************************************************************************************************/
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace MyShop.Models
         //End of Mantise work 0025111
         // Rev 1.0
         public List<string> BranchId { get; set; }
+        public List<GetBranch> modelbranch = new List<GetBranch>();
         // End of Rev 1.0
         // Rev 2.0
         public String ShowFirstCallTime { get; set; }

@@ -369,30 +369,55 @@
         BranchId = [];
         Branch_Id = "";
     }
-    function BindBranches() {
+    // Rev 3.0
+    //function BindBranches() {
+    //    var Hoid = $('#HeadBranch').val();
+    //    BranchId = "";
+    //    BranchGridLookup.SetText("");
+    //    if (Hoid == null || Hoid == "") {
+    //        //Hoid = "0";
+    //        return false;
+    //    }
+    //    else {
+    //        $.ajax({
+    //            type: 'POST',
+    //            url: "/MasterPopulate/GetChildBranchList",
+    //            data: { "Hoid": Hoid },
+    //            dataType: "json",
+    //            async: false,
+    //            success: function (data) {
+    //            },
+    //            error: function () {
+    //            }
+    //        });
+    //        BranchGridLookup.GetGridView().Refresh();
+    //    }
+    //}
+    $(document).on('change', '#HeadBranch', function () {
         var Hoid = $('#HeadBranch').val();
         BranchId = "";
         BranchGridLookup.SetText("");
         if (Hoid == null || Hoid == "") {
-            //Hoid = "0";
-            return false;
+            Hoid = "0";
         }
-        else {
-            $.ajax({
-                type: 'POST',
-                url: "/MasterPopulate/GetChildBranchList",
-                data: { "Hoid": Hoid },
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                },
-                error: function () {
-                }
-            });
-            BranchGridLookup.GetGridView().Refresh();
-        }
-    }
+        $.ajax({
+            type: 'POST',
+            url: "/MasterPopulate/GetChildBranchList",
+            data: { "Hoid": Hoid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                //result = data;
+                //BranchGridLookup.GetGridView().Refresh();
+            },
+            error: function () {
+                //BranchGridLookup.GetGridView().Refresh();
+            }
+        });
+        BranchGridLookup.GetGridView().Refresh();
 
+    })
+    // End of Rev 3.0
     // End of Rev 3.0
 </script>
 
@@ -1139,13 +1164,16 @@
                 <div class="col-md-3 " id="empIntro">
                     <label>Head Branch : </label>
                     <div class="h-branch-select">
-                        <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                        @*Rev 3.0*@
+                        @*<select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
                             @foreach (System.Data.DataRow dr in Model.Tables[3].Rows)
                             {
-                                @*<option value=item["BRANCH_ID"]>item["CODE"]</option>*@
                                 <option value=@dr["BRANCH_ID"]>@dr["CODE"]</option>
                             }
-                        </select>
+                        </select>*@
+
+                        @Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })
+                        @*End of Rev 3.0*@
                     </div>
                 </div>
 
