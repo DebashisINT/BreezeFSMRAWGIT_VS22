@@ -6,6 +6,12 @@
                                                                           Refer: 25947
  * 3.0                06-06-2023       V2.0.41           Sanchita         Required below System settings + user wise settings in portal
                                                                           Refer: 26245  
+ * 4.0                31-08-2023       V2.0.43           Sanchita         User wise settings required in Web Portal Front end User Master
+                                                                          Show menu for AI Market Assistant
+                                                                          USB Debugging Restricted  
+                                                                          Refer: 26768  
+ * 5.0                06-09-2023       V2.0.43           Sanchita         A new user wise settings required named as ShowLatLongInOutletMaster
+ *                                                                        Refer: 26794 
 *******************************************************************************************************************/
 using System;
 using System.Data;
@@ -2323,6 +2329,36 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                     chkShowAttendanceSummary.Checked = false;
                 }
                 // End of Rev 3.0
+                // Rev 4.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsMenuShowAIMarketAssistant"]) == true)
+                {
+                    chkMenuShowAIMarketAssistant.Checked = true;
+                }
+                else
+                {
+                    chkMenuShowAIMarketAssistant.Checked = false;
+                }
+
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUsbDebuggingRestricted"]) == true)
+                {
+                    chkUsbDebuggingRestricted.Checked = true;
+                }
+                else
+                {
+                    chkUsbDebuggingRestricted.Checked = false;
+                }
+                // End of Rev 4.0
+
+                // Rev 5.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowLatLongInOutletMaster"]) == true)
+                {
+                    chkShowLatLongInOutletMaster.Checked = true;
+                }
+                else
+                {
+                    chkShowLatLongInOutletMaster.Checked = false;
+                }
+                // End of Rev 5.0
 
                 hdnPartyType.Value = dsUserDetail.Tables[1].Rows[0]["Shop_TypeId"].ToString();
 
@@ -2718,6 +2754,13 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 int IsShowInactiveCustomer = 0;
                 int IsShowAttendanceSummary = 0;
                 // End of Rev 3.0
+                // Rev 4.0
+                int IsMenuShowAIMarketAssistant = 0;
+                int IsUsbDebuggingRestricted = 0;
+                // End of Rev 4.0
+                // Rev 5.0
+                int IsShowLatLongInOutletMaster = 0;
+                // End of Rev 5.0
 
                 if (chkIsActive.Checked == true)
                     isactive = "Y";
@@ -4101,6 +4144,23 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 else
                     IsShowAttendanceSummary = 0;
                 // End of Rev 3.0
+                // Rev 4.0
+                if (chkMenuShowAIMarketAssistant.Checked == true)
+                    IsMenuShowAIMarketAssistant = 1;
+                else
+                    IsMenuShowAIMarketAssistant = 0;
+
+                if (chkUsbDebuggingRestricted.Checked == true)
+                    IsUsbDebuggingRestricted = 1;
+                else
+                    IsUsbDebuggingRestricted = 0;
+                // End of Rev 4.0
+                // Rev 5.0
+                if (chkShowLatLongInOutletMaster.Checked == true)
+                    IsShowLatLongInOutletMaster = 1;
+                else
+                    IsShowLatLongInOutletMaster = 0;
+                // End of Rev 5.0
 
                 String PartyType = hdnPartyType.Value.ToString();
                 //Rev work start 26.04.2022 Mantise ID:0024856: Copy feature add in User master
@@ -4433,6 +4493,13 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             proc.AddPara("@IsShowInactiveCustomer", IsShowInactiveCustomer);
                             proc.AddPara("@IsShowAttendanceSummary", IsShowAttendanceSummary);
                             // End of Rev 3.0
+                            // Rev 4.0
+                            proc.AddPara("@IsMenuShowAIMarketAssistant", IsMenuShowAIMarketAssistant);
+                            proc.AddPara("@IsUsbDebuggingRestricted", IsUsbDebuggingRestricted);
+                            // End of Rev 4.0
+                            // Rev 5.0
+                            proc.AddPara("@IsShowLatLongInOutletMaster", IsShowLatLongInOutletMaster);
+                            // End of Rev 5.0
 
                             DataTable dt = proc.GetTable();
 
@@ -4845,6 +4912,13 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             proc.AddPara("@IsShowInactiveCustomer", IsShowInactiveCustomer);
                             proc.AddPara("@IsShowAttendanceSummary", IsShowAttendanceSummary);
                             // End of Rev 3.0
+                            // Rev 4.0
+                            proc.AddPara("@IsMenuShowAIMarketAssistant", IsMenuShowAIMarketAssistant);
+                            proc.AddPara("@IsUsbDebuggingRestricted", IsUsbDebuggingRestricted);
+                            // End of Rev 4.0
+                            // Rev 5.0
+                            proc.AddPara("@IsShowLatLongInOutletMaster", IsShowLatLongInOutletMaster);
+                            // End of Rev 5.0
 
                             DataTable dt = proc.GetTable();
 
@@ -5253,6 +5327,13 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             proc.AddPara("@IsShowInactiveCustomer", IsShowInactiveCustomer);
                             proc.AddPara("@IsShowAttendanceSummary", IsShowAttendanceSummary);
                             // End of Rev 3.0
+                            // Rev 4.0
+                            proc.AddPara("@IsMenuShowAIMarketAssistant", IsMenuShowAIMarketAssistant);
+                            proc.AddPara("@IsUsbDebuggingRestricted", IsUsbDebuggingRestricted);
+                            // End of Rev 4.0
+                            // Rev 5.0
+                            proc.AddPara("@IsShowLatLongInOutletMaster", IsShowLatLongInOutletMaster);
+                            // End of Rev 5.0
 
                             DataTable dt = proc.GetTable();
 

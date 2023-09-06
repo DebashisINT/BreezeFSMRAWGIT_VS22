@@ -5,6 +5,8 @@
 @*                                                                          It will the Showing status 'Active' or 'Inactive'. refer: 26240*@
 @*3.0                09-08-2023        V2.0.41          Debashis            A coloumn named as Gender needs to be added in all the ITC reports.*@
 @*                                                                          Refer: 0026680*@
+@*4.0                06/09/2023        V2.0.43          Sanchita            A new user wise settings required named as ShowLatLongInOutletMaster
+                                                                            Refer: 26794 *@
 @*====================================================== Revision History ===================================================================================*@
 
 
@@ -346,65 +348,72 @@
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
     });
 
-    settings.Columns.Add(x =>
+    // Rev 4.0
+    if (ViewBag.IsShowLatLongInOutletMaster == "True")
     {
-        x.FieldName = "OUTLETLAT";
-        x.Caption = "Latitude";
-        x.VisibleIndex = 11;
-        //x.Width = 120;
-        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-        if (ViewBag.RetentionColumn != null)
+        // End of Rev 4.0
+        settings.Columns.Add(x =>
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLAT'");
-            if (row != null && row.Length > 0)  /// Check now
+            x.FieldName = "OUTLETLAT";
+            x.Caption = "Latitude";
+            x.VisibleIndex = 11;
+            //x.Width = 120;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+            if (ViewBag.RetentionColumn != null)
             {
-                x.Visible = false;
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLAT'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 120;
+                }
             }
             else
             {
                 x.Visible = true;
                 x.Width = 120;
             }
-        }
-        else
-        {
-            x.Visible = true;
-            x.Width = 120;
-        }
-        //Rev 3.0 Mantis: 0026680
-        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-        //End of Rev 3.0 Mantis: 0026680
-    });
+            //Rev 3.0 Mantis: 0026680
+            //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            //End of Rev 3.0 Mantis: 0026680
+        });
 
-    settings.Columns.Add(x =>
-    {
-        x.FieldName = "OUTLETLANG";
-        x.Caption = "Longitude";
-        x.VisibleIndex = 12;
-        //x.Width = 120;
-        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-        if (ViewBag.RetentionColumn != null)
+        settings.Columns.Add(x =>
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLANG'");
-            if (row != null && row.Length > 0)  /// Check now
+            x.FieldName = "OUTLETLANG";
+            x.Caption = "Longitude";
+            x.VisibleIndex = 12;
+            //x.Width = 120;
+            //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+            if (ViewBag.RetentionColumn != null)
             {
-                x.Visible = false;
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLANG'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 120;
+                }
             }
             else
             {
                 x.Visible = true;
                 x.Width = 120;
             }
-        }
-        else
-        {
-            x.Visible = true;
-            x.Width = 120;
-        }
-        //Rev 3.0 Mantis: 0026680
-        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-        //End of Rev 3.0 Mantis: 0026680
-    });
+            //Rev 3.0 Mantis: 0026680
+            //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            //End of Rev 3.0 Mantis: 0026680
+        });
+        // Rev 4.0
+    }
+    // End of Rev 4.0
 
     //REV 1.0
     //Rev 3.0 Mantis: 0026680

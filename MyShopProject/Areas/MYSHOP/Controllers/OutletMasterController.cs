@@ -4,12 +4,15 @@
 //3.0   V2.0.41     Sanchita    30-05-2023      Employee Outlet Master : Report a column required "Status".
 //                                              It will the Showing status 'Active' or 'Inactive'. refer: 26240
 //4.0   V2 .0.41    Debashis    09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+//5.0   V2.0.43     Sanchita    06/09/2023      A new user wise settings required named as ShowLatLongInOutletMaster. Refer: 26794
 #endregion===================================End of Revision History==================================================================
 
+using BusinessLogicLayer;
 using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Models;
 using MyShop.Models;
 using SalesmanTrack;
@@ -203,6 +206,15 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
                 //dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id);
                 //End of Mantis Issue 24728
+
+                // Rev 5.0
+                string userid = Session["userid"].ToString();
+                string IsShowLatLongInOutletMaster = "0";
+                DBEngine obj1 = new DBEngine();
+                IsShowLatLongInOutletMaster = Convert.ToString(obj1.GetDataTable("select IsShowLatLongInOutletMaster from tbl_master_user WHERE user_id='" + userid + "'").Rows[0][0]);
+                ViewBag.IsShowLatLongInOutletMaster = IsShowLatLongInOutletMaster;
+                // End of Rev 5.0
+
                 return PartialView("_PartialGridEmployeeOutletMaster", LGetOutletMaster(Is_PageLoad));
                 //else
                 //{
@@ -305,6 +317,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 ViewBag.RetentionColumn = dtColmn;//.Rows[0]["ColumnName"].ToString()  DataTable na class pathao ok wait
             }
+
+            // Rev 5.0
+            string userid = Session["userid"].ToString();
+            string IsShowLatLongInOutletMaster = "0";
+            DBEngine obj1 = new DBEngine();
+            IsShowLatLongInOutletMaster = Convert.ToString(obj1.GetDataTable("select IsShowLatLongInOutletMaster from tbl_master_user WHERE user_id='" + userid + "'").Rows[0][0]);
+            // End of Rev 5.0
+
             var settings = new GridViewSettings();
             settings.Name = "Reimbursement";
             settings.CallbackRouteValues = new { Controller = "OutletMaster", Action = "GetOutletMasterList" };
@@ -613,58 +633,65 @@ namespace MyShop.Areas.MYSHOP.Controllers
             //    column.Caption = "Outlet Lat";
             //    column.FieldName = "OUTLETLAT";
             //});
-            settings.Columns.Add(x =>
+
+            // Rev 5.0
+            if (IsShowLatLongInOutletMaster == "True")
             {
-                x.FieldName = "OUTLETLAT";
-                x.Caption = "Latitude";
-                x.VisibleIndex = 11;
-                if (ViewBag.RetentionColumn != null)
+            // End of Rev 5.0
+                settings.Columns.Add(x =>
                 {
-                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLAT'");
-                    if (row != null && row.Length > 0)  /// Check now
+                    x.FieldName = "OUTLETLAT";
+                    x.Caption = "Latitude";
+                    x.VisibleIndex = 11;
+                    if (ViewBag.RetentionColumn != null)
                     {
-                        x.Visible = false;
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLAT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
                     }
                     else
                     {
                         x.Visible = true;
                     }
-                }
-                else
-                {
-                    x.Visible = true;
-                }
-            });
+                });
 
-            //settings.Columns.Add(column =>
-            //{
-            //    column.Caption = "Outlet Lang";
-            //    column.FieldName = "OUTLETLANG";
-            //});
-            settings.Columns.Add(x =>
-            {
-                x.FieldName = "OUTLETLANG";
-                x.Caption = "Longitude";
-                x.VisibleIndex = 12;
-                if (ViewBag.RetentionColumn != null)
+                //settings.Columns.Add(column =>
+                //{
+                //    column.Caption = "Outlet Lang";
+                //    column.FieldName = "OUTLETLANG";
+                //});
+                settings.Columns.Add(x =>
                 {
-                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLANG'");
-                    if (row != null && row.Length > 0)  /// Check now
+                    x.FieldName = "OUTLETLANG";
+                    x.Caption = "Longitude";
+                    x.VisibleIndex = 12;
+                    if (ViewBag.RetentionColumn != null)
                     {
-                        x.Visible = false;
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OUTLETLANG'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
                     }
                     else
                     {
                         x.Visible = true;
                     }
-                }
-                else
-                {
-                    x.Visible = true;
-                }
-            });
-
-
+                });
+            // Rev 5.0
+            }
+            // End of Rev 5.0
+            
             //REV 1.0
             settings.Columns.Add(x =>
             {

@@ -10,7 +10,13 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 5.0                05-06-2023       V2.0.41           Sanchita            Master - Organization - Users - Check box caption correction 
                                                                           Refer: 26289  
 6.0                07-06-2023       V2.0.41           Sanchita            Required below System settings + user wise settings in portal
-                                                                          Refer: 26245       
+                                                                          Refer: 26245  
+7.0                31-08-2023       V2.0.43           Sanchita            User wise settings required in Web Portal Front end User Master
+                                                                          Show menu for AI Market Assistant
+                                                                          USB Debugging Restricted  
+                                                                          Refer: 26768
+8.0                06-09-2023       V2.0.43           Sanchita            A new user wise settings required named as ShowLatLongInOutletMaster
+                                                                          Mantis: 26794
 ====================================================== Revision History ==========================================================--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" EnableEventValidation="false"
@@ -3901,6 +3907,45 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </tr>
                             </table>
                         </td>
+                        <%--Rev 7.0--%>
+                        <td id="divMenuShowAIMarketAssistant" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkMenuShowAIMarketAssistant" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Show menu for AI Market Assistant </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                       <td id="divUsbDebuggingRestricted" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkUsbDebuggingRestricted" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>USB Debugging Restricted </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <%--End of Rev 7.0--%>
+                        <%--Rev 8.0--%>
+                        <td id="divShowLatLongInOutletMaster" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkShowLatLongInOutletMaster" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Show Latitude Longitude in Outlet Master </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <%--End of Rev 8.0--%>
                     </tr>
                     <%--End of Rev 6.0--%>
                     <%--End of Mantis Issue 25207--%>
