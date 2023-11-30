@@ -1,6 +1,8 @@
 ﻿/******************************************************************************************************************
- * Rev 1.0      27-06-2023      Sanchita V2.0.41     State & Branch selection facility is required in the Order Analytics in Dashboard
+ * Rev 1.0      27-06-2023      Sanchita    V2.0.41     State & Branch selection facility is required in the Order Analytics in Dashboard
  *                                                      Refer: 26309
+ * Rev 2.0      31-08-2023      Sanchita    V2.0.43     FSM - Dashboard - View Party - Enhancement required. Refer: 26753 
+ * Rev 3.0      23-11-2023      Priti       V2.0.43     0027031: Dashboard report issue(check in local Rubyfoods db)
  * ******************************************************************************************************************/
 using DataAccessLayer;
 using System;
@@ -274,7 +276,20 @@ namespace BusinessLogicLayer.SalesmanTrack
 
             return ds;
         }
+        //Rev 3.0
+        public DataTable GETMapDashboardEMPOutlet(string BranchId, string stateID, String Date, string CREATE_USERID = "0")
+        {
+            DataTable ds = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PROC_EMPOUTLETMAPPDASHBOARDDATEWISE");
+            proc.AddPara("@StateID", stateID);
+            proc.AddPara("@Date", Date);
+            proc.AddPara("@CREATE_USERID", CREATE_USERID);
+            proc.AddPara("@BRANCHID", BranchId);
+            ds = proc.GetTable();
 
+            return ds;
+        }
+        //Rev 3.0 End
         public DataTable GetLiveVisits(string stateID)
         {
 

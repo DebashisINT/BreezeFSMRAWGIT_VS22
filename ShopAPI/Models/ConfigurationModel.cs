@@ -16,6 +16,8 @@
 //15.0  V2.0.41     Debashis    01/08/2023      Some new parameters have been added.Row: 860
 //16.0  V2.0.41     Debashis    17/08/2023      Some new parameters have been added.Row: 863
 //17.0  V2.0.41     Debashis    21/07/2023      A new parameter has been added.Row: 864
+//18.0  V2.0.42     Debashis    06/10/2023      Some new parameters have been added.Row: 871
+//19.0  V2.0.42     Debashis    16/11/2023      Some new parameters have been added.Row: 879
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -254,6 +256,21 @@ namespace ShopAPI.Models
         //Rev 17.0 Row:864
         public bool Show_distributor_scheme_with_Product { get; set; }
         //End of Rev 17.0 Row:864
+        //Rev 18.0 Row:871
+        public bool GSTINPANMandatoryforSHOPTYPE4 { get; set; }
+        public bool FSSAILicNoEnableInShop { get; set; }
+        public bool FSSAILicNoMandatoryInShop4 { get; set; }
+        //End of Rev 18.0 Row:871
+        //Rev 19.0 Row:879
+        public bool isLeadContactNumber { get; set; }
+        public bool isModelEnable { get; set; }
+        public bool isPrimaryApplicationEnable { get; set; }
+        public bool isSecondaryApplicationEnable { get; set; }
+        public bool isBookingAmount { get; set; }
+        public bool isLeadTypeEnable { get; set; }
+        public bool isStageEnable { get; set; }
+        public bool isFunnelStageEnable { get; set; }
+        //End of Rev 19.0 Row:879
     }
 
     public class ConfigurationModelInput

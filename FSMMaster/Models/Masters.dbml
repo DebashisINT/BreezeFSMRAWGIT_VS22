@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FSM_ITC" Class="MastersDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=3.7.30.86,1480\SQLEXPRESS;Initial Catalog=FSM_ITC;User ID=sa;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="FSM_ITCConnectionString2" Provider="System.Data.SqlClient" />
   <Table Name="dbo.FTS_CityMaster_List" Member="FTS_CityMaster_Lists">
     <Type Name="FTS_CityMaster_List">
       <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -21,6 +22,18 @@
       <Column Name="City_DotExCode" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
       <Column Name="City_Lat" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="City_Long" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CountryMasterList" Member="CountryMasterLists">
+    <Type Name="CountryMasterList">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="CountryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CountryName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CreateDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreateUser" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ModifyDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ModifyUser" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

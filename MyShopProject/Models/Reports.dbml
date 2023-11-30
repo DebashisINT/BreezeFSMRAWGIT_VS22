@@ -2654,8 +2654,8 @@
       <Column Name="GENDERDESC" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.ENQUIRIES_LISTING" Member="ENQUIRIES_LISTING1s">
-    <Type Name="ENQUIRIES_LISTING1">
+  <Table Name="dbo.CRMCONTACT_LISTING" Member="CRMCONTACT_LISTINGs">
+    <Type Name="CRMCONTACT_LISTING">
       <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CRM_ID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
@@ -2706,6 +2706,132 @@
       <Column Name="Area" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="SalesmanAssign_date" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="ReSalesmanAssign_date" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ACTIVITY_DATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ACTIVITY_TIME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ACTIVITY_DETAILS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="OTHER_REMARKS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="ACTIVITY_STATUS" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ACTIVITY_TYPE_NAME" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ACTIVITY_NEXT_DATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ReASSIGNED_BY" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MODIFIED_ON" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ENQUIRIES_LISTING" Member="ENQUIRIES_LISTING1s">
+    <Type Name="ENQUIRIES_LISTING1">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CRM_ID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CUSTOMER_NAME" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_PERSON" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="PHONENO" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="EMAIL" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LOCATION" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="PRODUCT_REQUIRED" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="QTY" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="UOM" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="ORDER_VALUE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="ENQ_DETAILS" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CREATED_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CREATED_BY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MODIFIED_BY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MODIFIED_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TAGED_VENDOR" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
+      <Column Name="VEND_TYPE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SUPERVISOR" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SALESMAN" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VERIFY" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ENQ_NUMBER" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SOURCE" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="INDUSTRY" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MISC_COMMENTS" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="PRIORITYS" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="EXIST_CUST" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="LAST_CONTACT_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NEXT_CONTACT_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CONTACTEDBY" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ENQ_PRODREQ" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="FEEDBACK" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="FINAL_INDUSTRY" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ACTIVITY" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="VERIFY_BY" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="VERIFY_ON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="VERIFY_CLOSUREDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ENQUIRY_WORKFLOW" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="STATUS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ASSIGNED_TO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ReASSIGNED_TO" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Day" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Month" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Year" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Area" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SalesmanAssign_date" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ReSalesmanAssign_date" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ENQUIRYANALYTICS_LISTING" Member="ENQUIRYANALYTICS_LISTINGs">
+    <Type Name="ENQUIRYANALYTICS_LISTING">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CRM_ID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CUSTOMER_NAME" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_PERSON" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="PHONENO" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="EMAIL" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LOCATION" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="PRODUCT_REQUIRED" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="QTY" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="UOM" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="ORDER_VALUE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="ENQ_DETAILS" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="CREATED_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CREATED_BY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MODIFIED_BY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MODIFIED_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TAGED_VENDOR" Type="System.String" DbType="NVarChar(400)" CanBeNull="true" />
+      <Column Name="VEND_TYPE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SUPERVISOR" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="SALESMAN" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="VERIFY" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ENQ_NUMBER" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SOURCE" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="INDUSTRY" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MISC_COMMENTS" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="PRIORITYS" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="EXIST_CUST" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="LAST_CONTACT_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NEXT_CONTACT_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CONTACTEDBY" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ENQ_PRODREQ" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="FEEDBACK" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="FINAL_INDUSTRY" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ACTIVITY" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="VERIFY_BY" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="VERIFY_ON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="VERIFY_CLOSUREDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ENQUIRY_WORKFLOW" Type="System.String" DbType="NVarChar(5)" CanBeNull="true" />
+      <Column Name="STATUS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ASSIGNED_TO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ReASSIGNED_TO" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Day" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Month" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="Year" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="State" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Area" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SalesmanAssign_date" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ReSalesmanAssign_date" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ACTIVITY_DATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ACTIVITY_TIME" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ACTIVITY_DETAILS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="OTHER_REMARKS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="ACTIVITY_STATUS" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ACTIVITY_TYPE_NAME" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ACTIVITY_NEXT_DATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ReASSIGNED_BY" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MODIFIED_ON" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

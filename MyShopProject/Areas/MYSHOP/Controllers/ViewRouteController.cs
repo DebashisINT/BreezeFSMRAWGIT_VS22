@@ -1,5 +1,6 @@
 ﻿/******************************************************************************************************
- * 1.0                30-01-2023        2.0.38           Sanchita            Distance issue in View route of Nordusk. Refer: 25515
+ * 1.0     01-09-2023       V2.0.38      Sanchita     Distance issue in View route of Nordusk. Refer: 25515
+ * 2.0     24-11-2023       V2.0.43      Priti        0027031: Dashboard report issue(check in local Rubyfoods db)
  * ******************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -167,11 +168,16 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             Dashboard model = new Dashboard();
             DataTable dtmodellatest = model.GETOutletDashboard(StateID, PARTY_ID, PartyStatus, month, year, Session["userid"].ToString());
+            //REV 2.0
             AddressList = APIHelperMethods.ToModelList<PartyDashboard>(dtmodellatest);
+            //return Json(AddressList);
+            var jsonResult = Json(AddressList, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+            //REV 2.0 END
 
-            return Json(AddressList);
         }
-        
+
         public ActionResult GetSalesmanLocation(UserListTrackModel modelinput)
         {
             try

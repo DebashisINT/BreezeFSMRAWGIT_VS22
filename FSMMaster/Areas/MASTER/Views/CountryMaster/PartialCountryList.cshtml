@@ -1,0 +1,104 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridList";
+    settings.KeyFieldName = "CountryId";
+    settings.CallbackRouteValues = new { Action = "PartialGridList", Controller = "CountryMaster" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CountryName";
+        x.Caption = "Country Name";
+        x.VisibleIndex = 1;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CreateUser";
+        x.Caption = "Created By";
+        x.VisibleIndex = 2;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CreateDate";
+        x.Caption = "Created On";
+        x.VisibleIndex = 3;
+        x.Width = 120;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ModifyUser";
+        x.Caption = "Updated By";
+        x.VisibleIndex = 4;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ModifyDate";
+        x.Caption = "Updated On";
+        x.VisibleIndex = 5;
+        x.Width = 120;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(11);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Action";
+        x.VisibleIndex = 6;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.VerticalAlign = System.Web.UI.WebControls.VerticalAlign.Middle;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.SetDataItemTemplateContent(c =>        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "CountryId"))  + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /></a>");
+            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "CountryId")) + "')\"><img src='/assests/images/Delete.png'/> </a>");
+
+
+        });
+
+    });
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+
+

@@ -3,8 +3,10 @@
 //                                                       Refer: 25786
 //    2.0     Sanchita      V2.0.42      19/07/2023      Add Branch parameter in Listing of MIS - Horizontal Performance Summary & Detail.
 //                                                       Mantis : 26135
+//    3.0     Sanchita      V2.0.43      07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
 //* ***************************************************************************************************************************************
 
+using BusinessLogicLayer;
 using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
 using DevExpress.Export;
@@ -44,6 +46,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     ViewBag.StateMandatory = dt.Rows[0]["IsStateMandatoryinReport"].ToString();
                 }
+                // Rev 3.0
+                DBEngine obj1 = new DBEngine();
+                ViewBag.BranchMandatory = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsActivateEmployeeBranchHierarchy'").Rows[0][0]);
+                // End of Rev 3.0
+
                 DataSet ds = new DataSet();
                 DataTable dt1 = new DataTable();
                 DataTable dt2 = new DataTable();

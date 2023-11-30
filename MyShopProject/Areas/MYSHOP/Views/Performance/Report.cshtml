@@ -1,9 +1,10 @@
 ﻿@*======================================Revision History=========================================================================
-    1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
-                                                  Refer: 0025586
-    2.0   V2.0.38     Pallab      25/01/2023      Report page design modification. Refer: 25576
-    3.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in MIS -> Performance Summary report. Mantis : 26135
-===================================End of Revision History=====================================================================*@
+        1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
+                                                      Refer: 0025586
+        2.0   V2.0.38     Pallab      25/01/2023      Report page design modification. Refer: 25576
+        3.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in MIS -> Performance Summary report. Mantis : 26135
+        4.0   V2.0.43     Sanchita    07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
+    ===================================End of Revision History=====================================================================*@
 @model Models.SalesSummaryReport
 
 @{
@@ -91,6 +92,14 @@
                 $('#MandatoryToDate').attr('style', 'display:none');
             }
 
+            // Rev 4.0
+            if ($("#hdnBranchMandatory").val() == "0") {
+                if (BranchId == "" || BranchId == null) {
+                    jAlert("Please select Branch.");
+                    flag = false;
+                }
+            }
+            // End of Rev 4.0
             if ($("#hdnStateMandatory").val() == "True") {
                 if (StateId == "") {
                     //  $('#MandatoryState').attr('style', 'display:block');
@@ -777,6 +786,12 @@
     #BranchGridLookup_CC {
         width: 100%;
     }
+
+    @@media only screen and (max-width: 767px) {
+        #refreshgridsalessummary {
+            overflow-x: auto;
+        }
+    }
 </style>
 @*End of Rev 3.0*@
 <script>
@@ -978,7 +993,8 @@
                             </div>
                         </div>
                         @*Rev 3.0*@
-                        <div class="col-md-3 relative for-cust-icon">
+                        @*<div class="col-md-3 relative for-cust-icon">*@
+                        <div class="col-md-3 relative">
                             <label>Head Branch :</label>
                             <div class="h-branch-select">
                                 <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
@@ -991,7 +1007,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 relative for-cust-icon">
+                        @*<div class="col-md-3 relative for-cust-icon">*@ 
+                        <div class="col-md-3 relative">
                             <label>Branch :</label>
                             <div>
                                 @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
@@ -1003,59 +1020,59 @@
                             <div>
                                 @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
                                 @*<span id="MandatoryState" style="display: none" class="validclass">
-                    <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                </span>*@
+                                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                    </span>*@
                             </div>
                         </div>
-                   
-                            <div class="col-md-3">
-                                <label>Designation</label>
-                                <div>
-                                    @Html.Action("GetDesigList", "SalesReportSummary")
-                                </div>
+
+                        <div class="col-md-3">
+                            <label>Designation</label>
+                            <div>
+                                @Html.Action("GetDesigList", "SalesReportSummary")
                             </div>
+                        </div>
 
-                            <div class="col-md-3">
-                                <label>Employee(s)</label>
-                                <div>
-                                    @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
+                        <div class="col-md-3">
+                            <label>Employee(s)</label>
+                            <div>
+                                @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
 
-                                    @Html.DevExpress().ButtonEdit(
-                                    settings =>
-                                    {
-                                        settings.Name = "EmployeeTxt";
-                                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                        //settings.Text = Model.AssignedTo;
-                                        settings.ReadOnly = true;
-                                        settings.Properties.Buttons.Add("...");
-                                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
-                                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+                                @Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "EmployeeTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    //settings.Text = Model.AssignedTo;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
 
-                                    }).GetHtml()
+                                }).GetHtml()
 
-                                </div>
                             </div>
-                            <div class="col-md-4" style="padding-top: 31px; width: 260px;">
-                                @*Rev 2.0*@
-                                @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>*@
-                                <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
-                                <label for="">Show Revisit Contact Details</label>
-                                @*Rev end 2.0*@
-                            </div>
-                            <div class="col-md-3" style="padding-top: 21px;">
-                                @*Rev end 2.0*@
-                                <label></label>
-                                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
-                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                                    <option value="0">Export to</option>
-                                    <option value="1">PDF</option>
-                                    <option value="2">XLSX</option>
-                                    <option value="3">XLS</option>
-                                    <option value="4">RTF</option>
-                                    <option value="5">CSV</option>
+                        </div>
+                        <div class="col-md-4" style="padding-top: 31px; width: 260px;">
+                            @*Rev 2.0*@
+                            @*<input type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px"><span class="w100">Show Revisit Contact Details</span>*@
+                            <input class="styled-checkbox" type="checkbox" id="IsRevisitContactDetails" name="IsRevisitContactDetails" value="0" style="margin-right:5px">
+                            <label for="">Show Revisit Contact Details</label>
+                            @*Rev end 2.0*@
+                        </div>
+                        <div class="col-md-3" style="padding-top: 21px;">
+                            @*Rev end 2.0*@
+                            <label></label>
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="1">PDF</option>
+                                <option value="2">XLSX</option>
+                                <option value="3">XLS</option>
+                                <option value="4">RTF</option>
+                                <option value="5">CSV</option>
 
-                                </select>
-                            </div>
+                            </select>
+                        </div>
 
 
                     </div>
@@ -1067,6 +1084,9 @@
             <input type="hidden" id="hdnuser_shop" />
             <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
             <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+            @*Rev 4.0*@
+            <input type="hidden" id="hdnBranchMandatory" value="@ViewBag.BranchMandatory" />
+            @*End of Rev 4.0*@
         </div>
         @*Rev 2.0*@
         @*</div>

@@ -1,5 +1,6 @@
 ﻿//====================================================== Revision History ==========================================================
-//1.0  19-07-2023   V2 .0.42   Priti     0026135: Branch Parameter is required for various FSM reports
+//1.0  19-07-2023   V2.0.42   Priti     0026135: Branch Parameter is required for various FSM reports
+//2.0  07-11-2023   V2.0.43   Sanchita  0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
 //====================================================== Revision History ==========================================================
 using SalesmanTrack;
 using System;
@@ -16,7 +17,7 @@ using System.Configuration;
 using MyShop.Models;
 using DevExpress.Web.Mvc;
 using DevExpress.Web;
-
+using BusinessLogicLayer;
 
 namespace MyShop.Areas.MYSHOP.Controllers
 {
@@ -55,6 +56,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     ViewBag.StateMandatory = dt.Rows[0]["IsStateMandatoryinReport"].ToString();
                 }
+                // Rev 2.0
+                DBEngine obj1 = new DBEngine();
+                ViewBag.BranchMandatory = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsActivateEmployeeBranchHierarchy'").Rows[0][0]);
+                // End of Rev 2.0
+
                 //REV 1.0
                 DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
                 DataTable dtBranchChild = new DataTable();

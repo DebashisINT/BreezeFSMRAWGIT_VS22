@@ -1,4 +1,8 @@
-﻿using System;
+﻿//********************************************************************************************************************
+// 1.0      v2.0.43    Sanchita    16-10-2023  On demand search is required in Product Master & Projection Entry
+//                                             Mantis: 26858
+//********************************************************************************************************************
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,6 +26,9 @@ namespace MyShop.Models
         public int Month { get; set; }
         public string Year { get; set; }
         public string Shop { get; set; }
+        // Rev 1.0
+        public string ShopName { get; set; }
+        // End of Rev 1.0
         //public int ProjectName { get; set; }
         public string Area { get; set; }
        // public int ShopType { get; set; }
@@ -70,6 +77,9 @@ namespace MyShop.Models
         public string ShopUser { get; set; }
         public string ShopUserId { get; set; }
         public List<ShopUserAssign> ShopUserList { get; set; }
+        // Rev 1.0
+        public string OldShopUser { get; set; }
+        // End of 1.0
         //
 
         // Project Name

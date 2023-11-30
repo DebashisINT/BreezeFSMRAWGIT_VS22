@@ -2,8 +2,10 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
 @*2.0                25-07-2023        V2.0.42          Sanchita            zero value should be consider in the Approx Qty field
-                                                                            while making an entry in Project & Projection report. 
-                                                                            Mantis: 26617*@
+    while making an entry in Project & Projection report.
+    Mantis: 26617*@
+@*3.0                16-10-2023         v2.0.43         Sanchita            On demand search is required in Product Master & Projection Entry
+                                                                             Mantis: 26858*@
 @*====================================================== Revision History ===================================================*@
 
 @using MyShop.Models;
@@ -353,8 +355,17 @@
                 }
                 // End of Mantis Issue 25203
 
-                $("#ddlShop").val(data.Shop);
-                $("#ddlProjectName").val(data.ProjectName);
+                // Rev 3.0
+                //$("#ddlShop").val(data.Shop);
+                // $("#ddlProjectName").val(data.ProjectName);
+
+                $("#hdnShopUserID").val(data.Shop);
+                ShopUserTxt.SetText(data.ShopName);
+
+                $("#hdnProjectNameID").val(data.ProjectName);
+                ProjectNameTxt.SetText(data.ProjectName);
+                // End of Rev 3.0
+
                 $("#txt_Area").val(data.Area);
                 $("#ddlShopType").val(data.ShopType);
                 $("#txt_contactpersn").val(data.Contact_Person);
@@ -484,11 +495,19 @@
         //proj_start_dt.value = '';
         proj_start_dt.Clear();
 
-        $("#ddlShop").val('');
-        ddlShop.selectedIndex = 0;
+        // Rev 3.0
+        //$("#ddlShop").val('');
+        //ddlShop.selectedIndex = 0;
+        $("#hdnShopUserID").val('');
+        ShopUserTxt.SetText('');
+        // End of Rev 3.0
 
-        $("#ddlProjectName").val('');
-        ddlProjectName.selectedIndex = 0;
+        // Rev 3.0
+        //$("#ddlProjectName").val('');
+        //ddlProjectName.selectedIndex = 0;
+        $("#hdnProjectNameID").val('');
+        ProjectNameTxt.SetText('');
+        // End of Rev 3.0
 
         $("#txt_Area").val('');
 
@@ -560,19 +579,37 @@
             return false;
         }
 
-        if (ddlShop.selectedIndex == 0 || ddlShop.selectedIndex == -1) {
+        // Rev 3.0
+        //if (ddlShop.selectedIndex == 0 || ddlShop.selectedIndex == -1) {
+        //    jAlert("Please select Customer Name !");
+        //    x = false;
+        //    $("#ddlShop").focus();
+        //    return false;
+        //}
+
+        //if (ddlProjectName.selectedIndex == 0 || ddlProjectName.selectedIndex == -1) {
+        //    jAlert("Please select Project Name !");
+        //    x = false;
+        //    $("#ddlProjectName").focus();
+        //    return false;
+        //}
+
+        if ($("#hdnShopUserID").val() == "") {
             jAlert("Please select Customer Name !");
             x = false;
-            $("#ddlShop").focus();
+           // $("#ddlShop").focus();
             return false;
         }
 
-        if (ddlProjectName.selectedIndex == 0 || ddlProjectName.selectedIndex == -1) {
+        if ($("#hdnProjectNameID").val() == "") {
             jAlert("Please select Project Name !");
             x = false;
-            $("#ddlProjectName").focus();
+            //$("#ddlProjectName").focus();
             return false;
         }
+        // End of Rev 3.0
+
+
 
         if ($("#txt_Area").val() == "" || $("#txt_Area").val() == null) {
             jAlert("Please enter Area !");
@@ -667,8 +704,13 @@
             Date: proj_start_dt.GetText(),
             Month: $("#ddlMonth").val(),
             Year: $("#ddlYear").val(),
-            Shop: $("#ddlShop").val(),
-            ProjectName: $("#ddlProjectName").val(),
+            // Rev 3.0
+            //Shop: $("#ddlShop").val(),
+            //ProjectName: $("#ddlProjectName").val(),
+            Shop: $("#hdnShopUserID").val(),
+            ProjectName: $("#hdnProjectNameID").val(),
+            // End of Rev 3.0
+
             Area: $("#txt_Area").val(),
             ShopType: $("#ddlShopType").val(),
             Contact_Person: $("#txt_contactpersn").val(),
@@ -718,8 +760,13 @@
                             //proj_start_dt.value = '';
                             proj_start_dt.Clear();
 
-                            $("#ddlShop").val('');
-                            $("#ddlProjectName").val('');
+                            // Rev 3.0
+                            //$("#ddlShop").val('');
+                            //$("#ddlProjectName").val('');
+                            $("#hdnShopUserID").val('');
+                            $("#hdnProjectNameID").val('');
+                            // End of Rev 3.0
+
                             $("#ddlShopType").val('');
                             $("#txt_contactpersn").val('');
                             $("#txt_phoneno").val('');
@@ -830,28 +877,32 @@
 
     function PopulateProjectNameList(e) {
 
-        if ($("#hdnAction").val() == "Add") {
-            var selShop = $("#ddlShop").val();
+        // Rev 3.0
+        //if ($("#hdnAction").val() == "Add") {
+            //var selShop = $("#ddlShop").val();
 
-            if (selShop != 0 && selShop != -1) {
-                $.ajax({
-                    url: "@Url.Action("GetProjectNameList", "ProjectReport")",
-                    async: false,
-                    data: { selShop: selShop },
-                    type: 'GET',
-                    success: function (json, textStatus) {
-                        json = json || {};
-                        $("#ddlProjectName").empty();
-                        for (var i = 0; i < json.ProjectNameList.length; i++) {
-                            $("#ddlProjectName").append('<option value="' + json.ProjectNameList[i].Project_Id + '">' + json.ProjectNameList[i].Project_Name + '</option>');
-                        }
-
-                    },
-                    error: function () {
-                    },
-                });
-            }
-        }
+            //if (selShop != 0 && selShop != -1) {
+            //    $.ajax({
+            //        url: "@Url.Action("GetProjectNameList", "ProjectReport")",
+            //        async: false,
+            //        data: { selShop: selShop },
+           //         type: 'GET',
+            //        success: function (json, textStatus) {
+           //             json = json || {};
+           //             $("#ddlProjectName").empty();
+           //             for (var i = 0; i < json.ProjectNameList.length; i++) {
+           //                 $("#ddlProjectName").append('<option value="' + json.ProjectNameList[i].Project_Id + '">' + json.ProjectNameList[i].Project_Name + '</option>');
+           //             }
+           //
+           //         },
+           //         error: function () {
+           //         },
+           //     });
+           // }
+        //}
+        $("#hdnProjectNameID").val("");
+        ProjectNameTxt.SetText("");
+        // End of Rev 3.0
 
     }
 
@@ -862,8 +913,13 @@
         //var designationid = $("#ddsupervisor").val();
 
         if ($("#hdnAction").val() == "Add") {
-            var selShop = $("#ddlShop").val();
-            var selProjectName = $("#ddlProjectName").val();
+            // Rev 3.0
+            //var selShop = $("#ddlShop").val();
+            //var selProjectName = $("#ddlProjectName").val();
+            var selShop = $("#hdnShopUserID").val();
+            var selProjectName = $("#hdnProjectNameID").val();
+            // End of Rev 3.0
+
 
             if (selShop != 0 && selShop != -1 && selProjectName != 0 && selProjectName != -1) {
                 $.ajax({
@@ -1020,6 +1076,105 @@
         $("#slItemsP").find(":checkbox.txts").attr("checked", true);
 
     }
+
+    // Rev 3.0
+    function ShopUserButnClick(s, e) {
+        $('#ShopUserSearchModel').modal('show');
+    }
+
+    function ShopUser_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#ShopUserSearchModel').modal('show');
+            $("#txtShopUserSearch").focus();
+        }
+    }
+    function ShopUserkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtShopUserSearch").val()) == "" || $.trim($("#txtShopUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtShopUserSearch").val() ;
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Customer Name");
+
+
+            if ($("#txtShopUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetShopUserName", OtherDetails, "ShopUserTable", HeaderCaption, "ShopUserIndex", "SetShopUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+        }
+    }
+
+    function SetShopUser(id, Name) {
+        var key = id;
+        $('#hdnShopUserID').val(id)
+        if (key != null && key != '') {
+            $('#ShopUserSearchModel').modal('hide');
+            ShopUserTxt.SetText(Name);
+            ShopUserTxt.SetFocus();
+            PopulateProjectNameList();
+        }
+    }
+
+
+    function ProjectNameButnClick(s, e) {
+        if ($("#hdnProjectNameID").val() == "") {
+            $("#txtProjectNameSearch").val("");
+            document.getElementById("ProjectNameTable").innerHTML = "";
+        }
+
+        $('#ProjectNameSearchModel').modal('show');
+    }
+
+    function ProjectName_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            if ($("#hdnProjectNameID").val() == "") {
+                ProjectNameTxt.SetText("");
+                document.getElementById("ProjectNameTable").innerHTML = "";
+            }
+
+            $('#ProjectNameSearchModel').modal('show');
+            $("#txtProjectNameSearch").focus();
+        }
+    }
+    function ProjectNamekeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtProjectNameSearch").val()) == "" || $.trim($("#txtProjectNameSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtProjectNameSearch").val() + "," + $("#hdnShopUserID").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Customer Name");
+
+
+            if ($("#txtProjectNameSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetProjectName", OtherDetails, "ProjectNameTable", HeaderCaption, "ProjectNameIndex", "SetProjectName");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+        }
+    }
+
+    function SetProjectName(id, Name) {
+        var key = id;
+        $('#hdnProjectNameID').val(id)
+        if (key != null && key != '') {
+            $('#ProjectNameSearchModel').modal('hide');
+            ProjectNameTxt.SetText(Name);
+            ProjectNameTxt.SetFocus();
+            AutofillDetails();
+        }
+    }
+    // End of Rev 3.0
 
 </script>
 
@@ -1654,6 +1809,22 @@
         border-radius: 15px 15px 0 0 !important;
     }
 
+    #proj_start_dt_DDD_PW-1 #proj_start_dt_DDD_C_FNP_PW-1 {
+        left: 90px !important;
+    }
+
+    #proj_complete_dt_DDD_PW-1 {
+        left: 15px !important;
+    }
+
+        #proj_complete_dt_DDD_PW-1 #proj_complete_dt_DDD_C_FNP_PW-1 {
+            left: 90px !important;
+        }
+
+    .btn-default {
+        background-color: #d9d9d9 !important;
+    }
+
     @@media only screen and (max-width: 768px) {
         .breadCumb {
             padding: 0 18%;
@@ -1954,13 +2125,35 @@
 
                     @*Rev 1.0*@
                     @*<div class="col-md-3">*@
-                    <div class="col-md-3 h-branch-select">
+                    @*Rev 3.0*@
+                    @*<div class="col-md-3 h-branch-select">*@
+                    <div class="col-md-3">
+                        @* End of Rev 3.0*@
                         @*Rev end 1.0*@
                         <label>Customer Name <span class="red">*</span></label>
-                        <div>
-                            @Html.DropDownListFor(m => m.ShopUser, new SelectList(Model.ShopUserList, "Shop_Code", "Shop_Name", Model.ShopUserId), new { @id = "ddlShop", @class = "form-control", @onchange = "PopulateProjectNameList(this)" })
+                        @*Rev 3.0*@
+                        @*<div>
+                                @Html.DropDownListFor(m => m.ShopUser, new SelectList(Model.ShopUserList, "Shop_Code", "Shop_Name", Model.ShopUserId), new { @id = "ddlShop", @class = "form-control", @onchange = "PopulateProjectNameList(this)" })
 
+                            </div>*@
+
+                        <div>
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "ShopUserTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.ShopUserId;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){ShopUserButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){ShopUser_KeyDown(s,e);}";
+
+                            }).GetHtml()
+
+                            <input type="hidden" id="hdnShopUserID" value="@Model.ShopUserId">
                         </div>
+                        @*End of Rev 3.0*@
                     </div>
                     <div class="clear"></div>
                     <div class="clearfix"></div>
@@ -1969,12 +2162,31 @@
 
                     @*Rev 1.0*@
                     @*<div class="col-md-3">*@
-                    <div class="col-md-3 h-branch-select">
+                    @*Rev 3.0*@
+                    @*<div class="col-md-3 h-branch-select">*@
+                    <div class="col-md-3">
+                        @*End of Rev 3.0*@
                         @*Rev end 1.0*@
                         <label>Name of Project <span class="red">*</span></label>
                         <div>
-                            @Html.DropDownListFor(m => m.ProjectName, new SelectList(Model.ProjectNameList, "Project_Id", "Project_Name", Model.ProjectNameId), new { @id = "ddlProjectName", @class = "form-control", @onchange = "AutofillDetails(this)" })
+                            @*Rev 3.0*@
+                            @*@Html.DropDownListFor(m => m.ProjectName, new SelectList(Model.ProjectNameList, "Project_Id", "Project_Name", Model.ProjectNameId), new { @id = "ddlProjectName", @class = "form-control", @onchange = "AutofillDetails(this)" })*@
 
+                            @Html.DevExpress().ButtonEdit(
+                            settings =>
+                            {
+                                settings.Name = "ProjectNameTxt";
+                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                settings.Text = Model.ProjectNameId;
+                                settings.ReadOnly = true;
+                                settings.Properties.Buttons.Add("...");
+                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){ProjectNameButnClick(s,e);}";
+                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){ProjectName_KeyDown(s,e);}";
+
+                            }).GetHtml()
+
+                            <input type="hidden" id="hdnProjectNameID" value="@Model.ProjectNameId">
+                            @*End of Rev 3.0*@
                         </div>
                     </div>
                     <div class="col-md-3">
@@ -2213,3 +2425,56 @@
     </div>
 </div>
 @*End of Mantis Issue 25203*@
+@*Rev 3.0*@
+<div class="modal fade pmsModal w35" id="ShopUserSearchModel" role="dialog">
+    <div class="modal-dialog w-25">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Customer Name Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" onkeydown="ShopUserkeydown(event)" id="txtShopUserSearch" autofocus style="width:100%" placeholder="Search By Customer Name" />
+                <div id="ShopUserTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Customer Name</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade pmsModal w35" id="ProjectNameSearchModel" role="dialog">
+    <div class="modal-dialog w-25">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Project Name Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" onkeydown="ProjectNamekeydown(event)" id="txtProjectNameSearch" autofocus style="width:100%" placeholder="Search By Project Name" />
+                <div id="ProjectNameTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Project Name</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*End of Rev 3.0*@

@@ -1,4 +1,8 @@
-﻿@{
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                10-11-2023        2.0.40           Pallab              25576: Day Wise Target vs Achievement module column width issue fix *@
+@*====================================================== Revision History ==========================================================*@
+@{
     bool showServiceColumns = false;
 }
 
@@ -23,11 +27,11 @@
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.Settings.ShowFooter = true;
     //settings.
-    
-    
 
-    
-    
+
+
+
+
     //settings.KeyFieldName = "EMPCODE";
     //settings.ParentFieldName = "RPTTOEMPCODE";
     settings.Columns.Add("DEG", "Designation").Width = System.Web.UI.WebControls.Unit.Pixel(150);
@@ -45,18 +49,23 @@
 
                    });
 
-
+    //Rev 1.0 start: Column width increase
     //settings.Columns.Add("SEQ", "SL").Width = System.Web.UI.WebControls.Unit.Pixel(200);
-    settings.Columns.Add("TODAYNC", "Tgt. New Counter").Width = System.Web.UI.WebControls.Unit.Pixel(100);
-    settings.Columns.Add("ACHVNC", "Achv. New Counter").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    //settings.Columns.Add("TODAYNC", "Tgt. New Counter").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("TODAYNC", "Tgt. New Counter").Width = System.Web.UI.WebControls.Unit.Pixel(120);
+    //settings.Columns.Add("ACHVNC", "Achv. New Counter").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("ACHVNC", "Achv. New Counter").Width = System.Web.UI.WebControls.Unit.Pixel(140);
     settings.Columns.Add("TODAYRV", "Tgt. Re-Visit").Width = System.Web.UI.WebControls.Unit.Pixel(100);
     settings.Columns.Add("ACHVRV", "Achv. Re-Visit").Width = System.Web.UI.WebControls.Unit.Pixel(100);
 
     settings.Columns.Add("TODAYORDER", "Tgt. Value").Width = System.Web.UI.WebControls.Unit.Pixel(100);
-    settings.Columns.Add("ACHVCOL", "Achv. Value").Width = System.Web.UI.WebControls.Unit.Pixel(100);
-    settings.Columns.Add("TODAYCOL", "Tgt. Collection").Width = System.Web.UI.WebControls.Unit.Pixel(100);
-    settings.Columns.Add("ACHVORD", "Achv. Collection").Width = System.Web.UI.WebControls.Unit.Pixel(100);
-
+    //settings.Columns.Add("ACHVCOL", "Achv. Value").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("ACHVCOL", "Achv. Value").Width = System.Web.UI.WebControls.Unit.Pixel(120);
+    //settings.Columns.Add("TODAYCOL", "Tgt. Collection").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("TODAYCOL", "Tgt. Collection").Width = System.Web.UI.WebControls.Unit.Pixel(120);
+    //settings.Columns.Add("ACHVORD", "Achv. Collection").Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    settings.Columns.Add("ACHVORD", "Achv. Collection").Width = System.Web.UI.WebControls.Unit.Pixel(120);
+    //Rev 1.0 end
 
     settings.Columns.Add(c =>
     {
@@ -84,7 +93,7 @@
     settings.GroupSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHVCOL").DisplayFormat = "Achv Collection ={0}]";
 
 
- 
+
 
     settings.Settings.ShowGroupFooter = GridViewGroupFooterMode.VisibleAlways;
     settings.Settings.GridLines = System.Web.UI.WebControls.GridLines.Both;
@@ -102,7 +111,7 @@
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TODAYCOL").DisplayFormat = "Total: {0}";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACHVCOL").DisplayFormat = "Total: {0}";
 
-    
+
     settings.ClientSideEvents.EndCallback = "gridEndCallBack";
 
     settings.ClientSideEvents.BeginCallback = "OnBeginCallback";

@@ -52,6 +52,6 @@ namespace Models
         public string MAP_COLOR	{ get; set; }
         public string Shop_CreateUser	{ get; set; }
         public string state { get; set; }
-
+        public string PARENT_COLORCODE { get; set; }
     }
 }

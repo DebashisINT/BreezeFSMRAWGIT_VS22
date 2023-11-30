@@ -4,7 +4,11 @@
  * Rev 2.0      Sanchita       V2.0.42      19/07/2023      Add Branch parameter in Listing of MIS - Attendance Register. Mantis : 26135
  * Rev 3.0      Sanchita       V2.0.42      11/08/2023      Two check box is required to show the first call time & last call time in Attendance Register Report
  *                                                          Mantis : 26707
+ * Rev 4.0      Sanchita       V2.0.43      07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.                                                         
+ * Rev 5.0      Sanchita       V2.0.44      08-11-2023      In Attendance Register Report, Including Inactive users check box implementation is required
+ *                                                          Mantis: 26954
  * *****************************************************************************************************/
+using BusinessLogicLayer;
 using DataAccessLayer;
 using DevExpress.Export;
 using DevExpress.Web;
@@ -64,6 +68,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             ViewBag.HeadBranch = omodel.modelbranch;
             ViewBag.h_id = h_id;
             // End of Rev 2.0
+            // Rev 4.0
+            DBEngine obj1 = new DBEngine();
+            ViewBag.BranchMandatory = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsActivateEmployeeBranchHierarchy'").Rows[0][0]);
+            // End of Rev 4.0
 
             return View(ds);
         }
@@ -276,6 +284,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     proc.AddVarcharPara("@ShowFirstVisitTime", 500, Convert.ToString(model.ShowFirstCallTime));
                     proc.AddVarcharPara("@ShowLastVisitTime", 500, Convert.ToString(model.ShowLastCallTime));
                     // End of Rev 3.0
+                    // Rev 5.0
+                    proc.AddVarcharPara("@ShowInactiveUser", 500, Convert.ToString(model.ShowInactiveUser));
+                    // End of Rev 5.0
                     ds = proc.GetDataSet();
                 }
             }

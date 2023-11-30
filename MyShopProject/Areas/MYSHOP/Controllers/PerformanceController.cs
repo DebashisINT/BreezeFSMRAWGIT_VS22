@@ -2,6 +2,7 @@
 //1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
 //                                              Refer: 0025586
 //2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in MIS -> Performance Summary. Mantis : 26135
+//3.0   V2.0.43     Sanchita    07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
 #endregion===================================End of Revision History==================================================================
 using SalesmanTrack;
 using System;
@@ -19,7 +20,7 @@ using MyShop.Models;
 using DevExpress.Web.Mvc;
 using DevExpress.Web;
 using DocumentFormat.OpenXml.Drawing;
-
+using BusinessLogicLayer;
 
 namespace MyShop.Areas.MYSHOP.Controllers
 {
@@ -43,6 +44,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     ViewBag.StateMandatory = dt.Rows[0]["IsStateMandatoryinReport"].ToString();
                 }
+                // Rev 3.0
+                DBEngine obj1 = new DBEngine();
+                ViewBag.BranchMandatory = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsActivateEmployeeBranchHierarchy'").Rows[0][0]);
+                // End of Rev 3.0
                 // Rev 2.0
                 DataTable dtbranch = lstuser.GetHeadBranchList(Convert.ToString(Session["userbranchHierarchy"]), "HO");
                 DataTable dtBranchChild = new DataTable();

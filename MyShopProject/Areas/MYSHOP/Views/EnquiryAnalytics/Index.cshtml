@@ -1,0 +1,1116 @@
+﻿@*====================================================== Revision History ===================================================*@
+@*Rev Number    DATE              VERSION          DEVELOPER           CHANGES*@
+@*Written by Sanchita on 23-11-2023 for V2.2.43    A new report required as Enquiry Analytics. Mantis: 27021 *@
+@*====================================================== Revision History ===================================================*@
+
+@using MyShop.Models;
+@model MyShop.Models.EnquiryAnalyticsModel
+@{
+    ViewBag.Title = "Enquiry Analytics Report";
+}
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script src="~/Scripts/SearchPopup.js"></script>
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+<script>
+    var Is_PageLoad = "Ispageload";
+
+    $(function () {
+        $("#ddlStatus").val(1);
+        var d = new Date();
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        gridEnquiryAnalytics.Refresh();
+
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("EnquiryFromGridLookup");
+        lookup.GetGridView().Refresh();
+        var lookup = ASPxClientControl.GetControlCollection().GetByName("EnquiryFromGridLookup");
+        lookup.GetGridView().Refresh();
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+            var flag = true;
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            //else if ((EnquiryFromDesc.includes("IndiaMart") || EnquiryFromDesc.includes("MccoyMart")) && (Math.ceil((endDate - startdate) / (1000 * 60 * 60 * 24)) > 7)) {
+            //    jAlert('Difference of From Date and To Date cannot be more than 7 Days when Enquiries From includes IndiaMart or MccoyMart.');
+            //}
+            else if ((Math.ceil((endDate - startdate) / (1000 * 60 * 60 * 24)) > 30)) {
+                jAlert('Difference of From Date and To Date cannot be more than 30 Days when Enquiries From includes IndiaMart or MccoyMart.');
+            }
+            else if (EnquiryFromDesc.length == 0) {
+                jAlert('Select Enquiry From.');
+            }
+            else {
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                var obj = {};
+                obj.start = start;
+                obj.end = end;
+                obj.EnquiryFromDesc = EnquiryFromDesc;
+
+                Is_PageLoad = "1";
+                gridEnquiryAnalytics.Refresh();
+
+                setTimeout(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/EnquiryAnalytics/GetEnquiriesCount",
+                        data: JSON.stringify(obj),
+                        async: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            $("#btnPendingEnquirySpan").text(response.TotalPendingEnquiry);
+                            $("#btnInProcessEnquirySpan").text(response.TotalInProcessEnquiry);
+                            $("#btnNotInterestedEnquirySpan").text(response.TotalNotInterestedEnquiry);
+                            $("#btnAssignedEnquirySpan").text(response.TotalAssignedEnquiry);
+                            $("#btnReassignedEnquirySpan").text(response.TotalReassignedEnquiry);
+                            $("#btnHighRiskEnquirySpan").text(response.TotalHighRiskEnquiry);
+                        },
+                        error: function (response) {
+                            jAlert("Please try again later");
+                        }
+                    });
+                }, 1000)
+
+
+
+
+
+            }
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporRegisterList", "EnquiryAnalytics", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+            }
+        });
+
+    });
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        e.customArgs["EnquiryFromDesc"] = EnquiryFromDesc;
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+
+    //function OnEndCallback(s, e) {
+
+    //    if (s.cpUpdateCount == "1") {
+    //        $("#btnPendingEnquirySpan").text(s.cnt_PendingEnquiry);
+    //        $("#btnInProcessEnquirySpan").text(s.cnt_InProcessEnquiry);
+    //        $("#btnNotInterestedEnquirySpan").text(s.cnt_NotInterestedEnquiry);
+    //        $("#btnAssignedEnquirySpan").text(s.cnt_AssignedEnquiry);
+    //        $("#btnReassignedEnquirySpan").text(s.cnt_ReassignedEnquiry);
+    //        $("#btnHighRiskEnquirySpan").text(s.HighRiskEnquiry);
+    //    }
+    //}
+
+    // Enquiries From Block Start
+    function DeSelectAllGridLookup(s, e) {
+        EnquiryFromGridLookup.gridView.UnselectRows();
+
+        EnquiryFromDesc = [];
+        EnquiryFrom_Desc = "";
+
+    }
+    function SelectAllGridLookup(s, e) {
+        EnquiryFromGridLookup.gridView.SelectRows();
+
+        EnquiryFromDesc = "";
+        EnquiryFromGridLookup.SetText("");
+        //rev Pratik
+
+        $.ajax({
+            type: 'POST',
+            url: "/EnquiryAnalytics/GetEnquiryFromListSelectAll",
+            //data: { "Hoid": Hoid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                EnquiryFromDesc = [];
+                EnquiryFrom_Desc = "";
+                $.each(data, function (i, data) {
+                    EnquiryFromDesc.push(data.EnquiryFromDesc);
+                    EnquiryFrom_Desc += data.EnquiryFromDesc + ',';
+                });
+                EnquiryFromGridLookup.gridView.SelectRows();
+            },
+            error: function () {
+
+            }
+        });
+
+
+    }
+
+    function EnquiryFromStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+    function EnquiryFromLookupValChange() {
+        EnquiryFromGridLookup.GetGridView().Refresh();
+    }
+
+    var EnquiryFromDesc = [];
+    var EnquiryFrom_Desc = "";
+    function EnquiryFromSelectionChanged(s, e) {
+        EnquiryFromGridLookup.gridView.GetSelectedFieldValues("EnquiryFromDesc", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            EnquiryFromDesc = [];
+            EnquiryFrom_Desc = "";
+            for (var i = 0; i < values.length; i++) {
+                EnquiryFromDesc.push(values[i]);
+                EnquiryFrom_Desc += values[i] + ',';
+            }
+        } finally {
+            console.log(EnquiryFromDesc);
+        }
+    }
+    // Enquiries From Block End
+
+    function ShowPendingEnquiry(e) {
+        Is_PageLoad = 'PendingEnquiry';
+        gridEnquiryAnalytics.Refresh()
+    }
+
+    function ShowInProcessEnquiry(e) {
+        Is_PageLoad = 'InProcessEnquiry';
+        gridEnquiryAnalytics.Refresh()
+    }
+
+    function ShowNotInterestedEnquiry(e) {
+        Is_PageLoad = 'NotInterestedEnquiry';
+        gridEnquiryAnalytics.Refresh()
+    }
+
+    function ShowAssignedEnquiry(e) {
+        Is_PageLoad = 'AssignedEnquiry';
+        gridEnquiryAnalytics.Refresh()
+    }
+
+    function ShowReassignedEnquiry(e) {
+        Is_PageLoad = 'ReassignedEnquiry';
+        gridEnquiryAnalytics.Refresh()
+    }
+
+    function ShowHighRiskEnquiry(e) {
+        Is_PageLoad = 'HighRiskEnquiry';
+        gridEnquiryAnalytics.Refresh()
+    }
+
+</script>
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+
+        for (var i = 0; i <= gridCRMEnquiries.GetColumnsCount() ; i++) {
+            if (gridCRMEnquiries.GetColumn(i) != null) {
+                if (gridCRMEnquiries.GetColumn(i).visible == false) {
+                    console.log(gridCRMEnquiries.GetColumn(i).fieldName);
+                    visibleColumn.push(gridCRMEnquiries.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridCRMEnquiries.IsCustomizationWindowVisible())
+            gridCRMEnquiries.HideCustomizationWindow();
+        else
+            gridCRMEnquiries.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridCRMEnquiries.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "EnquiriesController")",
+            async: false,
+        data: { Columns: visibleColumn },
+        type: 'POST',
+        success: function (data) {
+            gridCRMEnquiries.Refresh();
+        },
+        error: function () {
+        },
+        });
+
+    }
+
+</script>
+
+<style>
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 20px 20px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 70%;
+    }
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 5px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 34px;
+        padding: 3px 12px;
+    }
+
+    .modalScroll .modal-body {
+        max-height: 75vh !important;
+        overflow-y: auto;
+    }
+
+    .bulAssignTbl > tbody > tr > td {
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .mHead {
+        margin: 0;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+        color: #415ed2;
+        margin-bottom: 13px;
+    }
+
+    /*Rev 1.0*/
+
+    body, .dxtcLite_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select, .h-branch-select-new {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 38px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        .h-branch-select-new::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 9px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    select:not(.btn):focus {
+        border-color: #094e8c;
+    }
+
+    select:not(.btn):focus-visible {
+        box-shadow: none;
+        outline: none;
+    }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo, #FormDate, #toDate, #appcbl_frm_dt {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #appcbl_frm_dt_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img,
+        #cmbDOJ_B-1 #cmbDOJ_B-1Img,
+        #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img,
+        #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #appcbl_frm_dt_B-1 #appcbl_frm_dt_B-1Img {
+            display: none;
+        }
+
+    #FormDate_I, #toDate_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 10px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue {
+        height: 34px;
+        border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1 {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .btn-sm, .btn-xs {
+        padding: 7px 10px !important;
+    }
+
+    #productAttributePopUp_PWH-1 span, #ASPxPopupControl2_PWH-1 span {
+        color: #fff !important;
+    }
+
+    #marketsGrid_DXPEForm_tcefnew, .dxgvPopupEditForm_PlasticBlue {
+        height: 220px !important;
+    }
+
+    .btn {
+        height: 34px;
+    }
+    /*Rev end 1.0*/
+    /*Rev start 3.0*/
+    .mrtop-6 {
+        margin-top: 6px;
+    }
+
+    #myModalReAssignSalesman .modal-dialog {
+        max-width: 32%;
+    }
+
+    .btn-default {
+        background-color: #dbdbdb;
+    }
+
+        .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+            background-color: #c1c1c1;
+        }
+
+    #ddlSalesmanRe, #ddlSalesman1 {
+        -webkit-appearance: auto;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_PW-1 {
+        left: 15px !important;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_C_FNP_PW-1 {
+        left: 60px !important;
+    }
+
+    #myImportEnquiriesModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+
+    /*Class Badge*/
+    .badge {
+        display: inline-block;
+        min-width: 10px;
+        padding: 5px 8px;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        background-color: #929ef0;
+        border-radius: 20px;
+    }
+
+    .btn .badge {
+        background: #fff;
+        color: #333;
+        margin-left: 4px;
+        font-size: 14px;
+    }
+
+    .btn-badge-color1:hover, .btn-badge-color2:hover, .btn-badge-color3:hover, .btn-badge-color4:hover, .btn-badge-color5:hover, .btn-badge-color6:hover,
+    .btn-badge-color1:focus, .btn-badge-color2:focus, .btn-badge-color3:focus, .btn-badge-color4:focus, .btn-badge-color5:focus, .btn-badge-color6:focus {
+        color: #fff;
+        opacity: 0.8;
+    }
+
+    .btn-badge-color1 {
+        /*background:chocolate;
+            color:#fff;*/
+        /*background:#d9c015;*/
+        background: #ecd21dcc;
+        color: #fff;
+    }
+
+    .btn-badge-color2 {
+        background: #30cb57;
+        color: #fff;
+    }
+
+    .btn-badge-color3 {
+        background: #ff6a00;
+        color: #fff;
+    }
+
+    .btn-badge-color4 {
+        background: #83bcdd;
+        color: #fff;
+    }
+
+    .btn-badge-color5 {
+        background: #7cdfcc;
+        color: #fff;
+    }
+
+    .btn-badge-color6 {
+        background: #3366FF;
+        color: #fff;
+    }
+    /*End Class badge*/
+
+    .bg-color-1 {
+        background-color: #05916f;
+        margin-bottom: 10px;
+        border-radius: 6px;
+    }
+        .bg-color-1:hover {
+            background-color: #016e54;
+        }
+
+    .bg-color-2 {
+        background-color: #0841a5;
+        margin-bottom: 10px;
+        border-radius: 6px;
+    }
+
+            .bg-color-2:hover {
+                background-color: #042c72;
+            }
+
+    .bg-color-3 {
+        background-color: #5419cd;
+        margin-bottom: 10px;
+        border-radius: 6px;
+    }
+
+    .bg-color-3:hover {
+        background-color: #3d07ab;
+    }
+
+    .bg-color-4 {
+        background-color: #63a30a;
+        margin-bottom: 10px;
+        border-radius: 6px;
+    }
+
+        .bg-color-4:hover {
+            background-color: #4a7c04;
+        }
+
+    .bg-color-5 {
+        background-color: #d316a4;
+        margin-bottom: 10px;
+        border-radius: 6px;
+    }
+
+        .bg-color-5:hover {
+            background-color: #a3077c;
+        }
+
+    .bg-color-6 {
+        background-color: #bd850e;
+        margin-bottom: 10px;
+        border-radius: 6px;
+    }
+
+        .bg-color-6:hover {
+            background-color: #956706;
+        }
+
+</style>
+
+<div class="breadCumb">
+    <span>Enquiry Analytics Report</span>
+</div>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 px-5">
+
+                <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px; padding-left: 0; padding-right: 0">
+                    <div class="col-md-2 for-cust-icon" style="padding-left: 0;">
+                        <span>From Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtFrom";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        }).GetHtml()
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 for-cust-icon">
+                        <span>To Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Todate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtTo";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        }).GetHtml()
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="">
+                        <span>Enquiry From</span>
+                        <div>
+                            @Html.Action("GetEnquiryFrom", "EnquiryAnalytics")
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" style="padding-top: 20px;">
+                        <span></span>
+                        <div>
+                            @if (ViewBag.CanView)
+                            {
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            }
+
+                            @if (ViewBag.CanExport)
+                            {
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="2">XLSX</option>
+                            </select>
+                            }
+
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="col-md-12" style="padding-top: 15px; margin-bottom: 10px; padding-left: 0; padding-right: 0">
+                    <!-- Button trigger modal -->
+                    @if (ViewBag.CanView)
+                    {
+                        <button type="button" class="btn btn-success bg-color-1" onclick="ShowPendingEnquiry();" data-toggle="tooltip" title="" 
+                                data-placement="top" data-original-title="Enquiry has not been Assigned">
+                            Pending Enquiry <span id="btnPendingEnquirySpan" class="badge">0</span>
+                        </button>
+
+                        <button type="button" class="btn btn-success bg-color-2" onclick="ShowInProcessEnquiry();" data-toggle="tooltip" title="" 
+                                data-placement="top" data-original-title="Enquiry having an activity type as In Process">
+                            In Process Enquiry <span id="btnInProcessEnquirySpan" class="badge">0</span>
+                        </button>
+
+                        <button type="button" class="btn btn-success bg-color-3" onclick="ShowNotInterestedEnquiry();" data-toggle="tooltip" title="" 
+                                data-placement="top" data-original-title="Enquiry having an activity type as Not interested">
+                            Not Interested Enquiry <span id="btnNotInterestedEnquirySpan" class="badge">0</span>
+                        </button>
+
+                        <button type="button" class="btn btn-success bg-color-4" onclick="ShowAssignedEnquiry();" data-toggle="tooltip" title="" 
+                                data-placement="top" data-original-title="Enquiry which has been assigned">
+                            Assigned Enquiry <span id="btnAssignedEnquirySpan" class="badge">0</span>
+                        </button>
+
+                        <button type="button" class="btn btn-success bg-color-5" onclick="ShowReassignedEnquiry();" data-toggle="tooltip" title="" 
+                                data-placement="top" data-original-title="Enquiry which has been Reassigned">
+                            Reassigned Enquiry <span id="btnReassignedEnquirySpan" class="badge">0</span>
+                        </button>
+
+                        <button type="button" class="btn btn-success bg-color-6" onclick="ShowHighRiskEnquiry();" data-toggle="tooltip" title="" 
+                                data-placement="top" data-original-title="No Activity Against Enquiry">
+                            High Risk Enquiry <span id="btnHighRiskEnquirySpan" class="badge">0</span>
+                        </button>
+                    }
+                    <div class="clearfix"></div>
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="options">
+                    <div class="options-item">
+                        @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                }).GetHtml()
+                    </div>
+                </div>
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialEnquiryAnalyticsGridList", "EnquiryAnalytics", new { Fromdate = Model.Fromdate, Todate = Model.Todate, EnquiryFromDesc = Model.EnquiryFromDesc, Is_PageLoad = "Ispageload" });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

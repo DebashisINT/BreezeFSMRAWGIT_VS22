@@ -544,6 +544,12 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             color: #fff;
     }
 
+    #drdExport
+    {
+        max-height: 32px;
+        padding: 5px 10px !important;
+    }
+
     @media only screen and (max-width: 768px) 
     {
         .overflow-x-auto {

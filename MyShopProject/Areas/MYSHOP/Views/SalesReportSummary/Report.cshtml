@@ -2,6 +2,7 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                16-01-2023        V2.0.38           Pallab              25576: Report page design modification *@
 @*2.0                19-07-2023        V2.0.42           Priti               0026135: Branch Parameter is required for various FSM reports *@
+@*3.0                07-11-2023        V2.0.43           Sanchita            0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
 @*====================================================== Revision History ===========================================================*@
 
 @model Models.SalesSummaryReport
@@ -124,6 +125,14 @@
                 $('#MandatoryToDate').attr('style', 'display:none');
             }
 
+            // Rev 3.0
+            if ($("#hdnBranchMandatory").val() == "0") {
+                if (BranchId == "" || BranchId == null) {
+                    jAlert("Please select Branch.");
+                    flag = false;
+                }
+            }
+            // End of Rev 3.0
             if ($("#hdnStateMandatory").val() == "True") {
                 if (StateId == "") {
                     jAlert("Please select State.");
@@ -970,21 +979,21 @@
 
 
                     @*<select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                    <option value="">All</option>
+                            <option value="">All</option>
 
-                    @foreach (var item in Model.states)
-                    {
-                        if (Model.StateId == item.ID)
-                        {
-                            <option value="@item.ID" selected="selected">@item.StateName</option>
-                        }
-                        else
-                        {
-                            <option value="@item.ID">@item.StateName</option>
-                        }
-                    }
+                            @foreach (var item in Model.states)
+                            {
+                                if (Model.StateId == item.ID)
+                                {
+                                    <option value="@item.ID" selected="selected">@item.StateName</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.ID">@item.StateName</option>
+                                }
+                            }
 
-                </select>*@
+                        </select>*@
 
                 </div>
             </div>
@@ -997,20 +1006,20 @@
                     @Html.Action("GetDesigList", "SalesReportSummary")
                     @*<select id="drpdesig" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
 
-                    <option value="">All</option>
-                    @foreach (var item in Model.designation)
-                    {
-                        if (Model.desgid == item.desgid)
-                        {
-                            <option value="@item.desgid" selected="selected">@item.designame</option>
-                        }
-                        else
-                        {
-                            <option value="@item.desgid">@item.designame</option>
+                            <option value="">All</option>
+                            @foreach (var item in Model.designation)
+                            {
+                                if (Model.desgid == item.desgid)
+                                {
+                                    <option value="@item.desgid" selected="selected">@item.designame</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.desgid">@item.designame</option>
 
-                        }
-                    }
-                </select>*@
+                                }
+                            }
+                        </select>*@
 
                 </div>
             </div>
@@ -1033,19 +1042,19 @@
                     }).GetHtml()
 
                     @*<select id="drpemp" name="drpshop" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                    <option value="">All</option>
-                    @foreach (var item in Model.employee)
-                    {
-                        if (Model.empcode == item.empcode)
-                        {
-                            <option value="@item.empcode" selected="selected">@item.empname</option>
-                        }
-                        else
-                        {
-                            <option value="@item.empcode">@item.empname</option>
-                        }
-                    }
-                </select>*@
+                            <option value="">All</option>
+                            @foreach (var item in Model.employee)
+                            {
+                                if (Model.empcode == item.empcode)
+                                {
+                                    <option value="@item.empcode" selected="selected">@item.empname</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.empcode">@item.empname</option>
+                                }
+                            }
+                        </select>*@
 
                 </div>
             </div>
@@ -1066,35 +1075,35 @@
             @*<div class="col-md-12">
 
 
-          <table class="eqpadtbl">
-              <tr>
-                  <td class="w150 relative">
+                  <table class="eqpadtbl">
+                      <tr>
+                          <td class="w150 relative">
 
-                  </td>
-                  <td class="w150 relative">
+                          </td>
+                          <td class="w150 relative">
 
-                  </td>
-
-
-
-                  <td class="w150">
-
-                  </td>
-                  <td class="w150">
-
-                  </td>
-                  <td class="w150">
-
-                  </td>
-
-                  <td style="padding-top: 22px;width:170px;">
+                          </td>
 
 
-                  </td>
-              </tr>
-          </table>
 
-        </div>*@
+                          <td class="w150">
+
+                          </td>
+                          <td class="w150">
+
+                          </td>
+                          <td class="w150">
+
+                          </td>
+
+                          <td style="padding-top: 22px;width:170px;">
+
+
+                          </td>
+                      </tr>
+                  </table>
+
+                </div>*@
 
         </div>
         <input type="hidden" id="hdnuser_id" />
@@ -1102,6 +1111,9 @@
         <input type="hidden" id="hdnuser_shop" />
         <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
         <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+        @*Rev 3.0*@
+        <input type="hidden" id="hdnBranchMandatory" value="@ViewBag.BranchMandatory" />
+        @*End of Rev 3.0*@
         <div style="clear: both;"></div>
         <div class="">
             <div id="refreshgridsalessummary">

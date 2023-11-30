@@ -1,6 +1,7 @@
 ﻿/******************************************************************************************************************
   1.0       16-08-2023        V2.0.42          Sanchita          The enquiry doesn't showing in the listing after modification
                                                                  Mantis: 26721
+  2.0       23-11-2023        V2.0.43          Sanchita          Bulk Import feature required for Enquiry Module.Mantis: 27020   
 **************************************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -254,7 +255,30 @@ namespace MyShop.Models
         public string description { get; set; }
         public string date { get; set; }
     }
-   
 
+    // Rev 2.0
+    public class CRMEnquiriesImportLogModel
+    {
+        public DateTime Date { get; set; }
+        public string Customer_Name { get; set; }
+        public string Contact_Person { get; set; }
+        public string PhoneNo { get; set; }
+
+        public string Email { get; set; }
+        public string Location { get; set; }
+        public string Product_Required { get; set; }
+        public decimal Qty { get; set; }
+        public string UOM { get; set; }
+        public decimal Order_Value { get; set; }
+        public string vend_type { get; set; }
+        public string Enq_Details { get; set; }
+        public DateTime ImportDate { get; set; }
+        public string ImportMsg { get; set; }
+        public string ImportStatus { get; set; }
+        
+       
+        
+    }
+    // End of Rev 2.0
 }
 

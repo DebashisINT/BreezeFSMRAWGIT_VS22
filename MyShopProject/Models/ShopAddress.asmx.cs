@@ -5,6 +5,8 @@
 // 3.0      V2.0.40    Sanchita    04-05-2023  A New Expense Report is Required for BP Poddar. Refer: 25833*
 // 4.0      V2.0.41    Sanchita    06-06-2023  Inactive DD/PP is showing in the Assign to PP/DD list while creating any Shop
 //                                             Refer: 26262 
+// 5.0      v2.0.43    Sanchita    16-10-2023  On demand search is required in Product Master & Projection Entry
+//                                             Mantis: 26858
 // ********************************************************************************************************************
 using DataAccessLayer;
 using Models;
@@ -337,6 +339,69 @@ namespace MyShop.Models
             return listEmployee;
         }
         // End of Rev 3.0
+        // Rev 5.0
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetShopUserName(string SearchKey)
+        {
+            List<ShopUserAssign> Shoplist = new List<ShopUserAssign>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+
+                BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+
+                ProcedureExecute proc = new ProcedureExecute("PRC_PROJECTREPORT_LISTING");
+                proc.AddPara("@ACTION", "CustomerNameSearch");
+                proc.AddPara("@USERID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                DataTable Shop = proc.GetTable();
+                
+                Shoplist = (from DataRow dr in Shop.Rows
+                            select new ShopUserAssign()
+                            {
+                                Shop_Code = dr["Shop_Code"].ToString(),
+                                Shop_Name = dr["Shop_Name"].ToString()
+                            }).ToList();
+            }
+
+            return Shoplist;
+        }
+
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetProjectName(string SearchKey)
+        {
+            List<ProjectNameAssign> Projlist = new List<ProjectNameAssign>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                string[] ar1 = SearchKey.Split(',');
+
+                string SearchKey1 = Convert.ToString(ar1[0]);
+                SearchKey = SearchKey1.Replace("'", "''");
+
+                string ShopCode = Convert.ToString(ar1[1]);
+
+                BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+
+                ProcedureExecute proc = new ProcedureExecute("PRC_PROJECTREPORT_LISTING");
+                proc.AddPara("@ACTION", "ProjectNameSearch");
+                proc.AddPara("@USERID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                proc.AddPara("@Shop_Code", ShopCode);
+                DataTable Shop = proc.GetTable();
+
+                Projlist = (from DataRow dr in Shop.Rows
+                            select new ProjectNameAssign()
+                            {
+                                Project_Id = dr["Project_Id"].ToString(),
+                                Project_Name = dr["Project_Name"].ToString()
+                            }).ToList();
+            }
+
+            return Projlist;
+        }
+        // End of Rev 5.0
     }
 
     public class PPModel

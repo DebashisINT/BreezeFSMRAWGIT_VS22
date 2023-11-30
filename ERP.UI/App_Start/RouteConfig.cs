@@ -25,6 +25,12 @@ namespace ERP
              url: "MYSHOP/{controller}/{action}/{id}",
              defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
          );
+            
+            routes.MapRoute(
+            name: "DefaultMapMaster",
+            url: "MASTER/{controller}/{action}/{id}",
+            defaults: new { controller = "Login", action = "Index", id = UrlParameter.Optional }
+        );
 
         }
     }

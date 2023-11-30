@@ -109,7 +109,8 @@
 }
 @media screen and (max-width: 540px) {
     #griddashboard > tbody > tr > td > .dxgvCSD {
-        width: 304px !important;
+        /*width: 304px !important;*/
+        width: 100% !important;
     }
    
    

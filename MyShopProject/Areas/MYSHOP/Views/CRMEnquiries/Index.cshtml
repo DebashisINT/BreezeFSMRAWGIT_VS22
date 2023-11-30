@@ -2,7 +2,9 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
 @*2.0                16-08-2023        V2.0.42          Sanchita            The enquiry doesn't showing in the listing after modification
-                                                                            Mantis: 26721 *@
+    Mantis: 26721 *@
+@*3.0                17-11-2023        V2.0.44          Pallab              27003: CRM Enquiries modules popup and icon design modification*@
+@*4.0                23-11-2023        V2.0.43          Sanchita            Bulk Import feature required for Enquiry Module.Mantis: 27020*@
 @*====================================================== Revision History ===================================================*@
 
 @using MyShop.Models;
@@ -880,7 +882,8 @@
         window.location.href = url;
     }*@
 
-    function ChekEmpSettingsUpload() {
+    // Rev 4.0
+    @*function ChekEmpSettingsUpload() {
         todate = null;
         fromdate = null;
         var isprocess = false;
@@ -927,8 +930,8 @@
                 success: function (result) {
                     jAlert(result, 'Alert', function () {
                         $("#fileprod").val('');
-                        //$("#myImportModal").toggle();
-                        $("#myImportModal").modal('hide');
+                        //$("#myImportEnquiriesModal").toggle();
+                        $("#myImportEnquiriesModal").modal('hide');
                         GridShow();
                         $.ajax({
                             type: "POST",
@@ -949,7 +952,8 @@
                 }
             });
         }
-    }
+    }*@
+    // End of Rev 4.0
 
     function OnClickDeleteForm(CRM_ID) {
         var url = '/CRMEnquiries/EnquiryDelete/';
@@ -1054,6 +1058,136 @@
             console.log(empId);
         }
     }
+
+    // Rev 4.0
+    function DownloadFormat() {
+        var url = '@Url.Action("DownloadFormat", "CRMEnquiries")'
+        window.location.href = url;
+    }
+
+    function BulkImportEnquiriesPopOpen() {
+        $("#myImportEnquiriesModal").modal('show');
+    }
+
+    function BulkImportEnquiries() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("ImportExcel", "CRMEnquiries")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        //$("#myImportEnquiriesModal").toggle();
+                        $("#myImportEnquiriesModal").modal('hide');
+                        GridShow();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("BulkImportLog", "CRMEnquiries")",
+                            success: function (response) {
+                                if (response) {
+                                    pcModalTemplateEnquiriesImportLogMode.Show();
+                                    gridBulkImportLog.Refresh();
+                                    gridBulkImportLog.Refresh();
+                                }
+                            }
+                        });
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+
+    function BulkImportLogPopOpen() {
+        var d = new Date();
+
+        dtLogFrom_BulkImport.SetValue(d);
+        dtLogTo_BulkImport.SetValue(d);
+
+        pcModalBulkImportViewMode.Show();
+    }
+
+    function BulkEnquiriesImportUserLog() {
+        var url = '/CRMEnquiries/BulkEnquiriesImportUserLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogFrom_BulkImport.GetText(), 'ToDate': dtLogTo_BulkImport.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("BulkImportLog", "CRMEnquiries")",
+                        success: function (response) {
+                            if (response) {
+                              //  $("#ReAssignedModal_AreaRouteBeat").modal('hide');
+                                pcModalTemplateEnquiriesImportLogMode.Show();
+                                gridBulkImportLog.Refresh();
+                                gridBulkImportLog.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+    function ExportBulkImportLogGrid() {
+        var url = '@Url.Action("ExportBulkImportLogGrid", "CRMEnquiries", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+    // End of Rev 4.0
 </script>
 @*Mantis Issue 24816*@
 <script>
@@ -1581,7 +1715,7 @@
         height: 34px;
     }
 
-    #dtFrom, #dtTo, #FormDate, #toDate {
+    #dtFrom, #dtTo, #FormDate, #toDate, #appcbl_frm_dt {
         position: relative;
         z-index: 1;
         background: transparent;
@@ -1714,7 +1848,7 @@
         padding-right: 20px;
     }
 
-    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1 {
+    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #appcbl_frm_dt_B-1 {
         background: transparent !important;
         border: none;
         width: 30px;
@@ -1722,7 +1856,10 @@
     }
 
         #dtFrom_B-1 #dtFrom_B-1Img,
-        #dtTo_B-1 #dtTo_B-1Img, #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img, #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img {
+        #dtTo_B-1 #dtTo_B-1Img,
+        #cmbDOJ_B-1 #cmbDOJ_B-1Img,
+        #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img,
+        #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #appcbl_frm_dt_B-1 #appcbl_frm_dt_B-1Img {
             display: none;
         }
 
@@ -1797,6 +1934,40 @@
         height: 34px;
     }
     /*Rev end 1.0*/
+    /*Rev start 3.0*/
+    .mrtop-6 {
+        margin-top: 6px;
+    }
+
+    #myModalReAssignSalesman .modal-dialog {
+        max-width: 32%;
+    }
+
+    .btn-default {
+        background-color: #dbdbdb;
+    }
+
+        .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+            background-color: #c1c1c1;
+        }
+
+    #ddlSalesmanRe, #ddlSalesman1 {
+        -webkit-appearance: auto;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_PW-1 {
+        left: 15px !important;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_C_FNP_PW-1 {
+        left: 60px !important;
+    }
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #myImportEnquiriesModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+    /*End of Rev 4.0*/
 </style>
 
 <script>
@@ -2066,6 +2237,22 @@
 
                         }
                         @*End of Mantis Issue 24832*@
+                        @*Rev 4.0*@
+                        @if (ViewBag.CanBulkUpdate)
+                        {
+                            <button type="button" class="btn btn-info" onclick="DownloadFormat();">
+                                Download Format
+                            </button>
+
+                            <button type="button" class="btn btn-primary" onclick="BulkImportEnquiriesPopOpen();">
+                                Import File
+                            </button>
+
+                            <button type="button" class="btn btn-primary" onclick="BulkImportLogPopOpen();">
+                                View Log
+                            </button>
+                        }
+                        @*End of Rev 4.0*@
 
                     </div>
                     <div class="clear"></div>
@@ -2205,7 +2392,7 @@
                 <div class="row">
 
                     @*Rev 2.0 [id="divDate" added] *@
-                    <div class="col-md-3" id="divDate">
+                    <div class="col-md-3  for-cust-icon" id="divDate">
                         <label>Date <span class="red">*</span></label>
                         <div>
                             @Html.DevExpress().DateEdit(
@@ -2220,6 +2407,9 @@
                                          settings.Date = DateTime.Now;
                                      }
                             ).GetHtml()
+                            @*Rev 3.0*@
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                            @*Rev end 3.0*@
                             @*<span id="Mandatoryfrm_dt" style="display: none" class="validclass">
                                     <img id="imgMandatoryName" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
                                 </span>*@
@@ -2292,6 +2482,9 @@
                                 <option value="Exhibition">Exhibition</option>
                                 <option value="Twak">Twak</option>
                                 <option value="MccoyMart">Mccoy Mart</option>
+                                @*Rev 4.0*@
+                                <option value="Other">Other</option>
+                                @*End of Rev 4.0*@
                             </select>
                         </div>
                     </div>
@@ -2475,12 +2668,16 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    @*Rev start 3.0: "pl-0 pr-0" class added*@
+                    <div class="col-md-12 pl-0 pr-0">
                         <div class="col-md-6">
-                            <label>Assigned Salesman:</label>
+                            <label class="mrtop-6">Assigned Salesman:</label>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" id="txtAssignedSalesman" readonly="readonly" />
+                            @*Rev start 3.0*@
+                            @*<input type="text" id="txtAssignedSalesman" readonly="readonly" />*@
+                            <input class="form-control" type="text" id="txtAssignedSalesman" readonly="readonly" />
+                            @*Rev end 3.0*@
                             @*<label id="txtAssignedSalesman"></label>*@
                         </div>
                     </div>
@@ -2506,6 +2703,92 @@
     </div>
 </div>
 @*End of Mantis Issue 24776*@
+
+@*Rev 4.0*@
+<div id="myImportEnquiriesModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Bulk Import Template For Enquiries</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5 mt-4"><input type="submit" value="Import (Add/Update)" onclick="return BulkImportEnquiries();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.DevExpress().PopupControl(
+            settings =>
+            {
+                settings.Name = "pcModalTemplateEnquiriesImportLogMode";
+                settings.Width = 1200; //System.Web.UI.WebControls.Unit.Percentage(80);
+                //settings.Height = 220;
+                //settings.ScrollBars.v
+                settings.AllowDragging = true;
+                settings.CloseAction = CloseAction.CloseButton;
+                settings.CloseOnEscape = true;
+                settings.PopupAnimationType = AnimationType.None;
+                settings.HeaderText = "Import Log";
+                settings.Modal = true;
+                settings.AutoUpdatePosition = true;
+                settings.Top = 50;
+                settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+                settings.SetContent(() =>
+                {
+                    Html.RenderPartial("BulkImportLog", new List<CRMEnquiriesImportLogModel>());
+                    ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportBulkImportLogGrid();'>Export</button>");
+                });
+
+                //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+            }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalBulkImportViewMode";
+            settings.Width = 300;
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Bulk Import Enquiries Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("_BulkEnquiriesImportManualLogView");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+        }).GetHtml()
+@*End of Rev 4.0*@
+
 @*@Html.DevExpress().PopupControl(
     settings =>
     {

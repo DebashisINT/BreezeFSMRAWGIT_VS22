@@ -2,6 +2,7 @@
 //1.0   V2.0.38     Debashis    02/02/2023      Two new methods have been added.Row: 810 to 811
 //2.0   V2.0.39     Debashis    24/04/2023      One new method has been added.Row: 822
 //3.0   V2.0.40     Debashis    30/06/2023      One new method has been added.Row: 852
+//4.0   V2.0.42     Debashis    06/10/2023      One new parameter has been added.Row: 867 & 873
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -269,6 +270,9 @@ namespace ShopAPI.Controllers
                 sqlcmd.Parameters.AddWithValue("@purpose", omm.purpose);
                 sqlcmd.Parameters.AddWithValue("@GSTN_Number", omm.GSTN_Number);
                 //End of Rev Debashis
+                //Rev 4.0 Row: 867
+                sqlcmd.Parameters.AddWithValue("@FSSAILicNo", omm.FSSAILicNo);
+                //End of Rev 4.0 Row: 867
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -400,6 +404,9 @@ namespace ShopAPI.Controllers
                 sqlcmd.Parameters.AddWithValue("@shopStatusUpdate", omm.shopStatusUpdate);
                 sqlcmd.Parameters.AddWithValue("@GSTN_Number", omm.GSTN_Number);
                 //End of Rev Debashis
+                //Rev 4.0 Row: 873
+                sqlcmd.Parameters.AddWithValue("@isUpdateAddressFromShopMaster", omm.isUpdateAddressFromShopMaster);
+                //End of Rev 4.0 Row: 873
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

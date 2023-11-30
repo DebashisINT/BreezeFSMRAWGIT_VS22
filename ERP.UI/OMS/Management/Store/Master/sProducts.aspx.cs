@@ -3,6 +3,7 @@
  * Rev 2.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : Listing - Implement Show Button. Refer: 25709
  * Rev 3.0     Sanchita    V2.0.40     05/05/2023      Downloaded excel showing blank data while exporting the Product Master in FSM Portal
  *                                                      Refer: 26041
+ * Rev 4.0     Sanchita    V2.0.43     06/11/2023      On demand search is required in Product Master & Projection Entry. Mantis: 26858                                                      
  * *****************************************************************************************************************************/
 using System;
 using System.Data;
@@ -399,10 +400,12 @@ namespace ERP.OMS.Management.Store.Master
             dtCmb = oGenericMethod.GetDataTable("select Brand_Id ,Brand_Name from tbl_master_brand where Brand_IsActive=1");
 
             AspxHelper oAspxHelper = new AspxHelper();
-            if (dtCmb.Rows.Count > 0)
-            {
-                oAspxHelper.Bind_Combo(cmbBrand, dtCmb, "Brand_Name", "Brand_Id", "");
-            }
+            // Rev 4.0
+            //if (dtCmb.Rows.Count > 0)
+            //{
+            //    oAspxHelper.Bind_Combo(cmbBrand, dtCmb, "Brand_Name", "Brand_Id", "");
+            //}
+            // End of Rev 4.0
 
         }
 
@@ -434,8 +437,9 @@ namespace ERP.OMS.Management.Store.Master
 
             clsDropDownList oclsDropDownList = new clsDropDownList();
             string[,] DataColorNew= oDBEngine.GetFieldValue("Master_Color", "Color_ID,Color_Name",null,2,"Color_Name");
-            oclsDropDownList.AddDataToDropDownList(DataColorNew, ddlColorNew);
-        
+            // Rev rev 4.0
+            //oclsDropDownList.AddDataToDropDownList(DataColorNew, ddlColorNew);
+            // End of Rev rev 4.0
         }
         protected void BindSizeNew()
         {
@@ -796,6 +800,9 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                                 decimal reorder_qty = 0;
                                 Boolean isCapitalGoods = false;
                                 int tdscode = 0;
+                                // Rev 4.0
+                                int ProductBrand = 0;
+                                // End of Rev 4.0
 
                                 if (cmb_tdstcs.Value != null)
                                 {
@@ -901,6 +908,12 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                                     return;
 
                                 }
+                                // Rev 4.0
+                                if (hdnBrand_hidden.Value.ToString() != "")
+                                {
+                                    ProductBrand = Convert.ToInt32(hdnBrand_hidden.Value);
+                                }
+                                // End of Rev 4.0
 
                                 if (HttpContext.Current.Session["userid"] != null)
                                 {
@@ -918,7 +931,10 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                                      autoApply, Convert.ToString(fileName.Value), ProdComponent, Convert.ToString(CmbStatus.SelectedItem.Value), Convert.ToString(HsnLookUp.Text).Trim(),
                                      Convert.ToInt32(AspxServiceTax.Value == null ? 0 : AspxServiceTax.Value),
                                      Convert.ToDecimal(txtPackingQty.Text.Trim()), Convert.ToDecimal(txtpacking.Text.Trim()), Convert.ToInt32(cmbPackingUom.Value != null ? cmbPackingUom.Value : 0),
-                                     isInstall, Convert.ToInt32(cmbBrand.Value == null ? 0 : cmbBrand.Value), isCapitalGoods, tdscode, Convert.ToString(Session["LastFinYear"]), isOldUnit,
+                                     // Rev 4.0
+                                     //isInstall, Convert.ToInt32(cmbBrand.Value == null ? 0 : cmbBrand.Value), isCapitalGoods, tdscode, Convert.ToString(Session["LastFinYear"]), isOldUnit,
+                                     isInstall, ProductBrand, isCapitalGoods, tdscode, Convert.ToString(Session["LastFinYear"]), isOldUnit,
+                                     // End of Rev 4.0
                                      hdnSIMainAccount.Value == null ? "" : Convert.ToString(hdnSIMainAccount.Value), hdnSRMainAccount.Value == null ? "" : Convert.ToString(hdnSRMainAccount.Value),
                                      hdnPIMainAccount.Value == null ? "" : Convert.ToString(hdnPIMainAccount.Value), hdnPRMainAccount.Value == null ? "" : Convert.ToString(hdnPRMainAccount.Value), FurtheranceToBusiness, IsServiceItem, reorder_qty
                                      // Mantis Issue 24299
@@ -1015,7 +1031,9 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                 decimal reorder_qty = 0;
                 Boolean isCapitalGoods = false;
                 int tdscode = 0;
-
+                // Rev 4.0
+                int ProductBrand = 0;
+                // End of Rev 4.0
 
                 if (chkFurtherance.Checked)
                 {
@@ -1147,6 +1165,13 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                 if (Convert.ToString(cmbIsCapitalGoods.SelectedItem.Value) == "1")
                     isCapitalGoods = true;
 
+                // Rev 4.0
+                if (hdnBrand_hidden.Value.ToString() != "")
+                {
+                    ProductBrand = Convert.ToInt32(hdnBrand_hidden.Value);
+                }
+                // End of Rev 4.0
+
                 updtcnt = oStore_MasterBL.UpdateProduct(Convert.ToInt32(WhichType), txtPro_Code.Text, txtPro_Name.Text, txtPro_Description.Text, Convert.ToString(CmbProType.SelectedItem == null ? 0 : CmbProType.SelectedItem.Value),
                  Convert.ToInt32(CmbProClassCode.SelectedItem == null ? 0 : CmbProClassCode.SelectedItem.Value), txtGlobalCode.Text, 1, Convert.ToInt32(CmbTradingLotUnits.SelectedItem == null ? 0 : CmbTradingLotUnits.SelectedItem.Value),
                  1, 1, 1, 1,
@@ -1162,7 +1187,10 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                  autoApply, Convert.ToString(fileName.Value), ProdComponent, Convert.ToString(CmbStatus.SelectedItem.Value), Convert.ToString(HsnLookUp.Text).Trim(),
                  Convert.ToInt32(AspxServiceTax.Value == null ? 0 : AspxServiceTax.Value),
                  Convert.ToDecimal(txtPackingQty.Text.Trim()), Convert.ToDecimal(txtpacking.Text.Trim()), Convert.ToInt32(cmbPackingUom.Value != null ? cmbPackingUom.Value : 0),
-                 isInstall, Convert.ToInt32(cmbBrand.Value == null ? 0 : cmbBrand.Value), isCapitalGoods, tdscode, isOldUnit,
+                 // Rev 4.0
+                 //isInstall, Convert.ToInt32(cmbBrand.Value == null ? 0 : cmbBrand.Value), isCapitalGoods, tdscode, isOldUnit,
+                 isInstall, ProductBrand, isCapitalGoods, tdscode, isOldUnit,
+                 // End of Rev 4.0
                  hdnSIMainAccount.Value == null ? "" : Convert.ToString(hdnSIMainAccount.Value), hdnSRMainAccount.Value == null ? "" : Convert.ToString(hdnSRMainAccount.Value),
                  hdnPIMainAccount.Value == null ? "" : Convert.ToString(hdnPIMainAccount.Value), hdnPRMainAccount.Value == null ? "" : Convert.ToString(hdnPRMainAccount.Value), FurtheranceToBusiness, IsServiceItem, reorder_qty
                  // Mantis Issue 24299
@@ -1380,8 +1408,12 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                     string GenderNew = Convert.ToString(dtEdit.Rows[0]["GenderNew"]);
                     // End of Mantis Issue 24299
                     // Mantis Issue 25469, 25470
-                    string sProducts_Discount = Convert.ToString(dtEdit.Rows[0]["sProducts_Discount"]); 
+                    string sProducts_Discount = Convert.ToString(dtEdit.Rows[0]["sProducts_Discount"]);
                     // End of Mantis Issue 25469, 25470
+                    // Rev rev 4.0
+                    string ColorNew_Desc = Convert.ToString(dtEdit.Rows[0]["ColorNew_Desc"]);
+                    string Brand_Desc = Convert.ToString(dtEdit.Rows[0]["Brand_Desc"]);
+                    // End of Rev rev 4.0
 
                     cityGrid.JSProperties["cpEdit"] = sProducts_ID + "~"
                                                     + sProducts_Code + "~"
@@ -1463,6 +1495,10 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                                                     // Mantis Issue 25469, 25470
                                                     + "~" + sProducts_Discount
                                                     // End of Mantis Issue 25469, 25470
+                                                    // Rev rev 4.0
+                                                    + "~" + ColorNew_Desc
+                                                    + "~" + Brand_Desc
+                                                    // End of Rev rev 4.0
                                                         ;
                 }
             }
@@ -1595,7 +1631,63 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
 
         }
 
+        // Rev rev 4.0
+        public class ColorNew
+        {
+            public string Color_ID { get; set; }
+            public string Color_Name { get; set; }
+        }
 
+        [WebMethod(EnableSession = true)]
+        public static object GetOnDemandColorNew(string SearchKey)
+        {
+            List<ColorNew> listColorNew = new List<ColorNew>();
+            BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine(ConfigurationSettings.AppSettings["DBConnectionDefault"]);
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_ProductNameSearch");
+            proc.AddPara("@USER_ID", Convert.ToInt32(HttpContext.Current.Session["userid"]));
+            proc.AddPara("@Action", "SearchByColor");
+            proc.AddPara("@SearchKey", SearchKey);
+            dt = proc.GetTable();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                ColorNew lColor = new ColorNew();
+                lColor.Color_ID = dr["Color_ID"].ToString();
+                lColor.Color_Name = dr["Color_Name"].ToString();
+                listColorNew.Add(lColor);
+            }
+            return listColorNew;
+        }
+
+        public class Brand
+        {
+            public string Brand_Id { get; set; }
+            public string Brand_Name { get; set; }
+        }
+
+        [WebMethod(EnableSession = true)]
+        public static object GetOnProductBrand(string reqStr)
+        {
+            List<Brand> listBrand = new List<Brand>();
+            BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine(ConfigurationSettings.AppSettings["DBConnectionDefault"]);
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_ProductNameSearch");
+            proc.AddPara("@USER_ID", Convert.ToInt32(HttpContext.Current.Session["userid"]));
+            proc.AddPara("@Action", "SearchByBrand");
+            proc.AddPara("@SearchKey", reqStr);
+            dt = proc.GetTable();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                Brand lBrand = new Brand();
+                lBrand.Brand_Id = dr["Brand_Id"].ToString();
+                lBrand.Brand_Name = dr["Brand_Name"].ToString();
+                listBrand.Add(lBrand);
+            }
+            return listBrand;
+        }
+        // End of Rev rev 4.0
 
         [WebMethod(EnableSession = true)]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]

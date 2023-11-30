@@ -7,6 +7,7 @@ Rev 4.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : List
 Rev 5.0     Pallab      V2.0.39     18/04/2023      Dropdown window is not showing for Colour & Gender while selecting Configure Product Attribute in Product master. Refer: 25851
 Rev 6.0     Pallab      V2.0.39     25/04/2023      Products module all search popup auto focus add and "cancel" button color change. Refer: 25914
 Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount percentage import facility required while importing Product Master. Refer: 25785
+Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required in Product Master & Projection Entry. Mantis: 26858
 -------------------------------------------------------------------------------------------------------------------------- --%>
 <%@ Page Title="Products" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
     Inherits="ERP.OMS.Management.Store.Master.management_master_Store_sProducts" CodeBehind="sProducts.aspx.cs" %>
@@ -114,8 +115,22 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
                     $('#txtProduct_hidden').val('');
                 }
             }
+            // Rev rev 8.0
+            if (ArrName == 'ColorNewSource') {
+                var key = Id;
+                if (key != null && key != '') {
+                    $("#hdnColorNew").val(Id);
+                    ctxtColorNew.SetText(Name);
+                    $('#ColorNewModel').modal('hide');
+                }
+                else {
+                    $("#hdnColorNew").val('');
+                    ctxtColorNew.SetText('');
+                    $('#ColorNewModel').modal('hide');
 
-
+                }
+            }
+            // End of Rev rev 8.0
         }
 
         function ShowData() {
@@ -125,6 +140,92 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
         // End of Rev 4.0
     </script>
 
+    <%--Rev rev 8.0--%>
+    <script>
+        var ColorNewArr = new Array();
+        $(document).ready(function () {
+            var ColorNewObj = new Object();
+            ColorNewObj.Name = "ColorNewSource";
+            ColorNewObj.ArraySource = ColorNewArr;
+            arrMultiPopup.push(ColorNewObj);
+            $("#calledFromColorNewLookup_hidden").val("0");
+        })
+
+        function ColorNewButnClick(s, e) {
+            $('#ColorNewModel').modal('show');
+            $("#txtColorNewSearch").focus();
+        }
+
+        function ColorNewbtnKeyDown(s, e) {
+            if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+                $('#ColorNewModel').modal('show');
+                $("#txtColorNewSearch").focus();
+            }
+        }
+
+        function ColorNewskeydown(e) {
+
+            var OtherDetails = {}
+            OtherDetails.SearchKey = $("#txtColorNewSearch").val();
+            
+            if ($.trim($("#txtColorNewSearch").val()) == "" || $.trim($("#txtColorNewSearch").val()) == null) {
+                return false;
+            }
+            
+            if (e.code == "Enter" || e.code == "NumpadEnter") {
+                $("#calledFromColorNewLookup_hidden").val("1");
+                var HeaderCaption = [];
+                HeaderCaption.push("Name");
+                if ($("#txtColorNewSearch").val() != null && $("#txtColorNewSearch").val() != "") {
+                    callonServerM("sProducts.aspx/GetOnDemandColorNew", OtherDetails, "ColorNewTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "ColorNewSource");
+                }
+            }
+            else if (e.code == "ArrowDown") {
+                if ($("input[ColorNewIndex=0]"))
+                    $("input[ColorNewIndex=0]").focus();
+            }
+        }
+
+         function BrandButnClick(s, e) {
+             $('#BrandModel').modal('show');
+             $("#txtBrandSearch").focus();
+         }
+
+         function BrandbtnKeyDown(s, e) {
+             if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+                 $('#BrandModel').modal('show');
+                 $("#txtBrandSearch").focus();
+             }
+         }
+
+         function Brandkeydown(e) {
+
+             var OtherDetails = {}
+             OtherDetails.reqStr = $("#txtBrandSearch").val();
+             if ($.trim($("#txtBrandSearch").val()) == "" || $.trim($("#txtBrandSearch").val()) == null) {
+                 return false;
+             }
+             if (e.code == "Enter" || e.code == "NumpadEnter") {
+                 $("#calledFromAReportHeadLookup_hidden").val("1");
+                 var HeaderCaption = [];
+                 HeaderCaption.push("Name");
+                 if ($("#txtBrandSearch").val() != null && $("#txtBrandSearch").val() != "") {
+                     callonServer("sProducts.aspx/GetOnProductBrand", OtherDetails, "BrandTable", HeaderCaption, "BrandIndex", "SetBrand");
+                 }
+             }
+             else if (e.code == "ArrowDown") {
+                 if ($("input[BrandIndex=0]"))
+                     $("input[BrandIndex=0]").focus();
+             }
+         }
+
+         function SetBrand(Id, Name) {
+             $("#hdnBrand_hidden").val(Id);
+             ctxtBrand.SetText(Name);
+             $('#BrandModel').modal('hide');
+         }
+     </script>
+    <%--End of Rev rev 8.0--%>
 
     <style>
         .normaltble {
@@ -1378,19 +1479,23 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
             SizeApp = Rrdblapp.GetSelectedIndex();
             // Mantis Issue 24299
             ProdColorNew = "";
-            var Colors = $("#ddlColorNew").val();
+            // Rev rev 8.0
+            //var Colors = $("#ddlColorNew").val();
+            //if (Colors != null) {
+            //    for (var i = 0; i < Colors.length; i++) {
+            //        if (ProdColorNew == "") {
+            //            ProdColorNew = Colors[i];
+            //        }
+            //        else {
+            //            ProdColorNew += ',' + Colors[i];
+            //        }
+            //    }
+            //}
+            //$("#hdnColorNew").val(ProdColorNew);
 
-            if (Colors != null) {
-                for (var i = 0; i < Colors.length; i++) {
-                    if (ProdColorNew == "") {
-                        ProdColorNew = Colors[i];
-                    }
-                    else {
-                        ProdColorNew += ',' + Colors[i];
-                    }
-                }
-            }
-            $("#hdnColorNew").val(ProdColorNew);
+            var Colors = $("#hdnColorNew").val();
+            $("#hdnColorNew").val(Colors);
+            // End of Rev rev 8.0
            
 
             ProdSizeNew = "";
@@ -1584,15 +1689,25 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
             RrdblappColor.SetSelectedIndex(0);
             Rrdblapp.SetSelectedIndex(0);
             // Mantis Issue 24299
-            $("#ddlColorNew").val("");
+            // Rev rev 8.0
+            //$("#ddlColorNew").val("");
+            $("#hdnColorNew").val("");
+            ctxtColorNew.SetText("");
+            $("#txtColorNewSearch").val("");
+            ColorNewTable.innerHTML = "";
+            // End of Rev rev 8.0
             $("#ddlSizeNew").val("");
             $("#ddlGenderNew").val("");
 
-            $("#ddlColorNew").multiselect('select', "");
+            // Rev rev 8.0
+            //$("#ddlColorNew").multiselect('select', "");
+            // End of Rev rev 8.0
             $("#ddlSizeNew").multiselect('select', "");
             $("#ddlGenderNew").multiselect('select', "");
 
-            $("#ddlColorNew").multiselect('refresh');
+            // Rev rev 8.0
+            //$("#ddlColorNew").multiselect('refresh');
+            // End of Rev rev 8.0
             $("#ddlSizeNew").multiselect('refresh');
             $("#ddlGenderNew").multiselect('refresh');
 
@@ -1663,7 +1778,13 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
             ccmbPackingUom.SetSelectedIndex(-1);
             //packing details End Here
             caspxInstallation.SetValue('0');
-            ccmbBrand.SetValue('');
+            // Rev 8.0
+            //ccmbBrand.SetValue('');
+            $("#hdnBrand_hidden").val("");
+            ctxtBrand.SetText("");
+            $("#txtBrandSearch").val("");
+            BrandTable.innerHTML = "";
+            // End of Rev 8.0
             cmb_tdstcs.SetValue('');
             //cPopup_Empcitys.SetWidth(window.screen.width - 50);
             //cPopup_Empcitys.SetHeight(window.innerHeight.height - 70);
@@ -1682,20 +1803,23 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
             else {
                 // Rev 2.0
                 ProdColorNew = "";
-                var Colors = $("#ddlColorNew").val();
-
-                if (Colors != null) {
-                    for (var i = 0; i < Colors.length; i++) {
-                        if (ProdColorNew == "") {
-                            ProdColorNew = Colors[i];
-                        }
-                        else {
-                            ProdColorNew += ',' + Colors[i];
-                        }
-                    }
-                }
-                $("#hdnColorNew").val(ProdColorNew);
-
+                // Rev rev 8.0
+                //var Colors = $("#ddlColorNew").val();
+               
+                //if (Colors != null) {
+                //    for (var i = 0; i < Colors.length; i++) {
+                //        if (ProdColorNew == "") {
+                //            ProdColorNew = Colors[i];
+                //        }
+                //        else {
+                //            ProdColorNew += ',' + Colors[i];
+                //        }
+                //    }
+                //}
+                //$("#hdnColorNew").val(ProdColorNew);
+                var Colors = $("#hdnColorNew").val();
+                $("#hdnColorNew").val(Colors);
+                // End of Rev rev 8.0
 
                 ProdSizeNew = "";
                 var Sizes = $("#ddlSizeNew").val();
@@ -2026,44 +2150,63 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
                 }
                 // Mantis Issue 24299
 
-                $("#ddlColorNew").val("");
+                // Rev rev 8.0
+                //$("#ddlColorNew").val("");
+                $("#hdnColorNew").val("");
+                ctxtColorNew.SetText("");
+                $("#txtColorNewSearch").val("");
+                ColorNewTable.innerHTML = "";
+                // End of Rev rev 8.0
                 $("#ddlSizeNew").val("");
                 $("#ddlGenderNew").val("");
 
-                $("#ddlColorNew").multiselect('select', "");
+                // Rev rev 8.0
+                //$("#ddlColorNew").multiselect('select', "");
+                // End of Rev rev 8.0
                 $("#ddlSizeNew").multiselect('select', "");
                 $("#ddlGenderNew").multiselect('select', "");
 
-                $("#ddlColorNew").multiselect('refresh');
+                // Rev rev 8.0
+                //$("#ddlColorNew").multiselect('refresh');
+                // End of Rev rev 8.0
                 $("#ddlSizeNew").multiselect('refresh');
                 $("#ddlGenderNew").multiselect('refresh');
                 
                 if (ColorNew != '') {
                     ProdColorNew = grid.cpEdit.split('~')[64];
-                   
-                    $('#ddlColorNew').multiselect({
-                        numberDisplayed: 2
-                    });
 
-                    var str_arrayColor = ProdColorNew.split(',');
-                    for (var i = 0; i < str_arrayColor.length; i++) {
-                        $('#ddlColorNew').multiselect('select', str_arrayColor[i]);
-                    }
+                    // Rev rev 8.0
+                    //$('#ddlColorNew').multiselect({
+                    //    numberDisplayed: 2
+                    //});
+
+                    //var str_arrayColor = ProdColorNew.split(',');
+                    //for (var i = 0; i < str_arrayColor.length; i++) {
+                    //    $('#ddlColorNew').multiselect('select', str_arrayColor[i]);
+                    //}
+                    $("#hdnColorNew").val(ProdColorNew);
+                    ctxtColorNew.SetText(grid.cpEdit.split('~')[68]);
+                    // End of Rev rev 8.0
                     
                 }
                 else {
                     ProdColorNew = '';
+
+                    // Rev rev 8.0
+                    //$('#ddlColorNew').multiselect({
+                    //    numberDisplayed: 2
+                    //});
                     
-                    $('#ddlColorNew').multiselect({
-                        numberDisplayed: 2
-                    });
-                    
-                    $("#ddlColorNew").val("");
-                    $('#ddlColorNew').multiselect('select', "");
-                    
+                    //$("#ddlColorNew").val("");
+                    //$('#ddlColorNew').multiselect('select', "");
+                    $("#hdnColorNew").val("");
+                    ctxtColorNew.SetText("");
+                    // End of Rev rev 8.0
                   
                 }
-                $("#ddlColorNew").multiselect('refresh');
+                // Rev rev 8.0
+                //$("#ddlColorNew").multiselect('refresh');
+                // End of Rev rev 8.0
 
                 if (SizeNew != '') {
                     ProdSizeNew = grid.cpEdit.split('~')[65];
@@ -2223,7 +2366,14 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
                     caspxInstallation.SetValue('0');
                 else
                     caspxInstallation.SetValue('1');
-                ccmbBrand.SetValue(grid.cpEdit.split('~')[45].trim());
+                // Rev 8.0
+                //ccmbBrand.SetValue(grid.cpEdit.split('~')[45].trim());
+
+                $("#hdnBrand_hidden").val(grid.cpEdit.split('~')[45]);
+                ctxtBrand.SetText(grid.cpEdit.split('~')[69]);
+                $("#txtBrandSearch").val("");
+                BrandTable.innerHTML = "";
+                // End of Rev 8.0
 
                 if (grid.cpEdit.split('~')[46] == 'True')
                     ccmbIsCapitalGoods.SetValue('1');
@@ -2726,6 +2876,7 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
                 margin-bottom: 10px;
             }
     }
+
     </style>
 
     <script>
@@ -3471,9 +3622,21 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
                                 
                                 <div class="Left_Content">
                                     <div class="fullMulti " >
-                                        <asp:DropDownList ID="ddlColorNew" runat="server" class="demo" multiple="multiple" Width="100%">
+                                        <%--Rev rev 8.0--%>
+                                        <%--<asp:DropDownList ID="ddlColorNew" runat="server" class="demo" multiple="multiple" Width="100%">
                                         </asp:DropDownList>
+                                        <asp:HiddenField ID="hdnColorNew" runat="server" />--%>
+
+                                        <dxe:ASPxButtonEdit ID="txtColorNew" runat="server" ReadOnly="true" ClientInstanceName="ctxtColorNew" TabIndex="20" Width="100%">
+                                            <Buttons>
+                                                <dxe:EditButton>
+                                                </dxe:EditButton>
+                                            </Buttons>
+                                            <ClientSideEvents ButtonClick="function(s,e){ColorNewButnClick();}" KeyDown="ColorNewbtnKeyDown" />
+                                        </dxe:ASPxButtonEdit>
                                         <asp:HiddenField ID="hdnColorNew" runat="server" />
+                                        <asp:HiddenField ID="calledFromColorNewLookup_hidden" runat="server" />
+                                        <%--End of Rev rev 8.0--%>
                                     </div>
 
                                 </div>
@@ -3584,9 +3747,20 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
                                     <asp:Label ID="Label13" runat="server" Text="Brand" CssClass="newLbl"></asp:Label>
                                 </div>
                                 <div class="Left_Content">
-                                    <dxe:ASPxComboBox ID="cmbBrand" ClientInstanceName="ccmbBrand" ClearButton-DisplayMode="Always" runat="server" TabIndex="16"
+                                    <%--Rev 8.0--%>
+                                    <%--<dxe:ASPxComboBox ID="cmbBrand" ClientInstanceName="ccmbBrand" ClearButton-DisplayMode="Always" runat="server" TabIndex="16"
                                         ValueType="System.String" Width="100%" EnableSynchronization="True" EnableIncrementalFiltering="True" SelectedIndex="1">
-                                    </dxe:ASPxComboBox>
+                                    </dxe:ASPxComboBox>--%>
+
+                                    <dxe:ASPxButtonEdit ID="txtBrand" runat="server" ReadOnly="true" ClientInstanceName="ctxtBrand" TabIndex="8" Width="100%">
+                                            <Buttons>
+                                                <dxe:EditButton>
+                                                </dxe:EditButton>
+                                            </Buttons>
+                                            <ClientSideEvents ButtonClick="function(s,e){BrandButnClick();}" KeyDown="BrandbtnKeyDown" />
+                                        </dxe:ASPxButtonEdit>
+                                    <asp:HiddenField ID="hdnBrand_hidden" runat="server" />
+                                    <%--End of Rev 8.0--%>
                                 </div>
                             </div>
 
@@ -4989,5 +5163,62 @@ Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount perce
         </div>
     </div>
     <%--End of Rev 4.0--%>
+
+    <%--Rev rev 8.0--%>
+    <div class="modal fade pmsModal w80" id="ColorNewModel" role="dialog" style="z-index:99999 !important">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Color Search</h4>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" type="text" onkeydown="ColorNewskeydown(event)" id="txtColorNewSearch" autofocus style="width: 100%" placeholder="Search By Color Name" />
+                    <div id="ColorNewTable">
+                        <table border='1' width="100%" class="dynamicPopupTbl">
+                            <tr class="HeaderStyle">
+                                <th class="hide">id</th>
+                                <th>Color</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSaveColorNew" class="btnOkformultiselection  btn btn-success" data-dismiss="modal" onclick="OKPopup('ColorNewSource')">OK</button>
+                    <button type="button" id="btnCloseColorNew" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="BrandModel" role="dialog" style="z-index:99999 !important">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Brand</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" onkeydown="Brandkeydown(event)" id="txtBrandSearch"  class="form-control" autofocus width="100%" placeholder="Search By Employee Name" />
+
+                    <div id="BrandTable">
+                        <table border='1' width="100%" class="dynamicPopupTbl">
+                            <tr class="HeaderStyle">
+                                <th class="hide">id</th>
+                                <th>Brand</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <%--End of Rev rev 8.0--%>
 
 </asp:Content>

@@ -1695,3 +1695,17 @@ table.dxgvTable_PlasticBlue > tbody > tr.dxgvFooter_PlasticBlue {
     background-color: #e8e8e8 !important;
 }
 /*Rev end 4.0*/
+
+@media only screen and (min-width: 768px) and (max-width: 1299px) {
+    .mainDashBoxes .flex-itm {
+        width: 30%;
+    }
+
+    .backBox {
+        overflow-x: auto !important;
+    }
+    .tabs nav ul {
+        flex-flow: nowrap !important;
+        overflow-x: auto !important;
+    }
+}

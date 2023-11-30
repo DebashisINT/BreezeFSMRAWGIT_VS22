@@ -1,0 +1,138 @@
+﻿@*/**************************************************************************************************
+    Written by Sanchita on 23-11-2023   for     V2.0.43         Bulk Import feature required for Enquiry Module.Mantis: 27020
+    ******************************************************************************************************/*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridBulkImportLog";
+    settings.CallbackRouteValues = new { Action = "BulkImportLog", Controller = "CRMEnquiries" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(480);
+    settings.Settings.VerticalScrollableHeight = 230;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    //settings.ClientSideEvents.BeginCallback = "OnStartLogGridCallback";
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = false;
+    settings.Settings.ShowGroupPanel = false;
+    settings.CommandColumn.Visible = false;
+    settings.Settings.ShowFooter = false;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Date";
+        x.Caption = "Date";
+        x.VisibleIndex = 1;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Customer_Name";
+        x.Caption = "Customer Name";
+        x.VisibleIndex = 2;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    // Mantis Issue 25545
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Contact_Person";
+        x.Caption = "Contact Person";
+        x.VisibleIndex = 3;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PhoneNo";
+        x.Caption = "Phone No.";
+        x.VisibleIndex = 4;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Email";
+        x.Caption = "Email";
+        x.VisibleIndex = 5;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Location";
+        x.Caption = "Location";
+        x.VisibleIndex = 6;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+    // End of Mantis Issue 25545
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Product_Required";
+        x.Caption = "Product Required";
+        x.VisibleIndex = 7;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Order_Value";
+        x.Caption = "Order Value";
+        x.VisibleIndex = 8;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "vend_type";
+        x.Caption = "Provided By";
+        x.VisibleIndex = 9;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ImportDate";
+        x.Caption = "Import Date";
+        x.VisibleIndex = 10;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ImportStatus";
+        x.Caption = "Import Status";
+        x.VisibleIndex = 11;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ImportMsg";
+        x.Caption = "Import Msg";
+        x.VisibleIndex = 12;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+}).Bind(Model).GetHtml()

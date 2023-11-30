@@ -3,6 +3,7 @@
                                                                  Mantis: 26721
   2.0       18-08-2023        V2.0.42          Sanchita          Customisation required in Lead Activity for BreezeFSM App.
                                                                  Mantis: 26727
+  3.0       23-11-2023        V2.0.43          Sanchita          Bulk Import feature required for Enquiry Module.Mantis: 27020 
 **************************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -72,6 +73,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
             //Mantis Issue 24832
             ViewBag.CanAssign = rights.CanAssign;
             //End of Mantis Issue 24832
+            // Rev 3.0
+            ViewBag.CanBulkUpdate = rights.CanBulkUpdate;
+            // End of Rev 3.0
             // Get Salesmanlist
             DataTable dtSals = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("PRC_CRUD_ENQUIRIES");
@@ -139,6 +143,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //Mantis Issue 24832
                 ViewBag.CanAssign = rights.CanAssign;
                 //End of Mantis Issue 24832
+                // Rev 3.0
+                ViewBag.CanBulkUpdate = rights.CanBulkUpdate;
+                // End of Rev 3.0
+
                 string EnquiryFrom = "";
                 int i = 1;
 
@@ -281,7 +289,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
             catch(Exception ex)
             {
-                return RedirectToAction("Logout", "Login", new { Area = "" });
+                // Rev Sanchita
+                //return RedirectToAction("Logout", "Login", new { Area = "" });
+                throw ex;
+                // End of Rev Sanchita
 
             }
            
@@ -2038,6 +2049,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Order value";
                 x.VisibleIndex = 19;
                 x.Width = 80;
+                // Rev 3.0
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+                // End of Rev 3.0
                 //Mantis Issue 24827
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -2630,7 +2646,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return settings;
         }
 
-        
+        // Rev 3.0
         public ActionResult DownloadFormat()
         {
             string FileName = "CRMEnquiries.xlsx";
@@ -2645,7 +2661,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             return null;
         }
-
+        
         public ActionResult ImportExcel()
         {
             // Checking no of files injected in Request object  
@@ -2715,21 +2731,71 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     // }
                     if (dt != null && dt.Rows.Count > 0)
                     {
+                        DataTable dtExcelData = new DataTable();
+                        dtExcelData.Columns.Add("Date", typeof(string));
+                        dtExcelData.Columns.Add("Customer_Name", typeof(string));
+                        dtExcelData.Columns.Add("Contact_Person", typeof(string));
+                        dtExcelData.Columns.Add("PhoneNo", typeof(string));
+                        dtExcelData.Columns.Add("Email", typeof(string));
+                        dtExcelData.Columns.Add("Location", typeof(string));
+                        dtExcelData.Columns.Add("vend_type", typeof(string));
+                        dtExcelData.Columns.Add("Product_Required", typeof(string));
+                        dtExcelData.Columns.Add("Quantity", typeof(decimal));
+                        dtExcelData.Columns.Add("UOM", typeof(string));
+                        dtExcelData.Columns.Add("Order_Value", typeof(decimal));
+                        dtExcelData.Columns.Add("Enq_Details", typeof(string));
+
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            // Blank excel row will not be processed
+                            if (Convert.ToString(row["Date *"])!="" || Convert.ToString(row["Customer Name *"]) != "" || 
+                                Convert.ToString(row["Contact Person"]) != "" || Convert.ToString(row["Phone No *"]) != "" ||
+                                Convert.ToString(row["Email"]) != "" || Convert.ToString(row["Location"]) != "" || 
+                                Convert.ToString(row["Provided By *"]) != "" || Convert.ToString(row["Product Required"]) != "" || 
+                                Convert.ToString(row["Quantity"]) != "" || Convert.ToString(row["UOM"]) != "" ||
+                                Convert.ToString(row["Order Value"]) != "" || Convert.ToString(row["Enquiry Details"])!="")
+                            {
+                                if (Convert.ToString(row["Quantity"]) == "")
+                                {
+                                    row["Quantity"] = 0;
+                                }
+
+                                if (Convert.ToString(row["Order Value"]) == "")
+                                {
+                                    row["Order Value"] = 0;
+                                }
+
+
+                                string dtDate = "";
+                                if (Convert.ToString(row["Date *"]) != "")
+                                {
+                                    dtDate = Convert.ToString( Convert.ToDateTime(row["Date *"]).Year + "-" + Convert.ToDateTime(row["Date *"]).Month + "-"+ Convert.ToDateTime(row["Date *"]).Day );
+                                }
+
+
+                                dtExcelData.Rows.Add(dtDate, Convert.ToString(row["Customer Name *"]), Convert.ToString(row["Contact Person"]),
+                                    Convert.ToString(row["Phone No *"]), Convert.ToString(row["Email"]), Convert.ToString(row["Location"]), Convert.ToString(row["Provided By *"]),
+                                    Convert.ToString(row["Product Required"]), Convert.ToString(row["Quantity"]), Convert.ToString(row["UOM"]),
+                                    Convert.ToString(row["Order Value"]), Convert.ToString(row["Enquiry Details"]));
+                            }
+                        }
+
                         try
                         {
-                            TempData["PartyImportLog"] = dt;
+                            TempData["EnquiriesImportLog"] = dtExcelData;
                             TempData.Keep();
 
                             DataTable dtCmb = new DataTable();
-                            ProcedureExecute proc = new ProcedureExecute("PRC_FTSImportNewParty");
-                            proc.AddPara("@IMPORT_TABLE", dt);
+                            ProcedureExecute proc = new ProcedureExecute("PRC_FSMImportCRMEnquiries");
+                            proc.AddPara("@Action", "BULKIMPORT");
+                            proc.AddPara("@IMPORT_TABLE", dtExcelData);
                             proc.AddPara("@CreateUser_Id", Convert.ToInt32(Session["userid"]));
                             dtCmb = proc.GetTable();
 
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-
+                            throw ex;
                         }
                     }
                 }
@@ -2747,7 +2813,277 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return value;
         }
 
-     
+        [HttpPost]
+        public JsonResult BulkEnquiriesImportUserLog(string Fromdt, String ToDate)
+        {
+            string output_msg = string.Empty;
+            try
+            {
+                string datfrmat = Fromdt.Split('-')[2] + '-' + Fromdt.Split('-')[1] + '-' + Fromdt.Split('-')[0];
+                string dattoat = ToDate.Split('-')[2] + '-' + ToDate.Split('-')[1] + '-' + ToDate.Split('-')[0];
+                
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_FSMImportCRMEnquiries");
+                proc.AddPara("@ACTION", "GetBulkEnquiriesImportLog");
+                proc.AddPara("@FromDate", datfrmat);
+                proc.AddPara("@ToDate", dattoat);
+                dt = proc.GetTable();
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    TempData["EnquiriesImportLog"] = dt;
+                    TempData.Keep();
+                    output_msg = "True";
+                }
+                else
+                {
+                    output_msg = "Log not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                output_msg = "Please try again later";
+            }
+            return Json(output_msg, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult BulkImportLog()
+        {
+            List<CRMEnquiriesImportLogModel> list = new List<CRMEnquiriesImportLogModel>();
+            DataTable dt = new DataTable();
+            try
+            {
+                if (TempData["EnquiriesImportLog"] != null)
+                {
+                    DataTable dtCmb = new DataTable();
+                    ProcedureExecute proc = new ProcedureExecute("PRC_FSMImportCRMEnquiries");
+                    proc.AddPara("@Action", "SHOWIMPORTLOG");
+                    proc.AddPara("@IMPORT_TABLE", (DataTable)TempData["EnquiriesImportLog"]);
+                    proc.AddPara("@CreateUser_Id", Convert.ToInt32(Session["userid"]));
+                    dt = proc.GetTable();
+                    TempData.Keep();
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        CRMEnquiriesImportLogModel data = null;
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            data = new CRMEnquiriesImportLogModel();
+                            data.Date = Convert.ToDateTime(row["Date"]);
+                            data.Customer_Name = Convert.ToString(row["Customer_Name"]);
+                            data.Contact_Person = Convert.ToString(row["Contact_Person"]);
+                            data.PhoneNo = Convert.ToString(row["PhoneNo"]);
+                            data.Email = Convert.ToString(row["Email"]);
+                            data.Location = Convert.ToString(row["Location"]);
+                            data.Product_Required = Convert.ToString(row["Product_Required"]);
+                            data.Qty = Convert.ToDecimal(row["Qty"]);
+                            data.Order_Value = Convert.ToDecimal(row["Order_Value"]);
+                            data.Enq_Details = Convert.ToString(row["Enq_Details"]);
+                            data.vend_type = Convert.ToString(row["vend_type"]);
+                            data.ImportDate = Convert.ToDateTime(row["ImportDate"]);
+                            data.ImportStatus = Convert.ToString(row["ImportStatus"]);
+                            data.ImportMsg = Convert.ToString(row["ImportMsg"]);
+                           
+                            list.Add(data);
+                        }
+                    }
+                    //TempData["EnquiriesImportLog"] = dt;
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            TempData.Keep();
+            return PartialView(list);
+        }
+
+        public ActionResult ExportBulkImportLogGrid(int type)
+        {
+            //ViewData["EnquiriesImportLog"] = TempData["EnquiriesImportLog"];
+
+            //TempData.Keep();
+
+            DataTable dtExp = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FSMImportCRMEnquiries");
+            proc.AddPara("@Action", "SHOWIMPORTLOG");
+            proc.AddPara("@IMPORT_TABLE", (DataTable)TempData["EnquiriesImportLog"]);
+            proc.AddPara("@CreateUser_Id", Convert.ToInt32(Session["userid"]));
+            dtExp = proc.GetTable();
+
+            // if (ViewData["EnquiriesImportLog"] != null )
+            if (dtExp != null && dtExp.Rows.Count >0 )
+            {
+                switch (type)
+                {
+                    case 1:
+                        return GridViewExtension.ExportToPdf(GetBulkImportLogGrid(dtExp), dtExp);
+                    //break;
+                    case 2:
+                        return GridViewExtension.ExportToXlsx(GetBulkImportLogGrid(dtExp), dtExp);
+                    //break;
+                    case 3:
+                        return GridViewExtension.ExportToXlsx(GetBulkImportLogGrid(dtExp), dtExp);
+                    //break;
+                    case 4:
+                        return GridViewExtension.ExportToRtf(GetBulkImportLogGrid(dtExp), dtExp);
+                    //break;
+                    case 5:
+                        return GridViewExtension.ExportToCsv(GetBulkImportLogGrid(dtExp), dtExp);
+                    default:
+                        break;
+                }
+            }
+            return null;
+        }
+
+        private GridViewSettings GetBulkImportLogGrid(object datatable)
+        {
+            var settings = new GridViewSettings();
+            settings.Name = "BulkImportLog";
+            settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
+            settings.SettingsExport.FileName = "Bulk Import Enquiries Log";
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Date";
+                x.Caption = "Date";
+                x.VisibleIndex = 1;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+                x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+                x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+                (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Customer_Name";
+                x.Caption = "Customer Name";
+                x.VisibleIndex = 2;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Contact_Person";
+                x.Caption = "Contact Person";
+                x.VisibleIndex = 3;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "PhoneNo";
+                x.Caption = "Phone No.";
+                x.VisibleIndex = 4;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Email";
+                x.Caption = "Email";
+                x.VisibleIndex = 5;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Location";
+                x.Caption = "Location";
+                x.VisibleIndex = 6;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Product_Required";
+                x.Caption = "Product Required";
+                x.VisibleIndex = 7;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Qty";
+                x.Caption = "Quantity";
+                x.VisibleIndex = 8;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Order_Value";
+                x.Caption = "Order Value";
+                x.VisibleIndex = 9;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Enq_Details";
+                x.Caption = "Enquery Details";
+                x.VisibleIndex = 10;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "vend_type";
+                x.Caption = "Provided By";
+                x.VisibleIndex = 11;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "ImportStatus";
+                x.Caption = "Import Status";
+                x.VisibleIndex = 12;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "ImportMsg";
+                x.Caption = "Import Msg";
+                x.VisibleIndex = 13;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "ImportDate";
+                x.Caption = "Import Date";
+                x.VisibleIndex = 14;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+                x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+                x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+                (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+            });
+
+            settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
+            settings.SettingsExport.LeftMargin = 20;
+            settings.SettingsExport.RightMargin = 20;
+            settings.SettingsExport.TopMargin = 20;
+            settings.SettingsExport.BottomMargin = 20;
+
+            return settings;
+        }
+
+        // End of Rev 3.0
+
         public JsonResult EnquiryDelete(string uniqueCode)
         {
             string output_msg = string.Empty;
