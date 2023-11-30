@@ -306,6 +306,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\MASTER\Controllers\CityMasterController.cs" />
+    <Compile Include="Areas\MASTER\Controllers\CountryMasterController.cs" />
     <Compile Include="Areas\MASTER\MASTERAreaRegistration.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -314,6 +315,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CityMasterModel.cs" />
+    <Compile Include="Models\CountryMasterModels.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\Masters.designer.cs">
       <AutoGen>True</AutoGen>
@@ -781,6 +783,8 @@
     <Content Include="assests\js\gen_validatorv31.js" />
     <Content Include="assests\js\init.js" />
     <Content Include="Areas\MASTER\Views\CityMaster\PartialCityMasterGridList.cshtml" />
+    <Content Include="Areas\MASTER\Views\CountryMaster\Index.cshtml" />
+    <Content Include="Areas\MASTER\Views\CountryMaster\PartialCountryList.cshtml" />
     <None Include="assests\js\jquery-1.10.2.intellisense.js" />
     <Content Include="assests\js\jquery-1.10.2.js" />
     <Content Include="assests\js\jquery-1.10.2.min.js" />

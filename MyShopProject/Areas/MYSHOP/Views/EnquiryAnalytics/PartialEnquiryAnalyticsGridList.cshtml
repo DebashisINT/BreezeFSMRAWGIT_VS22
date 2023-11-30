@@ -1,0 +1,872 @@
+﻿@*====================================================== Revision History ===================================================*@
+@*Rev Number    DATE              VERSION          DEVELOPER           CHANGES
+@*Written by Sanchita on 23-11-2023 for V2.2.43    A new report required as Enquiry Analytics. Mantis: 27021 
+@*====================================================== Revision History ===================================================*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridEnquiryAnalytics";
+    settings.KeyFieldName = "CRM_ID";
+    settings.CallbackRouteValues = new { Action = "PartialEnquiryAnalyticsGridList", Controller = "EnquiryAnalytics" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 400;
+
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SEQ";
+        column.Caption = "Sr No.";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SEQ'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 50;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 50;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Year";
+        column.Caption = "Year";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Year'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 50;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 50;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Month";
+        column.Caption = "Month";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Month'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 50;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 50;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Day";
+        column.Caption = "Date";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Day'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 40;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 40;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "VEND_TYPE";
+        column.Caption = "Lead From";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 80;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 80;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CUSTOMER_NAME";
+        column.Caption = "Company Name";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 110;
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CUSTOMER_NAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 110;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 110;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "PHONENO";
+        column.Caption = "Contact number";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 80;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PHONENO'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 120;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 120;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTACT_PERSON";
+        column.Caption = "Contact Person";
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACT_PERSON'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "EMAIL";
+        column.Caption = "Email Id";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMAIL'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "State";
+        column.Caption = "State";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //  column.FixedStyle = GridViewColumnFixedStyle.Left;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='State'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Area";
+        column.Caption = "Area";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //  column.FixedStyle = GridViewColumnFixedStyle.Left;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Area'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ASSIGNED_TO";
+        column.Caption = "HOD";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 120;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ASSIGNED_TO'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 120;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 120;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ReASSIGNED_TO";
+        column.Caption = "Pass to";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 120;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReASSIGNED_TO'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 120;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 120;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "FEEDBACK";
+        column.Caption = "Remark";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 100;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='FEEDBACK'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "PRODUCT_REQUIRED";
+        column.Caption = "Products Req.";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRODUCT_REQUIRED'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 90;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 90;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "QTY";
+        column.Caption = "Qty.";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        column.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QTY'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 80;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 80;
+        }
+        //End of Mantis Issue 24816
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UOM";
+        column.Caption = "UOM";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='UOM'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 60;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 60;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ORDER_VALUE";
+        column.Caption = "Order value";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        column.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ORDER_VALUE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 80;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 80;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ENQ_DETAILS";
+        column.Caption = "Enquiry Details";
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENQ_DETAILS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 600;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 600;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "STATUS";
+        column.Caption = "Status";
+
+        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //column.Width = 80;
+        //Mantis Issue 24816
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATUS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 80;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 80;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SalesmanAssign_date";
+        column.Caption = "Assign Date";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ReASSIGNED_TO";
+        column.Caption = "Reassign To";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ReASSIGNED_BY";
+        column.Caption = "Reassign By";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ReSalesmanAssign_date";
+        column.Caption = "Re Assign Date";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MODIFIED_BY";
+        column.Caption = "Modified By";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MODIFIED_ON";
+        column.Caption = "Modified On";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACTIVITY_DATE";
+        column.Caption = "Activity Date";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACTIVITY_TIME";
+        column.Caption = "Activity Time";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACTIVITY_DETAILS";
+        column.Caption = "Activity Feedback";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "OTHER_REMARKS";
+        column.Caption = "Activity Remarks";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACTIVITY_STATUS";
+        column.Caption = "Activity Status";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACTIVITY_TYPE_NAME";
+        column.Caption = "Activity Type";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ACTIVITY_NEXT_DATE";
+        column.Caption = "Next Activity Date";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 120;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 120;
+        }
+    });
+
+}).Bind(Model).GetHtml()
+
+
+
+
+

@@ -1,0 +1,96 @@
+﻿@*====================================================== Revision History ===================================================*@
+@*Rev Number    DATE              VERSION          DEVELOPER           CHANGES*@
+@*Written by Sanchita on 23-11-2023 for V2.2.43    A new report required as Enquiry Analytics. Mantis: 27021 *@
+@*====================================================== Revision History ===================================================*@
+
+@Html.DevExpress().GridLookup(
+    settings =>
+    {
+        settings.Properties.Caption = "";
+        settings.Properties.CaptionCellStyle.CssClass = "hide";
+        settings.Name = "EnquiryFromGridLookup";
+        settings.KeyFieldName = "EnquiryFromDesc";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        //settings.CommandColumn.Visible = true;
+        // settings.CommandColumn.ShowSelectCheckbox = true;
+        //settings.Properties.EnableClientSideAPI = true;
+        settings.Properties.ClientInstanceName = "EnquiryFromGridLookup";
+        settings.GridViewClientSideEvents.SelectionChanged = "EnquiryFromSelectionChanged";
+        settings.Properties.ClientSideEvents.ValueChanged = "EnquiryFromSelectionChanged";
+       settings.GridViewClientSideEvents.BeginCallback = "EnquiryFromStartCallback";
+
+        settings.Properties.ClientSideEvents.ValueChanged = "EnquiryFromLookupValChange";
+        settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+        settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+
+
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.None;
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "EnquiryFromDesc";
+            column.Caption = "Enquiry From";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(85);
+        });
+
+        settings.Properties.Caption = " ";
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+
+        //  settings.Properties.TextFormatString = "{1}";
+        settings.Properties.MultiTextSeparator = ", ";
+        // settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+        settings.Properties.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+        settings.GridViewProperties.CallbackRouteValues = new { Controller = "EnquiryAnalytics", Action = "GetEnquiryFrom" };
+        // settings.GridViewClientSideEvents.BeginCallback = "function(s,e){OnBeginCallback(s,e);}";
+        settings.GridViewProperties.Settings.ShowFilterRow = true;
+        settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+        {
+
+            ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+            Html.DevExpress().Button(btnSettings =>
+            {
+                btnSettings.Name = "btnDeSelectAll";
+                btnSettings.UseSubmitBehavior = false;
+                btnSettings.Text = "DeSelect All";
+                btnSettings.ClientSideEvents.Click = "DeSelectAllGridLookup";
+                //btnSettings.ClientSideEvents.Click = "EnquiryFromSelectionChanged";
+                //btnSettings.ClientSideEvents.CheckedChanged = "SelectAllEnquiryFromSelectionChanged";
+                //btnSettings..BranchSelectionChanged = "OnSelectionChanged";
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+            ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+            Html.DevExpress().Button(btnSettings =>
+            {
+                btnSettings.Name = "btnSelectAll";
+                btnSettings.UseSubmitBehavior = false;
+                btnSettings.Text = "Select All";
+                btnSettings.ClientSideEvents.Click = "SelectAllGridLookup";
+                //btnSettings.ClientSideEvents.Click = "EnquiryFromSelectionChanged";
+                //btnSettings.ClientSideEvents.CheckedChanged = "SelectAllEnquiryFromSelectionChanged";
+                //btnSettings..BranchSelectionChanged = "OnSelectionChanged";
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+        });
+
+        settings.DataBound = (sender, e) =>
+        {
+            var gridLookup = (MVCxGridLookup)sender;
+            //gridLookup.GridView.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            gridLookup.GridView.Width = 310;
+
+            //gridLookup.GridView.Settings.wi
+        };
+
+
+
+    }).BindList(Model).GetHtml()
+

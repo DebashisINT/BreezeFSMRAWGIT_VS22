@@ -289,7 +289,10 @@
             //var Type = (string)grid.GetRowValues(e.VisibleIndex, new string[] { "Type" });
 
             var buttonHtml = "";
-            var img_folder = System.Configuration.ConfigurationSettings.AppSettings["NewPath"];
+            // Rev Sanchita
+            //var img_folder = System.Configuration.ConfigurationSettings.AppSettings["NewPath"];
+            var img_folder = System.Configuration.ConfigurationSettings.AppSettings["Path"];
+            // End of Rev Sanchita
             //var img_folder_newvisit = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
             var img_folder_newvisit = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
             if (IMG_PATH != "" && IMG_PATH != null)

@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                24-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                13-11-2023        2.0.40           Pallab              26998: Secondary Sales Order and Primary Sales Order module "Product Details List" popup issue fix *@
 @*====================================================== Revision History ==========================================================*@
 
 @using MyShop.Models;
@@ -720,10 +721,17 @@
         position: relative;
         z-index: 1;
     }
+
     .pad-md-18 {
         padding-top: 24px;
     }
     /*Rev end 1.0*/
+
+    /*Rev start 2.0*/
+    .pmsModal.w90 .modal-dialog {
+        width: 90% !important;
+    }
+    /*Rev end 2.0*/
 </style>
 <script>
     function Open2ndStage(val) {
@@ -930,18 +938,18 @@
                 <label>From Date</label>
                 <div>
                     @*@Html.DevExpress().DateEditFor(x => x.Fromdate,
-                deSettings =>
-                {
-                    deSettings.Name = "dtFrom";
-                    deSettings.Date = DateTime.Now;
-                    deSettings.Properties.UseMaskBehavior = true;
-                    deSettings.Properties.EditFormat = EditFormat.Custom;
-                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
-                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
-                    deSettings.Properties.ShowOutOfRangeWarning = false;
-                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
-                }).GetHtml()*@
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtFrom";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.ShowOutOfRangeWarning = false;
+                            deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                        }).GetHtml()*@
                     @Html.DevExpress().DateEditFor(x => x.Fromdate,
                                 deSettings =>
                                 {
@@ -991,21 +999,21 @@
                 </div>
             </div>
             @*<div class="col-md-4 col-lg-2">
-            <label>State</label>
-            <div>
+                    <label>State</label>
+                    <div>
 
-                @Html.Action("GetStateList", "MasterPopulate")
+                        @Html.Action("GetStateList", "MasterPopulate")
 
-            </div>
-        </div>
-        <div class="col-md-3 col-lg-2">
-            <label>Designation</label>
-            <div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    <label>Designation</label>
+                    <div>
 
-                @Html.Action("GetDesigList", "SalesReportSummary")
+                        @Html.Action("GetDesigList", "SalesReportSummary")
 
-            </div>
-        </div>*@
+                    </div>
+                </div>*@
             <div class="col-md-3 col-lg-2">
                 <label>Employee(s)</label>
                 <div>

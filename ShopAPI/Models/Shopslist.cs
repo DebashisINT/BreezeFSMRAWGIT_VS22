@@ -3,6 +3,7 @@
 //2.0   V2.0.38     Debashis    02/02/2023      Some new parameters have been added.Row: 810 to 811
 //3.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 822
 //4.0   V2.0.40     Debashis    30/06/2023      Some new parameters have been added.Row: 852
+//5.0   V2.0.42     Debashis    06/10/2023      One new parameter has been added.Row: 867,870 & 873
 #endregion===================================End of Revision History==================================================
 using System.ComponentModel.DataAnnotations;
 using System;
@@ -160,6 +161,10 @@ namespace ShopAPI.Models
         public string GSTN_Number { get; set; }
         public string ShopOwner_PAN { get; set; }
         //End of Rev Debashis ROW:756
+        //Rev 5.0 Row: 870 & 876
+        public string FSSAILicNo { get; set; }
+        public bool isUpdateAddressFromShopMaster { get; set; }
+        //End of Rev 5.0 Row: 870 & 876
     }
 
     public class ArealistsOutput
@@ -298,6 +303,10 @@ namespace ShopAPI.Models
         public string purpose { get; set; }
         public string GSTN_Number { get; set; }
         //End of Rev Debashis
+        //Rev 5.0 Row: 867 & 873
+        public string FSSAILicNo { get; set; }
+        public string isUpdateAddressFromShopMaster { get; set; }
+        //End of Rev 5.0 Row: 867 & 873
     }
 
     public class AllShopTypelistsOutput

@@ -1,8 +1,8 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                06-02-2023        2.0.39           Pallab              25576: Report page design modification *@
-@*2.0                21/07/2023        V2.0.41          Sanchita            Add Branch parameter in MIS - Horizontal Performance Summary & Detail.
-                                                                            Mantis : 26135*@
+@*2.0                21/07/2023        V2.0.41          Sanchita            Add Branch parameter in MIS - Horizontal Performance Summary & Detail. Mantis : 26135*@
+@*3.0                07-11-2023        V2.0.43          Sanchita            0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
 @*====================================================== Revision History ==========================================================*@
 
 @*@model Models.SalesSummaryReport*@
@@ -135,7 +135,14 @@
             else {
                 $('#MandatoryToDate').attr('style', 'display:none');
             }
-
+            // Rev 3.0
+            if ($("#hdnBranchMandatory").val() == "0") {
+                if (BranchId == "" || BranchId == null) {
+                    jAlert("Please select Branch.");
+                    flag = false;
+                }
+            }
+            // End of Rev 3.0
             if ($("#hdnStateMandatory").val() == "True") {
                 if (StateId == "") {
                     //  $('#MandatoryState').attr('style', 'display:block');
@@ -1155,11 +1162,11 @@
                                     <div class="h-branch-select">
                                         @*Rev 2.0*@
                                         @*<select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
-                                            @foreach (System.Data.DataRow dr in Model.Tables[3].Rows)
-                                            {
-                                                <option value=@dr["BRANCH_ID"]>@dr["CODE"]</option>
-                                            }
-                                        </select>*@
+                                                @foreach (System.Data.DataRow dr in Model.Tables[3].Rows)
+                                                {
+                                                    <option value=@dr["BRANCH_ID"]>@dr["CODE"]</option>
+                                                }
+                                            </select>*@
                                         @Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })
                                         @*End of Rev 2.0*@
                                     </div>
@@ -1177,8 +1184,8 @@
                                     <div>
                                         @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
                                         @*<span id="MandatoryState" style="display: none" class="validclass">
-                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
-                    </span>*@
+                                                <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                            </span>*@
                                     </div>
                                 </td>
                                 <td class="w150">
@@ -1190,7 +1197,7 @@
 
                                     </div>
                                 </td>
-                                
+
                                 @*Rev 2.0*@
                             </tr>
                             <tr>
@@ -1254,6 +1261,9 @@
             <input type="hidden" id="hdnuser_shop" />
             <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
             <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+            @*Rev 3.0*@
+            <input type="hidden" id="hdnBranchMandatory" value="@ViewBag.BranchMandatory" />
+            @*End of Rev 3.0*@
         </div>
         @*Rev 1.0*@
         @*</div>

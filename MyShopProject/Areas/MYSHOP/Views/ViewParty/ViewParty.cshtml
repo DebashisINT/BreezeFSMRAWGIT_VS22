@@ -3,7 +3,7 @@
                                                                      Dashboard Setting rights. Refer: 25515
     * 2.0    31-07-2023     2.0.41     Pallab        Caption to be change in view party module Refer: 26640
     * 3.0    02-08-2023     2.0.41     Pallab        Party on Map module page load optimize and test Refer: 26661
-    * ********************************************************************************************************************************@
+* ********************************************************************************************************************************@
 
 @{
     ViewBag.Title = "ViewParty";
@@ -58,7 +58,7 @@
                 //$('#info').html('<p>An error has occurred</p>');
             },
             success: function (data) {
-                console.log("GetType", data);
+                //console.log("GetType", data);
                 var status = "<select id='ddlPartyType' class = 'full form-control'>";
                 status = status + '<option value="0">All</option>';
                 for (var i = 0; i < data.length; i++) {
@@ -612,6 +612,8 @@
     };
 
     $(document).ready(function () {
+
+       
         StatePopulate();
 
         // Rev Sanchita
@@ -662,11 +664,9 @@
         partyType = $("#ddlPartyType").val();
         partyStatus = $("#ddlPartyStatus").val();
         electrician = $("#electSelect").val();
-        console.log(stateid);
         GetAddress(stateid, partyType, partyStatus, electrician);
         // $('#map').removeClass('hide');
     }
-
 
     function GetAddress(StateID, partyType, partyStatus, electrician) {
         $(".mLoader").css({ "opacity": "1", "display": "flex" });
@@ -933,7 +933,6 @@
         showMap();
     }
 
-
     $(document).ready(function () {
         $("#electSelect").change(function () {
             var v = $(this).val();
@@ -952,7 +951,6 @@
         //        $("#tdElect").css({ "display": "table-cell" });
         //    }
         //});
-
     })
 </script>
 
@@ -965,8 +963,8 @@
 @*<link href="~/Content/media.css" rel="stylesheet" />*@
 @*Rev 3.0*@
 @*<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
-  <script src="~/assests/pluggins/LightBox/lightbox.js"></script>
-  <script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>*@
+    <script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+    <script src="~/Scripts/pluggins/multiselect/bootstrap-multiselect.js"></script>*@
 @*Rev end 3.0*@
 @*<link href="~/assests/pluggins/openstreetmap/leaflet.css" rel="stylesheet" />
     <link href="~/assests/pluggins/openstreetmap/MarkerCluster.css" rel="stylesheet" />
@@ -3143,6 +3141,7 @@
     }
 </style>
 
+
 @Html.DevExpress().PopupControl(
     settings =>
     {
@@ -3193,6 +3192,7 @@
     <div id="lbltotaldistancecovered"></div>
 
 </div>
+
 <div class="container mt-5 mb-4">
     <div class="backBox p-4">
         <div class="dropSectionuser">

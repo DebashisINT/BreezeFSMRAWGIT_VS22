@@ -32,6 +32,12 @@ namespace FSMMaster.Models
     partial void OnCreated();
     #endregion
 		
+		public MastersDataContext() : 
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["FSM_ITCConnectionString2"].ConnectionString, mappingSource)
+		{
+			OnCreated();
+		}
+		
 		public MastersDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
@@ -61,6 +67,14 @@ namespace FSMMaster.Models
 			get
 			{
 				return this.GetTable<FTS_CityMaster_List>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CountryMasterList> CountryMasterLists
+		{
+			get
+			{
+				return this.GetTable<CountryMasterList>();
 			}
 		}
 	}
@@ -429,6 +443,159 @@ namespace FSMMaster.Models
 				if ((this._City_Long != value))
 				{
 					this._City_Long = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CountryMasterList")]
+	public partial class CountryMasterList
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<long> _SEQ;
+		
+		private System.Nullable<int> _CountryId;
+		
+		private string _CountryName;
+		
+		private string _CreateDate;
+		
+		private string _CreateUser;
+		
+		private string _ModifyDate;
+		
+		private string _ModifyUser;
+		
+		public CountryMasterList()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
+		public System.Nullable<long> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CountryId", DbType="Int")]
+		public System.Nullable<int> CountryId
+		{
+			get
+			{
+				return this._CountryId;
+			}
+			set
+			{
+				if ((this._CountryId != value))
+				{
+					this._CountryId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CountryName", DbType="NVarChar(100)")]
+		public string CountryName
+		{
+			get
+			{
+				return this._CountryName;
+			}
+			set
+			{
+				if ((this._CountryName != value))
+				{
+					this._CountryName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="NVarChar(50)")]
+		public string CreateDate
+		{
+			get
+			{
+				return this._CreateDate;
+			}
+			set
+			{
+				if ((this._CreateDate != value))
+				{
+					this._CreateDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateUser", DbType="NVarChar(100)")]
+		public string CreateUser
+		{
+			get
+			{
+				return this._CreateUser;
+			}
+			set
+			{
+				if ((this._CreateUser != value))
+				{
+					this._CreateUser = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifyDate", DbType="NVarChar(50)")]
+		public string ModifyDate
+		{
+			get
+			{
+				return this._ModifyDate;
+			}
+			set
+			{
+				if ((this._ModifyDate != value))
+				{
+					this._ModifyDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifyUser", DbType="NVarChar(100)")]
+		public string ModifyUser
+		{
+			get
+			{
+				return this._ModifyUser;
+			}
+			set
+			{
+				if ((this._ModifyUser != value))
+				{
+					this._ModifyUser = value;
 				}
 			}
 		}

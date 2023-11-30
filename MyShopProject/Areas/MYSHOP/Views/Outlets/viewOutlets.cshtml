@@ -3427,7 +3427,10 @@
 
         // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
     }).GetHtml()
-<div class="mLoader"><img src="~/assests/images/Rainbow.gif" /></div>
+@*Rev Sanchita*@
+@*<div class="mLoader"><img src="~/assests/images/Rainbow.gif" /></div>*@
+<div class="mLoader"><img src="/assests/images/Rainbow.gif" /></div>
+@*End of Rev Sanchita*@
 <div class="breadCumb">
     <span>View Outlets</span>
     <div class="crossBtnN"><a href="#" onclick="window.location.href ='../DashboardMenu/FSMDashboard'"><i class="fa fa-times"></i></a></div>
@@ -3554,6 +3557,12 @@
                         @*Rev 1.0 : "h-branch-select" class div add *@
                         <div class="h-branch-select">
                             <select class="form-control" id="slyear">
+                                @*Rev Sanchita*@
+                                <option value="2025">2025</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                @*End of Rev Sanchita*@
                                 <option value="2021">2021</option>
                                 <option value="2020">2020</option>
                             </select>

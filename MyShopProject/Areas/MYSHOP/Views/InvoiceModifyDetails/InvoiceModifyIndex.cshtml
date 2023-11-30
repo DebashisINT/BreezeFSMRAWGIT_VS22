@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                23-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                23-11-2023        2.0.43           Priti               0027031: Dashboard report issue(check in local Rubyfoods db) *@
 @*====================================================== Revision History ==========================================================*@
 
 @model MyShop.Models.InvoiceDetailsUpdateModel
@@ -125,9 +126,10 @@
     };
     $(function () {
 
-        var lookup = ASPxClientControl.GetControlCollection().GetByName("EmpGridLookup");
-        lookup.GetGridView().Refresh();
-
+        //Rev 2.0
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("EmpGridLookup");
+        //lookup.GetGridView().Refresh();
+        //Rev 2.0 End
         $("#drpuser").chosen({
             width: "100%"
         });
@@ -1042,6 +1044,7 @@
     #dtFrom_I, #dtTo_I {
         background: transparent;
     }
+
     .for-cust-icon {
         position: relative;
         z-index: 1;

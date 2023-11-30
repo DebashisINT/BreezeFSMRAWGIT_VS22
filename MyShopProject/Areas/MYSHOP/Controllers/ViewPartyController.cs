@@ -1,4 +1,6 @@
 ﻿using BusinessLogicLayer;
+using MyShop.Models;
+using SalesmanTrack;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +15,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
     {
         //
         // GET: /MYSHOP/ViewParty/
+        
         public ActionResult ViewParty()
         {
             return View();

@@ -1,0 +1,975 @@
+﻿@*/***************************************************************************************
+ * Written by Sanchita on 24/11/2023 for V2.0.43    A new design page is required as Contact (s) under CRM menu.
+ *                                                  Mantis: 27034
+ ****************************************************************************************/*@
+
+@using MyShop.Models;
+@model MyShop.Models.CRMContactModel
+@{
+    ViewBag.Title = "CRM Contact(s)";
+}
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script src="~/Scripts/SearchPopup.js"></script>
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+<script>
+    var Is_PageLoad = "Ispageload";
+    var Is_PageLoadBulkAssign = "Ispageload"
+
+    $(function () {
+
+        $("#ddlStatus").val(1);
+        var d = new Date();
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        //gridCRMContact.Refresh();
+
+        ////////var lookup = ASPxClientControl.GetControlCollection().GetByName("ContactFromGridLookup");
+        ////////lookup.GetGridView().Refresh();
+        ////////var lookup = ASPxClientControl.GetControlCollection().GetByName("ContactFromGridLookup");
+        ////////lookup.GetGridView().Refresh();
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            }
+        });
+
+        //$('#ddlAppIds').on('change', function () {
+        //    if ($("#ddlAppIds option:selected").index() > 0) {
+        //        var selectedValue = $(this).val();
+        //        var desg = $("#drpdesignation").val();
+        //        var usrtype = $("#ddlusertypes").val();
+        //        $('#ddlAppIds').prop("selectedIndex", 0);
+         //       var url = '@Url.Action("ExporRegisterList", "CRMContact", new { type = "_type_" })'
+        //        window.location.href = url.replace("_type_", selectedValue);
+        //
+        //    }
+        //});
+
+
+    });
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        //e.customArgs["empcode"] = empId;
+        e.customArgs["ContactFromDesc"] = ""; ////// ContactFromDesc;
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+</script>
+
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+
+        for (var i = 0; i <= gridCRMContact.GetColumnsCount() ; i++) {
+            if (gridCRMContact.GetColumn(i) != null) {
+                if (gridCRMContact.GetColumn(i).visible == false) {
+                    console.log(gridCRMContact.GetColumn(i).fieldName);
+                    visibleColumn.push(gridCRMContact.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridCRMContact.IsCustomizationWindowVisible())
+            gridCRMContact.HideCustomizationWindow();
+        else
+            gridCRMContact.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridCRMContact.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "CRMContact")",
+            async: false,
+        data: { Columns: visibleColumn },
+        type: 'POST',
+        success: function (data) {
+            gridCRMContact.Refresh();
+        },
+        error: function () {
+        },
+        });
+
+    }
+
+</script>
+
+<style>
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 70%;
+    }
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 5px;
+        margin-bottom: 2px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 34px;
+        padding: 3px 12px;
+    }
+
+    .modalScroll .modal-body {
+        max-height: 75vh !important;
+        overflow-y: auto;
+        border-radius: 0 0 15px 15px !important;
+    }
+
+    .bulAssignTbl > tbody > tr > td {
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .mHead {
+        margin: 0;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+        color: #415ed2;
+        margin-bottom: 13px;
+    }
+
+    /*Rev 1.0*/
+
+    body, .dxtcLite_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select, .h-branch-select-new {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 38px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        .h-branch-select-new::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 9px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    select:not(.btn):focus {
+        border-color: #094e8c;
+    }
+
+    select:not(.btn):focus-visible {
+        box-shadow: none;
+        outline: none;
+    }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        /*-webkit-appearance: none;*/
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo, #FormDate, #toDate, #appcbl_frm_dt {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #appcbl_frm_dt_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img,
+        #cmbDOJ_B-1 #cmbDOJ_B-1Img,
+        #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img,
+        #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #appcbl_frm_dt_B-1 #appcbl_frm_dt_B-1Img {
+            display: none;
+        }
+
+    #FormDate_I, #toDate_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+    }
+
+    .pad-md-18 {
+        padding-top: 10px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue {
+        height: 34px;
+        border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1 {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .btn-sm, .btn-xs {
+        padding: 7px 10px !important;
+    }
+
+    #productAttributePopUp_PWH-1 span, #ASPxPopupControl2_PWH-1 span {
+        color: #fff !important;
+    }
+
+    #marketsGrid_DXPEForm_tcefnew, .dxgvPopupEditForm_PlasticBlue {
+        height: 220px !important;
+    }
+
+    .btn {
+        height: 34px;
+    }
+    /*Rev end 1.0*/
+    /*Rev start 3.0*/
+    .mrtop-6 {
+        margin-top: 6px;
+    }
+
+    #myModalReAssignSalesman .modal-dialog {
+        max-width: 32%;
+    }
+
+    .btn-default {
+        background-color: #dbdbdb;
+    }
+
+        .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+            background-color: #c1c1c1;
+        }
+
+    #ddlSalesmanRe, #ddlSalesman1 {
+        -webkit-appearance: auto;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_PW-1 {
+        left: 15px !important;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_C_FNP_PW-1 {
+        left: 60px !important;
+    }
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #myImportContactModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+    /*End of Rev 4.0*/
+
+    .mt-15{
+        margin-top: 15px;
+    }
+
+    .mb-10{
+        margin-bottom: 10px;
+    }
+
+    .mr-5{
+        margin-right: 5px;
+    }
+</style>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 px-5">
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                        <!-- Button trigger modal -->
+                        @*@if (ViewBag.CanAdd)
+                            {*@
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                            Add New
+                        </button>
+                        @*}*@
+                        @*@if (ViewBag.CanAssign)
+                            {*@
+                        <button type="button" class="btn btn-info" onclick="BulkAssign();">
+                            Bulk Assign
+                        </button>
+                        @*}*@
+                        @*@if (ViewBag.CanReassign)
+                            {*@
+                        <button type="button" class="btn btn-primary" onclick="BulkReAssign();">
+                            Bulk Re-Assign
+                        </button>
+
+                        @*}*@
+
+                        @*@if (ViewBag.CanBulkUpdate)
+                            {*@
+                        <button type="button" class="btn btn-info" onclick="DownloadFormat();">
+                            Download Format
+                        </button>
+
+                        <button type="button" class="btn btn-primary" onclick="BulkImportContactPopOpen();">
+                            Import File
+                        </button>
+
+                        <button type="button" class="btn btn-primary" onclick="BulkImportLogPopOpen();">
+                            View Log
+                        </button>
+                        @*}*@
+
+                    </div>
+                    <div class="clear"></div>
+                    <div class="col-md-2 for-cust-icon">
+                        <span>From Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtFrom";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        }).GetHtml()
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                        </div>
+                    </div>
+                    <div class="col-md-2 for-cust-icon">
+                        <span>To Date</span>
+                        <div>
+                            @Html.DevExpress().DateEditFor(x => x.Todate,
+                        deSettings =>
+                        {
+                            deSettings.Name = "dtTo";
+                            deSettings.Date = DateTime.Now;
+                            deSettings.Properties.UseMaskBehavior = true;
+                            deSettings.Properties.EditFormat = EditFormat.Custom;
+                            deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        }).GetHtml()
+                            <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="margin-bottom: 16px;">
+                        <span>Contact(s) From</span>
+                        <div>
+                            @*@Html.Action("GetContactFrom", "CRMContact")*@
+
+                            <select name="ddlContacts" class="full form-control" id="ddlContacts">
+                                <option value="0">Select</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4" style="padding-top: 20px;">
+                        <span></span>
+                        <div>
+                            @*@if (ViewBag.CanView)
+                                {*@
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            @*}*@
+
+                            @*@if (ViewBag.CanExport)
+                                {*@
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="2">XLSX</option>
+                            </select>
+                            @*}*@
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="options">
+                    <div class="options-item">
+                        @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                    // settings.Theme = "MaterialCompactOrange";
+                }).GetHtml()
+                    </div>
+                </div>
+
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialCRMContactGridList", "CRMContact", new { Fromdate = Model.Fromdate, Todate = Model.Todate, ContactFromDesc = Model.ContactFromDesc, Is_PageLoad = "Ispageload" });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade pmsModal w70 font-pp modalScroll" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Contact</h4>
+            </div>
+            <input type="hidden" id="hdnShopCode" value="" />
+            <div class="modal-body inputShrink">
+                <div class="row">
+                    <div class="col-md-3 mb-10">
+                        <label>First Name</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtPartyCode" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Last Name </label>
+                        <div>
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtPartyName" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Company </label>
+                        <div>
+                            <select class="form-control" id="ddlCompany">
+                                <option value="Select">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Job Title</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control numbersOnly", @id = "txtJobTitle" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Email</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control numbersOnly", @id = "txtEmail" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Phone</label>
+                        <div>
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control numbersOnly", @id = "txtPhone" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Address </label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtcluster" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Assign To </label>
+                        <div>
+                            <select class="form-control" id="ddlStatus">
+                                <option value="Select">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Type </label>
+                        <div>
+                            <select class="form-control" id="ddlType">
+                                <option value="Select">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Status </label>
+                        <div>
+                            <select class="form-control" id="ddlStatus">
+                                <option value="Select">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Source </label>
+                        <div>
+                            <select class="form-control" id="ddlSource">
+                                <option value="Select">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Reference </label>
+                        <div>
+                            <select class="form-control" id="ddlReference">
+                                <option value="Select">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Remarks (if any)</label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtRemarks" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Expected Sales Value</label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtRemarks" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Stages</label>
+                        <div>
+                            @*<input type="text" class="form-control" />*@
+                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtRemarks" })
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-10">
+                        <label>Activities </label>
+                        <div>
+                            <select class="form-control" id="ddlReference">
+                                <option value="Select">Select</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                
+                <div class="mt-15">
+                    <button type="button" class="btn btn-success mr-2" onclick="AddShop('Exit');">Save & Exit</button>
+                    <button type="button" class="btn btn-primary mr-2" onclick="AddShop('New');">Save & New</button>
+                    <button type="button" class="btn btn-danger mr-2" data-dismiss="modal" onclick="ClearData();">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

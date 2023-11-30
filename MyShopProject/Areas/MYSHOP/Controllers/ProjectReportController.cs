@@ -1,5 +1,7 @@
 ﻿//***************************************************************************************************************
 //1.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
+//2.0   v2.0.43     Sanchita    16-10-2023      On demand search is required in Product Master & Projection Entry
+//                                              Mantis: 26858
 //*************************************************************************************************************
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -65,19 +67,22 @@ namespace MyShop.Areas.MYSHOP.Controllers
             proc.AddPara("@USERID", Convert.ToInt32(user_id));
             dsListdata = proc.GetDataSet();
 
-            DataTable dtShop = new DataTable();
-            dtShop = dsListdata.Tables[0];
-            List<ShopUserAssign> Shoplist = new List<ShopUserAssign>();
-            Shoplist = APIHelperMethods.ToModelList<ShopUserAssign>(dtShop);
-            Dtls.ShopUserList = Shoplist;
-            Dtls.ShopUserId = "0";
+            // Rev 2.0
+            //DataTable dtShop = new DataTable();
+            //dtShop = dsListdata.Tables[0];
+            //List<ShopUserAssign> Shoplist = new List<ShopUserAssign>();
+            //Shoplist = APIHelperMethods.ToModelList<ShopUserAssign>(dtShop);
+            //Dtls.ShopUserList = Shoplist;
+            //Dtls.ShopUserId = "0";
+            
 
-            DataTable dtProj = new DataTable();
-            dtProj = dsListdata.Tables[1];
-            List<ProjectNameAssign> ProjectNamelist = new List<ProjectNameAssign>();
-            ProjectNamelist = APIHelperMethods.ToModelList<ProjectNameAssign>(dtProj);
-            Dtls.ProjectNameList = ProjectNamelist;
-            Dtls.ProjectNameId = "0";
+            //DataTable dtProj = new DataTable();
+            //dtProj = dsListdata.Tables[1];
+            //List<ProjectNameAssign> ProjectNamelist = new List<ProjectNameAssign>();
+            //ProjectNamelist = APIHelperMethods.ToModelList<ProjectNameAssign>(dtProj);
+            //Dtls.ProjectNameList = ProjectNamelist;
+            //Dtls.ProjectNameId = "0";
+            // End of Rev 2.0
 
             DataTable dtShopType = new DataTable();
             dtShopType = dsListdata.Tables[2];
@@ -513,6 +518,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         //_apply.Date = Convert.ToDateTime(_getenq.Rows[0]["PROJ_STARTDT"]);
                         _apply.Date = _getenq.Rows[0]["PROJ_STARTDT"].ToString();
                         _apply.Shop = _getenq.Rows[0]["Shop_Code"].ToString();
+                        // Rev 2.0
+                        _apply.ShopName = _getenq.Rows[0]["Shop_Name"].ToString();
+                        // End of Rev 2.0
                         _apply.ProjectName = _getenq.Rows[0]["Project_Name"].ToString();
                         _apply.Area = _getenq.Rows[0]["Area"].ToString();
                         _apply.ShopType = _getenq.Rows[0]["ShopTypeId"].ToString();

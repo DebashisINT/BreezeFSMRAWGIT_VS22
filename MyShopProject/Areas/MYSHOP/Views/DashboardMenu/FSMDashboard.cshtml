@@ -1517,6 +1517,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
 
     function OnTotalClick(elem) {
+        $("#gridLoader").show();
         /*Rev 5.0*/
         if (!isShowVisitDataClicked) {
             /*Rev 6.0*/
@@ -1534,6 +1535,27 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
             return; // Disable click event
         }
         /*Rev end 5.0*/
+
+        // Show loader before making the AJAX request
+    
+    var Url = '@Url.Action("DashboardGridView", "DashboardMenu")'
+    $.ajax({
+        url: Url, // Replace with the correct URL
+        type: 'POST',
+        dataType: 'html',
+        success: function (result) {
+            // Replace the content of your grid element with the loaded PartialView
+            $('#gridContainer').html(result);
+
+            // Hide the loader after the data has been loaded
+            $("#gridLoader").hide();
+        },
+        error: function (xhr, status, error) {
+            console.error(xhr.responseText);
+            // Handle errors if necessary
+        }
+    });
+
         var GroupBy = $('#hdnGridEmployeeAttendanceSummaryGroupBy').val();
         document.getElementById("griddetails").style.display = "none";
         document.getElementById("gridsummary").style.display = "block";
@@ -2250,7 +2272,17 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
             //window.location.href = '../ViewRoute/Index';
         }
     }
+    // Rev Sanchita
+    function ShowViewPartyHierarchy() {
+        var apiAccess = 0;
+        if (apiAccess == 0) {
+            window.location.href = '../ViewPartyHierarchy/ViewPartyH';
+        } else if (apiAccess == 1) {
+            //window.location.href = '../ViewRoute/Index';
+        }
 
+    }
+    // End of Rev Sanchita
 
 </script>
 
@@ -2815,6 +2847,31 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
             width: 10em;
         }
     }
+
+    #gridLoader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #ffffffa3;
+        font-size: 50px;
+        color: black;
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+    @@media screen and (max-width: 540px) {
+        #griddashboard > tbody > tr > td > .dxgvCSD {
+            /*width: 304px !important;*/
+            width: 1100px !important;
+        }
+        #collapseOne.backBox > div {
+            overflow-x: auto !important;
+        }
+}
 </style>
 <!--Leave list end-->
 
@@ -2824,11 +2881,21 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 <script src="~/assests/js/TeamVisitH.js?v=1.2"></script>
 @*End of Mantis Issue 25468*@
 
+<script>
+    $(document).ready(function () {
+    
+});
+</script>
+
+<div id="gridLoader" class="loader" style="display: none;">
+    <img src="~/assests/images/loader-img.gif" />
+</div>
+
 @if (Model.DashboardSettingMappedList != null)
 {
     if (Model.DashboardSettingMappedList.Count() > 0)
     {
-
+        
         <div class="breadCumb">
             <span>Dashboard</span>
         </div>
@@ -3279,7 +3346,10 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
                                                             </h4>
                                                         </div>
                                                         <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
-                                                            <div class="overflx">
+                                                            @*<div class="overflx">
+                                                                @Html.Partial("DashboardGridView", new System.Data.DataTable())
+                                                            </div>*@
+                                                            <div id="gridContainer overflx">
                                                                 @Html.Partial("DashboardGridView", new System.Data.DataTable())
                                                             </div>
                                                         </div>

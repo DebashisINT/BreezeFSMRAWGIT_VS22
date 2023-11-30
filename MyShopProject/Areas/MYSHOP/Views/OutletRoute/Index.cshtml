@@ -1,7 +1,9 @@
 ﻿@************************************************************************************************************************************
-    * 1.0    30-01-2023     2.0.39     Sanchita      View Party' option shall be available in FSM Dashboard along with 
-                                                     Dashboard Setting rights. Refer: 25515
-* ********************************************************************************************************************************@
+        * 1.0    30-01-2023     2.0.39     Sanchita      View Party' option shall be available in FSM Dashboard along with
+                                                         Dashboard Setting rights. Refer: 25515
+        *2.0    23-11-2023      2.0.43     Priti         0027026: Dashboard report issue(check in local Rubyfoods db)
+
+    * ********************************************************************************************************************************@
 
 @{
     ViewBag.Title = "Index";
@@ -2139,7 +2141,10 @@
     function GetAddress(StateID) {
         $("#map_box").html("");
         $("#map_box").html('<div id="map_canvas" style="border: 3px solid #dedede; width: 100%;  height: 400px; margin-top: 0px;"></div>');
-        var surl = '@Url.Action("Mapopen", "ViewRoute")';
+        //Rev 2.0
+        @*var surl = '@Url.Action("Mapopen", "ViewRoute")';*@
+        var surl = '@Url.Action("Mapopen", "OutletRoute")';
+         //Rev 2.0 End
         var date = dtTo.GetText();
         $.ajax({
             url: surl,

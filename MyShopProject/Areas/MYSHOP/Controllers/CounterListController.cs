@@ -2,6 +2,7 @@
 //1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
 //                                              Refer: 0025585
 //2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
+//3.0   V2.0.43     Sanchita    07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -100,6 +101,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     ViewBag.StateMandatory = dt.Rows[0]["IsStateMandatoryinReport"].ToString();
                 }
+
+                // Rev 3.0
+                DBEngine obj1 = new DBEngine();
+                ViewBag.BranchMandatory = Convert.ToString(obj1.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsActivateEmployeeBranchHierarchy'").Rows[0][0]);
+                // End of Rev 3.0
 
                 return View(omodel);
 

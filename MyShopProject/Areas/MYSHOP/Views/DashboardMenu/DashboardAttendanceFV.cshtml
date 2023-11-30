@@ -164,6 +164,20 @@
                             @*<span class="greenTrack" style="cursor:pointer;border-right:1px solid #ccc;" >View Route <img src="/assests/images/locat1.png" width="20px" style="margin-left:5px" /></span>*@
                         </li>
                     }
+                    @*Rev Sanchita*@
+                    @if (Model.Where(x => x.DetailsName == "View Party-Hierarchywise").Count() > 0)
+                    {
+                        <li title="Click to get party details hierarchywise with Map " id="step7" class="view-party-hierarchywise">
+                            <div class="pointer hoverMenu rut" onclick="ShowViewPartyHierarchy();">
+                                <span class="text ">
+                                    View Party-Hierarchywise
+                                    <span class="arrr"></span>
+                                </span>
+                                <span class="lni lni-user "></span>
+                            </div>
+                        </li>
+                    }
+                    @*End of Rev Sanchita*@
                 </ul>
             </div>
         </div>

@@ -2,6 +2,7 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                17-01-2023        V2.0.38           Pallab              0025576: Report page design modification *@
 @*2.0                19-07-2023        V2.0.42           Priti               0026135: Branch Parameter is required for various FSM reports *@
+@*4.0                07-11-2023        V2.0.43           Sanchita            0026895: System will prompt for Branch selection if the Branch hierarchy is activated.*@
 @*====================================================== Revision History ===========================================================*@
 
 @model Models.SalesSummaryReport
@@ -200,6 +201,15 @@
             else {
                 $('#MandatoryToDate').attr('style', 'display:none');
             }
+
+            // Rev 4.0
+            if ($("#hdnBranchMandatory").val() == "0") {
+                if (BranchId == "" || BranchId == null) {
+                    jAlert("Please select Branch.");
+                    flag = false;
+                }
+            }
+            // End of Rev 4.0
 
             //rev Tanmoy mantis 22421
             if ($("#hdnStateMandatory").val() == "True") {
@@ -779,7 +789,6 @@
         #refreshgridsalessummary {
             overflow-x: auto;
         }
-
         /*.tblspace > tbody > tr > td {
             width: 100% !important;
             padding-right: 0 !important;
@@ -793,11 +802,7 @@
         .calendar-icon {
             right: 4px;
         }*/
-
-        
-        
     }
-    
 </style>
 <link href="~/Content/media.css" rel="stylesheet" />
 <div class="breadCumb">
@@ -917,6 +922,9 @@
         <input type="hidden" id="hdnuser_shop" />
         <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
         <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+        @*Rev 4.0*@
+        <input type="hidden" id="hdnBranchMandatory" value="@ViewBag.BranchMandatory" />
+        @*End of Rev 4.0*@
 
         <div style="clear: both;"></div>
 

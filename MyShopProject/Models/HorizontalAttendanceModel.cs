@@ -2,6 +2,7 @@
  * Rev 1.0      Sanchita       V2.0.42      19/07/2023      Add Branch parameter in Listing of MIS - Attendance Register. Mantis : 26135
  * Rev 2.0      Sanchita       V2.0.42      11/08/2023      Two check box is required to show the first call time & last call time in Attendance Register Report
  *                                                          Mantis : 26707
+ * Rev 3.0      Sanchita       V2.0.44      08-11-2023      26954 : In Attendance Register Report, Including Inactive users check box implementation is required
  * ******************************************************************************************************************/
 using Models;
 using System;
@@ -38,5 +39,8 @@ namespace MyShop.Models
         public String ShowFirstCallTime { get; set; }
         public String ShowLastCallTime { get; set; }
         // End of Rev 2.0
+        // Rev 3.0
+        public String ShowInactiveUser { get; set; }
+        // End of Rev 3.0
     }
 }

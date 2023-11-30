@@ -258,6 +258,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\CompetitorStockRegisterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ContentManagementController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CounterListController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\CRMContactController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CRMEnquiriesController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CurrentStockReportController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CustomerDetailsController.cs" />
@@ -291,6 +292,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\EmployeesPerformanceDetailsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\EmployeesTargetController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\EmployeeTargetvsAchvController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\EnquiryAnalyticsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\EntityRatingController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ERPSettingsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ExpenseReportController.cs" />
@@ -395,6 +397,7 @@
     </Compile>
     <Compile Include="Areas\MYSHOP\Controllers\UserversionController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ViewPartyController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\ViewPartyHierarchyController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ViewRouteController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\WarehouseMasterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\Work_DashboardReportController.cs" />
@@ -422,6 +425,7 @@
     <Compile Include="Models\ChemistStockistDetailsModel.cs" />
     <Compile Include="Models\ClosingStock.cs" />
     <Compile Include="Models\CollectionRegisterModel.cs" />
+    <Compile Include="Models\CRMContactModel.cs" />
     <Compile Include="Models\CRMEnquiriesModel.cs" />
     <Compile Include="Models\CurrentStockReportModel.cs" />
     <Compile Include="Models\CustomerDetailsModel.cs" />
@@ -439,6 +443,7 @@
     <Compile Include="Models\EmployeeActivityDetailsModel.cs" />
     <Compile Include="Models\EmployeeActivityStatusModel.cs" />
     <Compile Include="Models\EmployeeMasterReport.cs" />
+    <Compile Include="Models\EnquiryAnalyticsModel.cs" />
     <Compile Include="Models\ExpenseReport.cs" />
     <Compile Include="Models\FormulaApply.cs" />
     <Compile Include="Models\HorizontalAttendanceModel.cs" />
@@ -2003,6 +2008,14 @@
     <Content Include="Areas\MYSHOP\Views\OrderSummaryMTD\OrderSummaryMTDGridViewCallback.cshtml" />
     <Content Include="Areas\MYSHOP\Views\OutletRevisitDetails\_PartialGridOutletRevisitDetails.cshtml" />
     <Content Include="Areas\MYSHOP\Views\OutletRevisitDetails\OutletRevisitDetails.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ViewPartyHierarchy\ViewPartyH.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\CRMEnquiries\_BulkEnquiriesImportManualLogView.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\CRMEnquiries\BulkImportLog.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\EnquiryAnalytics\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\EnquiryAnalytics\PartialEnquiryAnalyticsGridList.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\EnquiryAnalytics\_EnquiryFromPartial.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\CRMContact\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\CRMContact\PartialCRMContactGridList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

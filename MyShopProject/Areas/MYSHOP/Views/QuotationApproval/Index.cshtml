@@ -4,6 +4,8 @@
 @*2.0                19-04-2023        V2.0.39          Sanchita            System will check the duplicate quotation number & restrict
                                                                             while approving the quotation in FSM. Refer: 25843*@
 @*3.0                09-08-2023        V2.0.40          Pallab              26704: Quotation Approval module action icon change and dorder radius issue fix *@
+@*4.0                17-11-2023        V2.0.44          Pallab              27006: Quotation Approval module "Customer Search" popup search field auto 
+                                                                            focus add and uncaught referenceerror console error fix *@
 @*====================================================== Revision History ===================================================*@
 
 @model MyShop.Models.QuotationApprovalModel
@@ -949,7 +951,12 @@
     $(document).ready(function () {
         $('#EmployeeModel').on('shown.bs.modal', function () {
             $('#txtEmployeeSearch').focus();
+        });
+        /*Rev 4.0*/
+        $('#CustomerModel').on('shown.bs.modal', function () {
+            $('#txtCustomerSearch').focus();
         })
+        /*Rev end 4.0*/
     })
     var ProdArr = new Array();
     $(document).ready(function () {
@@ -1360,7 +1367,10 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                @*Rev 4.0*@
+                @*<button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>*@
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                @*Rev end 4.0*@
                 <h4 class="modal-title" id="myModalLabel">Approve/Reject Quotation</h4>
             </div>
             <input type="hidden" id="hdnShopCode" value="" />

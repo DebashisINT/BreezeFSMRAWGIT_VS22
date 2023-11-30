@@ -740,7 +740,7 @@
         opacity: .5;
     }
 
-    #EmployeeTable {
+    #EmployeeTable, #EmployeeWDTable, #EmployeeDSTable {
         margin-top: 10px;
     }
 
@@ -872,6 +872,12 @@
     $(document).ready(function () {
         $('#EmployeeAeModel').on('shown.bs.modal', function () {
             $('#txtEmployeeSearch').focus();
+        })
+        $('#EmployeeWDModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeWDSearch').focus();
+        })
+        $('#EmployeeDSModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeDSSearch').focus();
         })
     })
     $(document).ready(function () {

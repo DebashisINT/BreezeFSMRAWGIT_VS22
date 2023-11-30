@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.39     Debashis    21/04/2023      Some new parameters have been added.Row: 819
 //2.0   V2.0.39     Debashis    19/05/2023      Some new parameters have been added.Row: 843
+//3.0   V2.0.42     Debashis    06/10/2023      Some new parameter has been added.Row: 868,869,874 & 875
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -335,6 +336,10 @@ namespace ShopAPI.Models
         public string purpose { get; set; }
         public string GSTN_Number { get; set; }
         //End of Rev Debashis
+        //Rev 3.0 Row: 868,869,874 & 875
+        public string FSSAILicNo { get; set; }
+        public bool isUpdateAddressFromShopMaster { get; set; }
+        //End of Rev 3.0 Row: 868,869,874 & 875
     }
 
     public class RegisterShopOutput

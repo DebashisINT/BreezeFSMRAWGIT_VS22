@@ -5,7 +5,9 @@
 @*3.0                19/07/2023        V2.0.41          Sanchita            Add Branch parameter in MIS - Attendance Register. Mantis : 26135*@
 @*4.0                11/08/2023        V2.0.42          Sanchita            Two check box is required to show the first call time & last call time in Attendance Register Report
      *                                                                      Mantis : 26707
-    @*====================================================== Revision History ==========================================================*@
+@*5.0                07-11-2023        V2.0.43          Sanchita            0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
+@*6.0                08-11-2023        V2.0.44          Sanchita            26954 : In Attendance Register Report, Including Inactive users check box implementation is required
+@*====================================================== Revision History ==========================================================*@
 
 @model System.Data.DataSet
 
@@ -95,6 +97,15 @@
                     return false;
                 }
                 //End of Mantis Issue 24728
+                // Rev 5.0
+                if ($("#hdnBranchMandatory").val() == "0") {
+                    if (BranchId == "" || BranchId == null) {
+                        jAlert("Please select Branch.");
+                        flag = false;
+                        return false;
+                    }
+                }
+                // End of Rev 5.0
                 //debugger;
                 var data = [];
 
@@ -190,6 +201,9 @@
         var ShowFirstCallTime = 0;
         var ShowLastCallTime = 0;
         // End of Rev 4.0
+        // Rev 6.0
+        var ShowInactiveUser = 0;
+        // End of Rev 6.0
 
         e.customArgs["Fromdate"] = dtFrom.GetText();
         e.customArgs["Todate"] = dtTo.GetText();
@@ -230,6 +244,11 @@
             ShowLastCallTime = 1;
         }
         // End of Rev 4.0
+        // Rev 6.0
+        if (document.getElementById("chkShowInactiveUser").checked) {
+            ShowInactiveUser = 1;
+        }
+        // End of Rev 6.0
         e.customArgs["TotalKMTravelled"] = TotalKMTravelled;
         e.customArgs["SecondarySalesValue"] = SecondarySalesValue;
         e.customArgs["IdleTimeCount"] = IdleTimeCount;
@@ -246,6 +265,9 @@
         e.customArgs["ShowFirstCallTime"] = ShowFirstCallTime;
         e.customArgs["ShowLastCallTime"] = ShowLastCallTime;
         // End of Rev 4.0
+        // Rev 6.0
+        e.customArgs["ShowInactiveUser"] = ShowInactiveUser;
+        // End of Rev 6.0
     }
 
 
@@ -968,13 +990,11 @@
         width: 100%;
     }
 
-    .pdt-32
-    {
+    .pdt-32 {
         padding-top: 27px !important;
     }
 
-    .col-md-3
-    {
+    .col-md-3 {
         margin-bottom: 10px;
     }
 </style>
@@ -1160,129 +1180,132 @@
 
                 </div>
                 @*Rev 3.0*@
-            <div class="row">
-                <div class="col-md-3 " id="empIntro">
-                    <label>Head Branch : </label>
-                    <div class="h-branch-select">
-                        @*Rev 3.0*@
-                        @*<select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
-                            @foreach (System.Data.DataRow dr in Model.Tables[3].Rows)
-                            {
-                                <option value=@dr["BRANCH_ID"]>@dr["CODE"]</option>
-                            }
-                        </select>*@
+                <div class="row">
+                    <div class="col-md-3 " id="empIntro">
+                        <label>Head Branch : </label>
+                        <div class="h-branch-select">
+                            @*Rev 3.0*@
+                            @*<select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                                    @foreach (System.Data.DataRow dr in Model.Tables[3].Rows)
+                                    {
+                                        <option value=@dr["BRANCH_ID"]>@dr["CODE"]</option>
+                                    }
+                                </select>*@
 
-                        @Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })
-                        @*End of Rev 3.0*@
+                            @Html.DropDownList("HeadBranch", new SelectList(ViewBag.HeadBranch, "BRANCH_ID", "CODE"), new { @id = "HeadBranch", @onchange = "BindBranches()", @class = "whclass selectH" })
+                            @*End of Rev 3.0*@
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 " id="empIntro">
+                        <label>Branch : </label>
+                        <div>
+                            @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 pdt-32" id="empIntro">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">
+                            @*Rev end 1.0*@
+                            <label for="vehicle1"> Total KM's Travelled</label><br>
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 pdt-32">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">
+                            @*Rev end 1.0*@
+                            <label for="vehicle2"> Secondary Sales Value</label>
+                        </div>
                     </div>
                 </div>
-
-                <div class="col-md-3 " id="empIntro">
-                    <label>Branch : </label>
-                    <div>
-                        @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
-                    </div>
-                </div>
-
-                <div class="col-md-3 pdt-32" id="empIntro">
-                    <div class="chkDs">
-                        @*Rev 1.0*@
-                        @*<input type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">*@
-                        <input class="styled-checkbox" type="checkbox" id="chkTotalKMTravelled" name="vehicle1" value="Bike">
-                        @*Rev end 1.0*@
-                        <label for="vehicle1"> Total KM's Travelled</label><br>
-
-                    </div>
-                </div>
-
-                <div class="col-md-3 pdt-32">
-                    <div class="chkDs">
-                        @*Rev 1.0*@
-                        @*<input type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">*@
-                        <input class="styled-checkbox" type="checkbox" id="chkSecondarySalesValue" name="vehicle2" value="Car">
-                        @*Rev end 1.0*@
-                        <label for="vehicle2"> Secondary Sales Value</label>
-                    </div>
-                </div>
-            </div>
                 @*End of Rev 3.0*@
-            <div class="row">
+                <div class="row">
 
 
 
-                <div class="col-md-3">
-                    <div class="chkDs">
-                        @*Rev 1.0*@
-                        @*<input type="checkbox" id="chkIdleTimeCount" name="vehicle3" value="Boat">*@
-                        <input class="styled-checkbox" type="checkbox" id="chkIdleTimeCount" name="vehicle3" value="Boat">
-                        @*Rev end 1.0*@
-                        <label for="vehicle2"> Idle Time Count</label><br>
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkIdleTimeCount" name="vehicle3" value="Boat">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkIdleTimeCount" name="vehicle3" value="Boat">
+                            @*Rev end 1.0*@
+                            <label for="vehicle2"> Idle Time Count</label><br>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="chkDs">
-                        @*Rev 1.0*@
-                        @*<input type="checkbox" id="chkShowAttendanceSelfie" name="vehicle4" value="Boat">*@
-                        <input class="styled-checkbox" type="checkbox" id="chkShowAttendanceSelfie" name="vehicle4" value="Boat">
-                        @*Rev end 1.0*@
-                        <label for="vehicle2"> Show Attendance Selfie</label>
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkShowAttendanceSelfie" name="vehicle4" value="Boat">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkShowAttendanceSelfie" name="vehicle4" value="Boat">
+                            @*Rev end 1.0*@
+                            <label for="vehicle2"> Show Attendance Selfie</label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="chkDs">
-                        @*Rev 1.0*@
-                        @*<input type="checkbox" id="chkShowFullDay" name="vehicle5" value="Boat">*@
-                        <input class="styled-checkbox" type="checkbox" id="chkShowFullDay" name="vehicle5" value="Boat">
-                        @*Rev end 1.0*@
-                        <label for="vehicle3"> Show Full Day</label>
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkShowFullDay" name="vehicle5" value="Boat">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkShowFullDay" name="vehicle5" value="Boat">
+                            @*Rev end 1.0*@
+                            <label for="vehicle3"> Show Full Day</label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="chkDs">
-                        @*Rev 1.0*@
-                        @*<input type="checkbox" id="chkShowLogIn" name="vehicle6" value="Boat">*@
-                        <input class="styled-checkbox" type="checkbox" id="chkShowLogIn" name="vehicle6" value="Boat">
-                        @*Rev end 1.0*@
-                        <label for="vehicle6"> Show Login Location</label>
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkShowLogIn" name="vehicle6" value="Boat">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkShowLogIn" name="vehicle6" value="Boat">
+                            @*Rev end 1.0*@
+                            <label for="vehicle6"> Show Login Location</label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="chkDs">
-                        @*Rev 1.0*@
-                        @*<input type="checkbox" id="chkShowLogOut" name="vehicle7" value="Boat">*@
-                        <input class="styled-checkbox" type="checkbox" id="chkShowLogOut" name="vehicle7" value="Boat">
-                        @*Rev end 1.0*@
-                        <label for="vehicle7"> Show Logout Location</label>
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            @*Rev 1.0*@
+                            @*<input type="checkbox" id="chkShowLogOut" name="vehicle7" value="Boat">*@
+                            <input class="styled-checkbox" type="checkbox" id="chkShowLogOut" name="vehicle7" value="Boat">
+                            @*Rev end 1.0*@
+                            <label for="vehicle7"> Show Logout Location</label>
+                        </div>
                     </div>
-                </div>
 
-                @*Rev 4.0*@
-                @*</div>
-        <div class="row">*@
-                <div class="col-md-3">
-                    <div class="chkDs">
-                        <input class="styled-checkbox" type="checkbox" id="chkShowFirstCallTime" name="ShowFirstCallTime" value="Boat">
-                        <label for="ShowFirstCallTime"> First Call Time</label>
+                    @*Rev 4.0*@
+                    @*</div>
+                        <div class="row">*@
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            <input class="styled-checkbox" type="checkbox" id="chkShowFirstCallTime" name="ShowFirstCallTime" value="Boat">
+                            <label for="ShowFirstCallTime"> First Call Time</label>
+                        </div>
                     </div>
-                </div>
 
-                <div class="col-md-3">
-                    <div class="chkDs">
-                        <input class="styled-checkbox" type="checkbox" id="chkShowLastCallTime" name="ShowLastCallTime" value="Boat">
-                        <label for="ShowLastCallTime"> Last Call Time</label>
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            <input class="styled-checkbox" type="checkbox" id="chkShowLastCallTime" name="ShowLastCallTime" value="Boat">
+                            <label for="ShowLastCallTime"> Last Call Time</label>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="chkDs">
-
+                    <div class="col-md-3">
+                        <div class="chkDs">
+                            @*Rev 6.0*@
+                            <input class="styled-checkbox" type="checkbox" id="chkShowInactiveUser" name="ShowInactiveUser" value="Boat">
+                            <label for="ShowInactiveUser"> Show Inactive User(s)</label>
+                            @*End of Rev 6.0*@
+                        </div>
                     </div>
+                    @*End of Rev 4.0*@
                 </div>
-                @*End of Rev 4.0*@
-            </div>
                 <div class="row">
                     <div class="col-md-3 pdt-18">
                         <button type="button" id="btnshow" class="btn btn-success btnwidth">Show</button>
@@ -1291,8 +1314,8 @@
                             @*<option value="1">PDF</option>*@
                             <option value="2">XLSX</option>
                             @*<option value="3">XLS</option>
-                    <option value="4">RTF</option>
-                    <option value="5">CSV</option>*@
+                                <option value="4">RTF</option>
+                                <option value="5">CSV</option>*@
 
                         </select>
                     </div>
@@ -1304,6 +1327,9 @@
 
 
             </div>
+            @*Rev 5.0*@
+            <input type="hidden" id="hdnBranchMandatory" value="@ViewBag.BranchMandatory" />
+            @*End of Rev 5.0*@
         </div>
         <div style="clear: both;"><br /></div>
         <div id="refreshgridperformancewisemonth">

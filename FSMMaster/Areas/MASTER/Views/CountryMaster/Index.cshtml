@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "COUNTRIES";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    var Is_PageLoad = "0";
+
+    $(function () {
+
+        $('body').on('click', '#btnshow', function () {
+            Is_PageLoad = "1";
+            gridList.Refresh();
+        });
+
+    });
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+    function AddCountry() {
+        $("#hdnID").val('0');
+        $("#txtCountryName").val('');
+        $("#countryModal").modal('show')
+    }
+    function SaveCountry() {
+        var id = $("#hdnID").val();
+        if ($("#txtCountryName").val().trim() == "") {
+            jAlert('Enter Country Name to proceed.');
+            return false;
+        }        
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveCountry", "CountryMaster")",
+                data: { name: $("#txtCountryName").val().trim(), id: id },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        if (confirm("Country saved successfully.")) {
+                            $("#countryModal").modal('hide');
+                            location.reload();
+                        }
+                    }
+                    else if (parseInt(response) == -1)
+                        jAlert('Country Name already exists.')
+                }
+            });
+        }
+    }
+     function EditClick(ID) {
+         $("#hdnID").val(ID);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditCountry", "CountryMaster")",
+            data: { id: ID },
+            success: function (response) {
+
+                if (response.code == "") {
+                    jAlert('No data found');
+                }
+                else {
+                    $("#txtCountryName").val(response.name);
+                    $("#countryModal").modal('show');
+
+                }
+            }
+        });
+
+
+    }
+
+     function DeleteClick(ID) {
+        $("#hdnID").val(ID);
+        jConfirm('Are you sure to delete?', 'Alert', function (r) {
+            if (r == true)
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("Delete", "CountryMaster")",
+                    data: { ID: ID},
+                    success: function (response) {
+                        if (parseInt(response) > 0) {
+                            if (confirm("Deleted successfully.")) {
+                                location.reload();
+                            }
+                        }
+                        else if (parseInt(response) == -1) {
+                            jAlert('Country already mapped with other module. Cannot delete.')
+                        }
+
+                    }
+                });
+        });
+
+
+
+    }
+</script>
+<div class="breadCumb">
+    <span>COUNTRIES</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+        <div class="row">
+            <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="AddCountry();">
+                    Add New
+                </button>
+            </div>
+            <div class="col-md-12" style="padding-top: 13px;">
+                <span></span>
+                <div>
+                    <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                        <option value="0">Export to</option>
+                        <option value="1">PDF</option>
+                        <option value="2">XLS</option>
+                        <option value="3">RTF</option>
+                        <option value="4">CSV</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                    Html.RenderAction("PartialGridList", "CountryMaster", new { Is_PageLoad = "0" });                   
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<div id="countryModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add/Modify Country</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                <div id="divModalBody">
+                    <div class="row">
+                        <div class="col-md-12">                       
+                         
+                            <div><label>Country Name <span class="red">*</span></label></div>
+                            <div>
+                                <input type="text" id="txtCountryName" maxlength="100" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="width: 476px;">
+                <div>
+                    <button type="button" id="btnSave" class="btn btn-success" onclick="SaveCountry()">Save</button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <input type="hidden" id="hdnID" />
+</div>
+
+
