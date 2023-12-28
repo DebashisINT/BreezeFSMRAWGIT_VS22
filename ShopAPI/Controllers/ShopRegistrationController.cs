@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.42     Debashis    06/10/2023      One new parameter has been added.Row: 868,869,874 & 875
+//2.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 893,894,896 & 897
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -344,7 +345,45 @@ namespace ShopAPI.Controllers
                             case "FSSAILicNo":
                                 omm.FSSAILicNo = value;
                                 break;
-                                //End of Rev 1.0 Row: 869
+                            //End of Rev 1.0 Row: 869
+                            //Rev 2.0 Row: 894
+                            case "shop_firstName":
+                                omm.shop_firstName = value;
+                                break;
+                            case "shop_lastName":
+                                omm.shop_lastName = value;
+                                break;
+                            case "crm_companyID":
+                                omm.crm_companyID = Convert.ToInt32(value);
+                                break;
+                            case "crm_jobTitle":
+                                omm.crm_jobTitle = value;
+                                break;
+                            case "crm_typeID":
+                                omm.crm_typeID = Convert.ToInt32(value);
+                                break;
+                            case "crm_statusID":
+                                omm.crm_statusID = Convert.ToInt32(value);
+                                break;
+                            case "crm_sourceID":
+                                omm.crm_sourceID = Convert.ToInt32(value);
+                                break;
+                            case "crm_referenceID":
+                                omm.crm_referenceID = value;
+                                break;
+                            case "crm_referenceID_type":
+                                omm.crm_referenceID_type = value;
+                                break;
+                            case "crm_stage_ID":
+                                omm.crm_stage_ID = Convert.ToInt32(value);
+                                break;
+                            case "assign_to":
+                                omm.assign_to = Convert.ToInt32(value);
+                                break;
+                            case "saved_from_status":
+                                omm.saved_from_status = value;
+                                break;
+                                //End of Rev 2.0 Row: 894
                         }
                     }
                 }
@@ -454,6 +493,20 @@ namespace ShopAPI.Controllers
                 //Rev 1.0 Row: 869
                 sqlcmd.Parameters.AddWithValue("@FSSAILicNo", omm.FSSAILicNo);
                 //End of Rev 1.0 Row: 869
+                //Rev 2.0 Row: 894
+                sqlcmd.Parameters.AddWithValue("@shop_firstName", omm.shop_firstName);
+                sqlcmd.Parameters.AddWithValue("@shop_lastName", omm.shop_lastName);
+                sqlcmd.Parameters.AddWithValue("@crm_companyID", omm.crm_companyID);
+                sqlcmd.Parameters.AddWithValue("@crm_jobTitle", omm.crm_jobTitle);
+                sqlcmd.Parameters.AddWithValue("@crm_typeID", omm.crm_typeID);
+                sqlcmd.Parameters.AddWithValue("@crm_statusID", omm.crm_statusID);
+                sqlcmd.Parameters.AddWithValue("@crm_sourceID", omm.crm_sourceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID", omm.crm_referenceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID_type", omm.crm_referenceID_type);
+                sqlcmd.Parameters.AddWithValue("@crm_stage_ID", omm.crm_stage_ID);
+                sqlcmd.Parameters.AddWithValue("@assign_to", omm.assign_to);
+                sqlcmd.Parameters.AddWithValue("@saved_from_status", omm.saved_from_status);
+                //End of Rev 2.0 Row: 894
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -1135,6 +1188,44 @@ namespace ShopAPI.Controllers
                                 omm.isUpdateAddressFromShopMaster = Convert.ToBoolean(value);
                                 break;
                             //End of Rev 1.0 Row: 875
+                            //Rev 2.0 Row: 897
+                            case "shop_firstName":
+                                omm.shop_firstName = value;
+                                break;
+                            case "shop_lastName":
+                                omm.shop_lastName = value;
+                                break;
+                            case "crm_companyID":
+                                omm.crm_companyID = Convert.ToInt32(value);
+                                break;
+                            case "crm_jobTitle":
+                                omm.crm_jobTitle = value;
+                                break;
+                            case "crm_typeID":
+                                omm.crm_typeID = Convert.ToInt32(value);
+                                break;
+                            case "crm_statusID":
+                                omm.crm_statusID = Convert.ToInt32(value);
+                                break;
+                            case "crm_sourceID":
+                                omm.crm_sourceID = Convert.ToInt32(value);
+                                break;
+                            case "crm_referenceID":
+                                omm.crm_referenceID = value;
+                                break;
+                            case "crm_referenceID_type":
+                                omm.crm_referenceID_type = value;
+                                break;
+                            case "crm_stage_ID":
+                                omm.crm_stage_ID = Convert.ToInt32(value);
+                                break;
+                            case "assign_to":
+                                omm.assign_to = Convert.ToInt32(value);
+                                break;
+                            case "saved_from_status":
+                                omm.saved_from_status = value;
+                                break;
+                                //End of Rev 2.0 Row: 897
                         }
                     }
                 }
@@ -1235,6 +1326,20 @@ namespace ShopAPI.Controllers
                 //Rev 1.0 Row: 875
                 sqlcmd.Parameters.AddWithValue("@isUpdateAddressFromShopMaster", omm.isUpdateAddressFromShopMaster);
                 //End of Rev 1.0 Row: 875
+                //Rev 2.0 Row: 897
+                sqlcmd.Parameters.AddWithValue("@shop_firstName", omm.shop_firstName);
+                sqlcmd.Parameters.AddWithValue("@shop_lastName", omm.shop_lastName);
+                sqlcmd.Parameters.AddWithValue("@crm_companyID", omm.crm_companyID);
+                sqlcmd.Parameters.AddWithValue("@crm_jobTitle", omm.crm_jobTitle);
+                sqlcmd.Parameters.AddWithValue("@crm_typeID", omm.crm_typeID);
+                sqlcmd.Parameters.AddWithValue("@crm_statusID", omm.crm_statusID);
+                sqlcmd.Parameters.AddWithValue("@crm_sourceID", omm.crm_sourceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID", omm.crm_referenceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID_type", omm.crm_referenceID_type);
+                sqlcmd.Parameters.AddWithValue("@crm_stage_ID", omm.crm_stage_ID);
+                sqlcmd.Parameters.AddWithValue("@assign_to", omm.assign_to);
+                sqlcmd.Parameters.AddWithValue("@saved_from_status", omm.saved_from_status);
+                //End of Rev 2.0 Row: 897
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -1581,6 +1686,44 @@ namespace ShopAPI.Controllers
                                 omm.FSSAILicNo = value;
                                 break;
                             //End of Rev 1.0 Row: 868
+                            //Rev 2.0 Row: 893
+                            case "shop_firstName":
+                                omm.shop_firstName= value;
+                                break;
+                            case "shop_lastName":
+                                omm.shop_lastName = value;
+                                break;
+                            case "crm_companyID":
+                                omm.crm_companyID = Convert.ToInt32(value);
+                                break;
+                            case "crm_jobTitle":
+                                omm.crm_jobTitle = value;
+                                break;
+                            case "crm_typeID":
+                                omm.crm_typeID = Convert.ToInt32(value);
+                                break;
+                            case "crm_statusID":
+                                omm.crm_statusID = Convert.ToInt32(value);
+                                break;
+                            case "crm_sourceID":
+                                omm.crm_sourceID = Convert.ToInt32(value);
+                                break;
+                            case "crm_referenceID":
+                                omm.crm_referenceID = value;
+                                break;
+                            case "crm_referenceID_type":
+                                omm.crm_referenceID_type = value;
+                                break;
+                            case "crm_stage_ID":
+                                omm.crm_stage_ID = Convert.ToInt32(value);
+                                break;
+                            case "assign_to":
+                                omm.assign_to = Convert.ToInt32(value);
+                                break;
+                            case "saved_from_status":
+                                omm.saved_from_status = value;
+                                break;
+                                //End of Rev 2.0 Row: 893
                         }
                     }
                 }
@@ -1666,6 +1809,20 @@ namespace ShopAPI.Controllers
                 //Rev 1.0 Row: 868
                 sqlcmd.Parameters.AddWithValue("@FSSAILicNo", omm.FSSAILicNo);
                 //End of Rev 1.0 Row: 868
+                //Rev 2.0 Row: 893
+                sqlcmd.Parameters.AddWithValue("@shop_firstName", omm.shop_firstName);
+                sqlcmd.Parameters.AddWithValue("@shop_lastName", omm.shop_lastName);
+                sqlcmd.Parameters.AddWithValue("@crm_companyID", omm.crm_companyID);
+                sqlcmd.Parameters.AddWithValue("@crm_jobTitle", omm.crm_jobTitle);
+                sqlcmd.Parameters.AddWithValue("@crm_typeID", omm.crm_typeID);
+                sqlcmd.Parameters.AddWithValue("@crm_statusID", omm.crm_statusID);
+                sqlcmd.Parameters.AddWithValue("@crm_sourceID", omm.crm_sourceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID", omm.crm_referenceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID_type", omm.crm_referenceID_type);
+                sqlcmd.Parameters.AddWithValue("@crm_stage_ID", omm.crm_stage_ID);
+                sqlcmd.Parameters.AddWithValue("@assign_to", omm.assign_to);
+                sqlcmd.Parameters.AddWithValue("@saved_from_status", omm.saved_from_status);
+                //End of Rev 2.0 Row: 893
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -1919,6 +2076,44 @@ namespace ShopAPI.Controllers
                                 omm.isUpdateAddressFromShopMaster = Convert.ToBoolean(value);
                                 break;
                             //End of Rev 1.0 Row: 874
+                            //Rev 2.0 Row: 896
+                            case "shop_firstName":
+                                omm.shop_firstName = value;
+                                break;
+                            case "shop_lastName":
+                                omm.shop_lastName = value;
+                                break;
+                            case "crm_companyID":
+                                omm.crm_companyID = Convert.ToInt32(value);
+                                break;
+                            case "crm_jobTitle":
+                                omm.crm_jobTitle = value;
+                                break;
+                            case "crm_typeID":
+                                omm.crm_typeID = Convert.ToInt32(value);
+                                break;
+                            case "crm_statusID":
+                                omm.crm_statusID = Convert.ToInt32(value);
+                                break;
+                            case "crm_sourceID":
+                                omm.crm_sourceID = Convert.ToInt32(value);
+                                break;
+                            case "crm_referenceID":
+                                omm.crm_referenceID = value;
+                                break;
+                            case "crm_referenceID_type":
+                                omm.crm_referenceID_type = value;
+                                break;
+                            case "crm_stage_ID":
+                                omm.crm_stage_ID = Convert.ToInt32(value);
+                                break;
+                            case "assign_to":
+                                omm.assign_to = Convert.ToInt32(value);
+                                break;
+                            case "saved_from_status":
+                                omm.saved_from_status = value;
+                                break;
+                                //End of Rev 2.0 Row: 896
                         }
                     }
                 }
@@ -2000,6 +2195,20 @@ namespace ShopAPI.Controllers
                 //Rev 1.0 Row: 874
                 sqlcmd.Parameters.AddWithValue("@isUpdateAddressFromShopMaster", omm.isUpdateAddressFromShopMaster);
                 //End of Rev 1.0 Row: 874
+                //Rev 2.0 Row: 896
+                sqlcmd.Parameters.AddWithValue("@shop_firstName", omm.shop_firstName);
+                sqlcmd.Parameters.AddWithValue("@shop_lastName", omm.shop_lastName);
+                sqlcmd.Parameters.AddWithValue("@crm_companyID", omm.crm_companyID);
+                sqlcmd.Parameters.AddWithValue("@crm_jobTitle", omm.crm_jobTitle);
+                sqlcmd.Parameters.AddWithValue("@crm_typeID", omm.crm_typeID);
+                sqlcmd.Parameters.AddWithValue("@crm_statusID", omm.crm_statusID);
+                sqlcmd.Parameters.AddWithValue("@crm_sourceID", omm.crm_sourceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID", omm.crm_referenceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID_type", omm.crm_referenceID_type);
+                sqlcmd.Parameters.AddWithValue("@crm_stage_ID", omm.crm_stage_ID);
+                sqlcmd.Parameters.AddWithValue("@assign_to", omm.assign_to);
+                sqlcmd.Parameters.AddWithValue("@saved_from_status", omm.saved_from_status);
+                //End of Rev 2.0 Row: 896
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

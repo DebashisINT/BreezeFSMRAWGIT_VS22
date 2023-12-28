@@ -4245,6 +4245,24 @@ namespace ERP.OMS.Management.Master
         protected global::DevExpress.Web.ASPxCheckBox chkShowLatLongInOutletMaster;
 
         /// <summary>
+        /// divIsCallLogHistoryActivated control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsCallLogHistoryActivated;
+
+        /// <summary>
+        /// chkIsCallLogHistoryActivated control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsCallLogHistoryActivated;
+
+        /// <summary>
         /// btnUpdate control.
         /// </summary>
         /// <remarks>

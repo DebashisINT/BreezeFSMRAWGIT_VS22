@@ -1,7 +1,7 @@
 ﻿@*/***************************************************************************************
- * Written by Sanchita on 24/11/2023 for V2.0.43    A new design page is required as Contact (s) under CRM menu.
- *                                                  Mantis: 27034
- ****************************************************************************************/*@
+    * Written by Sanchita on 24/11/2023 for V2.0.43    A new design page is required as Contact (s) under CRM menu.
+    *                                                  Mantis: 27034
+    ****************************************************************************************/*@
 
 @using MyShop.Models;
 @model MyShop.Models.CRMContactModel
@@ -26,7 +26,7 @@
         dtFrom.SetValue(d);
         dtTo.SetValue(d);
 
-        //gridCRMContact.Refresh();
+       // gridCRMContact.Refresh();
 
         ////////var lookup = ASPxClientControl.GetControlCollection().GetByName("ContactFromGridLookup");
         ////////lookup.GetGridView().Refresh();
@@ -50,6 +50,16 @@
             }
         });
 
+        $('#myModal').on('shown.bs.modal', function () {
+            $('#txtFirstName').focus();
+        });
+        $('#UserSearchModel').on('shown.bs.modal', function () {
+            $('#txtUserSearch').focus();
+        });
+        $('#ReferenceUserSearchModel').on('shown.bs.modal', function () {
+            $('#txtReferenceUserSearch').focus();
+        });
+
         //$('#ddlAppIds').on('change', function () {
         //    if ($("#ddlAppIds option:selected").index() > 0) {
         //        var selectedValue = $(this).val();
@@ -62,7 +72,74 @@
         //    }
         //});
 
+        $('body').on('click', '#btnshow', function () {
 
+            var flag = true;
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+            //////else if (EnquiryFromDesc.length == 0) {
+            //////    jAlert('Select Enquiry From.');
+            //////}
+            else {
+                var start = $('#dtFrom_I').val();
+                var end = $('#dtTo_I').val();
+                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                var obj = {};
+                obj.start = start;
+                obj.end = end;
+                //obj.EnquiryFromDesc = EnquiryFromDesc;
+
+                Is_PageLoad = "1";
+                gridCRMContact.Refresh();
+                gridCRMContact.Refresh();
+
+                setTimeout(function () {
+                    $.ajax({
+                        type: "POST",
+                        url: "/CRMContact/GetTotalContactsCount",
+                        data: JSON.stringify(obj),
+                        async: false,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            $("#btnShowTotalContacts").text(response.TotalContacts);
+                        },
+                        error: function (response) {
+                            jAlert("Please try again later");
+                        }
+                    });
+                }, 1000)
+
+            }
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporRegisterList", "CRMContact", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
     });
 
     function OnStartCallback(s, e) {
@@ -123,16 +200,631 @@
 
     }
 
+    // Assign To
+    function UserButnClick(s, e) {
+        $('#UserSearchModel').modal('show');
+        $("#txtUserSearch").focus();
+    }
+
+    function User_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#UserSearchModel').modal('show');
+            $("#txtUserSearch").focus();
+        }
+    }
+
+    function Userkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtUserSearch").val()) == "" || $.trim($("#txtUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtUserSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("User Name");
+            HeaderCaption.push("User Login Id");
+            HeaderCaption.push("Employee Id");
+
+            if ($("#txtUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetUserList", OtherDetails, "UserTable", HeaderCaption, "UserIndex", "SetUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[UserIndex=0]"))
+                $("input[UserIndex=0]").focus();
+        }
+    }
+
+    function SetUser(id, Name) {
+        var key = id;
+        $('#hdnUserID').val(id)
+        if (key != null && key != '') {
+            $('#UserSearchModel').modal('hide');
+            UserTxt.SetText(Name);
+            UserTxt.SetFocus();
+        }
+    }
+    // End Assign To
+
+    // Reference
+    function ReferenceUserButnClick(s, e) {
+        $('#ReferenceUserSearchModel').modal('show');
+        $("#txtReferenceUserSearch").focus();
+    }
+
+    function ReferenceUser_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#ReferenceUserSearchModel').modal('show');
+            $("#txtReferenceUserSearch").focus();
+        }
+    }
+
+    function ReferenceUserkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtReferenceUserSearch").val()) == "" || $.trim($("#txtReferenceUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtReferenceUserSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("User Name");
+            HeaderCaption.push("Phone");
+            //HeaderCaption.push("Employee Id");
+
+            if ($("#txtReferenceUserSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetReferenceList", OtherDetails, "ReferenceUserTable", HeaderCaption, "ReferenceUserIndex", "SetReferenceUser");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[ReferenceUserIndex=0]"))
+                $("input[ReferenceUserIndex=0]").focus();
+        }
+    }
+
+    function SetReferenceUser(id, Name) {
+        var key = id;
+        $('#hdnReferenceUserID').val(id)
+        if (key != null && key != '') {
+            $('#ReferenceUserSearchModel').modal('hide');
+            ReferenceUserTxt.SetText(Name);
+            ReferenceUserTxt.SetFocus();
+        }
+    }
+    // End Reference
+
+    function ClearData() {
+        $("#hdnShopMode").val('ADDCRMCONTACT');
+        $("#myModalLabel").text("Add Contact");
+        $("#hdnShopCode").val('');
+
+        $("#btnSaveExit").removeClass('hide');  // Show Save & Exit
+        $("#btnSaveNew").removeClass('hide'); // Show Save & New
+
+        $("#txtFirstName").val('');
+        $("#txtLastName").val('');
+        $("#txtPhone").val('');
+        $("#txtEmail").val('');
+        $("#txtAddress").val('');
+        dtDOB.Clear();
+        dtAnniversarydate .Clear();
+
+        $("#ddlCompany").val('0');
+        $("#txtJobTitle").val('');
+        $('#hdnUserID').val('0');
+        UserTxt.SetText('');
+        $('#ddlType').val('0');
+        $("#ddlStatus").val('0');
+        $("#ddlSource").val('0');
+        $('#hdnReferenceUserID').val('0');
+        ReferenceUserTxt.SetText('');
+        document.getElementById("ReferenceUserTable").innerHTML = "";
+        $("#txtReferenceUserSearch").val("");
+        $("#ddlStage").val('0');
+
+        $("#txtRemarks").val('');
+        $("#txtExpSalesValue").val('');
+        dtNextFollowDate.Clear();
+        $("#ddlActive").val('1');
+        SourceChange();
+
+    }
+
+    function AddCRMContact(values) {
+
+        if ($("#txtFirstName").val() == "" || $("#txtFirstName").val() == null || $("#txtFirstName").val() == undefined) {
+            jAlert("Please enter First Name.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtFirstName").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        if ($("#txtPhone").val() == "" || $("#txtPhone").val() == null || $("#txtPhone").val() == undefined) {
+            jAlert("Please enter Phone.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtPhone").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        if ($("#txtPhone").val() == "0" || $("#txtPhone").val().substring(0,1) == "0" ) {
+            jAlert("Phone no cannot start with zero.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtPhone").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        var mail = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+        if ($("#txtEmail").val() != "") {
+            if (!mail.test($("#txtEmail").val().trim())) {
+                jAlert("Please Enter Valid Email.", "Alert", function () {
+                    setTimeout(function () {
+                        $("#txtEmail").focus();
+                        return
+                    }, 200);
+                });
+                return
+            }
+        }
+
+        if ($("#hdnUserID").val() == "0") {
+            jAlert("Please select assign to user.", "Alert", function () {
+                setTimeout(function () {
+                    $("#UserTxt").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        var dob = null;
+        if (dtDOB.GetText() != null && dtDOB.GetText() != "01-01-0100") {
+            dob = dtDOB.GetText();
+        }
+
+        var date_aniversary = null;
+        if (dtAnniversarydate.GetText() != null && dtAnniversarydate.GetText() != "01-01-0100") {
+            date_aniversary = dtAnniversarydate.GetText();
+        }
+
+        var NextFollowDate = null;
+        if (dtNextFollowDate.GetText() != null && dtNextFollowDate.GetText() != "01-01-0100") {
+            NextFollowDate = dtNextFollowDate.GetText();
+        }
+
+        var action = $("#hdnShopMode").val();  //"ADDCRMCONTACT";
+
+        var data = {
+            Action: action,
+            user_id: $("#hdnUserID").val(),
+            shop_code: $("#hdnShopCode").val(),
+            FirstName: $("#txtFirstName").val(),
+            LastName: $("#txtLastName").val(),
+            PhoneNo: $("#txtPhone").val(),
+            Email: $("#txtEmail").val(),
+            Address: $("#txtAddress").val(),
+            DOB: dob,
+            Anniversarydate: date_aniversary,
+            JobTitle: $("#txtJobTitle").val(),
+            CompanyId: $("#ddlCompany").val(),
+            AssignedTo: $("#hdnUserID").val(),
+            TypeId: $('#ddlType').val(),
+            StatusId: $("#ddlStatus").val(),
+            SourceId: $("#ddlSource").val(),
+            ReferenceId: $('#hdnReferenceUserID').val(),
+            StageId: $("#ddlStage").val(),
+            Remarks: $("#txtRemarks").val(),
+            ExpSalesValue: $("#txtExpSalesValue").val(),
+            NextFollowDate: NextFollowDate,
+            Active: $("#ddlActive").val()
+        }
+
+
+        $.ajax({
+            url: "@Url.Action("AddCRMContact", "CRMContact")",
+            async: false,
+            data: { data: data },
+            type: 'POST',
+            success: function (returnValue
+                ) {
+                // Mantis Issue 24603 (Return value "returnValue" added )
+                if (returnValue == "204") {
+                    jAlert("Auto Contact Code Not generated. Contact not addded.");
+                }
+                else if (returnValue == "205") {
+                    jAlert("Invalid Last Number. Contact not addded.");
+                }
+                else if (returnValue == "206") {
+                    jAlert("Invalid Shop Type. Contact not addded.");
+                }
+                else if (returnValue == "207") {
+                    jAlert("Invalid State Code. Contact not addded.");
+                }
+                else {
+                    //jAlert("Contact submitted successfully. Auto Contact Code " + returnValue + " generated.");
+                    jAlert("Contact submitted successfully.");
+                }
+                // End of Mantis Issue 24603
+                ClearData();
+                if (values == "Exit") {
+                    $('#myModal').modal('hide');
+                }
+                GridShow();
+                //gridPartyDetails.Refresh();
+                //gridPartyDetails.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+    function OpenCRMContactforEdit(ShopCode) {
+        var x = "";
+        var dt = "";
+        $.ajax({
+            url: "@Url.Action("EditCRMContact", "CRMContact")",
+            async: false,
+            data: { ShopCode: ShopCode },
+            type: 'POST',
+            success: function (data) {
+
+                //$("#divddType").addClass('hide');
+                //$("#divddShopType").addClass('hide');
+
+                $("#btnSaveExit").removeClass('hide');  // Show Save & Exit
+                $("#btnSaveNew").addClass('hide'); // Hide Save & New
+
+                $("#hdnShopMode").val('MODIFYCRMCONTACT');
+                $("#myModalLabel").text("Edit Contact");
+                $("#hdnShopCode").val(data.shop_code);
+
+                $("#ddlCountry").val(data.CountryID)
+                //CountryChange();
+
+                $("#txtFirstName").val(data.FirstName);
+                $("#txtLastName").val(data.LastName);
+                $("#txtPhone").val(data.PhoneNo);
+                $("#txtEmail").val(data.Email);
+                $("#txtAddress").val(data.Address);
+
+                if (data.DOB != "") {
+                    var d = new Date(data.DOB);
+                    dtDOB.SetDate(d);
+                }
+                else {
+                    dtDOB.Clear();
+                }
+
+                if (data.Anniversarydate != "") {
+                    var d2 = new Date(data.Anniversarydate);
+                    dtAnniversarydate.SetDate(d2);
+                }
+                else {
+                    dtAnniversarydate.Clear();
+                }
+
+                $("#ddlCompany").val(data.CompanyId);
+                $("#txtJobTitle").val(data.JobTitle);
+                $('#hdnUserID').val(data.AssignedToId);
+                UserTxt.SetText(data.AssignedTo);
+                $('#ddlType').val(data.TypeId);
+                $("#ddlStatus").val(data.StatusId);
+                $("#ddlSource").val(data.SourceId);
+                $('#hdnReferenceUserID').val(data.ReferenceId);
+                ReferenceUserTxt.SetText(data.ReferenceName);
+                $("#ddlStage").val(data.StageId);
+                $("#txtRemarks").val(data.Remarks);
+                $("#txtExpSalesValue").val(data.ExpSalesValue);
+
+                if (data.NextFollowDate != "") {
+                    var d3 = new Date(data.NextFollowDate);
+                    dtNextFollowDate.SetDate(d3);
+                }
+                else {
+                    dtNextFollowDate.Clear();
+                }
+
+                $("#ddlActive").val(data.Active);
+                SourceChange();
+
+                $('#myModal').modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+    function OnClickDeleteCRMContact(ShopCode) {
+        var url = '/CRMContact/DeleteCRMContact/';
+
+        jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+            if (ret == true) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'ShopCode': ShopCode }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "Delete Succesfully.") {
+                            jAlert("Successfully Deleted.");
+                            GridShow();
+                        }
+                        else {
+                            jAlert(response);
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    }
+
+
+    function GridShow() {
+        //GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+        Is_PageLoad = "";
+        datefrm = dtFrom.GetText();
+        var newdatefrom = datefrm.split("-").reverse().join("-");
+
+        var startdate = new Date(Date.parse(newdatefrom));
+        //  alert(startdate);
+
+        dateto = dtTo.GetText();
+        var newdateTo = dateto.split("-").reverse().join("-");
+
+        var endDate = new Date(Date.parse(newdateTo));
+
+        if (endDate < startdate) {
+
+            jAlert('From date should be before/equal To date');
+        }
+        else {
+            var start = $('#dtFrom_I').val();
+            var end = $('#dtTo_I').val();
+            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+            gridCRMContact.Refresh();
+
+        }
+    }
+
+    function SourceChange() {
+        var sourcename = $("#ddlSource :selected").text();
+
+        if (sourcename == "Reference") {
+            $("#divReference").removeClass("hide");
+        } else  {
+            $('#hdnReferenceUserID').val('0');
+            ReferenceUserTxt.SetText('');
+            document.getElementById("ReferenceUserTable").innerHTML = "";
+            $("#txtReferenceUserSearch").val("");
+
+            $("#divReference").addClass("hide");
+        }
+    }
+    function DownloadFormat() {
+        var url = '@Url.Action("DownloadFormat", "CRMContact")'
+        window.location.href = url;
+    }
+
+    function ImportContactPopOpen() {
+        $("#myImportModal").modal('show');
+    }
+
+    function ImportLogPopOpen() {
+        var d = new Date();
+
+        dtLogFrom_Import.SetValue(d);
+        dtLogTo_Import.SetValue(d);
+
+        pcModalImportViewMode.Show();
+    }
+
+    function CRMContactImportUserLog() {
+        var url = '/CRMContact/CRMContactImportUserLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogFrom_Import.GetText(), 'ToDate': dtLogTo_Import.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ContactImportLog", "CRMContact")",
+                        success: function (response) {
+                            if (response) {
+                                pcModalTemplateContactImportLogMode.Show();
+                                gridContactImportLog.Refresh();
+                                gridContactImportLog.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+    function ExportImportLogGrid() {
+        var url = '@Url.Action("ExportImportLogGrid", "CRMContact", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+    function ClickToImportCRMContact() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("ImportExcel", "CRMContact")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        //$("#myImportModal").toggle();
+                        $("#myImportModal").modal('hide');
+                        GridShow();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("ContactImportLog", "CRMContact")",
+                            success: function (response) {
+                                if (response) {
+                                    pcModalTemplateContactImportLogMode.Show();
+                                    gridContactImportLog.Refresh();
+                                    gridContactImportLog.Refresh();
+                                }
+                            }
+                        });
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#myModal').on('show.bs.modal', function () {
+            // Disable body scroll when main modal is opened
+            $('body').css('overflow', 'hidden');
+        });
+
+        $('#myModal').on('hidden.bs.modal', function () {
+            // Enable body scroll when main modal is closed
+            $('body').css('overflow', 'auto');
+        });
+
+        $('#UserSearchModel').on('hidden.bs.modal', function () {
+            // Enable body scroll when inner modal is closed
+            $('body').css('overflow', 'hidden');
+        });
+
+        $('#ReferenceUserSearchModel').on('hidden.bs.modal', function () {
+            // Enable body scroll when inner modal is closed
+            $('body').css('overflow', 'hidden');
+        });
+    });
+
+    //function ReportToButnClick(s, e) {
+    //    $('#UserSearchModel').modal('show');
+    //    $("#txtUserSearch").focus();
+    //}
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#txtExpSalesValue').on('input', function () {
+            var inputValue = $(this).val().replace(/[^0-9.]/g, ''); // Remove non-numeric characters except for the dot
+            var parts = inputValue.split('.');
+
+            // Allow up to 15 digits before the decimal
+            if (parts[0].length > 15) {
+                parts[0] = parts[0].substring(0, 15);
+            }
+
+            // Limit decimals to 2
+            if (parts[1] && parts[1].length > 2) {
+                parts[1] = parts[1].substring(0, 2);
+            }
+
+            // Combine the integer and decimal parts with only one decimal point
+            var sanitizedValue = parts.length > 1 ? parts[0] + '.' + parts.slice(1).join('') : parts[0];
+            $(this).val(sanitizedValue);
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#txtFirstName').on('input', function () {
+            var inputValue = $(this).val();
+            var sanitizedValue = inputValue.replace(/[^a-zA-Z]/g, '');
+            $(this).val(sanitizedValue);
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        setTimeout(function () {
+            $('#dtNextFollowDateOutOfRWarn label:contains("The date must be greater than or equal to")').text('The date must be greater than today');
+        }, 0);
+    });
 </script>
 
 <style>
     .pmsModal .modal-header {
-        background: #094e8c !important;
+        /*background: #094e8c !important;*/
         background-image: none !important;
         padding: 11px 20px;
         border: none;
         border-radius: 15px 15px 0 0 !important;
         color: #fff;
+        background: linear-gradient(to right, #1f5fbf, #11998e) !important;
     }
 
     .pmsModal .modal-content {
@@ -144,13 +836,25 @@
     }
 
     .pmsModal.w70 .modal-dialog {
-        width: 70%;
+        width: 90% !important;
     }
+
+    @@media screen and (min-width: 768px) {
+        .modal-dialog {
+            padding-top: 56px !important;
+        }
+        #UserSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog {
+            padding-top: 100px !important;
+        }
+        }
+
+
 
     #myModal label {
         font-weight: 500;
-        margin-top: 5px;
+        margin-top: 3px;
         margin-bottom: 2px;
+        font-size: 13px;
     }
 
     .red {
@@ -187,12 +891,12 @@
     }
 
     .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
-        height: 34px;
+        height: 30px;
         padding: 3px 12px;
     }
 
     .modalScroll .modal-body {
-        max-height: 75vh !important;
+        max-height: 88vh !important;
         overflow-y: auto;
         border-radius: 0 0 15px 15px !important;
     }
@@ -268,7 +972,7 @@
 
     .calendar-icon {
         position: absolute;
-        bottom: 9px;
+        bottom: 7px;
         right: 20px;
         z-index: 0;
         cursor: pointer;
@@ -359,6 +1063,7 @@
         position: relative;
         z-index: 1;
         background-color: transparent;
+        height: 30px !important;
     }
 
     #ddlShowReport:focus-visible {
@@ -432,7 +1137,7 @@
 
     .dxeButtonEdit_PlasticBlue {
         border-radius: 5px;
-        height: 34px;
+        height: 30px;
     }
 
     #dtFrom, #dtTo, #FormDate, #toDate, #appcbl_frm_dt {
@@ -590,6 +1295,7 @@
     .for-cust-icon {
         position: relative;
         /*z-index: 1;*/
+        width: 150px;
     }
 
     .pad-md-18 {
@@ -652,6 +1358,7 @@
 
     .btn {
         height: 34px;
+        border-radius: 50px;
     }
     /*Rev end 1.0*/
     /*Rev start 3.0*/
@@ -689,64 +1396,412 @@
     }
     /*End of Rev 4.0*/
 
-    .mt-15{
-        margin-top: 15px;
+    .mt-15 {
+        margin-top: 5px;
     }
 
-    .mb-10{
+    .mb-10 {
+        margin-bottom: 5px;
+    }
+
+    .mr-5 {
+        margin-right: 5px;
+    }
+
+    .pmsModal .modal-body {
+        padding: 30px;
+        padding-bottom: 15px;
+    }
+
+        .pmsModal .modal-body .col-md-3, .pmsModal .modal-body .col-md-6, .pmsModal .modal-body .col-md-12 {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+    .personal-info {
+        background: #f9f9f9;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .pmsModal .modal-body select:not(.btn), .pmsModal .modal-body .form-control {
+        border-radius: 6px !important;
+        background: #fff !important;
+    }
+
+        .pmsModal .modal-body .form-control:focus {
+            box-shadow: none !important;
+        }
+
+    .company-info {
+        background: #f9f9f9 !important;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .others-info {
+        background: #f9f9f9 !important;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .section-heading {
+        width: 100%;
+        margin-top: -24px;
+        padding: 0 0 0 10px;
         margin-bottom: 10px;
     }
 
-    .mr-5{
-        margin-right: 5px;
+    .personal-info .section-heading h4 {
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #10977e;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
     }
+
+    .company-info .section-heading h4 {
+        /*font-size: 16px !important;
+        padding: 6px 15px;
+        background: #971073;
+        color: #fff;
+        border-radius: 20px 20px;
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;*/
+
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #971073;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .others-info .section-heading h4 {
+        /*font-size: 16px !important;
+        padding: 6px 15px;
+        background: #974310;
+        color: #fff;
+        border-radius: 20px 20px;
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;*/
+
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #974310;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .ml-n15 {
+        margin-right: -18px;
+        text-align: end;
+    }
+
+    /* width */
+    .pmsModal .modal-body::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    .pmsModal .modal-body::-webkit-scrollbar-track {
+        box-shadow: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Handle */
+    .pmsModal .modal-body::-webkit-scrollbar-thumb {
+        background: #b1b1b1;
+        border-radius: 10px;
+    }
+
+        /* Handle on hover */
+        .pmsModal .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #8b8b8b;
+        }
+
+    #dtDOB_DDD_PW-1, #dtAnniversarydate_DDD_PW-1, #dtNextFollowDate_DDD_PW-1 {
+        left: -25px !important;
+    }
+
+    #dtDOB_DDD_C_FNP_PW-1, #dtNextFollowDate_DDD_C_FNP_PW-1 {
+        left: 45px !important;
+    }
+
+    #dtAnniversarydate_DDD_C_FNP_PW-1 {
+        left: 30px !important;
+        /*top: 0;*/
+    }
+
+    body.modal-open {
+        overflow: hidden;
+    }
+
+    .btn-clr-1 {
+        background-color: #313ec7 !important;
+
+    }
+
+    .btn-clr-2 {
+        background-color: #ff6a00 !important;
+    }
+
+    .btn-clr-3 {
+        background-color: #0ead7f !important;
+    }
+
+    .btn-clr-4 {
+        background-color: #86a113 !important;
+    }
+
+    .bg-color-6 {
+        background-color: #bd1c68 !important;
+    }
+
+        .bg-color-6 .badge {
+            background-color: #fff !important;
+            padding: 4px 7px;
+            color: #111;
+        }
+
+    .btn {
+        margin-right: 5px;
+        padding: 4px 10px;
+    }
+
+    
+
+    #popup_message {
+        text-align: center !important;
+        padding: 0 !important;
+    }
+
+    #popup_container {
+        font-size: 14px !important;
+    }
+
+    #popup_panel {
+        margin-left: 0 !important;
+    }
+
+    #myImportModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+
+    #dtNextFollowDateOutOfRWarn, #dtDOBOutOfRWarn, #dtAnniversarydateOutOfRWarn {
+        left: 0 !important;
+        top: 60px !important;
+    }
+
+    .dxeOutOfRWarn_PlasticBlue
+    {
+        font-size: 13px !important;
+    }
+
+    .validationDiv {
+        margin-bottom: 10px;
+    }
+
+    .btn-radius {
+        border-radius: 50px;
+        /*float:left;*/
+    }
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 22px;
+        height: 22px;
+        display: inline-block;
+        background: #0d4d91;
+        line-height: 22px;
+    }
+
+    .add-btn {
+        padding: 6px 10px 6px 6px !important;
+        background-color: #f8666f !important;
+        border-color: #f8666f !important;
+    }
+
+    .col-md-1, .col-md-2, .col-md-4 {
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+    }
+
+    .calendar-icon {
+        right: 14px !important;
+    }
+
+    .personal-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #10977e;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    .company-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #971073;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    .others-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #974310;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    /*.personal-info .section-heading h4:after {
+        content: "";
+        position: absolute;
+        left: -1px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 1px solid white;
+        border-top: 14px solid transparent;
+        border-bottom: 14px solid transparent;
+    }*/
+
+    .personal-info .section-heading h4 .bulet, .company-info .section-heading h4 .bulet, .others-info .section-heading h4 .bulet {
+        position: absolute;
+        right: 0px;
+        top: 11px;
+        background: #fff;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        box-shadow: 0px 0px 1px 2px rgb(26, 128, 44);
+    }
+
+    .company-info .section-heading h4 .bulet {
+        box-shadow: 0px 0px 1px 2px rgb(81 5 61) !important;
+    }
+
+    .others-info .section-heading h4 .bulet {
+        box-shadow: 0px 0px 1px 2px rgb(99 39 3) !important;
+    }
+
+    #btnshow, #ddlAppIds {
+        height: 30px;
+    }
+
+    #ddlAppIds {
+        padding: 2px 10px !important;
+    }
+
+    #UserSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog {
+        width: 42% !important;
+    }
+
+        .container {
+            width: 88%;
+        }
+
+    @@media (min-width: 1200px) {
+        .container {
+            width: 88%;
+        }
+    }
+
 </style>
+
+<div class="breadCumb">
+    <span>CRM Contact</span>
+</div>
 
 <div class="container ">
     <div class="row">
         <div class="col-md-12">
-            <div class="backBox mt-5 px-5">
+            <div class="backBox mt-5 px-4 pb-4">
                 <div class="row">
-                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 20px;">
                         <!-- Button trigger modal -->
-                        @*@if (ViewBag.CanAdd)
-                            {*@
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
-                            Add New
+                        @if (ViewBag.CanAdd)
+                        {
+                        <button type="button" class="btn btn-success btn-radius add-btn" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                            <span class="btn-icon"><i class="fa fa-plus"></i></span> Contact
                         </button>
-                        @*}*@
-                        @*@if (ViewBag.CanAssign)
-                            {*@
-                        <button type="button" class="btn btn-info" onclick="BulkAssign();">
+                        }
+                        @if (ViewBag.CanAssign)
+                        {
+                        <button type="button" class="btn btn-info btn-radius btn-clr-1" onclick="BulkAssign();">
                             Bulk Assign
                         </button>
-                        @*}*@
-                        @*@if (ViewBag.CanReassign)
-                            {*@
-                        <button type="button" class="btn btn-primary" onclick="BulkReAssign();">
+                        }
+                        @if (ViewBag.CanReassign)
+                        {
+                        <button type="button" class="btn btn-primary btn-radius btn-clr-2" onclick="BulkReAssign();">
                             Bulk Re-Assign
                         </button>
 
-                        @*}*@
+                        }
 
-                        @*@if (ViewBag.CanBulkUpdate)
-                            {*@
-                        <button type="button" class="btn btn-info" onclick="DownloadFormat();">
+                        @if (ViewBag.CanBulkUpdate)
+                        {
+                        <button type="button" class="btn btn-info btn-radius btn-clr-3" onclick="DownloadFormat();">
                             Download Format
                         </button>
 
-                        <button type="button" class="btn btn-primary" onclick="BulkImportContactPopOpen();">
+                        <button type="button" class="btn btn-primary btn-radius btn-clr-4" onclick="ImportContactPopOpen();">
                             Import File
                         </button>
 
-                        <button type="button" class="btn btn-primary" onclick="BulkImportLogPopOpen();">
+                        <button type="button" class="btn btn-primary btn-radius btn-clr-5" onclick="ImportLogPopOpen();">
                             View Log
                         </button>
-                        @*}*@
+                        }
+
+                        @if (ViewBag.CanView)
+                        {
+                    <button type="button" class="btn btn-success btn-radius bg-color-6">
+                        Total Contact (s) <span id="btnShowTotalContacts" class="badge">0</span>
+                    </button>
+
+                        }
+
+
+
 
                     </div>
                     <div class="clear"></div>
-                    <div class="col-md-2 for-cust-icon">
+                    <div class="col-md-1 for-cust-icon" style="padding-left: 15px !important;">
                         <span>From Date</span>
                         <div>
                             @Html.DevExpress().DateEditFor(x => x.Fromdate,
@@ -763,7 +1818,7 @@
                             <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
                         </div>
                     </div>
-                    <div class="col-md-2 for-cust-icon">
+                    <div class="col-md-1 for-cust-icon">
                         <span>To Date</span>
                         <div>
                             @Html.DevExpress().DateEditFor(x => x.Todate,
@@ -780,27 +1835,27 @@
                             <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
                         </div>
                     </div>
-                    <div class="col-md-4" style="margin-bottom: 16px;">
+                    <div class="col-md-2" style="margin-bottom: 16px;">
                         <span>Contact(s) From</span>
                         <div>
                             @*@Html.Action("GetContactFrom", "CRMContact")*@
 
                             <select name="ddlContacts" class="full form-control" id="ddlContacts">
-                                <option value="0">Select</option>
+                                <option value="0">Select All</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="col-md-4" style="padding-top: 20px;">
+                    <div class="col-md-3" style="padding-top: 20px;">
                         <span></span>
                         <div>
                             @*@if (ViewBag.CanView)
-                                {*@
+                {*@
                             <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
                             @*}*@
 
                             @*@if (ViewBag.CanExport)
-                                {*@
+                {*@
                             <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
                                 <option value="0">Export to</option>
                                 <option value="2">XLSX</option>
@@ -837,6 +1892,9 @@
     </div>
 </div>
 
+<input type="hidden" id="hdnShopMode" />
+<input type="hidden" id="hdnShopCode" value="" />
+
 <div class="modal fade pmsModal w70 font-pp modalScroll" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -844,132 +1902,381 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Add Contact</h4>
             </div>
-            <input type="hidden" id="hdnShopCode" value="" />
+            @*<input type="hidden" id="hdnShopCode" value="" />*@
             <div class="modal-body inputShrink">
                 <div class="row">
-                    <div class="col-md-3 mb-10">
-                        <label>First Name</label>
-                        <div>
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtPartyCode" })
+
+                    <div class="col-md-12 personal-info">
+                        <div class="section-heading">
+                            <h4>Personal Information <span class="bulet"></span></h4>
+                            
                         </div>
+
+                        <div class="col-md-3 mb-10">
+                            <label>First Name<em style="color: red">*</em></label>
+                            <div>
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtFirstName" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-10">
+                            <label>Last Name </label>
+                            <div>
+                                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @id = "txtLastName" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb-10">
+                            <label>Phone<em style="color: red">*</em></label>
+                            <div>
+                                @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control numbersOnly", @id = "txtPhone" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-10">
+                            <label>Email</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control numbersOnly", @id = "txtEmail" })
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-6 mb-10">
+                            <label>Address </label>
+                            <div>
+                                @*<input type="text" class="form-control" />*@
+                                @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @id = "txtAddress" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-10">
+                            <label>Date of Birth</label>
+                            <div class="date-select">
+                                @Html.DevExpress().DateEditFor(x => x.DOB,
+                               deSettings =>
+                               {
+                                   deSettings.Name = "dtDOB";
+                                   deSettings.Date = DateTime.Now;
+                                   deSettings.Properties.UseMaskBehavior = true;
+                                   deSettings.Properties.EditFormat = EditFormat.Custom;
+                                   deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                   deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                   deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                   deSettings.Properties.MaxDate = DateTime.Now;
+                               }).GetHtml()
+
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-10">
+                            <label>Date of Anniversary</label>
+                            <div>
+                                @Html.DevExpress().DateEditFor(x => x.Anniversarydate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtAnniversarydate";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.MaxDate = DateTime.Now;
+                                }).GetHtml()
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
                     </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Last Name </label>
-                        <div>
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtPartyName" })
+
+                    @*<div class="col-md-12 company-info">*@
+                    <div class="col-md-12 company-info">
+                        <div class="section-heading">
+                            <h4>General Information <span class="bulet"></span></h4>
                         </div>
+
+                        <div class="col-md-3 mb-10">
+                            <label>Company </label>
+                            <div>
+                                @Html.DropDownListFor(m => m.CompanyId, new SelectList(Model.CompanyList, "CompanyId", "CompanyName", Model.CompanyId), new { @id = "ddlCompany", @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-10">
+                            <label>Job Title</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control numbersOnly", @id = "txtJobTitle" })
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-10">
+                            <label>Assign To<em style="color: red">*</em></label>
+                            <div>
+                                @Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "UserTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    settings.Text = Model.AssignedTo;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){UserButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){User_KeyDown(s,e);}";
+
+                                }).GetHtml()
+
+                                @*<input type="hidden" id="txtContact_hidden">*@
+                                <input type="hidden" id="hdnUserID" value="@Model.NewUserid">
+                            </div>
+
+                        </div>
+                        <div class="col-md-3 mb-10">
+                            <label>Type </label>
+                            <div>
+                                @Html.DropDownListFor(m => m.TypeId, new SelectList(Model.TypeList, "TypeId", "TypeName", Model.TypeId), new { @id = "ddlType", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="col-md-3 mb-10">
+                            <label>Status </label>
+                            <div>
+                                @Html.DropDownListFor(m => m.StatusId, new SelectList(Model.StatusList, "StatusId", "StatusName", Model.StatusId), new { @id = "ddlStatus", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb-10">
+                            <label>Source </label>
+                            <div>
+                                @Html.DropDownListFor(m => m.SourceId, new SelectList(Model.SourceList, "SourceId", "SourceName", Model.SourceId), new { @id = "ddlSource", @class = "form-control", @onchange = "SourceChange();" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb-10" id="divReference">
+                            <label>Reference </label>
+                            <div>
+                                @Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "ReferenceUserTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    settings.Text = Model.AssignedTo;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){ReferenceUserButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){ReferenceUser_KeyDown(s,e);}";
+
+                                }).GetHtml()
+
+                                @*<input type="hidden" id="txtContact_hidden">*@
+                                <input type="hidden" id="hdnReferenceUserID" value="@Model.NewReferenceUserid">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb-10">
+                            <label>Stages</label>
+                            <div>
+                                @Html.DropDownListFor(m => m.StageId, new SelectList(Model.StageList, "StageId", "StageName", Model.StageId), new { @id = "ddlStage", @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+
                     </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Company </label>
-                        <div>
-                            <select class="form-control" id="ddlCompany">
-                                <option value="Select">Select</option>
-                            </select>
+
+
+                    @*<div class="col-md-12 others-info">*@
+                    <div class="col-md-12 others-info mb-3">
+                        <div class="section-heading">
+                            <h4>Others Information <span class="bulet"></span></h4>
                         </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Job Title</label>
-                        <div>
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control numbersOnly", @id = "txtJobTitle" })
+
+                        <div class="col-md-3 mb-10">
+                            <label>Remarks (if any)</label>
+                            <div>
+                                @*<input type="text" class="form-control" />*@
+                                @Html.TextBoxFor(m => m.Remarks, new { @class = "form-control", @id = "txtRemarks" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Email</label>
-                        <div>
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control numbersOnly", @id = "txtEmail" })
+                        <div class="col-md-3 mb-10">
+                            <label>Expected Sales Value</label>
+                            <div>
+                                @*<input type="text" class="form-control" />*@
+                                @*@Html.TextBoxFor(m => m.ExpSalesValue, new { @class = "form-control allow_decimal numbersOnly", @id = "txtExpSalesValue" })*@
+                                @Html.TextBoxFor(m => m.ExpSalesValue, new { @class = "form-control allow_decimal numbersOnly", @id = "txtExpSalesValue", type = "text" })
+                                @Html.ValidationMessageFor(m => m.ExpSalesValue, "", new { @class = "text-danger" })
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Phone</label>
-                        <div>
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control numbersOnly", @id = "txtPhone" })
+                        <div class="col-md-3 mb-10">
+                            <label>Next follow Up Date</label>
+                            <div>
+                                @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtNextFollowDate";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.MinDate = DateTime.Now;
+                                }).GetHtml()
+
+
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Address </label>
-                        <div>
-                            @*<input type="text" class="form-control" />*@
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtcluster" })
+
+                        <div class="col-md-3 mb-10">
+                            <label>Active</label>
+                            <div>
+                                <select class="form-control" id="ddlActive">
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Assign To </label>
-                        <div>
-                            <select class="form-control" id="ddlStatus">
-                                <option value="Select">Select</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Type </label>
-                        <div>
-                            <select class="form-control" id="ddlType">
-                                <option value="Select">Select</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Status </label>
-                        <div>
-                            <select class="form-control" id="ddlStatus">
-                                <option value="Select">Select</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Source </label>
-                        <div>
-                            <select class="form-control" id="ddlSource">
-                                <option value="Select">Select</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Reference </label>
-                        <div>
-                            <select class="form-control" id="ddlReference">
-                                <option value="Select">Select</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Remarks (if any)</label>
-                        <div>
-                            @*<input type="text" class="form-control" />*@
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtRemarks" })
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Expected Sales Value</label>
-                        <div>
-                            @*<input type="text" class="form-control" />*@
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtRemarks" })
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Stages</label>
-                        <div>
-                            @*<input type="text" class="form-control" />*@
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @id = "txtRemarks" })
-                        </div>
-                    </div>
-                    <div class="col-md-3 mb-10">
-                        <label>Activities </label>
-                        <div>
-                            <select class="form-control" id="ddlReference">
-                                <option value="Select">Select</option>
-                            </select>
-                        </div>
+                        <div class="clearfix"></div>
                     </div>
                     <div class="clear"></div>
                 </div>
-                
-                <div class="mt-15">
-                    <button type="button" class="btn btn-success mr-2" onclick="AddShop('Exit');">Save & Exit</button>
-                    <button type="button" class="btn btn-primary mr-2" onclick="AddShop('New');">Save & New</button>
+
+                <div class="mt-15 ml-n15">
+                    <button type="button" id="btnSaveExit" class="btn btn-success mr-2" onclick="AddCRMContact('Exit');">Save & Exit</button>
+                    <button type="button" id="btnSaveNew" class="btn btn-primary mr-2" onclick="AddCRMContact('New');">Save & New</button>
                     <button type="button" class="btn btn-danger mr-2" data-dismiss="modal" onclick="ClearData();">Close</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class="modal fade pmsModal w70" id="UserSearchModel" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog w-50">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" onkeydown="Userkeydown(event)" id="txtUserSearch" autofocus style="width:100%" placeholder="Search By User Name or User Login Id or Employee Id" />
+                <div id="UserTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>User Name</th>
+                            <th>User Login Id</th>
+                            <th>Employee Id</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade pmsModal w70" id="ReferenceUserSearchModel" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog w-50">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Reference Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" onkeydown="ReferenceUserkeydown(event)" id="txtReferenceUserSearch" autofocus style="width:100%" placeholder="Search By User Name or User Login Id or Employee Id" />
+                <div id="ReferenceUserTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>User Name</th>
+                            <th>Phone</th>
+                            @*<th>Employee Id</th>*@
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myImportModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Import Excel Template For CRM Contact</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5 mt-4"><input type="submit" value="Import (Add/Update)" onclick="return ClickToImportCRMContact();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalTemplateContactImportLogMode";
+        settings.Width = 1200; //System.Web.UI.WebControls.Unit.Percentage(80);
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Import Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("ContactImportLog", new List<CRMContactImportLogModel>());
+            ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportImportLogGrid();'>Export</button>");
+        });
+
+        //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+    }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalImportViewMode";
+            settings.Width = 300;
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Import CRM Contact Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("_CRMContactImportManualLogView");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+        }).GetHtml()

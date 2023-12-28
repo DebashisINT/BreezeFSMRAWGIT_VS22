@@ -3,6 +3,7 @@
 //2.0   V2.0.39     Debashis    24/04/2023      One new method has been added.Row: 822
 //3.0   V2.0.40     Debashis    30/06/2023      One new method has been added.Row: 852
 //4.0   V2.0.42     Debashis    06/10/2023      One new parameter has been added.Row: 867 & 873
+//5.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 892 & 895
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -273,6 +274,20 @@ namespace ShopAPI.Controllers
                 //Rev 4.0 Row: 867
                 sqlcmd.Parameters.AddWithValue("@FSSAILicNo", omm.FSSAILicNo);
                 //End of Rev 4.0 Row: 867
+                //Rev 5.0 Row: 892
+                sqlcmd.Parameters.AddWithValue("@shop_firstName", omm.shop_firstName);
+                sqlcmd.Parameters.AddWithValue("@shop_lastName", omm.shop_lastName);
+                sqlcmd.Parameters.AddWithValue("@crm_companyID", omm.crm_companyID);
+                sqlcmd.Parameters.AddWithValue("@crm_jobTitle", omm.crm_jobTitle);
+                sqlcmd.Parameters.AddWithValue("@crm_typeID", omm.crm_typeID);
+                sqlcmd.Parameters.AddWithValue("@crm_statusID", omm.crm_statusID);
+                sqlcmd.Parameters.AddWithValue("@crm_sourceID", omm.crm_sourceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID", omm.crm_referenceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID_type", omm.crm_referenceID_type);
+                sqlcmd.Parameters.AddWithValue("@crm_stage_ID", omm.crm_stage_ID);
+                sqlcmd.Parameters.AddWithValue("@assign_to", omm.assign_to);
+                sqlcmd.Parameters.AddWithValue("@saved_from_status", omm.saved_from_status);
+                //End of Rev 5.0 Row: 892
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -407,6 +422,20 @@ namespace ShopAPI.Controllers
                 //Rev 4.0 Row: 873
                 sqlcmd.Parameters.AddWithValue("@isUpdateAddressFromShopMaster", omm.isUpdateAddressFromShopMaster);
                 //End of Rev 4.0 Row: 873
+                //Rev 5.0 Row: 895
+                sqlcmd.Parameters.AddWithValue("@shop_firstName", omm.shop_firstName);
+                sqlcmd.Parameters.AddWithValue("@shop_lastName", omm.shop_lastName);
+                sqlcmd.Parameters.AddWithValue("@crm_companyID", omm.crm_companyID);
+                sqlcmd.Parameters.AddWithValue("@crm_jobTitle", omm.crm_jobTitle);
+                sqlcmd.Parameters.AddWithValue("@crm_typeID", omm.crm_typeID);
+                sqlcmd.Parameters.AddWithValue("@crm_statusID", omm.crm_statusID);
+                sqlcmd.Parameters.AddWithValue("@crm_sourceID", omm.crm_sourceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID", omm.crm_referenceID);
+                sqlcmd.Parameters.AddWithValue("@crm_referenceID_type", omm.crm_referenceID_type);
+                sqlcmd.Parameters.AddWithValue("@crm_stage_ID", omm.crm_stage_ID);
+                sqlcmd.Parameters.AddWithValue("@assign_to", omm.assign_to);
+                sqlcmd.Parameters.AddWithValue("@saved_from_status", omm.saved_from_status);
+                //End of Rev 5.0 Row: 895
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

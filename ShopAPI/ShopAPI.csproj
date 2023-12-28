@@ -230,6 +230,7 @@
     <Compile Include="Controllers\BreakageMaterialsDetectionInfoController.cs" />
     <Compile Include="Controllers\BreakageMaterialsInfoController.cs" />
     <Compile Include="Controllers\BSController.cs" />
+    <Compile Include="Controllers\CallLogInformationsController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\ChemistActivityController.cs" />
     <Compile Include="Controllers\CityListController.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Controllers\CompetitorStockController.cs" />
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
+    <Compile Include="Controllers\CRMContactInfoController.cs" />
     <Compile Include="Controllers\CurrentStockImageInfoController.cs" />
     <Compile Include="Controllers\CustomerJobStatusController.cs" />
     <Compile Include="Controllers\DayStartEndImageSaveController.cs" />
@@ -359,6 +361,7 @@
     <Compile Include="Models\BillingModel.cs" />
     <Compile Include="Models\BreakageMaterialsDetectionInfoModel.cs" />
     <Compile Include="Models\BSList.cs" />
+    <Compile Include="Models\CallLogInformationsModel.cs" />
     <Compile Include="Models\ChatModal.cs" />
     <Compile Include="Models\ChemistActivitModel.cs" />
     <Compile Include="Models\CityList.cs" />
@@ -367,6 +370,7 @@
     <Compile Include="Models\CompetitorStockModel.cs" />
     <Compile Include="Models\ConfigurationModel.cs" />
     <Compile Include="Models\ContentModel.cs" />
+    <Compile Include="Models\CRMContactInfoModel.cs" />
     <Compile Include="Models\CurrentStockImageInfoModel.cs" />
     <Compile Include="Models\DayStartEndImageSaveModel.cs" />
     <Compile Include="Models\DemoAttendanceModel.cs" />

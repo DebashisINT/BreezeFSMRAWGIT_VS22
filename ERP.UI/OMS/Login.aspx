@@ -1169,16 +1169,16 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 /*Rev end 2.0*/
             })
         })
-        window.addEventListener('load', function (event) {
-            var theme = localStorage.getItem('theme').toString();
-            console.log(theme)
-            if (theme != '' || theme != undefined) {
-                $("#themeClass").attr('class', '').addClass(theme);
-            } else {
-                $("#themeClass").addClass('screenDark');
-            }
+        //window.addEventListener('load', function (event) {
+        //    var theme = localStorage.getItem('theme').toString();
+        //    console.log(theme)
+        //    if (theme != '' || theme != undefined) {
+        //        $("#themeClass").attr('class', '').addClass(theme);
+        //    } else {
+        //        $("#themeClass").addClass('screenDark');
+        //    }
 
-        });
+        //});
     </script>
 </head>
 <body onload="noBack();setInterval('blinkIt()',500);" onpageshow="if (event.persisted) noBack();" onunload="">

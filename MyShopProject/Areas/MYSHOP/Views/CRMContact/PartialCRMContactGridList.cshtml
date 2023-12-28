@@ -6,14 +6,14 @@
 @Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridCRMContact";
-    settings.KeyFieldName = "CRM_ID";
-    settings.CallbackRouteValues = new { Action = "PartialCRMEnquiriesGridList", Controller = "CRMContact" };
+    settings.KeyFieldName = "SHOP_CODE";
+    settings.CallbackRouteValues = new { Action = "PartialCRMContactGridList", Controller = "CRMContact" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallback";
 
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
-    settings.Settings.VerticalScrollableHeight = 400;
+    settings.Settings.VerticalScrollableHeight = 200;
 
 
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
@@ -37,137 +37,27 @@
 
 
 
-    ////////settings.Columns.Add(x =>
-    ////////{
-    ////////    //Mantis Issue 24832
-    ////////    //if(ViewBag.CanReassign){
-    ////////    if (ViewBag.CanReassign || ViewBag.CanAssign)
-    ////////    {
-    ////////        //End of Mantis Issue 24832
-    ////////        x.SetDataItemTemplateContent(tc =>
-    ////////        {
-    ////////            //Mantis Issue 24776
-    ////////            //ViewContext.Writer.Write(
-    ////////            //  "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
-    ////////            //  ""
-    ////////            //  +
-    ////////            //  "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
-    ////////            //  ""
-    ////////            //  +
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenCRMContactforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Shop_Code")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
+                "" +
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteCRMContact('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "Shop_Code")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
+            );
+        });
 
-    ////////            //  "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
-    ////////            //  );
-    ////////            //Mantis Issue 24810
-    ////////            //if (Convert.ToString(DataBinder.Eval(tc.DataItem, "STATUS")) == "Assigned")
-    ////////            if (Convert.ToString(DataBinder.Eval(tc.DataItem, "STATUS")) == "Assigned" || Convert.ToString(DataBinder.Eval(tc.DataItem, "STATUS")) == "Re Assigned")
-    ////////            //End of Mantis Issue 24810
-    ////////            {
-    ////////                //Mantis Issue 24832
-    ////////                //ViewContext.Writer.Write(
-    ////////                //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
-    ////////                //""
-
-    ////////                //+
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
-    ////////                //""
-    ////////                //+
-    ////////                //    //Mantis Issue 24776
-    ////////                //    //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
-
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>" +
-    ////////                // ""
-    ////////                //+
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickReAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Re-Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-share' aria-hidden='true'></i></span></a></div>"
-    ////////                //    //End of Mantis Issue 24776
-    ////////                //);
-
-    ////////                //Rev 1.0 : action icons change
-    ////////                string EnqRights = "<div class=''>";
-    ////////                //EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
-    ////////                EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>";
-
-    ////////                if (ViewBag.CanAssign)
-    ////////                {
-    ////////                    EnqRights = EnqRights + "&nbsp;" +
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
-    ////////                "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/assign-salesman.png\" /></span></a>";
-
-    ////////                }
-    ////////                EnqRights = EnqRights + "&nbsp;" +
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
-    ////////                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a>";
-    ////////                if (ViewBag.CanReassign)
-    ////////                {
-    ////////                    EnqRights = EnqRights + "&nbsp;" +
-    ////////              //"<a href=\"javascript:void(0);\" onclick=\"OnClickReAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Re-Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-share' aria-hidden='true'></i></span></a>";
-    ////////              "<a href=\"javascript:void(0);\" onclick=\"OnClickReAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Re-Assign Salesman\"><span class='ico editColor mr-3'><img src=\"../../../assests/images/re-assign-salesman.png\" /></span></a>";
-
-    ////////                }
-    ////////                EnqRights = EnqRights + "</div>";
-    ////////                ViewContext.Writer.Write(EnqRights);
-    ////////                //End of Mantis Issue 24832
-    ////////            }
-    ////////            else
-    ////////            {
-    ////////                //Mantis Issue 24832
-    ////////                // ViewContext.Writer.Write(
-    ////////                //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
-    ////////                //""
-    ////////                //+
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
-    ////////                //""
-    ////////                //+
-
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
-    ////////                //);
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.False;
+        x.Width = 100;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.Caption = "Action";
+        x.FixedStyle = GridViewColumnFixedStyle.Left;
 
 
-    ////////                string EnqRights = "<div class=''>";
-    ////////                //EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>";
-    ////////                EnqRights = EnqRights + "<a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>";
-
-    ////////                if (ViewBag.CanAssign)
-    ////////                {
-    ////////                    EnqRights = EnqRights + "&nbsp;" +
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-3'><i class='fa fa-user-plus' aria-hidden='true'></i></span></a>";
-    ////////                "<a href=\"javascript:void(0);\" onclick=\"OnClickAssignSalesman('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Assign Salesman\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/assign-salesman.png\" /></span></a>";
-
-    ////////                }
-    ////////                EnqRights = EnqRights + "&nbsp;" +
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a>";
-    ////////                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a>";
-
-    ////////                EnqRights = EnqRights + "</div>";
-    ////////                ViewContext.Writer.Write(EnqRights);
-    ////////                //End of Mantis Issue 24832
-    ////////            }
-    ////////            //End of Mantis Issue 24776
-
-    ////////        });
-    ////////    }
-    ////////    else
-    ////////    {
-    ////////        x.SetDataItemTemplateContent(tc =>
-    ////////        {
-    ////////            ViewContext.Writer.Write(
-    ////////                //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
-    ////////                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenEnquiriesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
-    ////////                "" +
-    ////////                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
-    ////////                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CRM_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
-    ////////            );
-    ////////        });
-    ////////    }
-    ////////    x.Settings.AllowDragDrop = DefaultBoolean.False;
-    ////////    x.Settings.AllowSort = DefaultBoolean.False;
-    ////////    x.Width = 150;
-    ////////    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-    ////////    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
-    ////////    x.Caption = "Action";
-    ////////    x.FixedStyle = GridViewColumnFixedStyle.Left;
-
-
-    ////////});
+    });
 
     settings.Columns.Add(column =>
     {
@@ -194,17 +84,15 @@
             column.Width = 50;
         }
     });
-
-
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_FirstName";
         column.Caption = "First Name";
         column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_FirstName'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -212,24 +100,24 @@
             else
             {
                 column.Visible = true;
-                column.Width = 100;
+                column.Width = 150;
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 100;
+            column.Width = 150;
         }
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_LastName";
         column.Caption = "Last Name";
         column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_LastName'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -237,32 +125,7 @@
             else
             {
                 column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "VEND_TYPE";
-        column.Caption = "Company";
-        column.FixedStyle = GridViewColumnFixedStyle.Left;
-        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
+                column.Width = 150;
             }
         }
         else
@@ -273,63 +136,13 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
-        column.Caption = "Job Title";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "VEND_TYPE";
-        column.Caption = "Email";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_Owner_Contact";
         column.Caption = "Phone";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Owner_Contact'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -348,13 +161,65 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_Owner_Email";
+        column.Caption = "Email";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Owner_Email'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 200;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 200;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_Address";
         column.Caption = "Address";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Address'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 250;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 250;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_DOB";
+        column.Caption = "Date of Birth";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_DOB'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -373,13 +238,90 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_date_aniversary";
+        column.Caption = "Date of Anniversary";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_date_aniversary'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 120;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 120;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_CompanyName";
+        column.Caption = "Company";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_CompanyName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_JobTitle";
+        column.Caption = "Job Title";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_JobTitle'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_CreateUserName";
         column.Caption = "Assign To";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_CreateUserName'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -387,24 +329,24 @@
             else
             {
                 column.Visible = true;
-                column.Width = 100;
+                column.Width = 150;
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 100;
+            column.Width = 150;
         }
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_TypeName";
         column.Caption = "Type";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_TypeName'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -423,13 +365,13 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_StatusName";
         column.Caption = "Status";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_StatusName'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -448,13 +390,13 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_SourceName";
         column.Caption = "Source";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_SourceName'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -473,38 +415,13 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_ReferenceName";
         column.Caption = "Reference";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "VEND_TYPE";
-        column.Caption = "Remarks";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_ReferenceName'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -523,38 +440,13 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
-        column.Caption = "Expected Sales Value";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "VEND_TYPE";
+        column.FieldName = "Shop_StageName";
         column.Caption = "Stages";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_StageName'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -573,13 +465,13 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
-        column.Caption = "Activities";
+        column.FieldName = "Shop_Remarks";
+        column.Caption = "Remarks";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Remarks'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -587,25 +479,24 @@
             else
             {
                 column.Visible = true;
-                column.Width = 100;
+                column.Width = 200;
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 100;
+            column.Width = 200;
         }
     });
-
     settings.Columns.Add(column =>
     {
-        column.FieldName = "VEND_TYPE";
-        column.Caption = "Contact From";
+        column.FieldName = "Shop_Amount";
+        column.Caption = "Expected Sales Value";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VEND_TYPE'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Amount'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -624,302 +515,16 @@
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "Year";
-        column.Caption = "Year";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        //column.Width = 60;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Year'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 50;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 50;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "Month";
-        column.Caption = "Month";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        //column.Width = 60;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Month'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 50;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 50;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "Day";
-        column.Caption = "Date";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        //column.Width = 60;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Day'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 40;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 40;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "State";
-        column.Caption = "State";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //  column.FixedStyle = GridViewColumnFixedStyle.Left;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='State'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "Area";
-        column.Caption = "Area";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //  column.FixedStyle = GridViewColumnFixedStyle.Left;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Area'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "ASSIGNED_TO";
-        column.Caption = "HOD";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.FieldName = "Shop_NextFollowupDate";
+        column.Caption = "Next follow Up Date";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
         //column.Width = 120;
+        //Mantis Issue 24816
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ASSIGNED_TO'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 120;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 120;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "ReASSIGNED_TO";
-        column.Caption = "Pass to";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 120;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReASSIGNED_TO'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 120;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 120;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "CONTACT_PERSON";
-        column.Caption = "Contact Person";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        //column.Width = 96;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACT_PERSON'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "ENQ_DETAILS";
-        column.Caption = "Enquiry Details";
-        //column.Width = 600;
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENQ_DETAILS'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 600;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 600;
-        }
-
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "ENQ_DETAILS";
-        column.Caption = "Provided by";
-        //column.Width = 600;
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENQ_DETAILS'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "ENQ_NUMBER";
-        column.Caption = "Enq. No.";
-        column.VisibleIndex = 12;
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 70;
-        column.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
-        column.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENQ_NUMBER'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 70;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 70;
-        }
-
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "INDUSTRY";
-        column.Caption = "Industry";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 150;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='INDUSTRY'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_NextFollowupDate'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;
@@ -935,354 +540,17 @@
             column.Visible = true;
             column.Width = 150;
         }
-
+        //End of Mantis Issue 24816
     });
     settings.Columns.Add(column =>
     {
-        column.FieldName = "MISC_COMMENTS";
-        column.Caption = "Misc Comments";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 150;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MISC_COMMENTS'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 150;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 150;
-        }
-
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "PRIORITYS";
-        column.Caption = "Priority";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 100;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRIORITYS'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-
-    });
-
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "EXIST_CUST";
-        column.Caption = "Existing Customer";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 140;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EXIST_CUST'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 140;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 140;
-        }
-
-    });
-
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "LAST_CONTACT_DATE";
-        column.Caption = "Last Contact Date";
-        column.ColumnType = MVCxGridViewColumnType.DateEdit;
-        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
-        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-        //column.Width = 120;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LAST_CONTACT_DATE'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 120;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 120;
-        }
-
-    });
-
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "NEXT_CONTACT_DATE";
-        column.Caption = "Next Contact Date";
-        column.VisibleIndex = 19;
-        column.ColumnType = MVCxGridViewColumnType.DateEdit;
-        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
-        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-        //column.Width = 120;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='NEXT_CONTACT_DATE'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 120;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 120;
-        }
-
-    });
-
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "CONTACTEDBY";
-        column.Caption = "Contacted By";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 140;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACTEDBY'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 140;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 140;
-        }
-
-    });
-
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "ENQ_PRODREQ";
-        column.Caption = "Product Required";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 140;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENQ_PRODREQ'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 140;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 140;
-        }
-
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "FINAL_INDUSTRY";
-        column.Caption = "Final Industry";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 140;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='FINAL_INDUSTRY'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 140;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 140;
-        }
-
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "VERIFY_BY";
-        column.Caption = "Verified By";
-        column.ColumnType = MVCxGridViewColumnType.TextBox;
-        //column.Width = 120;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VERIFY_BY'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 120;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 120;
-        }
-
-    });
-
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "VERIFY_ON";
-        column.Caption = "Verified On";
-        column.ColumnType = MVCxGridViewColumnType.DateEdit;
-        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
-        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-        //column.Width = 80;
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VERIFY_ON'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 80;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 80;
-        }
-
-    });
-
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "VERIFY_CLOSUREDATE";
-        column.Caption = "Closure Date";
-        column.ColumnType = MVCxGridViewColumnType.DateEdit;
-        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
-        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VERIFY_CLOSUREDATE'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 80;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 80;
-        }
-
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "SalesmanAssign_date";
-        column.Caption = "Assign Date";
+        column.FieldName = "Shop_Entity_Status";
+        column.Caption = "Active";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        //column.Width = 60;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
         {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SalesmanAssign_date'");
-            if (row != null && row.Length > 0)  /// Check now
-            {
-                column.Visible = false;
-            }
-            else
-            {
-                column.Visible = true;
-                column.Width = 100;
-            }
-        }
-        else
-        {
-            column.Visible = true;
-            column.Width = 100;
-        }
-    });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "ReSalesmanAssign_date";
-        column.Caption = "Re Assign Date";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        //column.Width = 60;
-        if (ViewBag.RetentionColumn != null)
-        {
-            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ReSalesmanAssign_date'");
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Entity_Status'");
             if (row != null && row.Length > 0)  /// Check now
             {
                 column.Visible = false;

@@ -3010,25 +3010,25 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                     <Columns>
 
                         <dxe:GridViewDataTextColumn Caption="Short Name (Code)" FieldName="sProducts_Code" ReadOnly="True"
-                            Visible="True" VisibleIndex="0" FixedStyle="Left" Width="160px">
+                            Visible="True" VisibleIndex="0" FixedStyle="Left" Width="15%">
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                             <Settings AutoFilterCondition="Contains" />
                         </dxe:GridViewDataTextColumn>
                         <dxe:GridViewDataTextColumn Caption="Name" FieldName="sProducts_Name" ReadOnly="True"
-                            Visible="True" VisibleIndex="1" FixedStyle="Left" Width="300px">
+                            Visible="True" VisibleIndex="1" FixedStyle="Left" Width="20%">
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                             <Settings AutoFilterCondition="Contains" />
                         </dxe:GridViewDataTextColumn>
                         <dxe:GridViewDataTextColumn Caption="Description" FieldName="sProducts_Description" ReadOnly="True"
-                            Visible="True" VisibleIndex="2" Width="300px">
+                            Visible="True" VisibleIndex="2" Width="25%">
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                             <Settings AutoFilterCondition="Contains" />
                         </dxe:GridViewDataTextColumn>
 
-                        <dxe:GridViewDataTextColumn Caption="Brand" FieldName="Brand_Name" ReadOnly="True" Width="120px"
+                        <dxe:GridViewDataTextColumn Caption="Brand" FieldName="Brand_Name" ReadOnly="True" Width="15%"
                             Visible="True" VisibleIndex="3">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
@@ -3057,7 +3057,7 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                             <EditFormSettings Visible="True" />
                         </dxe:GridViewDataTextColumn>--%>
 
-                        <dxe:GridViewDataComboBoxColumn Caption="Class Name (Category)" FieldName="ProductClass_Name" VisibleIndex="4" Width="150px">
+                        <dxe:GridViewDataComboBoxColumn Caption="Class Name (Category)" FieldName="ProductClass_Name" VisibleIndex="4" Width="15%">
                             <PropertiesComboBox EnableSynchronization="False" EnableIncrementalFiltering="True"
                                 ValueType="System.String" DataSourceID="SqlClassSource" TextField="ProductClass_Name" ValueField="ProductClass_Name">
                             </PropertiesComboBox>
@@ -3116,7 +3116,7 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                         </dxe:GridViewDataTextColumn>--%>
 
 
-                        <dxe:GridViewDataTextColumn ReadOnly="True" CellStyle-HorizontalAlign="Center" Width="140px">
+                        <dxe:GridViewDataTextColumn ReadOnly="True" CellStyle-HorizontalAlign="Center" Width="10%">
                             <HeaderStyle HorizontalAlign="Center" />
 
                             <CellStyle HorizontalAlign="Center"></CellStyle>

@@ -614,8 +614,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                     <%-- <% } %>--%>
                                      <% if (rights.CanEdit)
                                         { %>
-                                    <a href="javascript:void(0);" onclick="OnEditButtonClick('<%# Container.KeyValue %>')" title="More Info" class="pad">
-                                        <img src="../../../assests/images/info.png" />
+                                    <a href="javascript:void(0);" onclick="OnEditButtonClick('<%# Container.KeyValue %>')" title="Add/Edit Branch" class="pad">
+                                        <img src="../../../assests/images/Edit.png" />
                                     </a>
                                       <% } %>
                                      <% if (rights.CanDelete)

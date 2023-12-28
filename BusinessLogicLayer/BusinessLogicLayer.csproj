@@ -200,6 +200,7 @@
     <Compile Include="OtherMasters.cs" />
     <Compile Include="Others.cs" />
     <Compile Include="OtherTasks.cs" />
+    <Compile Include="OutletWiseCallLogging_BL.cs" />
     <Compile Include="PeriodicalReports.cs" />
     <Compile Include="PlanAchiveReportBL.cs" />
     <Compile Include="PortCodeBL.cs" />

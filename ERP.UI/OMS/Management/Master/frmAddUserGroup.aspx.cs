@@ -1,5 +1,6 @@
 ﻿/*************************************************************************************************************
 Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+Rev 2.0     Sanchita   V2.0.44    19/12/2023      Beat related tab will be added in the security roles of Parties. Mantis: 27080     
 *****************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.MenuBLS;
@@ -237,8 +238,10 @@ namespace ERP.OMS.Management.Master
                                         }
                                         else
                                         {
-                                            MenuTreeString += "<input type=\"checkbox\" class=\"chckRights\" data-id=\"" + item.Id + "\" data-menuid=\"" + lvl2.mnu_id + "\"   style=\"visibility:hidden\"/><label style=\"visibility:hidden\">&nbsp;" + item.Rights + "&nbsp;</label>";
-
+                                            //Rev 2.0
+                                            //MenuTreeString += "<input type=\"checkbox\" class=\"chckRights\" data-id=\"" + item.Id + "\" data-menuid=\"" + lvl2.mnu_id + "\"   style=\"visibility:hidden\"/><label style=\"visibility:hidden\">&nbsp;" + item.Rights + "&nbsp;</label>";
+                                            MenuTreeString += "<input type=\"checkbox\" class=\"chckRights\" data-id=\"" + item.Id + "\" data-menuid=\"" + lvl2.mnu_id + "\"   style=\"display: none\"/><label style=\"display: none\">&nbsp;" + item.Rights + "&nbsp;</label>";
+                                            //Rev end 2.0
                                         }
                                     }
 
@@ -289,8 +292,16 @@ namespace ERP.OMS.Management.Master
                     //if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || model.CanReassign || model.CanClose || model.CanCancel)
                     // Rev 1.0
                     //if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || model.CanReassign || model.CanClose || model.CanCancel || model.CanAssign)
-                    if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || model.CanReassign || model.CanClose || model.CanCancel || model.CanAssign || model.CanBulkUpdate)
-                        // End of Rev 1.0
+                    // Rev 2.0
+                    //if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || model.CanReassign || model.CanClose || model.CanCancel || model.CanAssign || model.CanBulkUpdate)
+                    if (model.CanAdd || model.CanEdit || model.CanDelete || model.CanView || model.CanIndustry || model.CanCreateActivity || 
+                        model.CanContactPerson || model.CanHistory || model.CanAddUpdateDocuments || model.CanMembers || model.CanOpeningAddUpdate || 
+                        model.CanAssetDetails || model.CanExport || model.CanPrint || model.CanBudget || model.CanAssignbranch || model.Cancancelassignmnt || 
+                        model.CanReassign || model.CanClose || model.CanCancel || model.CanAssign || model.CanBulkUpdate || 
+                        model.CanReassignedAreaRouteBeat || model.CanReassignedAreaRouteBeatLog || model.CanReassignedBeatParty || model.CanReassignedBeatPartyLog
+                        )
+                    // End of Rev 2.0
+                    // End of Rev 1.0
                     //End of Mantis Issue 24832
                     {
                         if (model.CanAdd)
@@ -563,6 +574,52 @@ namespace ERP.OMS.Management.Master
                             }
                         }
                         // End of Rev 1.0
+                        // Rev 2.0
+                        if (model.CanReassignedBeatParty)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|26";
+                            }
+                            else
+                            {
+                                TempString += "26";
+                            }
+                        }
+                        if (model.CanReassignedBeatPartyLog)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|27";
+                            }
+                            else
+                            {
+                                TempString += "27";
+                            }
+                        }
+                        if (model.CanReassignedAreaRouteBeat)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|28";
+                            }
+                            else
+                            {
+                                TempString += "28";
+                            }
+                        }
+                        if (model.CanReassignedAreaRouteBeatLog)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|29";
+                            }
+                            else
+                            {
+                                TempString += "29";
+                            }
+                        }
+                        // End of Rev 2.0
                         TempString = model.MenuId + "^" + TempString;
                     }
 

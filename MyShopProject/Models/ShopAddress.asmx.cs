@@ -7,6 +7,7 @@
 //                                             Refer: 26262 
 // 5.0      v2.0.43    Sanchita    16-10-2023  On demand search is required in Product Master & Projection Entry
 //                                             Mantis: 26858
+// 6.0      V2.0.44    Sanchita    12-12-2023  A new design page is required as Contact (s) under CRM menu. Mantis: 27034  
 // ********************************************************************************************************************
 using DataAccessLayer;
 using Models;
@@ -162,6 +163,36 @@ namespace MyShop.Models
 
             return listUser;
         }
+
+        // Rev 6.0
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetReferenceList(string SearchKey)
+        {
+            List<ReferenceUsersModel> listUser = new List<ReferenceUsersModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+
+                BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine();
+
+                ProcedureExecute proc = new ProcedureExecute("PRC_FTSInsertUpdateCRMContact");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                proc.AddPara("@ACTION", "GETREFERENCELIST");
+                DataTable Shop = proc.GetTable();
+                listUser = (from DataRow dr in Shop.Rows
+                            select new ReferenceUsersModel()
+                            {
+                                USER_NAME = dr["REF_NAME"].ToString(),
+                                USER_ID = Convert.ToString(dr["REF_ID"]),
+                                USER_LOGINID = dr["REF_PHONE"].ToString()
+                            }).ToList();
+            }
+
+            return listUser;
+        }
+        // End of Rev 6.0
 
         [WebMethod(EnableSession = true)]
         [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
@@ -456,4 +487,13 @@ namespace MyShop.Models
 
     }
     //End of Mantis Issue 25133
+
+    // Rev 6.0
+    public class ReferenceUsersModel
+    {
+        public string USER_ID { get; set; }
+        public string USER_NAME { get; set; }
+        public string USER_LOGINID { get; set; }
+    }
+    // End of Rev 6.0
 }

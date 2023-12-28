@@ -509,7 +509,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
     #marketsGrid
     {
-        max-width: 95% !important;
+        max-width: 100% !important;
     }
 
     .GridViewArea
@@ -653,7 +653,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 <EditFormSettings Visible="False"></EditFormSettings>
                             </dxe:GridViewDataTextColumn>
 
-                            <dxe:GridViewDataTextColumn VisibleIndex="0" FieldName="ProductClass_Code" Caption="Short Name" Width="22%">
+                            <dxe:GridViewDataTextColumn VisibleIndex="0" FieldName="ProductClass_Code" Caption="Short Name" Width="25%">
                                 <PropertiesTextEdit Width="200px" MaxLength="50"  Style-Wrap="True" >
 
                                     <ClientSideEvents TextChanged="function(s, e) {UniqueCodeCheck();}" Init="function (s,e) {s.Focus(); }" />
@@ -671,7 +671,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </EditFormCaptionStyle>
                             </dxe:GridViewDataTextColumn>
                             
-                            <dxe:GridViewDataTextColumn VisibleIndex="0" FieldName="ProductClass_Name" Caption=" Name" Width="22%">
+                            <dxe:GridViewDataTextColumn VisibleIndex="0" FieldName="ProductClass_Name" Caption=" Name" Width="25%">
                                 <PropertiesTextEdit Width="200px" MaxLength="100"  EncodeHtml="false">
                                    
                                     
@@ -696,7 +696,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </dxe:GridViewDataTextColumn>
 
                             <dxe:GridViewDataTextColumn VisibleIndex="0" FieldName="ProductClass_Description"
-                                Caption="Description" Width="22%"> 
+                                Caption="Description" Width="25%"> 
                                 <EditItemTemplate>
                                     <dxe:ASPxMemo ID="ASPxMemo1" runat="server" Width="198px" Height="60px" MaxLength="300" Text='<%# Bind("ProductClass_Description") %>'>
                                     </dxe:ASPxMemo>
@@ -797,7 +797,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 <EditFormSettings Visible="False"></EditFormSettings>
                             </dxe:GridViewDataTextColumn>
 
-                            <dxe:GridViewCommandColumn ShowDeleteButton="true" Width="20%" ShowEditButton="true">
+                            <dxe:GridViewCommandColumn ShowDeleteButton="true" Width="22%" ShowEditButton="true">
                                 
                                 <%-- <DeleteButton Visible="True">
                             </DeleteButton>
