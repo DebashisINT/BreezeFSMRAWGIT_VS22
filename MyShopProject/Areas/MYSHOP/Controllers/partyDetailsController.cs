@@ -1,5 +1,6 @@
 ﻿/*************************************************************************************************************
 Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+Rev 2.0     Sanchita   V2.0.44    19/12/2023      Beat related tab will be added in the security roles of Parties. Mantis: 27080     
 *****************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -151,6 +152,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 ViewBag.CanExport = rights.CanExport;
                 ViewBag.CanBulkUpdate = rights.CanBulkUpdate;
                 // End of Rev 1.0
+                // Rev 2.0
+                ViewBag.CanReassignedBeatParty = rights.CanReassignedBeatParty;
+                ViewBag.CanReassignedBeatPartyLog = rights.CanReassignedBeatPartyLog;
+                ViewBag.CanReassignedAreaRouteBeat = rights.CanReassignedAreaRouteBeat;
+                ViewBag.CanReassignedAreaRouteBeatLog = rights.CanReassignedAreaRouteBeatLog;
+                // End of Rev 2.0
 
                 return View(Dtls);
             }

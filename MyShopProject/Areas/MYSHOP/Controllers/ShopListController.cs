@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2 .0.39    PRITI       13/02/2023      0025663:Last Visit fields shall be available in Outlet Reports
+//2.0   V2.0.44     Sanchita    20-12-2023      27110: Contact Name column is required in the Shop list report
 #endregion===================================End of Revision History==================================================================
 
 using System;
@@ -335,6 +336,15 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         column.FieldName = "BRANCHDESC";
                     });
                     //End of Rev Debashis 0025198
+
+                    // Rev 2.0
+                    settings.Columns.Add(column =>
+                    {
+                    column.Caption = "Contact Person";
+                    column.FieldName = "owner_name";
+
+                    });
+                    // End of Rev 2.0
 
                     settings.Columns.Add(column =>
                     {

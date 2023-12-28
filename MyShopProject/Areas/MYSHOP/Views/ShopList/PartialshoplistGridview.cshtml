@@ -2,6 +2,7 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                12-01-2023        2.0.37           Pallab              25576: Report page design modification *@
 @*2.0		         13-02-2023   	  V2.0.39		    PRITI			    0025663:Last Visit fields shall be available in Outlet Reports*@
+@*3.0                20-12-2023        V2.0.44          Sanchita            27110: Contact Name column is required in the Shop list report  *@
 
 @*====================================================== Revision History ===========================================================*@
 
@@ -67,12 +68,22 @@
         x.ColumnType = MVCxGridViewColumnType.TextBox;
     });
     //End of Rev Debashis 0025198
+    // Rev 3.0
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "owner_name";
+        x.Caption = "Contact Person";
+        x.VisibleIndex = 4;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+    });
+    // End of Rev 3.0
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "user_loginId";
         x.Caption = "Contact No.";
-        x.VisibleIndex = 4;
+        x.VisibleIndex = 5;
 
         x.ColumnType = MVCxGridViewColumnType.TextBox;
 
@@ -86,7 +97,7 @@
     {
         x.FieldName = "shop_name";
         x.Caption = "Shop Name";
-        x.VisibleIndex = 5;
+        x.VisibleIndex = 6;
 
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
@@ -96,7 +107,7 @@
     {
         x.FieldName = "EntityCode";
         x.Caption = "Code";
-        x.VisibleIndex = 6;
+        x.VisibleIndex = 7;
 
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
@@ -107,7 +118,7 @@
     {
         x.FieldName = "Shoptype";
         x.Caption = "Type";
-        x.VisibleIndex = 7;
+        x.VisibleIndex = 8;
 
         x.ColumnType = MVCxGridViewColumnType.TextBox;
 
@@ -121,7 +132,7 @@
     {
         x.FieldName = "Beat";
         x.Caption = "Beat";
-        x.VisibleIndex = 8;
+        x.VisibleIndex = 9;
 
         x.ColumnType = MVCxGridViewColumnType.TextBox;
 
@@ -134,7 +145,7 @@
     {
         x.FieldName = "owner_contact_no";
         x.Caption = "Owner Contact No.";
-        x.VisibleIndex = 9;
+        x.VisibleIndex = 10;
         x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
@@ -145,7 +156,7 @@
     {
         x.FieldName = "Alt_MobileNo1";
         x.Caption = "Alternate Phone No.";
-        x.VisibleIndex = 10;
+        x.VisibleIndex = 11;
         x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
     });
@@ -154,7 +165,7 @@
     {
         x.FieldName = "Shop_Owner_Email2";
         x.Caption = "Alternate Email ID";
-        x.VisibleIndex = 11;
+        x.VisibleIndex = 12;
         x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
     });
@@ -165,7 +176,7 @@
     {
         x.FieldName = "REPORTTO";
         x.Caption = "Report To";
-        x.VisibleIndex = 12;
+        x.VisibleIndex = 13;
 
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
@@ -176,7 +187,7 @@
     {
         x.FieldName = "STATE";
         x.Caption = "State";
-        x.VisibleIndex = 13;
+        x.VisibleIndex = 14;
 
         x.ColumnType = MVCxGridViewColumnType.TextBox;
 
@@ -189,7 +200,7 @@
     {
         x.FieldName = "District";
         x.Caption = "District";
-        x.VisibleIndex = 14;
+        x.VisibleIndex = 15;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
     });
 
@@ -197,7 +208,7 @@
     {
         x.FieldName = "pin_code";
         x.Caption = "Pincode";
-        x.VisibleIndex = 15;
+        x.VisibleIndex = 16;
         x.Width = 60;
     });
 
@@ -207,7 +218,7 @@
     {
         x.FieldName = "address";
         x.Caption = "Address/Location";
-        x.VisibleIndex = 16;
+        x.VisibleIndex = 17;
         // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         //Rev 1.0
         x.Width = 200;
@@ -218,7 +229,7 @@
     {
         x.FieldName = "PP";
         x.Caption = "Prime Partner";
-        x.VisibleIndex = 17;
+        x.VisibleIndex = 18;
         x.Width = 200;
     });
 
@@ -226,35 +237,35 @@
     {
         x.FieldName = "DD";
         x.Caption = "Direct Distributor";
-        x.VisibleIndex = 18;
+        x.VisibleIndex = 19;
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "Entity_Location";
         x.Caption = "Outlet Location";
-        x.VisibleIndex = 19;
+        x.VisibleIndex = 20;
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "Entity_Status";
         x.Caption = "Outlet Status";
-        x.VisibleIndex = 20;
+        x.VisibleIndex = 21;
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "Specification";
         x.Caption = "Specification";
-        x.VisibleIndex = 21;
+        x.VisibleIndex = 22;
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "dob";
         x.Caption = "Owner DOB";
-        x.VisibleIndex = 22;
+        x.VisibleIndex = 23;
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
 
@@ -265,7 +276,7 @@
     {
         x.FieldName = "date_aniversary";
         x.Caption = "Owner Anniversary";
-        x.VisibleIndex = 23;
+        x.VisibleIndex = 24;
         x.Width = 120;
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
@@ -277,21 +288,21 @@
     {
         x.FieldName = "ShopOwner_PAN";
         x.Caption = "Pan Card";
-        x.VisibleIndex = 24;
+        x.VisibleIndex = 25;
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "ShopOwner_Aadhar";
         x.Caption = "Aadhar Card";
-        x.VisibleIndex = 25;
+        x.VisibleIndex = 26;
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "Shop_CreateTime";
         x.Caption = "Added Date";
-        x.VisibleIndex = 26;
+        x.VisibleIndex = 27;
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
 
@@ -304,7 +315,7 @@
     {
         x.FieldName = "Cluster";
         x.Caption = "Cluster";
-        x.VisibleIndex = 27;
+        x.VisibleIndex = 28;
         x.Width = 140;
     });
     //End of Rev Debashis
@@ -346,7 +357,7 @@
     settings.Columns.Add(x =>
     {
         x.Caption = "Image";
-        x.VisibleIndex = 28;
+        x.VisibleIndex = 29;
 
         x.SetDataItemTemplateContent(c =>
         {
@@ -370,7 +381,7 @@
     settings.Columns.Add(x =>
     {
         x.Caption = "Location";
-        x.VisibleIndex = 29;
+        x.VisibleIndex = 30;
 
         x.SetDataItemTemplateContent(c =>
         {
@@ -382,7 +393,7 @@
     settings.Columns.Add(x =>
     {
         x.Caption = "Modify";
-        x.VisibleIndex = 30;
+        x.VisibleIndex = 31;
 
         x.SetDataItemTemplateContent(c =>
         {
@@ -397,7 +408,7 @@
         x.FieldName = "LASTVISITDATE";
         //column.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = 150;
-        x.VisibleIndex = 31;
+        x.VisibleIndex = 32;
     });
 
     settings.Columns.Add(x =>
@@ -406,7 +417,7 @@
         x.FieldName = "LASTVISITTIME";
         //column.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = 150;
-        x.VisibleIndex = 32;
+        x.VisibleIndex = 33;
     });
 
     settings.Columns.Add(x =>
@@ -415,7 +426,7 @@
         x.FieldName = "LASTVISITEDBY";
         //column.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = 150;
-        x.VisibleIndex = 33;
+        x.VisibleIndex = 34;
     });
     //REV 2.0 END
 

@@ -1142,6 +1142,9 @@
             traditional: true,
             success: function (data) {
                 var status = "<select id='ddlddShopType' class = 'form-control'>";
+                // Rev 27102
+                status = status + '<option value=0>Select</option> </select>';
+                // End of Rev 27102
                 for (var i = 0; i < data.length; i++) {
                     status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
                 }
@@ -3196,22 +3199,34 @@
                             <button type="button" class="btn btn-primary" onclick="ReAssignBeatGroupLogPopOpen();">
                                 Re-assigned Beat/Group Log
                             </button>*@
+                        @if (ViewBag.CanReassignedBeatParty)
+                        {
                         <button type="button" class="btn btn-success" onclick="ReAssignBeatGroupPopOpen();">
                             Re-assigned Beat/Party
                         </button>
+                        }
+                        @if (ViewBag.CanReassignedBeatPartyLog)
+                        {
                         <button type="button" class="btn btn-primary" onclick="ReAssignBeatGroupLogPopOpen();">
                             Re-assigned Beat/Party Log
                         </button>
+                        }
                         @*End of Mantis Issue 25536, 25535, 25542, 25543, 25544*@
                         @*End of Mantis Issue 25133*@
 
                         @*Mantis Issue 25545*@
+                        @if (ViewBag.CanReassignedAreaRouteBeat)
+                        {
                         <button type="button" class="btn btn-success" onclick="ReAssignAreaRouteBeatPopOpen();">
                             Re-assigned Area/Route/Beat
                         </button>
+                        }
+                        @if (ViewBag.CanReassignedAreaRouteBeatLog)
+                        {
                         <button type="button" class="btn btn-primary" onclick="ReAssignAreaRouteBeatUserLogPopOpen();">
                             Re-assigned Area/Route/Beat Log
                         </button>
+                        }
                         @*End of Mantis Issue 25545*@
                         @*Rev 4.0*@
                         @if (ViewBag.CanBulkUpdate)

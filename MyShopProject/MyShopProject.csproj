@@ -338,6 +338,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\OutletRevisitDetailsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\OutletRouteController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\OutletsController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\OutletWiseCallLoggingController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PaitentOrderRegisterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PartialMapRouteController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\partyDetailsController.cs" />
@@ -491,6 +492,7 @@
     <Compile Include="Models\OrderSummaryMTDModel.cs" />
     <Compile Include="Models\OutletMasterReport.cs" />
     <Compile Include="Models\OutletRevisitDetailsModel.cs" />
+    <Compile Include="Models\OutletWiseCallLogging.cs" />
     <Compile Include="Models\PaginationExample.cs" />
     <Compile Include="Models\partyDetailsModel.cs" />
     <Compile Include="Models\PerformanceSummaryMonthWiseReportModel.cs" />
@@ -2016,6 +2018,10 @@
     <Content Include="Areas\MYSHOP\Views\EnquiryAnalytics\_EnquiryFromPartial.cshtml" />
     <Content Include="Areas\MYSHOP\Views\CRMContact\Index.cshtml" />
     <Content Include="Areas\MYSHOP\Views\CRMContact\PartialCRMContactGridList.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\CRMContact\_CRMContactImportManualLogView.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\CRMContact\ContactImportLog.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\OutletWiseCallLogging\PartialGetOutletWiseCallLog.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\OutletWiseCallLogging\Report.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

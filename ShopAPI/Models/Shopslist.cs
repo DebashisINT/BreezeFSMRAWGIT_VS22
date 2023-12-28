@@ -4,6 +4,7 @@
 //3.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 822
 //4.0   V2.0.40     Debashis    30/06/2023      Some new parameters have been added.Row: 852
 //5.0   V2.0.42     Debashis    06/10/2023      One new parameter has been added.Row: 867,870 & 873
+//6.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 892,895 & 898
 #endregion===================================End of Revision History==================================================
 using System.ComponentModel.DataAnnotations;
 using System;
@@ -165,6 +166,26 @@ namespace ShopAPI.Models
         public string FSSAILicNo { get; set; }
         public bool isUpdateAddressFromShopMaster { get; set; }
         //End of Rev 5.0 Row: 870 & 876
+        //Rev 6.0 Row: 898
+        public string shop_firstName { get; set; }
+        public string shop_lastName { get; set; }
+        public string crm_companyName { get; set; }
+        public int crm_companyID { get; set; }
+        public string crm_jobTitle { get; set; }
+        public string crm_type { get; set; }
+        public int crm_typeID { get; set; } 
+        public int crm_statusID { get; set; }
+        public string crm_status { get; set; }
+        public string crm_source { get; set; }
+        public int crm_sourceID { get; set; }
+        public string crm_reference { get; set; }
+        public string crm_referenceID { get; set; }
+        public string crm_referenceID_type { get; set; }
+        public string crm_stage { get; set; }
+        public int crm_stage_ID { get; set; }
+        public int assign_to { get; set; }
+        public string saved_from_status { get; set; }
+        //End of Rev 6.0 Row: 898
     }
 
     public class ArealistsOutput
@@ -307,6 +328,20 @@ namespace ShopAPI.Models
         public string FSSAILicNo { get; set; }
         public string isUpdateAddressFromShopMaster { get; set; }
         //End of Rev 5.0 Row: 867 & 873
+        //Rev 6.0 Row: 892 & 895
+        public string shop_firstName { get; set; }
+        public string shop_lastName { get; set; }
+        public int crm_companyID { get; set; }
+        public string crm_jobTitle { get; set; }
+        public int crm_typeID { get; set; }
+        public int crm_statusID { get; set; }
+        public int crm_sourceID { get; set; }
+        public string crm_referenceID { get; set; }
+        public string crm_referenceID_type { get; set; }
+        public int crm_stage_ID { get; set; }
+        public string assign_to { get; set; }
+        public string saved_from_status { get; set; }
+        //End of Rev 6.0 Row: 892 & 895
     }
 
     public class AllShopTypelistsOutput

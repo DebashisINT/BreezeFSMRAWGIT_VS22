@@ -17,6 +17,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                                                           Refer: 26768
 8.0                06-09-2023       V2.0.43           Sanchita            A new user wise settings required named as ShowLatLongInOutletMaster
                                                                           Mantis: 26794
+9.0                19-12-2023       V2.0.44           Sanchita            Call log facility is required in the FSM App - IsCallLogHistoryActivated” - 
+                                                                          User Account - Add User master settings. Mantis: 27063
 ====================================================== Revision History ==========================================================--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" EnableEventValidation="false"
@@ -3946,6 +3948,19 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <%--End of Rev 8.0--%>
+                        <%--Rev 9.0--%>
+                        <td id="divIsCallLogHistoryActivated" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkIsCallLogHistoryActivated" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Call Log History Activated </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <%--End of Rev 9.0--%>
                     </tr>
                     <%--End of Rev 6.0--%>
                     <%--End of Mantis Issue 25207--%>

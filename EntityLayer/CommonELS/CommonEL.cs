@@ -1,5 +1,6 @@
 ﻿/*************************************************************************************************************
 Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+Rev 2.0     Sanchita   V2.0.44    19/12/2023      Beat related tab will be added in the security roles of Parties. Mantis: 27080     
 *****************************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -57,6 +58,13 @@ namespace EntityLayer.CommonELS
         // Rev 1.0
         public bool CanBulkUpdate { get; set; }
         // End of Rev 1.0
+        // Rev 2.0
+        public bool CanReassignedBeatParty { get; set; }
+        public bool CanReassignedBeatPartyLog { get; set; }
+        public bool CanReassignedAreaRouteBeat { get; set; }
+        public bool CanReassignedAreaRouteBeatLog { get; set; }
+
+        // End of Rev 2.0
     }
     public  class RightEL
     {

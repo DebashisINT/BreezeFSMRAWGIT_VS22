@@ -54,9 +54,9 @@
     background-image: none !important;
     padding: 11px 20px;
     border: none;
-    border-radius: 5px 5px 0 0;
+    border-radius: 5px 5px 0 0 !important;
     color: #fff;
-    border-radius: 10px 10px 0 0;
+    /*border-radius: 10px 10px 0 0 !important;*/
 }
 
 .modal-content {
@@ -69,9 +69,9 @@
 }
 
 .close {
-    font-weight: 400;
-    font-size: 25px;
-    color: #fff;
-    text-shadow: none;
-    opacity: .5;
+    font-weight: 400 !important;
+    font-size: 25px !important;
+    color: #fff !important;
+    text-shadow: none !important;
+    opacity: .5 !important;
 }

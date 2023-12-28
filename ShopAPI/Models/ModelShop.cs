@@ -2,6 +2,7 @@
 //1.0   V2.0.39     Debashis    21/04/2023      Some new parameters have been added.Row: 819
 //2.0   V2.0.39     Debashis    19/05/2023      Some new parameters have been added.Row: 843
 //3.0   V2.0.42     Debashis    06/10/2023      Some new parameter has been added.Row: 868,869,874 & 875
+//4.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 893,894,896 & 897
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -340,6 +341,20 @@ namespace ShopAPI.Models
         public string FSSAILicNo { get; set; }
         public bool isUpdateAddressFromShopMaster { get; set; }
         //End of Rev 3.0 Row: 868,869,874 & 875
+        //Rev 4.0 Row: 893,894,896 & 897
+        public string shop_firstName { get; set; }
+        public string shop_lastName { get; set; }
+        public int crm_companyID { get; set; }
+        public string crm_jobTitle { get; set; }
+        public int crm_typeID { get; set; }
+        public int crm_statusID { get; set; }
+        public int crm_sourceID { get; set; }
+        public string crm_referenceID { get; set; }
+        public string crm_referenceID_type { get; set; }
+        public int crm_stage_ID { get; set; }
+        public int assign_to { get; set; }
+        public string saved_from_status { get; set; }
+        //End of Rev 4.0 Row: 893,894,896 & 897
     }
 
     public class RegisterShopOutput

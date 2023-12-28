@@ -2124,3 +2124,234 @@
     cursor: not-allowed; 
     pointer-events: none;
 }
+
+.flotting-right-btn {
+    position: absolute;
+    right: -13%;
+    /* float: left; */
+    /*display: flex;
+    flex-direction: column;
+    align-items: baseline;*/
+    /* margin-right: -170px;*/
+}
+
+    .flotting-right-btn li {
+        display: block !important;
+        float: none !important;
+        
+    }
+
+
+        .flotting-right-btn li .hoverMenu {
+            margin-right: -115px;
+            transition: all 0.5s;
+        }
+
+        .flotting-right-btn li.view-party-hierarchywise .hoverMenu {
+            margin-right: -171px;
+            transition: all 0.5s;
+        }
+
+        .flotting-right-btn li:hover .hoverMenu {
+            margin-right: 0;
+        }
+
+
+        /*.flotting-right-btn li.highlight {
+            margin-right: 0px;
+        }*/
+
+
+
+/* Show the image when hovering the parent li */
+/*.hoverMenu:hover img:first-child*/
+
+
+/* Hide the image when not hovering the parent li */
+            /*.flotting-right-btn li:hover .hoverMenu img:last-child {
+                display: inline-block !important;
+            }
+
+            .flotting-right-btn li:hover .hoverMenu img:first-child {
+                display: none !important;
+            }*/
+
+.icon-img {
+    width: 26px;
+    height: 26px;
+    background: #fff;
+    display: block;
+    text-align: center;
+    line-height: 24px;
+    border-radius: 20px;
+}
+
+.multiselect-container > li > a > label.checkbox, .multiselect-container > li > a > label.radio {
+    font-family: 'Poppins', sans-serif !important;
+    letter-spacing: 1px;
+    letter-spacing: .5px !important;
+}
+
+.multiselect-container.dropdown-menu {
+    padding: 5px;
+    max-height: 430px;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    background: #1b5ca0 !important;
+    border-radius: 0px;
+}
+
+.multiselect-container.dropdown-menu {
+    max-height: 450px !important;
+    background: #fff;
+}
+
+/* Style the options */
+.demo option {
+    padding: 10px;
+}
+
+    /* Style the selected options */
+    .demo option:checked {
+        background-color: #4CAF50;
+        color: #fff;
+    }
+
+.multiselect-item.multiselect-filter
+{
+    border-bottom: none !important;
+}
+
+.multiselect-container > li > a > label > input[type=checkbox] {
+    margin-bottom: 0px;
+    margin-top: -5px;
+    width: 15px;
+    height: 15px;
+}
+
+.multiselect-item.multiselect-filter .form-control.multiselect-search {
+    height: 34px;
+    border-right: none;
+}
+
+.input-group-btn .multiselect-clear-filter {
+    height: 34px;
+    background: none;
+    border: 1px solid #ccc;
+    border-left:none;
+}
+
+.glyphicon-remove-circle:before {
+    color: #5f5f5f;
+    font-size: 15px;
+    line-height: 13px;
+}
+
+.multiselect-container > li > a > label {
+    padding: 5px 20px 5px 30px;
+}
+
+
+/* width */
+.multiselect-container.dropdown-menu::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.multiselect-container.dropdown-menu::-webkit-scrollbar-track {
+    box-shadow: none;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Handle */
+.multiselect-container.dropdown-menu::-webkit-scrollbar-thumb {
+    background: #b1b1b1;
+    border-radius: 10px;
+}
+
+    /* Handle on hover */
+/*.multiselect-container.dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: #8b8b8b;
+}
+
+.state-selection .dropdown-toggle {
+    background: #11c795 !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.branch-selection .dropdown-toggle {
+    background: #e3aa40 !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+.state-selection .btn-default .caret, .branch-selection .btn-default .caret {
+    border-top-color: #fff;
+}*/
+
+.multiselect-container .checkbox input[type="checkbox"]:checked {
+    background-color: #333 !important;
+    border-color: #333 !important;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
+    background-color: #333 !important;
+}
+
+
+.flotting-right-btn li {
+    /*list-style: none;
+    display: inline-block;
+    margin: 10px;*/
+    position: relative;
+    z-index: 99;
+}
+
+    .flotting-right-btn li .pointer {
+        /*position: relative;
+        display: inline-block;
+        cursor: pointer;*/
+    }
+
+        .flotting-right-btn li .tooltip-customize {
+            position: absolute;
+            /*top: 14%;
+            left: -106px;*/
+            bottom: 46px;
+            left: 38px;
+            transform: translateX(-50%);
+            background-color: #c4fbec;
+            color: #444;
+            padding: 5px;
+            border-radius: 5px;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            pointer-events: none;
+            z-index: 9999;
+            width: 220px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 500;
+            font-family: 'Poppins', sans-serif !important;
+            letter-spacing: normal;
+            cursor: default;
+            line-height: 20px;
+        }
+
+            .flotting-right-btn li .tooltip-customize::before {
+                content: '';
+                position: absolute;
+                bottom: -15px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                border-width: 8px;
+                border-style: solid;
+                border-color: #c4fbec transparent transparent transparent;
+            }
+
+    .flotting-right-btn li:hover .tooltip-customize {
+        opacity: 1;
+    }

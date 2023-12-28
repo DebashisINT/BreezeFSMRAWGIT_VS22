@@ -12,6 +12,8 @@
                                                                           Refer: 26768  
  * 5.0                06-09-2023       V2.0.43           Sanchita         A new user wise settings required named as ShowLatLongInOutletMaster
  *                                                                        Refer: 26794 
+ * 6.0                19-12-2023       V2.0.44           Sanchita         Call log facility is required in the FSM App - IsCallLogHistoryActivated” - 
+                                                                          User Account - Add User master settings. Mantis: 27063                                                                        
 *******************************************************************************************************************/
 using System;
 using System.Data;
@@ -2360,6 +2362,17 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 }
                 // End of Rev 5.0
 
+                // Rev 6.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsCallLogHistoryActivated"]) == true)
+                {
+                    chkIsCallLogHistoryActivated.Checked = true;
+                }
+                else
+                {
+                    chkIsCallLogHistoryActivated.Checked = false;
+                }
+                // End of Rev 6.0
+
                 hdnPartyType.Value = dsUserDetail.Tables[1].Rows[0]["Shop_TypeId"].ToString();
 
                 if (Convert.ToString(dsUserDetail.Tables[0].Rows[0]["user_AllowAccessIP"]) != "")
@@ -2761,6 +2774,9 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 // Rev 5.0
                 int IsShowLatLongInOutletMaster = 0;
                 // End of Rev 5.0
+                // Rev 6.0
+                int IsCallLogHistoryActivated = 0;
+                // End of Rev 6.0
 
                 if (chkIsActive.Checked == true)
                     isactive = "Y";
@@ -4161,6 +4177,12 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 else
                     IsShowLatLongInOutletMaster = 0;
                 // End of Rev 5.0
+                // Rev 6.0
+                if (chkIsCallLogHistoryActivated.Checked == true)
+                    IsCallLogHistoryActivated = 1;
+                else
+                    IsCallLogHistoryActivated = 0;
+                // End of Rev 6.0
 
                 String PartyType = hdnPartyType.Value.ToString();
                 //Rev work start 26.04.2022 Mantise ID:0024856: Copy feature add in User master
@@ -4500,6 +4522,9 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             // Rev 5.0
                             proc.AddPara("@IsShowLatLongInOutletMaster", IsShowLatLongInOutletMaster);
                             // End of Rev 5.0
+                            // Rev 6.0
+                            proc.AddPara("@IsCallLogHistoryActivated", IsCallLogHistoryActivated);
+                            // End of Rev 6.0
 
                             DataTable dt = proc.GetTable();
 
@@ -4919,6 +4944,9 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             // Rev 5.0
                             proc.AddPara("@IsShowLatLongInOutletMaster", IsShowLatLongInOutletMaster);
                             // End of Rev 5.0
+                            // Rev 6.0
+                            proc.AddPara("@IsCallLogHistoryActivated", IsCallLogHistoryActivated);
+                            // End of Rev 6.0
 
                             DataTable dt = proc.GetTable();
 
@@ -5334,6 +5362,9 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             // Rev 5.0
                             proc.AddPara("@IsShowLatLongInOutletMaster", IsShowLatLongInOutletMaster);
                             // End of Rev 5.0
+                            // Rev 6.0
+                            proc.AddPara("@IsCallLogHistoryActivated", IsCallLogHistoryActivated);
+                            // End of Rev 6.0
 
                             DataTable dt = proc.GetTable();
 
@@ -7272,6 +7303,19 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                         }
                     }
                     // End of Rev 3.0
+                    // Rev 6.0
+                    else if (Convert.ToString(dr["key"]) == "IsCallLogHistoryActivated")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsCallLogHistoryActivated.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsCallLogHistoryActivated.Style.Add("display", "none");
+                        }
+                    }
+                    // End of Rev 6.0
                 }
             }
         }
