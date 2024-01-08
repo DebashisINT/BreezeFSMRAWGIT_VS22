@@ -8,6 +8,7 @@
 @*6.0                27/01/2023        V2.0.38          Sanchita            Assign to DD is not showing while making shop from Portal. Refer: 25606*@
 @*7.0                02/02/2023        V2.0.38          Pallab              Add party popup scroll position issue fix*@
 @*8.0                24/04/2023        V2.0.39          Pallab              Party List module all search popup auto focus add and "cancel" button color change. Refer: 25899*@
+@*9.0               15/01/2023         V2.0.45          Sanchita            Assign to DD field not working. Mantis 27102 *@
 @*====================================================== Revision History ===========================================================*@
 
 @using MyShop.Models;
@@ -1134,6 +1135,7 @@
 
 
     function BinddType(TypeID, shoptype) {
+        debugger;
         $.ajax({
             type: "post",
             url: "@Url.Action("GetddShopTypes", "partyDetails")",
@@ -1142,9 +1144,9 @@
             traditional: true,
             success: function (data) {
                 var status = "<select id='ddlddShopType' class = 'form-control'>";
-                // Rev 27102
-                status = status + '<option value=0>Select</option> </select>';
-                // End of Rev 27102
+                // Rev 9.0
+                status = status + '<option value=0>Select</option> ';
+                // End of Rev 9.0
                 for (var i = 0; i < data.length; i++) {
                     status = status + '<option value=' + data[i].id + '>' + data[i].name + '</option>';
                 }
