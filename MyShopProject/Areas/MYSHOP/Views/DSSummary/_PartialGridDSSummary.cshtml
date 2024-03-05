@@ -2,6 +2,7 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                09-08-2023        V2.0.41          Debashis            A coloumn named as Gender needs to be added in all the ITC reports.*@
 @*                                                                          Refer: 0026680*@
+@*2.0                27-02-2024        V2 .0.44         Debashis            'Sale Value' Field required in DS Visit Details/DS Visit Summary.Refer: 0027276*@
 @*====================================================== Revision History ===================================================================================*@
 
 @Html.DevExpress().GridView(settings =>
@@ -376,11 +377,40 @@
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
 
+    //Rev 2.0 Mantis: 0027276
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SALE_VALUE";
+        x.Caption = "Sale Value";
+        x.VisibleIndex = 12;
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SALE_VALUE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 100;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+            x.Width = 100;
+        }
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    //End of Rev 2.0 Mantis: 0027276
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "DISTANCE_TRAVELLED";
         x.Caption = "Distance Travelled(Km.Mtr)";
-        x.VisibleIndex = 12;
+        x.VisibleIndex = 13;
         //rev Pratik
         x.PropertiesEdit.DisplayFormatString = "0.00";
         //End of rev Pratik
@@ -411,7 +441,7 @@
     {
         x.FieldName = "AVGTIMESPENTINMARKET";
         x.Caption = "Avg time spent in the market(HH:MM)";
-        x.VisibleIndex = 13;
+        x.VisibleIndex = 14;
         //x.Width = 220;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         if (ViewBag.RetentionColumn != null)
@@ -439,7 +469,7 @@
     {
         x.FieldName = "AVGSPENTDURATION";
         x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
-        x.VisibleIndex = 14;
+        x.VisibleIndex = 15;
         //x.Width = 320;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         if (ViewBag.RetentionColumn != null)

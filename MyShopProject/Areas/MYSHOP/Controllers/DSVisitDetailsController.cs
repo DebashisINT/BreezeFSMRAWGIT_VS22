@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2.0.41    Debashis     25/07/2023      DS Visit Details - Two Columns Required.Refer: 0026474
 //2.0   V2.0.41    Debashis     09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+//3.0   V2 .0.44   Debashis     27/02/2024      'Sale Value' Field required in DS Visit Details/DS Visit Summary.Refer: 0027276
 #endregion===================================End of Revision History==================================================================
 
 using BusinessLogicLayer.SalesTrackerReports;
@@ -734,7 +735,33 @@ namespace MyShop.Areas.MYSHOP.Controllers
             });
             //End of Rev Debashis 0024956
 
-            
+            //Rev 3.0 Mantis: 0027276
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "SALE_VALUE";
+                x.Caption = "Sale Value";
+                x.VisibleIndex = 18;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SALE_VALUE'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+
+            });
+            //End of Rev 3.0 Mantis: 0027276
+
             settings.Columns.Add(x =>
             {
                 x.FieldName = "AVGSPENTDURATION";
@@ -742,7 +769,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
                 x.Caption = "Avg time spent in OL(CFT-New&Revisit)(HH:MM)";
                 //End of Rev Debashis 0024906
-                x.VisibleIndex = 18;
+                x.VisibleIndex = 19;
                 
                 if (ViewBag.RetentionColumn != null)
                 {

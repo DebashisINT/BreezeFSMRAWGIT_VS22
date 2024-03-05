@@ -1,8 +1,9 @@
-﻿@*======================================Revision History=========================================================================
-1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
-                                              Refer: 0025586
-2.0   V2.0.38     Pallab      23/01/2023      After Checked "Contact Name" and "Contact Number" column width issue fix
-===================================End of Revision History=====================================================================*@
+﻿@*======================================Revision History=====================================================================================================
+    1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
+                                                  Refer: 0025586
+    2.0   V2.0.38     Pallab      23/01/2023      After Checked "Contact Name" and "Contact Number" column width issue fix
+    3.0   V2.0.44     Debashis    03/01/2024      Performance Summary Report required a new column 'Type' & 'Stage'.Refer: 0027066 & 0027091
+    ===================================End of Revision History=================================================================================================*@
 @Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridperformance";
@@ -959,11 +960,67 @@
             }
         });
 
+        //Rev 3.0 Mantis: 0027066 & 0027091
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "PARTYSTATUSTYPE";
+            x.Caption = "Type";
+            x.VisibleIndex = 34;
+            //x.Width = 200;
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUSTYPE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                    //x.Width = 0;
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 200;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 200;
+            }
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "STAGE";
+            x.Caption = "Stage";
+            x.VisibleIndex = 35;
+            //x.Width = 200;
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STAGE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                    //x.Width = 0;
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 200;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 200;
+            }
+        });
+        //End of Rev 3.0 Mantis: 0027066 & 0027091
+
         settings.Columns.Add(x =>
         {
             x.FieldName = "TOTAL_VISIT";
             x.Caption = "Visit Count";
-            x.VisibleIndex = 34;
+            x.VisibleIndex = 36;
             //x.Width = 70;
             // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
@@ -994,7 +1051,7 @@
         {
             x.FieldName = "RE_VISITED";
             x.Caption = "Re Visit";
-            x.VisibleIndex = 35;
+            x.VisibleIndex = 37;
             //x.Width = 60;
             // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
@@ -1024,7 +1081,7 @@
         {
             x.FieldName = "NEWSHOP_VISITED";
             x.Caption = "New Visit";
-            x.VisibleIndex = 36;
+            x.VisibleIndex = 38;
             //x.Width = 60;
             // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
@@ -1054,7 +1111,7 @@
         {
             x.FieldName = "TOTMETTING";
             x.Caption = "Meeting";
-            x.VisibleIndex = 37;
+            x.VisibleIndex = 39;
             //x.Width = 60;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
@@ -1083,7 +1140,7 @@
         {
             x.FieldName = "SPENT_DURATION";
             x.Caption = "Duration Spend";
-            x.VisibleIndex = 38;
+            x.VisibleIndex = 40;
             //x.Width = 100;
             if (ViewBag.RetentionColumn != null)
             {
@@ -1110,7 +1167,7 @@
         {
             x.FieldName = "DISTANCE_TRAVELLED";
             x.Caption = "Travelled(KM)";
-            x.VisibleIndex = 39;
+            x.VisibleIndex = 41;
             //x.Width = 100;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
@@ -1139,7 +1196,7 @@
         {
             x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
             x.Caption = "Sale value";
-            x.VisibleIndex = 40;
+            x.VisibleIndex = 42;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
@@ -1166,7 +1223,7 @@
         {
             x.FieldName = "TOTAL_COLLECTION";
             x.Caption = "Collection value";
-            x.VisibleIndex = 41;
+            x.VisibleIndex = 43;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
@@ -2058,11 +2115,67 @@
             }
         });
 
+        //Rev 3.0 Mantis: 0027066 & 0027091
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "PARTYSTATUSTYPE";
+            x.Caption = "Type";
+            x.VisibleIndex = 34;
+            //x.Width = 200;
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUSTYPE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                    //x.Width = 0;
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 200;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 200;
+            }
+        });
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "STAGE";
+            x.Caption = "Stage";
+            x.VisibleIndex = 35;
+            //x.Width = 200;
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STAGE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                    //x.Width = 0;
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 200;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+                x.Width = 200;
+            }
+        });
+        //End of Rev 3.0 Mantis: 0027066 & 0027091
+
         settings.Columns.Add(x =>
         {
             x.FieldName = "MULTI_CONTACT_NAME";
             x.Caption = "Contact Name";
-            x.VisibleIndex = 34;
+            x.VisibleIndex = 36;
             if (ViewBag.RetentionColumn != null)
             {
                 System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MULTI_CONTACT_NAME'");
@@ -2088,7 +2201,7 @@
         {
             x.FieldName = "MULTI_CONTACT_NUMBER";
             x.Caption = "Contact Number";
-            x.VisibleIndex = 35;
+            x.VisibleIndex = 37;
             if (ViewBag.RetentionColumn != null)
             {
                 System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MULTI_CONTACT_NUMBER'");
@@ -2113,7 +2226,7 @@
         {
             x.FieldName = "TOTAL_VISIT";
             x.Caption = "Visit Count";
-            x.VisibleIndex = 36;
+            x.VisibleIndex = 38;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             if (ViewBag.RetentionColumn != null)
@@ -2142,7 +2255,7 @@
         {
             x.FieldName = "RE_VISITED";
             x.Caption = "Re Visit";
-            x.VisibleIndex = 37;
+            x.VisibleIndex = 39;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             if (ViewBag.RetentionColumn != null)
@@ -2170,7 +2283,7 @@
         {
             x.FieldName = "NEWSHOP_VISITED";
             x.Caption = "New Visit";
-            x.VisibleIndex = 38;
+            x.VisibleIndex = 40;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             if (ViewBag.RetentionColumn != null)
@@ -2198,7 +2311,7 @@
         {
             x.FieldName = "TOTMETTING";
             x.Caption = "Meeting";
-            x.VisibleIndex = 39;
+            x.VisibleIndex = 41;
             //x.Width = 60;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
@@ -2227,7 +2340,7 @@
         {
             x.FieldName = "SPENT_DURATION";
             x.Caption = "Duration Spend";
-            x.VisibleIndex = 40;
+            x.VisibleIndex = 42;
             //x.Width = 100;
             if (ViewBag.RetentionColumn != null)
             {
@@ -2254,7 +2367,7 @@
         {
             x.FieldName = "DISTANCE_TRAVELLED";
             x.Caption = "Travelled(KM)";
-            x.VisibleIndex = 41;
+            x.VisibleIndex = 43;
             //x.Width = 100;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
@@ -2283,7 +2396,7 @@
         {
             x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
             x.Caption = "Sale value";
-            x.VisibleIndex = 42;
+            x.VisibleIndex = 44;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
@@ -2312,7 +2425,7 @@
         {
             x.FieldName = "TOTAL_COLLECTION";
             x.Caption = "Collection value";
-            x.VisibleIndex = 43;
+            x.VisibleIndex = 45;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);

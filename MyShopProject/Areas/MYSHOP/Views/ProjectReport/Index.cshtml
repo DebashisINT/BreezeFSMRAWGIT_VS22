@@ -1,11 +1,15 @@
 ﻿@*====================================================== Revision History ===================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
-@*2.0                25-07-2023        V2.0.42          Sanchita            zero value should be consider in the Approx Qty field
+@*2.0                25-07-2023        V2.0.42          Sanchita            zero value should be consider in the Approx Qty field 
     while making an entry in Project & Projection report.
     Mantis: 26617*@
 @*3.0                16-10-2023         v2.0.43         Sanchita            On demand search is required in Product Master & Projection Entry
-                                                                             Mantis: 26858*@
+    Mantis: 26858*@
+@*4.0                25-01-2024         v2.0.45         Sanchita            Filter completed project dropdown did not move- Eurobond
+    Mantis: 27209*@
+@*5.0                06-02-2024         V2.0.45         Sanchita            Project name will be auto loaded after selecting the customer in Project & Projection report. Mantis: 27222*@
+@*6.0                06-02-2024         V2.0.45         Sanchita            Project start date should auto loaded while making entry for same customer & same project. Mantis: 27223*@
 @*====================================================== Revision History ===================================================*@
 
 @using MyShop.Models;
@@ -363,7 +367,10 @@
                 ShopUserTxt.SetText(data.ShopName);
 
                 $("#hdnProjectNameID").val(data.ProjectName);
-                ProjectNameTxt.SetText(data.ProjectName);
+                // Rev 5.0
+                //ProjectNameTxt.SetText(data.ProjectName);
+                $("#txt_ProjectName").val(data.ProjectName);
+                // End of Rev 5.0
                 // End of Rev 3.0
 
                 $("#txt_Area").val(data.Area);
@@ -506,7 +513,10 @@
         //$("#ddlProjectName").val('');
         //ddlProjectName.selectedIndex = 0;
         $("#hdnProjectNameID").val('');
-        ProjectNameTxt.SetText('');
+        // Rev 5.0
+        //ProjectNameTxt.SetText('');
+        $("#txt_ProjectName").val('');
+        // End of Rev 5.0
         // End of Rev 3.0
 
         $("#txt_Area").val('');
@@ -900,9 +910,29 @@
            //     });
            // }
         //}
-        $("#hdnProjectNameID").val("");
-        ProjectNameTxt.SetText("");
-        // End of Rev 3.0
+        // Rev 5.0
+        //$("#hdnProjectNameID").val("");
+        //ProjectNameTxt.SetText("");
+        //// End of Rev 3.0
+
+        var selShop = $("#hdnShopUserID").val();
+
+        if (selShop != 0 && selShop != -1) {
+            $.ajax({
+                url: "@Url.Action("GetProjectName", "ProjectReport")",
+                async: false,
+                data: { selShop: selShop },
+                type: 'GET',
+                success: function (json, textStatus) {
+                    $("#hdnProjectNameID").val(json.ProjectName);
+                    $("#txt_ProjectName").val(json.ProjectNameId);
+                    AutofillDetails();
+                },
+                error: function () {
+                },
+            });
+        }
+        // End of Rev 5.0
 
     }
 
@@ -959,6 +989,15 @@
                             $("#txt_FabrName").val(data.FabrName);
                             $("#txt_Others").val(data.Others);
                             // End of Mantis Issue 25203
+                            // Rev 6.0
+                            var dc2 = new Date(data.Date);
+                            if (data.Date != "") {
+                                proj_start_dt.SetDate(dc2);
+                            }
+                            else {
+                                proj_start_dt.Clear();
+                            }
+                            // End of Rev 6.0
                         }
                         else {
 
@@ -1109,6 +1148,24 @@
                 $("input[UserIndex=0]").focus();
         }
     }
+
+    // Rev 5.0
+    function ShopUserOnClick() {
+        var OtherDetails = {}
+        if ($.trim($("#txtShopUserSearch").val()) == "" || $.trim($("#txtShopUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtShopUserSearch").val();
+
+        var HeaderCaption = [];
+        HeaderCaption.push("Customer Name");
+
+
+        if ($("#txtShopUserSearch").val() != "") {
+            callonServer("../../../Models/ShopAddress.asmx/GetShopUserName", OtherDetails, "ShopUserTable", HeaderCaption, "ShopUserIndex", "SetShopUser");
+        }
+    }
+    // End of Rev 5.0
 
     function SetShopUser(id, Name) {
         var key = id;
@@ -1841,7 +1898,35 @@
         .dxgvHSDC > div {
             width: 100% !important;
         }
+
+        .pmsModal.w70 .modal-dialog {
+            width: 96%;
+        }
+        #proj_start_dt_DDD_PW-1 {
+            left: 15px !important;
+        }
+
+        #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #proj_start_dt_B-1, #proj_complete_dt_B-1 {
+            padding: 10px 12px !important;
+        }
     }
+
+    /*Rev 4.0*/
+    .completeprojectlist {
+        max-height: 360px;
+        overflow-x: auto;
+        margin-bottom: 10px;
+    }
+    /*End of Rev 4.0*/
+    /*Rev 5.0*/
+    .usersearch-btn {
+        position: absolute;
+        top: 18px;
+        right: 20px;
+        background: transparent;
+        font-size: 18px;
+    }
+    /*End of Rev 5.0*/
 </style>
 
 
@@ -1922,7 +2007,8 @@
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="row">
-                                                <div class="col-sm-12">
+                                                @*Rev 4.0 [class completeprojectlist added] *@
+                                                <div class="col-sm-12 completeprojectlist ">
                                                     <ul class="mainFilterList" id="slItemsP">
                                                     </ul>
                                                 </div>
@@ -2172,18 +2258,22 @@
                             @*Rev 3.0*@
                             @*@Html.DropDownListFor(m => m.ProjectName, new SelectList(Model.ProjectNameList, "Project_Id", "Project_Name", Model.ProjectNameId), new { @id = "ddlProjectName", @class = "form-control", @onchange = "AutofillDetails(this)" })*@
 
-                            @Html.DevExpress().ButtonEdit(
-                            settings =>
-                            {
-                                settings.Name = "ProjectNameTxt";
-                                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                                settings.Text = Model.ProjectNameId;
-                                settings.ReadOnly = true;
-                                settings.Properties.Buttons.Add("...");
-                                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){ProjectNameButnClick(s,e);}";
-                                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){ProjectName_KeyDown(s,e);}";
+                            @*Rev 5.0*@
+                            @*@Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "ProjectNameTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    settings.Text = Model.ProjectNameId;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){ProjectNameButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){ProjectName_KeyDown(s,e);}";
 
-                            }).GetHtml()
+                                }).GetHtml()*@
+
+                            <input type="text" id="txt_ProjectName" class="form-control" value="@Model.ProjectName" readonly />
+                            @*End of Rev 5.0*@
 
                             <input type="hidden" id="hdnProjectNameID" value="@Model.ProjectNameId">
                             @*End of Rev 3.0*@
@@ -2436,6 +2526,9 @@
             </div>
             <div class="modal-body">
                 <input type="text" class="form-control mb-3" onkeydown="ShopUserkeydown(event)" id="txtShopUserSearch" autofocus style="width:100%" placeholder="Search By Customer Name" />
+                @*Rev 5.0*@
+                <button type="button" class="btn btn-secondary usersearch-btn" onclick="ShopUserOnClick();"><i class="fa fa-search" style="cursor:pointer"></i></button>
+                @*End of Rev 5.0*@
                 <div id="ShopUserTable">
                     <table border='1' width="100%" class="dynamicPopupTbl">
                         <tr class="HeaderStyle">

@@ -4,6 +4,7 @@
 @*2.0                23-01-2023        2.0.38           Debashis            Multiple contact information to be displayed in the Shops report.Refer: 0025585*@
 @*3.0		         13-02-2023   	   V2.0.39		    PRITI			    0025663:Last Visit fields shall be available in Outlet Reports*@
 @*4.0                19/07/2023        V2.0.41          Sanchita            Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135*@
+@*5.0                22/01/2024        V2.0.45          Sanchita            Supervisor name column is required in Shops report. Mantis: 27199
 @*====================================================== Revision History ===========================================================*@
 
 @Html.DevExpress().GridView(settings =>
@@ -279,12 +280,22 @@
         // x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
 
+    // Rev 5.0
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Supervisor Name";
+        x.FieldName = "REPORTTO_NAME";
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = 150;
+        x.VisibleIndex = 25;
+    });
+    // End of Rev 5.0
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "dob";
         x.Caption = "Owner DOB";
-        x.VisibleIndex = 25;
+        x.VisibleIndex = 26;
         x.Width = 120;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
@@ -298,7 +309,7 @@
     {
         x.FieldName = "date_aniversary";
         x.Caption = "Owner Anniversary";
-        x.VisibleIndex = 26;
+        x.VisibleIndex = 27;
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -313,7 +324,7 @@
     {
         x.FieldName = "Cluster";
         x.Caption = "Cluster";
-        x.VisibleIndex = 27;
+        x.VisibleIndex = 28;
         x.Width = 140;
     });
     //End of Rev Debashis -- 0024575
@@ -322,14 +333,14 @@
     {
         x.FieldName = "gstn_number";
         x.Caption = "GSTIN";
-        x.VisibleIndex = 28;
+        x.VisibleIndex = 29;
         x.Width = 140;
     });
     settings.Columns.Add(x =>
     {
         x.FieldName = "trade_licence_number";
         x.Caption = "Trade License No.";
-        x.VisibleIndex = 29;
+        x.VisibleIndex = 30;
         x.Width = 140;
     });
     //Rev Pallab 25448
@@ -339,7 +350,7 @@
         x.Caption = "Attachment 1";
         //Rev 2.0 Mantis: 0025585
         //x.VisibleIndex = 28;
-        x.VisibleIndex = 30;
+        x.VisibleIndex = 31;
         //End of Rev 2.0 Mantis: 0025585
         x.Width = 140;
 
@@ -366,7 +377,7 @@
         x.Caption = "Attachment 2";
         //Rev 2.0 Mantis: 0025585
         //x.VisibleIndex = 28;
-        x.VisibleIndex = 31;
+        x.VisibleIndex = 32;
         //End of Rev 2.0 Mantis: 0025585
         x.Width = 140;
         //x.UnboundType = DevExpress.Data.UnboundColumnType.String;
@@ -390,7 +401,7 @@
         x.Caption = "Attachment 3";
         //Rev 2.0 Mantis: 0025585
         //x.VisibleIndex = 28;
-        x.VisibleIndex = 32;
+        x.VisibleIndex = 33;
         //End of Rev 2.0 Mantis: 0025585
         x.Width = 140;
 
@@ -414,7 +425,7 @@
         x.Caption = "Attachment 4";
         //Rev 2.0 Mantis: 0025585
         //x.VisibleIndex = 28;
-        x.VisibleIndex = 33;
+        x.VisibleIndex = 34;
         //End of Rev 2.0 Mantis: 0025585
         x.Width = 140;
 
@@ -441,28 +452,28 @@
         {
             x.FieldName = "CONTACT_NAME1";
             x.Caption = "Contact Name1";
-            x.VisibleIndex = 34;
+            x.VisibleIndex = 35;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_NUMBER1";
             x.Caption = "Contact Number1";
-            x.VisibleIndex = 35;
+            x.VisibleIndex = 36;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_EMAIL1";
             x.Caption = "Contact Email1";
-            x.VisibleIndex = 36;
+            x.VisibleIndex = 37;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_DOA1";
             x.Caption = "Contact Anniversary1";
-            x.VisibleIndex = 37;
+            x.VisibleIndex = 38;
             x.Width = 140;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
@@ -472,7 +483,7 @@
         {
             x.FieldName = "CONTACT_DOB1";
             x.Caption = "Contact DOB1";
-            x.VisibleIndex = 38;
+            x.VisibleIndex = 39;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -481,28 +492,28 @@
         {
             x.FieldName = "CONTACT_NAME2";
             x.Caption = "Contact Name2";
-            x.VisibleIndex = 39;
+            x.VisibleIndex = 40;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_NUMBER2";
             x.Caption = "Contact Number2";
-            x.VisibleIndex = 40;
+            x.VisibleIndex = 41;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_EMAIL2";
             x.Caption = "Contact Email2";
-            x.VisibleIndex = 41;
+            x.VisibleIndex = 42;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_DOA2";
             x.Caption = "Contact Anniversary2";
-            x.VisibleIndex = 42;
+            x.VisibleIndex = 43;
             x.Width = 140;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
@@ -512,7 +523,7 @@
         {
             x.FieldName = "CONTACT_DOB2";
             x.Caption = "Contact DOB2";
-            x.VisibleIndex = 43;
+            x.VisibleIndex = 44;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -521,28 +532,28 @@
         {
             x.FieldName = "CONTACT_NAME3";
             x.Caption = "Contact Name3";
-            x.VisibleIndex = 44;
+            x.VisibleIndex = 45;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_NUMBER3";
             x.Caption = "Contact Number3";
-            x.VisibleIndex = 45;
+            x.VisibleIndex = 46;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_EMAIL3";
             x.Caption = "Contact Email3";
-            x.VisibleIndex = 46;
+            x.VisibleIndex = 47;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_DOA3";
             x.Caption = "Contact Anniversary3";
-            x.VisibleIndex = 47;
+            x.VisibleIndex = 48;
             x.Width = 140;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
@@ -552,7 +563,7 @@
         {
             x.FieldName = "CONTACT_DOB3";
             x.Caption = "Contact DOB3";
-            x.VisibleIndex = 48;
+            x.VisibleIndex = 49;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -561,28 +572,28 @@
         {
             x.FieldName = "CONTACT_NAME4";
             x.Caption = "Contact Name4";
-            x.VisibleIndex = 49;
+            x.VisibleIndex = 50;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_NUMBER4";
             x.Caption = "Contact Number4";
-            x.VisibleIndex = 50;
+            x.VisibleIndex = 51;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_EMAIL4";
             x.Caption = "Contact Email4";
-            x.VisibleIndex = 51;
+            x.VisibleIndex = 52;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_DOA4";
             x.Caption = "Contact Anniversary4";
-            x.VisibleIndex = 52;
+            x.VisibleIndex = 53;
             x.Width = 140;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
@@ -592,7 +603,7 @@
         {
             x.FieldName = "CONTACT_DOB4";
             x.Caption = "Contact DOB4";
-            x.VisibleIndex = 53;
+            x.VisibleIndex = 54;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -601,28 +612,28 @@
         {
             x.FieldName = "CONTACT_NAME5";
             x.Caption = "Contact Name5";
-            x.VisibleIndex = 54;
+            x.VisibleIndex = 55;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_NUMBER5";
             x.Caption = "Contact Number5";
-            x.VisibleIndex = 55;
+            x.VisibleIndex = 56;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_EMAIL5";
             x.Caption = "Contact Email5";
-            x.VisibleIndex = 56;
+            x.VisibleIndex = 57;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_DOA5";
             x.Caption = "Contact Anniversary5";
-            x.VisibleIndex = 57;
+            x.VisibleIndex = 58;
             x.Width = 140;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
@@ -632,7 +643,7 @@
         {
             x.FieldName = "CONTACT_DOB5";
             x.Caption = "Contact DOB5";
-            x.VisibleIndex = 58;
+            x.VisibleIndex = 59;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -641,28 +652,28 @@
         {
             x.FieldName = "CONTACT_NAME6";
             x.Caption = "Contact Name6";
-            x.VisibleIndex = 59;
+            x.VisibleIndex = 60;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_NUMBER6";
             x.Caption = "Contact Number6";
-            x.VisibleIndex = 60;
+            x.VisibleIndex = 61;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_EMAIL6";
             x.Caption = "Contact Email6";
-            x.VisibleIndex = 61;
+            x.VisibleIndex = 62;
             x.Width = 140;
         });
         settings.Columns.Add(x =>
         {
             x.FieldName = "CONTACT_DOA6";
             x.Caption = "Contact Anniversary6";
-            x.VisibleIndex = 62;
+            x.VisibleIndex = 63;
             x.Width = 140;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
@@ -672,7 +683,7 @@
         {
             x.FieldName = "CONTACT_DOB6";
             x.Caption = "Contact DOB6";
-            x.VisibleIndex = 63;
+            x.VisibleIndex = 64;
             x.ColumnType = MVCxGridViewColumnType.DateEdit;
             x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -715,7 +726,7 @@
         x.FieldName = "LASTVISITDATE";
         //column.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = 150;
-        x.VisibleIndex = 63;
+        x.VisibleIndex = 65;
     });
 
     settings.Columns.Add(x =>
@@ -724,7 +735,7 @@
         x.FieldName = "LASTVISITTIME";
         //column.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = 150;
-        x.VisibleIndex = 64;
+        x.VisibleIndex = 66;
     });
 
     settings.Columns.Add(x =>
@@ -733,7 +744,7 @@
         x.FieldName = "LASTVISITEDBY";
         //column.ColumnType = MVCxGridViewColumnType.TextBox;
         x.Width = 150;
-        x.VisibleIndex = 65;
+        x.VisibleIndex = 67;
     });
     //REV 3.0 END
 

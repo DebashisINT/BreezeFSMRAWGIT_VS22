@@ -2,6 +2,7 @@
 //1.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
 //2.0   v2.0.43     Sanchita    16-10-2023      On demand search is required in Product Master & Projection Entry
 //                                              Mantis: 26858
+//3.0   V2.0.45     Sanchita    06-02-2024       Project name will be auto loaded after selecting the customer in Project & Projection report. Mantis: 27222
 //*************************************************************************************************************
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -603,6 +604,32 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             return Json(Dtls, JsonRequestBehavior.AllowGet);
         }
+
+        // Rev 3.0
+        public ActionResult GetProjectName(string selShop)
+        {
+            ProjectReportModel Dtls = new ProjectReportModel();
+            string user_id = Convert.ToString(Session["userid"]);
+
+            DataSet dsListdata = new DataSet();
+            ProcedureExecute proc = new ProcedureExecute("PRC_PROJECTREPORT_LISTING");
+            proc.AddPara("@ACTION", "GetProjectName");
+            proc.AddPara("@USERID", Convert.ToInt32(user_id));
+            proc.AddPara("@Shop_Code", selShop);
+            dsListdata = proc.GetDataSet();
+
+            DataTable dtProj = new DataTable();
+            dtProj = dsListdata.Tables[0];
+            if (dtProj.Rows.Count > 0)
+            {
+                Dtls.ProjectName =  dtProj.Rows[0]["Project_Name"].ToString();
+                Dtls.ProjectNameId = dtProj.Rows[0]["Project_Name"].ToString();
+            }
+            
+
+            return Json(Dtls, JsonRequestBehavior.AllowGet);
+        }
+        // End of Rev 3.0
 
         public ActionResult ShowAutofillDetails(string selShop, string selProjectName)
         {

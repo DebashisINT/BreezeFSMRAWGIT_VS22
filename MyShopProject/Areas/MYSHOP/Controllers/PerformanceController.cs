@@ -1,9 +1,11 @@
-﻿#region======================================Revision History=========================================================================
+﻿#region======================================Revision History===============================================================================================
 //1.0   V2.0.38     Debashis    20/01/2023      Revisit Contact information is required in the Performance Summary report.
 //                                              Refer: 0025586
 //2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in MIS -> Performance Summary. Mantis : 26135
 //3.0   V2.0.43     Sanchita    07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
-#endregion===================================End of Revision History==================================================================
+//4.0   V2.0.44     Debashis    03/01/2024      Performance Summary Report required a new column 'Type' & 'Stage'.Refer: 0027066 & 0027091
+//5.0   V2.0.44     Pallab      10/01/2024      Compact column width required in the Performance Summary report grid excel export.Refer: 0027174
+#endregion===================================End of Revision History========================================================================================
 using SalesmanTrack;
 using System;
 using System.Collections.Generic;
@@ -380,7 +382,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             // Export-specific settings
             settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
             settings.SettingsExport.FileName = "Performance Report";
-
+            //Rev 5.0 Mantis: "x.Width" replace with "x.ExportWidth" in all columns and column width adjustment for export excel
             //Rev 1.0 Mantis: 0025586
             if (TempData["IsRevisitContactDetails"].ToString() == "0")
             {
@@ -400,11 +402,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 }
                 else
                 {
                     x.Visible = true;
+                    x.ExportWidth = 80;
                 }
 
             });
@@ -424,11 +428,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
@@ -447,11 +453,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -470,11 +478,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -494,15 +504,17 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
-                //Rev Debashis -- 0024575
+                //Rev 4.0 -- 0024575
                 settings.Columns.Add(x =>
                 {
                     x.FieldName = "SHOP_DISTRICT";
@@ -519,11 +531,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -532,7 +546,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOP_PINCODE";
                     x.Caption = "Pincode";
                     x.VisibleIndex = 7;
-                    x.Width = 120;
+                    //x.Width = 120;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_PINCODE'");
@@ -543,21 +558,24 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
-                //End of Rev Debashis -- 0024575
+                //End of Rev 4.0 -- 0024575
 
                 settings.Columns.Add(x =>
                 {
                     x.FieldName = "BRANCHDESC";
                     x.Caption = "Branch";
                     x.VisibleIndex = 8;
-                    x.Width = 180;
+                    //x.Width = 180;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
@@ -568,11 +586,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -591,11 +611,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -614,11 +636,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -637,11 +661,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 140;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 140;
                     }
                 });
 
@@ -660,11 +686,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
@@ -684,11 +712,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -707,11 +737,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -731,11 +763,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -754,11 +788,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
@@ -777,11 +813,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 140;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 140;
                     }
                 });
 
@@ -800,11 +838,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 140;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 140;
                     }
                 });
 
@@ -823,11 +863,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 90;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 90;
                     }
                 });
 
@@ -847,11 +889,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 90;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 90;
                     }
                 });
 
@@ -870,11 +914,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 110;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 110;
                     }
                 });
 
@@ -895,13 +941,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
-                            x.Width = 120;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
-                        x.Width = 120;
+                        x.ExportWidth = 100;
                     }
                 });
                 //End of Rev Debashis Mantis: 0025524
@@ -921,11 +967,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
@@ -945,11 +993,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
                 //End of Rev Debashis -- 0024575
@@ -969,11 +1019,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -982,6 +1034,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOPADDR_CONTACT";
                     x.Caption = "Retailer Address & Mobile no.";
                     x.VisibleIndex = 26;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPADDR_CONTACT'");
@@ -992,11 +1045,15 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 350;
+
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 350;
+
                     }
                 });
 
@@ -1015,11 +1072,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 300;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 300;
                     }
                 });
 
@@ -1038,11 +1097,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 300;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 300;
                     }
                     // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
                 });
@@ -1063,11 +1124,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 140;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 140;
                     }
                 });
 
@@ -1086,11 +1149,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
                 //End of Rev Debashis -- 0024577
@@ -1110,11 +1175,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -1133,11 +1200,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 110;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 110;
                     }
                 });
 
@@ -1156,19 +1225,73 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
+                    }
+                });
+
+                //Rev 4.0 Mantis: 0027066 & 0027091
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "PARTYSTATUSTYPE";
+                    x.Caption = "Type";
+                    x.VisibleIndex = 34;
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUSTYPE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 80;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
                 settings.Columns.Add(x =>
                 {
+                    x.FieldName = "STAGE";
+                    x.Caption = "Stage";
+                    x.VisibleIndex = 35;
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STAGE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 80;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 80;
+                    }
+                });
+                //End of Rev 4.0 Mantis: 0027066 & 0027091
+
+                settings.Columns.Add(x =>
+                {
                     x.FieldName = "TOTAL_VISIT";
                     x.Caption = "Visit Count";
-                    x.VisibleIndex = 34;
+                    x.VisibleIndex = 36;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTAL_VISIT'");
@@ -1179,11 +1302,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 110;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 110;
                     }
                     // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
                 });
@@ -1193,7 +1318,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "RE_VISITED";
                     x.Caption = "Re Visit";
-                    x.VisibleIndex = 35;
+                    x.VisibleIndex = 37;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RE_VISITED'");
@@ -1204,11 +1329,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                     // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
                 });
@@ -1217,7 +1344,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "NEWSHOP_VISITED";
                     x.Caption = "New Visit";
-                    x.VisibleIndex = 36;
+                    x.VisibleIndex = 38;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='NEWSHOP_VISITED'");
@@ -1228,11 +1355,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                     // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
                 });
@@ -1241,7 +1370,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTMETTING";
                     x.Caption = "Meeting";
-                    x.VisibleIndex = 37;
+                    x.VisibleIndex = 39;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTMETTING'");
@@ -1252,11 +1381,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1264,7 +1395,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "SPENT_DURATION";
                     x.Caption = "Duration Spend";
-                    x.VisibleIndex = 38;
+                    x.VisibleIndex = 40;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SPENT_DURATION'");
@@ -1275,11 +1406,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -1287,7 +1420,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "DISTANCE_TRAVELLED";
                     x.Caption = "Travelled(KM)";
-                    x.VisibleIndex = 39;
+                    x.VisibleIndex = 41;
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -1299,11 +1432,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1311,7 +1446,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
                     x.Caption = "Sale Value";
-                    x.VisibleIndex = 40;
+                    x.VisibleIndex = 42;
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -1323,11 +1458,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                     // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
@@ -1337,7 +1474,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_COLLECTION";
                     x.Caption = "Collection value";
-                    x.VisibleIndex = 41;
+                    x.VisibleIndex = 43;
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -1349,11 +1486,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                     // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
                 });
@@ -1376,11 +1515,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
 
                 });
@@ -1400,11 +1541,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1423,11 +1566,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1446,11 +1591,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 90;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 90;
                     }
                 });
 
@@ -1459,7 +1606,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "STATE";
                     x.Caption = "State";
                     x.VisibleIndex = 5;
-                    x.Width = 100;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATE'");
@@ -1470,11 +1617,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
@@ -1483,7 +1632,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOP_DISTRICT";
                     x.Caption = "District";
                     x.VisibleIndex = 6;
-                    x.Width = 120;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_DISTRICT'");
@@ -1494,11 +1643,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 90;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 90;
                     }
                 });
 
@@ -1507,7 +1658,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOP_PINCODE";
                     x.Caption = "Pincode";
                     x.VisibleIndex = 7;
-                    x.Width = 120;
+                    //x.Width = 120;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_PINCODE'");
@@ -1518,11 +1670,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1531,7 +1685,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "BRANCHDESC";
                     x.Caption = "Branch";
                     x.VisibleIndex = 8;
-                    x.Width = 180;
+                    //x.Width = 180;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
@@ -1542,11 +1697,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1555,6 +1712,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "OFFICE_ADDRESS";
                     x.Caption = "Office Address";
                     x.VisibleIndex = 9;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OFFICE_ADDRESS'");
@@ -1565,11 +1723,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -1578,6 +1738,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "ATTEN_STATUS";
                     x.Caption = "Attendance";
                     x.VisibleIndex = 10;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ATTEN_STATUS'");
@@ -1588,11 +1749,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1601,6 +1764,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "WORK_LEAVE_TYPE";
                     x.Caption = "Work/Leave Type";
                     x.VisibleIndex = 11;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='WORK_LEAVE_TYPE'");
@@ -1611,11 +1775,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -1624,6 +1790,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "REMARKS";
                     x.Caption = "Remarks";
                     x.VisibleIndex = 12;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='REMARKS'");
@@ -1634,11 +1801,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -1647,6 +1816,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "EMPNAME";
                     x.Caption = "Emp. Name";
                     x.VisibleIndex = 13;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
@@ -1657,11 +1827,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -1670,6 +1842,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "EMPID";
                     x.Caption = "Emp. ID";
                     x.VisibleIndex = 14;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPID'");
@@ -1680,11 +1853,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -1694,6 +1869,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "DESIGNATION";
                     x.Caption = "Designation";
                     x.VisibleIndex = 15;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DESIGNATION'");
@@ -1704,11 +1880,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -1717,6 +1895,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "DATEOFJOINING";
                     x.Caption = "DOJ";
                     x.VisibleIndex = 16;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DATEOFJOINING'");
@@ -1727,11 +1906,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
@@ -1740,6 +1921,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "REPORTTO";
                     x.Caption = "Supervisor";
                     x.VisibleIndex = 17;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='REPORTTO'");
@@ -1750,11 +1932,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1763,6 +1947,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "RPTTODESG";
                     x.Caption = "Supervisor Desg.";
                     x.VisibleIndex = 18;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RPTTODESG'");
@@ -1773,11 +1958,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -1786,6 +1973,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "PP_NAME";
                     x.Caption = "PP Name";
                     x.VisibleIndex = 19;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PP_NAME'");
@@ -1796,11 +1984,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 110;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 110;
                     }
                 });
 
@@ -1810,6 +2000,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "DD_NAME";
                     x.Caption = "DD Name";
                     x.VisibleIndex = 20;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DD_NAME'");
@@ -1820,11 +2011,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -1833,6 +2026,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOP_NAME";
                     x.Caption = "Retailer Name";
                     x.VisibleIndex = 21;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_NAME'");
@@ -1843,11 +2037,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -1856,6 +2052,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "BEATNAME";
                     x.Caption = "Beat";
                     x.VisibleIndex = 22;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BEATNAME'");
@@ -1867,13 +2064,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
-                            x.Width = 120;
+                            x.Width = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
-                        x.Width = 120;
+                        x.Width = 100;
                     }
                 });
 
@@ -1882,6 +2079,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "ENTITYCODE";
                     x.Caption = "Code";
                     x.VisibleIndex = 23;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENTITYCODE'");
@@ -1892,11 +2090,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
@@ -1905,6 +2105,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOP_CLUSTER";
                     x.Caption = "Cluster";
                     x.VisibleIndex = 24;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_CLUSTER'");
@@ -1915,11 +2116,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 90;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 90;
                     }
                 });
 
@@ -1928,6 +2131,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOP_TYPE";
                     x.Caption = "Type";
                     x.VisibleIndex = 25;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_TYPE'");
@@ -1938,11 +2142,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 80;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 80;
                     }
                 });
 
@@ -1951,6 +2157,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOPADDR_CONTACT";
                     x.Caption = "Retailer Address & Mobile no.";
                     x.VisibleIndex = 26;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPADDR_CONTACT'");
@@ -1961,11 +2168,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 250;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 250;
                     }
                 });
 
@@ -1974,6 +2183,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "PPADDR_CONTACT";
                     x.Caption = "PP Address & Mobile no.";
                     x.VisibleIndex = 27;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPADDR_CONTACT'");
@@ -1984,11 +2194,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 250;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 250;
                     }
                 });
 
@@ -1997,6 +2209,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "DDADDR_CONTACT";
                     x.Caption = "DD Address & Mobile no.";
                     x.VisibleIndex = 28;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDADDR_CONTACT'");
@@ -2007,11 +2220,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 250;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 250;
                     }
                 });
 
@@ -2020,6 +2235,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "ALT_MOBILENO1";
                     x.Caption = "Alternate Phone No.";
                     x.VisibleIndex = 29;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ALT_MOBILENO1'");
@@ -2030,11 +2246,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 150;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 150;
                     }
                 });
 
@@ -2043,6 +2261,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "SHOP_OWNER_EMAIL2";
                     x.Caption = "Alternate Email ID";
                     x.VisibleIndex = 30;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_OWNER_EMAIL2'");
@@ -2053,11 +2272,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 150;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 150;
                     }
                 });
 
@@ -2066,6 +2287,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "MEETING_ADDRESS";
                     x.Caption = "Meeting Address";
                     x.VisibleIndex = 31;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MEETING_ADDRESS'");
@@ -2076,11 +2298,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 130;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 130;
                     }
                 });
 
@@ -2089,6 +2313,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "MEETINGREMARKS";
                     x.Caption = "Meeting Remarks";
                     x.VisibleIndex = 32;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MEETINGREMARKS'");
@@ -2099,11 +2324,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -2112,6 +2339,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     x.FieldName = "VISITREMARKS";
                     x.Caption = "Feedback";
                     x.VisibleIndex = 33;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VISITREMARKS'");
@@ -2122,19 +2350,76 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 150;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 150;
+                    }
+                });
+
+                //Rev 4.0 Mantis: 0027066 & 0027091
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "PARTYSTATUSTYPE";
+                    x.Caption = "Type";
+                    x.VisibleIndex = 34;
+                    
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUSTYPE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 100;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
                 settings.Columns.Add(x =>
                 {
+                    x.FieldName = "STAGE";
+                    x.Caption = "Stage";
+                    x.VisibleIndex = 35;
+                    
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STAGE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 90;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 90;
+                    }
+                });
+                //End of Rev 4.0 Mantis: 0027066 & 0027091
+
+                settings.Columns.Add(x =>
+                {
                     x.FieldName = "MULTI_CONTACT_NAME";
                     x.Caption = "Contact Name";
-                    x.VisibleIndex = 34;
+                    x.VisibleIndex = 36;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MULTI_CONTACT_NAME'");
@@ -2145,11 +2430,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 140;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 140;
                     }
                 });
 
@@ -2157,7 +2444,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "MULTI_CONTACT_NUMBER";
                     x.Caption = "Contact Number";
-                    x.VisibleIndex = 35;
+                    x.VisibleIndex = 37;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MULTI_CONTACT_NUMBER'");
@@ -2168,11 +2456,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 140;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 140;
                     }
                 });
 
@@ -2180,7 +2470,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_VISIT";
                     x.Caption = "Visit Count";
-                    x.VisibleIndex = 36;
+                    x.VisibleIndex = 38;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTAL_VISIT'");
@@ -2191,11 +2482,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -2203,7 +2496,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "RE_VISITED";
                     x.Caption = "Re Visit";
-                    x.VisibleIndex = 37;
+                    x.VisibleIndex = 39;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RE_VISITED'");
@@ -2214,11 +2508,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -2226,7 +2522,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "NEWSHOP_VISITED";
                     x.Caption = "New Visit";
-                    x.VisibleIndex = 38;
+                    x.VisibleIndex = 40;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='NEWSHOP_VISITED'");
@@ -2237,11 +2534,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -2249,7 +2548,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTMETTING";
                     x.Caption = "Meeting";
-                    x.VisibleIndex = 39;
+                    x.VisibleIndex = 41;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTMETTING'");
@@ -2260,11 +2560,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 90;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 90;
                     }
                 });
 
@@ -2272,7 +2574,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "SPENT_DURATION";
                     x.Caption = "Duration Spend";
-                    x.VisibleIndex = 40;
+                    x.VisibleIndex = 42;
+                    
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SPENT_DURATION'");
@@ -2283,11 +2586,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
 
@@ -2295,7 +2600,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "DISTANCE_TRAVELLED";
                     x.Caption = "Travelled(KM)";
-                    x.VisibleIndex = 41;
+                    x.VisibleIndex = 43;
+                    
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2307,11 +2613,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 110;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 110;
                     }
                 });
 
@@ -2319,7 +2627,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
                     x.Caption = "Sale Value";
-                    x.VisibleIndex = 42;
+                    x.VisibleIndex = 44;
+                    
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2331,11 +2640,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 100;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 100;
                     }
                 });
 
@@ -2343,7 +2654,8 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_COLLECTION";
                     x.Caption = "Collection value";
-                    x.VisibleIndex = 43;
+                    x.VisibleIndex = 45;
+                    
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2355,11 +2667,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         else
                         {
                             x.Visible = true;
+                            x.ExportWidth = 120;
                         }
                     }
                     else
                     {
                         x.Visible = true;
+                        x.ExportWidth = 120;
                     }
                 });
             }

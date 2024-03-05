@@ -1115,6 +1115,13 @@
     <Compile Include="OMS\Management\Store\Settings_Options\sProductMap.aspx.designer.cs">
       <DependentUpon>sProductMap.aspx</DependentUpon>
     </Compile>
+    <Compile Include="OMS\Management\ToolsUtilities\frmchangepassword.aspx.cs">
+      <DependentUpon>frmchangepassword.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OMS\Management\ToolsUtilities\frmchangepassword.aspx.designer.cs">
+      <DependentUpon>frmchangepassword.aspx</DependentUpon>
+    </Compile>
     <Compile Include="OMS\Management\ToolsUtilities\frmchangeuserspassword.aspx.cs">
       <DependentUpon>frmchangeuserspassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2821,6 +2828,7 @@
     <Content Include="OMS\Management\Store\Master\sProducts.aspx" />
     <Content Include="OMS\Management\Store\Master\sSize.aspx" />
     <Content Include="OMS\Management\Store\Settings_Options\sProductMap.aspx" />
+    <Content Include="OMS\Management\ToolsUtilities\frmchangepassword.aspx" />
     <Content Include="OMS\Management\ToolsUtilities\frmchangeuserspassword.aspx" />
     <Content Include="OMS\Management\windowfiles\close.gif" />
     <Content Include="OMS\Management\windowfiles\dhtmlwindow.css" />
