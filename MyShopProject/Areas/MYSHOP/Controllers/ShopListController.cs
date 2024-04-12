@@ -319,14 +319,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                     column.Caption = "Emp ID";
                     column.FieldName = "EMPCODE";
-
+                    column.ExportWidth = 160;
                     });
 
                     settings.Columns.Add(column =>
                     {
                     column.Caption = "Emp Name";
                     column.FieldName = "EMPNAME";
-
+                    column.ExportWidth = 180;
                     });
 
                     //Rev Debashis 0025198
@@ -334,6 +334,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                         column.Caption = "Branch";
                         column.FieldName = "BRANCHDESC";
+                        column.ExportWidth = 180;
                     });
                     //End of Rev Debashis 0025198
 
@@ -342,7 +343,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                     column.Caption = "Contact Person";
                     column.FieldName = "owner_name";
-
+                    column.ExportWidth = 180;
                     });
                     // End of Rev 2.0
 
@@ -350,28 +351,28 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                     column.Caption = "Contact No.";
                     column.FieldName = "user_loginId";
-
+                    column.ExportWidth = 120;
                     });
 
                     settings.Columns.Add(column =>
                     {
                     column.Caption = "Shop Name";
                     column.FieldName = "shop_name";
-
+                        column.ExportWidth = 120;
                     });
 
                     settings.Columns.Add(column =>
                     {
                         column.Caption = "Code";
                         column.FieldName = "EntityCode";
-
+                        column.ExportWidth = 100;
                     });
 
                     settings.Columns.Add(column =>
                     {
                     column.Caption = "Type";
                     column.FieldName = "Shoptype";
-
+                        column.ExportWidth = 100;
                     });
 
                     // Mantis Issue 25421
@@ -379,7 +380,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                         column.Caption = "Beat";
                         column.FieldName = "Beat";
-
+                        column.ExportWidth = 100;
                     });
                     // End of Mantis Issue 25421
 
@@ -387,6 +388,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                         column.Caption = "Owner Contact No.";
                         column.FieldName = "owner_contact_no";
+                        column.ExportWidth = 150;
                     });
 
                     //Rev Debashis -- 0024577
@@ -394,12 +396,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                         column.Caption = "Alternate Phone No.";
                         column.FieldName = "Alt_MobileNo1";
+                        column.ExportWidth = 150;
                     });
 
                     settings.Columns.Add(column =>
                     {
                         column.Caption = "Alternate Email ID";
                         column.FieldName = "Shop_Owner_Email2";
+                        column.ExportWidth = 100;
                     });
                     //End of Rev Debashis -- 0024577
 

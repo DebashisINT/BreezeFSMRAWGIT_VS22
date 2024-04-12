@@ -110,7 +110,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "User";
                 column.FieldName = "UserName";
-
+                column.ExportWidth = 250;
             });
 
 
@@ -118,6 +118,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "Name";
                 column.FieldName = "EmployeeName";
+                column.ExportWidth = 250;
 
             });
 
@@ -125,7 +126,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     column.Caption = "User ID";
                     column.FieldName = "UserLoginID";
-
+                    column.ExportWidth = 150;
                 });
 
 
@@ -134,7 +135,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "Designation";
                 column.FieldName = "Designation";
-
+                column.ExportWidth = 100;
             });
 
 
@@ -143,13 +144,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "State";
                 column.FieldName = "StateName";
-
+                column.ExportWidth = 110;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Last Activity";
                 column.FieldName = "Lastactivity";
+                column.ExportWidth = 130;
 
             });
 
@@ -158,7 +160,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "App Version";
                 column.FieldName = "VersionNumber";
-
+                column.ExportWidth = 130;
             });
 
 

@@ -378,17 +378,41 @@
     {
         x.SetDataItemTemplateContent(tc =>
         {
-            ViewContext.Writer.Write(
-                //Rev 1.0: action icon change
-                //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
-                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
-                 "" +
-                 //"<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
-                 "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><img src=\"../../../assests/images/change-status.png\" /></a>" +
-                  "" +
-                //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
-                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a></div>"
-            );
+            // Rev 3.0
+            //ViewContext.Writer.Write(
+            //    //Rev 1.0: action icon change
+            //    //"<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-3'><i class='fa fa-pencil' aria-hidden='true'></i></span></a>" +
+            //    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
+            //     "" +
+            //     //"<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><span class='ico editColor mr-3'><i class='fa fa-undo' aria-hidden='true'></i></span></a>" +
+            //     "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><img src=\"../../../assests/images/change-status.png\" /></a>" +
+            //      "" +
+            //    //"<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-3'><i class='fa fa-trash' aria-hidden='true'></i></span></a></div>"
+            //    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a></div>"
+            //);
+
+            if (ViewBag.CanDelete )
+            {
+                ViewContext.Writer.Write(
+                    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
+                     "" +
+                     "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><img src=\"../../../assests/images/change-status.png\" /></a>" +
+                      "" +
+                    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a></div>"
+                );
+            }
+            else
+            {
+                ViewContext.Writer.Write(
+                    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
+                     "" +
+                     "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><img src=\"../../../assests/images/change-status.png\" /></a>" 
+                );
+            }
+            // End of Rev Sanchita
+
+
+
         });
         x.Settings.AllowDragDrop = DefaultBoolean.False;
         x.Settings.AllowSort = DefaultBoolean.False;

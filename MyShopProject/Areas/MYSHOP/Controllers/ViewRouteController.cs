@@ -1,6 +1,7 @@
 ﻿/******************************************************************************************************
  * 1.0     01-09-2023       V2.0.38      Sanchita     Distance issue in View route of Nordusk. Refer: 25515
  * 2.0     24-11-2023       V2.0.43      Priti        0027031: Dashboard report issue(check in local Rubyfoods db)
+ * 3.0     03-04-2024       V2.0.46      Sanchita     0027314: The Google API key should store in the database with a new table.
  * ******************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -59,6 +60,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             ViewBag.HeadBranch = omodel.modelbranch;
             ViewBag.h_id = h_id;
             //End of Rev Debashis 0025198
+            
             // Rev 1.0
             string strTotalDistanceShowinViewRouteAsPerGoogleAPI = "0";
             strTotalDistanceShowinViewRouteAsPerGoogleAPI = Convert.ToString(obj.GetDataTable("select [value] from FTS_APP_CONFIG_SETTINGS WHERE [Key]='IsTotalDistanceShowinViewRouteAsPerGoogleAPI'").Rows[0][0]);
@@ -66,7 +68,20 @@ namespace MyShop.Areas.MYSHOP.Controllers
             // End of Rev 1.0
 
             if (settings == "1")
+            // Rev 3.0
+            //  return View(@"IndexGmap");
+            {
+                CommonBL cbl = new CommonBL();
+                ViewBag.GoogleAPIKey = cbl.GetSystemSettingsResult("GoogleMapKey");
+
+                if (ViewBag.GoogleAPIKey != "")
+                    ViewBag.HasGoogleAPIKey = 1;
+                else
+                    ViewBag.HasGoogleAPIKey = 0;
+                
                 return View(@"IndexGmap");
+            }
+            // End of Rev 3.0
             else
                 return View();
         }

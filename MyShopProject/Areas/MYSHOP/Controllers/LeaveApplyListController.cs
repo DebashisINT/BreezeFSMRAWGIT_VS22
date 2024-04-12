@@ -175,7 +175,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "CREATED_DATE";
                 x.Caption = "Apply Date";
                 x.VisibleIndex = 1;
-                x.Width = 100;
+                x.ExportWidth = 90;
                 x.ColumnType = MVCxGridViewColumnType.DateEdit;
                 x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
                 (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -186,7 +186,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "EMP_NAME";
                 x.Caption = "Applied By";
                 x.VisibleIndex = 2;
-                x.Width = 150;
+                x.ExportWidth = 150;
             });
 
             //Rev Debashis 0024681
@@ -195,7 +195,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "EMPID";
                 x.Caption = "Employee Code";
                 x.VisibleIndex = 3;
-                x.Width = 220;
+                x.ExportWidth = 200;
             });
 
             settings.Columns.Add(x =>
@@ -203,7 +203,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "EMPDESG";
                 x.Caption = "Designation";
                 x.VisibleIndex = 4;
-                x.Width = 220;
+                x.ExportWidth = 180;
             });
 
             settings.Columns.Add(x =>
@@ -211,7 +211,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "CONTACTNO";
                 x.Caption = "Contact Number";
                 x.VisibleIndex = 5;
-                x.Width = 220;
+                x.ExportWidth = 130;
             });
             //End of Rev Debashis 0024681
 
@@ -220,7 +220,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "LEAVE_START_DATE";
                 x.Caption = "From Date";
                 x.VisibleIndex = 6;
-                x.Width = 100;
+                x.ExportWidth = 90;
                 x.ColumnType = MVCxGridViewColumnType.DateEdit;
                 x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
                 (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -232,7 +232,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "LEAVE_END_DATE";
                 x.Caption = "To Date";
                 x.VisibleIndex = 7;
-                x.Width = 80;
+                x.ExportWidth = 90;
                 x.ColumnType = MVCxGridViewColumnType.DateEdit;
                 x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
                 (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
@@ -245,7 +245,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "APPLIED_TIME";
                 x.Caption = "Applied time";
                 x.VisibleIndex = 8;
-                x.Width = 100;
+                x.ExportWidth = 110;
             });
             //End of Rev Debashis 0024681
 
@@ -254,7 +254,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "LeaveType";
                 x.Caption = "Leave Type";
                 x.VisibleIndex = 9;
-                x.Width = 200;
+                x.ExportWidth = 120;
 
             });
             settings.Columns.Add(x =>
@@ -262,7 +262,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "LEAVE_REASON";
                 x.Caption = "Remarks";
                 x.VisibleIndex = 10;
-                x.Width = 200;
+                x.ExportWidth = 100;
             });
 
             settings.Columns.Add(x =>
@@ -270,7 +270,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "CURRENT_STATUS";
                 x.Caption = "Status";
                 x.VisibleIndex = 11;
-                x.Width = 200;
+                x.ExportWidth = 100;
             });
 
             settings.Columns.Add(x =>
@@ -278,7 +278,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "APPROVE_EMP_NAME";
                 x.Caption = "Approve/Reject By";
                 x.VisibleIndex = 12;
-                x.Width = 200;
+                x.ExportWidth = 200;
             });
 
             //Rev Debashis 0024681
@@ -287,7 +287,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "AEMPID";
                 x.Caption = "Employee Code";
                 x.VisibleIndex = 13;
-                x.Width = 220;
+                x.ExportWidth = 200;
             });
 
             settings.Columns.Add(x =>
@@ -295,7 +295,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "AEMPDESG";
                 x.Caption = "Designation";
                 x.VisibleIndex = 14;
-                x.Width = 220;
+                x.ExportWidth = 150;
             });
 
             settings.Columns.Add(x =>
@@ -303,7 +303,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "ACONTACTNO";
                 x.Caption = "Contact Number";
                 x.VisibleIndex = 15;
-                x.Width = 220;
+                x.ExportWidth = 150;
             });
 
             settings.Columns.Add(x =>
@@ -311,7 +311,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "APPROVEREJECT_DATE";
                 x.Caption = "Approve/Reject date";
                 x.VisibleIndex = 16;
-                x.Width = 100;
+                x.ExportWidth = 180;
             });
 
             settings.Columns.Add(x =>
@@ -319,7 +319,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "APPROVEREJECT_TIME";
                 x.Caption = "Approve/Reject time";
                 x.VisibleIndex = 17;
-                x.Width = 100;
+                x.ExportWidth = 180;
             });
 
             settings.Columns.Add(x =>
@@ -327,7 +327,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "APPROVER_REMARKS";
                 x.Caption = "Approver Remarks";
                 x.VisibleIndex = 18;
-                x.Width = 220;
+                x.ExportWidth = 180;
             });
             //End of Rev Debashis 0024681
 

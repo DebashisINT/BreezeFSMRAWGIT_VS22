@@ -313,7 +313,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "User";
                 column.FieldName = "name";
-
+                column.ExportWidth = 180;
             });
 
 
@@ -321,7 +321,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "No. Of Shops Visited";
                 column.FieldName = "total_shop_visited";
-
+                column.ExportWidth = 150;
             });
 
 
@@ -329,21 +329,21 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "Total Working Duration";
                 column.FieldName = "active_hrs";
-
+                column.ExportWidth = 150;
 
             });
             settings.Columns.Add(column =>
             {
                 column.Caption = "GPS Inactive Duration";
                 column.FieldName = "inactive_hrs";
-
+                column.ExportWidth = 150;
 
             });
             settings.Columns.Add(column =>
             {
                 column.Caption = "Idle %";
                 column.FieldName = "idle_percentage";
-
+                column.ExportWidth = 100;
 
             });
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;

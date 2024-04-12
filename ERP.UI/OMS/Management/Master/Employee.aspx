@@ -128,18 +128,19 @@
           left: 0;
           height: 21px;
           width: 21px;
-          background-color: #eee;
-          border-radius: 4px;
+          background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #6a6a6a;
         }
 
         /* On mouse-over, add a grey background color */
         .custom-checkbox-single:hover input ~ .checkmark {
-          background-color: #ccc;
+          background-color: #1541a4;
         }
 
         /* When the checkbox is checked, add a blue background */
         .custom-checkbox-single input:checked ~ .checkmark {
-          background-color: #297cbe;
+          background-color: #1541a4;
         }
 
         /* Create the checkmark/indicator (hidden when not checked) */
@@ -156,15 +157,15 @@
 
         /* Style the checkmark/indicator */
         .custom-checkbox-single .checkmark:after {
-              left: 7px;
-              top: 3px;
-              width: 6px;
-              height: 12px;
-              border: solid white;
-              border-width: 0 2px 2px 0;
-          -webkit-transform: rotate(45deg);
-          -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
+              left: 6px;
+            top: 1px;
+            width: 7px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 3px 3px 0;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
         }
 
         /*Rev 3.0*/
@@ -1716,6 +1717,22 @@ padding: 7px;
         background-color: #dadada;
     }
     /*End of Rev 10.0*/
+
+    #divModalBodyBranchMap
+    {
+            max-height: 350px !important;
+    }
+
+    #drdExport
+    {
+        padding: 7px 10px !important;
+    border-radius: 4px !important;
+    }
+
+    #btnViewLog.btn-warning
+    {
+        background: #b6d206 !important;
+    }
     </style>
 
     <script>

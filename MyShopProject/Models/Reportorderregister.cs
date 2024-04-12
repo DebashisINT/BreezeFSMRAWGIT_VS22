@@ -1,4 +1,7 @@
-﻿using Models;
+﻿//====================================================== Revision History ==========================================================
+//1.0  04-04-2024   V2 .0.46   Sanchita  0027345: Two checkbox required in parameter for Order register report.
+//====================================================== Revision History ==========================================================
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +36,10 @@ namespace Models
         public List<string> BranchId { get; set; }
         public List<GetBranch> modelbranch = new List<GetBranch>();
         //End of Rev Debashis 0025198
+        // Rev 1.0
+        public int IsShowMRP { get; set; }
+        public int IsShowDiscount { get; set; }
+        // End of Rev 1.0
     }
 
     public class Reportorderregisteroutput

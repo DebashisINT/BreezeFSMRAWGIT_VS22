@@ -10,6 +10,7 @@
 //                                              Trans_ShopActivitySubmit_TodayData this table through Shopsubmission/ITCShopVisited this api.Refer: 0026359
 //6.0   V2.0.40     Debashis    10/07/2023      A new parameter has been added.Row: 855
 //7.0   V2.0.41     Debashis    15/07/2023      New requirment for Update data.Row: 859
+//8.0   V2.0.45     Debashis    03/04/2024      Some new parameters have been added.Row: 915 & Refer: 0027335
 #endregion===================================End of Revision History======================================================================================================
 using ShopAPI.Models;
 using System;
@@ -104,8 +105,13 @@ namespace ShopAPI.Controllers
                             //End of Rev 2.0 Row:814
                             //Rev 4.0 Row:820
                             distFromProfileAddrKms= s2.distFromProfileAddrKms,
-                            stationCode= s2.stationCode
+                            stationCode= s2.stationCode,
                             //End of Rev 4.0 Row:820
+                            //Rev 8.0 Row: 915 & Refer: 0027335
+                            shop_lat = s2.shop_lat,
+                            shop_long = s2.shop_long,
+                            shop_addr = s2.shop_addr
+                            //End of Rev 8.0 Row: 915 & Refer: 0027335
                         });
 
 
@@ -612,8 +618,13 @@ namespace ShopAPI.Controllers
                             approximate_1st_billing_value = s2.approximate_1st_billing_value,
                             IsShopUpdate = s2.IsShopUpdate,
                             //Rev 6.0 Row: 855
-                            isNewShop= s2.isNewShop
+                            isNewShop= s2.isNewShop,
                             //End of Rev 6.0 Row: 855
+                            //Rev 8.0 Row: 915 & Refer: 0027335
+                            shop_lat = s2.shop_lat,
+                            shop_long= s2.shop_long,
+                            shop_addr= s2.shop_addr
+                            //End of Rev 8.0 Row: 915 & Refer: 0027335
                         });
                     }
 

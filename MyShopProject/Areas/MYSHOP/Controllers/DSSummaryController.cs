@@ -1,5 +1,7 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2 .0.41    Debashis    09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+//2.0   V2 .0.44    Debashis    27/02/2024      'Sale Value' Field required in DS Visit Details/DS Visit Summary.Refer: 0027276
+//3.0   V2.0.45     Debashis    12/04/2024      The above mentioned two DS types need to be considered in the below reports.Refer: 0027360
 #endregion===================================End of Revision History==================================================================
 
 using BusinessLogicLayer.SalesTrackerReports;
@@ -394,7 +396,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "EMPID";
                 //Rev Debashis 0024715
                 //x.Caption = "DS ID";
-                x.Caption = "DS/TL ID";
+                //Rev 3.0 Mantis: 0027360
+                //x.Caption = "DS/TL ID";
+                x.Caption = "DS ID";
+                //End of Rev 3.0 Mantis: 0027360
                 //End of Rev Debashis 0024715
                 x.VisibleIndex = 4;
                 if (ViewBag.RetentionColumn != null)
@@ -425,7 +430,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "EMPNAME";
                 //Rev Debashis 0024715
                 //x.Caption = "DS Name";
-                x.Caption = "DS/TL Name";
+                //Rev 3.0 Mantis: 0027360
+                //x.Caption = "DS/TL Name";
+                x.Caption = "DS Name";
+                //End of Rev 3.0 Mantis: 0027360
                 //End of Rev Debashis 0024715
                 x.VisibleIndex = 5;
                 if (ViewBag.RetentionColumn != null)
@@ -631,6 +639,33 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             });
 
+            //Rev 2.0 Mantis: 0027276
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "SALE_VALUE";
+                x.Caption = "Sale Value";
+                x.VisibleIndex = 12;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SALE_VALUE'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+
+            });
+            //End of Rev 2.0 Mantis: 0027276
+
             //settings.Columns.Add(column =>
             //{
             //    column.Caption = "Distance Travelled(Km.Mtr)";
@@ -640,7 +675,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DISTANCE_TRAVELLED";
                 x.Caption = "Distance Travelled(Km.Mtr)";
-                x.VisibleIndex = 12;
+                x.VisibleIndex = 13;
                 //rev Pratik
                 x.PropertiesEdit.DisplayFormatString = "0.00";
                 //End of rev Pratik
@@ -676,7 +711,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "AVGTIMESPENTINMARKET";
                 x.Caption = "Avg time spent in the market(HH:MM)";
-                x.VisibleIndex = 13;
+                x.VisibleIndex = 14;
                 //x.Width = 180;
                 // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
                 if (ViewBag.RetentionColumn != null)
@@ -709,7 +744,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "AVGSPENTDURATION";
                 x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
-                x.VisibleIndex = 14;
+                x.VisibleIndex = 15;
                 //x.Width = 180;
                 // x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
                 if (ViewBag.RetentionColumn != null)

@@ -1,0 +1,157 @@
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*Written by Sanchita on 27-03-2024 for 2.0.46   New Product Module shall be implemented for ITC. Refer: 27289 *@
+@*====================================================== Revision History ===========================================================*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridProductImportLog";
+    settings.CallbackRouteValues = new { Action = "ImportLog", Controller = "ProductMaster" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(480);
+    settings.Settings.VerticalScrollableHeight = 230;
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    ///settings.ClientSideEvents.BeginCallback = "OnStartLogGridCallback";
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = false;
+    settings.Settings.ShowGroupPanel = false;
+    settings.CommandColumn.Visible = false;
+    settings.Settings.ShowFooter = false;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemCode";
+        x.Caption = "Item Code";
+        x.VisibleIndex = 1;
+        // x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemName";
+        x.Caption = "Item Name";
+        x.VisibleIndex = 2;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemClass";
+        x.Caption = "Item Class/Category";
+        x.VisibleIndex = 3;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemBrand";
+        x.Caption = "Item Brand";
+        x.VisibleIndex = 4;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemStrangth";
+        x.Caption = "Item Strength";
+        x.VisibleIndex = 5;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemPrice";
+        x.Caption = "Item Price";
+        x.VisibleIndex = 6;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemMRP";
+        x.Caption = "Item MRP";
+        x.VisibleIndex = 7;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemStatus";
+        x.Caption = "Item Status";
+        x.VisibleIndex = 8;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ItemUnit";
+        x.Caption = "Item Unit";
+        x.VisibleIndex = 9;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ImportStatus";
+        x.Caption = "Import Status";
+        x.VisibleIndex = 10;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ImportMsg";
+        x.Caption = "Import Msg";
+        x.VisibleIndex = 11;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ImportDate";
+        x.Caption = "Import On";
+        x.VisibleIndex = 12;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+        x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+        (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UpdatedBy";
+        x.Caption = "Updated By";
+        x.VisibleIndex = 13;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+
+}).Bind(Model).GetHtml()

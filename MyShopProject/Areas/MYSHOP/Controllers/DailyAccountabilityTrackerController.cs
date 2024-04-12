@@ -214,7 +214,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.ColumnType = MVCxGridViewColumnType.DateEdit;
                 column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
                 (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-                //column.Width = 100;
+                //column.ExportWidth = 100;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DATE'");
@@ -225,13 +225,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 100;
+                        column.ExportWidth = 80;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 100;
+                    column.ExportWidth = 80;
                 }
             });
 
@@ -240,7 +240,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Employee";
                 column.FieldName = "Employee";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Employee'");
@@ -251,13 +251,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 200;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 200;
                 }
             });
 
@@ -266,7 +266,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Doctor/Lab (Visited)";
                 column.FieldName = "Doctors_Visited";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Doctors_Visited'");
@@ -277,13 +277,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 180;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 180;
                 }
             });
 
@@ -292,7 +292,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Topic of Discussion";
                 column.FieldName = "TopicOfDiscussion";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TopicOfDiscussion'");
@@ -303,13 +303,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -318,7 +318,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Doctor/Lab (Phone)";
                 column.FieldName = "Doctors_Phone";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Doctors_Phone'");
@@ -329,13 +329,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 130;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 130;
                 }
             });
 
@@ -344,7 +344,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Topic of Discussion";
                 column.FieldName = "Doctors_PhoneTopicOfDiscussion";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Doctors_PhoneTopicOfDiscussion'");
@@ -355,13 +355,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -370,7 +370,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "DoctorsWhatsApp";
                 column.Caption = "Doctor/Lab (Social Media)";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorsWhatsApp'");
@@ -381,13 +381,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -396,7 +396,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "DoctorsWhatsApp_TopicOfDiscussion";
                 column.Caption = "Topic of Discussion";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 200;
+                //column.ExportWidth = 200;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorsWhatsApp_TopicOfDiscussion'");
@@ -407,13 +407,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 200;
+                        column.ExportWidth = 200;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 200;
+                    column.ExportWidth = 200;
                 }
             });
 
@@ -422,7 +422,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Doctor/Lab (Others)";
                 column.FieldName = "DoctorsOthers";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 180;
+                //column.ExportWidth = 180;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorsOthers'");
@@ -433,13 +433,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 180;
+                        column.ExportWidth = 180;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 180;
+                    column.ExportWidth = 180;
                 }
             });
 
@@ -448,7 +448,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "DoctorsOthers_TopicOfDiscussion";
                 column.Caption = "Topic of Discussion";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 250;
+                //column.ExportWidth = 250;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorsOthers_TopicOfDiscussion'");
@@ -459,13 +459,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 250;
+                        column.ExportWidth = 250;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 250;
+                    column.ExportWidth = 250;
                 }
             });
 
@@ -474,7 +474,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "DoctorLead";
                 column.Caption = "Doctor/Lab - Lead";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorLead'");
@@ -485,13 +485,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -500,7 +500,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "DoctorSamplePickedUp";
                 column.Caption = "Doctor/Lab (Sample Picked Up)";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorSamplePickedUp'");
@@ -511,13 +511,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -526,7 +526,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Order Amount";
                 column.FieldName = "OrderAmount";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OrderAmount'");
@@ -537,13 +537,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 120;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 120;
                 }
             });
 
@@ -552,7 +552,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Doctor/Lab (Sample Actual)";
                 column.FieldName = "DoctorSampleActual";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorSampleActual'");
@@ -563,13 +563,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -578,7 +578,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Inv. Amount";
                 column.FieldName = "InvAmount";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='InvAmount'");
@@ -589,13 +589,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 120;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 120;
                 }
             });
 
@@ -604,7 +604,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Doctor/Lab Amount Rec.";
                 column.FieldName = "DoctorLabAmountRec";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DoctorLabAmountRec'");
@@ -615,13 +615,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -630,7 +630,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Collection Amt.";
                 column.FieldName = "CollectionAmt";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                //column.Width = 150;
+                //column.ExportWidth = 150;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CollectionAmt'");
@@ -641,13 +641,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
-                        column.Width = 150;
+                        column.ExportWidth = 120;
                     }
                 }
                 else
                 {
                     column.Visible = true;
-                    column.Width = 150;
+                    column.ExportWidth = 120;
                 }
             });
 

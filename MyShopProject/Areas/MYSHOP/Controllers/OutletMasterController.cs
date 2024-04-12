@@ -5,6 +5,7 @@
 //                                              It will the Showing status 'Active' or 'Inactive'. refer: 26240
 //4.0   V2 .0.41    Debashis    09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
 //5.0   V2.0.43     Sanchita    06/09/2023      A new user wise settings required named as ShowLatLongInOutletMaster. Refer: 26794
+//6.0   V2.0.46     Sanchita    03/04/2024      0027343: Employee Outlet Master : Report parameter one check box required 'Consider Inactive Outlets'
 #endregion===================================End of Revision History==================================================================
 
 using BusinessLogicLayer;
@@ -201,7 +202,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     //Rev 2.0 0026020
                     //dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id);
-                    dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id,model.is_pageload);
+                    // Rev 6.0
+                    //dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id,model.is_pageload);
+                    dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id, model.is_pageload, model.IsInactiveOutlets);
+                    // End of Rev 6.0
                     //End of Rev 2.0 0026020
                 }
                 //dt = GetEmployeeOutletMaster(Employee, FromDate, ToDate, Branch_Id);
@@ -233,7 +237,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         //Rev 2.0 0026020
         //public DataTable GetEmployeeOutletMaster(string Employee, string start_date, string end_date, string Branch_Id)
-        public DataTable GetEmployeeOutletMaster(string Employee, string start_date, string end_date, string Branch_Id,string IsPageLoad)
+        // Rev 6.0
+        //public DataTable GetEmployeeOutletMaster(string Employee, string start_date, string end_date, string Branch_Id,string IsPageLoad)
+        public DataTable GetEmployeeOutletMaster(string Employee, string start_date, string end_date, string Branch_Id, string IsPageLoad, string IsInactiveOutlets)
+        // End of Rev 6.0
         //End of Rev 2.0 0026020
         {
             DataTable ds = new DataTable();
@@ -246,6 +253,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
             proc.AddPara("@ISPAGELOAD", IsPageLoad);
             //End of Rev 2.0 0026020
             proc.AddPara("@USERID", Convert.ToInt32(Session["userid"]));
+            // Rev 6.0
+            proc.AddPara("@ISINACTIVEOUTLETS", IsInactiveOutlets);
+            // End of Rev 6.0
             ds = proc.GetTable();
             return ds;
         }

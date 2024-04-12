@@ -8,6 +8,7 @@
 // 5.0      v2.0.43    Sanchita    16-10-2023  On demand search is required in Product Master & Projection Entry
 //                                             Mantis: 26858
 // 6.0      V2.0.44    Sanchita    12-12-2023  A new design page is required as Contact (s) under CRM menu. Mantis: 27034  
+// 7.0      V2.0.46    Sanchita    11/04/2024  0027348: FSM: Master > Contact > Parties [Delete Facility]
 // ********************************************************************************************************************
 using DataAccessLayer;
 using Models;
@@ -433,6 +434,37 @@ namespace MyShop.Models
             return Projlist;
         }
         // End of Rev 5.0
+        // Rev 7.0
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetShopListForMassDelete(string SearchKey)
+        {
+            List<ShopMassDeleteModel> listShop = new List<ShopMassDeleteModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                //DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_FTSInsertUpdateNewParty");
+                proc.AddPara("@ACTION", "GetMassDeleteShopList");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                DataTable Shop = proc.GetTable();
+
+                listShop = (from DataRow dr in Shop.Rows
+                                select new ShopMassDeleteModel()
+                                {
+                                    Shop_Code = dr["Shop_Code"].ToString(),
+                                    Shop_Name = dr["Shop_Name"].ToString(),
+                                    Entity_Location = Convert.ToString(dr["Entity_Location"]),
+                                    //EntityCode = Convert.ToString(dr["EntityCode"]),
+                                    //Shop_Owner_Contact = Convert.ToString(dr["Shop_Owner_Contact"]),
+                                    ShopType_Name = dr["ShopType_Name"].ToString()
+                                }).ToList();
+            }
+
+            return listShop;
+        }
+        // End of Rev 7.0
     }
 
     public class PPModel
@@ -496,4 +528,15 @@ namespace MyShop.Models
         public string USER_LOGINID { get; set; }
     }
     // End of Rev 6.0
+    // Rev 7.0
+    public class ShopMassDeleteModel
+    {
+        public string Shop_Code { get; set; }
+        public string Shop_Name { get; set; }
+        public string Entity_Location { get; set; }
+       // public string EntityCode { get; set; }
+       // public string Shop_Owner_Contact { get; set; }
+        public string ShopType_Name { get; set; }
+    }
+    // End of Rev 7.0   
 }

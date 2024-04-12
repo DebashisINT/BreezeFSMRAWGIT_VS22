@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                27-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                23-01-2024        2.0.45           Sanchita            27202: Changes in Travel Allowance Report*@
 @*====================================================== Revision History ==========================================================*@
 
 @using MyShop.Models;
@@ -525,12 +526,16 @@
     .btn .caret {
         display: none;
     }
-    .iminentSpan button.multiselect.dropdown-toggle
-    {
+
+    .iminentSpan button.multiselect.dropdown-toggle {
         height: 34px;
     }
-    
+
     /*Rev end 1.0*/
+
+    .iminentSpan .multiselect-container.dropdown-menu {
+        max-height: 320px !important;
+    }
 </style>
 
 <script>
@@ -548,7 +553,10 @@
     $(function () {
 
         $('.clsModeofTravel').show();
-        $('.clsFuelType').show();
+        // Rev 2.0
+        //$('.clsFuelType').show();
+        $('.clsFuelType').hide();
+        // End of Rev 2.0
         $('.clsSeacrhbtndiv').removeClass('btnshortcls');
 
         $("#ddlModeOfTravel").change(function () {
@@ -590,6 +598,21 @@
 
             }
         }).multiselect('selectAll', false).multiselect('updateButtonText');
+
+        // Rev 2.0
+        $('.multiselect1').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            buttonWidth: '100%',
+            maxHeight: 200,
+
+            onDropdownHide: function (event) {
+
+            }
+        })//.multiselect('selectAll', false).multiselect('updateButtonText');
+        // End of Rev 2.0
+
         //stateids = $('.multiselect').val();
     });
 
@@ -731,18 +754,20 @@
             @*<div class="col-lg-3 lblmTop8 clsModeofTravel">*@
             <div class="col-lg-3 lblmTop8 clsModeofTravel h-branch-select">
                 @*Rev end 1.0*@
+                @*Rev 2.0 [ changed class from "multiselect" to "multiselect1" ] *@
                 <label><b> Mode of Travel</b></label>
                 <div class="iminentSpan">
-                    @Html.DropDownList("ddlModeOfTravel", new SelectList(Model.ModeOfTravelList, "Value", "Text"), new { @id = "ddlModeOfTravel", @class = "form-control multiselect ", @multiple = "multiple" })
+                    @Html.DropDownList("ddlModeOfTravel", new SelectList(Model.ModeOfTravelList, "Value", "Text"), new { @id = "ddlModeOfTravel", @class = "form-control multiselect1 ", @multiple = "multiple" })
                 </div>
             </div>
             @*Rev 1.0*@
             @*<div class="col-lg-3 lblmTop8 clsFuelType">*@
             <div class="col-lg-3 lblmTop8 clsFuelType h-branch-select">
                 @*Rev end 1.0*@
+                @*Rev 2.0 [ changed class from "multiselect" to "multiselect1" ] *@
                 <label><b> Fuel Type</b></label>
                 <div class="iminentSpan">
-                    @Html.DropDownList("ddlFuelType", new SelectList(Model.FuelTypeList, "Value", "Text"), new { @id = "ddlFuelType", @class = "form-control multiselect ", @multiple = "multiple" })
+                    @Html.DropDownList("ddlFuelType", new SelectList(Model.FuelTypeList, "Value", "Text"), new { @id = "ddlFuelType", @class = "form-control multiselect1 ", @multiple = "multiple" })
                 </div>
             </div>
 

@@ -640,12 +640,12 @@ ul{
     background:#1d97e2;
 }
 
-.hoverMenu:hover.mp{
-    background:#27a955; 
-}
-.hoverMenu:hover.trc{
-    background:#f066a6; 
-}
+    .hoverMenu:hover.mp {
+        background: #1d97e2;
+    }
+    .hoverMenu:hover.trc {
+        background: #1d97e2;
+    }
 
 /*.hoverMenu:hover span.text{
     display:inline-block;

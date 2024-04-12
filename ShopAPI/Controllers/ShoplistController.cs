@@ -4,6 +4,9 @@
 //3.0   V2.0.40     Debashis    30/06/2023      One new method has been added.Row: 852
 //4.0   V2.0.42     Debashis    06/10/2023      One new parameter has been added.Row: 867 & 873
 //5.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 892 & 895
+//6.0   V2.0.45     Debashis    14/03/2024      One new method has been added.Row: 902 & Refer: 0027309
+//7.0   V2.0.45     Debashis    03/04/2024      One new method has been added.Row: 914
+//8.0   V2.0.45     Debashis    11/04/2024      One new method has been added.Row: 917 & 918
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -288,6 +291,9 @@ namespace ShopAPI.Controllers
                 sqlcmd.Parameters.AddWithValue("@assign_to", omm.assign_to);
                 sqlcmd.Parameters.AddWithValue("@saved_from_status", omm.saved_from_status);
                 //End of Rev 5.0 Row: 892
+                //Rev 8.0 Row: 917
+                sqlcmd.Parameters.AddWithValue("@isFromCRM", omm.isFromCRM);
+                //End of Rev 8.0 Row: 917
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -436,6 +442,9 @@ namespace ShopAPI.Controllers
                 sqlcmd.Parameters.AddWithValue("@assign_to", omm.assign_to);
                 sqlcmd.Parameters.AddWithValue("@saved_from_status", omm.saved_from_status);
                 //End of Rev 5.0 Row: 895
+                //Rev 8.0 Row: 918
+                sqlcmd.Parameters.AddWithValue("@isFromCRM", omm.isFromCRM);
+                //End of Rev 8.0 Row: 918
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -930,5 +939,79 @@ namespace ShopAPI.Controllers
             }
         }
         //End of Rev 3.0 Row: 852
+
+        //Rev 6.0 Row: 902 & Refer: 0027309
+        [HttpPost]
+        public HttpResponseMessage ITCShopAddressEdit(ITCShopAddressEditInput model)
+        {
+            ITCShopAddressEditOutput omodel = new ITCShopAddressEditOutput();
+            List<ITCAddressEditShopList> omedl2 = new List<ITCAddressEditShopList>();
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    omodel.status = "213";
+                    omodel.message = "Some input parameters are missing.";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+                }
+                else
+                {
+                    String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
+
+                    foreach (var s2 in model.shop_list)
+                    {
+                        omedl2.Add(new ITCAddressEditShopList()
+                        {
+                            shop_id = s2.shop_id,
+                            shop_updated_lat= s2.shop_updated_lat,
+                            shop_updated_long= s2.shop_updated_long,
+                            shop_updated_address= s2.shop_updated_address,
+                            //Rev 7.0 Row: 914
+                            pincode= s2.pincode
+                            //End of Rev 7.0 Row: 914
+                        });
+                    }
+
+                    string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
+                    DataTable dt = new DataTable();
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcmd.CommandTimeout = 60;
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("PRC_APIGETMODIFIEDSHOPLISTS", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "SHOPADDRESSEDIT");
+                    sqlcmd.Parameters.AddWithValue("@User_id", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@JsonXML", JsonXML);
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(dt);
+                    sqlcon.Close();
+
+                    if (dt.Rows.Count > 0 && Convert.ToString(dt.Rows[0]["STRMESSAGE"]) == "Success")
+                    {
+                        omodel.status = "200";
+                        omodel.message = "Update Successfully.";
+                    }
+                    else
+                    {
+                        omodel.status = "205";
+                        omodel.message = "Records not updated.";
+                    }
+                    var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                omodel.status = "204";
+                omodel.message = ex.Message;
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+        //End of Rev 6.0 Row: 902 & Refer: 0027309
     }
 }

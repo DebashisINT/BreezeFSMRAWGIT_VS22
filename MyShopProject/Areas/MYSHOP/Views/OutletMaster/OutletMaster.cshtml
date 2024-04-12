@@ -1,6 +1,8 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                06-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*2.0                03-04-2024        2.0.46           Sanchita            0027343: Employee Outlet Master : Report parameter one check 
+                                                                            box required 'Consider Inactive Outlets' *@
 @*====================================================== Revision History ==========================================================*@
 
 @model MyShop.Models.OutletMasterReport
@@ -220,6 +222,14 @@
         e.customArgs["BranchId"] = BranchId;
         e.customArgs["empcode"] = empId;
         e.customArgs["is_pageload"] = is_pageload;
+        // Rev 2.0
+        if ($('#IsInactiveOutlets').prop('checked')) {
+            e.customArgs["IsInactiveOutlets"] = 1;
+        }
+        else {
+            e.customArgs["IsInactiveOutlets"] = 0;
+        }
+        // End of Rev 2.0
 
         // alert(e.customArgs["BranchId"]);
 
@@ -462,15 +472,15 @@
         background: #ababab !important;
     }
 
-        .chosen-container-single .chosen-single div {
-            background: #094e8c;
-            color: #fff;
-            border-radius: 4px;
-            height: 30px;
-            top: 1px;
-            right: 1px;
-            /*position:relative;*/
-        }
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
 
         .chosen-container-single .chosen-single div b {
             display: none;
@@ -1426,9 +1436,6 @@
                                 <label for="">Select All</label>
                                 @*Rev end 1.0*@
                             </td>
-
-
-
                         </tr>
                         <tr>
 
@@ -1491,7 +1498,14 @@
                                 <input class="styled-checkbox" type="checkbox" id="IsEmpDSAll" name="IsEmpDSAll" onchange="CheckEmployeeDSSelection()" value="0">
                                 <label for="">Select All</label>
                             </td>
-
+                            @*Rev 2.0*@
+                            <td class="w20 inputSpacer" colspan="2">
+                                <input class="styled-checkbox" type="checkbox" id="IsInactiveOutlets" name="IsInactiveOutlets" value="0">
+                                <label for="">Consider Inactive Outlets</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            @*End of Rev 2.0*@
 
 
                             <td style="padding-top: 22px;width:200px;">

@@ -1,0 +1,88 @@
+﻿@Html.DevExpress().GridLookup(
+    settings =>
+    {
+        settings.Properties.Caption = "";
+        settings.Properties.CaptionCellStyle.CssClass = "hide";
+        settings.Name = "PartyTypeGridLookup";
+        settings.KeyFieldName = "SHOP_TYPEID";
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        //settings.CommandColumn.Visible = true;
+        // settings.CommandColumn.ShowSelectCheckbox = true;
+        //settings.Properties.EnableClientSideAPI = true;
+        settings.Properties.ClientInstanceName = "PartyTypeGridLookup";
+        settings.GridViewClientSideEvents.SelectionChanged = "PartyTypeSelectionChanged";
+        settings.Properties.ClientSideEvents.ValueChanged = "PartyTypeSelectionChanged";
+        settings.GridViewClientSideEvents.BeginCallback = "PartyTypeStartCallback";
+
+        settings.Properties.ClientSideEvents.ValueChanged = "PartyTypeLookupValChange";
+        settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
+        settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+
+        //settings.GridViewClientSideEvents.BeginCallback = "OnSelectionChanged";
+        //settings.GridViewClientSideEvents.SelectionChanged = "OnSelectionChanged";
+
+        settings.CommandColumn.Visible = true;
+        settings.CommandColumn.ShowSelectCheckbox = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.None;
+
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "NAME";
+            column.Caption = "Name";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(85);
+        });
+
+        settings.Properties.Caption = " ";
+        settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
+        settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
+
+        //  settings.Properties.TextFormatString = "{1}";
+        settings.Properties.MultiTextSeparator = ", ";
+        // settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
+        settings.Properties.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+
+        settings.GridViewProperties.CallbackRouteValues = new { Controller = "ViewGeography", Action = "GetPartyTypeList" };
+        // settings.GridViewClientSideEvents.BeginCallback = "function(s,e){OnBeginCallback(s,e);}";
+        settings.GridViewProperties.Settings.ShowFilterRow = true;
+        settings.GridViewProperties.Settings.ShowStatusBar = GridViewStatusBarMode.Visible;
+        settings.GridViewProperties.SetStatusBarTemplateContent(c =>
+        {
+
+            ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+            Html.DevExpress().Button(btnSettings =>
+            {
+                btnSettings.Name = "btnDeSelectAllParty";
+                btnSettings.UseSubmitBehavior = false;
+                btnSettings.Text = "DeSelect All";
+                btnSettings.ClientSideEvents.Click = "DeSelectAllPartyTypeGridLookup";
+                //btnSettings.ClientSideEvents.Click = "BranchSelectionChanged";
+                //btnSettings.ClientSideEvents.CheckedChanged = "SelectAllBranchSelectionChanged";
+                //btnSettings..BranchSelectionChanged = "OnSelectionChanged";
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+            ViewContext.Writer.Write("<div style=\"padding: 2px 8px 2px 0; float: right\">");
+            Html.DevExpress().Button(btnSettings =>
+            {
+                btnSettings.Name = "btnSelectAllParty";
+                btnSettings.UseSubmitBehavior = false;
+                btnSettings.Text = "Select All";
+                btnSettings.ClientSideEvents.Click = "SelectAllPartyTypeGridLookup";
+                //btnSettings.ClientSideEvents.Click = "BranchSelectionChanged";
+                //btnSettings.ClientSideEvents.CheckedChanged = "SelectAllBranchSelectionChanged";
+                //btnSettings..BranchSelectionChanged = "OnSelectionChanged";
+            }).Render();
+            ViewContext.Writer.Write("</div>");
+        });
+
+        settings.DataBound = (sender, e) =>
+        {
+            var gridLookup = (MVCxGridLookup)sender;
+            gridLookup.GridView.Width = 310;
+        };
+
+    }).BindList(Model).GetHtml()
+
+

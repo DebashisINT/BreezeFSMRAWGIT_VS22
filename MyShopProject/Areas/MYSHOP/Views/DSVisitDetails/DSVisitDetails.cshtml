@@ -1,6 +1,8 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                06-02-2023        2.0.39           Pallab              25576: Report page design modification *@
+@*2.0                12-04-2024        V2.0.45          Debashis            The above mentioned two DS types need to be considered in
+                                                                            the below reports.Refer: 0027360*@
 @*====================================================== Revision History ==========================================================*@
 
 @model MyShop.Models.DSVisitDetailsReport
@@ -164,7 +166,10 @@
                 if ($("#hdnEmployeeDSId").val() == null || $("#hdnEmployeeDSId").val() == "") {
                     //Rev Debashis 0024715
                     //jAlert("Please select Employee with designation DS.");
-                    jAlert("Please select Employee with designation DS/TL.");
+                    //Rev 2.0 Mantis: 0027360
+                    /*jAlert("Please select Employee with designation DS/TL.");*/
+                    jAlert("Please select Employee with designation DS.");
+                    //End of Rev 2.0 Mantis: 0027360
                     //End of Rev Debashis 0024715
                     flag = false;
                     return false;
@@ -1443,7 +1448,10 @@
                             <td class="w150">
                                 @*Rev Debashis 0024715*@
                                 @*<label>Select DS(s)</label>*@
-                                <label>Select DS/TL(s)</label>
+                                @*Rev 2.0 Mantis: 0027360*@
+                                @*<label>Select DS/TL(s)</label>*@
+                                <label>Select DS(s)</label>
+                                @*End of Rev 2.0 Mantis: 0027360*@
                                 @*End of Rev Debashis 0024715*@
                                 <div>
                                     @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
@@ -1607,7 +1615,10 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 @*Rev Debashis 0024715*@
                 @*<h4 class="modal-title">Employee(DS) Search</h4>*@
-                <h4 class="modal-title">Employee(DS/TL) Search</h4>
+                @*Rev 2.0 Mantis: 0027360*@
+                @*<h4 class="modal-title">Employee(DS/TL) Search</h4>*@
+                <h4 class="modal-title">Employee(DS) Search</h4>
+                @*End of Rev 2.0 Mantis: 0027360*@
                 @*End of Rev Debashis 0024715*@
             </div>
             <div class="modal-body">

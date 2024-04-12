@@ -1,4 +1,7 @@
-﻿using Models;
+﻿#region======================================Revision History=========================================================================
+//1.0   V2 .0.44    Debashis    27/02/2024      'Sale Value' Field required in DS Visit Details/DS Visit Summary.Refer: 0027276
+#endregion===================================End of Revision History==================================================================
+using Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -62,6 +65,9 @@ namespace MyShop.Models
         public string NEWSHOP_VISITED { get; set; }
         public string RE_VISITED { get; set; }
         public string TOTAL_VISIT { get; set; }
+        //Rev 1.0 Mantis: 0027276
+        public string SALE_VALUE { get; set; }
+        //End of Rev 1.0 Mantis: 0027276
         public string DISTANCE_TRAVELLED { get; set; }
         public string AVGTIMESPENTINMARKET { get; set; }
         public string AVGSPENTDURATION { get; set; }

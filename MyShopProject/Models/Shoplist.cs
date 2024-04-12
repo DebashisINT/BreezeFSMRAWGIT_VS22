@@ -1,8 +1,8 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2.0.38     Debashis    23/01/2023      Multiple contact information to be displayed in the Shops report.
 //                                              Refer: 0025585
-//2.0   V2 .0.39    PRITI       13/02/2023      0025663:Last Visit fields shall be available in Outlet Reports*@
-
+//2.0   V2.0.39    PRITI       13/02/2023      0025663:Last Visit fields shall be available in Outlet Reports*@
+//3.0   V2.0.45    Sanchita    22/01/2024      Supervisor name column is required in Shops report. Mantis: 27199
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -204,6 +204,9 @@ namespace Models
         public string LASTVISITTIME { get; set; }
         public string LASTVISITEDBY { get; set; }
         //REV 2.0 END
+        // Rev 3.0
+        public string REPORTTO_NAME { get; set; }
+        // End of Rev 3.0
     }
 
     public class shopTypes

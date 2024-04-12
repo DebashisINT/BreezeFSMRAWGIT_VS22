@@ -194,7 +194,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.ColumnType = MVCxGridViewColumnType.DateEdit;
                 column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
                 (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-                column.Width = 100;
+                column.ExportWidth = 100;
             });
 
             settings.Columns.Add(column =>
@@ -202,7 +202,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Employee";
                 column.FieldName = "Employee";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 180;
+                column.ExportWidth = 200;
             });
 
             settings.Columns.Add(column =>
@@ -210,7 +210,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "State";
                 column.FieldName = "STATE_NAME";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 180;
+                column.ExportWidth = 140;
             });
 
             settings.Columns.Add(column =>
@@ -218,7 +218,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "District";
                 column.FieldName = "DISTRICT";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 180;
+                column.ExportWidth = 140;
             });
 
             settings.Columns.Add(column =>
@@ -226,7 +226,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "Supervisor";
                 column.Caption = "Supervisor";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 180;
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
@@ -234,7 +234,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Designation";
                 column.FieldName = "Designation";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
@@ -242,7 +242,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "DEPARTMENT";
                 column.Caption = "Department";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -250,7 +250,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Customer Name";
                 column.FieldName = "CustomerName";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 180;
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
@@ -258,7 +258,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Party Type";
                 column.FieldName = "Party_Type";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 180;
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
@@ -266,7 +266,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Type";
                 column.FieldName = "Type";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 180;
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
@@ -274,7 +274,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Entity Type";
                 column.FieldName = "Entity_Type";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -282,7 +282,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Customer Address";
                 column.FieldName = "CustomerAddress";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 300;
+                column.ExportWidth = 300;
             });
 
             settings.Columns.Add(column =>
@@ -290,7 +290,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "ContactNo";
                 column.Caption = "Contact No";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 100;
+                column.ExportWidth = 100;
             });
 
             settings.Columns.Add(column =>
@@ -298,7 +298,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Assoc. Customer";
                 column.FieldName = "Assoc_Customer";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 180;
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
@@ -306,7 +306,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Mail Id";
                 column.FieldName = "MailId";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 100;
+                column.ExportWidth = 200;
             });
 
             settings.Columns.Add(column =>
@@ -314,7 +314,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "Model";
                 column.Caption = "Model";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -322,7 +322,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Primary Application";
                 column.FieldName = "PrimaryApplication";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
 
             });
 
@@ -331,7 +331,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Secondary Application";
                 column.FieldName = "SecondaryApplication";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -339,7 +339,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "BookingAmount";
                 column.Caption = "Booking Amount";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 130;
             });
 
             settings.Columns.Add(column =>
@@ -347,7 +347,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Lead Type";
                 column.FieldName = "LeadType";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -355,7 +355,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "Stage";
                 column.Caption = "Stage";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -363,7 +363,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Funnel Stage";
                 column.FieldName = "FunnelStage";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -371,7 +371,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Feedback";
                 column.FieldName = "Feedback";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
 
@@ -380,7 +380,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "DD Type";
                 column.FieldName = "DD_Type";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
 
             });
 
@@ -390,7 +390,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Shop Type";
                 column.FieldName = "Shop_Type";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -398,14 +398,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Party Status";
                 column.FieldName = "Party_Status";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
             settings.Columns.Add(column =>
             {
                 column.Caption = "Group/Beat";
                 column.FieldName = "Group_Beat";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
             
 
@@ -414,7 +414,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Account Holder";
                 column.FieldName = "Account_Holder";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -422,7 +422,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Bank Name";
                 column.FieldName = "Bank_Name";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
 
@@ -431,7 +431,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Account No";
                 column.FieldName = "Account_No";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -439,7 +439,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "IFSC Code";
                 column.FieldName = "IFSC_Code";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
@@ -447,7 +447,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "UPI ID";
                 column.FieldName = "UPI_ID";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
 
             //Rev 1.0
@@ -456,21 +456,21 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "LASTVISITDATE";
                 column.Caption = "Last Visit Date";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 120;
             });
             settings.Columns.Add(column =>
             {
                 column.FieldName = "LASTVISITTIME";
                 column.Caption = "Last Visit Time";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 120;
             });
             settings.Columns.Add(column =>
             {
                 column.FieldName = "LASTVISITEDBY";
                 column.Caption = "Last Visited By";
                 column.ColumnType = MVCxGridViewColumnType.TextBox;
-                column.Width = 150;
+                column.ExportWidth = 150;
             });
             //Rev 1.0 End
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;

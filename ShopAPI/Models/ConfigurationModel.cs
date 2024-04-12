@@ -1,4 +1,4 @@
-﻿#region======================================Revision History=========================================================
+﻿#region======================================Revision History=====================================================================
 //1.0   V2.0.32     Debashis    17/01/2023      A new parameter has been added.Row: 797
 //2.0   V2.0.38     Debashis    25/01/2023      A new parameter has been added.Row: 808
 //3.0   V2.0.38     Debashis    02/02/2023      Some new parameters have been added.Row: 809
@@ -20,7 +20,12 @@
 //19.0  V2.0.42     Debashis    16/11/2023      Some new parameters have been added.Row: 879
 //20.0  V2.0.42     Debashis    04/12/2023      A new parameter has been added.Row: 866
 //21.0  V2.0.42     Debashis    22/12/2023      Some new parameters have been added.Row: 891
-#endregion===================================End of Revision History==================================================
+//22.0  V2.0.44     Debashis    05/01/2024      A new parameter has been added.Row: 899 & Refer: 0027139
+//23.0  V2.0.44     Debashis    20/02/2024      A new parameter has been added.Row: 900 & Refer: 0027245
+//24.0  V2.0.45     Debashis    14/03/2024      Some new parameters have been added.Row: 901 & Refer: 0027279,0027285 & 0027282
+//25.0  V2.0.45     Debashis    03/04/2024      Some new parameters have been added.Row: 903
+//26.0  V2.0.44     Debashis    03/04/2024      A new parameter has been added.Row: 904
+#endregion===================================End of Revision History==============================================================
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -280,6 +285,24 @@ namespace ShopAPI.Models
         public bool IsGPSRouteSync { get; set; }
         public bool IsSyncBellNotificationInApp { get; set; }
         //End of Rev 21.0 Row:891
+        //Rev 22.0 Row: 899 & Refer: 0027139
+        public bool IsShowCustomerLocationShare { get; set; }
+        //End of Rev 22.0 Row: 899 & Refer: 0027139
+        //Rev 23.0 Row: 900 & Refer: 0027245
+        public bool AdditionalInfoRequiredForTimelines { get; set; }
+        //End of Rev 23.0 Row: 900 & Refer: 0027245
+        //Rev 24.0 Row: 901 & Refer: 0027279,0027285 & 0027282
+        public bool ShowPartyWithGeoFence { get; set; }
+        public bool ShowPartyWithCreateOrder { get; set; }
+        public string Allow_past_days_for_apply_reimbursement { get; set; }
+        //End of Rev 24.0 Row: 901 & Refer: 0027279,0027285 & 0027282
+        //Rev 25.0 Row: 903
+        public string loc_k { get; set; }
+        public string firebase_k { get; set; }
+        //End of Rev 25.0 Row: 903
+        //Rev 26.0 Row: 904
+        public bool IsShowLeaderBoard { get; set; }
+        //End of Rev 26.0 Row: 904
     }
 
     public class ConfigurationModelInput
