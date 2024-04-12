@@ -1,6 +1,7 @@
 ﻿//====================================================== Revision History ==========================================================
 //1.0  20-07-2023   V2.0.42   Priti     0026135: Branch Parameter is required for various FSM reports
 //2.0  07-11-2023   V2.0.43   Sanchita  0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
+//3.0  18-01-2024   V2.0.44   Pallab    0027197: Compact column width required in the Employee Activity Details report grid excel export.
 //====================================================== Revision History ==========================================================
 using BusinessLogicLayer.SalesmanTrack;
 using BusinessLogicLayer.SalesTrackerReports;
@@ -273,7 +274,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             settings.Name = "Employee Activity Details";
             settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
             settings.SettingsExport.FileName = "EmployeeActivityDetails";
-
+            //Rev 3.0 Mantis: "column.ExportWidth" added in all columns and column width adjustment for export excel
             settings.Columns.Add(column =>
             {
                 column.Caption = "Employee ID";
@@ -288,11 +289,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 200;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 200;
                 }
                 column.FixedStyle = GridViewColumnFixedStyle.Left;
             });
@@ -311,11 +314,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 200;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 200;
                 }
                 column.FixedStyle = GridViewColumnFixedStyle.Left;
             });
@@ -334,11 +339,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 200;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 200;
                 }
             });
 
@@ -356,11 +363,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -378,11 +387,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 180;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 180;
                 }
             });
 
@@ -400,11 +411,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 210;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 210;
                 }
             });
 
@@ -422,11 +435,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 150;
                 }
             });
 
@@ -444,17 +459,19 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 150;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 150;
                 }
             });
 
             settings.Columns.Add(column =>
             {
-                column.Caption = "Mobile No.";
+                column.Caption = "Entity Type";
                 column.FieldName = "ENTITYTYPE";
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -466,11 +483,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 110;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 110;
                 }
             });
 
@@ -488,11 +507,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 110;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 110;
                 }
             });
 
@@ -510,11 +531,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 280;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 280;
                 }
             });
 
@@ -533,11 +556,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 110;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 110;
                 }
             });
 
@@ -556,11 +581,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 110;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 110;
                 }
             });
 
@@ -578,11 +605,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 100;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 100;
                 }
 
             });
@@ -601,11 +630,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 90;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 90;
                 }
             });
 
@@ -624,11 +655,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 100;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 100;
                 }
             });
 
@@ -646,11 +679,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     else
                     {
                         column.Visible = true;
+                        column.ExportWidth = 90;
                     }
                 }
                 else
                 {
                     column.Visible = true;
+                    column.ExportWidth = 90;
                 }
             });
 

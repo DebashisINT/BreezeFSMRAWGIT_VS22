@@ -2,6 +2,7 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                20-01-2023        V2.0.38           Pallab              0025576: Report page design modification *@
 @*2.0                19-07-2023        V2.0.42           Priti               0026135: Branch Parameter is required for various FSM reports *@
+@*3.0                04-04-2024        V2 .0.46          Sanchita            0027345: Two checkbox required in parameter for Order register report. *@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.Reportorderregisterinput
@@ -199,6 +200,21 @@
         //REV 2.0
         e.customArgs["BranchId"] = BranchId;
         //REV 2.0 END
+        // Rev 3.0
+        if ((@ViewBag.IsViewMRPInOrder == 1 || @ViewBag.MRPInOrder == 1) && $('#IsShowMRP').prop('checked')) {
+            e.customArgs["IsShowMRP"] = 1;
+        }
+        else {
+            e.customArgs["IsShowMRP"] = 0;
+        }
+
+        if (@ViewBag.IsDiscountInOrder == 1 && $('#IsShowDiscount').prop('checked')) {
+            e.customArgs["IsShowDiscount"] = 1;
+        }
+        else {
+            e.customArgs["IsShowDiscount"] = 0;
+        }
+        // End of Rev 3.0
     }
 
 
@@ -239,7 +255,21 @@
         }
 
         //End of Mantis Issue 24593
+         // Rev 3.0
+        if ((@ViewBag.IsViewMRPInOrder == 1 || @ViewBag.MRPInOrder == 1) && $('#IsShowMRP').prop('checked')) {
+            e.customArgs["IsShowMRP"] = 1;
+        }
+        else {
+            e.customArgs["IsShowMRP"] = 0;
+        }
 
+        if (@ViewBag.IsDiscountInOrder == 1 && $('#IsShowDiscount').prop('checked')) {
+            e.customArgs["IsShowDiscount"] = 1;
+        }
+        else {
+            e.customArgs["IsShowDiscount"] = 0;
+        }
+        // End of Rev 3.0
     }
 
 
@@ -302,7 +332,7 @@
         StateGridLookup.GetGridView().Refresh();
     }
 </script>
-<style>   
+<style>
     .padTabl > tbody > tr > td {
         padding: 3px 10px;
     }
@@ -808,9 +838,18 @@
         }
     /*Rev end 1.0*/
 
-    .w200-mob
-    {
+    .w200-mob {
         width: 200px !important;
+    }
+
+    @@media only screen and (max-width: 768px) {
+        .breadCumb {
+            padding: 0 19%;
+        }
+
+        .eqpadtbl > tbody > tr > td:not(:last-child) {
+            padding-right: 0 !important;
+        }
     }
 </style>
 
@@ -847,21 +886,21 @@
                                     @Html.Action("GetEmployeeWiseStateList", "MasterPopulate", new { UserID = @Session["userid"].ToString() })
 
                                     @*<select id="drpstate" name="drpstate" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                    <option value="">Select</option>
+                                            <option value="">Select</option>
 
-                    @foreach (var item in Model.states)
-                    {
-                        if (Model.StateId == item.ID)
-                        {
-                            <option value="@item.ID" selected="selected">@item.StateName</option>
-                        }
-                        else
-                        {
-                            <option value="@item.ID">@item.StateName</option>
-                        }
-                    }
+                                            @foreach (var item in Model.states)
+                                            {
+                                                if (Model.StateId == item.ID)
+                                                {
+                                                    <option value="@item.ID" selected="selected">@item.StateName</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.ID">@item.StateName</option>
+                                                }
+                                            }
 
-                </select>*@
+                                        </select>*@
 
                                 </div>
                             </td>
@@ -871,19 +910,19 @@
                                     @Html.Action("GetShopList", "MasterPopulate")
 
                                     @*<select id="drpshop" name="drpshop" data-placeholder="Click or Type Here..." class="whclass" style="width:100%">
-                    <option value="">Select</option>
-                    @foreach (var item in Model.shoplist)
-                    {
-                        if (Model.shopId == item.ID)
-                        {
-                            <option value="@item.ID" selected="selected">@item.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@item.ID">@item.Name</option>
-                        }
-                    }
-                </select>*@
+                                            <option value="">Select</option>
+                                            @foreach (var item in Model.shoplist)
+                                            {
+                                                if (Model.shopId == item.ID)
+                                                {
+                                                    <option value="@item.ID" selected="selected">@item.Name</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.ID">@item.Name</option>
+                                                }
+                                            }
+                                        </select>*@
 
                                 </div>
                             </td>
@@ -905,20 +944,20 @@
                                 }).GetHtml()
                                     @*<select id="drpuser" name="ddRoles" data-placeholder="Click or Type Here..." class="whclass">
 
-                    <option value="">All</option>
-                    @foreach (var item in Model.userlsit)
-                    {
-                        if (Model.selectedusrid == item.UserID)
-                        {
-                            <option value="@item.UserID" selected="selected">@item.username</option>
-                        }
-                        else
-                        {
-                            <option value="@item.UserID">@item.username</option>
+                                            <option value="">All</option>
+                                            @foreach (var item in Model.userlsit)
+                                            {
+                                                if (Model.selectedusrid == item.UserID)
+                                                {
+                                                    <option value="@item.UserID" selected="selected">@item.username</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.UserID">@item.username</option>
 
-                        }
-                    }
-                </select>*@
+                                                }
+                                            }
+                                        </select>*@
 
                                 </div>
                             </td>
@@ -960,7 +999,7 @@
                                 }).GetHtml()
                                 </div>
                             </td>
-                            
+
                         </tr>
                         <tr>
                             @*Rev 2.0*@
@@ -973,6 +1012,24 @@
                                 @*Rev end 1.0*@
                             </td>
                             @*End of Mantis Issue 24593*@
+
+                            @*Rev 3.0*@
+                            @if (Convert.ToInt32(ViewBag.IsViewMRPInOrder) == 1 || Convert.ToInt32(ViewBag.MRPInOrder) == 1)
+                            {
+                                <td class="w10 inputSpacer">
+                                    <input class="styled-checkbox" type="checkbox" id="IsShowMRP" name="IsShowMRP" value="0">
+                                    <label for="">Show MRP</label>
+                                </td>
+                            }
+                            @if (Convert.ToInt32(ViewBag.IsDiscountInOrder) == 1)
+                            {
+                                <td class="w10 inputSpacer">
+                                    <input class="styled-checkbox" type="checkbox" id="IsShowDiscount" name="IsShowDiscount" value="0">
+                                    <label for="">Show Discount</label>
+                                </td>
+                            }
+                            @*End of Rev 3.0*@
+
                             @*Rev end 2.0*@
                             <td style="padding-top: 22px;width:185px;">
                                 <label></label>
@@ -1011,13 +1068,16 @@
                     <div id="refreshgridstatusreportregister">
 
                         @{
-                            Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId, IsSchemeDetails = Model.IsSchemeDetails, Is_PageLoad = Model.Is_PageLoad, BranchId = Model.BranchId });
+                            // Rev 3.0
+                            //Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId, IsSchemeDetails = Model.IsSchemeDetails, Is_PageLoad = Model.Is_PageLoad, BranchId = Model.BranchId });
+                            Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId, IsSchemeDetails = Model.IsSchemeDetails, Is_PageLoad = Model.Is_PageLoad, BranchId = Model.BranchId, IsShowMRP = Model.IsShowMRP, IsShowDiscount = Model.IsShowDiscount });
+                            // End of Rev 3.0
 
                             //Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId });
                             //Rev 2.0
                             //Html.RenderAction("GetRegisterreporttatusList", "Report", new { Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, StateId = Model.StateId, shopId = Model.shopId, IsSchemeDetails = Model.IsSchemeDetails, Is_PageLoad = Model.Is_PageLoad });
                             //Rev 2.0 End
-                            }
+                        }
                         @*change for design*@
 
                     </div>

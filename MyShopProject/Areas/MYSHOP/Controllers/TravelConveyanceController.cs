@@ -259,6 +259,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
         {
            
             string userid = Convert.ToString(Session["userid"]);
+
             DataTable dt = new DataTable();
             dt = lstuser.GetConveyanceTypes("TravelAllowancebyID","", Tsid);
             TravelConveyanceModelclass modelallowance = new TravelConveyanceModelclass();

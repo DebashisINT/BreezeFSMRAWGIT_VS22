@@ -3,6 +3,7 @@
 //                                              Refer: 0025585
 //2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
 //3.0   V2.0.43     Sanchita    07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
+//4.0   V2.0.45     Sanchita    22/01/2024      Supervisor name column is required in Shops report. Mantis: 27199
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -493,6 +494,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "Shop_CreateTime";
                 column.PropertiesEdit.DisplayFormatString = "dd/MM/yyyy HH:mm:ss";
             });
+
+            // Rev 4.0
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "Supervisor Name";
+                column.FieldName = "REPORTTO_NAME";
+            });
+            // End of Rev 4.0
 
             settings.Columns.Add(column =>
             {

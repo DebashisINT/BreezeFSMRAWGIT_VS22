@@ -1,6 +1,9 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2.0.41    Debashis     25/07/2023      DS Visit Details - Two Columns Required.Refer: 0026474
 //2.0   V2.0.41    Debashis     09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+//3.0   V2 .0.44   Debashis     27/02/2024      'Sale Value' Field required in DS Visit Details/DS Visit Summary.Refer: 0027276
+//4.0   V2 .0.45   Debashis     29/03/2024      In DS Visit Details Report a new coloumn required 'New Outlets Visited' as like DS Visit
+//                                              Summary report.Refer: 0027328
 #endregion===================================End of Revision History==================================================================
 
 using BusinessLogicLayer.SalesTrackerReports;
@@ -544,12 +547,37 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             });
 
-            
+            //Rev 4.0 Mantis: 0027328
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "NEWSHOP_VISITED";
+                x.Caption = "New Outlets Visited";
+                x.VisibleIndex = 11;
+
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='NEWSHOP_VISITED'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            });
+            //End of Rev 4.0 Mantis: 0027328
+
             settings.Columns.Add(x =>
             {
                 x.FieldName = "RE_VISITED";
                 x.Caption = "Outlets Re-Visited";
-                x.VisibleIndex = 11;
+                x.VisibleIndex = 12;
                 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -575,7 +603,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "QUALIFIEDPRESENT";
                 x.Caption = "Qualified";
-                x.VisibleIndex = 12;
+                x.VisibleIndex = 13;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QUALIFIEDPRESENT'");
@@ -601,7 +629,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "ATTENDANCE";
                 x.Caption = "Present/Absent";
-                x.VisibleIndex = 13;
+                x.VisibleIndex = 14;
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ATTENDANCE'");
@@ -631,7 +659,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //Rev Debashis 0024906
                 x.PropertiesEdit.DisplayFormatString = "0.00";
                 //End of Rev Debashis 0024906
-                x.VisibleIndex = 14;
+                x.VisibleIndex = 15;
                 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -661,7 +689,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //x.Caption = "Avg time spent in the market(HH:MM)";
                 x.Caption = "Total time spent in the market(HH:MM)";
                 //End of Rev Debashis 0024906
-                x.VisibleIndex = 15;
+                x.VisibleIndex = 16;
                 
                 x.PropertiesEdit.DisplayFormatString = "0.00";
                 
@@ -689,7 +717,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DAYSTTIME";
                 x.Caption = "Day Start(HH:MM)";
-                x.VisibleIndex = 16;
+                x.VisibleIndex = 17;
 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -713,7 +741,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 x.FieldName = "DAYENDTIME";
                 x.Caption = "Day End(HH:MM)";
-                x.VisibleIndex = 17;
+                x.VisibleIndex = 18;
 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -734,7 +762,33 @@ namespace MyShop.Areas.MYSHOP.Controllers
             });
             //End of Rev Debashis 0024956
 
-            
+            //Rev 3.0 Mantis: 0027276
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "SALE_VALUE";
+                x.Caption = "Sale Value";
+                x.VisibleIndex = 19;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SALE_VALUE'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+
+            });
+            //End of Rev 3.0 Mantis: 0027276
+
             settings.Columns.Add(x =>
             {
                 x.FieldName = "AVGSPENTDURATION";
@@ -742,7 +796,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
                 x.Caption = "Avg time spent in OL(CFT-New&Revisit)(HH:MM)";
                 //End of Rev Debashis 0024906
-                x.VisibleIndex = 18;
+                x.VisibleIndex = 20;
                 
                 if (ViewBag.RetentionColumn != null)
                 {

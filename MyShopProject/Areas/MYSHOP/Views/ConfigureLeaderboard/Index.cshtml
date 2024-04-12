@@ -1,0 +1,647 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number    DATE            VERSION    DEVELOPER      CHANGES*@
+@*1.0           28-03-2024      2.0.46     Sanchita       27299: One settings page required for Leaderboard in the backend. Below points should be captured for different section. *@
+@*====================================================== Revision History ==========================================================*@
+
+@model  MyShop.Models.ConfigueLeaderboardModel
+
+@{
+    ViewBag.Title = "Configure Leaderboard ";
+}
+
+
+@*<link href="~/Content/media.css" rel="stylesheet" />*@
+<style>
+    .dxgvTable_PlasticBlue, .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        overflow: initial !important;
+    }
+
+    .pad-md-18 {
+        padding-top: 18px;
+    }
+</style>
+
+
+<style>
+    select.full {
+        width: 100% !important;
+    }
+
+    /*Rev 1.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 14px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 33px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    select:not(.btn) {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .dxgvControl_PlasticBlue a {
+        margin: 0 3px;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .active-checkbox
+    {
+        display: flex;
+        margin-top: 30px;
+    }
+
+    input[type="radio"], input[type="checkbox"]
+    {
+        margin-left: 5px;
+    }
+
+    #forTopSpaceControl .btn
+    {
+        margin-right: 5px;
+    }
+
+    /*Rev end 1.0*/
+    @@media only screen and (max-width: 768px) {
+        .breadCumb > span {
+            padding: 9px 12px;
+        }
+
+        .breadCumb {
+            padding: 0 10%;
+        }
+
+        #refreshgridsalessummary {
+            overflow-x: auto;
+        }
+    }
+</style>
+
+<script>
+    $(function () {
+        document.getElementById("txtPointScheme").style.visibility = "hidden";
+        document.getElementById("idPointSection").style.display = "show"
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExportConfiguration", "ConfigureLeaderboard", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+            }
+        });
+
+    });
+
+    function isNumber(txt, evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode == 46) {
+            //Check if the text already contains the . character
+            if (txt.value.indexOf('.') === -1) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (charCode > 31
+                && (charCode < 48 || charCode > 57))
+                return false;
+        }
+        return true;
+    }
+
+     $('body').on('click', '#btnshow', function () {
+
+         //btnshow.innerText = 'Add';
+        // $("#ico_Show").show();
+
+
+        if ($("#txtpoint").val() == '') {
+            $("#txtpoint").val('0');
+
+        }
+        var f = true;
+         if (hdPointId.value =='' &&  $("#idPointSection").val() == '') {
+            f = false;
+
+        }
+        if ($("#txtpoint").val() == '0') {
+            f = false;
+
+         }
+
+         var PointId = '';
+         if (hdPointId.value != '')
+             PointId = hdPointId.value;  // Edit
+         else
+             PointId = $("#idPointSection").val();  // Add
+
+        if (f == true) {
+            var surl = '@Url.Action("ConfigurationInsert", "ConfigureLeaderboard")';
+            $.ajax({
+                url: surl,
+                data: {
+                    PointSectionId: PointId,
+                    PointAmount: $("#txtpoint").val(),
+                    IsActive: $("#chkIsactive").is(':checked')
+                },
+                type: 'POST',
+
+                success: function (data) {
+                    if (data == "Success") {
+                        //$("#idPointSection").val(0);
+                        //$("#txtpoint").val('0');
+                        //$("#chkIsactive").prop('checked', true);
+
+                        //gridPointConfiguration.Refresh();
+                        //gridPointConfiguration.Refresh();
+                        window.location.href = "/MYSHOP/ConfigureLeaderboard/Index";
+                    }
+                    else {
+                        jAlert('Update failed.');
+                    }
+                },
+                error: function () {
+                },
+            });
+        }
+        else {
+            jAlert('Mandatory fields/Value required.');
+        }
+    });
+
+    $('body').on('click', '#btnclear', function () {
+        window.location.href = "/MYSHOP/ConfigureLeaderboard/Index";
+    });
+
+    function EditConfiguration(PointSectionId) {
+        btnshow.innerText = 'Update';
+       // $("#ico_Show").hide();
+        document.getElementById("txtPointScheme").style.visibility = "";
+        document.getElementById("idPointSection").style.display = "none";
+        hdPointId.value = PointSectionId;
+
+
+        var surl = '@Url.Action("EditConfiguration", "ConfigureLeaderboard")';
+        $.ajax({
+            async:false,
+            url: surl,
+            data: {
+                PointSectionId: PointSectionId
+            },
+            type: 'POST',
+
+            success: function (data) {
+
+                $("#txtPointScheme").val(data.points[0].POINT_SECTION);
+                $("#txtpoint").val(data.points[0].POINT_VALUE);
+
+                $("#chkIsactive").prop('checked', data.points[0].IsActive);
+
+                //gridPointConfiguration.Refresh();
+                //gridPointConfiguration.Refresh();
+               // window.location.href = "/MYSHOP/ConfigureLeaderboard/Index";
+            },
+            error: function () {
+
+            },
+
+
+        });
+
+    }
+</script>
+<div class="breadCumb">
+    <span>Leaderboard Settings </span>
+</div>
+<div class="container">
+    <div class="backBox p-3">
+        <div class="row">
+            <div class="col-md-2 h-branch-select mb-3">
+                <label>Section</label><span class="red">*</span>
+                <div>
+                    @Html.DropDownListFor(m => m.pointID, new SelectList(Model.section, "ID", "POINT_SECTION", Model.pointID), "Select", new { @id = "idPointSection", @class = "form-control", @tabindex = 1 })
+                </div>
+                <div>
+                    @Html.TextBoxFor(m => m.POINT_SECTION, new { @readonly = "readonly", @class = "form-control", @id = "txtPointScheme", @tabindex = 1})
+                </div>
+            </div>
+            
+            <div class="col-md-2 mb-3">
+                <label>Points</label><span class="red" id="spaneligible">*</span>
+                <div>
+
+                    @Html.TextBoxFor(m => m.POINT_VALUE, new { @class = "form-control", @id = "txtpoint", @tabindex = 2, onkeypress = "return isNumber(this,event)" })
+
+                </div>
+            </div>
+            
+            <div class="col-md-1 mb-3 active-checkbox">
+                <label>Active</label>
+                <div>
+
+                    @Html.CheckBoxFor(m => m.IS_ACTIVE, new { @class = "acheckbox", @id = "chkIsactive", @tabindex = 3 })
+
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3 mt-4" style="padding-top: 7px;" id="forTopSpaceControl">
+                <label>&nbsp;</label>
+                @if (ViewBag.CanAdd)
+                {
+                    <button type="button" id="btnshow" class="btn btn-success " tabindex=4>Add</button>
+                }
+
+                <button type="button" id="btnclear" class="btn btn-danger " tabindex=6>Cancel</button>
+                @if (ViewBag.CanExport)
+                {
+                    <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds" tabindex=7>
+                        <option value="0">Export to</option>
+                        <option value="1">PDF</option>
+                        <option value="2">XLSX</option>
+                        <option value="3">XLS</option>
+                        <option value="4">RTF</option>
+                        <option value="5">CSV</option>
+
+                    </select>
+                }
+            </div>
+            <div class="col-md-12"></div>
+
+        </div>
+        <div style="clear: both;"><br /></div>
+        <div id="refreshgridsalessummary">
+
+            @{
+                Html.RenderAction("ConfigurationPartial", "ConfigureLeaderboard");
+            }
+        </div>
+    </div>
+
+    <input type="hidden" id="hdPointId" />
+  
+</div>
+

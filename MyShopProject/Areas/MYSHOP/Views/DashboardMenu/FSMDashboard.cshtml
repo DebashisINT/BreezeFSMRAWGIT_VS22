@@ -11,6 +11,8 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 8.0          10-07-2023      V2.0.42     Pallab          When show data button not clicked, show a message, when box click. Refer: 26538
 9.0          03-08-2023      V2.0.42     Pallab          Clicked state or branch selection without click "show data" button, tab box number data showing, disable click event. Refer: 26663
 10.0         04-08-2023      V2.0.42     Sanchita        Data not comming in Field Visit and Team Visit tab when Visit tab is off. Mantis : 26672
+11.0         21-03-2024      V2.0.46     Sanchita        A new dashboard floating menu is required as "View Geography". Mantis: 27322
+12.0         21-03-2024      V2.0.46     Sanchita        A new dashboard floating icon is required as "View Geotrack"..Mantis: 27323 
 ====================================================== Revision History ==============================================-->
 
 @model MyShop.Models.FSMDashBoardFilter
@@ -1537,7 +1539,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         /*Rev end 5.0*/
 
         // Show loader before making the AJAX request
-    
+
     var Url = '@Url.Action("DashboardGridView", "DashboardMenu")'
     $.ajax({
         url: Url, // Replace with the correct URL
@@ -2283,6 +2285,28 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
     }
     // End of Rev Sanchita
+    // Rev 11.0
+    function ShowViewGeography() {
+        var apiAccess = 0;
+        if (apiAccess == 0) {
+            window.location.href = '../ViewGeography/Index';
+        } else if (apiAccess == 1) {
+            //window.location.href = '../ViewRoute/Index';
+        }
+
+    }
+    // End of Rev 11.0
+    // Rev 12.0
+    function ShowViewGeotrack() {
+        var apiAccess = 0;
+        if (apiAccess == 0) {
+            window.location.href = '../ViewGeotrack/Index';
+        } else if (apiAccess == 1) {
+            //window.location.href = '../ViewRoute/Index';
+        }
+
+    }
+    // End of Rev 12.0
 
 </script>
 
@@ -2863,15 +2887,17 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         justify-content: center;
         overflow: hidden;
     }
+
     @@media screen and (max-width: 540px) {
         #griddashboard > tbody > tr > td > .dxgvCSD {
             /*width: 304px !important;*/
             width: 1100px !important;
         }
+
         #collapseOne.backBox > div {
             overflow-x: auto !important;
         }
-}
+    }
 </style>
 <!--Leave list end-->
 
@@ -2895,7 +2921,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         //        images[1].style.display = 'none';
         //    }
         //}
-});
+    });
 </script>
 
 <div id="gridLoader" class="loader" style="display: none;">
@@ -2906,7 +2932,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 {
     if (Model.DashboardSettingMappedList.Count() > 0)
     {
-        
+
         <div class="breadCumb">
             <span>Dashboard</span>
         </div>
@@ -3358,8 +3384,8 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
                                                         </div>
                                                         <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
                                                             @*<div class="overflx">
-                                                                @Html.Partial("DashboardGridView", new System.Data.DataTable())
-                                                            </div>*@
+                                                                    @Html.Partial("DashboardGridView", new System.Data.DataTable())
+                                                                </div>*@
                                                             <div id="gridContainer overflx">
                                                                 @Html.Partial("DashboardGridView", new System.Data.DataTable())
                                                             </div>

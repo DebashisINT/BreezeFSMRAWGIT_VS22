@@ -1,4 +1,8 @@
-﻿using Models;
+﻿/**************************************************************************************************************************
+ * 1.0         03-04-2024        2.0.46           Sanchita            0027343: Employee Outlet Master : Report parameter one check 
+                                                                      box required 'Consider Inactive Outlets'
+*************************************************************************************************************************/
+using Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -33,6 +37,9 @@ namespace MyShop.Models
         public List<GetBranch> modelbranch = new List<GetBranch>();
 
         public string is_pageload { get; set; }
+        // Rev 1.0
+        public string IsInactiveOutlets { get; set; }
+        // End of Rev 1.0
     }
     public class OutletMasterListModel
     {

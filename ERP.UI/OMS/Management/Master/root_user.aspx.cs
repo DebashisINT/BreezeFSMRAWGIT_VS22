@@ -1,6 +1,7 @@
 /******************************************************************************************************
  * Rev 1.0      Sanchita    07/02/2023      V2.0.36     FSM Employee & User Master - To implement Show button. refer: 25641
  * Rev 2.0      Sanchita     15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal. 
+ * Rev 3.0      Sanchita    08/01/2023      V2.0.45     Attendance/Leave clear option not working properly in the Portal. mantis: 27114    
  *******************************************************************************************************/
 using System;
 using System.Web;
@@ -863,9 +864,10 @@ namespace ERP.OMS.Management.Master
 
             if (dsUserDetail.Tables[0].Rows.Count > 0)
             {
-                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["ShowAttednaceClearmenu"]) == true)
-                {
-
+                // Rev 3.0
+                //if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["ShowAttednaceClearmenu"]) == true)
+                //{
+                // End of Rev 3.0
                     DataTable dt = new DataTable();
                     ProcedureExecute proc1 = new ProcedureExecute("PRC_DeleteAttendanceLeve");
                     proc1.AddPara("@ACTION", "DELETELEAVEATTENDANCE");
@@ -883,11 +885,13 @@ namespace ERP.OMS.Management.Master
                     {
                         message = "No data found";
                     }
-                }
-                else
-                {
-                    message = "Clear Attendance/Leave is disabled.";
-                }
+                // Rev 3.0    
+                //}
+                //else
+                //{
+                //    message = "Clear Attendance/Leave is disabled.";
+                //}
+                // End of Rev 3.0
             }
 
             return message;

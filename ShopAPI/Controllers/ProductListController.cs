@@ -1,4 +1,8 @@
-﻿using ShopAPI.Models;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.45     Debashis    03/04/2024      Some new parameters have been added.Row: 909 & 910
+#endregion===================================End of Revision History==================================================
+
+using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,8 +12,6 @@ using System.Net;
 using System.Net.Http;
 //using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
-
-
 
 namespace ShopAPI.Controllers
 {
@@ -351,5 +353,97 @@ namespace ShopAPI.Controllers
                 return message;
             }
         }
+
+        //Rev 1.0 Row: 909 & 910
+        [HttpPost]
+        public HttpResponseMessage ITCProdMastList(ITCProdMastListInput model)
+        {
+            ITCProdMastListOutput omodel = new ITCProdMastListOutput();
+            List<ITCProdMastLists> oview = new List<ITCProdMastLists>();
+
+            if (!ModelState.IsValid)
+            {
+                omodel.status = "213";
+                omodel.message = "Some input parameters are missing.";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_FSMITCPRODUCTLIST", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "GETPRODUCTLISTS");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);                
+
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    oview = APIHelperMethods.ToModelList<ITCProdMastLists>(dt);
+                    omodel.status = "200";
+                    omodel.message = "Success";
+                    omodel.product_list = oview;
+                }
+                else
+                {
+                    omodel.status = "205";
+                    omodel.message = "No data found";
+                }
+
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage ITCProdRateList(ITCProdRateListInput model)
+        {
+            ITCProdRateListOutput omodel = new ITCProdRateListOutput();
+            List<ITCProdRateLists> oview = new List<ITCProdRateLists>();
+
+            if (!ModelState.IsValid)
+            {
+                omodel.status = "213";
+                omodel.message = "Some input parameters are missing.";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+            }
+            else
+            {
+                DataTable dt = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_FSMITCPRODUCTLIST", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "GETPRODUCTRATELISTS");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    oview = APIHelperMethods.ToModelList<ITCProdRateLists>(dt);
+                    omodel.status = "200";
+                    omodel.message = "Success";
+                    omodel.product_rate_list = oview;
+                }
+                else
+                {
+                    omodel.status = "205";
+                    omodel.message = "No data found";
+                }
+
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+        //End of Rev 1.0 Row: 909 & 910
     }
 }

@@ -1,0 +1,66 @@
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*Written by Sanchita on 27-03-2024 for 2.0.46   New Product Module shall be implemented for ITC. Refer: 27289 *@
+@*====================================================== Revision History ===========================================================*@
+<div class="">
+
+    <div class="row">
+        <div>
+
+            <div class="clearfix ">
+
+                <div class="col-lg-12 lblmTop8 validationDiv">
+                    <label><b>Form Date</b></label>
+                    <div class="iminentSpan">
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "dtLogFrom";
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.UseMaskBehavior = true;
+                            settings.Properties.ShowOutOfRangeWarning = false;
+
+                            settings.ClientEnabled = true;
+                        }).GetHtml()
+                    </div>
+
+                </div>
+                <div class="col-lg-12 lblmTop8 validationDiv">
+                    <label><b>To Date</b></label>
+                    <div class="iminentSpan">
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "dtLogTo";
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.UseMaskBehavior = true;
+                            settings.Properties.ShowOutOfRangeWarning = false;
+                            settings.ClientEnabled = true;
+
+                        }).GetHtml()
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="col-md-12 mTop5 ">
+                    <button type="button" onclick="ProductImportUserLog();" class="btn btn-success mTop5">Show Log</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+</div>
+
+
+

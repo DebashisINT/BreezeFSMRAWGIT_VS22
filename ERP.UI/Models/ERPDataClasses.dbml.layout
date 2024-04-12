@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 14.25, 10.625" name="ERPDataClasses">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.5, 8.5" name="ERPDataClasses">
   <DataContextMoniker Name="/ERPDataClassesDataContext" />
   <nestedChildShapes>
     <classShape Id="42b8dce0-9bc6-4a34-82ff-c3e9bb571e8e" isExpanded="false" absoluteBounds="2.75, 5.5, 2, 0.45">
@@ -392,10 +392,28 @@
         <elementListCompartment Id="553fb495-12b4-4829-beb2-45d522e7795b" absoluteBounds="0.51500000000000012, 7.9600000000000009, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c7ed301d-4328-4ed2-9f61-39b0c5ba5772" absoluteBounds="2.875, 7.5, 2, 2.9247054036458331">
+    <classShape Id="c7ed301d-4328-4ed2-9f61-39b0c5ba5772" isExpanded="false" absoluteBounds="2.875, 7.5, 2, 0.45">
       <DataClassMoniker Name="/ERPDataClassesDataContext/v_ProductRate" />
       <nestedChildShapes>
         <elementListCompartment Id="feb1e1b3-1da9-47ce-934c-1790475028cf" absoluteBounds="2.89, 7.9600000000000009, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="c63287bd-6e29-4b81-9def-3e7de8a5a2d8" isExpanded="false" absoluteBounds="5.25, 7.5, 2, 0.45">
+      <DataClassMoniker Name="/ERPDataClassesDataContext/FSMProduct_Master" />
+      <nestedChildShapes>
+        <elementListCompartment Id="094e14d5-d4cc-4884-af82-35984de57a56" absoluteBounds="5.265, 7.96, 1.9700000000000002, 6.403035481770833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="58b50cc0-faaa-4b0c-acf4-6a7ec4961e8b" absoluteBounds="14.125, 0.625, 2, 2.7324039713541666">
+      <DataClassMoniker Name="/ERPDataClassesDataContext/PRODUCTSPECIALPRICELIST" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f366a0fb-cec0-4e9d-8225-41f57104aa60" absoluteBounds="14.14, 1.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="cc7ddc53-c665-456c-ada0-b6d9ccae43e0" absoluteBounds="14.25, 3.75, 2, 3.6939111328124996">
+      <DataClassMoniker Name="/ERPDataClassesDataContext/PRODUCTBRANCHMAPLIST" />
+      <nestedChildShapes>
+        <elementListCompartment Id="dc7bebb4-4a58-48a5-aacb-0b02f21449b4" absoluteBounds="14.265, 4.21, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

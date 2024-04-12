@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.41     Debashis    21/08/2023      Some new parameters have been added.Row: 865
+//2.0   V2.0.45     Debashis    03/04/2024      Some new parameters have been added.Row: 909,910 & 916
 #endregion===================================End of Revision History==================================================
 
 using System;
@@ -142,6 +143,53 @@ namespace ShopAPI.Models
         public List<ItemList> secondary_application_list { get; set; }
     }
 
- }
+    //Rev 2.0 Row: 909 & 910
+    public class ITCProdMastListInput
+    {
+        public long user_id { get; set; }
+    }
 
-    
+    public class ITCProdMastListOutput
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public List<ITCProdMastLists> product_list { get; set; }
+    }
+
+    public class ITCProdMastLists
+    {
+        public long product_id { get; set; }
+        public string product_name { get; set; }
+        public long brand_id { get; set; }
+        public string brand_name { get; set; }
+        public long category_id { get; set; }
+        public string category_name { get; set; }
+        public long watt_id { get; set; }
+        public string watt_name { get; set; }
+        public string UOM { get; set; }
+    }
+
+    public class ITCProdRateListInput
+    {
+        public long user_id { get; set; }
+    }
+
+    public class ITCProdRateListOutput
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public List<ITCProdRateLists> product_rate_list { get; set; }
+    }
+
+    public class ITCProdRateLists
+    {
+        public long product_id { get; set; }
+        public decimal mrp { get; set; }
+        public decimal item_price { get; set; }
+        public decimal specialRate { get; set; }
+    }
+    //End of Rev 2.0 Row: 909 & 910
+
+}
+
+

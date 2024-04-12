@@ -3,6 +3,7 @@
 //2.0   V2.0.38     Debashis    13/03/2023      A new parameter has been added.Row: 814
 //3.0   V2.0.39     Debashis    24/04/2023      Some new parameters have been added.Row: 820
 //4.0   V2.0.40     Debashis    10/07/2023      A new parameter has been added.Row: 855
+//5.0   V2.0.45     Debashis    03/04/2024      Some new parameters have been added.Row: 915 & Refer: 0027335
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -68,6 +69,11 @@ namespace ShopAPI.Models
         public decimal distFromProfileAddrKms { get; set; }
         public int stationCode { get; set; }
         //End of Rev 3.0 Row:820
+        //Rev 5.0 Row: 915 & Refer: 0027335
+        public string shop_lat { get; set; }
+        public string shop_long { get; set; }
+        public string shop_addr { get; set; }
+        //End of Rev 5.0 Row: 915 & Refer: 0027335
     }
 
     public class ShopsubmissionOutput
@@ -176,6 +182,11 @@ namespace ShopAPI.Models
         //Rev 4.0 Row: 855
         public bool isNewShop { get; set; }
         //End of Rev 4.0 Row: 855
+        //Rev 5.0 Row: 915
+        public string shop_lat { get; set; }
+        public string shop_long { get; set; }
+        public string shop_addr { get; set; }
+        //End of Rev 5.0 Row: 915
     }
 
     public class ITCShopsubmissionOutput

@@ -7,6 +7,8 @@
 @*2.0                30-01-2023        2.0.38           Sanchita            Distance issue in View route of Nordusk. Refer: 25515*@
 @*3.0                21-04-2023        2.0.40           Pallab              Console error while trying to export the report into excel for view route in Nordusk. Refer: 25880*@
 @*4.0                30-11-2023        2.0.43           Sanchita            Time is not showing in the left panel of View Route. Mantis: 27062    *@
+@*5.0                12-03-2024        2.0.43           Sanchita            Google Map has not loaded while click on the View Route. Mantis:     *@
+@*6.0                03-04-2024        V2.0.46          Sanchita            0027314: The Google API key should store in the database with a new table. *@
 @*====================================================== Revision History ===========================================================*@
 
 <style>
@@ -582,7 +584,12 @@
 
 
 @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCnT4LaIBF8iYIFQX_vVQ_F5bt6gPq5Q"></script>*@
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaCnT4LaIBF8iYIFQX_vVQ_F5bt6gPq5Q"></script>
+@*Rev 6.0*@
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAZ4Nmy1GZfatgrBlqjyo0qjLw1dWAz-xI"></script>*@
+@*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@Convert.ToString(System.Configuration.ConfigurationManager.AppSettings["GoogleMapKey"])"></script>*@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@ViewBag.GoogleAPIKey"></script>
+@*End of Rev 6.0*@
+
 <script src="~/assests/pluggins/gmapCustomize/infobox.js"></script>
 <script src="~/assests/pluggins/gmapCustomize/markerclusterer_packed.js"></script>
 <script src="~/assests/pluggins/gmapCustomize/markerwithlabel_packed.js"></script>
@@ -2684,72 +2691,82 @@
     };
 
     $(document).ready(function () {
-        //Rev Debashis 0025198
-        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
-        lookup.GetGridView().Refresh();
-        var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
-        lookup.GetGridView().Refresh();
-        //End of Rev Debashis 0025198
-        // Rev 2.0
-        if (@ViewBag.strTotalDistanceShowinViewRouteAsPerGoogleAPI==0 ) {
-            $('.leftFloak').removeClass('hide');
-            $('.leftFloak2').addClass('hide');
+        // Rev 6.0
+        if (@ViewBag.HasGoogleAPIKey== 0) {
+            StatePopulate();
+            jAlert("Please configure Google Map Key from System Settings to view map since the setting 'Is show Google Map' is on.");
         }
         else {
-            $('.leftFloak').addClass('hide');
-            $('.leftFloak2').removeClass('hide');
+            // End of Rev 6.0
+            //Rev Debashis 0025198
+            var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+            lookup.GetGridView().Refresh();
+            var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+            lookup.GetGridView().Refresh();
+            //End of Rev Debashis 0025198
+            // Rev 2.0
+            if (@ViewBag.strTotalDistanceShowinViewRouteAsPerGoogleAPI== 0) {
+                $('.leftFloak').removeClass('hide');
+                $('.leftFloak2').addClass('hide');
+            }
+            else {
+                $('.leftFloak').addClass('hide');
+                $('.leftFloak2').removeClass('hide');
+            }
+            // End of Rev 2.0
+            StatePopulate();
+            setTimeout(function () {
+                $("#ddlState").val('15');
+            }, 600);
+            setTimeout(function () {
+                showMap();
+            }, 600);
+
+            $('.eventToggler').click(function () {
+                $(this).parent('.dropSectionuser').toggleClass('open');
+                if ($('.dropSectionuser').hasClass('open')) {
+                    $('.eventToggler').text('>');
+                } else {
+                    $('.eventToggler').text('<');
+                }
+            });
+            var now = new Date();
+            var yesterday = addDays(now, -0);
+            dtTo.SetValue(yesterday);
+            dtTo.SetMaxDate(yesterday);
+
+            $('.closeFullMap').click(function () {
+
+                $(this).parent('.FullDiv').addClass('hide');
+            });
+            $('.leftFloakToggle').click(function () {
+                var pdiv = $(this).parent('.leftFloak');
+                if ($('.leftFloakToggle').parent().hasClass('open')) {
+                    //console.log('remove')
+                    $('.leftFloak').removeClass('open');
+                    $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-left').addClass('lnr lnr-chevron-right');
+                } else {
+                    //console.log('add')
+                    $('.leftFloak').addClass('open');
+                    $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-right').addClass('lnr lnr-chevron-left');
+                }
+            });
+            $('.leftFloakToggle2').click(function () {
+                var pdiv = $(this).parent('.leftFloak');
+                if ($('.leftFloakToggle2').parent().hasClass('open')) {
+                    //console.log('remove')
+                    $('.leftFloak2').removeClass('open');
+                    $('.leftFloakToggle2> span').removeClass('lnr lnr-chevron-left').addClass('lnr lnr-chevron-right');
+                } else {
+                    //console.log('add')
+                    $('.leftFloak2').addClass('open');
+                    $('.leftFloakToggle2> span').removeClass('lnr lnr-chevron-right').addClass('lnr lnr-chevron-left');
+                }
+            });
+
+        // Rev 6.0
         }
-        // End of Rev 2.0
-        StatePopulate();
-        setTimeout(function () {
-            $("#ddlState").val('15');
-        }, 600);
-        setTimeout(function () {
-            showMap();
-        }, 600);
-
-        $('.eventToggler').click(function () {
-            $(this).parent('.dropSectionuser').toggleClass('open');
-            if ($('.dropSectionuser').hasClass('open')) {
-                $('.eventToggler').text('>');
-            } else {
-                $('.eventToggler').text('<');
-            }
-        });
-        var now = new Date();
-        var yesterday = addDays(now, -0);
-        dtTo.SetValue(yesterday);
-        dtTo.SetMaxDate(yesterday);
-
-        $('.closeFullMap').click(function () {
-
-            $(this).parent('.FullDiv').addClass('hide');
-        });
-        $('.leftFloakToggle').click(function () {
-            var pdiv = $(this).parent('.leftFloak');
-            if ($('.leftFloakToggle').parent().hasClass('open')) {
-               //console.log('remove')
-               $('.leftFloak').removeClass('open');
-               $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-left').addClass('lnr lnr-chevron-right');
-            } else {
-                //console.log('add')
-                $('.leftFloak').addClass('open');
-                $('.leftFloakToggle> span').removeClass('lnr lnr-chevron-right').addClass('lnr lnr-chevron-left');
-            }
-        });
-        $('.leftFloakToggle2').click(function () {
-            var pdiv = $(this).parent('.leftFloak');
-            if ($('.leftFloakToggle2').parent().hasClass('open')) {
-                //console.log('remove')
-                $('.leftFloak2').removeClass('open');
-                $('.leftFloakToggle2> span').removeClass('lnr lnr-chevron-left').addClass('lnr lnr-chevron-right');
-            } else {
-                //console.log('add')
-                $('.leftFloak2').addClass('open');
-                $('.leftFloakToggle2> span').removeClass('lnr lnr-chevron-right').addClass('lnr lnr-chevron-left');
-            }
-        });
-
+        // End of Rev 6.0
     });
 
     function showMap() {
@@ -2893,7 +2910,10 @@
                                                 '<div class="totalVisit"> ' + data.Total_Visit + ' </div>' +
                                                 '<div class="text-center"><span class="badge mapBadge">TOTAL VISITS</span></div>' +
                                             '</li>' +
-                                            '<li><div class="btnrouteCont"><a class="btn btn-danger btn-xs" href="#" onclick=locationclick("' + data.User_Id + '","' + data.SalesMan.replace('  ', '&nbsp;').replace(' ', '&nbsp;') + '");>View Route</a></div></li>' +
+                                            // Rev 5.0
+                                            //'<li><div class="btnrouteCont"><a class="btn btn-danger btn-xs" href="#" onclick=locationclick("' + data.User_Id + '","' + data.SalesMan.replace('  ', '&nbsp;').replace(' ', '&nbsp;') + '");>View Route</a></div></li>' +
+                                            '<li><div class="btnrouteCont"><a class="btn btn-danger btn-xs" href="#" onclick=locationclick("' + data.User_Id + '","' + data.SalesMan.replaceAll('  ', '&nbsp;').replaceAll(' ', '&nbsp;') + '");>View Route</a></div></li>' +
+                                            // End of Rev 5.0
                                         '</ul>' +
                                     '</div>' +
                                 '</div>' +
@@ -3067,8 +3087,13 @@
     //End of Rev Debashis 0025198
 
     function filter() {
+        // Rev 6.0
+        if (@ViewBag.HasGoogleAPIKey== 0) {
+            jAlert("Please configure Google Map Key from System Settings to view map since the setting 'Is show Google Map' is on.");
+        }
+        // End of Rev 6.0
         //Rev Debashis 0025198
-        if (BranchId == "" || BranchId == null) {
+        else if (BranchId == "" || BranchId == null) {
             jAlert("Please select Branch.");
             flag = false;
             return false;

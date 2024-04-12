@@ -3,7 +3,8 @@
  * Rev 2.0     Sanchita    V2.0.39     01/03/2023      FSM >> Product Master : Listing - Implement Show Button. Refer: 25709
  * Rev 3.0     Sanchita    V2.0.40     05/05/2023      Downloaded excel showing blank data while exporting the Product Master in FSM Portal
  *                                                      Refer: 26041
- * Rev 4.0     Sanchita    V2.0.43     06/11/2023      On demand search is required in Product Master & Projection Entry. Mantis: 26858                                                      
+ * Rev 4.0     Sanchita    V2.0.43     06/11/2023      On demand search is required in Product Master & Projection Entry. Mantis: 26858    
+ * Rev 5.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour Search - saved colurs not showing ticked. Mantis: 27211    
  * *****************************************************************************************************************************/
 using System;
 using System.Data;
@@ -31,6 +32,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
 using ClsDropDownlistNameSpace;
 using ClsDropDownlistNameSpace;
+using ERP.Models;
 
 namespace ERP.OMS.Management.Store.Master
 {
@@ -555,28 +557,62 @@ namespace ERP.OMS.Management.Store.Master
             DataTable dtFillGrid = new DataTable();
             ProcedureExecute proc = new ProcedureExecute("FSM_FetchProductsList");
             proc.AddPara("@Products", Convert.ToString(txtProduct_hidden.Value));
+            // Rev Sanchita
+            proc.AddPara("@User_id", Convert.ToInt32(Session["userid"]));
+            // End of Rev Sanchita
             dtFillGrid = proc.GetTable();
             // End of Rev 2.0
 
             AspxHelper oAspxHelper = new AspxHelper();
-            if (dtFillGrid.Rows.Count > 0)
+            // Rev Sanchita
+            //if (dtFillGrid.Rows.Count > 0)
+            //{
+            //    // Rev 3.0
+            //    Session["Master_ProductDetails"] = dtFillGrid;
+            //    // End of Rev 3.0
+            //    cityGrid.DataSource = dtFillGrid;
+            //    cityGrid.DataBind();
+            //}
+            //else
+            //{
+            //    // Rev 3.0
+            //    Session["Master_ProductDetails"] = null;
+            //    // End of Rev 3.0
+            //    cityGrid.DataSource = null;
+            //    cityGrid.DataBind();
+            //}
+
+            cityGrid.JSProperties["cpLoadData"] = "Success";
+            // End of Rev Sanchita
+        }
+
+        // Rev Sanchita
+        protected void EntityServerModelogDataSource_Selecting(object sender, DevExpress.Data.Linq.LinqServerModeDataSourceSelectEventArgs e)
+        {
+            e.KeyExpression = "sProducts_ID";
+            string connectionString = Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]);
+             string IsFilter = Convert.ToString(hfIsFilter.Value);
+            
+            ERPDataClassesDataContext dc1 = new ERPDataClassesDataContext(connectionString);
+
+            if (IsFilter == "Y")
             {
-                // Rev 3.0
-                Session["Master_ProductDetails"] = dtFillGrid;
-                // End of Rev 3.0
-                cityGrid.DataSource = dtFillGrid;
-                cityGrid.DataBind();
+                var q = from d in dc1.FSMProduct_Masters
+                        where d.USERID == Convert.ToInt64(HttpContext.Current.Session["userid"].ToString())
+                        orderby d.sProducts_ID descending
+                        select d;
+                e.QueryableSource = q;
             }
             else
             {
-                // Rev 3.0
-                Session["Master_ProductDetails"] = null;
-                // End of Rev 3.0
-                cityGrid.DataSource = null;
-                cityGrid.DataBind();
-
+                var q = from d in dc1.FSMProduct_Masters
+                        where d.sProducts_ID == 0
+                        select d;
+                e.QueryableSource = q;
             }
         }
+        // End of Rev Sanchita
+
 
         //bind service tax
         protected void BindServiceTax()
@@ -1415,6 +1451,24 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                     string Brand_Desc = Convert.ToString(dtEdit.Rows[0]["Brand_Desc"]);
                     // End of Rev rev 4.0
 
+                    // Rev 5.0
+                    DataTable dtColorNew = oDBEngine.GetDataTable("Master_Color", " convert(varchar(100),Color_ID) as Id, Color_Name as Name  ", " Color_ID in (select Color_ID from Mapping_ProductColor where Products_ID='" + Convert.ToInt32(WhichType) + "')");
+
+                    System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+                    List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+                    Dictionary<string, object> row;
+                    foreach (DataRow dr in dtColorNew.Rows)
+                    {
+                        row = new Dictionary<string, object>();
+                        foreach (DataColumn col in dtColorNew.Columns)
+                        {
+                            row.Add(col.ColumnName, dr[col]);
+                        }
+                        rows.Add(row);
+                    }
+                    string str_jsonColor = serializer.Serialize(rows);
+                    // End of Rev 5.0
+
                     cityGrid.JSProperties["cpEdit"] = sProducts_ID + "~"
                                                     + sProducts_Code + "~"
                                                     + sProducts_Name + "~"
@@ -1499,8 +1553,12 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
                                                     + "~" + ColorNew_Desc
                                                     + "~" + Brand_Desc
                                                     // End of Rev rev 4.0
+                                                    // Rev 5.0
+                                                    + "~" + str_jsonColor
+                                                    // End of Rev 5.0
                                                         ;
                 }
+               
             }
             // Rev 2.0
             if (WhichCall == "Show")
@@ -1634,8 +1692,12 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
         // Rev rev 4.0
         public class ColorNew
         {
-            public string Color_ID { get; set; }
-            public string Color_Name { get; set; }
+            // Rev 5.0
+            //public string Color_ID { get; set; }
+            //public string Color_Name { get; set; }
+            public string id { get; set; }
+            public string Name { get; set; }
+            // End of Rev 5.0
         }
 
         [WebMethod(EnableSession = true)]
@@ -1653,8 +1715,12 @@ if (!string.IsNullOrEmpty(txtPro_Code.Text.Trim()) && !string.IsNullOrEmpty(txtP
             foreach (DataRow dr in dt.Rows)
             {
                 ColorNew lColor = new ColorNew();
-                lColor.Color_ID = dr["Color_ID"].ToString();
-                lColor.Color_Name = dr["Color_Name"].ToString();
+                // Rev 5.0
+                //lColor.Color_ID = dr["Color_ID"].ToString();
+                //lColor.Color_Name = dr["Color_Name"].ToString();
+                lColor.id = dr["Color_ID"].ToString();
+                lColor.Name = dr["Color_Name"].ToString();
+                // End of Rev 5.0
                 listColorNew.Add(lColor);
             }
             return listColorNew;

@@ -3,6 +3,7 @@
 @* 1.0         17-02-2023        V2.0.39    Pallab          Settings/Options module design modification *@
 @* 2.0         30-06-2023        V2.0.41    Sanchita        Time format should be changed to 24 hours instead of 12 hours format in the
                                                             System Settings, Intime and Intime. Refer: 26466                      *@
+@* 3.0         03-04-2024        V2.0.46    Sanchita        FSM - SystemSettings - Login Time not loading in edit mode. refer:  *@
 @*====================================================== Revision History ===================================================*@
 
 @model IEnumerable<MyShop.Models.SystemsettingsModel>
@@ -90,37 +91,58 @@
 
         $("#Variable_value").html(value);
 
-        // Rev Sanchita
+        // Rev 3.0
         $("#hdnControlType").val(controltype);
         $("#hdnSettingKey").val(editkey);
         $("#Variable_Key").html(editkey);
-        // End of Rev Sanchita
+        // End of Rev 3.0
 
 
         if (controltype == "NUMBERBOX")
         {
             $("#numberinput").show();
+            // Rev 3.0
+            $("#numValue").val(value)
+            // End of Rev 3.0
         }
         else if(controltype == "TEXTBOX")
         {
             $("#textbox").show();
+            // Rev 3.0
+            $("#txtValue").val(value)
+            // End of Rev 3.0
         }
         else if(controltype == "YESNO")
         {
             $("#yesno").show();
+            // Rev 3.0
+            if (value==1 || value=="Yes")
+                $("#selValue").val("Yes")
+            else
+                $("#selValue").val("No")
+            // End of Rev 3.0
         }
-            // Rev sanchita
+            // Rev 3.0
         else if (controltype == "BIT") {
             $("#bit").show();
+            // Rev 3.0
+            $("#selBitValue").val(value)
+            // End of Rev 3.0
         }
-            // End of Rev Sanchita
+            // End of Rev 3.0
         else if(controltype == "DATE")
         {
             $("#datep").show();
+            // Rev 3.0
+            $("#dtValue").val(value)
+            // End of Rev 3.0
         }
         else if(controltype == "TIME")
         {
             $("#timep").show();
+            // Rev 3.0
+            $("#tmValue").val(value)
+            // End of Rev 3.0
         }
 
 
@@ -768,9 +790,9 @@
             <table id="systemsettingslist" class="table table-bordered table-bordered fff" style="width:100%">
                 <thead>
                     <tr>
-                        @*Rev Sanchita*@
+                        @*Rev 3.0*@
                         <th style="width:15%">Key</th>
-                        @*End of Rev Sanchita*@
+                        @*End of Rev 3.0*@
                         <th style="width:60%">Description</th>
                         <th style="width:25%">Value</th>
                         <th style="width:15%">Actions</th>
@@ -794,9 +816,9 @@
                         foreach (var item in Model)
                         {
                             <tr>
-                                @*Rev Sanchita*@
+                                @*Rev 3.0*@
                                 <td>@item.Key</td>
-                                @*End of Rev Sanchita*@
+                                @*End of Rev 3.0*@
                                 <td>@item.Description</td>
                                 <td>@item.VALUE</td>
                                 @*<td>@item.CONTROL_TYPE</td>*@
@@ -827,12 +849,12 @@
                         </div>
                         <div class="modal-body">
                             <form id="popup-edit">
-                                @*Rev Sanchita*@
+                                @*Rev 3.0*@
                                 <div class="form-group">
                                     <label>Key:</label>
                                     <p id="Variable_Key"></p>
                                 </div>
-                                @*End of Rev Sanchita*@
+                                @*End of Rev 3.0*@
                                 <div class="form-group">
                                     <label>Variable Description:</label>
                                     <p id="Variable_description"></p>
@@ -853,7 +875,7 @@
                                         <option>No</option>
                                     </select>
                                 </div>
-                                @*Rev Sanchita*@
+                                @*Rev 3.0*@
                                 <div class="form-group h-branch-select" id="bit" style="display:none">
                                     <label for="pwd">Value:</label>
                                     <select class="form-control" id="selBitValue">
@@ -861,7 +883,7 @@
                                         <option>1</option>
                                     </select>
                                 </div>
-                                @*End of Rev Sanchita*@
+                                @*End of Rev 3.0*@
                                 <div class="form-group" id="numberinput" style="display:none">
                                     <label for="pwd">Value:</label>
                                     <input type="number" class="form-control" id="numValue" placeholder="0.00" step='0.01' value='0'>
@@ -908,7 +930,7 @@
         </div>
     </div>
 </div>
-@*Rev Sanchita*@
+@*Rev 3.0*@
 <input type="hidden" id="hdnControlType" />
 <input type="hidden" id="hdnSettingKey" />
-@*End of Rev Sanchita*@
+@*End of Rev 3.0*@

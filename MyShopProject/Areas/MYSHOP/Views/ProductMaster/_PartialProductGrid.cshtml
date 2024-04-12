@@ -1,0 +1,138 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@* Written by Sanchita for  v2.0.46  on 13/03/2024     New Product Module shall be implemented for ITC Refer: 27289 *@
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridProductList";
+    settings.KeyFieldName = "sProducts_ID";
+    settings.CallbackRouteValues = new { Action = "_PartialProductGrid", Controller = "ProductMaster" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "sProducts_Code";
+        x.Caption = "Item Code";
+        x.VisibleIndex = 1;
+        // x.Width = 200;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "sProducts_Name";
+        x.Caption = "Item Name";
+        x.VisibleIndex = 2;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ProductClass_Name";
+        x.Caption = "Item Class/Category";
+        x.VisibleIndex = 3;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Brand_Name";
+        x.Caption = "Item Brand";
+        x.VisibleIndex = 4;
+        //x.Width = 120;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Size_Name";
+        x.Caption = "Item Strength";
+        x.VisibleIndex = 5;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(35);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "sProduct_Price";
+        x.Caption = "Item Price";
+        x.VisibleIndex = 6;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "sProduct_MRP";
+        x.Caption = "Item MRP";
+        x.VisibleIndex = 7;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        x.PropertiesEdit.DisplayFormatString = "0.00";
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "sProduct_Status";
+        x.Caption = "Item Status";
+        x.VisibleIndex = 8;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "UOM_Name";
+        x.Caption = "Item Unit";
+        x.VisibleIndex = 9;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Action";
+        x.VisibleIndex = 10;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.VerticalAlign = System.Web.UI.WebControls.VerticalAlign.Middle;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+        x.SetDataItemTemplateContent(c =>
+        {
+            if (ViewBag.CanEdit)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "sProducts_ID")) + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /></a>");
+            }
+            if (ViewBag.CanDelete)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "sProducts_ID")) + "')\"><img src='/assests/images/Delete.png'/> </a>");
+            }
+        });
+
+    });
+
+}).Bind(Model).GetHtml()

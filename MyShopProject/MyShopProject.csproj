@@ -256,6 +256,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\ClosingStockController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CollectionRegisterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CompetitorStockRegisterController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\ConfigureLeaderboardController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ContentManagementController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CounterListController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CRMContactController.cs" />
@@ -354,6 +355,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\PrimaryFundPlanController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PrimarySalesOrderController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\PriorityMasterController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\ProductMasterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ProjectReportController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\QualifiedAttendanceReportController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\QuotationApprovalController.cs" />
@@ -397,6 +399,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Areas\MYSHOP\Controllers\UserversionController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\ViewGeographyController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\ViewGeotrackController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ViewPartyController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ViewPartyHierarchyController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ViewRouteController.cs" />
@@ -426,6 +430,7 @@
     <Compile Include="Models\ChemistStockistDetailsModel.cs" />
     <Compile Include="Models\ClosingStock.cs" />
     <Compile Include="Models\CollectionRegisterModel.cs" />
+    <Compile Include="Models\ConfigueLeaderboardModel.cs" />
     <Compile Include="Models\CRMContactModel.cs" />
     <Compile Include="Models\CRMEnquiriesModel.cs" />
     <Compile Include="Models\CurrentStockReportModel.cs" />
@@ -503,6 +508,7 @@
     <Compile Include="Models\PrimaryFundPlanModel.cs" />
     <Compile Include="Models\PrimarySalesOrderModel.cs" />
     <Compile Include="Models\PriorityMasterModel.cs" />
+    <Compile Include="Models\ProductMasterModel.cs" />
     <Compile Include="Models\ProjectReportModel.cs" />
     <Compile Include="Models\QuotationApprovalModel.cs" />
     <Compile Include="Models\QuotationDetailsModel.cs" />
@@ -548,6 +554,8 @@
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\UserversioningUsages.cs" />
     <Compile Include="Models\Userwiseattendance.cs" />
+    <Compile Include="Models\ViewGeographyModel.cs" />
+    <Compile Include="Models\ViewGeotrackModel.cs" />
     <Compile Include="Models\VisitDurationsmonthly.cs" />
     <Compile Include="Models\Visitshopsmonthly.cs" />
     <Compile Include="Models\WarehouseMasterModel.cs" />
@@ -2022,6 +2030,15 @@
     <Content Include="Areas\MYSHOP\Views\CRMContact\ContactImportLog.cshtml" />
     <Content Include="Areas\MYSHOP\Views\OutletWiseCallLogging\PartialGetOutletWiseCallLog.cshtml" />
     <Content Include="Areas\MYSHOP\Views\OutletWiseCallLogging\Report.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ProductMaster\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ProductMaster\_PartialProductGrid.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ViewGeography\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ViewGeography\_PartyTypeList.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ViewGeotrack\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ProductMaster\_ProductImportManualLogView.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ProductMaster\ImportLog.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ConfigureLeaderboard\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\ConfigureLeaderboard\_PartialPointConfiguration.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

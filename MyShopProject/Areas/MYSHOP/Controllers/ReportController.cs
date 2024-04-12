@@ -1,5 +1,6 @@
 ﻿//====================================================== Revision History ==========================================================
 //1.0  19-07-2023   V2 .0.42   Priti     0026135: Branch Parameter is required for various FSM reports
+//2.0  04-04-2024   V2 .0.46   Sanchita  0027345: Two checkbox required in parameter for Order register report.
 //====================================================== Revision History ==========================================================
 using System;
 using System.Collections.Generic;
@@ -105,6 +106,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 ViewBag.h_id = h_id;
                 //REV 1.0 End
 
+                // Rev 2.0
+                CommonBL cbl = new CommonBL();
+                ViewBag.IsViewMRPInOrder = cbl.GetSystemSettingsResult("IsViewMRPInOrder");
+                ViewBag.MRPInOrder = cbl.GetSystemSettingsResult("MRPInOrder");
+                ViewBag.IsDiscountInOrder = cbl.GetSystemSettingsResult("IsDiscountInOrder");
+                // End of Rev 2.0
+
                 return View(omodel);
 
 
@@ -145,6 +153,17 @@ namespace MyShop.Areas.MYSHOP.Controllers
         {
             try
             {
+                // Rev 2.0
+                ViewBag.IsShowMRP = model.IsShowMRP;
+                ViewBag.IsShowDiscount = model.IsShowDiscount;
+
+                TempData["IsShowMRP"] = model.IsShowMRP;
+                TempData.Keep();
+
+                TempData["IsShowDiscount"] = model.IsShowDiscount;
+                TempData.Keep();
+                // End of Rev 2.0
+
                 string Is_PageLoad = string.Empty;
                 String weburl = System.Configuration.ConfigurationSettings.AppSettings["SiteURL"];
                 List<GpsStatusClasstOutput> omel = new List<GpsStatusClasstOutput>();
@@ -245,8 +264,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 if (days <= 30)
                 {
                     //Rev 1.0
-                   // dt = objgps.GetReportOrderRegister(datfrmat, dattoat, Userid, state, shop, empcode);
-                    dt = objgps.GetReportOrderRegisterNew(datfrmat, dattoat, Userid, state, shop, empcode, Branch_Id);
+                    // dt = objgps.GetReportOrderRegister(datfrmat, dattoat, Userid, state, shop, empcode);
+                    // Rev 2.0
+                    //dt = objgps.GetReportOrderRegisterNew(datfrmat, dattoat, Userid, state, shop, empcode, Branch_Id);
+                    dt = objgps.GetReportOrderRegisterNew(datfrmat, dattoat, Userid, state, shop, empcode, Branch_Id, model.IsShowMRP, model.IsShowDiscount);
+                    // End of Rev 2.0
                     //Rev 1.0 End
                 }
 
@@ -429,7 +451,27 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "QUANTITY";
                 column.PropertiesEdit.DisplayFormatString = "0.00";
             });
+            // Rev 2.0
+            if (TempData["IsShowMRP"].ToString() == "1")
+            {
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "MRP";
+                    column.FieldName = "MRP";
+                    column.PropertiesEdit.DisplayFormatString = "0.00";
+                });
+            }
 
+            if (TempData["IsShowDiscount"].ToString() == "1")
+            {
+                settings.Columns.Add(column =>
+                {
+                    column.Caption = "Discount";
+                    column.FieldName = "DISCOUNT";
+                    column.PropertiesEdit.DisplayFormatString = "0.00";
+                });
+            }
+            // End of Rev 2.0
             settings.Columns.Add(column =>
             {
                 column.Caption = "Rate";
@@ -466,6 +508,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 });
             }
             //End of Mantis Issue 24593
+            
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;
             settings.SettingsExport.RightMargin = 20;

@@ -1,7 +1,12 @@
-﻿@*====================================================== Revision History ==========================================================*@
+﻿@*====================================================== Revision History ====================================================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                31-01-2023        2.0.38           Pallab              25576: Report page design modification *@
-@*====================================================== Revision History ==========================================================*@
+@*2.0                07/02/2024        V2.0.45          Sanchita            System is loading while click on the employee selection
+                                                                            parameter in Monthly performance report for Sales Personnel.
+                                                                            Mantis: 27227 [On Demand Search of Employee done.] *@
+@*3.0                08/03/2024        v2.0.45          Debashis            Monthly Performance report for Sales Personnel is taking huge time to generate the data.
+                                                                            Now it has been taken care of.Refer: 0027302*@
+@*====================================================== Revision History ====================================================================================*@
 
 @model System.Data.DataSet
 @{
@@ -9,6 +14,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+@*Rev 2.0*@
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+
+
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchPopup.js"></script>
+
+@*End of Rev 2.0*@
+
 <script>
     var is_pageload = "0";
 
@@ -23,15 +43,29 @@
               jAlert("Please Select Month.");
               $("#ddlMonth").focus();
           }
-          if (SingleEmpGridLookup.GetSelectedKeyFieldValues() == "") {
-              flag = false;
-              jAlert("Please Select Employee.");
-              SingleEmpGridLookup.focus();
-          }
+          // Rev 2.0
+          //if (SingleEmpGridLookup.GetSelectedKeyFieldValues() == "") {
+          //    flag = false;
+          //    jAlert("Please Select Employee.");
+          //    SingleEmpGridLookup.focus();
+          //}
+
+            empId = $('#hdnEmployeeID').val();
+            console.log($('#hdnEmployeeID').val());
+
+            if ($('#hdnEmployeeID').val() == "0" || $('#hdnEmployeeID').val() == "") {
+                jAlert("Please select Employee.");
+                flag = false;
+            }
+            // End of Rev 2.0
+
             if (flag == true) {
                 is_pageload = "1";
                 gridMonthsalesmanView.Refresh();
             }
+            //Rev 3.0
+            gridMonthsalesmanView.Refresh();
+            //End of Rev 3.0
         });
 
         $('#ddlSumExport').on('change', function () {
@@ -50,38 +84,90 @@
 
         e.customArgs["MonthID"] = $("#ddlMonth").val();
         e.customArgs["ProductID"] = ProductId;
-        e.customArgs["empcode"] = SingleEmpGridLookup.GetSelectedKeyFieldValues();
+        // Rev 2.0
+        //e.customArgs["empcode"] = SingleEmpGridLookup.GetSelectedKeyFieldValues();
+        e.customArgs["empcode"] = empId;
+        // End of Rev 2.0
         e.customArgs["is_pageload"] = is_pageload;
         e.customArgs["PageName"] = "MonthWisePerformanceofSalesman";
         e.customArgs["YearID"] = $("#ddlYear").val();
     }
 
 
+    // Rev 2.0
+    //function SingleEmpStartCallback(s, e) {
+    //    e.customArgs["StateId"] = "";
+    //    e.customArgs["desgid"] = "";
+    //}
 
-    function SingleEmpStartCallback(s, e) {
-        e.customArgs["StateId"] = "";
-        e.customArgs["desgid"] = "";
-    }
+    //var empId = [];
+    //function SingleEmpSelectionChanged(s, e) {
+    //   // debugger;
+    //    SingleEmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    //}
+    //function GetEmpSelectedFieldValuesCallback(values) {
+    //    try {
+    //        empId = [];
+    //        for (var i = 0; i < values.length; i++) {
+    //            empId.push(values[i]);
+    //        }
+    //    } finally {
+    //        console.log(empId);
+    //    }
+    //}
+
+    //function SingleEmpLookupValChange() {
+    //    SingleEmpGridLookup.GetGridView().Refresh()
+    //}
+
 
     var empId = [];
-    function SingleEmpSelectionChanged(s, e) {
-       // debugger;
-        SingleEmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeSearchModel').modal('show');
     }
-    function GetEmpSelectedFieldValuesCallback(values) {
-        try {
-            empId = [];
-            for (var i = 0; i < values.length; i++) {
-                empId.push(values[i]);
-            }
-        } finally {
-            console.log(empId);
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#EmployeeSearchModel').modal('show');
+            $("#txtEmployeeSearch").focus();
         }
     }
 
-    function SingleEmpLookupValChange() {
-        SingleEmpGridLookup.GetGridView().Refresh()
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "EmployeeIndex", "SetEmployee");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[EmployeeIndex=0]"))
+                $("input[EmployeeIndex=0]").focus();
+        }
     }
+
+    function SetEmployee(id, Name) {
+        var key = id;
+        $('#hdnEmployeeID').val(id);
+
+        if (key != null && key != '') {
+            $('#EmployeeSearchModel').modal('hide');
+            EmployeeTxt.SetText(Name);
+            EmployeeTxt.SetFocus();
+        }
+    }
+
+    // End of Rev 2.0
 
     function ProductStartCallback(s, e) {
 
@@ -680,7 +766,7 @@
                 <table class="eqpadtbl">
                     <tr>
                         @*<td class="w150 col-md-3" id="mnthIntro">*@
-                            <td class="w150 col-md-3  h-branch-select" id="mnthIntro">
+                        <td class="w150 col-md-3  h-branch-select" id="mnthIntro">
                             <label>Month</label>
                             <div>
                                 <select name="ddlMonths" class="full form-control" id="ddlMonth">
@@ -717,10 +803,32 @@
                             </div>
                         </td>
 
-                        <td class="w150 col-md-3" id="empIntro">
-                            <label>Employee(s)</label>
+                        @*Rev 2.0*@
+                        @*<td class="w150 col-md-3" id="empIntro">
+                            <label>Employee(s)</label>*@
+                        <td class="w300 col-md-4" id="empIntro">
+                            <label>Employee</label>
+                            @*End of Rev 2.0*@
                             <div>
-                                @Html.Action("GetEmpListSingleSelectActive", "MasterPopulate")
+                                @*Rev 2.0*@
+                                @*@Html.Action("GetEmpListSingleSelectActive", "MasterPopulate")*@
+
+                                @Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "EmployeeTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    //settings.Text = Model.AssignedTo;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                                }).GetHtml()
+
+                                @*<input type="hidden" id="hdnEmployeeID" >*@
+
+                                @*End of Rev 2.0*@
                             </div>
                         </td>
                         <td class="w150 col-md-3 hidden" id="empIntro">
@@ -779,3 +887,36 @@
         </div>
     </div>
 </div>
+
+@*Rev 2.0*@
+<input type="hidden" id="hdnEmployeeID" />
+
+<!--Employee List-->
+<div class="modal fade pmsModal w70" id="EmployeeSearchModel" role="dialog">
+    <div class="modal-dialog w-50">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" autofocus style="width:100%" placeholder="Search By Employee Name or Employee Id" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Employee List-->
+@*End of Rev 2.0*@

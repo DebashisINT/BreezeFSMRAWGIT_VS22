@@ -4,6 +4,7 @@ Rev 1.0     Pallab      V2.0.41     02/06/2023      "Session expired" message ch
 Rev 2.0     Pallab      V2.0.41     22/06/2023      all module responsive work and make mobile friendly
                                                     Refer: 26442
 Rev 3.0     Pallab      V2.0.42     07-07-2023      FSM dashboard tab data not coming in ITC, when "Employees On Leave" box hide. refer: 26529
+Rev 4.0     Sanchita    V2.0.45     14-02-2024      Change Password option not working. Mantis: 27242
 **********************************************************************************************************************--%>
 
 <%@ Master Language="C#" AutoEventWireup="true" CodeBehind="ERP.master.cs" Inherits="ERP.OMS.MasterPage.ERP" %>
@@ -576,7 +577,10 @@ Rev 3.0     Pallab      V2.0.42     07-07-2023      FSM dashboard tab data not c
                         <li>
                            <%-- Mantise issue: 0025122--%>
                             <%--<a class="dropdown-item" href="/OMS/Management/ToolsUtilities/frmchangepassword.aspx">--%>
-                            <a class="dropdown-item" href="/OMS/Management/ToolsUtilities/frmchangeuserspassword.aspx">
+                            <%--Rev 4.0--%>
+                            <%--<a class="dropdown-item" href="/OMS/Management/ToolsUtilities/frmchangeuserspassword.aspx">--%>
+                            <a class="dropdown-item" href="/OMS/Management/ToolsUtilities/frmchangepassword.aspx">
+                            <%--End of Rev 4.0--%>
                                 <%--End of  Mantise issue: 0025122--%>
                                 <span class="lnr lnr-keyboard"></span>
                                 <span>Change Password</span>

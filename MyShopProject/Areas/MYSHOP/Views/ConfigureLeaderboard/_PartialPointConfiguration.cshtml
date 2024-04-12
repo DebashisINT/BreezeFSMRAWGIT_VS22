@@ -1,0 +1,100 @@
+﻿@**********************************************************************************************************************************@
+@* Written by Sanchita     29-03-2024  for    V2.0.46  27299: One settings page required for Leaderboard in the backend. Below points should be captured for different section.
+@**********************************************************************************************************************************@
+
+@*@model MyShop.Models.TravelConveyanceModelclass*@
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridPointConfiguration";
+    settings.KeyFieldName = "pointID";
+
+    settings.CallbackRouteValues = new { Action = "ConfigurationPartial", Controller = "ConfigureLeaderboard" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "pointID";
+        x.Caption = "Serial";
+        //x.Width = 20;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "POINT_SECTION";
+        x.Caption = "Section";
+
+        //x.Width = 250;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "POINT_VALUE";
+        x.Caption = "Point Value";
+        //x.Width = 250;
+
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(25);
+
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "IS_ACTIVE";
+        x.Caption = "Active";
+        //x.Width = 250;
+
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Action";
+        x.VisibleIndex = 15;
+        //x.Width = 200;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.SetDataItemTemplateContent(c =>
+        {
+            if (ViewBag.CanEdit)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditConfiguration('" + Convert.ToString(DataBinder.Eval(c.DataItem, "pointID")) + "')\"><img src='/assests/images/Edit.png' /></a>");
+            }
+
+            //  ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteTConveyance('" + Convert.ToString(DataBinder.Eval(c.DataItem, "pointID")) + "')\"><img src='/assests/images/Delete.png' </a>");
+
+        });
+
+
+
+
+
+    });
+
+}).Bind(Model.points).GetHtml()
+
+

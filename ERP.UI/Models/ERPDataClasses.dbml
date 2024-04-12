@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FSM_ITC" Class="ERPDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=3.7.30.86,1480\SQLEXPRESS;Initial Catalog=FSM_ITC;User ID=sa" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="RollickTestingConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.v_FinanceReconciliationList" Member="v_FinanceReconciliationLists">
     <Type Name="v_FinanceReconciliationList">
       <Column Name="SrlNo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
@@ -1527,6 +1526,75 @@
       <Column Name="EFFECTIVE_PRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="sProducts_Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="state" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FSMProduct_Master" Member="FSMProduct_Masters">
+    <Type Name="FSMProduct_Master">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="sProducts_Code" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="sProducts_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="sProducts_Description" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="sProducts_Type" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="sProducts_TypeFull" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="ProductClass_Code" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ProductClass_Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="sProducts_GlobalCode" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="sProducts_TradingLot" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_TradingLotUnit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_QuoteCurrency" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_QuoteLot" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_QuoteLotUnit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_DeliveryLot" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_DeliveryLotUnit" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_Color" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_Size" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_CreateUser" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_CreateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="sProducts_ModifyUser" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sProducts_ModifyTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="HSNCODE" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Brand_Name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="sProduct_IsInventory" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Is_ServiceItem" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="sProduct_IsCapitalGoods" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="sInv_MainAccount" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="sRet_MainAccount" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="pInv_MainAccount" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="pRet_MainAccount" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PRODUCTSPECIALPRICELIST" Member="PRODUCTSPECIALPRICELISTs">
+    <Type Name="PRODUCTSPECIALPRICELIST">
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="USERID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SlNo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SPECIALPRICEID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="BRANCH_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="BRANCH" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="PRODUCT_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PRODUCTCODE" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="PRODUCTNAME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="SPECIALPRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PRODUCTBRANCHMAPLIST" Member="PRODUCTBRANCHMAPLISTs">
+    <Type Name="PRODUCTBRANCHMAPLIST">
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="USERID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SlNo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PRODUCTBRANCHMAP_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="BRANCH_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="BRANCH" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="PRODUCT_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PRODUCTCODE" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="PRODUCTNAME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="PARENTEMP" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="CHILDEMP" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="CREATED_BY" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="CREATED_ON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MODIFIED_BY" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="MODIFIED_ON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

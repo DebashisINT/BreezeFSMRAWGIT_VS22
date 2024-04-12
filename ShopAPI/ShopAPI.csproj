@@ -264,9 +264,11 @@
     <Compile Include="Controllers\GPSStatusController.cs" />
     <Compile Include="Controllers\HomeLoactionVisitController.cs" />
     <Compile Include="Controllers\IdealLocationController.cs" />
+    <Compile Include="Controllers\ITCOrderWithProductDetailController.cs" />
     <Compile Include="Controllers\JobCustomerController.cs" />
     <Compile Include="Controllers\KnowYourStateController.cs" />
     <Compile Include="Controllers\LeadEnquiryDetailsController.cs" />
+    <Compile Include="Controllers\LeaderboardInfoController.cs" />
     <Compile Include="Controllers\LeadTypeController.cs" />
     <Compile Include="Controllers\LeaveApprovalController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
@@ -301,6 +303,7 @@
     <Compile Include="Controllers\RubyFoodLeadController.cs" />
     <Compile Include="Controllers\RubyLeadImageController.cs" />
     <Compile Include="Controllers\SalesQuotationController.cs" />
+    <Compile Include="Controllers\SendAutoMailController.cs" />
     <Compile Include="Controllers\SendMarketingdetailsController.cs" />
     <Compile Include="Controllers\ShopAssignmentController.cs" />
     <Compile Include="Controllers\ShopAttendanceController.cs" />
@@ -388,8 +391,10 @@
     <Compile Include="Models\Gpslocation.cs" />
     <Compile Include="Models\HomeLocationVisitInput.cs" />
     <Compile Include="Models\IdealModel.cs" />
+    <Compile Include="Models\ITCOrderWithProductDetailModel.cs" />
     <Compile Include="Models\JobCustomerModel.cs" />
     <Compile Include="Models\LeadEnquiryDetailsModel.cs" />
+    <Compile Include="Models\LeaderboardInfoModel.cs" />
     <Compile Include="Models\LeadTypeModel.cs" />
     <Compile Include="Models\LeaveApprovalRecord.cs" />
     <Compile Include="Models\Leavetype.cs" />
@@ -429,6 +434,7 @@
     <Compile Include="Models\RubyFoodModel.cs" />
     <Compile Include="Models\RubyLeadImageModel.cs" />
     <Compile Include="Models\SalesQuotationModel.cs" />
+    <Compile Include="Models\SendAutoMailModel.cs" />
     <Compile Include="Models\ShopdaywiseModel.cs" />
     <Compile Include="Models\ShopMultipleContactMapModel.cs" />
     <Compile Include="Models\Shopslist.cs" />

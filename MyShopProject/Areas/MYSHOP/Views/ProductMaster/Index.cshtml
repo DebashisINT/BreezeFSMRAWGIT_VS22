@@ -1,0 +1,1051 @@
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*Written by Sanchita on 13-03-2024 for 2.0.46   New Product Module shall be implemented for ITC. Refer: 27289 *@
+@*====================================================== Revision History ===========================================================*@
+@using MyShop.Models;
+@model MyShop.Models.ProductMasterModel
+@{
+    ViewBag.Title = "Products";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .modal-footer {
+        padding: 10px 20px 10px;
+    }
+
+    .dxgvLoadingPanel_PlasticBlue {
+        left: 42% !important;
+    }
+    /*Rev 2.0*/
+    #gridUserList {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    /*Rev end 2.0*/
+
+    /*Rev 3.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 14px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 8px;
+            right: -2px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    select:not(.btn) {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .dxgvControl_PlasticBlue a {
+        margin: 0 3px;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .linerHd {
+        background: #4e8fcf !important;
+    }
+
+    #popup_message {
+        padding-left: 0 !important;
+        text-align: center !important;
+    }
+
+    #popup_panel {
+        margin: 14px 0 5px;
+    }
+
+    #popup_ok, #popup_cancel {
+        border-radius: 4px !important;
+    }
+
+    #gridUserList_DXPagerTop_PSP, #gridUserList_DXPagerBottom_PSP {
+        right: 36px !important;
+        left: auto !important;
+    }
+
+    #myImportProductModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+
+    .btn-primary {
+        background-color: #09527b;
+    }
+
+    .btn-info {
+        background-color: #1eadb9;
+    }
+
+    .btn-warning {
+        background-color: #bf822c;
+    }
+
+    .btn-view-log {
+        background: #7919a9;
+        color: #fff;
+    }
+
+        .btn-view-log:hover {
+            color: #fff;
+            background: #440662;
+        }
+
+        .btn-show {
+            background: #011a9d;
+            color: #fff;
+        }
+
+            .btn-show:hover {
+                color: #fff;
+                background: #031366;
+            }
+
+    .tblspace > tbody > tr > td {
+        padding-right: 10px;
+    }
+
+    .btn:focus {
+        color: #fff;
+    }
+</style>
+
+<script>
+    var Ispageload = "0";
+
+    $(function () {
+        $('#ddlAppIds').on('change', function () {
+        if ($("#ddlAppIds option:selected").index() > 0) {
+            var selectedValue = $(this).val();
+            var desg = $("#drpdesignation").val();
+            var usrtype = $("#ddlusertypes").val();
+            $('#ddlAppIds').prop("selectedIndex", 0);
+            var url = '@Url.Action("ExporProductMasterList", "ProductMaster", new { type = "_type_" })'
+            window.location.href = url.replace("_type_", selectedValue);
+
+        }
+        });
+
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
+
+        $(".allow_decimal").on("input", function (evt) {
+            var self = $(this);
+            self.val(self.val().replace(/[^0-9\.]/g, ''));
+            if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                evt.preventDefault();
+            }
+        });
+    });
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#txtProductMRP').on('input', function () {
+            var inputValue = $(this).val().replace(/[^0-9.]/g, ''); // Remove non-numeric characters except for the dot
+            var parts = inputValue.split('.');
+
+            // Allow up to 15 digits before the decimal
+            if (parts[0].length > 15) {
+                parts[0] = parts[0].substring(0, 15);
+            }
+
+            // Limit decimals to 2
+            if (parts[1] && parts[1].length > 2) {
+                parts[1] = parts[1].substring(0, 2);
+            }
+
+            // Combine the integer and decimal parts with only one decimal point
+            var sanitizedValue = parts.length > 1 ? parts[0] + '.' + parts.slice(1).join('') : parts[0];
+            $(this).val(sanitizedValue);
+        });
+
+        $('#txtProductPrice').on('input', function () {
+            var inputValue = $(this).val().replace(/[^0-9.]/g, ''); // Remove non-numeric characters except for the dot
+            var parts = inputValue.split('.');
+
+            // Allow up to 15 digits before the decimal
+            if (parts[0].length > 15) {
+                parts[0] = parts[0].substring(0, 15);
+            }
+
+            // Limit decimals to 2
+            if (parts[1] && parts[1].length > 2) {
+                parts[1] = parts[1].substring(0, 2);
+            }
+
+            // Combine the integer and decimal parts with only one decimal point
+            var sanitizedValue = parts.length > 1 ? parts[0] + '.' + parts.slice(1).join('') : parts[0];
+            $(this).val(sanitizedValue);
+        });
+    });
+</script>
+
+
+<script>
+    function AddNew() {
+        $("#hdnProductID").val('0');
+        $("#txtProductCode").val('');
+        $("#txtProductMRP").val('0');
+        $("#txtProductName").val('');
+        $("#txtProductPrice").val('0');
+
+        $("#ddlProductClass").val('0');
+        $("#ddlProductStrength").val('0');
+        $("#ddlProductUnit").val('0');
+        $("#ddlProductBrand").val('0');
+        $("#ddlProductStatus").val('1');
+
+        $("#ProductAddModal").modal('show');
+    }
+
+    function EditClick(ID) {
+        $("#hdnProductID").val(ID);
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("EditProduct", "ProductMaster")",
+            data: { id: ID },
+            success: function (response) {
+                if (response.code == "") {
+                    jAlert('No data found');
+                }
+                else {
+                    $("#txtProductCode").val(response.ProductCode);
+                    $("#txtProductMRP").val(response.ProductMRP);
+                    $("#txtProductName").val(response.ProductName);
+                    $("#txtProductPrice").val(response.ProductPrice);
+
+                    $("#ddlProductClass").val(response.ProductClass);
+                    $("#ddlProductStrength").val(response.ProductStrength);
+                    $("#ddlProductUnit").val(response.ProductUnit);
+                    $("#ddlProductBrand").val(response.ProductBrand);
+                    $("#ddlProductStatus").val(response.ProductStatus);
+
+                    $("#ProductAddModal").modal('show');
+
+                }
+            }
+
+        });
+    }
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Ispageload"] = "1";
+    }
+
+    function ShowData() {
+        gridProductList.Refresh();
+    }
+
+    function SaveProduct() {
+        var id = $("#hdnProductID").val();
+
+        if ($("#txtProductCode").val().trim() == "") {
+            jAlert('Enter Item Code to proceed.');
+            return false;
+        }
+        else if ($("#txtProductName").val().trim() == "") {
+            jAlert("Enter Item Name to proceed.");
+            return false;
+        }
+        else if ($("#ddlProductClass").val() == "0") {
+            jAlert("Select Item Class/Category to proceed.");
+            return false;
+        }
+        else if ($("#ddlProductBrand").val() == "0") {
+            jAlert("Select Item Brand to proceed.");
+            return false;
+        }
+        else if ($("#ddlProductStrength").val() == "0") {
+            jAlert("Select Item Strength to proceed.");
+            return false;
+        }
+        else if ($("#txtProductPrice").val() == 0) {
+            jAlert("Enter Item Price to proceed.");
+            return false;
+        }
+        else if ($("#txtProductMRP").val() == 0) {
+            jAlert("Enter Item MRP to proceed.");
+            return false;
+        }
+        else if ($("#ddlProductUnit").val() == "0") {
+            jAlert("Select Item Unit to proceed.");
+            return false;
+        }
+
+        else {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SaveProduct", "ProductMaster")",
+                data: {
+                    id: id, ProductCode: $("#txtProductCode").val(), ProductName: $("#txtProductName").val(), ProductMRP: $("#txtProductMRP").val(), ProductPrice: $("#txtProductPrice").val(),
+                    ProductClass: $("#ddlProductClass").val(), ProductStrength: $("#ddlProductStrength").val(), ProductUnit: $("#ddlProductUnit").val(), ProductBrand: $("#ddlProductBrand").val(),
+                    ProductStatus: $("#ddlProductStatus").val()
+                },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                       if (confirm("Product saved successfully.")) {
+                            $("#ProductAddModal").modal('hide');
+                            //gridList.Refresh();
+                            location.reload();
+                        }
+                    }
+                    else if (parseInt(response) == -1)
+                        jAlert('Product code already exists.')
+                    else if (parseInt(response) == -10)
+                        jAlert('Please try after sometime.')
+                }
+            });
+        }
+    }
+
+    function DeleteClick(ID) {
+        $("#hdnProductID").val(ID);
+        jConfirm('Are you sure to delete?', 'Alert', function (r) {
+            if (r == true)
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteProduct", "ProductMaster")",
+                    data: { ID: ID},
+                    success: function (response) {
+                       if (parseInt(response) > 0) {
+                            if (confirm("Deleted successfully.")) {
+                                location.reload();
+                            }
+                        }
+                        else if (parseInt(response) == -1) {
+                           jAlert('Transaction exists. Cannot delete.')
+                        }
+                    }
+                });
+        });
+    }
+
+     function DownloadFormat() {
+        var url = '@Url.Action("DownloadFormat", "ProductMaster")'
+        window.location.href = url;
+    }
+
+    function ImportProductPopOpen() {
+        $("#myImportProductModal").modal('show');
+    }
+
+    function ChekEmpSettingsUpload() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("ImportExcel", "ProductMaster")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        //$("#myImportProductModal").toggle();
+                        $("#myImportProductModal").modal('hide');
+                        //GridShow();
+                        //$.ajax({
+                         //   type: "POST",
+                         //   url: "@Url.Action("GetPartyImportLog", "ProductMaster")",
+                         //   success: function (response) {
+                         //       if (response) {
+                         //           pcModalTemplateImportLogMode.Show();
+                         //           gridTemplateImportLogList.Refresh();
+                        //            gridTemplateImportLogList.Refresh();
+                        //        }
+                        //    }
+                        //});
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+
+    function ImportLogPopOpen() {
+        var d = new Date();
+
+        dtLogFrom.SetValue(d);
+        dtLogTo.SetValue(d);
+
+        pcModalImportViewMode.Show();
+    }
+
+    function ProductImportUserLog() {
+     var url = '/ProductMaster/ProductImportLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogFrom.GetText(), 'ToDate': dtLogTo.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("ImportLog", "ProductMaster")",
+                        success: function (response) {
+                            if (response) {
+                                //$("#ReAssignedModal_AreaRouteBeat").modal('hide');
+                                pcModalTemplateImportLog.Show();
+                                gridProductImportLog.Refresh();
+                                gridProductImportLog.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+</script>
+
+<div class="breadCumb">
+    <span>FMCG Products</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+        <table class="pull-left tblspace smblock mt-4 mb-3 ">
+            <tr>
+                @if (ViewBag.CanAdd)
+                {
+                    <td style="">
+                        <button type="button" id="btnAdd" class="btn btn-success btnwidth" onclick="AddNew()">Add New</button>
+                    </td>
+                }
+                @if (ViewBag.CanExport)
+                {
+                    <td style="">
+                        <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                            <option value="0">Export to</option>
+                            <option value="2">XLSX</option>
+                        </select>
+                    </td>
+                }
+                @if (ViewBag.CanAdd)
+                {
+                    <td style="">
+                        <button type="button" id="btnDownloadFormat" class="btn btn-info btnwidth" onclick="DownloadFormat()">Download Format</button>
+                    </td>
+                    <td style="">
+                        <button type="button" id="btnImport" class="btn btn-warning btnwidth" onclick="ImportProductPopOpen()">Import(Add/Update)</button>
+                    </td>
+                    <td style="">
+                        <button type="button" id="btnShowImportLog" class="btn btn-view-log btnwidth" onclick="ImportLogPopOpen()">View Log</button>
+                    </td>
+                }
+                @if (ViewBag.CanView)
+                {
+                    <td style="">
+                        <button type="button" id="btnShowData" class="btn btn-show btnwidth" onclick="ShowData()">Show Data</button>
+                    </td>
+                }
+                </tr>
+            <tr></tr>
+        </table>
+        <br />
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                    Html.RenderAction("_PartialProductGrid", "ProductMaster", new { Ispageload = "0" });
+                }
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.DevExpress().PopupControl(
+           settings =>
+           {
+               settings.Name = "pcModalImportViewMode";
+               settings.Width = 300;
+               //settings.Height = 220;
+               //settings.ScrollBars.v
+               settings.AllowDragging = true;
+               settings.CloseAction = CloseAction.CloseButton;
+               settings.CloseOnEscape = true;
+               settings.PopupAnimationType = AnimationType.None;
+               settings.HeaderText = "Bulk Update Party Log";
+               settings.Modal = true;
+               settings.AutoUpdatePosition = true;
+               settings.Top = 50;
+               settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+               settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+               settings.SetContent(() =>
+               {
+                   Html.RenderPartial("_ProductImportManualLogView");
+               });
+
+               // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+           }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalTemplateImportLog";
+            settings.Width = 1000; //System.Web.UI.WebControls.Unit.Percentage(80);
+                                    //settings.Height = 220;
+                                    //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Product Import Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("ImportLog", new List<ProductImportLog>());
+            //ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportBulkModifyLogGrid();'>Export</button>");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+        }).GetHtml()
+
+<div id="myImportProductModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Import Excel Template For Products</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5 mt-4"><input type="submit" value="Import (Add/Update)" onclick="return ChekEmpSettingsUpload();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="ProductAddModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+    <div class="modal-dialog" style="width: 500px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add/Modify Product</h4>
+            </div>
+            <div class="modal-body" style="width: 476px;">
+                <div id="divModalBody">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Item Code <span class="red">*</span></label>
+                            <div>
+                                @Html.TextBoxFor(m => m.ProductCode, new { @class = "form-control", @id = "txtProductCode" })
+                            </div>
+
+                            <label>Item Class/Category <span class="red">*</span></label>
+                            <div class="h-branch-select">
+                                @Html.DropDownListFor(m => m.ProductClass, new SelectList(Model.ProductClassList, "ProductClassId", "ProductClassName", Model.ProductClassId), new { @id = "ddlProductClass", @class = "form-control" })
+                            </div>
+
+                            <label>Item Strength <span class="red">*</span></label>
+                            <div class="h-branch-select">
+                                @Html.DropDownListFor(m => m.ProductStrength, new SelectList(Model.ProductStrengthList, "ProductStrengthId", "ProductStrengthName", Model.ProductStrengthId), new { @id = "ddlProductStrength", @class = "form-control" })
+                            </div>
+
+                            <div><label>Item MRP <span class="red">*</span></label></div>
+                            <div>
+                                @Html.TextBoxFor(m => m.ProductMRP, new { @class = "form-control allow_decimal numbersOnly", @id = "txtProductMRP", type = "text" })
+                                @Html.ValidationMessageFor(m => m.ProductMRP, "", new { @class = "text-danger" })
+                            </div>
+
+                            <label>Item Unit <span class="red">*</span></label>
+                            <div class="h-branch-select">
+                                @Html.DropDownListFor(m => m.ProductUnit, new SelectList(Model.ProductUnitList, "ProductUnitId", "ProductUnitName", Model.ProductUnitId), new { @id = "ddlProductUnit", @class = "form-control" })
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div><label>Item Name <span class="red">*</span></label></div>
+                            <div>
+                                @Html.TextBoxFor(m => m.ProductName, new { @class = "form-control", @id = "txtProductName" })
+                            </div>
+
+                            <label>Item Brand <span class="red">*</span></label>
+                            <div class="h-branch-select">
+                                @Html.DropDownListFor(m => m.ProductBrand, new SelectList(Model.ProductBrandList, "ProductBrandId", "ProductBrandName", Model.ProductBrandId), new { @id = "ddlProductBrand", @class = "form-control" })
+                            </div>
+
+                            <div><label>Item Price <span class="red">*</span></label></div>
+                            <div>
+                                @Html.TextBoxFor(m => m.ProductPrice, new { @class = "form-control allow_decimal numbersOnly", @id = "txtProductPrice" })
+
+                            </div>
+
+                            <label>Item Status <span class="red">*</span></label>
+                            <div class="h-branch-select">
+                                @Html.DropDownListFor(m => m.ProductStatus, new SelectList(Model.ProductStatusList, "ProductStatusId", "ProductStatusName", Model.ProductStatusId), new { @id = "ddlProductStatus", @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="">
+
+                    <div>
+                        <button type="button" id="btnSave" class="btn btn-success" onclick="SaveProduct()">Save</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <input type="hidden" id="hdnProductID" />
+    </div>
+
+

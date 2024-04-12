@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2 .0.41    Debashis    09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+//2.0   V2.0.45     Debashis    12/04/2024      The above mentioned two DS types need to be considered in the below reports.Refer: 0027360
 #endregion===================================End of Revision History==================================================================
 
 using BusinessLogicLayer.SalesTrackerReports;
@@ -389,7 +390,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "EMPID";
                 //Rev Debashis 0024715
                 //x.Caption = "DS ID";
-                x.Caption = "DS/TL ID";
+                //Rev 2.0 Mantis: 0027360
+                //x.Caption = "DS/TL ID";
+                x.Caption = "DS ID";
+                //End of Rev 2.0 Mantis: 0027360
                 //End of Rev Debashis 0024715
                 x.VisibleIndex = 4;
                 if (ViewBag.RetentionColumn != null)
@@ -420,7 +424,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.FieldName = "EMPNAME";
                 //Rev Debashis 0024715
                 //x.Caption = "DS Name";
-                x.Caption = "DS/TL Name";
+                //Rev 2.0 Mantis: 0027360
+                //x.Caption = "DS/TL Name";
+                x.Caption = "DS Name";
+                //End of Rev 2.0 Mantis: 0027360
                 //End of Rev Debashis 0024715
                 x.VisibleIndex = 5;
                 if (ViewBag.RetentionColumn != null)

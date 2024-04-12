@@ -8,9 +8,14 @@ Rev 5.0     Pallab      V2.0.39     18/04/2023      Dropdown window is not showi
 Rev 6.0     Pallab      V2.0.39     25/04/2023      Products module all search popup auto focus add and "cancel" button color change. Refer: 25914
 Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount percentage import facility required while importing Product Master. Refer: 25785
 Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required in Product Master & Projection Entry. Mantis: 26858
+Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour Search - saved colurs not showing ticked. Mantis: 27211    
 -------------------------------------------------------------------------------------------------------------------------- --%>
 <%@ Page Title="Products" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
     Inherits="ERP.OMS.Management.Store.Master.management_master_Store_sProducts" CodeBehind="sProducts.aspx.cs" %>
+
+<%--Rev Sanchita--%>
+<%@ Register Assembly="DevExpress.Web.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Data.Linq" TagPrefix="dx" %>
+<%--End of Rev Sanchita--%>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="../../../../Scripts/pluggins/multiselect/bootstrap-multiselect.css" rel="stylesheet" />
@@ -171,8 +176,27 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
             if ($.trim($("#txtColorNewSearch").val()) == "" || $.trim($("#txtColorNewSearch").val()) == null) {
                 return false;
             }
-            
+
             if (e.code == "Enter" || e.code == "NumpadEnter") {
+                // Rev 9.0
+                if ($("#jsonColor").text() != '') {
+                    arrMultiPopup = [];
+                    var ColorNewObj = new Object();
+                    ColorNewArr = JSON.parse($("#jsonColor").text());
+                    ColorNewObj.Name = "ColorNewSource";
+                    ColorNewObj.ArraySource = ColorNewArr;
+                    arrMultiPopup.push(ColorNewObj);
+                }
+                else {
+                    arrMultiPopup = [];
+                    var ColorNewArr = new Array();
+                    var ColorNewObj = new Object();
+                    ColorNewObj.Name = "ColorNewSource";
+                    ColorNewObj.ArraySource = ColorNewArr;
+                    arrMultiPopup.push(ColorNewObj);
+                }
+               // End of Rev 9.0
+
                 $("#calledFromColorNewLookup_hidden").val("1");
                 var HeaderCaption = [];
                 HeaderCaption.push("Name");
@@ -224,7 +248,7 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
              ctxtBrand.SetText(Name);
              $('#BrandModel').modal('hide');
          }
-     </script>
+    </script>
     <%--End of Rev rev 8.0--%>
 
     <style>
@@ -1696,6 +1720,9 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
             $("#txtColorNewSearch").val("");
             ColorNewTable.innerHTML = "";
             // End of Rev rev 8.0
+            // Rev 9.0
+            $("#jsonColor").text("");
+            // End of Rev 9.0
             $("#ddlSizeNew").val("");
             $("#ddlGenderNew").val("");
 
@@ -2080,6 +2107,9 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                     ctxtPro_Name.GetInputElement().readOnly = false;
                     //................CODE ABOVE UPDATED BY sAM ON 18102016.................................................
                     cPopup_Empcitys.Hide();
+                    // Rev Sanchita
+                    grid.Refresh();
+                    // End of Rev Sanchita
                 }
                 else if (grid.cpinsert == 'fail') {
                     jAlert("Mandatory Fields Require")
@@ -2157,6 +2187,9 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                 $("#txtColorNewSearch").val("");
                 ColorNewTable.innerHTML = "";
                 // End of Rev rev 8.0
+                // Rev 9.0
+                $("#jsonColor").text("");
+                // End of Rev 9.0
                 $("#ddlSizeNew").val("");
                 $("#ddlGenderNew").val("");
 
@@ -2187,7 +2220,9 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                     $("#hdnColorNew").val(ProdColorNew);
                     ctxtColorNew.SetText(grid.cpEdit.split('~')[68]);
                     // End of Rev rev 8.0
-                    
+                    // Rev 9.0
+                    $("#jsonColor").text(grid.cpEdit.split('~')[70]);
+                // End of Rev 9.0
                 }
                 else {
                     ProdColorNew = '';
@@ -2202,8 +2237,12 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                     $("#hdnColorNew").val("");
                     ctxtColorNew.SetText("");
                     // End of Rev rev 8.0
-                  
+                    // Rev 9.0
+                    $("#jsonColor").text("");
+                    // End of Rev 9.0
                 }
+                
+
                 // Rev rev 8.0
                 //$("#ddlColorNew").multiselect('refresh');
                 // End of Rev rev 8.0
@@ -2458,6 +2497,9 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                 if (grid.cpUpdate == 'Success') {
                     jAlert('Saved Successfully');
                     cPopup_Empcitys.Hide();
+                    // Rev Sanchita
+                    grid.Refresh();
+                    // End of Rev Sanchita
                 }
                 else {
                     jAlert("Error on Updation\n'Please Try again!!'")
@@ -2496,6 +2538,15 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                     //cPopup_Empcitys.Hide();
                 }
             }
+
+            // Rev Sanchita
+            if (grid.cpLoadData != null) {
+                if (grid.cpLoadData == 'Success') {
+                    grid.Refresh();
+                }
+            }
+            grid.cpLoadData = null;
+            // End of Rev Sanchita
         }
         $(function () {
             $('#ddlColorNew, #ddlSizeNew,  #ddlGenderNew').multiselect({
@@ -2999,8 +3050,9 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
             <%--End debjyoti 22-12-2016--%>
 
 
+            <%--Rev Sanchita [ DataSourceID="EntityServerlogModeDataSource"  added]--%>
             <div class="GridViewArea">
-                <dxe:ASPxGridView ID="cityGrid" runat="server" AutoGenerateColumns="False" ClientInstanceName="grid"
+                <dxe:ASPxGridView ID="cityGrid" runat="server" AutoGenerateColumns="False" ClientInstanceName="grid" DataSourceID="EntityServerlogModeDataSource"
                     KeyFieldName="sProducts_ID" Width="100%" OnHtmlRowCreated="cityGrid_HtmlRowCreated"
                     OnHtmlEditFormCreated="cityGrid_HtmlEditFormCreated" OnCustomCallback="cityGrid_CustomCallback"
                     CssClass="pull-left" SettingsBehavior-AllowFocusedRow="true" SettingsDataSecurity-AllowEdit="false"
@@ -3008,7 +3060,12 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                     <SettingsSearchPanel Visible="True" Delay="7000" />
                     <Settings ShowGroupPanel="True" ShowStatusBar="Hidden" ShowFilterRow="true" ShowFilterRowMenu="True" />
                     <Columns>
-
+                        <%--Rev Sanchita--%>
+                        <dxe:GridViewDataTextColumn FieldName="sProducts_ID" Visible="false" ShowInCustomizationForm="false" SortOrder="Descending" Width="0">
+                                <CellStyle Wrap="False" CssClass="gridcellleft"></CellStyle>
+                                <Settings AllowAutoFilterTextInputTimer="False" />
+                            </dxe:GridViewDataTextColumn>
+                        <%--End of Rev Sanchita--%>
                         <dxe:GridViewDataTextColumn Caption="Short Name (Code)" FieldName="sProducts_Code" ReadOnly="True"
                             Visible="True" VisibleIndex="0" FixedStyle="Left" Width="15%">
                             <EditFormSettings Visible="True" />
@@ -3178,6 +3235,10 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
                     <ClientSideEvents EndCallback="function (s, e) {grid_EndCallBack();}" />
                 </dxe:ASPxGridView>
             </div>
+            <%--Rev Sanchita--%>
+            <dx:linqservermodedatasource id="EntityServerlogModeDataSource" runat="server" onselecting="EntityServerModelogDataSource_Selecting"
+                    contexttypename="ERPDataClassesDataContext" tablename="FTS_Final_Display" />
+            <%--End of Rev Sanchita--%>
             <div class="PopUpArea">
 
                 <%--Packing Details popup--%>
@@ -5220,5 +5281,7 @@ Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required
         </div>
     </div>
     <%--End of Rev rev 8.0--%>
-
+    <%--Rev 9.0--%>
+    <div runat="server" id="jsonColor" class="hide"></div>
+    <%--End of Rev 9.0--%>
 </asp:Content>

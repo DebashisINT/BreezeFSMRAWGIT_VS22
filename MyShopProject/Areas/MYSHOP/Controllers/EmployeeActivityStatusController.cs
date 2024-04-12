@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer.SalesmanTrack;
+﻿#region======================================Revision History===============================================================================================
+//1.0   V2.0.44     Pallab      18/01/2024      Compact column width required in the Employee Activity Status report grid excel export.Refer: 0027196
+#endregion===================================End of Revision History========================================================================================
+using BusinessLogicLayer.SalesmanTrack;
 using BusinessLogicLayer.SalesTrackerReports;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -202,29 +205,33 @@ namespace MyShop.Areas.MYSHOP.Controllers
             settings.Name = "Employee Activity Status";
             settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
             settings.SettingsExport.FileName = "Employee_Activity_Status";
-
+            //Rev 1.0 Mantis: "column.ExportWidth" added in all columns and column width adjustment for export excel
             settings.Columns.Add(column =>
             {
                 column.Caption = "Date";
                 column.FieldName = "VISIT_DATETIME";
+                column.ExportWidth = 100;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Employee ID";
                 column.FieldName = "EMPLOYEE_ID";
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Employee Name";
                 column.FieldName = "EMPNAME";
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "State Name";
                 column.FieldName = "STATE_NAME";
+                column.ExportWidth = 120;
 
             });
 
@@ -232,6 +239,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "Designation";
                 column.FieldName = "DESIGNATION";
+                column.ExportWidth = 200;
 
             });
 
@@ -239,12 +247,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "Login Time";
                 column.FieldName = "LOGGEDIN";
+                column.ExportWidth = 100;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Logout Time";
                 column.FieldName = "LOGEDOUT";
+                column.ExportWidth = 100;
             });
 
             settings.Columns.Add(column =>
@@ -252,6 +262,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Activity Count";
                 column.FieldName = "ACTIVITYCNT";
                 column.PropertiesEdit.DisplayFormatString = "0";
+                column.ExportWidth = 110;
             });
 
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
@@ -383,53 +394,61 @@ namespace MyShop.Areas.MYSHOP.Controllers
             settings.Name = "Employee Activity Status Details";
             settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
             settings.SettingsExport.FileName = "Employee_Activity_Status_Details";
-
+            //Rev 1.0 Mantis: "column.ExportWidth" added in all columns and column width adjustment for export excel
             settings.Columns.Add(column =>
             {
                 column.Caption = "Employee ID";
                 column.FieldName = "EMPLOYEE_ID";
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Employee Name";
                 column.FieldName = "EMPNAME";
+                column.ExportWidth = 180;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "State Name";
                 column.FieldName = "STATE_NAME";
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Branch";
                 column.FieldName = "BRANCHDESC";
+                column.ExportWidth = 120;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Designation";
                 column.FieldName = "DESIGNATION";
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Shop Name";
                 column.FieldName = "SHOP_NAME";
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Code";
                 column.FieldName = "ENTITYCODE";
+                column.ExportWidth = 100;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Shop Type";
                 column.FieldName = "SHOP_TYPE";
+                column.ExportWidth = 100;
 
             });
 
@@ -437,12 +456,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 column.Caption = "Mobile No.";
                 column.FieldName = "MOBILE_NO";
+                column.ExportWidth = 110;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Location";
                 column.FieldName = "VISITLOCATION";
+                column.ExportWidth = 280;
             });
 
             settings.Columns.Add(column =>
@@ -450,18 +471,21 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Visit Time";
                 column.FieldName = "VISIT_DATETIME";
                 column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
+                column.ExportWidth = 150;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Duration";
                 column.FieldName = "DURATION";
+                column.ExportWidth = 120;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Visit Type";
                 column.FieldName = "VISIT_TYPE";
+                column.ExportWidth = 120;
             });
 
             settings.Columns.Add(column =>
@@ -469,12 +493,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Distance";
                 column.FieldName = "DISTANCE";
                 column.PropertiesEdit.DisplayFormatString = "0.00";
+                column.ExportWidth = 100;
             });
 
             settings.Columns.Add(column =>
             {
                 column.Caption = "Remarks";
                 column.FieldName = "REMARKS";
+                column.ExportWidth = 100;
             });
 
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;

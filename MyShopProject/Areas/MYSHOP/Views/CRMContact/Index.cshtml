@@ -1734,6 +1734,10 @@
             width: 88%;
         }
 
+    .only-view {
+        cursor: default !important;
+    }
+
     @@media (min-width: 1200px) {
         .container {
             width: 88%;
@@ -1790,7 +1794,7 @@
 
                         @if (ViewBag.CanView)
                         {
-                    <button type="button" class="btn btn-success btn-radius bg-color-6">
+                    <button type="button" class="btn btn-success btn-radius only-view bg-color-6">
                         Total Contact (s) <span id="btnShowTotalContacts" class="badge">0</span>
                     </button>
 

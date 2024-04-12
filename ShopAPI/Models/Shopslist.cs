@@ -5,7 +5,11 @@
 //4.0   V2.0.40     Debashis    30/06/2023      Some new parameters have been added.Row: 852
 //5.0   V2.0.42     Debashis    06/10/2023      One new parameter has been added.Row: 867,870 & 873
 //6.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 892,895 & 898
+//7.0   V2.0.45     Debashis    14/03/2024      Some new parameters have been added.Row: 902 & Refer: 0027309
+//8.0   V2.0.45     Debashis    03/04/2024      One new parameter has been added.Row: 914
+//9.0   V2.0.45     Debashis    11/04/2024      One new method has been added.Row: 917 & 918
 #endregion===================================End of Revision History==================================================
+
 using System.ComponentModel.DataAnnotations;
 using System;
 using System.Collections.Generic;
@@ -342,6 +346,9 @@ namespace ShopAPI.Models
         public string assign_to { get; set; }
         public string saved_from_status { get; set; }
         //End of Rev 6.0 Row: 892 & 895
+        //Rev 9.0 Row: 917 & 918
+        public bool isFromCRM { get; set; }
+        //End of Rev 9.0 Row: 917 & 918
     }
 
     public class AllShopTypelistsOutput
@@ -760,4 +767,28 @@ namespace ShopAPI.Models
         public string ShopOwner_PAN { get; set; }
     }
     //End of Rev 4.0 Row: 852
+    //Rev 7.0 Row: 902 & Refer: 0027309
+    public class ITCShopAddressEditInput
+    {
+        public string user_id { get; set; }
+        public List<ITCAddressEditShopList> shop_list { get; set; }
+    }
+
+    public class ITCAddressEditShopList
+    {
+        public string shop_id { get; set; }
+        public string shop_updated_lat { get; set; }
+        public string shop_updated_long { get; set; }
+        public string shop_updated_address { get; set; }
+        //Rev 8.0 Row: 914
+        public string pincode { get; set; }
+        //End of Rev 8.0 Row: 914
+    }
+
+    public class ITCShopAddressEditOutput
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+    }
+    //End of Rev 7.0 Row: 902 & Refer: 0027309
 }

@@ -4,6 +4,7 @@
    Rev 3.0      Sanchita/Pallab     15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal.
    Rev 4.0      Sanchita            05-05-2023      V2.0.40     In Portal -> Master -> Organization -> User  -> Logedin user in app is shows green which is ok but after 
                                                                 pressing refresh button from action it is not turning red . Refer: 25947
+   Rev 5.0      Sanchita            04-11-2024      V2.0.46     Company Add/Edit column is showing in User master which is irrelevant to FSM
  *******************************************************************************************************--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_root_user" CodeBehind="root_user.aspx.cs" %>
@@ -1556,11 +1557,11 @@
                                                 <%--<a href="javascript:ShowHideFilter('s');" class="btn btn-primary"><span>Show Filter</span></a>--%>
                                                 <% if (IsFaceDetectionOn)
                                                    { %>
-                                                <a href="javascript:void(0);" onclick="AddAssignParty()" class="btn btn-success hide"><span>Assign Party</span> </a>
+                                                <a href="javascript:void(0);" onclick="AddAssignParty()" class="btn btn-warning hide"><span>Assign Party</span> </a>
 
-                                                <a href="javascript:void(0);" onclick="UnAssignParty()" class="btn btn-success hide"><span>Un-Assign Party</span> </a>
+                                                <a href="javascript:void(0);" onclick="UnAssignParty()" class="btn btn-warning hide"><span>Un-Assign Party</span> </a>
 
-                                                <a href="javascript:void(0);" onclick="ShowAssignParty()" class="btn btn-success"><span>Assign Party</span> </a>
+                                                <a href="javascript:void(0);" onclick="ShowAssignParty()" class="btn btn-warning"><span>Assign Party</span> </a>
                                                 <%} %>
 
                                                 <%--Rev 3.0--%>
@@ -1698,8 +1699,8 @@
 
                                     </dxe:GridViewDataTextColumn>
 
-
-                                    <dxe:GridViewDataTextColumn Caption="Company Add/Edit" VisibleIndex="10" Width="5%" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">
+                                    <%--Rev 5.0--%>
+                                    <%--<dxe:GridViewDataTextColumn Caption="Company Add/Edit" VisibleIndex="10" Width="5%" HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="Center">
                                         <DataItemTemplate>
 
                                             <a href="javascript:void(0);" onclick="AddCompany('<%# Container.KeyValue %>')" title="Add Company">
@@ -1711,7 +1712,8 @@
                                         <HeaderTemplate>
                                             <span>Company Add/Edit</span>
                                         </HeaderTemplate>
-                                    </dxe:GridViewDataTextColumn>
+                                    </dxe:GridViewDataTextColumn>--%>
+                                    <%--End of Rev 5.0--%>
 
 
                                     <%--Rev work start 26.04.2022 Mantise ID:0024856: Copy feature add in User master--%>
