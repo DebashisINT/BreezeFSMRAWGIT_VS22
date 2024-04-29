@@ -2158,6 +2158,177 @@ namespace MyShop.Areas.MYSHOP.Controllers
             return settings;
         }
 
+        // Rev 3.0
+        public ActionResult DownloadMassDeleteFormat()
+        {
+            string FileName = "PartyDelete.xlsx";
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            response.ClearContent();
+            response.Clear();
+            response.ContentType = "image/jpeg";
+            response.AddHeader("Content-Disposition", "attachment; filename=" + FileName + ";");
+            response.TransmitFile(Server.MapPath("~/Commonfolder/PartyDelete.xlsx"));
+            response.Flush();
+            response.End();
+
+            return null;
+        }
+
+        [HttpPost]
+        public JsonResult MassDeletePartyLog(string Fromdt, String ToDate)
+        {
+            string output_msg = string.Empty;
+            try
+            {
+                string datfrmat = Fromdt.Split('-')[2] + '-' + Fromdt.Split('-')[1] + '-' + Fromdt.Split('-')[0];
+                string dattoat = ToDate.Split('-')[2] + '-' + ToDate.Split('-')[1] + '-' + ToDate.Split('-')[0];
+
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_FTSBulkModifyParty");
+                proc.AddPara("@ACTION", "GetMassDeletePartyLog");
+                proc.AddPara("@FromDate", datfrmat);
+                proc.AddPara("@ToDate", dattoat);
+                dt = proc.GetTable();
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    TempData["MassDeletePartyLog"] = dt;
+                    TempData.Keep();
+                    output_msg = "True";
+                }
+                else
+                {
+                    output_msg = "Log not found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                output_msg = "Please try again later";
+            }
+            return Json(output_msg, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult MassDeleteLog()
+        {
+            List<BulkModifyPartyLog> list = new List<BulkModifyPartyLog>();
+            DataTable dt = new DataTable();
+            try
+            {
+                if (TempData["MassDeletePartyLog"] != null)
+                {
+                    dt = (DataTable)TempData["MassDeletePartyLog"];
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        BulkModifyPartyLog data = null;
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            data = new BulkModifyPartyLog();
+                            data.Shop_Code = Convert.ToString(row["Shop_Id"]);
+                            data.Reason = Convert.ToString(row["Reason"]);
+                            data.UpdateOn = Convert.ToString(row["UpdateOn"]);
+                            data.UpdatedBy = Convert.ToString(row["UpdatedBy"]);
+
+                            list.Add(data);
+                        }
+                    }
+                    TempData["BulkModifyPartyLog"] = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            TempData.Keep();
+            return PartialView(list);
+        }
+
+        public ActionResult ExportMassDeleteLogGrid(int type)
+        {
+            ViewData["MassDeletePartyLog"] = TempData["MassDeletePartyLog"];
+
+            TempData.Keep();
+
+            if (ViewData["MassDeletePartyLog"] != null)
+            {
+                switch (type)
+                {
+                    case 1:
+                        return GridViewExtension.ExportToPdf(GetMassDeleteLogGrid(ViewData["MassDeletePartyLog"]), ViewData["MassDeletePartyLog"]);
+                    //break;
+                    case 2:
+                        return GridViewExtension.ExportToXlsx(GetMassDeleteLogGrid(ViewData["MassDeletePartyLog"]), ViewData["MassDeletePartyLog"]);
+                    //break;
+                    case 3:
+                        return GridViewExtension.ExportToXlsx(GetMassDeleteLogGrid(ViewData["MassDeletePartyLog"]), ViewData["MassDeletePartyLog"]);
+                    //break;
+                    case 4:
+                        return GridViewExtension.ExportToRtf(GetMassDeleteLogGrid(ViewData["MassDeletePartyLog"]), ViewData["MassDeletePartyLog"]);
+                    //break;
+                    case 5:
+                        return GridViewExtension.ExportToCsv(GetMassDeleteLogGrid(ViewData["MassDeletePartyLog"]), ViewData["MassDeletePartyLog"]);
+                    default:
+                        break;
+                }
+            }
+            return null;
+        }
+
+        private GridViewSettings GetMassDeleteLogGrid(object datatable)
+        {
+            var settings = new GridViewSettings();
+            settings.Name = "MassDeleteLog";
+            settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
+            settings.SettingsExport.FileName = "Mass Delete Party Log";
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Shop_ID";
+                x.Caption = "Shop Code";
+                x.VisibleIndex = 1;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Reason";
+                x.Caption = "Reason";
+                x.VisibleIndex = 10;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "UpdateOn";
+                x.Caption = "Update On";
+                x.VisibleIndex = 11;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+                x.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+                x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm tt";
+                (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm tt";
+            });
+
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "UpdatedBy";
+                x.Caption = "Updated By";
+                x.VisibleIndex = 12;
+                x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+
+            settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
+            settings.SettingsExport.LeftMargin = 20;
+            settings.SettingsExport.RightMargin = 20;
+            settings.SettingsExport.TopMargin = 20;
+            settings.SettingsExport.BottomMargin = 20;
+
+            return settings;
+        }
+        // End of Rev 3.0
+
         [HttpPost]
         public JsonResult PartyDelete(string ShopCode)
         {
@@ -2237,6 +2408,115 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
             return Json(output_msg, JsonRequestBehavior.AllowGet);
         }
+
+        // Rev 3.0
+        public ActionResult MassDeleteImportParty()
+        {
+
+            // Checking no of files injected in Request object  
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    HttpFileCollectionBase files = Request.Files;
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        HttpPostedFileBase file = files[i];
+                        string fname;
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            fname = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            fname = file.FileName;
+                        }
+                        String extension = Path.GetExtension(fname);
+                        fname = DateTime.Now.Ticks.ToString() + extension;
+                        fname = Path.Combine(Server.MapPath("~/Temporary/"), fname);
+                        file.SaveAs(fname);
+                        BulkDelete_To_Grid(fname, extension, file);
+                    }
+                    return Json("Shop deleted Successfully!");
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+
+        }
+
+        public Int32 BulkDelete_To_Grid(string FilePath, string Extension, HttpPostedFileBase file)
+        {
+            Boolean Success = false;
+            Int32 HasLog = 0;
+
+            if (file.FileName.Trim() != "")
+            {
+                if (Extension.ToUpper() == ".XLS" || Extension.ToUpper() == ".XLSX")
+                {
+                    DataTable dt = new DataTable();
+                    string conString = string.Empty;
+                    conString = ConfigurationManager.AppSettings["ExcelConString"];
+                    conString = string.Format(conString, FilePath);
+                    using (OleDbConnection excel_con = new OleDbConnection(conString))
+                    {
+                        excel_con.Open();
+                        string sheet1 = "List$"; //ī;
+
+                        using (OleDbDataAdapter oda = new OleDbDataAdapter("SELECT * FROM [" + sheet1 + "]", excel_con))
+                        {
+                            oda.Fill(dt);
+                        }
+                        excel_con.Close();
+                    }
+
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        DataTable dtExcelData = new DataTable();
+                        dtExcelData.Columns.Add("SHOP_ID", typeof(string));
+                       
+                        foreach (DataRow row in dt.Rows)
+                        {
+                            if (Convert.ToString(row["Outlet ID"]) != "")
+                            {
+                                dtExcelData.Rows.Add(Convert.ToString(row["Outlet ID"]));
+                            }
+
+                        }
+                        try
+                        {
+                            //TempData["BulkModifyPartyLog"] = dtExcelData;
+                            //TempData.Keep();
+
+                            DataTable dtCmb = new DataTable();
+                            ProcedureExecute proc = new ProcedureExecute("PRC_FTSBulkModifyParty");
+                            proc.AddPara("@BULKDELETEPARTY_TABLE", dtExcelData);
+                            proc.AddPara("@ACTION", "BulkDelete");
+                            proc.AddPara("@CreateUser_Id", Convert.ToInt32(Session["userid"]));
+                            dtCmb = proc.GetTable();
+
+                            TempData["BulkDeletePartyLog"] = dtCmb;
+                            TempData.Keep();
+
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+            }
+            return HasLog;
+        }
+        // End of Rev 3.0
 
         public ActionResult GetReAssignShopUserLog()
         {

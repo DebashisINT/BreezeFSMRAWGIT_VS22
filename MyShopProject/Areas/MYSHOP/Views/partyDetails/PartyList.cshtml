@@ -1567,6 +1567,11 @@
     }
 
     /*Rev 10.0*/
+    function DownloadMassDeleteFormat() {
+        var url = '@Url.Action("DownloadMassDeleteFormat", "partyDetails")'
+        window.location.href = url;
+    }
+
     function MassDeleteShop() {
         var ShopCode = $('#hdnMassDeleteShopID').val();
         var url = '/partyDetails/PartyDelete/';
@@ -1585,7 +1590,7 @@
                         if (response == "Delete Succesfully.") {
                             jAlert("Successfully Deleted.");
                             $("#MassDeleteShopModal").modal('hide');
-                            GridShow();
+                            //GridShow();
                         }
                         else {
                             jAlert(response);
@@ -1869,6 +1874,134 @@
 
         $("#MassDeleteShopModal").modal('show');
     }
+    
+    function MassDeleteImportShopPopOpen() {
+        //document.getElementById('MassDeleteShopTable').innerHTML = '';
+        //MassDeleteShopTxt.SetText('');
+        //$("#txtMassDeleteShopSearch").val('');
+        //$('#hdnMassDeleteShopID').val('');
+
+        $("#MassDeleteImportShopModal").modal('show');
+    }
+    
+    function MassDeletePartyImport() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod_BulkDelete").val();
+        if ($('#fileprod_BulkDelete').get(0).files.length === 0) {
+            jAlert("No files selected.");
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        jAlert('Only excel file require.');
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod_BulkDelete").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("MassDeleteImportParty", "partyDetails")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        //$("#myImportModal").toggle();
+                        $("#MassDeleteImportShopModal").modal('hide');
+                        //GridShow();
+                        //$.ajax({
+                        //   type: "POST",
+                        //    url: "@Url.Action("BulkModifyLog", "partyDetails")",
+                        //    success: function (response) {
+                        //        if (response) {
+                        //            pcModalTemplateBulkModifyLog.Show();
+                        //            gridBulkModifyLog.Refresh();
+                        //            gridBulkModifyLog.Refresh();
+                        //        }
+                        //    }
+                        //});
+                    });
+
+                },
+                error: function (err) {
+                    jAlert(err.statusText);
+                }
+            });
+        }
+    }
+    function MassDeleteShopLogPopOpen() {
+        var d = new Date();
+
+        dtLogFrom_MassDelete.SetValue(d);
+        dtLogTo_MassDelete.SetValue(d);
+
+        pcModalMassDeleteLogViewMode.Show();
+    }
+    function MassDeletePartyLog() {
+        var url = '/partyDetails/MassDeletePartyLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogFrom_MassDelete.GetText(), 'ToDate': dtLogTo_MassDelete.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("MassDeleteLog", "partyDetails")",
+                        success: function (response) {
+                            if (response) {
+                                pcModalTemplateMassDeleteLog.Show();
+                                gridMassDeleteLog.Refresh();
+                                gridMassDeleteLog.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                    jAlert(response);
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+    function ExportMassDeleteLogGrid() {
+        var url = '@Url.Action("ExportMassDeleteLogGrid", "partyDetails", new { type = "_type_" })'
+        window.location.href = url.replace("_type_", 3);
+    }
+
+
     // End of Rev 10.0
 </script>
 
@@ -2865,6 +2998,53 @@
     #txtAnniversary_DDD_PWC-1 #txtAnniversary_DDD_C_FNP_PW-1 {
         left: -55px !important;
     }
+
+    .btn-mass-dlt-imp-log {
+        background: #874a03;
+        color: #fff;
+        transition: all .3s;
+    }
+
+        .btn-mass-dlt-imp-log:hover {
+            background: #bf6905;
+            color: #fff;
+        }
+
+    .btn-info {
+        background-color: #0698c4 !important;
+        transition: all .3s;
+    }
+        .btn-info:hover {
+            background-color: #21b9e7 !important;
+        }
+    .btn-danger {
+        background-color: #dd1d17 !important;
+        transition: all .3s;
+    }
+        .btn-danger:hover {
+            background-color: #f9413b !important;
+        }
+
+    .btn-success {
+        background-color: #1ba749 !important;
+        transition: all .3s;
+    }
+
+        .btn-success:hover {
+            background-color: #27d560 !important;
+        }
+
+    .btn-primary {
+        background-color: #033868 !important;
+    }
+
+    .btn-primary:hover {
+        background-color: #01519a !important;
+    }
+
+    .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
+        padding: 7px 10px 10px !important;
+    }
 </style>
 
 <script>
@@ -3298,7 +3478,7 @@
                         <button type="button" class="btn btn-primary" onclick="ReAssignUserLogPopOpen();">
                             Re-assigned User Log
                         </button>
-                        
+
                         @*Mantis Issue 25133*@
                         @*Mantis Issue 25536, 25535, 25542, 25543, 25544*@
                         @*<button type="button" class="btn btn-success" onclick="ReAssignBeatGroupPopOpen();">
@@ -3339,7 +3519,7 @@
                         @*Rev 4.0*@
                         @if (ViewBag.CanBulkUpdate)
                         {
-                            <button type="button" class="btn btn-success" onclick="DownloadTemplate();">
+                            <button type="button" class="btn btn-info" onclick="DownloadTemplate();">
                                 Download Template
                             </button>
                             <button type="button" class="btn btn-success" onclick="BulkModifyPopOpen();">
@@ -3353,9 +3533,18 @@
                         @*Rev 10.0*@
                         @if (ViewBag.CanDelete)
                         {
-                        <button type="button" class="btn btn-danger" onclick="MassDeleteShopPopOpen();">
-                            Mass Delete
-                        </button>
+                            <button type="button" class="btn btn-danger" onclick="MassDeleteShopPopOpen();">
+                                Mass Delete
+                            </button>
+                            <button type="button" class="btn btn-info" onclick="DownloadMassDeleteFormat();">
+                                Download Mass Delete Format
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="MassDeleteImportShopPopOpen();">
+                                Mass Delete Import
+                            </button>
+                            <button type="button" class="btn btn-mass-dlt-imp-log" onclick="MassDeleteShopLogPopOpen();">
+                                View Mass Delete Import Log
+                            </button>
                         }
                         @*End of Rev 10.0*@
                     </div>
@@ -4724,6 +4913,37 @@
             </div>
         </div>
     </div>
+    
+    
+    <div id="MassDeleteImportShopModal" class="modal fade pmsModal w25" data-backdrop="static" role="dialog">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                    <h4 class="modal-title">Mass Delete Shop</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="clear"></div>
+
+                            <label class="uplabel mb-4">Select File for Mass Delete</label>
+                            <div><input type="file" id="fileprod_BulkDelete" accept=".xls,.xlsx"></div>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" onclick="MassDeletePartyImport();">Delete Shop</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
     @*End of Rev 10.0*@
 
     @Html.DevExpress().PopupControl(
@@ -5270,3 +5490,55 @@
             // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
         }).GetHtml()
     @*End of Rev 4.0*@
+    @*Rev 10.0*@
+    @Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalMassDeleteLogViewMode";
+            settings.Width = 300;
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Mass Delete Party Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("_MassDeleteManualLogView");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+        }).GetHtml()
+
+    @Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalTemplateMassDeleteLog";
+        settings.Width = 780; //System.Web.UI.WebControls.Unit.Percentage(80);
+                                //settings.Height = 220;
+                                //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Mass Delete Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("MassDeleteLog", new List<BulkModifyPartyLog>());
+        ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportMassDeleteLogGrid();'>Export</button>");
+        });
+
+        // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+    }).GetHtml()
+    @*End of Rev 10.0*@

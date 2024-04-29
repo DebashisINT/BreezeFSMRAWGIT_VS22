@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================
 //Written By : Debashis Talukder On 11/04/2024
 //Purpose: For Leaderboard.Row: 905 to 908 & Refer: 0027300
+//1.0   V2.0.46     Debashis    19/04/2024      API updation.Refer: 0027382
 #endregion===================================End of Revision History==================================================
 
 using System;
@@ -14,7 +15,10 @@ namespace ShopAPI.Models
     {
         public long user_id { get; set; }
         public string activitybased { get; set; }
-        public long branchwise { get; set; }
+        //Rev 1.0 Mantis: 0027382
+        //public long branchwise { get; set; }
+        public string branchwise { get; set; }
+        //End of Rev 1.0 Mantis: 0027382
         public string flag { get; set; }
     }
 
@@ -44,7 +48,10 @@ namespace ShopAPI.Models
     {
         public long user_id { get; set; }
         public string activitybased { get; set; }
-        public long branchwise { get; set; }
+        //Rev 1.0 Mantis: 0027382
+        //public long branchwise { get; set; }
+        public string branchwise { get; set; }
+        //End of Rev 1.0 Mantis: 0027382
         public string flag { get; set; }
     }
 

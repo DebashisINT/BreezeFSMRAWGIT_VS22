@@ -209,6 +209,58 @@
             column.Width = 250;
         }
     });
+    // Rev Sanchita
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_Pincode";
+        column.Caption = "Pincode";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Pincode'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_WhatsappNoForCustomer";
+        column.Caption = "Whatsapp Number";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_WhatsappNoForCustomer'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+    });
+    // End of Rev Sanchita
     settings.Columns.Add(column =>
     {
         column.FieldName = "Shop_DOB";
@@ -254,13 +306,13 @@
             else
             {
                 column.Visible = true;
-                column.Width = 120;
+                column.Width = 140;
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 120;
+            column.Width = 140;
         }
     });
     settings.Columns.Add(column =>
@@ -341,7 +393,7 @@
     settings.Columns.Add(column =>
     {
         column.FieldName = "Shop_TypeName";
-        column.Caption = "Type";
+        column.Caption = "Contact Type";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         if (ViewBag.RetentionColumn != null)
@@ -354,13 +406,13 @@
             else
             {
                 column.Visible = true;
-                column.Width = 100;
+                column.Width = 120;
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 100;
+            column.Width = 120;
         }
     });
     settings.Columns.Add(column =>
@@ -504,13 +556,13 @@
             else
             {
                 column.Visible = true;
-                column.Width = 100;
+                column.Width = 150;
             }
         }
         else
         {
             column.Visible = true;
-            column.Width = 100;
+            column.Width = 150;
         }
     });
     settings.Columns.Add(column =>
@@ -542,6 +594,116 @@
         }
         //End of Mantis Issue 24816
     });
+    // Rev Sanchita
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_Entered_On";
+        column.Caption = "Created Date";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Entered_On'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_Entered_ByName";
+        column.Caption = "Created By";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Entered_ByName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_LastUpdated_On";
+        column.Caption = "Modified Date";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_LastUpdated_On'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "Shop_LastUpdated_ByName";
+        column.Caption = "Modified By";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_LastUpdated_ByName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+    });
+    // End of Rev Sanchita
+
     settings.Columns.Add(column =>
     {
         column.FieldName = "Shop_Entity_Status";

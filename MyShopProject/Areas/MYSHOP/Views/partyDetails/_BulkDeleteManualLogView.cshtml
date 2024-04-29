@@ -1,0 +1,68 @@
+﻿@*/**************************************************************************************************
+       Wrtiiten by Sanchita for V2.0.47    23/04/2024     27384 - Contact module issue for Portal
+ ******************************************************************************************************/*@
+<div class="">
+
+    <div class="row">
+        <div>
+
+            <div class="clearfix ">
+
+                <div class="col-lg-12 lblmTop8 validationDiv">
+                    <label><b>Form Date</b></label>
+                    <div class="iminentSpan">
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "dtLogFrom_BulkDelete";
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.UseMaskBehavior = true;
+                            settings.Properties.ShowOutOfRangeWarning = false;
+
+                            settings.ClientEnabled = true;
+                        }).GetHtml()
+                    </div>
+                    @*<span id="MandatoryFromDate" style="display: none" class="validclass">
+                            <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                        </span>*@
+
+                </div>
+                <div class="col-lg-12 lblmTop8 validationDiv">
+                    <label><b>To Date</b></label>
+                    <div class="iminentSpan">
+                        @Html.DevExpress().DateEdit(
+                        settings =>
+                        {
+                            settings.Name = "dtLogTo_BulkDelete";
+                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                            settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormatString = "dd-MM-yyyy";
+                            settings.Properties.EditFormat = EditFormat.Custom;
+                            settings.Properties.UseMaskBehavior = true;
+                            settings.Properties.ShowOutOfRangeWarning = false;
+                            settings.ClientEnabled = true;
+
+                        }).GetHtml()
+                    </div>
+
+                    @*<span id="MandatoryToDate" style="display: none" class="validclass">
+                            <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                        </span>*@
+
+                </div>
+
+
+
+                <div class="col-md-12 mTop5 ">
+                    <button type="button" onclick="BulkModifyUserLog();" class="btn btn-success mTop5">Show Log</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+    </div>
+</div>

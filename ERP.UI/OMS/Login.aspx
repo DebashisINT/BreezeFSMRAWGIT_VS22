@@ -524,7 +524,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             color: #4a4a4a;
         }
         .mlogos {
-            width:180px;
+            width:100px;
             /*margin-left:-8px*/
             margin-left: 0;
             /*position: absolute;

@@ -7,7 +7,10 @@
 //6.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 892,895 & 898
 //7.0   V2.0.45     Debashis    14/03/2024      Some new parameters have been added.Row: 902 & Refer: 0027309
 //8.0   V2.0.45     Debashis    03/04/2024      One new parameter has been added.Row: 914
-//9.0   V2.0.45     Debashis    11/04/2024      One new method has been added.Row: 917 & 918
+//9.0   V2.0.45     Debashis    11/04/2024      One new parameter has been added.Row: 917 & 918
+//10.0  V2.0.45     Debashis    23/04/2025      One new parameter has been added.Row: 921
+//11.0  V2.0.46     Debashis    24/04/2025      One new parameter has been added.Row: 923
+//12.0  V2.0.46     Debashis    24/04/2025      One new parameter has been added.Row: 924
 #endregion===================================End of Revision History==================================================
 
 using System.ComponentModel.DataAnnotations;
@@ -190,6 +193,12 @@ namespace ShopAPI.Models
         public int assign_to { get; set; }
         public string saved_from_status { get; set; }
         //End of Rev 6.0 Row: 898
+        //Rev 10.0 Row: 921
+        public string remarks { get; set; }
+        //End of Rev 10.0 Row: 921
+        //Rev 12.0 Row: 924
+        public string Shop_NextFollowupDate { get; set; }
+        //End of Rev 12.0 Row: 924
     }
 
     public class ArealistsOutput
@@ -349,6 +358,9 @@ namespace ShopAPI.Models
         //Rev 9.0 Row: 917 & 918
         public bool isFromCRM { get; set; }
         //End of Rev 9.0 Row: 917 & 918
+        //Rev 11.0 Row: 923
+        public string Shop_NextFollowupDate { get; set; }
+        //End of Rev 11.0 Row: 923
     }
 
     public class AllShopTypelistsOutput

@@ -6,6 +6,8 @@
 //                                                                         Refer: 25747
 // 3.0              23/03/2023        2.0.39           Sanchita            Also Party Type in User Master not getting mapped to Shop in ITC.
 //                                                                         Refer: 25748    
+// 4.0              16/0/2024        V2.0.47           Sanchita            These two DS types need to be inserted in the table where the rest of the DS types are available (RMD, Conv DS, Conv TL etc)
+//                                                                         Mantis: 27356 
 //====================================================== Revision History ==========================================================
 using System;
 using System.Collections.Generic;
@@ -1150,10 +1152,13 @@ namespace ERP.OMS.Management.Master
                 using (proc = new ProcedureExecute("PRC_FTSInsertUpdateUser"))
                 {
                     //if (channel == "1" && Desg == "291" && Stage == "1" || Stage == "2"))
-                    
+
                     //if (channel == "1" && Desg == "291" && Stage == "1")
-                    if (channel.Contains("CFP") && Desg == "DS" && (Stage == "Conv SR" || Stage == "RMD") && ddlGroups.SelectedItem.ToString() == "FIELD-USER")
-                        
+                    // Rev 4.0
+                    //if (channel.Contains("CFP") && Desg == "DS" && (Stage == "Conv SR" || Stage == "RMD") && ddlGroups.SelectedItem.ToString() == "FIELD-USER")
+                    if (channel.Contains("CFP") && Desg == "DS" && (Stage == "Conv SR" || Stage == "RMD" || Stage == "Stockist DS" || Stage == "Emerging DS") && ddlGroups.SelectedItem.ToString() == "FIELD-USER")
+                        // End of Rev 4.0
+
                     {
                         proc.AddPara("@ACTION", "INSERT");
                         

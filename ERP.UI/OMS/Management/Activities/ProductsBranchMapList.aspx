@@ -268,6 +268,7 @@
 
         label {
             font-weight: 500;
+            margin-bottom: 0;
         }
 
         .dxgvHeader_PlasticBlue {
@@ -522,7 +523,7 @@
         /*Rev end 1.0*/
 
         #divAddButton, #divImportButton {
-            margin-right: 8px;
+            margin-right: 15px;
         }
 
             #divImportButton .btn {
@@ -531,7 +532,7 @@
 
         #txtProduct {
             margin-right: 8px;
-            margin-left: 5px;
+            /*margin-left: 5px;*/
         }
 
 
@@ -591,6 +592,20 @@
             width: 850px !important;
         }
 
+        .justify-content-between
+        {
+            justify-content: space-between;
+        }
+
+        .right-parameters label
+        {
+            margin-right: 5px;
+        }
+        .show-btn-div
+{
+    margin-left: 10px;
+}
+
         @media only screen and (max-width: 768px) {
             .breadCumb {
                 padding: 0 18%;
@@ -608,9 +623,25 @@
             #view {
                 overflow-x: auto;
             }
+
+            
         }
     </style>
     <script>
+        $(function () {
+            cBranchComponentPanel.PerformCallback('BindComponentGrid');
+        });
+        function selectAll() {
+            gridbranchLookup.gridView.SelectRows();
+        }
+        function unselectAll() {
+            gridbranchLookup.gridView.UnselectRows();
+        }
+        function CloseLookupbranch() {
+            gridbranchLookup.ConfirmCurrentSelection();
+            gridbranchLookup.HideDropDown();
+            gridbranchLookup.Focus();
+        }
         //***Product***//
         var ProductArr = new Array();
         $(document).ready(function () {
@@ -685,71 +716,71 @@
             cGridProductBranchMap.Refresh();
         }
         function OnAddButtonClick() {
-            var url = 'ProductsBranchMap.aspx?key=' + 'ADD';           
+            var url = 'ProductsBranchMap.aspx?key=' + 'ADD';
             window.location.href = url;
         }
 
         function GridProductBranchCustomButtonClick(s, e) {
-        var id = s.GetRowKey(e.visibleIndex);
-        if (e.buttonID == 'CustomBtnEdit') {
-            if (id != "") {
-                var url = 'ProductsBranchMap.aspx?key=' + id;
-                window.location.href = url;
+            var id = s.GetRowKey(e.visibleIndex);
+            if (e.buttonID == 'CustomBtnEdit') {
+                if (id != "") {
+                    var url = 'ProductsBranchMap.aspx?key=' + id;
+                    window.location.href = url;
 
-                //document.getElementById('HiddenSPECIALPRICEID').value = id;
-                //$.ajax({
-                //    type: "POST",
-                //    url: "/OMS/Management/Activities/ProductsBranchMapList.aspx/GetSpecialPrice",
-                //    data: JSON.stringify({ "MAPID": id }),
-                //    dataType: "json",
-                //    contentType: "application/json; charset=utf-8",
-                //    dataType: "json",
-                //    global: false,
-                //    async: false,
-                //    success: OnSuccess
-                //});
-            }
-        }
-        if (e.buttonID == 'CustomBtnDelete') {
-            if (id != "") {
-                if (confirm("Are you sure to delete")) {
-                    $.ajax({
-                        type: "POST",
-                        url: "/OMS/Management/Activities/ProductsBranchMapList.aspx/DeleteProductsBranchMap",
-                        data: JSON.stringify({ "MAPID": id }),
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        global: false,
-                        async: false,
-                        success: function (msg) {
-                            if (msg.d) {
-                                if (msg.d == "-998") {
-                                    jAlert("Already is in used.Unable to delete");
-                                    return false;
-                                }
-                                if (msg.d == "1") {
-                                    jAlert("Deleted Successfuly");
-                                    cGridProductBranchMap.Refresh();
-                            
-                                    return false;
-                                }
-                            }
-                        }
-                    });
+                    //document.getElementById('HiddenSPECIALPRICEID').value = id;
+                    //$.ajax({
+                    //    type: "POST",
+                    //    url: "/OMS/Management/Activities/ProductsBranchMapList.aspx/GetSpecialPrice",
+                    //    data: JSON.stringify({ "MAPID": id }),
+                    //    dataType: "json",
+                    //    contentType: "application/json; charset=utf-8",
+                    //    dataType: "json",
+                    //    global: false,
+                    //    async: false,
+                    //    success: OnSuccess
+                    //});
                 }
             }
+            if (e.buttonID == 'CustomBtnDelete') {
+                if (id != "") {
+                    if (confirm("Are you sure to delete")) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/OMS/Management/Activities/ProductsBranchMapList.aspx/DeleteProductsBranchMap",
+                            data: JSON.stringify({ "MAPID": id }),
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            global: false,
+                            async: false,
+                            success: function (msg) {
+                                if (msg.d) {
+                                    if (msg.d == "-998") {
+                                        jAlert("Already is in used.Unable to delete");
+                                        return false;
+                                    }
+                                    if (msg.d == "1") {
+                                        jAlert("Deleted Successfuly");
+                                        cGridProductBranchMap.Refresh();
 
-        }
+                                        return false;
+                                    }
+                                }
+                            }
+                        });
+                    }
+                }
+
+            }
         }
 
         function gridRowclick(s, e) {
             $('#cGridProductBranchMap').find('tr').removeClass('rowActive');
-            $('.floatedBtnArea').removeClass('insideGrid');            
+            $('.floatedBtnArea').removeClass('insideGrid');
             $(s.GetRow(e.visibleIndex)).find('.floatedBtnArea').addClass('insideGrid');
             $(s.GetRow(e.visibleIndex)).addClass('rowActive');
-            setTimeout(function () {              
-                var lists = $(s.GetRow(e.visibleIndex)).find('.floatedBtnArea a');               
-                $.each(lists, function (index, value) {                  
+            setTimeout(function () {
+                var lists = $(s.GetRow(e.visibleIndex)).find('.floatedBtnArea a');
+                $.each(lists, function (index, value) {
                     setTimeout(function () {
                         console.log(value);
                         $(value).css({ 'opacity': '1' });
@@ -768,23 +799,85 @@
     <div class="container clearfix backBox mt-5 mb-4 py-3">
         <div class="py-3">
             <div class="clearfix">
-                <div class="dis-flex">
-                    <div id="divAddButton">
-                        <a href="javascript:void(0);" onclick="OnAddButtonClick()" class="btn btn-success btn-radius"><span><u>A</u>dd New</span> </a>
-                    </div>
-                    <div id="TblSearch" class="dis-flex">
-                        <label>Product(s)</label>
-                        <dxe:ASPxButtonEdit ID="txtProduct" runat="server" ReadOnly="true" ClientInstanceName="ctxtProductName">
-                            <Buttons>
-                                <dxe:EditButton>
-                                </dxe:EditButton>
-                            </Buttons>
-                            <ClientSideEvents ButtonClick="function(s,e){ProductButnClick();}" KeyDown="ProductKeyDown" />
-                        </dxe:ASPxButtonEdit>
-                        <asp:HiddenField ID="txtProduct_hidden" runat="server" />
-                        <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
+                <div class="dis-flex ">
+                    <div class="left-btns">
+                        <div id="divAddButton">
+                            <a href="javascript:void(0);" onclick="OnAddButtonClick()" class="btn btn-success btn-radius"><span><u>A</u>dd New</span> </a>
+                        </div>
                     </div>
 
+                    <div class="dis-flex right-parameters">
+                        <div class="dis-flex">
+                            <label>Product(s)</label>
+                            <dxe:ASPxButtonEdit ID="txtProduct" runat="server" ReadOnly="true" ClientInstanceName="ctxtProductName">
+                                <Buttons>
+                                    <dxe:EditButton>
+                                    </dxe:EditButton>
+                                </Buttons>
+                                <ClientSideEvents ButtonClick="function(s,e){ProductButnClick();}" KeyDown="ProductKeyDown" />
+                            </dxe:ASPxButtonEdit>
+                            <asp:HiddenField ID="txtProduct_hidden" runat="server" />
+
+                        </div>
+                        <div class="dis-flex">
+                            <label>Branch</label>
+                            <div>
+
+                                <asp:HiddenField ID="hdnSelectedBranches" runat="server" />
+                                <dxe:ASPxCallbackPanel runat="server" ID="BranchComponentPanel" ClientInstanceName="cBranchComponentPanel" OnCallback="Componentbranch_Callback" Width="100%">
+                                    <PanelCollection>
+                                        <dxe:PanelContent runat="server">
+                                            <dxe:ASPxGridLookup ID="lookup_branch" SelectionMode="Multiple" runat="server" ClientInstanceName="gridbranchLookup"
+                                                OnDataBinding="lookup_branch_DataBinding"
+                                                KeyFieldName="ID" Width="100%" TextFormatString="{1}" AutoGenerateColumns="False" MultiTextSeparator=", ">
+                                                <Columns>
+                                                    <dxe:GridViewCommandColumn ShowSelectCheckbox="True" VisibleIndex="0" Width="60" Caption=" " />
+                                                    <dxe:GridViewDataColumn FieldName="branch_code" Visible="true" VisibleIndex="1" Width="200px" Caption="Branch code" Settings-AutoFilterCondition="Contains">
+                                                        <Settings AutoFilterCondition="Contains" />
+                                                    </dxe:GridViewDataColumn>
+                                                    <dxe:GridViewDataColumn FieldName="branch_description" Visible="true" VisibleIndex="1" Width="200px" Caption="Branch Name" Settings-AutoFilterCondition="Contains">
+                                                        <Settings AutoFilterCondition="Contains" />
+                                                    </dxe:GridViewDataColumn>
+                                                </Columns>
+                                                <GridViewProperties Settings-VerticalScrollBarMode="Auto" SettingsPager-Mode="ShowAllRecords">
+                                                    <Templates>
+                                                        <StatusBar>
+                                                            <table class="OptionsTable" style="float: right">
+                                                                <tr>
+                                                                    <td>
+                                                                        <dxe:ASPxButton ID="ASPxButton2" runat="server" AutoPostBack="false" Text="Select All" ClientSideEvents-Click="selectAll" UseSubmitBehavior="False" />
+
+                                                                        <dxe:ASPxButton ID="ASPxButton1" runat="server" AutoPostBack="false" Text="Deselect All" ClientSideEvents-Click="unselectAll" UseSubmitBehavior="False" />
+                                                                        <dxe:ASPxButton ID="Close" runat="server" AutoPostBack="false" Text="Close" ClientSideEvents-Click="CloseLookupbranch" UseSubmitBehavior="False" />
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </StatusBar>
+                                                    </Templates>
+                                                    <SettingsBehavior AllowFocusedRow="True" AllowSelectByRowClick="True" />
+                                                    <SettingsPager Mode="ShowPager">
+                                                    </SettingsPager>
+
+                                                    <SettingsPager PageSize="20">
+                                                        <PageSizeItemSettings Visible="true" ShowAllItem="false" Items="10,20,50,100,150,200" />
+                                                    </SettingsPager>
+
+                                                    <Settings ShowFilterRow="True" ShowFilterRowMenu="true" ShowStatusBar="Visible" UseFixedTableLayout="true" />
+                                                </GridViewProperties>
+
+                                            </dxe:ASPxGridLookup>
+                                        </dxe:PanelContent>
+                                    </PanelCollection>
+
+                                </dxe:ASPxCallbackPanel>
+                            </div>
+
+                        </div>
+                        <%--<div class="clear"></div>--%>
+                        <div class="show-btn-div">
+                            <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -796,7 +889,7 @@
                 DataSourceID="EntityServerModeDataSource" SettingsDataSecurity-AllowEdit="false" SettingsDataSecurity-AllowInsert="false" SettingsDataSecurity-AllowDelete="false">
 
                 <SettingsSearchPanel Visible="True" Delay="5000" />
-                 <ClientSideEvents CustomButtonClick="GridProductBranchCustomButtonClick" RowClick="gridRowclick" />
+                <ClientSideEvents CustomButtonClick="GridProductBranchCustomButtonClick" RowClick="gridRowclick" />
                 <SettingsBehavior ConfirmDelete="True" />
                 <Columns>
                     <dxe:GridViewDataTextColumn Visible="False" FieldName="PRODUCTBRANCHMAP_ID" SortOrder="Descending">

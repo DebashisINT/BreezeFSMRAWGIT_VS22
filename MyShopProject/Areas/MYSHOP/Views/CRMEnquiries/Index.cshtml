@@ -5,6 +5,8 @@
     Mantis: 26721 *@
 @*3.0                17-11-2023        V2.0.44          Pallab              27003: CRM Enquiries modules popup and icon design modification*@
 @*4.0                23-11-2023        V2.0.43          Sanchita            Bulk Import feature required for Enquiry Module.Mantis: 27020*@
+@*5.0                24-04-2024        V2.0.46          Priti               0027383: New Enquires type Add and Hide # Eurobond Portal*@
+
 @*====================================================== Revision History ===================================================*@
 
 @using MyShop.Models;
@@ -170,7 +172,44 @@
             }
         });
 
+       
+
     });
+
+
+    //Rev 5.0
+    function BindProvidedBy() {
+        var MODE = $("#hdnuniqueid").val();
+        if (MODE == "") {
+            MODE = "ADD";
+        }
+        else {
+            MODE = "EDIT";
+        }
+        
+        $.ajax({
+            type: 'POST',
+            url: "/CRMEnquiries/GetProvidedByList",
+            data: { "MODE": MODE },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                $("#ddlProvidedBy").empty();              
+                var status = "";               
+                for (var i = 0; i < data.length; i++) {
+                    status = status + '<option value=' + data[i].EnquiryFromDescValue + '>' + data[i].EnquiryFromDesc + '</option>';
+                }
+                $("#ddlProvidedBy").empty().append(status);
+
+            },
+            error: function () {
+
+            }
+        });
+    }
+    //Rev 5.0 End
+
+
 
     @*function ExportLogGrid() {
         var url = '@Url.Action("ExportPartyLogList", "partyDetails", new { type = "_type_" })'
@@ -805,6 +844,8 @@
     }
 
     function OpenEnquiriesforEdit(EnquiriesCode) {
+        $("#hdnuniqueid").val(EnquiriesCode);
+        BindProvidedBy();
         $.ajax({
             url: "@Url.Action("ShowEnquiriesDetails", "CRMEnquiries")",
             async: false,
@@ -826,7 +867,19 @@
                 $('#txt_productrequired').val(data.Product_Required);
                 $('#txt_qty').val(data.Qty);
                 $("#txt_ordervalue").val(data.Order_Value);
-                $("#ddlProvidedBy").val(data.Provided_By);
+                //Rev 5.0
+                if (data.Provided_By == "Exporters India") {
+                    $("#ddlProvidedBy").val('ExportersIndia');
+                }
+                else if (data.Provided_By == "Direct Call")
+                {
+                    $("#ddlProvidedBy").val('DirectCall');
+                }               
+                else {
+                    $("#ddlProvidedBy").val(data.Provided_By);
+                }
+                //Rev 5.0 End
+
                 $("#txt_enq_detls").val(data.Enq_Details);
                 $("#txt_UOM").val(data.UOM);
                 //ddlProvidedBy.selectedIndex = 0;
@@ -836,7 +889,7 @@
                  $("#divTxtDate").show();
                  $("#txt_Date").val(data.txtDate);
                 // End of Rev 2.0
-
+              
                 $('#myModal').modal('show');
             },
             error: function () {
@@ -849,6 +902,7 @@
 
 
     function ClearData() {
+        BindProvidedBy();
         $("#hdnAction").val('Add');
         $("#hdnuniqueid").val('');
 
@@ -2471,23 +2525,29 @@
                     </div>
                     @*Rev 1.0*@
                     @*<div class="col-md-3">*@
-                    <div class="col-md-3 h-branch-select">
-                        @*Rev end 1.0*@
-                        <label>Provided By <span class="red">*</span></label>
-                        <div>
-                            <select class="form-control" id="ddlProvidedBy">
-                                <option value="Select">Select</option>
-                                <option value="Website">Website</option>
-                                <option value="Direct Call">Direct Call</option>
-                                <option value="Exhibition">Exhibition</option>
-                                <option value="Twak">Twak</option>
-                                <option value="MccoyMart">Mccoy Mart</option>
-                                @*Rev 4.0*@
-                                <option value="Other">Other</option>
-                                @*End of Rev 4.0*@
-                            </select>
-                        </div>
+                <div class="col-md-3 h-branch-select">
+                    @*Rev end 1.0*@
+                    <label>Provided By <span class="red">*</span></label>
+                    <div >
+                        <select class="form-control" id="ddlProvidedBy">
+                            @*Rev 5.0*@
+                            <!--<option value="Select">Select</option>
+                            <option value="Website">Website</option>
+                            <option value="Direct Call">Direct Call</option>
+                            <option value="Exhibition">Exhibition</option>
+                            <option value="Twak">Twak</option>-->
+                            @*Rev 5.0*@
+                            @*<option value="MccoyMart">Mccoy Mart</option>*@
+                            <!--<option value="ExportersIndia">Exporters India</option>-->
+                            @*End of Rev 5.0*@
+                            @*Rev 4.0*@
+                            <!--<option value="Other">Other</option>-->
+                            @*End of Rev 4.0*@
+                            @*End of Rev 4.0*@
+                        </select>
                     </div>
+                   
+                </div>
                     <div class="clear"></div>
                     <div class="col-md-3 ">
                         <label>Product Required</label>

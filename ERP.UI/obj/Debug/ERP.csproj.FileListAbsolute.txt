@@ -500,4 +500,5 @@ D:\GIT\GitHub\BreezeFSMGIT_VS22\ERP.UI\bin\EntityLayer.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\ERP.UI\bin\UtilityLayer.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\ERP.UI\bin\BusinessLogicLayer.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\ERP.UI\bin\DataAccessLayer.pdb
-D:\GIT\GitHub\BreezeFSMGIT_VS22\ERP.UI\obj\Debug\ERP.csproj.CopyComplete
+D:\GIT\GitHub\BreezeFSMGIT_VS22\ERP.UI\bin\stdole.dll
+D:\GIT\GitHub\BreezeFSMGIT_VS22\ERP.UI\obj\Debug\ERP.csproj.Up2Date

@@ -5,8 +5,9 @@
 //4.0   V2.0.42     Debashis    06/10/2023      One new parameter has been added.Row: 867 & 873
 //5.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 892 & 895
 //6.0   V2.0.45     Debashis    14/03/2024      One new method has been added.Row: 902 & Refer: 0027309
-//7.0   V2.0.45     Debashis    03/04/2024      One new method has been added.Row: 914
-//8.0   V2.0.45     Debashis    11/04/2024      One new method has been added.Row: 917 & 918
+//7.0   V2.0.45     Debashis    03/04/2024      One new parameter has been added.Row: 914
+//8.0   V2.0.45     Debashis    11/04/2024      One new parameter has been added.Row: 917 & 918
+//9.0   V2.0.46     Debashis    24/04/2024      One new parameter has been added.Row: 923
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -294,6 +295,9 @@ namespace ShopAPI.Controllers
                 //Rev 8.0 Row: 917
                 sqlcmd.Parameters.AddWithValue("@isFromCRM", omm.isFromCRM);
                 //End of Rev 8.0 Row: 917
+                //Rev 9.0 Row: 923
+                sqlcmd.Parameters.AddWithValue("@Shop_NextFollowupDate", omm.Shop_NextFollowupDate);
+                //End of Rev 9.0 Row: 923
 
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);

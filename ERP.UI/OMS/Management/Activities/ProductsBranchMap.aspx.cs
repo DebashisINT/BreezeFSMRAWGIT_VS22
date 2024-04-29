@@ -562,7 +562,7 @@ namespace ERP.OMS.Management.Activities
                     {
                         CallbackPanel.JSProperties["cpSaveSuccessOrFail"] = "1";
                     }
-                    else if (dt.Rows[0]["Success"].ToString() == "-10")
+                    else if (dt.Rows[0]["Success"].ToString() == "False")
                     {
                         CallbackPanel.JSProperties["cpSaveSuccessOrFail"] = "-10";
                     }

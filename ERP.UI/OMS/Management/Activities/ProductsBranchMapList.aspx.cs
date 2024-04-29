@@ -55,10 +55,20 @@ namespace ERP.OMS.Management.Activities
         {
             string returnPara = Convert.ToString(e.Parameter);
             string strProduct_hiddenID = (Convert.ToString(txtProduct_hidden.Value) == "") ? "0" : Convert.ToString(txtProduct_hidden.Value);
-            Task PopulateStockTrialDataTask = new Task(() => GetProductsBranchMapData(strProduct_hiddenID));
+
+            string BranchComponent = "";
+            string BRANCH_ID = "";
+            List<object> BranchList = lookup_branch.GridView.GetSelectedFieldValues("ID");
+            foreach (object Branch in BranchList)
+            {
+                BranchComponent += "," + Branch;
+            }
+            BRANCH_ID = BranchComponent.TrimStart(',');
+
+            Task PopulateStockTrialDataTask = new Task(() => GetProductsBranchMapData(strProduct_hiddenID, BRANCH_ID));
             PopulateStockTrialDataTask.RunSynchronously();
         }
-        public void GetProductsBranchMapData(string Products)
+        public void GetProductsBranchMapData(string Products,string BRANCH_ID)
         {
             try
             {
@@ -69,6 +79,7 @@ namespace ERP.OMS.Management.Activities
                 cmd.Parameters.AddWithValue("@COMPANYID", Convert.ToString(Session["LastCompany"]));
                 cmd.Parameters.AddWithValue("@FINYEAR", Convert.ToString(Session["LastFinYear"]));
                 cmd.Parameters.AddWithValue("@Products", Products);
+                cmd.Parameters.AddWithValue("@BRANCHID", BRANCH_ID);
                 cmd.Parameters.AddWithValue("@USERID", Convert.ToInt32(Session["userid"]));
                 cmd.Parameters.AddWithValue("@ACTION", hFilterType.Value);
                 cmd.CommandTimeout = 0;
@@ -122,5 +133,34 @@ namespace ERP.OMS.Management.Activities
                 return "Error occured";
             }
         }
+
+        #region Branch Populate
+        protected void Componentbranch_Callback(object source, DevExpress.Web.CallbackEventArgsBase e)
+        {
+            string FinYear = Convert.ToString(Session["LastFinYear"]);
+            if (e.Parameter.Split('~')[0] == "BindComponentGrid")
+            {
+                DataTable ComponentTable = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_FSMBRANCHWISEPRODUCTMAPPING");
+                proc.AddVarcharPara("@Action", 50, "FETCHBRANCHS");
+                ComponentTable = proc.GetTable();
+                if (ComponentTable.Rows.Count > 0)
+                {
+                    Session["ComponentData_Branch"] = ComponentTable;
+                    lookup_branch.DataSource = ComponentTable;
+                    lookup_branch.DataBind();
+                }
+            }            
+        }
+        
+        protected void lookup_branch_DataBinding(object sender, EventArgs e)
+        {
+            if (Session["ComponentData_Branch"] != null)
+            {
+                lookup_branch.DataSource = (DataTable)Session["ComponentData_Branch"];
+            }
+        }
+        #endregion Branch Populate   
+
     }
 }

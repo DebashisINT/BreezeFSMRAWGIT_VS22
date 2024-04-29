@@ -33,6 +33,33 @@ namespace ERP.OMS.Management.Activities
         protected global::System.Web.UI.WebControls.HiddenField txtProduct_hidden;
 
         /// <summary>
+        /// hdnSelectedBranches control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnSelectedBranches;
+
+        /// <summary>
+        /// BranchComponentPanel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCallbackPanel BranchComponentPanel;
+
+        /// <summary>
+        /// lookup_branch control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxGridLookup lookup_branch;
+
+        /// <summary>
         /// GridProductBranchMap control.
         /// </summary>
         /// <remarks>

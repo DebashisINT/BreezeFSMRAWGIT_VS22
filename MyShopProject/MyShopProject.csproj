@@ -2039,6 +2039,9 @@
     <Content Include="Areas\MYSHOP\Views\ProductMaster\ImportLog.cshtml" />
     <Content Include="Areas\MYSHOP\Views\ConfigureLeaderboard\Index.cshtml" />
     <Content Include="Areas\MYSHOP\Views\ConfigureLeaderboard\_PartialPointConfiguration.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\partyDetails\_BulkDeleteManualLogView.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\partyDetails\_MassDeleteManualLogView.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\partyDetails\MassDeleteLog.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3158,7 +3161,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5735</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5738/</IISUrl>
+          <IISUrl>http://localhost:5739/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

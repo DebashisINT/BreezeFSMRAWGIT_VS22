@@ -467,7 +467,6 @@ D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\EntityLayer.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\bin\UtilityLayer.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShopProject.csproj.AssemblyReference.cache
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShopProject.csproj.CoreCompileInputs.cache
-D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShopProject.csproj.CopyComplete
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShop.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShop.pdb
 E:\GIT22\BreezeFSMGIT_VS22\MyShopProject\bin\MyShop.dll.config
@@ -488,3 +487,4 @@ E:\GIT22\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShopProject.csproj.CoreComp
 E:\GIT22\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShopProject.csproj.CopyComplete
 E:\GIT22\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShop.dll
 E:\GIT22\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShop.pdb
+D:\GIT\GitHub\BreezeFSMGIT_VS22\MyShopProject\obj\Debug\MyShopPr.1380E811.Up2Date

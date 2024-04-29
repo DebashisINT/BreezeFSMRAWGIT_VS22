@@ -1,6 +1,7 @@
 ﻿@*/***************************************************************************************
     * Written by Sanchita on 24/11/2023 for V2.0.43    A new design page is required as Contact (s) under CRM menu.
     *                                                  Mantis: 27034
+    * 1.0      v2.0.47      19/04/2024      Sanchita    0027384: Contact Module issues in Portal
     ****************************************************************************************/*@
 
 @using MyShop.Models;
@@ -140,6 +141,45 @@
                 window.location.href = url.replace("_type_", selectedValue);
             }
         });
+
+        // Rev 1.0
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9]/g, '')) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            }
+        });
+
+        $('.numbersOnlyPhone').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\+\-\ \(\)]/g, '')) {
+                this.value = this.value.replace(/[^0-9\+\-\ \(\)]/g, '');
+            }
+        });
+
+        //$('.numbersOnlyW').keyup(function () {
+        //    if (this.value != this.value.replace(/[^0-9\+]/g, '')) {
+        //        this.value = this.value.replace(/[^0-9\+]/g, '');
+        //    }
+        //});
+
+        $('.numbersOnlyW').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9]/g, '')) {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            }
+        });
+
+        $('#txtPhone').attr('maxlength', 20);
+        $('#txtExpSalesValue').attr('maxlength', 14);
+        $('#txtWhatsappNo').attr('maxlength', 10);
+        $('#txtPincode').attr('maxlength', 10); 
+
+        $(".allow_decimal").on("input", function (evt) {
+            var self = $(this);
+            self.val(self.val().replace(/[^0-9\.]/g, ''));
+            if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                evt.preventDefault();
+            }
+        });
+        // End of Rev 1.0
     });
 
     function OnStartCallback(s, e) {
@@ -327,6 +367,10 @@
         $("#txtExpSalesValue").val('');
         dtNextFollowDate.Clear();
         $("#ddlActive").val('1');
+        // Rev 1.0
+        $("#txtPincode").val('');
+        $("#txtWhatsappNo").val('');
+        // End of Rev 1.0
         SourceChange();
 
     }
@@ -362,6 +406,39 @@
             });
             return
         }
+
+        // Rev 1.0
+        if ($("#txtWhatsappNo").val() == "0" || $("#txtWhatsappNo").val().substring(0, 1) == "0") {
+            jAlert("Whatsapp Number cannot start with zero.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtWhatsappNo").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        if ($("#txtWhatsappNo").val()!="" &&  $("#txtWhatsappNo").val().length != 10 ) {
+            jAlert("Whatsapp Number should be of 10 digits only.", "Alert", function () {
+                setTimeout(function () {
+                    $("#txtWhatsappNo").focus();
+                    return
+                }, 200);
+            });
+            return
+        }
+
+        // if "+" is given in txtWhatsappNo no then "+" should be as the first digit
+        //if ($("#txtWhatsappNo").val().indexOf("+") != -1 && $("#txtWhatsappNo").val().substring(0, 1) != "+" ) {
+        //    jAlert("The '+' sign in Whatsapp Number should be only in the start position.", "Alert", function () {
+        //        setTimeout(function () {
+        //            $("#txtWhatsappNo").focus();
+        //            return
+        //        }, 200);
+        //    });
+        //    return
+        //}
+        // End of Rev 1.0
 
         var mail = /^([\w-\.]+)@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         if ($("#txtEmail").val() != "") {
@@ -425,7 +502,11 @@
             Remarks: $("#txtRemarks").val(),
             ExpSalesValue: $("#txtExpSalesValue").val(),
             NextFollowDate: NextFollowDate,
-            Active: $("#ddlActive").val()
+            Active: $("#ddlActive").val(),
+            // Rev 1.0
+            Pincode: $("#txtPincode").val(),
+            WhatsappNo: $("#txtWhatsappNo").val()
+            // End of Rev 1.0
         }
 
 
@@ -437,28 +518,30 @@
             success: function (returnValue
                 ) {
                 // Mantis Issue 24603 (Return value "returnValue" added )
-                if (returnValue == "204") {
-                    jAlert("Auto Contact Code Not generated. Contact not addded.");
+                // Rev 1.0
+                if (returnValue == "-208") {
+                    jAlert("Duplicate Contact No exists.");
                 }
-                else if (returnValue == "205") {
-                    jAlert("Invalid Last Number. Contact not addded.");
-                }
-                else if (returnValue == "206") {
-                    jAlert("Invalid Shop Type. Contact not addded.");
-                }
-                else if (returnValue == "207") {
-                    jAlert("Invalid State Code. Contact not addded.");
-                }
+                // End of Rev 1.0
                 else {
                     //jAlert("Contact submitted successfully. Auto Contact Code " + returnValue + " generated.");
                     jAlert("Contact submitted successfully.");
+                    // Rev 1.0
+                    ClearData();
+                    if (values == "Exit") {
+                        $('#myModal').modal('hide');
+                    }
+                    GridShow();
+                    // End of Rev 1.0
                 }
                 // End of Mantis Issue 24603
-                ClearData();
-                if (values == "Exit") {
-                    $('#myModal').modal('hide');
-                }
-                GridShow();
+                // Rev 1.0
+                //ClearData();
+                //if (values == "Exit") {
+                //    $('#myModal').modal('hide');
+                //}
+                //GridShow();
+                // End of Rev 1.0
                 //gridPartyDetails.Refresh();
                 //gridPartyDetails.Refresh();
             },
@@ -535,6 +618,10 @@
                 }
 
                 $("#ddlActive").val(data.Active);
+                // Rev 1.0
+                $("#txtPincode").val(data.Pincode);
+                $("#txtWhatsappNo").val(data.WhatsappNo);
+                // End of Rev 1.0
                 SourceChange();
 
                 $('#myModal').modal('show');
@@ -782,8 +869,8 @@
             var parts = inputValue.split('.');
 
             // Allow up to 15 digits before the decimal
-            if (parts[0].length > 15) {
-                parts[0] = parts[0].substring(0, 15);
+            if (parts[0].length > 11) {
+                parts[0] = parts[0].substring(0, 11);
             }
 
             // Limit decimals to 2
@@ -806,6 +893,7 @@
             $(this).val(sanitizedValue);
         });
     });
+
 </script>
 
 <script>
@@ -843,10 +931,11 @@
         .modal-dialog {
             padding-top: 56px !important;
         }
+
         #UserSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog {
             padding-top: 100px !important;
         }
-        }
+    }
 
 
 
@@ -1559,7 +1648,6 @@
 
     .btn-clr-1 {
         background-color: #313ec7 !important;
-
     }
 
     .btn-clr-2 {
@@ -1589,7 +1677,7 @@
         padding: 4px 10px;
     }
 
-    
+
 
     #popup_message {
         text-align: center !important;
@@ -1613,8 +1701,7 @@
         top: 60px !important;
     }
 
-    .dxeOutOfRWarn_PlasticBlue
-    {
+    .dxeOutOfRWarn_PlasticBlue {
         font-size: 13px !important;
     }
 
@@ -1730,9 +1817,9 @@
         width: 42% !important;
     }
 
-        .container {
-            width: 88%;
-        }
+    .container {
+        width: 88%;
+    }
 
     .only-view {
         cursor: default !important;
@@ -1743,7 +1830,6 @@
             width: 88%;
         }
     }
-
 </style>
 
 <div class="breadCumb">
@@ -1759,44 +1845,44 @@
                         <!-- Button trigger modal -->
                         @if (ViewBag.CanAdd)
                         {
-                        <button type="button" class="btn btn-success btn-radius add-btn" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
-                            <span class="btn-icon"><i class="fa fa-plus"></i></span> Contact
-                        </button>
+                            <button type="button" class="btn btn-success btn-radius add-btn" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
+                                <span class="btn-icon"><i class="fa fa-plus"></i></span> Contact
+                            </button>
                         }
                         @if (ViewBag.CanAssign)
                         {
-                        <button type="button" class="btn btn-info btn-radius btn-clr-1" onclick="BulkAssign();">
-                            Bulk Assign
-                        </button>
+                            <button type="button" class="btn btn-info btn-radius btn-clr-1" onclick="BulkAssign();">
+                                Bulk Assign
+                            </button>
                         }
                         @if (ViewBag.CanReassign)
                         {
-                        <button type="button" class="btn btn-primary btn-radius btn-clr-2" onclick="BulkReAssign();">
-                            Bulk Re-Assign
-                        </button>
+                            <button type="button" class="btn btn-primary btn-radius btn-clr-2" onclick="BulkReAssign();">
+                                Bulk Re-Assign
+                            </button>
 
                         }
 
                         @if (ViewBag.CanBulkUpdate)
                         {
-                        <button type="button" class="btn btn-info btn-radius btn-clr-3" onclick="DownloadFormat();">
-                            Download Format
-                        </button>
+                            <button type="button" class="btn btn-info btn-radius btn-clr-3" onclick="DownloadFormat();">
+                                Download Format
+                            </button>
 
-                        <button type="button" class="btn btn-primary btn-radius btn-clr-4" onclick="ImportContactPopOpen();">
-                            Import File
-                        </button>
+                            <button type="button" class="btn btn-primary btn-radius btn-clr-4" onclick="ImportContactPopOpen();">
+                                Import File
+                            </button>
 
-                        <button type="button" class="btn btn-primary btn-radius btn-clr-5" onclick="ImportLogPopOpen();">
-                            View Log
-                        </button>
+                            <button type="button" class="btn btn-primary btn-radius btn-clr-5" onclick="ImportLogPopOpen();">
+                                View Log
+                            </button>
                         }
 
                         @if (ViewBag.CanView)
                         {
-                    <button type="button" class="btn btn-success btn-radius only-view bg-color-6">
-                        Total Contact (s) <span id="btnShowTotalContacts" class="badge">0</span>
-                    </button>
+                            <button type="button" class="btn btn-success btn-radius only-view bg-color-6">
+                                Total Contact (s) <span id="btnShowTotalContacts" class="badge">0</span>
+                            </button>
 
                         }
 
@@ -1854,12 +1940,12 @@
                         <span></span>
                         <div>
                             @*@if (ViewBag.CanView)
-                {*@
+                                {*@
                             <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
                             @*}*@
 
                             @*@if (ViewBag.CanExport)
-                {*@
+                                {*@
                             <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
                                 <option value="0">Export to</option>
                                 <option value="2">XLSX</option>
@@ -1913,7 +1999,7 @@
                     <div class="col-md-12 personal-info">
                         <div class="section-heading">
                             <h4>Personal Information <span class="bulet"></span></h4>
-                            
+
                         </div>
 
                         <div class="col-md-3 mb-10">
@@ -1932,13 +2018,14 @@
                         <div class="col-md-3 mb-10">
                             <label>Phone<em style="color: red">*</em></label>
                             <div>
-                                @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control numbersOnly", @id = "txtPhone" })
+                                @*Rev 1.0 [ the class "numbersOnly" removed]  *@
+                                @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control numbersOnlyPhone", @id = "txtPhone" })
                             </div>
                         </div>
                         <div class="col-md-3 mb-10">
                             <label>Email</label>
                             <div>
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control numbersOnly", @id = "txtEmail" })
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control ", @id = "txtEmail" })
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -1950,6 +2037,25 @@
                                 @Html.TextAreaFor(m => m.Address, new { @class = "form-control", @id = "txtAddress" })
                             </div>
                         </div>
+
+                        @*Rev 1.0*@
+                        <div class="col-md-3 mb-10">
+                            <label>Pincode</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.Pincode, new { @class = "form-control numbersOnly", @id = "txtPincode" })
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 mb-10">
+                            <label>Whatsapp Number</label>
+                            <div>
+                                @Html.TextBoxFor(m => m.WhatsappNo, new { @class = "form-control numbersOnlyW", @id = "txtWhatsappNo" })
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                        @*End of Rev 1.0*@
+
                         <div class="col-md-3 mb-10">
                             <label>Date of Birth</label>
                             <div class="date-select">
@@ -2004,7 +2110,7 @@
                         <div class="col-md-3 mb-10">
                             <label>Job Title</label>
                             <div>
-                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control numbersOnly", @id = "txtJobTitle" })
+                                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control ", @id = "txtJobTitle" })
                             </div>
                         </div>
                         <div class="col-md-3 mb-10">
@@ -2029,7 +2135,8 @@
 
                         </div>
                         <div class="col-md-3 mb-10">
-                            <label>Type </label>
+                            @*Rev 1.0 [caption "Type" change to "Contact Type" ] *@
+                            <label>Contact Type </label>
                             <div>
                                 @Html.DropDownListFor(m => m.TypeId, new SelectList(Model.TypeList, "TypeId", "TypeName", Model.TypeId), new { @id = "ddlType", @class = "form-control" })
                             </div>
@@ -2102,7 +2209,7 @@
                             <div>
                                 @*<input type="text" class="form-control" />*@
                                 @*@Html.TextBoxFor(m => m.ExpSalesValue, new { @class = "form-control allow_decimal numbersOnly", @id = "txtExpSalesValue" })*@
-                                @Html.TextBoxFor(m => m.ExpSalesValue, new { @class = "form-control allow_decimal numbersOnly", @id = "txtExpSalesValue", type = "text" })
+                                @Html.TextBoxFor(m => m.ExpSalesValue, new { @class = "form-control ", @id = "txtExpSalesValue", type = "text" })
                                 @Html.ValidationMessageFor(m => m.ExpSalesValue, "", new { @class = "text-danger" })
                             </div>
                         </div>

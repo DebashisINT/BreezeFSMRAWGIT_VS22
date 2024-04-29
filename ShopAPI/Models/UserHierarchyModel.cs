@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.32     Debashis    17/01/2023      Some new parameters have been added.Row: 798
+//2.0   V2.0.46     Debashis    24/04/2024      A new parameter has been added.Row: 925
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,9 @@ namespace ShopAPI.Models
         //Rev Debashis Row: 780
         public String Employee_Code { get; set; }
         //End of Rev Debashis Row: 780
+        //Rev 2.0 Row: 925
+        public String EMP_ContactID { get; set; }
+        //End of Rev 2.0 Row: 925
     }
 
     public class UseHierarchyShopInput
