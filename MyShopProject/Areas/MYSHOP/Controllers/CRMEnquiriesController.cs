@@ -4,6 +4,7 @@
   2.0       18-08-2023        V2.0.42          Sanchita          Customisation required in Lead Activity for BreezeFSM App.
                                                                  Mantis: 26727
   3.0       23-11-2023        V2.0.43          Sanchita          Bulk Import feature required for Enquiry Module.Mantis: 27020 
+  4.0		25-04-2024	      V2.0.46		   Priti             0027383: New Enquires type Add and Hide # Eurobond Portal
 **************************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -34,6 +35,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
+using System.Web.Script.Services;
+using System.Web.Services;
 using System.Xml;
 using UtilityLayer;
 
@@ -110,6 +113,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 return Json("", JsonRequestBehavior.AllowGet);
             }
         }
+        //Rev 4.0
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public JsonResult GetProvidedByList(string MODE)
+        {
+            List<ProvidedBy> ProvidedByList = new List<ProvidedBy>();
+            {
+                ProcedureExecute pro = new ProcedureExecute("PRC_CRUD_ENQUIRIES");
+                pro.AddVarcharPara("@ACTION_TYPE", 100, "GetProvidedBy");
+                pro.AddVarcharPara("@MODE", 20, MODE);
+                DataTable addtab = pro.GetTable();               
+
+                ProvidedByList = APIHelperMethods.ToModelList<ProvidedBy>(addtab);
+                return Json(ProvidedByList, JsonRequestBehavior.AllowGet);
+
+            }
+            
+        }
+        //Rev 4.0 End
         public ActionResult GetEnquiryFrom()
         {
             try

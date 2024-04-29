@@ -3,6 +3,7 @@
 //2.0   V2.0.39     Debashis    19/05/2023      Some new parameters have been added.Row: 843
 //3.0   V2.0.42     Debashis    06/10/2023      Some new parameter has been added.Row: 868,869,874 & 875
 //4.0   V2.0.43     Debashis    22/12/2023      Some new parameters have been added.Row: 893,894,896 & 897
+//5.0   V2.0.46     Debashis    26/04/2024      A new parameter has been added.Row: 927
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -140,6 +141,9 @@ namespace ShopAPI.Models
         public int area_location_id { get; set; }
         public string area_location_name { get; set; }
         //End of Rev 2.0 Row: 843
+        //Rev 5.0 Row: 927
+        public bool user_ShopStatus { get; set; }
+        //End of Rev 5.0 Row: 927
     }
     public class ClassLoginINput_Route
     {

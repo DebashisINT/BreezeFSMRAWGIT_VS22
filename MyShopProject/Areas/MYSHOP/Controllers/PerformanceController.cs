@@ -5,6 +5,7 @@
 //3.0   V2.0.43     Sanchita    07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
 //4.0   V2.0.44     Debashis    03/01/2024      Performance Summary Report required a new column 'Type' & 'Stage'.Refer: 0027066 & 0027091
 //5.0   V2.0.44     Pallab      10/01/2024      Compact column width required in the Performance Summary report grid excel export.Refer: 0027174
+//6.0   V2.0.46     Debashis    16/04/2024      Separate column is required for Phone number in Performance Summary report.Refer: 0027278
 #endregion===================================End of Revision History========================================================================================
 using SalesmanTrack;
 using System;
@@ -1031,13 +1032,20 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                 settings.Columns.Add(x =>
                 {
-                    x.FieldName = "SHOPADDR_CONTACT";
-                    x.Caption = "Retailer Address & Mobile no.";
+                    //Rev 6.0 Mantis: 0027278
+                    //x.FieldName = "SHOPADDR_CONTACT";
+                    //x.Caption = "Retailer Address & Mobile no.";
+                    x.FieldName = "SHOPADDR";
+                    x.Caption = "Retailer Address";
+                    //End of Rev 6.0 Mantis: 0027278
                     x.VisibleIndex = 26;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
-                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPADDR_CONTACT'");
+                        //Rev 6.0 Mantis: 0027278
+                        //System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPADDR_CONTACT'");
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPADDR'");
+                        //End of Rev 6.0 Mantis: 0027278
                         if (row != null && row.Length > 0)  /// Check now
                         {
                             x.Visible = false;
@@ -1057,14 +1065,50 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
                 });
 
+                //Rev 6.0 Mantis: 0027278
                 settings.Columns.Add(x =>
                 {
-                    x.FieldName = "PPADDR_CONTACT";
-                    x.Caption = "PP Address & Mobile no.";
+                    x.FieldName = "SHOPCONTACT";
+                    x.Caption = "Mobile no.";
                     x.VisibleIndex = 27;
+
                     if (ViewBag.RetentionColumn != null)
                     {
-                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPADDR_CONTACT'");
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPCONTACT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 150;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 150;
+                    }
+                });
+                //End of Rev 6.0 Mantis: 0027278
+
+                settings.Columns.Add(x =>
+                {
+                    //Rev 6.0 Mantis: 0027278
+                    //x.FieldName = "PPADDR_CONTACT";
+                    //x.Caption = "PP Address & Mobile no.";
+                    //x.VisibleIndex = 27;
+                    x.FieldName = "PPADDR";
+                    x.Caption = "PP Address";
+                    x.VisibleIndex = 28;
+                    //End of Rev 6.0 Mantis: 0027278
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        //Rev 6.0 Mantis: 0027278
+                        //System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPADDR_CONTACT'");
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPADDR'");
+                        //End of Rev 6.0 Mantis: 0027278
                         if (row != null && row.Length > 0)  /// Check now
                         {
                             x.Visible = false;
@@ -1082,14 +1126,50 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
                 });
 
+                //Rev 6.0 Mantis: 0027278
                 settings.Columns.Add(x =>
                 {
-                    x.FieldName = "DDADDR_CONTACT";
-                    x.Caption = "DD Address & Mobile no.";
-                    x.VisibleIndex = 28;
+                    x.FieldName = "PPCONTACT";
+                    x.Caption = "Mobile no.";
+                    x.VisibleIndex = 29;
+
                     if (ViewBag.RetentionColumn != null)
                     {
-                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDADDR_CONTACT'");
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPCONTACT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 150;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 150;
+                    }
+                });
+                //End of Rev 6.0 Mantis: 0027278
+
+                settings.Columns.Add(x =>
+                {
+                    //Rev 6.0 Mantis: 0027278
+                    //x.FieldName = "DDADDR_CONTACT";
+                    //x.Caption = "DD Address & Mobile no.";
+                    //x.VisibleIndex = 28;
+                    x.FieldName = "DDADDR";
+                    x.Caption = "DD Address";
+                    x.VisibleIndex = 30;
+                    //End of Rev 6.0 Mantis: 0027278
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        //Rev 6.0 Mantis: 0027278
+                        //System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDADDR_CONTACT'");
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDADDR'");
+                        //End of Rev 6.0 Mantis: 0027278
                         if (row != null && row.Length > 0)  /// Check now
                         {
                             x.Visible = false;
@@ -1108,12 +1188,40 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
                 });
 
+                //Rev 6.0 Mantis: 0027278
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "DDCONTACT";
+                    x.Caption = "Mobile no.";
+                    x.VisibleIndex = 31;
+
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDCONTACT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 150;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 150;
+                    }
+                });
+                //End of Rev 6.0 Mantis: 0027278
+
                 //Rev Debashis -- 0024577
                 settings.Columns.Add(x =>
                 {
                     x.FieldName = "ALT_MOBILENO1";
                     x.Caption = "Alternate Phone No.";
-                    x.VisibleIndex = 29;
+                    x.VisibleIndex = 32;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ALT_MOBILENO1'");
@@ -1138,7 +1246,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "SHOP_OWNER_EMAIL2";
                     x.Caption = "Alternate Email ID";
-                    x.VisibleIndex = 30;
+                    x.VisibleIndex = 33;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOP_OWNER_EMAIL2'");
@@ -1164,7 +1272,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "MEETING_ADDRESS";
                     x.Caption = "Meeting Address";
-                    x.VisibleIndex = 31;
+                    x.VisibleIndex = 34;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MEETING_ADDRESS'");
@@ -1189,7 +1297,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "MEETINGREMARKS";
                     x.Caption = "Meeting Remarks";
-                    x.VisibleIndex = 32;
+                    x.VisibleIndex = 35;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MEETINGREMARKS'");
@@ -1214,7 +1322,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "VISITREMARKS";
                     x.Caption = "Feedback";
-                    x.VisibleIndex = 33;
+                    x.VisibleIndex = 36;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VISITREMARKS'");
@@ -1240,7 +1348,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "PARTYSTATUSTYPE";
                     x.Caption = "Type";
-                    x.VisibleIndex = 34;
+                    x.VisibleIndex = 37;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUSTYPE'");
@@ -1265,7 +1373,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "STAGE";
                     x.Caption = "Stage";
-                    x.VisibleIndex = 35;
+                    x.VisibleIndex = 38;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STAGE'");
@@ -1291,7 +1399,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_VISIT";
                     x.Caption = "Visit Count";
-                    x.VisibleIndex = 36;
+                    x.VisibleIndex = 39;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTAL_VISIT'");
@@ -1318,7 +1426,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "RE_VISITED";
                     x.Caption = "Re Visit";
-                    x.VisibleIndex = 37;
+                    x.VisibleIndex = 40;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RE_VISITED'");
@@ -1344,7 +1452,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "NEWSHOP_VISITED";
                     x.Caption = "New Visit";
-                    x.VisibleIndex = 38;
+                    x.VisibleIndex = 41;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='NEWSHOP_VISITED'");
@@ -1370,7 +1478,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTMETTING";
                     x.Caption = "Meeting";
-                    x.VisibleIndex = 39;
+                    x.VisibleIndex = 42;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTMETTING'");
@@ -1395,7 +1503,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "SPENT_DURATION";
                     x.Caption = "Duration Spend";
-                    x.VisibleIndex = 40;
+                    x.VisibleIndex = 43;
                     if (ViewBag.RetentionColumn != null)
                     {
                         System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SPENT_DURATION'");
@@ -1420,7 +1528,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "DISTANCE_TRAVELLED";
                     x.Caption = "Travelled(KM)";
-                    x.VisibleIndex = 41;
+                    x.VisibleIndex = 44;
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -1446,7 +1554,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
                     x.Caption = "Sale Value";
-                    x.VisibleIndex = 42;
+                    x.VisibleIndex = 45;
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -1474,7 +1582,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_COLLECTION";
                     x.Caption = "Collection value";
-                    x.VisibleIndex = 43;
+                    x.VisibleIndex = 46;
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2154,13 +2262,20 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                 settings.Columns.Add(x =>
                 {
-                    x.FieldName = "SHOPADDR_CONTACT";
-                    x.Caption = "Retailer Address & Mobile no.";
+                    //Rev 6.0 Mantis: 0027278
+                    //x.FieldName = "SHOPADDR_CONTACT";
+                    //x.Caption = "Retailer Address & Mobile no.";
+                    x.FieldName = "SHOPADDR";
+                    x.Caption = "Retailer Address";
+                    //End of Rev 6.0 Mantis: 0027278
                     x.VisibleIndex = 26;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
-                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPADDR_CONTACT'");
+                        //Rev 6.0 Mantis: 0027278
+                        //System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPADDR_CONTACT'");
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPADDR'");
+                        //End of Rev 6.0 Mantis: 0027278
                         if (row != null && row.Length > 0)  /// Check now
                         {
                             x.Visible = false;
@@ -2178,15 +2293,47 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
                 });
 
+                //Rev 6.0 Mantis: 0027278
                 settings.Columns.Add(x =>
                 {
-                    x.FieldName = "PPADDR_CONTACT";
-                    x.Caption = "PP Address & Mobile no.";
+                    x.FieldName = "SHOPCONTACT";
+                    x.Caption = "Mobile no.";
                     x.VisibleIndex = 27;
-                    
+
                     if (ViewBag.RetentionColumn != null)
                     {
-                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPADDR_CONTACT'");
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPCONTACT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 150;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 150;
+                    }
+                });
+                //End of Rev 6.0 Mantis: 0027278
+
+                settings.Columns.Add(x =>
+                {
+                    //Rev 6.0 Mantis: 0027278
+                    //x.FieldName = "PPADDR_CONTACT";
+                    //x.Caption = "PP Address & Mobile no.";
+                    //x.VisibleIndex = 27;
+                    x.FieldName = "PPADDR";
+                    x.Caption = "PP Address";
+                    x.VisibleIndex = 28;
+                    //End of Rev 6.0 Mantis: 0027278
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPADDR'");
                         if (row != null && row.Length > 0)  /// Check now
                         {
                             x.Visible = false;
@@ -2204,15 +2351,48 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
                 });
 
+                //Rev 6.0 Mantis: 0027278
                 settings.Columns.Add(x =>
                 {
-                    x.FieldName = "DDADDR_CONTACT";
-                    x.Caption = "DD Address & Mobile no.";
-                    x.VisibleIndex = 28;
-                    
+                    x.FieldName = "PPCONTACT";
+                    x.Caption = "Mobile no.";
+                    x.VisibleIndex = 29;
+
                     if (ViewBag.RetentionColumn != null)
                     {
-                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDADDR_CONTACT'");
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPCONTACT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 150;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 150;
+                    }
+                });
+                //End of Rev 6.0 Mantis: 0027278
+
+                settings.Columns.Add(x =>
+                {
+                    //Rev 6.0 Mantis: 0027278
+                    //x.FieldName = "DDADDR_CONTACT";
+                    //x.Caption = "DD Address & Mobile no.";
+                    //x.VisibleIndex = 28;
+                    x.FieldName = "DDADDR";
+                    x.Caption = "DD Address";
+                    x.VisibleIndex = 30;
+                    //End of Rev 6.0 Mantis: 0027278
+
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDADDR'");
                         if (row != null && row.Length > 0)  /// Check now
                         {
                             x.Visible = false;
@@ -2229,12 +2409,40 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         x.ExportWidth = 250;
                     }
                 });
+
+                //Rev 6.0 Mantis: 0027278
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "DDCONTACT";
+                    x.Caption = "Mobile no.";
+                    x.VisibleIndex = 31;
+
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDCONTACT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                            x.ExportWidth = 150;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.ExportWidth = 150;
+                    }
+                });
+                //End of Rev 6.0 Mantis: 0027278
 
                 settings.Columns.Add(x =>
                 {
                     x.FieldName = "ALT_MOBILENO1";
                     x.Caption = "Alternate Phone No.";
-                    x.VisibleIndex = 29;
+                    x.VisibleIndex = 32;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2260,7 +2468,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "SHOP_OWNER_EMAIL2";
                     x.Caption = "Alternate Email ID";
-                    x.VisibleIndex = 30;
+                    x.VisibleIndex = 33;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2286,7 +2494,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "MEETING_ADDRESS";
                     x.Caption = "Meeting Address";
-                    x.VisibleIndex = 31;
+                    x.VisibleIndex = 34;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2312,7 +2520,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "MEETINGREMARKS";
                     x.Caption = "Meeting Remarks";
-                    x.VisibleIndex = 32;
+                    x.VisibleIndex = 35;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2338,7 +2546,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "VISITREMARKS";
                     x.Caption = "Feedback";
-                    x.VisibleIndex = 33;
+                    x.VisibleIndex = 36;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2365,7 +2573,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "PARTYSTATUSTYPE";
                     x.Caption = "Type";
-                    x.VisibleIndex = 34;
+                    x.VisibleIndex = 37;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2391,7 +2599,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "STAGE";
                     x.Caption = "Stage";
-                    x.VisibleIndex = 35;
+                    x.VisibleIndex = 38;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2418,7 +2626,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "MULTI_CONTACT_NAME";
                     x.Caption = "Contact Name";
-                    x.VisibleIndex = 36;
+                    x.VisibleIndex = 39;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2444,7 +2652,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "MULTI_CONTACT_NUMBER";
                     x.Caption = "Contact Number";
-                    x.VisibleIndex = 37;
+                    x.VisibleIndex = 40;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2470,7 +2678,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_VISIT";
                     x.Caption = "Visit Count";
-                    x.VisibleIndex = 38;
+                    x.VisibleIndex = 41;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2496,7 +2704,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "RE_VISITED";
                     x.Caption = "Re Visit";
-                    x.VisibleIndex = 39;
+                    x.VisibleIndex = 42;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2522,7 +2730,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "NEWSHOP_VISITED";
                     x.Caption = "New Visit";
-                    x.VisibleIndex = 40;
+                    x.VisibleIndex = 43;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2548,7 +2756,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTMETTING";
                     x.Caption = "Meeting";
-                    x.VisibleIndex = 41;
+                    x.VisibleIndex = 44;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2574,7 +2782,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "SPENT_DURATION";
                     x.Caption = "Duration Spend";
-                    x.VisibleIndex = 42;
+                    x.VisibleIndex = 45;
                     
                     if (ViewBag.RetentionColumn != null)
                     {
@@ -2600,7 +2808,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "DISTANCE_TRAVELLED";
                     x.Caption = "Travelled(KM)";
-                    x.VisibleIndex = 43;
+                    x.VisibleIndex = 46;
                     
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
@@ -2627,7 +2835,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_ORDER_BOOKED_VALUE";
                     x.Caption = "Sale Value";
-                    x.VisibleIndex = 44;
+                    x.VisibleIndex = 47;
                     
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)
@@ -2654,7 +2862,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.FieldName = "TOTAL_COLLECTION";
                     x.Caption = "Collection value";
-                    x.VisibleIndex = 45;
+                    x.VisibleIndex = 48;
                     
                     x.PropertiesEdit.DisplayFormatString = "0.00";
                     if (ViewBag.RetentionColumn != null)

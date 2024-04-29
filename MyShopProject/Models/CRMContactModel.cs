@@ -1,6 +1,7 @@
 ﻿/***************************************************************************************
  * Written by Sanchita on 24/11/2023 for V2.0.43    A new design page is required as Contact (s) under CRM menu. 
  *                                                  Mantis: 27034 
+ * 1.0      v2.0.47      19/04/2024      Sanchita   0027384: Contact Module issues in Portal
  ****************************************************************************************/
 
 using Models;
@@ -63,10 +64,17 @@ namespace MyShop.Models
         public List<StageList> StageList { get; set; }
 
         public String Remarks { get; set; }
+
         public decimal ExpSalesValue { get; set; }
+
         public String NextFollowDate { get; set; }
 
         public Int64 TotalContacts { get; set; }
+        
+        // Rev 1.0
+        public String Pincode { get; set; }
+        public String WhatsappNo { get; set; }
+        // End of Rev 1.0
     }
     public class GetContactFrom
     {
@@ -99,6 +107,10 @@ namespace MyShop.Models
         public decimal ExpSalesValue { get; set; }
         public String NextFollowDate { get; set; }
         public int Active { get; set; }
+        // Rev 1.0
+        public String Pincode { get; set; }
+        public string WhatsappNo { get; set; }
+        // End of Rev 1.0
     }
 
 
@@ -170,5 +182,9 @@ namespace MyShop.Models
 		public String ImportMsg { get; set; }
         public String ImportDate { get; set; }
 		public String CreateUser { get; set; }
+        // Rev 1.0
+        public String Pincode { get; set; }
+        public String WhatsappNo { get; set; }
+        // End of rev 1.0
     }
 }

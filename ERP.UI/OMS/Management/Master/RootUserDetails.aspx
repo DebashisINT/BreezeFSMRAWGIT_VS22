@@ -19,7 +19,11 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                                                           Mantis: 26794
 9.0                19-12-2023       V2.0.44           Sanchita            Call log facility is required in the FSM App - IsCallLogHistoryActivated” - 
                                                                           User Account - Add User master settings. Mantis: 27063
-====================================================== Revision History ==========================================================--%>
+10.0                16-04-2024       V2.0.47           Sanchita            0027369: The mentioned settings are required in the User master in FSM
+11.0                17-04-2024       V2.0.47           Priti               0027372: ShowPartyWithCreateOrder setting shall be available User wise setting also
+                                                                          0027374: ShowPartyWithGeoFence setting shall be available User wise setting also
+12.0                16-04-2024       V2.0.47           Sanchita            0027369: The mentioned settings are required in the User master in FSM
+====================================================== Revision History ================================================================--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" EnableEventValidation="false"
     Inherits="ERP.OMS.Management.Master.management_master_RootUserDetails" CodeBehind="RootUserDetails.aspx.cs" %>
@@ -187,7 +191,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             type: "POST",
                             url: "RootUserDetails.aspx/chkLoginIdExist",
 
-                            data: JSON.stringify({ userLoginId: $("#txtuserid").val().trim(),action:'ADD',userid:'' }),
+                            data: JSON.stringify({ userLoginId: $("#txtuserid").val().trim(), action: 'ADD', userid: '' }),
                             contentType: "application/json; charset=utf-8",
                             dataType: "json",
                             async: false,
@@ -197,8 +201,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             }
                         });
 
-                        if (IdExist == 0)
-                        {
+                        if (IdExist == 0) {
                             // End of Mantis Issue 24723
                             if ($("#txtpassword").val().trim() != "") {
                                 if ($("#lstAssociatedEmployee").val() != null) {
@@ -267,8 +270,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             }
                         });
 
-                        if (IdExist == 0)
-                        {
+                        if (IdExist == 0) {
                             if ($("#lstAssociatedEmployee").val() != null) {
                                 if ($("#ddlGroups").val() != "Select Group") {
 
@@ -309,7 +311,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             });
                             return false;
                         }
-                            // End of Mantis Issue 24723
+                        // End of Mantis Issue 24723
                     }
                 }
                 else {
@@ -325,7 +327,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 });
                 return false;
             }
-            
+
         }
 
 
@@ -553,465 +555,450 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         }
         /*...end....*/
 
-        .fullMulti .multiselect-native-select .multiselect
-        {
+        .fullMulti .multiselect-native-select .multiselect {
             border: 1px solid #ccc;
         }
 
         /*Rev 1.0*/
 
-        body , .dxtcLite_PlasticBlue
-        {
+        body, .dxtcLite_PlasticBlue {
             font-family: 'Poppins', sans-serif !important;
         }
 
-    #BranchGridLookup {
-        min-height: 34px;
-        border-radius: 5px;
-    }
-
-    .dxeButtonEditButton_PlasticBlue {
-        background: #094e8c !important;
-        border-radius: 4px !important;
-        padding: 0 4px !important;
-    }
-
-    .dxeButtonDisabled_PlasticBlue {
-        background: #ababab !important;
-    }
-
-    .chosen-container-single .chosen-single div {
-        background: #094e8c;
-        color: #fff;
-        border-radius: 4px;
-        height: 30px;
-        top: 1px;
-        right: 1px;
-        /*position:relative;*/
-    }
-
-        .chosen-container-single .chosen-single div b {
-            display: none;
+        #BranchGridLookup {
+            min-height: 34px;
+            border-radius: 5px;
         }
 
-        .chosen-container-single .chosen-single div::after {
-            /*content: '<';*/
-            content: url(../../../assests/images/left-arw.png);
-            position: absolute;
-            top: 2px;
-            right: 3px;
-            font-size: 13px;
-            transform: rotate(269deg);
-            font-weight: 500;
+        .dxeButtonEditButton_PlasticBlue {
+            background: #094e8c !important;
+            border-radius: 4px !important;
+            padding: 0 4px !important;
         }
 
-    .chosen-container-active.chosen-with-drop .chosen-single div {
-        background: #094e8c;
-        color: #fff;
-    }
-
-        .chosen-container-active.chosen-with-drop .chosen-single div::after {
-            transform: rotate(90deg);
-            right: 7px;
+        .dxeButtonDisabled_PlasticBlue {
+            background: #ababab !important;
         }
 
-    .calendar-icon {
-        position: absolute;
-        bottom: 9px;
-        right: 5px;
-        z-index: 0;
-        cursor: pointer;
-    }
-
-    .date-select .form-control {
-        position: relative;
-        z-index: 1;
-        background: transparent;
-    }
-
-    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
-        -webkit-appearance: none;
-        position: relative;
-        z-index: 1;
-        background-color: transparent;
-    }
-
-    .h-branch-select {
-        position: relative;
-    }
-
-        .h-branch-select::after {
-            /*content: '<';*/
-            content: url(../../../assests/images/left-arw.png);
-            position: absolute;
-            top: 33px;
-            right: 8px;
-            font-size: 18px;
-            transform: rotate(269deg);
-            font-weight: 500;
+        .chosen-container-single .chosen-single div {
             background: #094e8c;
             color: #fff;
-            height: 18px;
-            display: block;
-            width: 28px;
-            /* padding: 10px 0; */
             border-radius: 4px;
-            text-align: center;
-            line-height: 18px;
-            z-index: 0;
+            height: 30px;
+            top: 1px;
+            right: 1px;
+            /*position:relative;*/
         }
 
-        select:not(.btn):focus
-        {
+            .chosen-container-single .chosen-single div b {
+                display: none;
+            }
+
+            .chosen-container-single .chosen-single div::after {
+                /*content: '<';*/
+                content: url(../../../assests/images/left-arw.png);
+                position: absolute;
+                top: 2px;
+                right: 3px;
+                font-size: 13px;
+                transform: rotate(269deg);
+                font-weight: 500;
+            }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div {
+            background: #094e8c;
+            color: #fff;
+        }
+
+            .chosen-container-active.chosen-with-drop .chosen-single div::after {
+                transform: rotate(90deg);
+                right: 7px;
+            }
+
+        .calendar-icon {
+            position: absolute;
+            bottom: 9px;
+            right: 5px;
+            z-index: 0;
+            cursor: pointer;
+        }
+
+        .date-select .form-control {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+
+        #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+            -webkit-appearance: none;
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
+
+        .h-branch-select {
+            position: relative;
+        }
+
+            .h-branch-select::after {
+                /*content: '<';*/
+                content: url(../../../assests/images/left-arw.png);
+                position: absolute;
+                top: 33px;
+                right: 8px;
+                font-size: 18px;
+                transform: rotate(269deg);
+                font-weight: 500;
+                background: #094e8c;
+                color: #fff;
+                height: 18px;
+                display: block;
+                width: 28px;
+                /* padding: 10px 0; */
+                border-radius: 4px;
+                text-align: center;
+                line-height: 18px;
+                z-index: 0;
+            }
+
+        select:not(.btn):focus {
             border-color: #094e8c;
         }
 
-        select:not(.btn):focus-visible
-        {
+        select:not(.btn):focus-visible {
             box-shadow: none;
             outline: none;
-            
         }
 
-    .multiselect.dropdown-toggle {
-        text-align: left;
-    }
+        .multiselect.dropdown-toggle {
+            text-align: left;
+        }
 
-    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
-        -webkit-appearance: none;
-        position: relative;
-        z-index: 1;
-        background-color: transparent;
-    }
+        .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+            -webkit-appearance: none;
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
 
-    select:not(.btn) {
-        padding-right: 30px;
-        -webkit-appearance: none;
-        position: relative;
-        z-index: 1;
-        background-color: transparent;
-    }
+        select:not(.btn) {
+            padding-right: 30px;
+            -webkit-appearance: none;
+            position: relative;
+            z-index: 1;
+            background-color: transparent;
+        }
 
-    #ddlShowReport:focus-visible {
-        box-shadow: none;
-        outline: none;
-        border: 1px solid #164f93;
-    }
+        #ddlShowReport:focus-visible {
+            box-shadow: none;
+            outline: none;
+            border: 1px solid #164f93;
+        }
 
-    #ddlShowReport:focus {
-        border: 1px solid #164f93;
-    }
+        #ddlShowReport:focus {
+            border: 1px solid #164f93;
+        }
 
-    .whclass.selectH:focus-visible {
-        outline: none;
-    }
+        .whclass.selectH:focus-visible {
+            outline: none;
+        }
 
-    .whclass.selectH:focus {
-        border: 1px solid #164f93;
-    }
+        .whclass.selectH:focus {
+            border: 1px solid #164f93;
+        }
 
-    .dxeButtonEdit_PlasticBlue {
-        border: 1px Solid #ccc;
-    }
+        .dxeButtonEdit_PlasticBlue {
+            border: 1px Solid #ccc;
+        }
 
-    .chosen-container-single .chosen-single {
-        border: 1px solid #ccc;
-        background: #fff;
-        box-shadow: none;
-    }
+        .chosen-container-single .chosen-single {
+            border: 1px solid #ccc;
+            background: #fff;
+            box-shadow: none;
+        }
 
-    .daterangepicker td.active, .daterangepicker td.active:hover {
-        background-color: #175396;
-    }
+        .daterangepicker td.active, .daterangepicker td.active:hover {
+            background-color: #175396;
+        }
 
-    label {
-        font-weight: 500;
-    }
+        label {
+            font-weight: 500;
+        }
 
-    .dxgvHeader_PlasticBlue {
-        background: #164f94;
-    }
+        .dxgvHeader_PlasticBlue {
+            background: #164f94;
+        }
 
-    .dxgvSelectedRow_PlasticBlue td.dxgv {
-        color: #fff;
-    }
+        .dxgvSelectedRow_PlasticBlue td.dxgv {
+            color: #fff;
+        }
 
-    .dxeCalendarHeader_PlasticBlue {
-        background: #185598;
-    }
+        .dxeCalendarHeader_PlasticBlue {
+            background: #185598;
+        }
 
-    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
-    .dxbButton_PlasticBlue,
-    .dxeCalendar_PlasticBlue,
-    .dxeEditArea_PlasticBlue,
-    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue{
-        font-family: 'Poppins', sans-serif !important;
-    }
+        .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+        .dxbButton_PlasticBlue,
+        .dxeCalendar_PlasticBlue,
+        .dxeEditArea_PlasticBlue,
+        .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue {
+            font-family: 'Poppins', sans-serif !important;
+        }
 
-    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
-        font-weight: 500;
-    }
+        .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+            font-weight: 500;
+        }
 
-    .btnPadding .btn {
-        padding: 7px 14px !important;
-        border-radius: 4px;
-    }
+        .btnPadding .btn {
+            padding: 7px 14px !important;
+            border-radius: 4px;
+        }
 
-    .btnPadding {
-        padding-top: 24px !important;
-    }
+        .btnPadding {
+            padding-top: 24px !important;
+        }
 
-    .dxeButtonEdit_PlasticBlue {
-        border-radius: 5px;
-        height: 34px;
-    }
+        .dxeButtonEdit_PlasticBlue {
+            border-radius: 5px;
+            height: 34px;
+        }
 
-    #dtFrom, #dtTo {
-        position: relative;
-        z-index: 1;
-        background: transparent;
-    }
+        #dtFrom, #dtTo {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
 
-    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
-        background: #165092;
-        vertical-align: middle;
-        font-weight: 500;
-    }
+        #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+            background: #165092;
+            vertical-align: middle;
+            font-weight: 500;
+        }
 
-    /*#refreshgrid {
+        /*#refreshgrid {
         background: #e5e5e5;
         padding: 0 10px;
         margin-top: 15px;
         border-radius: 8px;
     }*/
 
-    .styled-checkbox input {
-        position: absolute;
-        opacity: 0;
-        z-index: 1;
-    }
-
-        .styled-checkbox input + label {
-            position: relative;
-            /*cursor: pointer;*/
-            padding: 0;
-            margin-bottom: 0 !important;
-        }
-
-            .styled-checkbox input + label:before {
-                content: "";
-                margin-right: 6px;
-                display: inline-block;
-                vertical-align: text-top;
-                width: 16px;
-                height: 16px;
-                /*background: #d7d7d7;*/
-                margin-top: 2px;
-                border-radius: 2px;
-                border: 1px solid #c5c5c5;
-            }
-
-        .styled-checkbox input:hover + label:before {
-            background: #094e8c;
-        }
-
-
-        .styled-checkbox input:checked + label:before {
-            background: #094e8c;
-        }
-
-        .styled-checkbox input:disabled + label {
-            color: #b8b8b8;
-            cursor: auto;
-        }
-
-            .styled-checkbox input:disabled + label:before {
-                box-shadow: none;
-                background: #ddd;
-            }
-
-        .styled-checkbox input:checked + label:after {
-            content: "";
+        .styled-checkbox input {
             position: absolute;
-            left: 3px;
-            top: 9px;
-            background: white;
-            width: 2px;
-            height: 2px;
-            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
-            transform: rotate(45deg);
+            opacity: 0;
+            z-index: 1;
         }
 
-    #dtstate {
-        padding-right: 8px;
-    }
+            .styled-checkbox input + label {
+                position: relative;
+                /*cursor: pointer;*/
+                padding: 0;
+                margin-bottom: 0 !important;
+            }
 
-    .modal-header {
-        background: #094e8c !important;
-        background-image: none !important;
-        padding: 11px 20px;
-        border: none;
-        border-radius: 5px 5px 0 0;
-        color: #fff;
-        border-radius: 10px 10px 0 0;
-    }
+                .styled-checkbox input + label:before {
+                    content: "";
+                    margin-right: 6px;
+                    display: inline-block;
+                    vertical-align: text-top;
+                    width: 16px;
+                    height: 16px;
+                    /*background: #d7d7d7;*/
+                    margin-top: 2px;
+                    border-radius: 2px;
+                    border: 1px solid #c5c5c5;
+                }
 
-    .modal-content {
-        border: none;
-        border-radius: 10px;
-    }
+            .styled-checkbox input:hover + label:before {
+                background: #094e8c;
+            }
 
-    .modal-header .modal-title {
-        font-size: 14px;
-    }
 
-    .close {
-        font-weight: 400;
-        font-size: 25px;
-        color: #fff;
-        text-shadow: none;
-        opacity: .5;
-    }
+            .styled-checkbox input:checked + label:before {
+                background: #094e8c;
+            }
 
-    #EmployeeTable {
-        margin-top: 10px;
-    }
+            .styled-checkbox input:disabled + label {
+                color: #b8b8b8;
+                cursor: auto;
+            }
 
-        #EmployeeTable table tr th {
-            padding: 5px 10px;
+                .styled-checkbox input:disabled + label:before {
+                    box-shadow: none;
+                    background: #ddd;
+                }
+
+            .styled-checkbox input:checked + label:after {
+                content: "";
+                position: absolute;
+                left: 3px;
+                top: 9px;
+                background: white;
+                width: 2px;
+                height: 2px;
+                box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+                transform: rotate(45deg);
+            }
+
+        #dtstate {
+            padding-right: 8px;
         }
 
-    .dynamicPopupTbl {
-        font-family: 'Poppins', sans-serif !important;
-    }
+        .modal-header {
+            background: #094e8c !important;
+            background-image: none !important;
+            padding: 11px 20px;
+            border: none;
+            border-radius: 5px 5px 0 0;
+            color: #fff;
+            border-radius: 10px 10px 0 0;
+        }
 
-        .dynamicPopupTbl > tbody > tr > td,
-        #EmployeeTable table tr th {
+        .modal-content {
+            border: none;
+            border-radius: 10px;
+        }
+
+        .modal-header .modal-title {
+            font-size: 14px;
+        }
+
+        .close {
+            font-weight: 400;
+            font-size: 25px;
+            color: #fff;
+            text-shadow: none;
+            opacity: .5;
+        }
+
+        #EmployeeTable {
+            margin-top: 10px;
+        }
+
+            #EmployeeTable table tr th {
+                padding: 5px 10px;
+            }
+
+        .dynamicPopupTbl {
             font-family: 'Poppins', sans-serif !important;
-            font-size: 12px;
         }
 
-    .w150 {
-        width: 160px;
-    }
+            .dynamicPopupTbl > tbody > tr > td,
+            #EmployeeTable table tr th {
+                font-family: 'Poppins', sans-serif !important;
+                font-size: 12px;
+            }
 
-    .eqpadtbl > tbody > tr > td:not(:last-child) {
-        padding-right: 20px;
-    }
+        .w150 {
+            width: 160px;
+        }
 
-    #dtFrom_B-1, #dtTo_B-1 , #cmbDOJ_B-1, #cmbLeaveEff_B-1 {
-        background: transparent !important;
-        border: none;
-        width: 30px;
-        padding: 10px !important;
-    }
+        .eqpadtbl > tbody > tr > td:not(:last-child) {
+            padding-right: 20px;
+        }
 
-        #dtFrom_B-1 #dtFrom_B-1Img,
-        #dtTo_B-1 #dtTo_B-1Img , #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img {
+        #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1 {
+            background: transparent !important;
+            border: none;
+            width: 30px;
+            padding: 10px !important;
+        }
+
+            #dtFrom_B-1 #dtFrom_B-1Img,
+            #dtTo_B-1 #dtTo_B-1Img, #cmbDOJ_B-1 #cmbDOJ_B-1Img, #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img {
+                display: none;
+            }
+
+        #dtFrom_I, #dtTo_I {
+            background: transparent;
+        }
+
+        .for-cust-icon {
+            position: relative;
+            /*z-index: 1;*/
+        }
+
+        .pad-md-18 {
+            padding-top: 24px;
+        }
+
+        .open .dropdown-toggle.btn-default {
+            background: transparent !important;
+        }
+
+        .input-group-btn .multiselect-clear-filter {
+            height: 32px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .btn .caret {
             display: none;
         }
 
-    #dtFrom_I, #dtTo_I {
-        background: transparent;
-    }
+        .iminentSpan button.multiselect.dropdown-toggle {
+            height: 34px;
+        }
 
-    .for-cust-icon {
-        position: relative;
-        /*z-index: 1;*/
-    }
+        .col-lg-2 {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
 
-    .pad-md-18 {
-        padding-top: 24px;
-    }
+        .dxeCalendarSelected_PlasticBlue {
+            color: White;
+            background-color: #185598;
+        }
 
-    .open .dropdown-toggle.btn-default {
-        background: transparent !important;
-    }
-
-    .input-group-btn .multiselect-clear-filter {
-        height: 32px;
-        border-radius: 0 4px 4px 0;
-    }
-
-    .btn .caret {
-        display: none;
-    }
-
-    .iminentSpan button.multiselect.dropdown-toggle {
-        height: 34px;
-    }
-
-    .col-lg-2 {
-        padding-left: 8px;
-        padding-right: 8px;
-    }
-
-    .dxeCalendarSelected_PlasticBlue {
-        color: White;
-        background-color: #185598;
-    }
-
-    .dxeTextBox_PlasticBlue
-    {
+        .dxeTextBox_PlasticBlue {
             height: 34px;
             border-radius: 4px;
-    }
-
-    #cmbDOJ_DDD_PW-1
-    {
-        z-index: 9999 !important;
-    }
-
-    #cmbDOJ, #cmbLeaveEff
-    {
-        position: relative;
-    z-index: 1;
-    background: transparent;
-    }
-
-    .btn-sm, .btn-xs
-    {
-        padding: 6px 10px !important;
-    }
-
-    .btn
-    {
-        height: 34px;
-    }
-
-    /*Rev end 1.0*/
-
-    /*Rev 2.0*/
-    .col-md-3
-    {
-        padding-left: 10px !important;
-        padding-right: 10px !important;
-    }
-    .dxeTextBox_PlasticBlue.form-control
-    {
-        padding: 2px 12px !important;
-    }
-    /*Rev end 2.0*/
-
-    .dxWeb_edtCheckBoxUnchecked_PlasticBlue
-    {
-        background-image: none !important;
-        border: 1px solid #236cb9 !important;
-        border-radius: 2px;
-    }
-
-    .tblWhiteS > tbody > tr > td
-    {
-            font-size: 13px;
-    }
-
-    @media only screen and (max-width: 768px) {
-        .tblWhiteS > tbody > tr > td
-        {
-                display: block  !important;
         }
-    }
 
+        #cmbDOJ_DDD_PW-1 {
+            z-index: 9999 !important;
+        }
+
+        #cmbDOJ, #cmbLeaveEff {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+        }
+
+        .btn-sm, .btn-xs {
+            padding: 6px 10px !important;
+        }
+
+        .btn {
+            height: 34px;
+        }
+
+        /*Rev end 1.0*/
+
+        /*Rev 2.0*/
+        .col-md-3 {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+
+        .dxeTextBox_PlasticBlue.form-control {
+            padding: 2px 12px !important;
+        }
+        /*Rev end 2.0*/
+
+        .dxWeb_edtCheckBoxUnchecked_PlasticBlue {
+            background-image: none !important;
+            border: 1px solid #236cb9 !important;
+            border-radius: 2px;
+        }
+
+        .tblWhiteS > tbody > tr > td {
+            font-size: 13px;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .tblWhiteS > tbody > tr > td {
+                display: block !important;
+            }
+        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -1145,8 +1132,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 </div>
                 <%--Rev 1.0--%>
                 <%--<div class="col-md-3 mt-3">--%>
-                  <div class="col-md-3 mt-3 h-branch-select">
-                      <%--Rev end 1.0--%>
+                <div class="col-md-3 mt-3 h-branch-select">
+                    <%--Rev end 1.0--%>
                     <label>Group<em style="color: red">*</em> :</label>
                     <div class="reltv">
                         <asp:DropDownList ID="ddlGroups" runat="server" CssClass="sml" Width="100%"></asp:DropDownList>
@@ -1156,9 +1143,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 </div>
                 <%--Rev 1.0--%>
                 <%--<div class="col-md-3 mt-3" runat="server" id="DivisHomeRestrictAttendance">--%>
-                  <div class="col-md-3 mt-3 h-branch-select" runat="server" id="DivisHomeRestrictAttendance">
-                      <%--Rev end 1.0--%>
-                      <%--Rev 2.0 : label change--%>
+                <div class="col-md-3 mt-3 h-branch-select" runat="server" id="DivisHomeRestrictAttendance">
+                    <%--Rev end 1.0--%>
+                    <%--Rev 2.0 : label change--%>
                     <%--<label title="Restriction Attendance from Home Location">Restriction Attendance from Home Location:</label>--%>
                     <label title="Restriction Attendance from Home Location">Restrict Attend. from Home Location:</label>
                     <%--Rev end 2.0--%>
@@ -1196,8 +1183,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 </div>
                 <%--Rev 1.0--%>
                 <%--<div class="col-md-3 mt-3" runat="server" id="Div1">--%>
-                  <div class="col-md-3 mt-3 h-branch-select" runat="server" id="Div1">
-                      <%--Rev end 1.0--%>
+                <div class="col-md-3 mt-3 h-branch-select" runat="server" id="Div1">
+                    <%--Rev end 1.0--%>
                     <label title="Shop Type">Party Type :</label>
                     <div class="fullMulti">
                         <asp:DropDownList ID="ddlPartyType" runat="server" class="demo" multiple="multiple" Width="100%">
@@ -1213,8 +1200,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 <%--Mantis Issue 25015--%>
                 <%--Rev 1.0--%>
                 <%--<div class="col-md-3 mt-3" id="divType" runat="server">--%>
-                  <div class="col-md-3 mt-3 h-branch-select" id="divType" runat="server">
-                  <%--Rev end 1.0--%>
+                <div class="col-md-3 mt-3 h-branch-select" id="divType" runat="server">
+                    <%--Rev end 1.0--%>
                     <label>Type<em style="color: red">*</em> :</label>
                     <div class="reltv">
                         <asp:DropDownList ID="ddlType" runat="server" CssClass="sml" Width="100%"></asp:DropDownList>
@@ -1234,7 +1221,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
                     </div>
                 </div>
-                
+
 
                 <div class="clear"></div>
                 <div class="col-md-12 mt-4"></div>
@@ -1407,7 +1394,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         <%--Rev 6.0--%>
                         <%--<td id="DivShowProductRateinApp" runat="server">--%>
                         <td id="DivRateEditableSettings" runat="server">
-                        <%--End of Rev 6.0--%>
+                            <%--End of Rev 6.0--%>
                             <table>
                                 <tr>
                                     <td>
@@ -2844,7 +2831,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                         <dxe:ASPxCheckBox ID="chkIsShowDayStart" runat="server" Text="">
                                         </dxe:ASPxCheckBox>
                                     </td>
-                                    <td> Show Day Start On App </td>
+                                    <td>Show Day Start On App </td>
                                 </tr>
                             </table>
                         </td>
@@ -2928,11 +2915,11 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </tr>
                             </table>
                         </td>
-                       
-                        
+
+
                     </tr>
                     <tr>
-                         <%--Mantis Issue 24408,24364--%>
+                        <%--Mantis Issue 24408,24364--%>
                         <td id="TdIsRevisitRemarksMandatory" runat="server">
                             <table>
                                 <tr>
@@ -2949,7 +2936,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkGPSAlert" runat="server" Text="">
-                                             <ClientSideEvents CheckedChanged="function (s, e) {EnableDisableGPSAlertSound();}" /> 
+                                            <ClientSideEvents CheckedChanged="function (s, e) {EnableDisableGPSAlertSound();}" />
                                         </dxe:ASPxCheckBox>
                                     </td>
                                     <td>Is GPS Alert On? </td>
@@ -2960,14 +2947,14 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             <table>
                                 <tr>
                                     <td>
-                                        <dxe:ASPxCheckBox ID="chkGPSAlertwithSound" runat="server" Text="" >                                           
+                                        <dxe:ASPxCheckBox ID="chkGPSAlertwithSound" runat="server" Text="">
                                         </dxe:ASPxCheckBox>
                                     </td>
                                     <td>Is GPS Alert with Sound? </td>
                                 </tr>
                             </table>
                         </td>
-                        
+
                     </tr>
                     <tr>
                         <%--Mantis Issue 24596,24597--%>
@@ -2995,41 +2982,41 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                         <%--End of Mantis Issue 24596,24597--%>
                     </tr>
-                   <%--End of Mantis Issue 24408,24364--%>
+                    <%--End of Mantis Issue 24408,24364--%>
                     <%-- Add new Settings--%>
                     <%--Mantis Issue 25035--%>
                     <tr>
                         <td id="TdDistributerwisePartyOrderReport" runat="server">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <dxe:ASPxCheckBox ID="chkDistributerwisePartyOrderReport" runat="server" Text="">
-                                            </dxe:ASPxCheckBox>
-                                        </td>
-                                        <td>Distributer wise Party Order Report </td>
-                                    </tr>
-                                </table>
-                            </td>
-                         </tr>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkDistributerwisePartyOrderReport" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Distributer wise Party Order Report </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
                     <%--End of Mantis Issue 25035--%>
-                    
+
                     <%--Mantis Issue 25207--%>
                     <tr>
-                       <%--Mantis Issue 25116--%>
-                       <td id="TdShowAttednaceClearmenu" runat="server">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <dxe:ASPxCheckBox ID="chkShowAttednaceClearmenu" runat="server" Text="">
-                                            </dxe:ASPxCheckBox>
-                                        </td>
-                                        <td>Show Attendance Clear Menu </td>
-                                    </tr>
-                                </table>
-                       </td>
-                       <%--End of Mantis Issue 25116--%>
-                       <td id="AllowProfileUpdate" runat="server">
-                            <table> 
+                        <%--Mantis Issue 25116--%>
+                        <td id="TdShowAttednaceClearmenu" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkShowAttednaceClearmenu" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Show Attendance Clear Menu </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <%--End of Mantis Issue 25116--%>
+                        <td id="AllowProfileUpdate" runat="server">
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkAllowProfileUpdate" runat="server" Text="">
@@ -3050,7 +3037,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </tr>
                             </table>
                         </td>
-                         <td id="BatterySetting" runat="server">
+                        <td id="BatterySetting" runat="server">
                             <table>
                                 <tr>
                                     <td>
@@ -3076,7 +3063,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <td id="Custom_Configuration" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkCustom_Configuration" runat="server" Text="">
@@ -3086,7 +3073,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </tr>
                             </table>
                         </td>
-                       <td id="isAadharRegistered" runat="server">
+                        <td id="isAadharRegistered" runat="server">
                             <table>
                                 <tr>
                                     <td>
@@ -3111,11 +3098,11 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 
 
                     </tr>
-                    
+
                     <tr>
-                        
+
                         <td id="IsAllowBreakageTracking" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkIsAllowBreakageTracking" runat="server" Text="">
@@ -3160,9 +3147,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="IsAllowClickForVisitForSpecificUser" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkIsAllowClickForVisitForSpecificUser" runat="server" Text="">
@@ -3207,9 +3194,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="IsAutoLeadActivityDateTime" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkIsAutoLeadActivityDateTime" runat="server" Text="">
@@ -3254,9 +3241,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="isFaceRegistered" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkisFaceRegistered" runat="server" Text="">
@@ -3301,9 +3288,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="IsIMEICheck" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkIsIMEICheck" runat="server" Text="">
@@ -3348,9 +3335,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="IsPendingCollectionRequiredUnderTeam" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkIsPendingCollectionRequiredUnderTeam" runat="server" Text="">
@@ -3395,9 +3382,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="IsReturnEnableforParty" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkIsReturnEnableforParty" runat="server" Text="">
@@ -3442,9 +3429,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="IsShowNearByTeam" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkIsShowNearByTeam" runat="server" Text="">
@@ -3495,9 +3482,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="IsShowTypeInRegistration" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkIsShowTypeInRegistration" runat="server" Text="">
@@ -3541,9 +3528,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                     </tr>
-                   
+
                     <tr>
-                        
+
                         <td id="Leaveapprovalfromsupervisor" runat="server">
                             <table>
                                 <tr>
@@ -3556,7 +3543,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <td id="Leaveapprovalfromsupervisorinteam" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkLeaveapprovalfromsupervisorinteam" runat="server" Text="">
@@ -3578,7 +3565,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <td id="MarkAttendNotification" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkMarkAttendNotification" runat="server" Text="">
@@ -3589,7 +3576,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                     </tr>
-                    
+
                     <tr>
                         <td id="PartyUpdateAddrMandatory" runat="server">
                             <table>
@@ -3603,7 +3590,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <td id="PowerSaverSetting" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkPowerSaverSetting" runat="server" Text="">
@@ -3625,7 +3612,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <td id="Show_App_Logout_Notification" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkShow_App_Logout_Notification" runat="server" Text="">
@@ -3637,7 +3624,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="ShowAmountNewQuotation" runat="server">
                             <table>
                                 <tr>
@@ -3672,7 +3659,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <td id="ShowCollectionAlert" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkShowCollectionAlert" runat="server" Text="">
@@ -3684,7 +3671,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="ShowCollectionOnlywithInvoiceDetails" runat="server">
                             <table>
                                 <tr>
@@ -3719,7 +3706,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <td id="ShowUserwiseLeadMenu" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkShowUserwiseLeadMenu" runat="server" Text="">
@@ -3731,7 +3718,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                        
+
                         <td id="ShowZeroCollectioninAlert" runat="server">
                             <table>
                                 <tr>
@@ -3766,7 +3753,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <td id="UpdateUserName" runat="server">
-                            <table> 
+                            <table>
                                 <tr>
                                     <td>
                                         <dxe:ASPxCheckBox ID="chkUpdateUserName" runat="server" Text="">
@@ -3777,8 +3764,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                     </tr>
-                    
-                     <tr>
+
+                    <tr>
                         <td id="WillRoomDBShareinLogin" runat="server">
                             <table>
                                 <tr>
@@ -3790,7 +3777,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </tr>
                             </table>
                         </td>
-                         <td id="ShowPurposeInShopVisit" runat="server">
+                        <td id="ShowPurposeInShopVisit" runat="server">
                             <table>
                                 <tr>
                                     <td>
@@ -3802,7 +3789,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <%--Rev 3.0--%>
-                         <td id="divShowEmployeePerformance" runat="server">
+                        <td id="divShowEmployeePerformance" runat="server">
                             <table>
                                 <tr>
                                     <td>
@@ -3923,7 +3910,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                         </td>
                     </tr>
                     <tr>
-                       <td id="divUsbDebuggingRestricted" runat="server">
+                        <td id="divUsbDebuggingRestricted" runat="server">
                             <table>
                                 <tr>
                                     <td>
@@ -3961,9 +3948,98 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                             </table>
                         </td>
                         <%--End of Rev 9.0--%>
+                        <%--Rev 10.0--%>
+                        <td id="divIsShowMenuCRMContacts" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkIsShowMenuCRMContacts" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Show Menu CRM Contacts </td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
-                    <%--End of Rev 6.0--%>
-                    <%--End of Mantis Issue 25207--%>
+                    <tr>
+                        <td id="divIsCheckBatteryOptimization" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkIsCheckBatteryOptimization" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Check Battery Optimization </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <%--End of Rev 10.0--%>
+                        <%--End of Rev 6.0--%>
+                        <%--End of Mantis Issue 25207--%>
+                        <%--Rev 11.0--%>
+                        <td id="divShowPartyWithGeoFence" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkShowPartyWithGeoFence" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Show Party With Geo Fence  </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td id="divShowPartyWithCreateOrder" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkShowPartyWithCreateOrder" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Show Party With Create Order  </td>
+                                </tr>
+                            </table>
+                        </td>
+                         <%--Rev 11.0 END--%>
+                        <%--Rev 12.0--%>
+                        <td id="divAdditionalinfoRequiredforContactListing" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkAdditionalinfoRequiredforContactListing" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Additional Information Required for Contact Listing  </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <%--End of Rev 12.0--%>
+                    </tr>
+                    <%--Rev 12.0--%>
+                    <tr>
+                        <td id="divAdditionalinfoRequiredforContactAdd" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkAdditionalinfoRequiredforContactAdd" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Additional Information Required for Contact Add  </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td id="divContactAddresswithGeofence" runat="server">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <dxe:ASPxCheckBox ID="chkContactAddresswithGeofence" runat="server" Text="">
+                                        </dxe:ASPxCheckBox>
+                                    </td>
+                                    <td>Contact Address with Geofence </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <%--End of Rev 12.0--%>
 
                 </table>
                 <div class="clear"></div>

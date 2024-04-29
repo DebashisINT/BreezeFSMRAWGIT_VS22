@@ -2,6 +2,7 @@
   1.0       16-08-2023        V2.0.42          Sanchita          The enquiry doesn't showing in the listing after modification
                                                                  Mantis: 26721
   2.0       23-11-2023        V2.0.43          Sanchita          Bulk Import feature required for Enquiry Module.Mantis: 27020   
+  3.0		25-04-2024	      V2.0.46		   Priti             0027383: New Enquires type Add and Hide # Eurobond Portal
 **************************************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -280,5 +281,13 @@ namespace MyShop.Models
         
     }
     // End of Rev 2.0
+
+    //Rev 3.0
+    public class ProvidedBy
+    {
+        public string EnquiryFromDescValue { get; set; }
+        public string EnquiryFromDesc { get; set; }
+    }
+    //Rev 3.0 End
 }
 

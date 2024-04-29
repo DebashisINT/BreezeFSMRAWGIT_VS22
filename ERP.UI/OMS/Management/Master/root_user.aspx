@@ -4,7 +4,7 @@
    Rev 3.0      Sanchita/Pallab     15/02/2023      V2.0.39     A setting required for Employee and User Master module in FSM Portal.
    Rev 4.0      Sanchita            05-05-2023      V2.0.40     In Portal -> Master -> Organization -> User  -> Logedin user in app is shows green which is ok but after 
                                                                 pressing refresh button from action it is not turning red . Refer: 25947
-   Rev 5.0      Sanchita            04-11-2024      V2.0.46     Company Add/Edit column is showing in User master which is irrelevant to FSM
+   Rev 5.0      Sanchita            04-11-2024      V2.0.46     Company Add/Edit column is showing in User master which is irrelevant to FSM. Mantis: 27363
  *******************************************************************************************************--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_root_user" CodeBehind="root_user.aspx.cs" %>

@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ===================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                15-02-2023        V2.0.39          Pallab              25656: Master module design modification *@
+@*2.0                16-04-2024        V2.0.47          Sanchita            0027367: Micro Learning Training content view issue # Live Demo App *@
 @*====================================================== Revision History ===================================================*@
 
 @{
@@ -71,9 +72,11 @@
                         $("#txtCode").val("")
                         gridList.Refresh();
                     }
-                    else if (parseInt(response) == -1)
-                        $("#txtCode").val("")
-                        jAlert('Code already exists.')
+                    // Rev 2.0 [ {} added in else if part ]
+                    else if (parseInt(response) == -1) {
+                        $("#txtCode").val("");
+                        jAlert('Code already exists.');
+                    }
                 }
             });
         }
@@ -620,7 +623,7 @@
         #DocGroupModal .modal-body, #DocGroupModal .modal-footer {
             width: 100% !important;
         }
-/*
+        /*
         #DesigGrid_DXPEForm_PW-1
         {
             width: 300px !important;

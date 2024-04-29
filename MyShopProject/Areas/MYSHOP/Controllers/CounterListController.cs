@@ -4,6 +4,7 @@
 //2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
 //3.0   V2.0.43     Sanchita    07-11-2023      0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
 //4.0   V2.0.45     Sanchita    22/01/2024      Supervisor name column is required in Shops report. Mantis: 27199
+//5.0   V2.0.47     Priti       19/04/2024      System is getting logged out while trying to export the Shops data into excel. Mantis: 0027324
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ using System.IO;
 using DevExpress.Web.Mvc;
 using DevExpress.Web;
 using BusinessLogicLayer.SalesTrackerReports;
+using System.Collections;
+using System.Configuration;
 
 
 namespace MyShop.Areas.MYSHOP.Controllers
@@ -234,39 +237,55 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     }
                 }
                 // End of Rev 2.0
-                if (model.Ispageload == "1")
+
+                //Rev 5.0
+                //if (model.Ispageload == "1")
+                //{
+                //    //Rev Pallab
+                //    //dt = objshop.GetShopListCounterwise(model.TypeID, "", state, Convert.ToInt32(Session["userid"])); 
+                //    //Rev  Mantis: 0025585
+                //    //dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, Convert.ToInt32(Session["userid"]));
+                //    // Rev 2.0
+                //    //dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]));
+
+                //    dt = objshop.GetShopListCounterwise(Branch_Id, model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]), model.Ispageload);
+
+                //    // End of Rev 2.0
+                //    //End of Rev  Mantis: 0025585
+                //    //Rev end Pallab
+                //    if (dt.Rows.Count > 0)
+                //    {
+                //        omel = APIHelperMethods.ToModelList<Shopslists>(dt);
+                //        TempData["Exportcounterist"] = omel;
+                //        TempData.Keep();
+                //    }
+                //    else
+                //    {
+                //        TempData["Exportcounterist"] = null;
+                //        TempData.Keep();
+
+                //    }
+                //    return PartialView("_PartialCounterListing", omel);
+                //}
+                //else
+                //{
+                //    return PartialView("_PartialCounterListing", omel);
+                //}
+                //Rev 5.0 End
+
+                string Is_PageLoad = string.Empty;
+
+                if (model.Ispageload == "0")
                 {
-                    //Rev Pallab
-                    //dt = objshop.GetShopListCounterwise(model.TypeID, "", state, Convert.ToInt32(Session["userid"])); 
-                    //Rev  Mantis: 0025585
-                    //dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, Convert.ToInt32(Session["userid"]));
-                    // Rev 2.0
-                    //dt = objshop.GetShopListCounterwise(model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]));
-                    dt = objshop.GetShopListCounterwise(Branch_Id, model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]));
-                    // End of Rev 2.0
-                    //End of Rev  Mantis: 0025585
-                    //Rev end Pallab
-                    if (dt.Rows.Count > 0)
-                    {
-                        omel = APIHelperMethods.ToModelList<Shopslists>(dt);
-                        TempData["Exportcounterist"] = omel;
-                        TempData.Keep();
-                    }
-                    else
-                    {
-                        TempData["Exportcounterist"] = null;
-                        TempData.Keep();
-
-                    }
-                    return PartialView("_PartialCounterListing", omel);
+                    Is_PageLoad = "is_pageload";
                 }
+                
 
-                else
-                {
+                dt = objshop.GetShopListCounterwise(Branch_Id, model.TypeID, weburl, state, model.IsRevisitContactDetails, Convert.ToInt32(Session["userid"]), model.Ispageload);
 
-                    return PartialView("_PartialCounterListing", omel);
+                return PartialView("_PartialCounterListing", ShopsDetails(Is_PageLoad));
 
-                }
+
 
             }
             catch
@@ -281,35 +300,57 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         public ActionResult ExportCounterlist(int type)
         {
-            List<AttendancerecordModel> model = new List<AttendancerecordModel>();
-            ViewData["Exportcounterist"] = TempData["Exportcounterist"];
-            TempData.Keep();
-
-            if (ViewData["Exportcounterist"] != null)
+            //Rev 5.0
+            switch (type)
             {
-
-                switch (type)
-                {
-                    case 1:
-                        return GridViewExtension.ExportToPdf(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
-                    //break;
-                    case 2:
-                        return GridViewExtension.ExportToXlsx(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
-                    //break;
-                    case 3:
-                        return GridViewExtension.ExportToXls(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
-                    //break;
-                    case 4:
-                        return GridViewExtension.ExportToRtf(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
-                    //break;
-                    case 5:
-                        return GridViewExtension.ExportToCsv(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
-                    default:
-                        break;
-                }
+                case 1:
+                    return GridViewExtension.ExportToPdf(GetEmployeeBatchGridViewSettings(), ShopsDetails(""));
+                //break;
+                case 2:
+                    return GridViewExtension.ExportToXlsx(GetEmployeeBatchGridViewSettings(), ShopsDetails(""));
+                //break;
+                case 3:
+                    return GridViewExtension.ExportToXls(GetEmployeeBatchGridViewSettings(), ShopsDetails(""));
+                //break;
+                case 4:
+                    return GridViewExtension.ExportToRtf(GetEmployeeBatchGridViewSettings(), ShopsDetails(""));
+                //break;
+                case 5:
+                    return GridViewExtension.ExportToCsv(GetEmployeeBatchGridViewSettings(), ShopsDetails(""));
+                default:
+                    break;
             }
-            //TempData["Exportcounterist"] = TempData["Exportcounterist"];
+            //List<AttendancerecordModel> model = new List<AttendancerecordModel>();
+            //ViewData["Exportcounterist"] = TempData["Exportcounterist"];
             //TempData.Keep();
+
+            //if (ViewData["Exportcounterist"] != null)
+            //{
+
+            //    switch (type)
+            //    {
+            //        case 1:
+            //            return GridViewExtension.ExportToPdf(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
+            //        //break;
+            //        case 2:
+            //            return GridViewExtension.ExportToXlsx(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
+            //        //break;
+            //        case 3:
+            //            return GridViewExtension.ExportToXls(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
+            //        //break;
+            //        case 4:
+            //            return GridViewExtension.ExportToRtf(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
+            //        //break;
+            //        case 5:
+            //            return GridViewExtension.ExportToCsv(GetEmployeeBatchGridViewSettings(), ViewData["Exportcounterist"]);
+            //        default:
+            //            break;
+            //    }
+
+            //}
+            ////TempData["Exportcounterist"] = TempData["Exportcounterist"];
+            ////TempData.Keep();
+            //Rev 5.0
             return null;
         }
 
@@ -740,6 +781,35 @@ namespace MyShop.Areas.MYSHOP.Controllers
             settings.SettingsExport.BottomMargin = 20;
 
             return settings;
+        }
+
+        public IEnumerable ShopsDetails(string Is_PageLoad)
+        {
+         
+            string connectionString = ConfigurationManager.ConnectionStrings["ERP_ConnectionString"].ConnectionString;
+            string Userid = Convert.ToString(Session["userid"]);
+
+            if (Is_PageLoad != "is_pageload")
+            {
+                ReportsDataContext dc = new ReportsDataContext(connectionString);
+                var q = from d in dc.FSM_SHOPLIST_REPORTs
+                        where d.USERID == Convert.ToInt32(Userid)
+                        orderby d.shop_id ascending
+                        select d;
+                return q;
+            }
+            else
+            {
+                ReportsDataContext dc = new ReportsDataContext(connectionString);
+                var q = from d in dc.FSM_SHOPLIST_REPORTs
+                        where d.USERID == Convert.ToInt32(Userid) 
+                        orderby d.shop_id ascending
+                        select d;
+                return q;
+            }
+
+
+
         }
     }
 }

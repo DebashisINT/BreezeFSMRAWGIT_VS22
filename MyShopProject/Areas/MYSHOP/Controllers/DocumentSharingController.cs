@@ -1,4 +1,8 @@
-﻿using BusinessLogicLayer;
+﻿/***************************************************************************************************************
+ * Rev 1.0     Sanchita   V2.0.47    17/04/2024      0027370: Micro Learning Training content Deleting issue
+ * ***************************************************************************************************************/
+
+using BusinessLogicLayer;
 using MyShop.Models;
 using System;
 using System.Collections;
@@ -242,10 +246,16 @@ namespace MyShop.Areas.MYSHOP.Controllers
             {
                 if (!string.IsNullOrEmpty(video.FilePathIcon))
                 {
-                    if (System.IO.File.Exists(Server.MapPath(video.FilePath)))
+                    // Rev 1.0
+                    //if (System.IO.File.Exists(Server.MapPath(video.FilePath)))
+                    //{
+                    //    System.IO.File.Delete(Server.MapPath(video.FilePath));
+                    //}
+                    if (System.IO.File.Exists(Server.MapPath(video.FilePathIcon)))
                     {
-                        System.IO.File.Delete(Server.MapPath(video.FilePath));
+                        System.IO.File.Delete(Server.MapPath(video.FilePathIcon));
                     }
+                    // End of Rev 1.0
                 }
 
                 if (!string.IsNullOrEmpty(video.FilePath))
@@ -306,10 +316,17 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             if (!string.IsNullOrEmpty(video.FilePathIcon))
             {
-                if (System.IO.File.Exists(Server.MapPath(video.FilePath)))
+                //// Rev 1.0
+                //if (System.IO.File.Exists(Server.MapPath(video.FilePath)))
+                //{
+                //    System.IO.File.Delete(Server.MapPath(video.FilePath));
+                //}
+
+                if (System.IO.File.Exists(Server.MapPath(video.FilePathIcon)))
                 {
-                    System.IO.File.Delete(Server.MapPath(video.FilePath));
+                    System.IO.File.Delete(Server.MapPath(video.FilePathIcon));
                 }
+                // End of Rev 1.0
             }
 
             if (!string.IsNullOrEmpty(video.FilePath))

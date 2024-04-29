@@ -2611,32 +2611,6 @@
       <Column Name="MODIFIED_ON" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.CRM_CONTACT_LISTING" Member="CRM_CONTACT_LISTINGs">
-    <Type Name="CRM_CONTACT_LISTING">
-      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Shop_Code" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
-      <Column Name="Shop_FirstName" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="Shop_LastName" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="Shop_Owner_Contact" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Shop_Owner_Email" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="Shop_Address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Shop_DOB" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Shop_date_aniversary" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Shop_CompanyName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Shop_JobTitle" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="Shop_CreateUserName" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="Shop_TypeName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Shop_StatusName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Shop_SourceName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Shop_ReferenceName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Shop_StageName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
-      <Column Name="Shop_Remarks" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Shop_Amount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="Shop_NextFollowupDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="Shop_Entity_Status" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.OUTLETWISECALLLOGGING_REPORT" Member="OUTLETWISECALLLOGGING_REPORTs">
     <Type Name="OUTLETWISECALLLOGGING_REPORT">
       <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -2658,61 +2632,6 @@
       <Column Name="CALL_TIME" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="CALL_DURATION" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
       <Column Name="CalLCount" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.FTSEMPLOYEEPERFORMANCE_REPORT" Member="FTSEMPLOYEEPERFORMANCE_REPORTs">
-    <Type Name="FTSEMPLOYEEPERFORMANCE_REPORT">
-      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="WORK_DATE" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="LOGGEDIN" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="LOGEDOUT" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="CONTACTNO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="STATEID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="STATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="BRANCHDESC" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="OFFICE_ADDRESS" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
-      <Column Name="ATTEN_STATUS" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="WORK_LEAVE_TYPE" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
-      <Column Name="REMARKS" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
-      <Column Name="EMPCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="EMPNAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="EMPID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="DEG_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="DESIGNATION" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="DATEOFJOINING" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="REPORTTO" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="RPTTODESG" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="SHOP_TYPE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="SHOP_CODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="SHOP_NAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="BEATNAME" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="ENTITYCODE" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
-      <Column Name="SHOPADDR_CONTACT" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-      <Column Name="SHOP_DISTRICT" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="SHOP_PINCODE" Type="System.String" DbType="NVarChar(120)" CanBeNull="true" />
-      <Column Name="SHOP_CLUSTER" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="PP_NAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="PPADDR_CONTACT" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="DD_NAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="DDADDR_CONTACT" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="ALT_MOBILENO1" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
-      <Column Name="SHOP_OWNER_EMAIL2" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="VISITREMARKS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-      <Column Name="PARTYSTATUSTYPE" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
-      <Column Name="STAGE" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
-      <Column Name="MULTI_CONTACT_NAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="MULTI_CONTACT_NUMBER" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="MEETINGREMARKS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-      <Column Name="MEETING_ADDRESS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-      <Column Name="TOTAL_VISIT" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="NEWSHOP_VISITED" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="RE_VISITED" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="TOTMETTING" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SPENT_DURATION" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="DISTANCE_TRAVELLED" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
-      <Column Name="TOTAL_ORDER_BOOKED_VALUE" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
-      <Column Name="TOTAL_COLLECTION" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.FTSDSSUMMARY_REPORT" Member="FTSDSSUMMARY_REPORTs">
@@ -2842,6 +2761,185 @@
       <Column Name="Total_Scheme_Price" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="MRP" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
       <Column Name="DISCOUNT" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FTSEMPLOYEEPERFORMANCE_REPORT" Member="FTSEMPLOYEEPERFORMANCE_REPORTs">
+    <Type Name="FTSEMPLOYEEPERFORMANCE_REPORT">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="WORK_DATE" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="LOGGEDIN" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="LOGEDOUT" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CONTACTNO" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="STATEID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="STATE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="BRANCHDESC" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="OFFICE_ADDRESS" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="ATTEN_STATUS" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="WORK_LEAVE_TYPE" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="REMARKS" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="EMPCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EMPNAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="EMPID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="DEG_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DESIGNATION" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DATEOFJOINING" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="REPORTTO" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="RPTTODESG" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SHOP_TYPE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SHOP_CODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SHOP_NAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="BEATNAME" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ENTITYCODE" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="SHOPADDR" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="SHOPCONTACT" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SHOP_DISTRICT" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="SHOP_PINCODE" Type="System.String" DbType="NVarChar(120)" CanBeNull="true" />
+      <Column Name="SHOP_CLUSTER" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="PP_NAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="PPADDR" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="PPCONTACT" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="DD_NAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="DDADDR" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DDCONTACT" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="ALT_MOBILENO1" Type="System.String" DbType="NVarChar(40)" CanBeNull="true" />
+      <Column Name="SHOP_OWNER_EMAIL2" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="VISITREMARKS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="PARTYSTATUSTYPE" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="STAGE" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="MULTI_CONTACT_NAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="MULTI_CONTACT_NUMBER" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MEETINGREMARKS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="MEETING_ADDRESS" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Column Name="TOTAL_VISIT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NEWSHOP_VISITED" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RE_VISITED" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TOTMETTING" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SPENT_DURATION" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="DISTANCE_TRAVELLED" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
+      <Column Name="TOTAL_ORDER_BOOKED_VALUE" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
+      <Column Name="TOTAL_COLLECTION" Type="System.Decimal" DbType="Decimal(38,2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FSM_SHOPLIST_REPORT" Member="FSM_SHOPLIST_REPORTs">
+    <Type Name="FSM_SHOPLIST_REPORT">
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="USERID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="shop_Auto" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="statename" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="shop_id" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="shop_name" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="EntityCode" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Entity_Location" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Entity_Status" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Specification" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="ShopOwner_PAN" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ShopOwner_Aadhar" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="address" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="pin_code" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="shop_lat" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="shop_long" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_City" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="owner_name" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_WebSite" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="owner_email" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="owner_contact_no" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="user_name" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_CreateUser" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Shop_CreateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="time_shop" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Shop_ModifyUser" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Shop_ModifyTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Shop_Image" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="dob" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="date_aniversary" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Shoptype" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="type" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="UserName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="countactivity" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PP" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="DD" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Lastactivitydate" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="District" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Cluster" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="SubType" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Alt_MobileNo1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Shop_Owner_Email2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="gstn_number" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="trade_licence_number" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Beat" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="AttachmentImage1" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="AttachmentImage2" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="AttachmentImage3" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="AttachmentImage4" Type="System.String" DbType="NVarChar(2000)" CanBeNull="true" />
+      <Column Name="CONTACT_NAME1" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NUMBER1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CONTACT_EMAIL1" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CONTACT_DOA1" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOB1" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NAME2" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NUMBER2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CONTACT_EMAIL2" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CONTACT_DOA2" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOB2" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NAME3" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NUMBER3" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_EMAIL3" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOA3" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOB3" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NAME4" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NUMBER4" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_EMAIL4" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOA4" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOB4" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NAME5" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NUMBER5" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_EMAIL5" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOA5" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOB5" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NAME6" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_NUMBER6" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_EMAIL6" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOA6" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTACT_DOB6" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="LASTVISITDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LASTVISITTIME" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LASTVISITEDBY" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="BRANCH_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="BRANCHDESC" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="REPORTTO_NAME" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CRM_CONTACT_LISTING" Member="CRM_CONTACT_LISTINGs">
+    <Type Name="CRM_CONTACT_LISTING">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Shop_Code" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Shop_FirstName" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Shop_LastName" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Shop_Owner_Contact" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Shop_Owner_Email" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="Shop_Address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Shop_DOB" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Shop_date_aniversary" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Shop_CompanyName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_JobTitle" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="Shop_CreateUserName" Type="System.String" DbType="NText" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="Shop_TypeName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_StatusName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_SourceName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_ReferenceName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_StageName" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="Shop_Remarks" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Shop_Amount" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Shop_NextFollowupDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Shop_Entity_Status" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Shop_Pincode" Type="System.String" DbType="NVarChar(120)" CanBeNull="true" />
+      <Column Name="Shop_WhatsappNoForCustomer" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Shop_Entered_ByName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Shop_Entered_On" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Shop_LastUpdated_ByName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Shop_LastUpdated_On" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
     </Type>
   </Table>
 </Database>
