@@ -265,6 +265,7 @@ namespace ERP.OMS.Management.Activities
 
                     ProcedureExecute proc = new ProcedureExecute("PRC_FSMBRANCHWISEPRODUCTMAPPING");
                     proc.AddVarcharPara("@Action", 50, "FETCHBRANCHS");
+                    proc.AddIntegerPara("@USERID", Convert.ToInt32(HttpContext.Current.Session["userid"]));
                     ComponentTable = proc.GetTable();
                     if (ComponentTable.Rows.Count > 0)
                     {
