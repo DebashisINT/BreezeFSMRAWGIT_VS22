@@ -1663,7 +1663,7 @@
                                         <div class="pTop10  mTop5" style="margin-top: 10px;">
                                             <%--<input type="submit" value="Import (Add/Update)" onclick="return ChekEmpSettingsUpload();" id="btnimportxls" class="btn btn-primary">--%>
                                         </div>
-                                        <asp:Button runat="server" ID="btnimportxls" OnClick="ImportExcel" Text="Import (Add/Update)" OnClientClick="return ChekprodUpload();" CssClass="btn btn-primary" UseSubmitBehavior="False"/>
+                                        <asp:Button runat="server" ID="btnimportxls" OnClick="ImportExcel" Text="Import (Add/Update)" OnClientClick="return ChekprodUpload();" CssClass="btn btn-primary" />
                                     </div>
                                 </div>
                             </div>
