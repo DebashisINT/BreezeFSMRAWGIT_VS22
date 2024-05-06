@@ -544,9 +544,9 @@ namespace ERP.OMS.Management.Activities
                             try
                             {
                                 string BRANCH = Convert.ToString(row["BRANCH"]);
-                                string PRODUCTCODE = Convert.ToString(row["PRODUCTCODE"]);
-                                string PRODUCTNAME = Convert.ToString(row["PRODUCTNAME"]);
-                                string SPECIALPRICE = Convert.ToString(row["SPECIALPRICE"]);
+                                string PRODUCTCODE = Convert.ToString(row["ITEM CODE"]);
+                                string PRODUCTNAME = Convert.ToString(row["ITEM NAME"]);
+                                string SPECIALPRICE = Convert.ToString(row["SPECIAL PRICE"]);
 
                                 DataSet dt2 = InsertSpecialPriceDataFromExcel(BRANCH, PRODUCTCODE, PRODUCTNAME, SPECIALPRICE
                                        );
