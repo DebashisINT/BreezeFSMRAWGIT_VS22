@@ -1,4 +1,7 @@
-﻿using System;
+﻿//====================================================== Revision History =================================================================================================
+//1.0    03-05-2024    V2 .0.47    Priti   0027407: "Party Status" - needs to add in the following reports.
+//====================================================== Revision History =================================================================================================
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -32,5 +35,8 @@ namespace MyShop.Models
         public decimal Product_Qty { get; set; }
         public decimal Product_Rate { get; set; }
         public decimal Product_Price { get; set; }
+        //REV 1.0
+        public string PARTYSTATUS { get; set; }
+        //REV 1.0 END
     }
 }

@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                17-01-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                29/05/2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules*@
 @*====================================================== Revision History ==========================================================*@
 
 @model MyShop.Models.EmployeeActivityStatusModel
@@ -450,6 +451,60 @@
     })
 </script>
 
+@*Rev 2.0 *@
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+        visibleColumn = [];
+
+        for (var i = 0; i <= gridEmployeeActivityStatusList.GetColumnsCount() ; i++) {
+            if (gridEmployeeActivityStatusList.GetColumn(i) != null) {
+                if (gridEmployeeActivityStatusList.GetColumn(i).visible == false) {
+                    console.log(gridEmployeeActivityStatusList.GetColumn(i).fieldName);
+                    visibleColumn.push(gridEmployeeActivityStatusList.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridEmployeeActivityStatusList.IsCustomizationWindowVisible())
+            gridEmployeeActivityStatusList.HideCustomizationWindow();
+        else
+            gridEmployeeActivityStatusList.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridEmployeeActivityStatusList.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "EmployeeActivityStatus")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                gridEmployeeActivityStatusList.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+</script>
+
+@*End of Rev 2.0 *@
 
 <style>
     #tblshoplist > thead > tr > th {
@@ -639,7 +694,6 @@
 
     .dxeButtonEdit_PlasticBlue {
         border-radius: 5px;
-        
     }
 
     #dtFrom, #dtTo {
@@ -855,7 +909,7 @@
                 @*Rev 1.0*@
                 @*<td style="width:160px;">*@
                 <td style="width:160px;" class="for-cust-icon">
-                @*Rev end 1.0*@
+                    @*Rev end 1.0*@
                     <label>To Date </label>
                     @Html.DevExpress().DateEditFor(x => x.ToDate,
                                 deSettings =>
@@ -893,6 +947,20 @@
         </table>
         <br />
         <div class="scrooler">
+            @*Rev 2.0 *@
+            <div class="options">
+                <div class="options-item">
+                    @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                    // settings.Theme = "MaterialCompactOrange";
+                }).GetHtml()
+                </div>
+            </div>
+            @*End of Rev 2.0 *@
+
             <div id="refreshgrid">
                 @{
                     Html.RenderAction("GetEmployeeActivityStatuslistPartial", "EmployeeActivityStatus", new { Employee = Model.EmployeeID, Fromdate = Model.FromDate, Todate = Model.ToDate, Ispageload = "0" });

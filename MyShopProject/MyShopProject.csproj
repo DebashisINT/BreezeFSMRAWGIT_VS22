@@ -1529,15 +1529,6 @@
     <Content Include="Scripts\pluggins\multiselect\bootstrap-multiselect.js" />
     <Content Include="Scripts\SearchMultiPopup.js" />
     <Content Include="Scripts\SearchPopup.js" />
-    <Content Include="Views\Common\_PartialMenu.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_Layout1.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2042,6 +2033,15 @@
     <Content Include="Areas\MYSHOP\Views\partyDetails\_BulkDeleteManualLogView.cshtml" />
     <Content Include="Areas\MYSHOP\Views\partyDetails\_MassDeleteManualLogView.cshtml" />
     <Content Include="Areas\MYSHOP\Views\partyDetails\MassDeleteLog.cshtml" />
+    <Content Include="Views\Common\_PartialMenu.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Layout1.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3161,7 +3161,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5735</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5739/</IISUrl>
+          <IISUrl>http://localhost:5740/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History===============================================================================================
 //1.0   V2.0.44     Pallab      18/01/2024      Compact column width required in the Employee Activity Status report grid excel export.Refer: 0027196
+//2.0   V2.0.47     Sanchita    29/05/2024      0027405: Colum Chooser Option needs to add for the following Modules
 #endregion===================================End of Revision History========================================================================================
 using BusinessLogicLayer.SalesmanTrack;
 using BusinessLogicLayer.SalesTrackerReports;
@@ -147,6 +148,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
             string connectionString = ConfigurationManager.ConnectionStrings["ERP_ConnectionString"].ConnectionString;
             string userID = Convert.ToString(Session["userid"]);
 
+            // Rev 2.0
+            DataTable dtColmn = objshop.GetPageRetention(Session["userid"].ToString(), "EMPLOYEE ACTIVITY STATUS");
+            if (dtColmn != null && dtColmn.Rows.Count > 0)
+            {
+                ViewBag.RetentionColumn = dtColmn;//.Rows[0]["ColumnName"].ToString()  DataTable na class pathao ok wait
+            }
+            // End of Rev 2.0
+
             if (Is_PageLoad != "Ispageload")
             {
                 ReportsDataContext dc = new ReportsDataContext(connectionString);
@@ -201,6 +210,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         private GridViewSettings GetEmployeeActivityStatusExport()
         {
+            // Rev 2.0
+            DataTable dtColmn = objshop.GetPageRetention(Session["userid"].ToString(), "EMPLOYEE ACTIVITY STATUS");
+            if (dtColmn != null && dtColmn.Rows.Count > 0)
+            {
+                ViewBag.RetentionColumn = dtColmn;//.Rows[0]["ColumnName"].ToString()  DataTable na class pathao ok wait
+            }
+            // End of Rev 2.0
+
             var settings = new GridViewSettings();
             settings.Name = "Employee Activity Status";
             settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
@@ -211,6 +228,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Date";
                 column.FieldName = "VISIT_DATETIME";
                 column.ExportWidth = 100;
+
+                // Rev 2.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VISIT_DATETIME'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                // End of Rev 2.0
             });
 
             settings.Columns.Add(column =>
@@ -218,6 +254,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Employee ID";
                 column.FieldName = "EMPLOYEE_ID";
                 column.ExportWidth = 180;
+
+                // Rev 2.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPLOYEE_ID'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                // End of Rev 2.0
             });
 
             settings.Columns.Add(column =>
@@ -225,6 +280,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Employee Name";
                 column.FieldName = "EMPNAME";
                 column.ExportWidth = 180;
+
+                // Rev 2.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                // End of Rev 2.0
             });
 
             settings.Columns.Add(column =>
@@ -232,6 +306,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "State Name";
                 column.FieldName = "STATE_NAME";
                 column.ExportWidth = 120;
+
+                // Rev 2.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATE_NAME'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                // End of Rev 2.0
 
             });
 
@@ -241,6 +334,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "DESIGNATION";
                 column.ExportWidth = 200;
 
+                // Rev 2.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DESIGNATION'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                // End of Rev 2.0
+
             });
 
             settings.Columns.Add(column =>
@@ -248,6 +360,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Login Time";
                 column.FieldName = "LOGGEDIN";
                 column.ExportWidth = 100;
+
+                // Rev 2.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGGEDIN'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                // End of Rev 2.0
             });
 
             settings.Columns.Add(column =>
@@ -255,6 +386,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.Caption = "Logout Time";
                 column.FieldName = "LOGEDOUT";
                 column.ExportWidth = 100;
+
+                // Rev 2.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGEDOUT'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                // End of Rev 2.0
             });
 
             settings.Columns.Add(column =>
@@ -263,6 +413,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 column.FieldName = "ACTIVITYCNT";
                 column.PropertiesEdit.DisplayFormatString = "0";
                 column.ExportWidth = 110;
+
+                // Rev 2.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ACTIVITYCNT'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                // End of Rev 2.0
             });
 
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
@@ -511,5 +680,27 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             return settings;
         }
+
+        // Rev 2.0
+        public ActionResult PageRetention(List<String> Columns)
+        {
+            try
+            {
+                String Col = "";
+                int i = 1;
+                if (Columns != null && Columns.Count > 0)
+                {
+                    Col = string.Join(",", Columns);
+                }
+                int k = objshop.InsertPageRetention(Col, Session["userid"].ToString(), "EMPLOYEE ACTIVITY STATUS");
+
+                return Json(k, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return RedirectToAction("Logout", "Login", new { Area = "" });
+            }
+        }
+        // End of Rev 2.0
     }
 }

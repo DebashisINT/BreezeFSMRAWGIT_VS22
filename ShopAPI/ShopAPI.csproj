@@ -240,6 +240,7 @@
     <Compile Include="Controllers\ConfigurationController.cs" />
     <Compile Include="Controllers\ContentController.cs" />
     <Compile Include="Controllers\CRMContactInfoController.cs" />
+    <Compile Include="Controllers\CRMOpportunityDetailsController.cs" />
     <Compile Include="Controllers\CurrentStockImageInfoController.cs" />
     <Compile Include="Controllers\CustomerJobStatusController.cs" />
     <Compile Include="Controllers\DayStartEndImageSaveController.cs" />
@@ -374,6 +375,7 @@
     <Compile Include="Models\ConfigurationModel.cs" />
     <Compile Include="Models\ContentModel.cs" />
     <Compile Include="Models\CRMContactInfoModel.cs" />
+    <Compile Include="Models\CRMOpportunityDetailsModel.cs" />
     <Compile Include="Models\CurrentStockImageInfoModel.cs" />
     <Compile Include="Models\DayStartEndImageSaveModel.cs" />
     <Compile Include="Models\DemoAttendanceModel.cs" />

@@ -1,0 +1,1839 @@
+﻿
+@using LMS.Models;
+@model LMS.Models.LMSContentModel
+
+@{
+    ViewBag.Title = "Content";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.css">
+<link href="~/assests/pluggins/LightBox/lightbox.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/alertify.rtl.css" integrity="sha512-ESMNMKMBWQP7MhGIc/vk75n2qBzCfLhP8q4Ww43m+hhQeUn+aiPCYWV1eyP1uZ7tWda8VtZypCZavihltM+xhw==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/css/themes/default.rtl.css" integrity="sha512-gi53xi6INSr6sseLKtDMLqAnFouz6jZhAYCLohIRyui0wV53yPWk9mP4oAEA26x12BV0Pvf59La9jS5nXwChiw==" crossorigin="anonymous" />
+@*<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>*@
+@*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.13.1/alertify.min.js"></script>
+<script src="~/assests/pluggins/LightBox/lightbox.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
+
+<script src="~/assests/pluggins/multiSearchable/mock.js"></script>
+
+<link rel="stylesheet" href="/assests/css/ftsNewScreen.css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/js/plugins/sortable.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.5/js/fileinput.min.js"></script>
+@*<script src="http://malsup.github.com/jquery.form.js"></script>*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.js"></script>
+
+ <style>
+     .progress {
+         height: 10px;
+         position: relative;
+         overflow: auto;
+         margin: 0;
+     }
+
+     .percent {
+         position: absolute;
+         top: -19px;
+         right: 0;
+     }
+
+     .bar {
+         height: 10px;
+         background: green;
+         width: 0%;
+     }
+
+     .file-drop-zone {
+         margin: auto !important;
+         min-height: 200px;
+     }
+
+     .krajee-default.file-preview-frame .kv-file-content {
+         height: 125px !important;
+     }
+
+     .krajee-default .file-footer-caption {
+         margin-bottom: 0;
+     }
+
+     .modal-dialog.modal-lg {
+         left: 0;
+     }
+
+     video.kv-preview-data.file-preview-video.file-zoom-detail, .kv-preview-data.file-preview-video {
+         height: auto !important;
+     }
+
+     .close.fileinput-remove {
+         background: #ec4848;
+         opacity: 1;
+         color: #fff;
+         font-size: 16px;
+         width: 20px;
+         height: 20px;
+         /* margin: 2px 1px 0 0; */
+         border-radius: 15px;
+         margin: 9px 9px 0 5px;
+     }
+
+     .modal.w90 .modal-dialog {
+         width: 90%;
+     }
+
+     .form-group {
+         margin-bottom: 5px;
+     }
+
+     .doc-description {
+         height: 59px !important;
+         padding-bottom: 6px !important;
+         overflow: hidden;
+     }
+
+     .mHeader {
+         font-size: 31px;
+         color: #4c4c4c;
+         font-family: 'Poppins';
+         background: #efefef;
+         margin: 6px 0;
+         border-radius: 5px;
+         padding: 6px;
+     }
+
+     .modal-header {
+         background: #094e8c !important;
+         background-image: none !important;
+         padding: 11px 20px;
+         border: none;
+         color: #fff;
+     }
+
+     button.close {
+         color: #fff !important;
+         font-weight: 400 !important;
+         opacity: .8 !important;
+         font-size: 26px !important;
+     }
+ </style>
+<style>
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        color: #fff;
+        /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 90% !important;
+    }
+
+    @@media screen and (min-width: 768px) {
+        .modal-dialog {
+            padding-top: 56px !important;
+        }
+
+        #UserSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog {
+            padding-top: 100px !important;
+        }
+    }
+
+
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 3px;
+        margin-bottom: 2px;
+        font-size: 13px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        /*height: 30px;
+        padding: 3px 12px;*/
+    }
+
+    .modalScroll .modal-body {
+        /*max-height: 88vh !important;*/
+        overflow-y: auto;
+        border-radius: 0 0 15px 15px !important;
+    }
+
+    .bulAssignTbl > tbody > tr > td {
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .mHead {
+        margin: 0;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+        color: #415ed2;
+        margin-bottom: 13px;
+    }
+
+    /*Rev 1.0*/
+
+    body, .dxtcLite_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 7px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select, .h-branch-select-new {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 38px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        .h-branch-select-new::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 9px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    select:not(.btn):focus {
+        border-color: #094e8c;
+    }
+
+    select:not(.btn):focus-visible {
+        box-shadow: none;
+        outline: none;
+    }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        /*-webkit-appearance: none;*/
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+        /*height: 30px !important;*/
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 30px;
+    }
+
+    #dtFrom, #dtTo, #FormDate, #toDate, #appcbl_frm_dt {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 16px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #appcbl_frm_dt_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img,
+        #cmbDOJ_B-1 #cmbDOJ_B-1Img,
+        #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img,
+        #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #appcbl_frm_dt_B-1 #appcbl_frm_dt_B-1Img {
+            display: none;
+        }
+
+    #FormDate_I, #toDate_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+        width: 150px;
+    }
+
+    .pad-md-18 {
+        padding-top: 10px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue {
+        height: 34px;
+        border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1 {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .btn-sm, .btn-xs {
+        padding: 7px 10px !important;
+    }
+
+    #productAttributePopUp_PWH-1 span, #ASPxPopupControl2_PWH-1 span {
+        color: #fff !important;
+    }
+
+    #marketsGrid_DXPEForm_tcefnew, .dxgvPopupEditForm_PlasticBlue {
+        height: 220px !important;
+    }
+
+    .btn {
+        height: 34px;
+        border-radius: 50px;
+    }
+    /*Rev end 1.0*/
+    /*Rev start 3.0*/
+    .mrtop-6 {
+        margin-top: 6px;
+    }
+
+    @@media screen and (min-width: 768px) {
+        #AddTopicModal .modal-dialog {
+            width: 48% !important;
+        }
+    }
+
+
+    .btn-default {
+        background-color: #dbdbdb;
+    }
+
+        .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+            background-color: #c1c1c1;
+        }
+
+    #ddlSalesmanRe, #ddlSalesman1 {
+        -webkit-appearance: auto;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_PW-1 {
+        left: 15px !important;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_C_FNP_PW-1 {
+        left: 60px !important;
+    }
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #myImportContactModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+    /*End of Rev 4.0*/
+
+    .mt-15 {
+        margin-top: 15px;
+    }
+
+    .mb-10 {
+        margin-bottom: 5px;
+    }
+
+    .mr-5 {
+        margin-right: 5px;
+    }
+
+    .pmsModal .modal-body {
+        padding: 10px;
+        padding-bottom: 15px;
+    }
+
+        .pmsModal .modal-body .col-md-3, .pmsModal .modal-body .col-md-6, .pmsModal .modal-body .col-md-12 {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+    .personal-info {
+        background: #f9f9f9;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .pmsModal .modal-body select:not(.btn), .pmsModal .modal-body .form-control {
+        border-radius: 6px !important;
+        background: #fff !important;
+    }
+
+        .pmsModal .modal-body .form-control:focus {
+            box-shadow: none !important;
+        }
+
+    .company-info {
+        background: #f9f9f9 !important;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .others-info {
+        background: #f9f9f9 !important;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .section-heading {
+        width: 100%;
+        margin-top: -24px;
+        padding: 0 0 0 10px;
+        margin-bottom: 10px;
+    }
+
+    .personal-info .section-heading h4 {
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #10977e;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .company-info .section-heading h4 {
+        /*font-size: 16px !important;
+        padding: 6px 15px;
+        background: #971073;
+        color: #fff;
+        border-radius: 20px 20px;
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;*/
+
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #971073;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .others-info .section-heading h4 {
+        /*font-size: 16px !important;
+        padding: 6px 15px;
+        background: #974310;
+        color: #fff;
+        border-radius: 20px 20px;
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;*/
+
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #974310;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .ml-n15 {
+        margin-right: -18px;
+        text-align: end;
+    }
+
+    /* width */
+    .pmsModal .modal-body::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    .pmsModal .modal-body::-webkit-scrollbar-track {
+        box-shadow: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Handle */
+    .pmsModal .modal-body::-webkit-scrollbar-thumb {
+        background: #b1b1b1;
+        border-radius: 10px;
+    }
+
+        /* Handle on hover */
+        .pmsModal .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #8b8b8b;
+        }
+
+    #dtDOB_DDD_PW-1, #dtAnniversarydate_DDD_PW-1, #dtNextFollowDate_DDD_PW-1 {
+        left: -25px !important;
+    }
+
+    #dtDOB_DDD_C_FNP_PW-1, #dtNextFollowDate_DDD_C_FNP_PW-1 {
+        left: 45px !important;
+    }
+
+    #dtAnniversarydate_DDD_C_FNP_PW-1 {
+        left: 30px !important;
+        /*top: 0;*/
+    }
+
+    body.modal-open {
+        overflow: hidden;
+    }
+
+    .btn-clr-1 {
+        background-color: #313ec7 !important;
+    }
+
+    .btn-clr-2 {
+        background-color: #ff6a00 !important;
+    }
+
+    .btn-clr-3 {
+        background-color: #0ead7f !important;
+    }
+
+    .btn-clr-4 {
+        background-color: #86a113 !important;
+    }
+
+    .bg-color-6 {
+        background-color: #bd1c68 !important;
+    }
+
+        .bg-color-6 .badge {
+            background-color: #fff !important;
+            padding: 4px 7px;
+            color: #111;
+        }
+
+    .btn {
+        margin-right: 5px;
+        padding: 4px 10px;
+    }
+
+
+
+    #popup_message {
+        text-align: center !important;
+        padding: 0 !important;
+    }
+
+    #popup_container {
+        font-size: 14px !important;
+    }
+
+    #popup_panel {
+        margin-left: 0 !important;
+    }
+
+    #myImportModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+
+    #dtNextFollowDateOutOfRWarn, #dtDOBOutOfRWarn, #dtAnniversarydateOutOfRWarn {
+        left: 0 !important;
+        top: 60px !important;
+    }
+
+    .dxeOutOfRWarn_PlasticBlue {
+        font-size: 13px !important;
+    }
+
+    .validationDiv {
+        margin-bottom: 10px;
+    }
+
+    .btn-radius {
+        border-radius: 50px;
+        /*float:left;*/
+    }
+
+    /*.add-btn .btn-icon {
+        border-radius: 50px;
+        width: 22px;
+        height: 22px;
+        display: inline-block;
+        background: #0d4d91;
+        line-height: 22px;
+    }
+
+    .add-btn {
+        padding: 6px 10px 6px 6px !important;
+        background-color: #f8666f !important;
+        border-color: #f8666f !important;
+    }*/
+
+    .col-md-1, .col-md-2, .col-md-4 {
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+    }
+
+    .calendar-icon {
+        right: 14px !important;
+    }
+
+    .personal-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #10977e;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    .company-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #971073;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    .others-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #974310;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    /*.personal-info .section-heading h4:after {
+        content: "";
+        position: absolute;
+        left: -1px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 1px solid white;
+        border-top: 14px solid transparent;
+        border-bottom: 14px solid transparent;
+    }*/
+
+    .personal-info .section-heading h4 .bulet, .company-info .section-heading h4 .bulet, .others-info .section-heading h4 .bulet {
+        position: absolute;
+        right: 0px;
+        top: 11px;
+        background: #fff;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        box-shadow: 0px 0px 1px 2px rgb(26, 128, 44);
+    }
+
+    .company-info .section-heading h4 .bulet {
+        box-shadow: 0px 0px 1px 2px rgb(81 5 61) !important;
+    }
+
+    .others-info .section-heading h4 .bulet {
+        box-shadow: 0px 0px 1px 2px rgb(99 39 3) !important;
+    }
+
+    /*#btnshow, #ddlAppIds {
+        height: 30px;
+    }*/
+
+    #ddlAppIds {
+        padding: 2px 10px !important;
+    }
+
+    #UserSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog {
+        width: 42% !important;
+    }
+
+    .container {
+        width: 88%;
+    }
+
+    .only-view {
+        cursor: default !important;
+    }
+
+    @@media (min-width: 1200px) {
+        .container {
+            width: 88%;
+        }
+    }
+
+    /*.transfer-demo {
+        width: 640px;
+        height: 351px;
+    }*/
+
+    .transfer-demo .transfer-double-header {
+        display: none;
+    }
+
+    .transfer-double-selected-list-main .transfer-double-selected-list-ul .transfer-double-selected-list-li .checkbox-group {
+        width: 85%;
+    }
+
+    .red {
+        color: red;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+    }
+
+    .transfer-double-content-param {
+        border-bottom: 1px solid #4236f5;
+        background: #4236f5;
+        color: #e8e8e8;
+    }
+
+    .top-count-filter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 15px;
+        /*background: #f3f3f3;
+        border-radius: 15px 15px 0 0;*/
+    }
+
+        .top-count-filter .btn {
+            height: auto;
+            border-radius: 15px;
+            padding: 10px 15px 5px 15px;
+            margin: 10px 10px 0 10px;
+            transition: all .5s;
+        }
+
+            .top-count-filter .btn h5 {
+                font-size: 16px;
+                font-weight: 400;
+                margin: 0;
+                margin-bottom: 5px !important;
+            }
+
+    .filter-count {
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .btn-total {
+        background-color: rgb(10 63 166 / 9%) !important;
+    }
+
+        .btn-total:hover {
+            background-color: rgb(10 63 166) !important;
+            color: #fff !important;
+        }
+
+            .btn-total:hover h5, .btn-total:hover .filter-count,
+            .btn-total-used:hover h5, .btn-total-used:hover .filter-count,
+            .btn-total-unused:hover h5, .btn-total-unused:hover .filter-count {
+                color: #fff !important;
+            }
+
+        .btn-total h5, .btn-total-used h5, .btn-total-unused h5 {
+            color: #111;
+        }
+
+        .btn-total .filter-count {
+            color: #0D3B8C;
+        }
+
+    .btn-total-used {
+        background-color: #cbffe4 !important;
+    }
+
+        .btn-total-used:hover {
+            background-color: #0b8b48 !important;
+            color: #fff !important;
+        }
+
+        .btn-total-used .filter-count {
+            color: #0c8f38;
+        }
+
+    .btn-total-unused {
+        background-color: #ffe1e1 !important;
+    }
+
+        .btn-total-unused:hover {
+            background-color: #d01616 !important;
+            color: #fff !important;
+        }
+
+        .btn-total-unused .filter-count {
+            color: #d80606;
+        }
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+    }
+
+    .add-btn {
+        transition: all .4s;
+    }
+
+        .add-btn:hover {
+            color: #fff;
+            background-color: #0e4f23;
+            border-color: #0e4f23;
+        }
+
+        .add-btn .btn-icon i {
+            color: #238945;
+        }
+
+    .add-btn {
+        background-color: #238945;
+        margin-right: 5px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        height: 38px;
+        padding-left: 12px;
+        padding-right: 12px;
+        color: #fff;
+    }
+
+        .btn:active, .btn:hover, .btn:focus {
+            color: #fff !important;
+        }
+
+    .buttons-alignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0;
+    }
+
+    .show-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+        color: #054682;
+    }
+
+    .show-btn {
+        background: #054682;
+        transition: all .4s;
+    }
+
+        .show-btn:hover {
+            background: #072743;
+        }
+
+    .btn-cancel {
+        background-color: #DC0505;
+        color: #fff;
+    }
+
+    .btn-export {
+        background: #e17134;
+        color: #fff;
+    }
+
+        .btn-export:hover {
+            background: #a24716 !important;
+            color: #fff;
+        }
+
+    .transfer-double, .transfer-double-list-search-input, .transfer-double-selected-list-search-input {
+        width: 100%;
+    }
+
+    .transfer-double {
+        border: none;
+    }
+
+    .transfer-double-content {
+        padding: 0;
+    }
+
+    .transfer-double-content-left, .transfer-double-content-right {
+        width: 45%;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+    .transfer-double-content-middle {
+        width: 10%;
+        margin: 0 !important;
+        margin-top: 20% !important;
+    }
+
+    .transfer-double-list-main .transfer-double-list-ul, .transfer-double-selected-list-main .transfer-double-selected-list-ul {
+        padding-left: 5px;
+    }
+
+    .transfer-double-list-footer {
+        padding-left: 0;
+        height: auto;
+        background: #FADBFF;
+    }
+
+
+
+    .btn-select-arrow {
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        border-radius: 50px;
+        color: #fff;
+        background: #b4b4b4;
+    }
+
+    .btn-arrow-active {
+        color: #fff;
+        background: #27ac15 !important;
+        cursor: pointer;
+    }
+
+    .transfer-double-content-param {
+        color: #fff;
+    }
+
+    .swal2-confirm.swal2-styled {
+        border-radius: 12px !important;
+    }
+
+    .swal2-styled {
+        border-radius: 12px !important;
+        padding: 8px 20px !important;
+        color: #fff !important;
+        font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+        margin-top: 5px !important;
+    }
+
+    div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+        background: rgb(0 0 0 / 20%) !important;
+    }
+
+    @@media screen and (min-width: 768px) {
+        #AddContentModal .modal-dialog {
+            width: 68% !important;
+        }
+    }
+
+    .mainWraper select[multiple], select[size] {
+        height: auto !important;
+    }
+</style>
+
+<style type="text/css">
+    .video-frame {
+        width: 100%;
+        height: 195px;
+        border: 4px solid #f7f7f7;
+        box-shadow: 1px 2px 3px rgb(64 64 64 / 40%);
+        border-radius: 3px;
+        position: relative;
+        border-radius: 5px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+
+    .title {
+        font-weight: 500;
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        background-color: #57aadc;
+        color: white;
+        /* box-shadow: 1px 2px 4px rgb(72 72 72 / 40%); */
+        border-radius: 3px;
+        padding: 1px 5px;
+    }
+
+    .center {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+
+    .butHolder {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        display: inline-block;
+        background: rgb(230 230 230);
+        padding: 4px 10px;
+        border-radius: 19px;
+        box-shadow: 0px 2px 5px rgb(58 57 57 / 23%);
+        transition: all 0.25s ease-in;
+        -webkit-transition: all 0.25s ease-in;
+        opacity: 0;
+        -webkit-transform: translateY(-100px);
+        transform: translateY(-100px);
+        z-index: 999;
+    }
+
+    .video-frame:hover .butHolder {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .butHolder > i, .butHolder > span {
+        margin-right: 8px;
+        cursor: pointer !important;
+    }
+
+        .butHolder > i:hover {
+            color: #57aadc;
+        }
+
+        .butHolder > span > img {
+            max-width: 18px;
+        }
+
+    .fileinput-upload {
+        display: none !important;
+    }
+</style>
+
+
+<script>
+    var Is_PageLoad = "Ispageload";
+
+    $(document).ready(function () {
+
+        $("#fileupload").fileinput();
+
+        // with plugin options
+        $("#fileupload").fileinput({ 'showUpload': false, 'previewFileType': 'any', 'browseLabel': 'Browse' });
+    });
+
+    $(function () {
+
+        $('body').on('click', '#btnshow', function () {
+
+            var flag = true;
+
+            Is_PageLoad = "1";
+            gridLMSContent.Refresh();
+            gridLMSContent.Refresh();
+
+
+            setTimeout(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/LMSContentUpload/GetContentCount",
+                    //data: JSON.stringify(obj),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $("#btnShowTotalContents").text(response.TotalContents);
+                        $("#btnShowActiveContents").text(response.ActiveContents);
+                        $("#btnShowInactiveContents").text(response.InactiveContents);
+
+                    },
+                    error: function (response) {
+                        jAlert("Please try again later");
+                    }
+                });
+            }, 1000)
+
+
+        });
+
+        var bar = $('.bar');
+        var percent = $('.percent');
+        var status = $('#status');
+
+        $('form').ajaxForm({
+            beforeSend: function () {
+                //status.empty();
+                var percentVal = '0%';
+                bar.width(percentVal);
+                percent.html(percentVal);
+            },
+            uploadProgress: function (event, position, total, percentComplete) {
+                var percentVal = percentComplete + '%';
+                bar.width(percentVal);
+                percent.html(percentVal);
+            },
+            complete: function (xhr) {
+                // status.html(xhr.responseText);
+
+                if (xhr.responseText != '') {
+                    alertify.set('notifier', 'position', 'bottom-left');
+
+                    if (JSON.parse(xhr.responseText) == 'Content added succesfully.' || JSON.parse(xhr.responseText) == 'Content updated succesfully.')
+                        jAlert(JSON.parse(xhr.responseText), 'success', function () { window.location.href = '/LMS/LMSContentUpload/Index'; });
+                    else
+                    //var notification = alertify.error(JSON.parse(xhr.responseText));
+                        //jAlert(JSON.parse(xhr.responseText), 'fail', function () { window.location.href = '/LMS/LMSContentUpload/Index'; });
+                        jAlert(JSON.parse(xhr.responseText), 'fail');
+
+                }
+            }
+        });
+
+        $('#fileupload').bind('change', function (event) {
+            //if (this.files[0].size > 20971520) {
+            if (this.files[0].size > @ViewBag.LMSVideoUploadSize * 1024 * 1024) {
+                alertify.set('notifier', 'position', 'bottom-left');
+
+                $('#fileupload').fileinput('clear');
+                setTimeout(function () { $('#fileupload').fileinput('refresh'); }, 1000);
+                var notification = alertify.notify('Maximum file size @ViewBag.LMSVideoUploadSize MB Supported', 'Alert', 3, function () {
+                    //$('#fileupload').fileinput('refresh');
+                    $('#fileupload').fileinput('enable');
+                });
+            }
+
+
+            if (!event || !event.target || !event.target.files || event.target.files.length === 0) {
+                return;
+            }
+
+            const name = event.target.files[0].name;
+            const lastDot = name.lastIndexOf('.');
+
+            const fileName = name.substring(0, lastDot);
+            const ext = name.substring(lastDot + 1);
+
+
+            if (ext.toLowerCase() == "mp4") {
+                var myVideos = [];
+                var files = this.files;
+                myVideos.push(files[0]);
+                var video = document.createElement('video');
+                video.preload = 'metadata';
+
+                video.onloadedmetadata = function () {
+                    window.URL.revokeObjectURL(video.src);
+                    var duration = video.duration;
+                    $("#hdnFileDuration").val(duration);
+                    //myVideos[myVideos.length - 1].duration = duration;
+                    //updateInfos();
+                }
+                video.src = URL.createObjectURL(files[0]);
+            }
+            else {
+                alertify.set('notifier', 'position', 'bottom-left');
+                $('#fileupload').fileinput('clear');
+                setTimeout(function () { $('#fileupload').fileinput('refresh'); }, 1000);
+                var notification = alertify.notify('File type not Supported', 'Alert', 3, function () {
+                    // $('#fileupload').fileinput('refresh');
+                    $('#fileupload').fileinput('enable');
+                });
+            }
+
+        });
+
+
+    });
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+
+    function AddContent() {
+        $("#hdnAddEditMode").val('ADDCONTENT');
+        $("#hdnContentID").val(0);
+        $("#txtContentTitle").val('');
+        $("#txtContentDesc").val('');
+        $("#ddlTopic").val(0);
+        //LMSTopicGridLookup.SetValue();
+        $("#numPlaySequence").val(1);
+        $("#chkStatus").prop("checked", true);
+        $("#chkAllowLike").prop("checked", false);
+        $("#chkAllowComments").prop("checked", false);
+        $("#chkAllowShare").prop("checked", false);
+
+        $("#AddContentModal").modal('show');
+    }
+
+    //var TopicId = [];
+    //function TopicSelectionChanged(s, e) {
+    //    LMSTopicGridLookup.gridView.GetSelectedFieldValues("TOPIC_ID", GetTopicSelectedFieldValuesCallback);
+    //}
+    //function GetTopicSelectedFieldValuesCallback(values) {
+    //    try {
+    //        TopicId = [];
+    //        for (var i = 0; i < values.length; i++) {
+    //            TopicId.push(values[i]);
+    //        }
+    //        $("#hdnTopicID").val(TopicId);
+    //    } finally {
+    //        console.log(TopicId);
+    //    }
+    //}
+
+    function OpenLMSContentforEdit(ContentId) {
+        $("#hdnAddEditMode").val('EDITCONTENT');
+        $("#hdnContentID").val(ContentId);
+        //LMSTopicGridLookup.gridView.UnselectAllRowsOnPage();
+        
+
+        $.ajax({
+            url: "@Url.Action("ShowContentDetails", "LMSContentUpload")",
+            async: false,
+            data: { ContentId: ContentId },
+            type: 'POST',
+            success: function (data) {
+
+                $("#txtContentTitle").val(data[0].ContentTitle);
+                $("#txtContentDesc").val(data[0].ContentDesc);
+                $("#ddlTopic").val(data[0].TopicIds);
+                $("#numPlaySequence").val(data[0].PlaySequence);
+                $("#chkStatus").prop("checked", data[0].Status);
+                $("#chkAllowLike").prop("checked", data[0].AllowLike);
+                $("#chkAllowComments").prop("checked", data[0].AllowComments);
+                $("#chkAllowShare").prop("checked", data[0].AllowShare);
+
+                //$("#hdnTopicID").val(data[0].TopicIds);
+
+                //var topicids = data[0].TopicIds.split(', ');
+                //LMSTopicGridLookup.SetValue(topicids);
+
+                $('#AddContentModal').modal('show');
+                },
+            error: function () {
+            },
+        });
+    }
+
+    function OnClickDeleteLMSContent(ContentId) {
+        var url = '/LMSContentUpload/DeleteContent/';
+
+        Swal.fire({
+            title: 'Confirm Delete?',
+            text: "Are you sure you want to delete this content?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'ContentId': ContentId }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "-10") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error in Delete.'
+                            });
+                            //GridShow();
+                        }
+                        else if (response == "1") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted',
+                                text: 'Successfully Deleted.'
+                            }).then(() => {
+                                gridLMSContent.Refresh();
+                            });
+                            //GridShow();
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Info',
+                                text: response
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while deleting the content.'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    function ShowTotalContents(e) {
+        Is_PageLoad = 'TotalContents';
+        gridLMSContent.Refresh()
+    }
+
+    function ShowActiveContents(e) {
+        Is_PageLoad = 'ActiveContents';
+        gridLMSContent.Refresh()
+    }
+
+    function ShowInactiveContents(e) {
+        Is_PageLoad = 'InactiveContents';
+        gridLMSContent.Refresh()
+    }
+
+</script>
+
+<div class="breadCumb">
+    <span>Content</span>
+</div>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 p-3">
+                <div class="">
+                    <div class="col-md-12  buttons-alignment" style="padding-top: 0; margin-bottom: 15px;">
+                        <div class="add-show-btns">
+                            @*@if (ViewBag.CanAdd){*@
+                            <button type="button" class="btn add-btn" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="AddContent();">
+                                <span class="btn-icon"><i class="fa fa-plus"></i></span> Content
+                            </button>
+                            @*}*@
+
+                            @*@if (ViewBag.CanView){*@
+                            <button type="button" id="btnshow" class="btn show-btn" tabindex=4>
+                                <span class="btn-icon"><i class="fa fa-play" aria-hidden="true"></i></span> Show Data
+                            </button>
+                            @*}*@
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 top-count-filter" style="padding-top: 10px;">
+                        @*@if (ViewBag.CanView){*@
+                        <button type="button" class="btn btn-total btn-radius bg-color-6">
+                            <h5>Total content(s)</h5> <span id="btnShowTotalContents" onclick="ShowTotalContents();" class="filter-count">0</span>
+                        </button>
+
+                        @*}*@
+
+                        @*@if (ViewBag.CanView){*@
+                        <button type="button" class="btn btn-total-used btn-radius bg-color-6">
+                            <h5>Active content(s)</h5> <span id="btnShowActiveContents" onclick="ShowActiveContents();" class="filter-count">0</span>
+                        </button>
+
+                        @*}*@
+
+                        @*@if (ViewBag.CanView){*@
+                        <button type="button" class="btn btn-total-unused btn-radius bg-color-6">
+                            <h5>Inactive content(s)</h5> <span id="btnShowInactiveContents" onclick="ShowInactiveContents();" class="filter-count">0</span>
+                        </button>
+
+                        @*}*@
+
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="clearfix"></div>
+
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialContentGridList", "LMSContentUpload", new { Is_PageLoad = "Ispageload" });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="AddContentModal" class="modal fade pmsModal w80" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            @using (Html.BeginForm("SaveContent", "LMSContentUpload", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                    <h4 class="modal-title">Create Content</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="clearfix">
+                        <div class="col-lg-6">
+                            <label>Content Title<span style="color: red">*</span></label>
+                            <input type="text" id="txtContentTitle" name="txtContentTitle" class="form-control" maxlength="250" />
+                            <asp:HiddenField ID="hdnHeaderId" runat="server" />
+                        </div>
+                        <div class="col-lg-6">
+                            <label>Content Description<span style="color: red">*</span></label>
+                            <input type="text" id="txtContentDesc" name="txtContentDesc" class="form-control" maxlength="250" />
+                            <asp:HiddenField ID="hdnHeaderId" runat="server" />
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class="col-lg-6">
+                            <label>Select Topic</label>
+                            @Html.DropDownListFor(m => m.TopicId, new SelectList(Model.TopicList, "TOPIC_ID", "TOPIC_NAME", Model.TopicId), new { @id = "ddlTopic", @class = "form-control" })
+                            @*@Html.Action("GetLMSTopicList", "LMSContentUpload")*@
+
+                        </div>
+                        <div class="col-lg-3">
+                            <label>Play Sequence</label>
+                            <input type="number" id="numPlaySequence" name="numPlaySequence" class="form-control" maxlength="100" min="1" />
+
+                        </div>
+                        <div class="col-lg-3">
+                            <label> </label>
+                            <div><input type="checkbox" id="chkStatus" name="chkStatus" class="styled-checkbox" checked /><label>Active</label></div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Choose File:</label>
+                                <div class="clearfix">
+                                    <div class="custom-file">
+                                        <input type="file" id="fileupload" name="fileupload" class="custom-file-input" accept=".mp4" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-muted red" style="color:red">Supported types : MP4 (File size limited to @ViewBag.LMSVideoUploadSize MB)</p>
+                        </div>
+                    </div>
+
+                    <div class="progress">
+                        <div class="bar"></div>
+                        <div class="percent">0%</div>
+                    </div>
+
+                    <div id="status"></div>
+
+                    <div class="clear"></div>
+                    <div class="clearfix"></div>
+
+                    <div class="clearfix">
+                        <div class="col-lg-4">
+                            <div><input type="checkbox" id="chkAllowLike" name="chkAllowLike" class="styled-checkbox" /><label>Allow like</label></div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div><input type="checkbox" id="chkAllowComments" name="chkAllowComments" class="styled-checkbox" /><label>Allow comments</label></div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div><input type="checkbox" id="chkAllowShare" name="chkAllowShare" class="styled-checkbox" /><label>Allow share</label></div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" id="hdnAddEditMode" name="hdnAddEditMode" />
+                <input type="hidden" id="hdnContentID" name="hdnContentID" />
+                <input type="hidden" id="hdnFileDuration" name="hdnFileDuration" />
+                <input type="hidden" id="hdnTopicID" name="hdnTopicID" />
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Upload & Exit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel & Exit</button>
+                </div>
+            })
+        </div>
+         
+    </div>
+</div>

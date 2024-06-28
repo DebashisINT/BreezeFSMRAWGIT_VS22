@@ -8,7 +8,8 @@ Rev 5.0     Pallab      V2.0.39     18/04/2023      Dropdown window is not showi
 Rev 6.0     Pallab      V2.0.39     25/04/2023      Products module all search popup auto focus add and "cancel" button color change. Refer: 25914
 Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount percentage import facility required while importing Product Master. Refer: 25785
 Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required in Product Master & Projection Entry. Mantis: 26858
-Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour Search - saved colurs not showing ticked. Mantis: 27211    
+Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour Search - saved colurs not showing ticked. Mantis: 27211
+Rev 10.0    Priti       V2.0.47     13/05/2024      Color code Save issue in product master # Eurobond Portal. Mantis: 27211    
 -------------------------------------------------------------------------------------------------------------------------- --%>
 <%@ Page Title="Products" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
     Inherits="ERP.OMS.Management.Store.Master.management_master_Store_sProducts" CodeBehind="sProducts.aspx.cs" %>
@@ -32,6 +33,7 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
 
     <script type="text/javascript">
 
+        
         function PopupproductHide()
         {
             jAlert('Products Imported Successfully.', "Alert", function () {
@@ -66,12 +68,20 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
         // Rev 4.0
 
         var ProductArr = new Array();
+        //var ColorArr = new Array();
+
         $(document).ready(function () {
             var ProductObj = new Object();
             ProductObj.Name = "ProductSource";
-            ProductObj.ArraySource = ProductArr;
+            ProductObj.ArraySource = ProductArr ;
             arrMultiPopup.push(ProductObj);
             $("#hfIsFilter").val("N");
+
+            //var ColorNewObj = new Object();
+            //ColorNewObj.Name = "ColorNewSource";
+            //ColorNewObj.ArraySource = ColorArr;
+            //arrMultiPopup.push(ColorNewObj);
+
         })
 
         function ProductButnClick(s, e) {
@@ -127,6 +137,12 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
                     $("#hdnColorNew").val(Id);
                     ctxtColorNew.SetText(Name);
                     $('#ColorNewModel').modal('hide');
+                    //if ($("#jsonColor").text() != '') {                      
+
+                    //    $("#jsonColor").val(Id);
+                    //}
+
+
                 }
                 else {
                     $("#hdnColorNew").val('');
@@ -178,24 +194,28 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
             }
 
             if (e.code == "Enter" || e.code == "NumpadEnter") {
-                // Rev 9.0
-                if ($("#jsonColor").text() != '') {
-                    arrMultiPopup = [];
-                    var ColorNewObj = new Object();
-                    ColorNewArr = JSON.parse($("#jsonColor").text());
-                    ColorNewObj.Name = "ColorNewSource";
-                    ColorNewObj.ArraySource = ColorNewArr;
-                    arrMultiPopup.push(ColorNewObj);
-                }
-                else {
-                    arrMultiPopup = [];
-                    var ColorNewArr = new Array();
-                    var ColorNewObj = new Object();
-                    ColorNewObj.Name = "ColorNewSource";
-                    ColorNewObj.ArraySource = ColorNewArr;
-                    arrMultiPopup.push(ColorNewObj);
-                }
-               // End of Rev 9.0
+
+                // Rev 10.0
+               // // Rev 9.0
+               // if ($("#jsonColor").text() != '') {
+               //     arrMultiPopup = [];
+               //     var ColorNewObj = new Object();
+               //         ColorNewArr = JSON.parse($("#jsonColor").text());
+               //     ColorNewObj.Name = "ColorNewSource";
+               //     ColorNewObj.ArraySource = ColorNewArr;
+               //     arrMultiPopup.push(ColorNewObj);
+
+               // }
+               // else {
+               //     arrMultiPopup = [];
+               //     //var ColorNewArr = new Array();
+               //     var ColorNewObj = new Object();
+               //     ColorNewObj.Name = "ColorNewSource";
+               //     ColorNewObj.ArraySource = ColorNewArr;
+               //     arrMultiPopup.push(ColorNewObj);
+               // }
+                //// End of Rev 9.0
+                 // Rev 10.0 End
 
                 $("#calledFromColorNewLookup_hidden").val("1");
                 var HeaderCaption = [];
@@ -2071,7 +2091,7 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
         }
 
         function fn_Editcity(keyValue) {
-          
+             ColorNewArr = new Array();
             cbtnSave_citys.SetVisible(true);
            // document.getElementById('btnUdf').disabled = false;
             cPopup_Empcitys.SetHeaderText('Modify Products');
@@ -2101,6 +2121,9 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
          
             if (grid.cpinsert != null) {
                 if (grid.cpinsert == 'Success') {
+
+                     ColorNewArr = new Array();
+                    console.log('abc', ColorNewArr.length);
                     jAlert('Saved Successfully');
                     //alert('Saved Successfully');
                     //................CODE  UPDATED BY sAM ON 18102016.................................................
@@ -2222,7 +2245,16 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
                     // End of Rev rev 8.0
                     // Rev 9.0
                     $("#jsonColor").text(grid.cpEdit.split('~')[70]);
-                // End of Rev 9.0
+                    // End of Rev 9.0
+                    // Rev 10.0
+                    arrMultiPopup = [];  
+                    ColorNewArr=JSON.parse($("#jsonColor").text()); 
+                    var ColorNewObj = new Object();
+                    ColorNewObj.Name = "ColorNewSource";
+                    ColorNewObj.ArraySource = ColorNewArr;
+                    arrMultiPopup.push(ColorNewObj);
+                    // Rev 10.0 End
+               
                 }
                 else {
                     ProdColorNew = '';
@@ -3084,7 +3116,6 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
                             <Settings AllowAutoFilterTextInputTimer="False" />
                             <Settings AutoFilterCondition="Contains" />
                         </dxe:GridViewDataTextColumn>
-
                         <dxe:GridViewDataTextColumn Caption="Brand" FieldName="Brand_Name" ReadOnly="True" Width="15%"
                             Visible="True" VisibleIndex="3">
                             <Settings AutoFilterCondition="Contains" />
@@ -3092,22 +3123,18 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>
 
-
-<%--                        <dxe:GridViewDataTextColumn Caption="Inventory" FieldName="sProduct_IsInventory" ReadOnly="True"
+                        <%--<dxe:GridViewDataTextColumn Caption="Inventory" FieldName="sProduct_IsInventory" ReadOnly="True"
                             Visible="True" VisibleIndex="3" Width="80px">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>--%>
-
-
-                      <%--  <dxe:GridViewDataTextColumn Caption="Service Item?" FieldName="Is_ServiceItem" ReadOnly="True"
+                        <%--  <dxe:GridViewDataTextColumn Caption="Service Item?" FieldName="Is_ServiceItem" ReadOnly="True"
                             Visible="True" VisibleIndex="3" Width="80px">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>--%>
-
                         <%--<dxe:GridViewDataTextColumn Caption="Class Name" FieldName="ProductClass_Name" ReadOnly="True"
                             Visible="True" FixedStyle="Left" VisibleIndex="4">
                             <Settings AutoFilterCondition="Contains" />
@@ -3120,59 +3147,55 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
                             </PropertiesComboBox>
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataComboBoxColumn>
-
+                        <dxe:GridViewDataTextColumn Caption="Status" FieldName="sProduct_Status" ReadOnly="True" Width="15%"
+                            Visible="True" VisibleIndex="5">
+                            <Settings AutoFilterCondition="Contains" />
+                            <EditFormSettings Visible="True" />
+                            <Settings AllowAutoFilterTextInputTimer="False" />
+                        </dxe:GridViewDataTextColumn>
+                       
 
                         <%--  <dxe:GridViewDataTextColumn Caption="HSN Code" FieldName="HSNCODE" ReadOnly="True"
                             Visible="True" FixedStyle="Left" VisibleIndex="5">
                             <EditFormSettings Visible="True" />
                             <Settings AutoFilterCondition="Contains" />
                         </dxe:GridViewDataTextColumn>--%>
-
-             <%--           <dxe:GridViewDataComboBoxColumn Caption="HSN/SAC" FieldName="HSNCODE" VisibleIndex="5">
+                        <%--           <dxe:GridViewDataComboBoxColumn Caption="HSN/SAC" FieldName="HSNCODE" VisibleIndex="5">
                             <PropertiesComboBox EnableSynchronization="False" EnableIncrementalFiltering="True"
                                 ValueType="System.String" DataSourceID="SqlHSNDataSource" TextField="Code" ValueField="Code">
                             </PropertiesComboBox>
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataComboBoxColumn>--%>
-
-                <%--        <dxe:GridViewDataTextColumn Caption="Capital Goods?" FieldName="sProduct_IsCapitalGoods" ReadOnly="True"
+                        <%--        <dxe:GridViewDataTextColumn Caption="Capital Goods?" FieldName="sProduct_IsCapitalGoods" ReadOnly="True"
                             Visible="True" VisibleIndex="6">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>--%>
-
-               <%--         <dxe:GridViewDataTextColumn Caption="Sales Invoice Ledger" FieldName="sInv_MainAccount" ReadOnly="True"
+                        <%--         <dxe:GridViewDataTextColumn Caption="Sales Invoice Ledger" FieldName="sInv_MainAccount" ReadOnly="True"
                             Visible="True" VisibleIndex="7" Width="160px">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>--%>
-
-                   <%--     <dxe:GridViewDataTextColumn Caption="Sales Return Ledger" FieldName="sRet_MainAccount" ReadOnly="True"
+                        <%--     <dxe:GridViewDataTextColumn Caption="Sales Return Ledger" FieldName="sRet_MainAccount" ReadOnly="True"
                             Visible="True" VisibleIndex="8" Width="160px">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>--%>
-
-
-              <%--          <dxe:GridViewDataTextColumn Caption="Purchase Invoice Ledger" FieldName="pInv_MainAccount" ReadOnly="True"
+                        <%--          <dxe:GridViewDataTextColumn Caption="Purchase Invoice Ledger" FieldName="pInv_MainAccount" ReadOnly="True"
                             Visible="True" VisibleIndex="9" Width="160px">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>--%>
-
-
-<%--                        <dxe:GridViewDataTextColumn Caption="Purchase Return Ledger" FieldName="pRet_MainAccount" ReadOnly="True"
+                        <%--                        <dxe:GridViewDataTextColumn Caption="Purchase Return Ledger" FieldName="pRet_MainAccount" ReadOnly="True"
                             Visible="True" VisibleIndex="10" Width="160px">
                             <Settings AutoFilterCondition="Contains" />
                             <EditFormSettings Visible="True" />
                             <Settings AllowAutoFilterTextInputTimer="False" />
                         </dxe:GridViewDataTextColumn>--%>
-
-
                         <dxe:GridViewDataTextColumn ReadOnly="True" CellStyle-HorizontalAlign="Center" Width="10%">
                             <HeaderStyle HorizontalAlign="Center" />
 
@@ -4830,8 +4853,7 @@ Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour 
             SelectCommand="select distinct sProducts_HsnCode Code  from master_sproducts where sProducts_HsnCode<>''  union all select  distinct SERVICE_CATEGORY_CODE   from Master_sProducts MP inner join TBL_MASTER_SERVICE_TAX sac on MP.sProducts_serviceTax=sac.TAX_ID "></asp:SqlDataSource>
 
 
-
-
+        
 
         <dxe:ASPxLoadingPanel ID="LoadingPanel" runat="server" ClientInstanceName="LoadingPanel" ContainerElementID="ProductMainContaint"
             Modal="True">

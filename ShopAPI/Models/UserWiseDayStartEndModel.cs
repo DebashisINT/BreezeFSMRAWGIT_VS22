@@ -1,6 +1,7 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.40     Debashis    30/06/2023      A new parameter has been added.Row: 853
 //2.0   V2.0.40     Debashis    30/06/2023      Some new parameters have been added.Row: 854
+//3.0   V2.0.47     Debashis    06/06/2024      Some new parameters have been added.Row: 941
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,10 @@ namespace ShopAPI.Models
         public string visit_distributor_name { get; set; }
         public string visit_distributor_date_time { get; set; }
         public int IsDDvistedOnceByDay { get; set; }
+        //Rev 3.0 Row: 941
+        public int attendance_worktype_id { get; set; }
+        public string attendance_worktype_name { get; set; }
+        //End of Rev 3.0 Row: 941
     }
 
     public class UserWiseDayStartEndOutput

@@ -1,4 +1,8 @@
-﻿using Models;
+﻿/*****************************************************************************************
+ * 1.0    05-06-2024    2.0.47    Sanchita     A new check box shall be implemented in Qualified Attendance 
+                                               report named as "Consider Day End". Mantis: 27498 *@
+ * ***********************************************************************************************************/
+using Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -36,5 +40,9 @@ namespace MyShop.Models
         public List<GetBranch> modelbranch = new List<GetBranch>();
 
         public string is_pageload { get; set; }
+
+        // Rev 1.0
+        public string IsConsiderDayEnd { get; set; }
+        // End of Rev 1.0
     }
 }

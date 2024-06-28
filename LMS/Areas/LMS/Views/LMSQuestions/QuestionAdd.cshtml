@@ -1,0 +1,947 @@
+﻿
+@{
+    ViewBag.Title = "Question Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .modal-footer {
+        padding: 10px 20px 10px;
+    }
+
+    .dxgvLoadingPanel_PlasticBlue {
+        left: 42% !important;
+    }
+    /*Rev 2.0*/
+    #gridUserList {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    /*Rev end 2.0*/
+
+    /*Rev 3.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 14px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 8px;
+            right: -2px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    select:not(.btn) {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .dxgvControl_PlasticBlue a {
+        margin: 0 3px;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .linerHd {
+        background: #4e8fcf !important;
+    }
+
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #popup_message {
+        padding-left: 0 !important;
+        text-align: center !important;
+    }
+
+    #popup_panel {
+        margin: 14px 0 5px;
+    }
+
+    #popup_ok, #popup_cancel {
+        border-radius: 4px !important;
+    }
+    /*Rev end 4.0*/
+    /*Rev 5.0*/
+    #gridUserList_DXPagerTop_PSP, #gridUserList_DXPagerBottom_PSP {
+        right: 36px !important;
+        left: auto !important;
+    }
+    /*Rev end 5.0*/
+
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+    }
+
+    .add-btn {
+        transition: all .4s;
+    }
+
+        .add-btn:hover {
+            color: #fff;
+            background-color: #0e4f23;
+            border-color: #0e4f23;
+        }
+
+        .add-btn .btn-icon i {
+            color: #238945;
+        }
+
+    .add-btn {
+        background-color: #238945;
+        margin-right: 5px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        height: 38px;
+        padding-left: 12px;
+        padding-right: 12px;
+        color: #fff;
+    }
+
+        .btn:active, .btn:hover, .btn:focus {
+            color: #fff !important;
+        }
+
+    .buttons-alignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .show-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+        color: #054682;
+    }
+
+    .show-btn {
+        background: #054682;
+        transition: all .4s;
+    }
+
+        .show-btn:hover {
+            background: #072743;
+        }
+
+    .btn-cancel {
+        background-color: #DC0505;
+        color: #fff;
+    }
+
+    .btn-export {
+        background: #e17134;
+        color: #fff;
+    }
+
+        .btn-export:hover {
+            background: #a24716 !important;
+            color: #fff;
+        }
+
+    .swal2-confirm.swal2-styled {
+        border-radius: 12px !important;
+    }
+
+    .swal2-styled {
+        border-radius: 12px !important;
+        padding: 8px 20px !important;
+        color: #fff !important;
+        font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+        margin-top: 5px !important;
+    }
+</style>
+<script>
+    var TOPICID = [];
+    var TOPIC_ID = "";
+
+    var Category = [];
+    var Category_ID = "";
+
+    function CategorySelectionChanged(s, e) {
+        CategoryGridLookup.gridView.GetSelectedFieldValues("CATEGORYID", GetSelectedFieldValuesCallbackCategory);
+    }
+    function GetSelectedFieldValuesCallbackCategory(values) {
+        try {
+            Category = [];
+            Category_ID = "";
+            for (var i = 0; i < values.length; i++) {
+                Category.push(values[i]);
+                Category_ID += values[i] + ',';
+            }
+        } finally {
+            console.log(Category);
+        }
+    }
+    function SelectAllGridLookup(s, e) {
+        CategoryGridLookup.gridView.SelectRows();
+        Category = "";
+        CategoryGridLookup.SetText("");
+            $.ajax({
+                type: 'POST',
+                url: "/LMSQuestions/GetCategoryListJson",
+                //data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    Category = [];
+                    Category_ID = "";
+                    $.each(data, function (i, data) {
+                        Category.push(data.CATEGORYID);
+                        Category_ID += data.CATEGORYID + ',';
+                    });
+                    CategoryGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+
+    }
+    function DeSelectAllGridLookup(s, e) {
+        CategoryGridLookup.gridView.UnselectRows();
+
+        Category = [];
+        Category_ID = "";
+    }
+
+
+    function TopicSelectionChanged(s, e) {
+        TopicGridLookup.gridView.GetSelectedFieldValues("TOPICID", GetSelectedFieldValuesCallbackTopic);
+    }
+    function GetSelectedFieldValuesCallbackTopic(values) {
+        try {
+            TOPICID = [];
+            TOPIC_ID = "";
+            for (var i = 0; i < values.length; i++) {
+                TOPICID.push(values[i]);
+                TOPIC_ID += values[i] + ',';
+            }
+        } finally {
+            console.log(TOPICID);
+        }
+    }
+    function SelectAllGridLookupTopic(s, e) {
+        TopicGridLookup.gridView.SelectRows();
+        Category = "";
+        TopicGridLookup.SetText("");
+        $.ajax({
+            type: 'POST',
+            url: "/LMSQuestions/GetTopicListJson",
+            //data: { "Hoid": Hoid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                TOPICID = [];
+                TOPIC_ID = "";
+                $.each(data, function (i, data) {
+                    TOPICID.push(data.TOPICID);
+                    TOPIC_ID += data.TOPICID + ',';
+                });
+                TopicGridLookup.gridView.SelectRows();
+            },
+            error: function () {
+            }
+        });
+
+    }
+    function DeSelectAllGridLookupTopic(s, e) {
+        TopicGridLookup.gridView.UnselectRows();
+        TOPICID = [];
+        TOPIC_ID = "";
+    }
+
+
+
+     
+</script>
+<script>
+        function SaveQuestion() {
+            var id = $("#hdnID").val();
+            if (id == "") {
+                id = "0";
+            }
+    if ($("#txtQuestionName").val().trim() == "") {
+        // SweetAlert for empty Question name
+        Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Enter Question Name to proceed.'
+        });
+        return false;
+    } else if ($("#txtQuestionDescription").val().trim() == "") {
+        // SweetAlert for empty Question description
+        Swal.fire({
+            icon: 'warning',
+            title: 'Warning',
+            text: 'Enter Question Description to proceed.'
+        });
+        return false;
+    } else {
+
+        var Option1 = $("#txtOption1").val().trim();
+        var Option2 = $("#txtOption2").val().trim();
+        var Option3 = $("#txtOption3").val().trim();
+        var Option4 = $("#txtOption4").val().trim();
+
+        var Point1 = $("#txtPoint1").val().trim();
+        var Point2 = $("#txtPoint2").val().trim();
+        var Point3 = $("#txtPoint3").val().trim();
+        var Point4 = $("#txtPoint4").val().trim();
+
+        var chkCorrect1 = document.getElementById("chkCorrect1").checked ? "1" : "0";
+        var chkCorrect2 = document.getElementById("chkCorrect2").checked ? "1" : "0";
+        var chkCorrect3 = document.getElementById("chkCorrect3").checked ? "1" : "0";
+        var chkCorrect4 = document.getElementById("chkCorrect4").checked ? "1" : "0";
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SaveQuestion", "LMSQuestions")',
+            data: {
+                name: $("#txtQuestionName").val().trim(),
+                id: id,
+                description: $("#txtQuestionDescription").val().trim(),
+
+                Option1: Option1,
+                Option2: Option2,
+                Option3: Option3,
+                Option4: Option4,
+
+                Point1: Point1,
+                Point2: Point2,
+                Point3: Point3,
+                Point4: Point4,
+
+                chkCorrect1: chkCorrect1,
+                chkCorrect2: chkCorrect2,
+                chkCorrect3: chkCorrect3,
+                chkCorrect4: chkCorrect4,
+
+                TOPIC_ID: TOPIC_ID,
+                Category_ID: Category_ID
+
+            },
+            success: function (response) {
+                if (parseInt(response) > 0) {
+                    // SweetAlert success message
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Question saved successfully.'
+                    }).then(() => {
+                        $("#QuestionModal").modal('hide');
+                        location.reload();
+                    });
+                } else if (parseInt(response) == -1) {
+                    // SweetAlert duplicate Question name warning
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Duplicate Question name cannot be entered. Please enter a unique Question name.'
+                    });
+                }
+            }
+        });
+    }
+}
+    function DeleteClick1()
+    {
+        $("#txtOption1").val("");
+        $("#txtPoint1").val("");
+        $("#chkCorrect1").prop("checked", false);
+    }
+    function DeleteClick2() {
+        $("#txtOption2").val("");
+        $("#txtPoint2").val("");
+        $("#chkCorrect2").prop("checked", false);
+    }
+    function DeleteClick3() {
+        $("#txtOption3").val("");
+        $("#txtPoint3").val("");
+        $("#chkCorrect3").prop("checked", false);
+    }
+    function DeleteClick4() {
+        $("#txtOption4").val("");
+        $("#txtPoint4").val("");
+        $("#chkCorrect4").prop("checked", false);
+    }
+    function getUrlVars() {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for (var i = 0; i < hashes.length; i++) {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+    }
+    var QuestionID=0;
+    var urlKeys = getUrlVars();
+    if (urlKeys.key != 'Add') {
+        QuestionID = urlKeys.key;
+        if(QuestionID!=0)
+        {
+             $.ajax({
+             type: "POST",
+             url: "@Url.Action("EditQuestion", "LMSQuestions")",
+             data: { id: QuestionID },
+             success: function (response) {
+                 if (response.code == "") {
+                     jAlert('No data found');
+                 }
+                 else {
+                     $("#txtQuestionName").val(response.NAME);
+                     $("#txtQuestionDescription").val(response.DESCRIPTION);
+
+
+                    $("#txtQuestionName").val(response.NAME);
+                    $("#txtQuestionDescription").val(response.DESCRIPTION);
+                    $("#txtQuestionName").val(response.NAME);
+                    $("#txtQuestionDescription").val(response.DESCRIPTION);
+
+
+                    $("#txtQuestionName").val(response.NAME);
+                    $("#txtQuestionDescription").val(response.DESCRIPTION);
+                    $("#txtQuestionName").val(response.NAME);
+                    $("#txtQuestionDescription").val(response.DESCRIPTION);
+
+
+                    $("#txtQuestionName").val(response.NAME);
+                    $("#txtQuestionDescription").val(response.DESCRIPTION);
+                    $("#txtQuestionName").val(response.NAME);
+                    $("#txtQuestionDescription").val(response.DESCRIPTION);
+
+                         
+                  }
+             }
+            });
+
+    }
+    }
+</script>
+<div class="breadCumb">
+    <span id="titleheader">Add Question</span>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div><label>Question Name <span class="red">*</span></label></div>
+                <div>
+                    <input type="text" id="txtQuestionName" maxlength="250" class="form-control" />
+                </div>
+            </div>
+            <div class="col-md-12 mt-3">
+                <div><label>Question Description <span class="red">*</span></label></div>
+                <div>
+                    <input type="text" id="txtQuestionDescription" maxlength="500" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label>Options</label>
+            </div>
+            <div>
+                <div class="col-md-1">
+                    <div>
+                        <a style='cursor:pointer' class='pad' onclick="DeleteClick1()"><img src='/assests/images/Delete.png' /> </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <input type="text" id="txtOption1" class="form-control" placeholder="Option 1" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div>
+                        <input type="number" id="txtPoint1" class="form-control" placeholder="Point 1" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div><input type="checkbox" id="chkCorrect1" class="styled-checkbox" /><label>Correct</label></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div>
+                <div class="col-md-1">
+                    <div>
+                        <a style='cursor:pointer' class='pad' onclick="DeleteClick2()"><img src='/assests/images/Delete.png' /> </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <input type="text" id="txtOption2" class="form-control" placeholder="Option 2" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div>
+                        <input type="number" id="txtPoint2" class="form-control" placeholder="Point 2" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div><input type="checkbox" id="chkCorrect2" class="styled-checkbox" /><label>Correct</label></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <div>
+                <div class="col-md-1">
+                    <div>
+                        <a style='cursor:pointer' class='pad' onclick="DeleteClick3()"><img src='/assests/images/Delete.png' /> </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <input type="text" id="txtOption3" class="form-control" placeholder="Option 3" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div>
+                        <input type="number" id="txtPoint3" class="form-control" placeholder="Point 3" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div><input type="checkbox" id="chkCorrect3" class="styled-checkbox" /><label>Correct</label></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <div class="col-md-1">
+                    <div>
+                        <a style='cursor:pointer' class='pad' onclick="DeleteClick4()"><img src='/assests/images/Delete.png' /> </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        <input type="text" id="txtOption4" class="form-control" placeholder="Option 4" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div>
+                        <input type="number" id="txtPoint4" class="form-control" placeholder="Point 4" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div><input type="checkbox" id="chkCorrect4" class="styled-checkbox" /><label>Correct</label></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label>Map Tropic(s)</label>
+                @Html.Action("GetTopicList", "LMSQuestions")
+            </div>
+            <div class="col-md-4">
+                <label>Map Categories</label>
+                @Html.Action("GetCategoryList", "LMSQuestions")
+            </div>
+
+        </div>
+
+        <div>
+            <button type="button" class="btn btn-cancel" onclick="location.href='@Url.Action("Index", "LMSQuestions")'">Cancel & Exit</button>
+            @if (ViewBag.CanAdd)
+            {
+                <button type="button" id="btnSave" class="btn btn-success" onclick="SaveQuestion()">Save and Exit</button>
+            }
+        </div>
+
+        <input type="hidden" id="hdnID" />
+    </div>
+</div>

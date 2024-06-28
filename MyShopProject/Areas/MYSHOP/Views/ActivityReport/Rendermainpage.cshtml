@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                01-02-2023        2.0.38           Pallab              25576: Report page design modification *@
+@*2.0                14-05-2024        V2.0.47          Sanchita            Column Chooser facility is required in the Activity Details report. Mantis: 27422*@
 @*====================================================== Revision History ==========================================================*@
 @model MyShop.Models.ActivityReportModel
 
@@ -238,6 +239,60 @@
     }
 
 </script>
+
+@*Rev 2.0*@
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+        visibleColumn = [];
+        
+        for (var i = 0; i <= ListGrid.GetColumnsCount() ; i++) {
+            if (ListGrid.GetColumn(i) != null) {
+                if (ListGrid.GetColumn(i).visible == false) {
+                    //console.log(ListGrid.GetColumn(i).fieldName);
+                    visibleColumn.push(ListGrid.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (ListGrid.IsCustomizationWindowVisible())
+            ListGrid.HideCustomizationWindow();
+        else
+            ListGrid.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = ListGrid.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "ActivityReport")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                ListGrid.Refresh();
+                ListGrid.Refresh();
+            },
+            error: function () {
+            },
+        });
+    }
+</script>
+@*End of Rev 2.0*@
+
 <style>
     .padTabl > tbody > tr > td {
         padding: 3px 10px;
@@ -713,21 +768,21 @@
                 </div>
             </div>
             @*<div class="col-md-4 col-lg-2">
-            <label>State</label>
-            <div>
+                    <label>State</label>
+                    <div>
 
-                @Html.Action("GetStateList", "MasterPopulate")
+                        @Html.Action("GetStateList", "MasterPopulate")
 
-            </div>
-        </div>
-        <div class="col-md-3 col-lg-2">
-            <label>Designation</label>
-            <div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-lg-2">
+                    <label>Designation</label>
+                    <div>
 
-                @Html.Action("GetDesigList", "SalesReportSummary")
+                        @Html.Action("GetDesigList", "SalesReportSummary")
 
-            </div>
-        </div>*@
+                    </div>
+                </div>*@
             <div class="col-md-3 col-lg-2">
                 <label>Employee(s)</label>
                 <div>
@@ -758,6 +813,20 @@
 <div class="row">
     <div class="form_main backBox p-3">
         <div style="clear: both;"></div>
+        @*Rev 2.0*@
+        <div class="options">
+            <div class="options-item">
+                @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                    // settings.Theme = "MaterialCompactOrange";
+                }).GetHtml()
+            </div>
+        </div>
+        @*End of Rev 2.0*@
+
         <div class="">
             <div id="refreshgridsalessummary">
                 @{

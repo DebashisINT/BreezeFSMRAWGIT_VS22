@@ -4389,6 +4389,204 @@ namespace ERP.OMS.Management.Master
         protected global::DevExpress.Web.ASPxCheckBox chkContactAddresswithGeofence;
 
         /// <summary>
+        /// divIsCRMPhonebookSyncEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsCRMPhonebookSyncEnable;
+
+        /// <summary>
+        /// chkIsCRMPhonebookSyncEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsCRMPhonebookSyncEnable;
+
+        /// <summary>
+        /// divIsCRMSchedulerEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsCRMSchedulerEnable;
+
+        /// <summary>
+        /// chkIsCRMSchedulerEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsCRMSchedulerEnable;
+
+        /// <summary>
+        /// divIsCRMAddEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsCRMAddEnable;
+
+        /// <summary>
+        /// chkIsCRMAddEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsCRMAddEnable;
+
+        /// <summary>
+        /// divIsCRMEditEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsCRMEditEnable;
+
+        /// <summary>
+        /// chkIsCRMEditEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsCRMEditEnable;
+
+        /// <summary>
+        /// divIsShowAddressInParty control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsShowAddressInParty;
+
+        /// <summary>
+        /// chkIsShowAddressInParty control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsShowAddressInParty;
+
+        /// <summary>
+        /// divIsShowUpdateInvoiceDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsShowUpdateInvoiceDetails;
+
+        /// <summary>
+        /// chkIsShowUpdateInvoiceDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsShowUpdateInvoiceDetails;
+
+        /// <summary>
+        /// divIsSpecialPriceWithEmployee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsSpecialPriceWithEmployee;
+
+        /// <summary>
+        /// chkIsSpecialPriceWithEmployee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsSpecialPriceWithEmployee;
+
+        /// <summary>
+        /// divIsShowCRMOpportunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsShowCRMOpportunity;
+
+        /// <summary>
+        /// chkIsShowCRMOpportunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsShowCRMOpportunity;
+
+        /// <summary>
+        /// divIsEditEnableforOpportunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsEditEnableforOpportunity;
+
+        /// <summary>
+        /// chkIsEditEnableforOpportunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsEditEnableforOpportunity;
+
+        /// <summary>
+        /// divIsDeleteEnableforOpportunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsDeleteEnableforOpportunity;
+
+        /// <summary>
+        /// chkIsDeleteEnableforOpportunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsDeleteEnableforOpportunity;
+
+        /// <summary>
+        /// divIsShowDateWiseOrderInApp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsShowDateWiseOrderInApp;
+
+        /// <summary>
+        /// chkIsShowDateWiseOrderInApp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsShowDateWiseOrderInApp;
+
+        /// <summary>
         /// btnUpdate control.
         /// </summary>
         /// <remarks>

@@ -18,6 +18,12 @@
  * 8.0                17-04-2024       V2.0.47           Priti            0027372: ShowPartyWithCreateOrder setting shall be available User wise setting also
  *                                                                        0027374: ShowPartyWithGeoFence setting shall be available User wise setting also
  * 9.0                16-04-2024       V2.0.47           Sanchita         0027369: The mentioned settings are required in the User master in FSM
+ * 10.0               22-05-2024       V2.0.47           Priti            0027467: Some changes are required in CRM Modules
+ * 11.0               25-05-2024       V2.0.47           Sanchita         New User wise settings required. Mantis: 27474, 27477 *
+ * 12.0               25-05-2024       V2.0.47           Sanchita         New User wise settings required. Mantis: 27502 *
+ * 13.0               03-06-2024       V2.0.47           Sanchita         Some global settings are required for CRM Opportunity module. Mantis: 27481 *
+ * 14.0               18-06-2024       V2.0.47           Sanchita         27436: Please create a global settings IsShowDateWiseOrderInApp   
+ * 15.0               21-06-2024       V2.0.48           Sanchita         0027564: The default value should be zero for some of Global & User wise setting in FSM
  *********************************************************************************************************************************/
 using System;
 using System.Data;
@@ -133,7 +139,7 @@ namespace ERP.OMS.Management.Master
 
             }
             /*--Set Page Accesss--*/
-string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
+            string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
             Session["PageAccess"] = pageAccess;
             //this.Page.ClientScript.RegisterStartupScript(GetType(), "heightL", "<script>height();</script>");
             /*Rev work start 12.05.2022 Mantise no :24856 In User master username,loginid,password,associate employee make blank in Copy Mode*/
@@ -2439,6 +2445,107 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                     chkContactAddresswithGeofence.Checked = false;
                 }
                 // End of Rev 9.0
+
+                // Rev 10.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsCRMPhonebookSyncEnable"]) == true)
+                {
+                    chkIsCRMPhonebookSyncEnable.Checked = true;
+                }
+                else
+                {
+                    chkIsCRMPhonebookSyncEnable.Checked = false;
+                }
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsCRMSchedulerEnable"]) == true)
+                {
+                    chkIsCRMSchedulerEnable.Checked = true;
+                }
+                else
+                {
+                    chkIsCRMSchedulerEnable.Checked = false;
+                }
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsCRMAddEnable"]) == true)
+                {
+                    chkIsCRMAddEnable.Checked = true;
+                }
+                else
+                {
+                    chkIsCRMAddEnable.Checked = false;
+                }
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsCRMEditEnable"]) == true)
+                {
+                    chkIsCRMEditEnable.Checked = true;
+                }
+                else
+                {
+                    chkIsCRMEditEnable.Checked = false;
+                }
+                // End of Rev 10.0
+                // Rev 11.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowAddressInParty"]) == true)
+                {
+                    chkIsShowAddressInParty.Checked = true;
+                }
+                else
+                {
+                    chkIsShowAddressInParty.Checked = false;
+                }
+
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowUpdateInvoiceDetails"]) == true)
+                {
+                    chkIsShowUpdateInvoiceDetails.Checked = true;
+                }
+                else
+                {
+                    chkIsShowUpdateInvoiceDetails.Checked = false;
+                }
+                // End of Rev 11.0
+                // Rev 12.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsSpecialPriceWithEmployee"]) == true)
+                {
+                    chkIsSpecialPriceWithEmployee.Checked = true;
+                }
+                else
+                {
+                    chkIsSpecialPriceWithEmployee.Checked = false;
+                }
+                // End of Rev 12.0
+                // Rev 13.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowCRMOpportunity"]) == true)
+                {
+                    chkIsShowCRMOpportunity.Checked = true;
+                }
+                else
+                {
+                    chkIsShowCRMOpportunity.Checked = false;
+                }
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsEditEnableforOpportunity"]) == true)
+                {
+                    chkIsEditEnableforOpportunity.Checked = true;
+                }
+                else
+                {
+                    chkIsEditEnableforOpportunity.Checked = false;
+                }
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsDeleteEnableforOpportunity"]) == true)
+                {
+                    chkIsDeleteEnableforOpportunity.Checked = true;
+                }
+                else
+                {
+                    chkIsDeleteEnableforOpportunity.Checked = false;
+                }
+                // End of Rev 13.0
+                // Rev 14.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsShowDateWiseOrderInApp"]) == true)
+                {
+                    chkIsShowDateWiseOrderInApp.Checked = true;
+                }
+                else
+                {
+                    chkIsShowDateWiseOrderInApp.Checked = false;
+                }
+                // End of Rev 14.0
+
                 hdnPartyType.Value = dsUserDetail.Tables[1].Rows[0]["Shop_TypeId"].ToString();
 
                 if (Convert.ToString(dsUserDetail.Tables[0].Rows[0]["user_AllowAccessIP"]) != "")
@@ -2856,7 +2963,28 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 int AdditionalinfoRequiredforContactAdd = 0;
                 int ContactAddresswithGeofence = 0;
                 // End of Rev 9.0
-
+                
+                // Rev 10.0
+                int IsCRMPhonebookSyncEnable = 0;
+                int IsCRMSchedulerEnable = 0;
+                int IsCRMAddEnable = 0;
+                int IsCRMEditEnable = 0;
+                // End of Rev 10.0
+                // Rev 11.0
+                int IsShowAddressInParty = 0;
+                int IsShowUpdateInvoiceDetails = 0;
+                // End of Rev 11.0
+                // Rev 12.0
+                int IsSpecialPriceWithEmployee = 0;
+                // End of Rev 12.0
+                // Rev 13.0
+                int IsShowCRMOpportunity = 0;
+                int IsEditEnableforOpportunity = 0;
+                int IsDeleteEnableforOpportunity = 0;
+                // End of Rev 13.0
+                // Rev 14.0
+                int IsShowDateWiseOrderInApp = 0;
+                // End of Rev 14.0
 
                 if (chkIsActive.Checked == true)
                     isactive = "Y";
@@ -3508,7 +3636,7 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                     // Mantis Issue 24362
                     //IsShowPartyOnAppDashboard = 0;
                     IsShowPartyOnAppDashboard = 1;
-                    // End of Mantis Issue 24362
+                // End of Mantis Issue 24362
                 else
                     IsShowPartyOnAppDashboard = 0;
 
@@ -3552,7 +3680,7 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                 else
                     IsShowLeaveInAttendance = 0;
 
-              
+
                 if (chkIsLeaveGPSTrack.Checked == true)
                     IsLeaveGPSTrack = 1;
                 else
@@ -4304,6 +4432,81 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                     ContactAddresswithGeofence = 0;
                 // End of Rev 9.0
 
+                // Rev 10.0
+                if (chkIsCRMPhonebookSyncEnable.Checked == true)
+                {
+                    IsCRMPhonebookSyncEnable = 1;
+                }
+                else
+                {
+                    IsCRMPhonebookSyncEnable = 0;
+                }                    
+
+                if (chkIsCRMSchedulerEnable.Checked == true)
+                {
+                    IsCRMSchedulerEnable = 1;
+                }                    
+                else
+                {
+                    IsCRMSchedulerEnable = 0;
+                }                    
+
+                if (chkIsCRMAddEnable.Checked == true)
+                {
+                    IsCRMAddEnable = 1;
+                }                    
+                else
+                {
+                    IsCRMAddEnable = 0;
+                }                    
+
+                if (chkIsCRMEditEnable.Checked == true)
+                {
+                    IsCRMEditEnable = 1;
+                }                    
+                else
+                {
+                    IsCRMEditEnable = 0;
+                }
+
+                // End of Rev 10.0
+                // Rev 11.0
+                if (chkIsShowAddressInParty.Checked == true)
+                    IsShowAddressInParty = 1;
+                else
+                    IsShowAddressInParty = 0;
+
+                if (chkIsShowUpdateInvoiceDetails.Checked == true)
+                    IsShowUpdateInvoiceDetails = 1;
+                else
+                    IsShowUpdateInvoiceDetails = 0;
+                // End of Rev 11.0
+                // Rev 12.0
+                if (chkIsSpecialPriceWithEmployee.Checked == true)
+                    IsSpecialPriceWithEmployee = 1;
+                else
+                    IsSpecialPriceWithEmployee = 0;
+                // End of Rev 12.0
+                // Rev 13.0
+                if (chkIsShowCRMOpportunity.Checked == true)
+                    IsShowCRMOpportunity = 1;
+                else
+                    IsShowCRMOpportunity = 0;
+                if (chkIsEditEnableforOpportunity.Checked == true)
+                    IsEditEnableforOpportunity = 1;
+                else
+                    IsEditEnableforOpportunity = 0;
+                if (chkIsDeleteEnableforOpportunity.Checked == true)
+                    IsDeleteEnableforOpportunity = 1;
+                else
+                    IsDeleteEnableforOpportunity = 0;
+                // End of Rev 13.0
+                // Rev 14.0
+                if (chkIsShowDateWiseOrderInApp.Checked == true)
+                    IsShowDateWiseOrderInApp = 1;
+                else
+                    IsShowDateWiseOrderInApp = 0;
+                // End of Rev 14.0
 
 
                 String PartyType = hdnPartyType.Value.ToString();
@@ -4662,6 +4865,28 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             proc.AddPara("@AdditionalinfoRequiredforContactAdd", AdditionalinfoRequiredforContactAdd);
                             proc.AddPara("@ContactAddresswithGeofence", ContactAddresswithGeofence);
                             // End of Rev 9.0
+
+                            // Rev 10.0
+                            proc.AddPara("@IsCRMPhonebookSyncEnable", IsCRMPhonebookSyncEnable);
+                            proc.AddPara("@IsCRMSchedulerEnable", IsCRMSchedulerEnable);                            
+                            proc.AddPara("@IsCRMAddEnable", IsCRMAddEnable);
+                            proc.AddPara("@IsCRMEditEnable", IsCRMEditEnable);
+                            // End of Rev 10.0
+                            // Rev 11.0
+                            proc.AddPara("@IsShowAddressInParty", IsShowAddressInParty);
+                            proc.AddPara("@IsShowUpdateInvoiceDetails", IsShowUpdateInvoiceDetails);
+                            // End of Rev 11.0
+                            // Rev 12.0
+                            proc.AddPara("@IsSpecialPriceWithEmployee", IsSpecialPriceWithEmployee);
+                            // End of Rev 12.0
+                            // Rev 13.0
+                            proc.AddPara("@IsShowCRMOpportunity", IsShowCRMOpportunity);
+                            proc.AddPara("@IsEditEnableforOpportunity", IsEditEnableforOpportunity);
+                            proc.AddPara("@IsDeleteEnableforOpportunity", IsDeleteEnableforOpportunity);
+                            // End of Rev 13.0
+                            // Rev 14.0
+                            proc.AddPara("@IsShowDateWiseOrderInApp", IsShowDateWiseOrderInApp);
+                            // End of Rev 14.0
 
 
                             DataTable dt = proc.GetTable();
@@ -5099,6 +5324,28 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             proc.AddPara("@ContactAddresswithGeofence", ContactAddresswithGeofence);
                             // End of Rev 9.0
 
+                            // Rev 10.0
+                            proc.AddPara("@IsCRMPhonebookSyncEnable", IsCRMPhonebookSyncEnable);
+                            proc.AddPara("@IsCRMSchedulerEnable", IsCRMSchedulerEnable);
+                            proc.AddPara("@IsCRMAddEnable", IsCRMAddEnable);
+                            proc.AddPara("@IsCRMEditEnable", IsCRMEditEnable);
+                            // End of Rev 10.0
+                            // Rev 11.0
+                            proc.AddPara("@IsShowAddressInParty", IsShowAddressInParty);
+                            proc.AddPara("@IsShowUpdateInvoiceDetails", IsShowUpdateInvoiceDetails);
+                            // End of Rev 11.0
+                            // Rev 12.0
+                            proc.AddPara("@IsSpecialPriceWithEmployee", IsSpecialPriceWithEmployee);
+                            // End of Rev 12.0
+                            // Rev 13.0
+                            proc.AddPara("@IsShowCRMOpportunity", IsShowCRMOpportunity);
+                            proc.AddPara("@IsEditEnableforOpportunity", IsEditEnableforOpportunity);
+                            proc.AddPara("@IsDeleteEnableforOpportunity", IsDeleteEnableforOpportunity);
+                            // End of Rev 13.0
+                            // Rev 14.0
+                            proc.AddPara("@IsShowDateWiseOrderInApp", IsShowDateWiseOrderInApp);
+                            // End of Rev 14.0
+
                             DataTable dt = proc.GetTable();
 
 
@@ -5529,6 +5776,28 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                             proc.AddPara("@AdditionalinfoRequiredforContactAdd", AdditionalinfoRequiredforContactAdd);
                             proc.AddPara("@ContactAddresswithGeofence", ContactAddresswithGeofence);
                             // End of Rev 9.0
+                            // Rev 10.0
+                            proc.AddPara("@IsCRMPhonebookSyncEnable", IsCRMPhonebookSyncEnable);
+                            proc.AddPara("@IsCRMSchedulerEnable", IsCRMSchedulerEnable);
+                            proc.AddPara("@IsCRMAddEnable", IsCRMAddEnable);
+                            proc.AddPara("@IsCRMEditEnable", IsCRMEditEnable);
+                            // End of Rev 10.0
+                            // Rev 11.0
+                            proc.AddPara("@IsShowAddressInParty", IsShowAddressInParty);
+                            proc.AddPara("@IsShowUpdateInvoiceDetails", IsShowUpdateInvoiceDetails);
+                            // End of Rev 11.0
+                            // Rev 12.0
+                            proc.AddPara("@IsSpecialPriceWithEmployee", IsSpecialPriceWithEmployee);
+                            // End of Rev 12.0
+                            // Rev 13.0
+                            proc.AddPara("@IsShowCRMOpportunity", IsShowCRMOpportunity);
+                            proc.AddPara("@IsEditEnableforOpportunity", IsEditEnableforOpportunity);
+                            proc.AddPara("@IsDeleteEnableforOpportunity", IsDeleteEnableforOpportunity);
+                            // End of Rev 13.0
+                            // Rev 14.0
+                            proc.AddPara("@IsShowDateWiseOrderInApp", IsShowDateWiseOrderInApp);
+                            // End of Rev 14.0
+
 
                             DataTable dt = proc.GetTable();
 
@@ -7531,8 +7800,10 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                     // Rev 9.0
                     else if (Convert.ToString(dr["key"]) == "AdditionalinfoRequiredforContactListing")
                     {
-                        chkAdditionalinfoRequiredforContactListing.Checked = true;
-                        
+                        // Rev 15.0
+                        //chkAdditionalinfoRequiredforContactListing.Checked = true;
+                        // End of Rev 15.0
+
                         if (Convert.ToString(dr["Value"]) == "1")
                         {
                             divAdditionalinfoRequiredforContactListing.Style.Add("display", "table-cell");
@@ -7544,7 +7815,9 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                     }
                     else if (Convert.ToString(dr["key"]) == "AdditionalinfoRequiredforContactAdd")
                     {
-                        chkAdditionalinfoRequiredforContactAdd.Checked = true;
+                        // Rev 15.0
+                        //chkAdditionalinfoRequiredforContactAdd.Checked = true;
+                        // End of Rev 15.0
 
                         if (Convert.ToString(dr["Value"]) == "1")
                         {
@@ -7569,6 +7842,143 @@ string pageAccess = oDBEngine.CheckPageAccessebility("root_user.aspx");
                         }
                     }
                     // End of Rev 9.0
+                    // Rev 10.0
+                    else if (Convert.ToString(dr["key"]) == "IsCRMPhonebookSyncEnable")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsCRMPhonebookSyncEnable.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsCRMPhonebookSyncEnable.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsCRMSchedulerEnable")
+                    { 
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsCRMSchedulerEnable.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsCRMSchedulerEnable.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsCRMAddEnable")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsCRMAddEnable.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsCRMAddEnable.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsCRMEditEnable")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsCRMEditEnable.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsCRMEditEnable.Style.Add("display", "none");
+                        }
+                    }
+                    // Rev 10.0 End
+                    // Rev 11.0
+                    else if (Convert.ToString(dr["key"]) == "IsShowAddressInParty")
+                    {
+                        // Rev 15.0
+                        //chkIsShowAddressInParty.Checked = true;
+                        // End of Rev 15.0
+
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsShowAddressInParty.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsShowAddressInParty.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsShowUpdateInvoiceDetails")
+                    {
+                        //chkIsShowUpdateInvoiceDetails.Checked = true;
+
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsShowUpdateInvoiceDetails.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsShowUpdateInvoiceDetails.Style.Add("display", "none");
+                        }
+                    }
+                    // End of Rev 11.0
+                    // Rev 12.0
+                    else if (Convert.ToString(dr["key"]) == "IsSpecialPriceWithEmployee")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsSpecialPriceWithEmployee.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsSpecialPriceWithEmployee.Style.Add("display", "none");
+                        }
+                    }
+                    // End of Rev 12.0
+                    // Rev 13.0
+                    else if (Convert.ToString(dr["key"]) == "IsShowCRMOpportunity")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsShowCRMOpportunity.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsShowCRMOpportunity.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsEditEnableforOpportunity")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsEditEnableforOpportunity.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsEditEnableforOpportunity.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsSpecialPriceWithEmployee")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsSpecialPriceWithEmployee.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsSpecialPriceWithEmployee.Style.Add("display", "none");
+                        }
+                    }
+                    // End of Rev 13.0
+                    // Rev 14.0
+                    else if (Convert.ToString(dr["key"]) == "IsShowDateWiseOrderInApp")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsShowDateWiseOrderInApp.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsShowDateWiseOrderInApp.Style.Add("display", "none");
+                        }
+                    }
+                    // End of Rev 14.0
                 }
             }
         }

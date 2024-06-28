@@ -23,6 +23,12 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 11.0                17-04-2024       V2.0.47           Priti               0027372: ShowPartyWithCreateOrder setting shall be available User wise setting also
                                                                           0027374: ShowPartyWithGeoFence setting shall be available User wise setting also
 12.0                16-04-2024       V2.0.47           Sanchita            0027369: The mentioned settings are required in the User master in FSM
+13.0                21-05-2024       V2.0.47           Pallab             0027479: Add user settings page checkbox design modification
+14.0                22-05-2024       V2.0.47           Priti               0027467: Some changes are required in CRM Modules
+15.0                25-05-2024      V2.0.47            Sanchita           New User wise settings required. Mantis: 27474, 27477 
+16.0                25-05-2024      V2.0.47            Sanchita           New User wise settings required. Mantis: 27502 
+17.0                03-06-2024      V2.0.47            Sanchita           Some global settings are required for CRM Opportunity module. Mantis: 27481   
+18.0                18-06-2024      V2.0.47            Sanchita           27436: Please create a global settings IsShowDateWiseOrderInApp   
 ====================================================== Revision History ================================================================--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" EnableEventValidation="false"
@@ -461,6 +467,41 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         }
         //End of Mantis Issue 24408,24364
     </script>
+
+    <%--<script>
+        $(document).ready(function () {
+            $("#searchtextButton").click(function () {
+                var searchText = $("#searchtextInput").val().toLowerCase();
+
+                
+                $(".panel-collapse").collapse('hide');
+
+                
+                $(".panel-title a").each(function () {
+                    var panelTitle = $(this).text().toLowerCase();
+                    var $panel = $(this).closest('.panel');
+                    if (panelTitle.includes(searchText)) {
+                        $panel.find('.panel-collapse').collapse('show'); 
+                        $(this).html($(this).text().replace(new RegExp(searchText, "gi"), function (matched) {
+                            return "<span class='highlight'>" + matched + "</span>"; 
+                        }));
+                    }
+
+                   
+                    $panel.find("input[type='checkbox']").each(function () {
+                        var checkboxText = $(this).parent().next().text().toLowerCase();
+                        if (checkboxText.includes(searchText)) {
+                            $(this).closest('tr').find("label").html($(this).closest('tr').find("label").text().replace(new RegExp(searchText, "gi"), function (matched) {
+                                return "<span class='highlight'>" + matched + "</span>"; 
+                            }));
+                        }
+                    });
+                });
+            });
+        });
+    </script>--%>
+
+
     <style>
         .reltv {
             position: relative;
@@ -994,6 +1035,59 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             font-size: 13px;
         }
 
+        /*Rev 13.0*/
+
+        #divDashboardHeaderList .panel-title {
+            position: relative;
+        }
+
+            #divDashboardHeaderList .panel-title > a:focus {
+                text-decoration: none;
+            }
+
+            #divDashboardHeaderList .panel-title > a:after {
+                content: '\f056';
+                font-family: FontAwesome;
+                font-size: 18px;
+                position: absolute;
+                right: 10px;
+                top: 1px;
+                color: #094e8c;
+            }
+
+            #divDashboardHeaderList .panel-title > a + input[type="checkbox"] {
+                -webkit-transform: translateY(2px);
+                -moz-transform: translateY(2px);
+                transform: translateY(2px);
+            }
+
+            #divDashboardHeaderList .panel-title > a.collapsed:after {
+                content: '\f055';
+            }
+
+        .highlight {
+            background-color: yellow;
+            font-weight: bold;
+        }
+
+        .footer-btns {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            box-shadow: 0 -3px 18px #11111124;
+        }
+        /*Rev end 13.0*/
+        /* Style to make the footer sticky when page size increases beyond screen view size */
+        @media (max-height: 70vh) {
+            .footer-btns {
+                position: static;
+            }
+        }
+
         @media only screen and (max-width: 768px) {
             .tblWhiteS > tbody > tr > td {
                 display: block !important;
@@ -1269,1214 +1363,1263 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 </div>--%>
                 <%--Rev end Pallab--%>
 
-                <table class="tblWhiteS">
-                    <tr>
-                        <td colspan="4">
-                            <div class="segHeader">General</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsActive" runat="server" Text="" CssClass="C-checkbox">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Tick to Make Inactive</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td style="display: none">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkmac" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Mac Lock?</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdHierarchywiseTargetSettings" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkTargetSettings" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Tick to active Hierarchy-wise Target Settings</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivEnableLeaveonApproval" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkLeaveEanbleSettings" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Enable Leave on Approval</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivEnableLeaveonApprover" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkLeaveApprover" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Tick to add as Approver</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="DivActiveautomaticRevisit" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkRevisitSettings" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Active automatic Revisit</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivInputDayPlan" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkPlanDetailsSettings" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Input Day Plan</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivActiveMoreDetailsMandatory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkMoreDetailsMandatorySettings" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Active More Details Mandatory</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivDisplayMoreDetailswhilenewVisit" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowMoreDetailsSettings" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Display More Details while new Visit</td>
-                                </tr>
-                            </table>
-                        </td>
 
-                    </tr>
-                    <tr>
-                        <td id="DivShowMeetingsOption" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkMeetingsSettings" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Meetings Option</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--Rev 6.0--%>
-                        <%--<td id="DivShowProductRateinApp" runat="server">--%>
-                        <td id="DivRateEditableSettings" runat="server">
-                            <%--End of Rev 6.0--%>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkRateEditableSettings" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <%--Rev 6.0--%>
-                                    <%--<td>Show Product Rate in App</td>--%>
-                                    <td>Order Rate Not Editable</td>
-                                    <%--End of Rev 6.0--%>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivShowTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Team</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivAllowPJPupdateforTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkAllowPJPupdateforTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Allow PJP update for Team</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="DivwillReportShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillReportShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Report</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivIsFingerPrintMandatoryForAttendance" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsFingerPrintMandatoryForAttendance" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Attendance - Fingerprint Mandatory</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivIsFingerPrintMandatoryForVisit" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsFingerPrintMandatoryForVisit" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Visits - Fingerprint Mandatory</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="DivIsSelfieMandatoryForAttendance" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsSelfieMandatoryForAttendance" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Attendance - Selfie Mandatory</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <div class="segHeader">Report</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="TdisAttendanceReportShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAttendanceReportShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Attendance Report</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisPerformanceReportShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisPerformanceReportShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Performance Report</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisVisitReportShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisVisitReportShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Visit Report</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdwillTimesheetShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillTimesheetShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Timesheet</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <%--Rev work start 11.05.2022 Mantise No:0024880 Horizontal Performance Summary & detail report required with hierarchy setting--%>
-                    <tr>
-                        <td id="TdHorizontalPerformanceReportShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisHorizontalReportShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Hierarchy for Horizontal Performance Report</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <%--Rev work close 11.05.2022 Mantise No:0024880 Horizontal Performance Summary & detail report required with hierarchy setting--%>
-                    <tr>
-                        <td colspan="4">
-                            <div class="segHeader">Configuration</div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="TdisAttendanceFeatureOnly" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAttendanceFeatureOnly" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Apply Attendance Feature Only </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisOrderShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisOrderShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Use Order feature in APP</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisVisitShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisVisitShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Visit Show</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdiscollectioninMenuShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkiscollectioninMenuShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Collection feature in APP</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="TdisShopAddEditAvailable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShopAddEditAvailable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Can Add Party?</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisEntityCodeVisible" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisEntityCodeVisible" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Party Code</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisAreaMandatoryInPartyCreation" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAreaMandatoryInPartyCreation" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is area mandatory in Add Party?</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShowPartyInAreaWiseTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowPartyInAreaWiseTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Team details Party listing Area wise.</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                <%--rev start 13.0: add all checkboxes in accordion panel and button floating--%>
 
-                    <tr>
-                        <td id="TdisChangePasswordAllowed" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisChangePasswordAllowed" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Change Password</td>
-                                </tr>
-                            </table>
-                        </td>
+                <div class="" id="divDashboardHeaderList" style="padding: 15px;">
 
-                        <td id="TdisQuotationShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisQuotationShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Quotation Show</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsStateMandatoryinReport" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsStateMandatoryinReport" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>State mandatory in Report</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisQuotationPopupShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisQuotationPopupShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Quotation show in popup</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
 
-                    <tr>
 
-                        <td id="TdisAchievementEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAchievementEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Achievement Report</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisTarVsAchvEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisTarVsAchvEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Target Vs Achievement Enable Report</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisOrderReplacedWithTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisOrderReplacedWithTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Order Replaced With Team</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisMultipleAttendanceSelection" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisMultipleAttendanceSelection" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Multiple Attendance Selection</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    <%--<div class="row">
+                        <div class="col-lg-5">
+                            <div class="input-group">
+                                <input id="searchtextInput" type="text" class="form-control" placeholder="Search for..."/>
+                                <span class="input-group-btn">
+                                    <button id="searchtextButton" class="btn btn-default" type="button">Go!</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
 
-                    <tr>
-                        <td id="TdisOfflineTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisOfflineTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show offline Team</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisDDShowForMeeting" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisDDShowForMeeting" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>DD show for Meeting</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisDDMandatoryForMeeting" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisDDMandatoryForMeeting" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>DD mandatory for Meeting</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisAllTeamAvailable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAllTeamAvailable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>All Team Available</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    <div class="clear"></div>--%>
 
-                    <tr>
-                        <td id="TdisRecordAudioEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisRecordAudioEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Record audio enable </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisNextVisitDateMandatory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisNextVisitDateMandatory" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Next visit date mandatory</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShowCurrentLocNotifiaction" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowCurrentLocNotifiaction" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show current location notification</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisUpdateWorkTypeEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisUpdateWorkTypeEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Update work type enable</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    <div class="panel panel-default clsListheader">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#divDashboardHeaderList" class="" href="#collapse_3" aria-expanded="true">General</a>
 
-                    <tr>
-                        <td id="TdisLeaveEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisLeaveEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Leave enable </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisOrderMailVisible" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisOrderMailVisible" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Order mail visible</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdLateVisitSMS" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkLateVisitSMS" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Late visit SMS</td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShopEditEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShopEditEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Shop edit enable</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                            </h4>
+                        </div>
+                        <div id="collapse_3" class="panel-collapse collapse in" aria-expanded="true" style="">
+                            <div class="panel-body SelectSubList">
+                                <table class="tblWhiteS">
 
-                    <tr>
-                        <td id="TdisTaskEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisTaskEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Task enable </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisAppInfoEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAppInfoEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Device Info Saved </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdwillDynamicShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillDynamicShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Dynamic form creation </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdwillActivityShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillActivityShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Activities feature</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsActive" runat="server" Text="" CssClass="C-checkbox">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Tick to Make Inactive</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="display: none">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkmac" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Mac Lock?</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdHierarchywiseTargetSettings" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkTargetSettings" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Tick to active Hierarchy-wise Target Settings</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivEnableLeaveonApproval" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkLeaveEanbleSettings" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Enable Leave on Approval</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivEnableLeaveonApprover" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkLeaveApprover" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Tick to add as Approver</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="DivActiveautomaticRevisit" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkRevisitSettings" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Active automatic Revisit</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivInputDayPlan" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkPlanDetailsSettings" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Input Day Plan</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivActiveMoreDetailsMandatory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkMoreDetailsMandatorySettings" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Active More Details Mandatory</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivDisplayMoreDetailswhilenewVisit" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowMoreDetailsSettings" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Display More Details while new Visit</td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                    <tr>
-                        <td id="TdisDocumentRepoShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisDocumentRepoShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Document Report Show </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisChatBotShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisChatBotShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Chat Bot Show </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisAttendanceBotShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAttendanceBotShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Attendance Bot Show </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisVisitBotShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisVisitBotShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Visit Bot Show </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    </tr>
+                                    <tr>
+                                        <td id="DivShowMeetingsOption" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkMeetingsSettings" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Meetings Option</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--Rev 6.0--%>
+                                        <%--<td id="DivShowProductRateinApp" runat="server">--%>
+                                        <td id="DivRateEditableSettings" runat="server">
+                                            <%--End of Rev 6.0--%>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkRateEditableSettings" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <%--Rev 6.0--%>
+                                                    <%--<td>Show Product Rate in App</td>--%>
+                                                    <td>Order Rate Not Editable</td>
+                                                    <%--End of Rev 6.0--%>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivShowTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Team</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivAllowPJPupdateforTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkAllowPJPupdateforTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Allow PJP update for Team</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="DivwillReportShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillReportShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Report</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivIsFingerPrintMandatoryForAttendance" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsFingerPrintMandatoryForAttendance" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Attendance - Fingerprint Mandatory</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivIsFingerPrintMandatoryForVisit" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsFingerPrintMandatoryForVisit" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Visits - Fingerprint Mandatory</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="DivIsSelfieMandatoryForAttendance" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsSelfieMandatoryForAttendance" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Attendance - Selfie Mandatory</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
 
-                    <tr>
-                        <td id="TdisInstrumentCompulsory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisInstrumentCompulsory" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Instrument Compulsory </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisBankCompulsory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisBankCompulsory" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Bank Compulsory </td>
-                                </tr>
-                            </table>
-                        </td>
+                    </div>
 
-                        <td id="TdisComplementaryUser" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisComplementaryUser" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Complementary User </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisVisitPlanShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisVisitPlanShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Visit Plan Show </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    <div class="panel panel-default clsListheader">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#divDashboardHeaderList" class="collapsed" href="#collapse_4">Report</a>
 
-                    <tr>
-                        <td id="TdisVisitPlanMandatory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisVisitPlanMandatory" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Visit Plan Mandatory </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisAttendanceDistanceShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAttendanceDistanceShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Attendance Distance Show </td>
-                                </tr>
-                            </table>
-                        </td>
+                            </h4>
+                        </div>
+                        <div id="collapse_4" class="panel-collapse collapse" aria-expanded="true" style="">
+                            <div class="panel-body SelectSubList">
+                                <table class="tblWhiteS">
+                                    <tr>
+                                        <td id="TdisAttendanceReportShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAttendanceReportShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Attendance Report</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisPerformanceReportShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisPerformanceReportShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Performance Report</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisVisitReportShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisVisitReportShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Visit Report</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdwillTimesheetShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillTimesheetShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Timesheet</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <%--Rev work start 11.05.2022 Mantise No:0024880 Horizontal Performance Summary & detail report required with hierarchy setting--%>
+                                    <tr>
+                                        <td id="TdHorizontalPerformanceReportShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisHorizontalReportShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Hierarchy for Horizontal Performance Report</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <%--Rev work close 11.05.2022 Mantise No:0024880 Horizontal Performance Summary & detail report required with hierarchy setting--%>
+                                </table>
+                            </div>
+                        </div>
 
-                        <td id="TdwillTimelineWithFixedLocationShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillTimelineWithFixedLocationShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Timeline With Fixed Location Show </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShowOrderRemarks" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowOrderRemarks" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Order Remarks </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    </div>
 
-                    <tr>
-                        <td id="TdisShowOrderSignature" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowOrderSignature" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Order Signature </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShowSmsForParty" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowSmsForParty" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Sms For Party </td>
-                                </tr>
-                            </table>
-                        </td>
 
-                        <td id="TdisShowTimeline" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowTimeline" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Timeline </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdwillScanVisitingCard" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillScanVisitingCard" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Scan Visiting Card </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                    <div class="panel panel-default clsListheader">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#divDashboardHeaderList" class="collapsed" href="#collapse_5">Configuration</a>
 
-                    <tr>
-                        <td id="TdisCreateQrCode" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisCreateQrCode" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Create QR Code </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisScanQrForRevisit" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisScanQrForRevisit" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Scan QR For Revisit </td>
-                                </tr>
-                            </table>
-                        </td>
+                            </h4>
+                        </div>
+                        <div id="collapse_5" class="panel-collapse collapse" aria-expanded="true" style="">
+                            <div class="panel-body SelectSubList">
+                                <table class="tblWhiteS">
 
-                        <td id="TdisShowLogoutReason" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowLogoutReason" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Logout Reason </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdwillShowHomeLocReason" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillShowHomeLocReason" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Home Location Reason </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td id="TdisAttendanceFeatureOnly" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAttendanceFeatureOnly" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Apply Attendance Feature Only </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisOrderShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisOrderShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Use Order feature in APP</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisVisitShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisVisitShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Visit Show</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdiscollectioninMenuShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkiscollectioninMenuShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Collection feature in APP</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="TdisShopAddEditAvailable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShopAddEditAvailable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Can Add Party?</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisEntityCodeVisible" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisEntityCodeVisible" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Party Code</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisAreaMandatoryInPartyCreation" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAreaMandatoryInPartyCreation" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is area mandatory in Add Party?</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShowPartyInAreaWiseTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowPartyInAreaWiseTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Team details Party listing Area wise.</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdwillShowShopVisitReason" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillShowShopVisitReason" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Shop Visit Reason </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdwillShowPartyStatus" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillShowPartyStatus" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Party Status </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdisChangePasswordAllowed" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisChangePasswordAllowed" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Change Password</td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                        <td id="TdwillShowEntityTypeforShop" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkwillShowEntityTypeforShop" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Entity Type for Shop </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShowRetailerEntity" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowRetailerEntity" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Retailer Entity </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                        <td id="TdisQuotationShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisQuotationShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Quotation Show</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsStateMandatoryinReport" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsStateMandatoryinReport" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>State mandatory in Report</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisQuotationPopupShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisQuotationPopupShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Quotation show in popup</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdisShowDealerForDD" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowDealerForDD" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Dealer For DD </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
 
-                        <td id="TdisShowBeatGroup" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowBeatGroup" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Beat Group </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShowShopBeatWise" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowShopBeatWise" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Shop Beat Wise </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                        <td id="TdisAchievementEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAchievementEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Achievement Report</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisTarVsAchvEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisTarVsAchvEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Target Vs Achievement Enable Report</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisOrderReplacedWithTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisOrderReplacedWithTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Order Replaced With Team</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisMultipleAttendanceSelection" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisMultipleAttendanceSelection" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Multiple Attendance Selection</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdisShowOTPVerificationPopup" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowOTPVerificationPopup" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show OTP Verification Popup </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShowMicroLearing" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowMicroLearing" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Micro Learing </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdisOfflineTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisOfflineTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show offline Team</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisDDShowForMeeting" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisDDShowForMeeting" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>DD show for Meeting</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisDDMandatoryForMeeting" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisDDMandatoryForMeeting" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>DD mandatory for Meeting</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisAllTeamAvailable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAllTeamAvailable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>All Team Available</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                        <td id="TdisMultipleVisitEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisMultipleVisitEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Multiple Visit Enable </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShowVisitRemarks" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowVisitRemarks" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Visit Remarks </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td id="TdisRecordAudioEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisRecordAudioEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Record audio enable </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisNextVisitDateMandatory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisNextVisitDateMandatory" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Next visit date mandatory</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShowCurrentLocNotifiaction" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowCurrentLocNotifiaction" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show current location notification</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisUpdateWorkTypeEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisUpdateWorkTypeEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Update work type enable</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdisShowNearbyCustomer" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShowNearbyCustomer" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Near by Customer </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisServiceFeatureEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisServiceFeatureEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Service Feature Enable </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdisLeaveEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisLeaveEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Leave enable </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisOrderMailVisible" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisOrderMailVisible" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Order mail visible</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdLateVisitSMS" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkLateVisitSMS" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Late visit SMS</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShopEditEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShopEditEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Shop edit enable</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                        <td id="TdisPatientDetailsShowInOrder" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisPatientDetailsShowInOrder" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Patient Details Show In Order </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisPatientDetailsShowInCollection" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisPatientDetailsShowInCollection" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Patient Details Show In Collection </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td id="TdisTaskEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisTaskEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Task enable </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisAppInfoEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAppInfoEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Device Info Saved </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdwillDynamicShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillDynamicShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Dynamic form creation </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdwillActivityShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillActivityShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Activities feature</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdisAttachmentMandatory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAttachmentMandatory" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Attachment Mandatory </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdisShopImageMandatory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisShopImageMandatory" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Shop Image Mandatory </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdisDocumentRepoShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisDocumentRepoShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Document Report Show </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisChatBotShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisChatBotShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Chat Bot Show </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisAttendanceBotShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAttendanceBotShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Attendance Bot Show </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisVisitBotShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisVisitBotShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Visit Bot Show </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                        <td id="TdisLogShareinLogin" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisLogShareinLogin" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Log Share in Login </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsCompetitorenable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsCompetitorenable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Competitor Enable </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td id="TdisInstrumentCompulsory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisInstrumentCompulsory" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Instrument Compulsory </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisBankCompulsory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisBankCompulsory" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Bank Compulsory </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                    <tr>
-                        <td id="TdIsOrderStatusRequired" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsOrderStatusRequired" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Order Status Required </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsCurrentStockEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsCurrentStockEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Current Stock Enable </td>
-                                </tr>
-                            </table>
-                        </td>
+                                        <td id="TdisComplementaryUser" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisComplementaryUser" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Complementary User </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisVisitPlanShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisVisitPlanShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Visit Plan Show </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                        <td id="TdIsCurrentStockApplicableforAll" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsCurrentStockApplicableforAll" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Current Stock Applicable for All </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIscompetitorStockRequired" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIscompetitorStockRequired" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Competitor Stock Required </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td id="TdisVisitPlanMandatory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisVisitPlanMandatory" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Visit Plan Mandatory </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisAttendanceDistanceShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAttendanceDistanceShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Attendance Distance Show </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                    <tr>
-                        <td id="TdIsCompetitorStockforParty" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsCompetitorStockforParty" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Competitor Stock for Party </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdShowFaceRegInMenu" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowFaceRegInMenu" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Face Registration menu option in APP </td>
-                                </tr>
-                            </table>
-                        </td>
+                                        <td id="TdwillTimelineWithFixedLocationShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillTimelineWithFixedLocationShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Timeline With Fixed Location Show </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShowOrderRemarks" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowOrderRemarks" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Order Remarks </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                        <td id="TdIsFaceDetection" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsFaceDetection" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Face Detection While Attendance </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--  <td id="TdisFaceRegistered" runat="server">
+                                    <tr>
+                                        <td id="TdisShowOrderSignature" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowOrderSignature" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Order Signature </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShowSmsForParty" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowSmsForParty" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Sms For Party </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdisShowTimeline" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowTimeline" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Timeline </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdwillScanVisitingCard" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillScanVisitingCard" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Scan Visiting Card </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="TdisCreateQrCode" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisCreateQrCode" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Create QR Code </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisScanQrForRevisit" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisScanQrForRevisit" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Scan QR For Revisit </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdisShowLogoutReason" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowLogoutReason" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Logout Reason </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdwillShowHomeLocReason" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillShowHomeLocReason" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Home Location Reason </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="TdwillShowShopVisitReason" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillShowShopVisitReason" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Shop Visit Reason </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdwillShowPartyStatus" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillShowPartyStatus" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Party Status </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdwillShowEntityTypeforShop" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkwillShowEntityTypeforShop" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Entity Type for Shop </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShowRetailerEntity" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowRetailerEntity" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Retailer Entity </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="TdisShowDealerForDD" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowDealerForDD" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Dealer For DD </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdisShowBeatGroup" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowBeatGroup" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Beat Group </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShowShopBeatWise" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowShopBeatWise" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Shop Beat Wise </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="TdisShowOTPVerificationPopup" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowOTPVerificationPopup" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show OTP Verification Popup </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShowMicroLearing" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowMicroLearing" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Micro Learing </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdisMultipleVisitEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisMultipleVisitEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Multiple Visit Enable </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShowVisitRemarks" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowVisitRemarks" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Visit Remarks </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="TdisShowNearbyCustomer" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShowNearbyCustomer" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Near by Customer </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisServiceFeatureEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisServiceFeatureEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Service Feature Enable </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdisPatientDetailsShowInOrder" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisPatientDetailsShowInOrder" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Patient Details Show In Order </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisPatientDetailsShowInCollection" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisPatientDetailsShowInCollection" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Patient Details Show In Collection </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="TdisAttachmentMandatory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAttachmentMandatory" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Attachment Mandatory </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdisShopImageMandatory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisShopImageMandatory" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Shop Image Mandatory </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdisLogShareinLogin" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisLogShareinLogin" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Log Share in Login </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsCompetitorenable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCompetitorenable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Competitor Enable </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="TdIsOrderStatusRequired" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsOrderStatusRequired" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Order Status Required </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsCurrentStockEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCurrentStockEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Current Stock Enable </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdIsCurrentStockApplicableforAll" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCurrentStockApplicableforAll" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Current Stock Applicable for All </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIscompetitorStockRequired" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIscompetitorStockRequired" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Competitor Stock Required </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="TdIsCompetitorStockforParty" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCompetitorStockforParty" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Competitor Stock for Party </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdShowFaceRegInMenu" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowFaceRegInMenu" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Face Registration menu option in APP </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+
+                                        <td id="TdIsFaceDetection" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsFaceDetection" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Face Detection While Attendance </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--  <td id="TdisFaceRegistered" runat="server">
                             <table>
                                 <tr>
                                     <td>
@@ -2487,1569 +2630,1737 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </tr>
                             </table>
                         </td>--%>
-                    </tr>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdIsUserwiseDistributer" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsUserwiseDistributer" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Userwise Distributer(DD) </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsPhotoDeleteShow" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsPhotoDeleteShow" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Face Detection - Photo Delete pemission </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdIsUserwiseDistributer" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsUserwiseDistributer" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Userwise Distributer(DD) </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsPhotoDeleteShow" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsPhotoDeleteShow" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Face Detection - Photo Delete pemission </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                        <td id="TdIsAllDataInPortalwithHeirarchy" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAllDataInPortalwithHeirarchy" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Heirarchy wise data (DMS Feature On) </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsFaceDetectionWithCaptcha" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsFaceDetectionWithCaptcha" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Face Detection With Captcha </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                        <td id="TdIsAllDataInPortalwithHeirarchy" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAllDataInPortalwithHeirarchy" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Heirarchy wise data (DMS Feature On) </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsFaceDetectionWithCaptcha" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsFaceDetectionWithCaptcha" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Face Detection With Captcha </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdIsShowMenuAddAttendance" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuAddAttendance" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Add Attendance Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMenuAttendance" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuAttendance" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>View Attendance Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdIsShowMenuAddAttendance" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuAddAttendance" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Add Attendance Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMenuAttendance" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuAttendance" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>View Attendance Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                        <td id="TdIsShowMenuShops" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuShops" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Customer Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMenuOutstandingDetailsPPDD" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuOutstandingDetailsPPDD" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Outstanding Details PP/DD Menu Show in App  </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                        <td id="TdIsShowMenuShops" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuShops" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Customer Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMenuOutstandingDetailsPPDD" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuOutstandingDetailsPPDD" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Outstanding Details PP/DD Menu Show in App  </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdIsShowMenuStockDetailsPPDD" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuStockDetailsPPDD" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Stock Details - PP/DD Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMenuTA" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuTA" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>TA Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdIsShowMenuStockDetailsPPDD" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuStockDetailsPPDD" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Stock Details - PP/DD Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMenuTA" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuTA" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>TA Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                        <td id="TdIsShowMenuMISReport" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuMISReport" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>MIS Report Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMenuReimbursement" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuReimbursement" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Reimbursement Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                        <td id="TdIsShowMenuMISReport" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuMISReport" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>MIS Report Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMenuReimbursement" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuReimbursement" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Reimbursement Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdIsShowMenuAchievement" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuAchievement" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Achievement Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMenuMapView" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuMapView" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Map View Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdIsShowMenuAchievement" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuAchievement" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Achievement Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMenuMapView" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuMapView" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Map View Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                        <td id="TdIsShowMenuShareLocation" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuShareLocation" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Share Location Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMenuHomeLocation" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuHomeLocation" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Home Location Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="TdIsShowMenuWeatherDetails" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuWeatherDetails" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Weather Details Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMenuChat" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuChat" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Chat Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
+                                        <td id="TdIsShowMenuShareLocation" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuShareLocation" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Share Location Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMenuHomeLocation" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuHomeLocation" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Home Location Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="TdIsShowMenuWeatherDetails" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuWeatherDetails" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Weather Details Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMenuChat" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuChat" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Chat Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                        <td id="TdIsShowMenuScanQRCode" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuScanQRCode" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Scan QR Code Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMenuPermissionInfo" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuPermissionInfo" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Permission Info Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                        <td id="TdIsShowMenuScanQRCode" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuScanQRCode" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Scan QR Code Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMenuPermissionInfo" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuPermissionInfo" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Permission Info Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdIsShowMenuAnyDesk" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuAnyDesk" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>AnyDesk Menu Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsDocRepoFromPortal" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsDocRepoFromPortal" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Document Repository from Organization in APP </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsDocRepShareDownloadAllowed" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsDocRepShareDownloadAllowed" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Allow Document Repository Share and Download   </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsScreenRecorderEnable" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsScreenRecorderEnable" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Screen Recorder Enable in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td id="TdIsShowMenuAnyDesk" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuAnyDesk" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>AnyDesk Menu Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsDocRepoFromPortal" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsDocRepoFromPortal" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Document Repository from Organization in APP </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsDocRepShareDownloadAllowed" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsDocRepShareDownloadAllowed" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Allow Document Repository Share and Download   </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsScreenRecorderEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsScreenRecorderEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Screen Recorder Enable in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <%-- Add new Settings--%>
-                    <tr>
-                        <td id="TdIsShowPartyOnAppDashboard" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowPartyOnAppDashboard" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Party On App Dashboard </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowAttendanceOnAppDashboard" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowAttendanceOnAppDashboard" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Attendance On App Dashboard </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowTotalVisitsOnAppDashboard" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowTotalVisitsOnAppDashboard" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Total Visits On App Dashboard   </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowVisitDurationOnAppDashboard" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowVisitDurationOnAppDashboard" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Visit Duration On App Dashboard </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <%-- Add new Settings--%>
+                                    <tr>
+                                        <td id="TdIsShowPartyOnAppDashboard" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowPartyOnAppDashboard" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Party On App Dashboard </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowAttendanceOnAppDashboard" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowAttendanceOnAppDashboard" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Attendance On App Dashboard </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowTotalVisitsOnAppDashboard" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowTotalVisitsOnAppDashboard" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Total Visits On App Dashboard   </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowVisitDurationOnAppDashboard" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowVisitDurationOnAppDashboard" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Visit Duration On App Dashboard </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdIsShowDayStart" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowDayStart" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Day Start On App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsshowDayStartSelfie" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsshowDayStartSelfie" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Day Start Selfie </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowDayEnd" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowDayEnd" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Day End in App  </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsshowDayEndSelfie" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsshowDayEndSelfie" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Day End Selfie in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
+                                        <td id="TdIsShowDayStart" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowDayStart" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Day Start On App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsshowDayStartSelfie" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsshowDayStartSelfie" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Day Start Selfie </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowDayEnd" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowDayEnd" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Day End in App  </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsshowDayEndSelfie" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsshowDayEndSelfie" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Day End Selfie in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                    <tr>
-                        <td id="TdIsShowLeaveInAttendance" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowLeaveInAttendance" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Leave In Attendance in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsLeaveGPSTrack" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsLeaveGPSTrack" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Leave GPS Track </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowActivitiesInTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowActivitiesInTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Activities In Team in App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsShowMarkDistVisitOnDshbrd" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMarkDistVisitOnDshbrd" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Mark Distributor Visit Show in App </td>
-                                </tr>
-                            </table>
-                        </td>
-
-
-                    </tr>
-                    <tr>
-                        <%--Mantis Issue 24408,24364--%>
-                        <td id="TdIsRevisitRemarksMandatory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsRevisitRemarksMandatory" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Revisit Remarks Mandatory? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsGPSAlert" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkGPSAlert" runat="server" Text="">
-                                            <ClientSideEvents CheckedChanged="function (s, e) {EnableDisableGPSAlertSound();}" />
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is GPS Alert On? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdIsGPSAlertwithSound" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkGPSAlertwithSound" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is GPS Alert with Sound? </td>
-                                </tr>
-                            </table>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <%--Mantis Issue 24596,24597--%>
-                        <td id="TdFaceRegistrationFrontCamera" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkFaceRegistrationFrontCamera" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Face Registration - Open Front camera </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="TdMRPInOrder" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkMRPInOrder" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>MRP in Order </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--End of Mantis Issue 24596,24597--%>
-                    </tr>
-                    <%--End of Mantis Issue 24408,24364--%>
-                    <%-- Add new Settings--%>
-                    <%--Mantis Issue 25035--%>
-                    <tr>
-                        <td id="TdDistributerwisePartyOrderReport" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkDistributerwisePartyOrderReport" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Distributer wise Party Order Report </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <%--End of Mantis Issue 25035--%>
-
-                    <%--Mantis Issue 25207--%>
-                    <tr>
-                        <%--Mantis Issue 25116--%>
-                        <td id="TdShowAttednaceClearmenu" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowAttednaceClearmenu" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Attendance Clear Menu </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--End of Mantis Issue 25116--%>
-                        <td id="AllowProfileUpdate" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkAllowProfileUpdate" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Allow Profile Update </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="AutoDDSelect" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkAutoDDSelect" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Auto DDSelect </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="BatterySetting" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkBatterySetting" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Battery Setting </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td id="CommonAINotification" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkCommonAINotification" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Common AI Notification </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="Custom_Configuration" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkCustom_Configuration" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Custom Configuration </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="isAadharRegistered" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisAadharRegistered" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Aadhar Registered ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsActivateNewOrderScreenwithSize" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsActivateNewOrderScreenwithSize" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Activate New Order Screenwith Size ? </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    <tr>
+                                        <td id="TdIsShowLeaveInAttendance" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowLeaveInAttendance" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Leave In Attendance in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsLeaveGPSTrack" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsLeaveGPSTrack" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Leave GPS Track </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowActivitiesInTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowActivitiesInTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Activities In Team in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsShowMarkDistVisitOnDshbrd" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMarkDistVisitOnDshbrd" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Mark Distributor Visit Show in App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
 
-                    </tr>
+                                    </tr>
+                                    <tr>
+                                        <%--Mantis Issue 24408,24364--%>
+                                        <td id="TdIsRevisitRemarksMandatory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsRevisitRemarksMandatory" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Revisit Remarks Mandatory? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsGPSAlert" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkGPSAlert" runat="server" Text="">
+                                                            <ClientSideEvents CheckedChanged="function (s, e) {EnableDisableGPSAlertSound();}" />
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is GPS Alert On? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdIsGPSAlertwithSound" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkGPSAlertwithSound" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is GPS Alert with Sound? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                    <tr>
+                                    </tr>
+                                    <tr>
+                                        <%--Mantis Issue 24596,24597--%>
+                                        <td id="TdFaceRegistrationFrontCamera" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkFaceRegistrationFrontCamera" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Face Registration - Open Front camera </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="TdMRPInOrder" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkMRPInOrder" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>MRP in Order </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Mantis Issue 24596,24597--%>
+                                    </tr>
+                                    <%--End of Mantis Issue 24408,24364--%>
+                                    <%-- Add new Settings--%>
+                                    <%--Mantis Issue 25035--%>
+                                    <tr>
+                                        <td id="TdDistributerwisePartyOrderReport" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkDistributerwisePartyOrderReport" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Distributer wise Party Order Report </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <%--End of Mantis Issue 25035--%>
 
-                        <td id="IsAllowBreakageTracking" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAllowBreakageTracking" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Allow Breakage Tracking ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsAllowBreakageTrackingunderTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAllowBreakageTrackingunderTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Allow Breakage Trackingunder Team ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsAllowClickForPhotoRegister" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAllowClickForPhotoRegister" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Allow Click For Photo Register ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsAllowClickForVisit" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAllowClickForVisit" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Allow Click For Visit ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                    <%--Mantis Issue 25207--%>
+                                    <tr>
+                                        <%--Mantis Issue 25116--%>
+                                        <td id="TdShowAttednaceClearmenu" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowAttednaceClearmenu" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Attendance Clear Menu </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Mantis Issue 25116--%>
+                                        <td id="AllowProfileUpdate" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkAllowProfileUpdate" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Allow Profile Update </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="AutoDDSelect" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkAutoDDSelect" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Auto DDSelect </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="BatterySetting" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkBatterySetting" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Battery Setting </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                        <td id="IsAllowClickForVisitForSpecificUser" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAllowClickForVisitForSpecificUser" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Allow Click For Visit For Specific User ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsAllowShopStatusUpdate" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAllowShopStatusUpdate" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Allow Shop Status Update ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsAlternateNoForCustomer" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAlternateNoForCustomer" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Alternate No For Customer ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsAttendVisitShowInDashboard" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAttendVisitShowInDashboard" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Attend Visit Show In Dashboard ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                    <tr>
+                                        <td id="CommonAINotification" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkCommonAINotification" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Common AI Notification </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="Custom_Configuration" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkCustom_Configuration" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Custom Configuration </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="isAadharRegistered" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisAadharRegistered" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Aadhar Registered ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsActivateNewOrderScreenwithSize" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsActivateNewOrderScreenwithSize" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Activate New Order Screenwith Size ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
 
-                        <td id="IsAutoLeadActivityDateTime" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsAutoLeadActivityDateTime" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Auto Lead Activity DateTime ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsBeatRouteReportAvailableinTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsBeatRouteReportAvailableinTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Beat Route Report Available in Team ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsCollectionOrderWise" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsCollectionOrderWise" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Collection Order Wise ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsFaceRecognitionOnEyeblink" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsFaceRecognitionOnEyeblink" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Face Recognition On Eyeblink ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
 
-                        <td id="isFaceRegistered" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkisFaceRegistered" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Face Registered ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsFeedbackAvailableInShop" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsFeedbackAvailableInShop" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Feedback Available In Shop ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsFeedbackHistoryActivated" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsFeedbackHistoryActivated" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Feedback History Activated ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsFromPortal" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsFromPortal" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is From Portal ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                    </tr>
 
-                        <td id="IsIMEICheck" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsIMEICheck" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is IMEI Check ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IslandlineforCustomer" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIslandlineforCustomer" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is landline for Customer ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsNewQuotationfeatureOn" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsNewQuotationfeatureOn" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is New Quotation feature On ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsNewQuotationNumberManual" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsNewQuotationNumberManual" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is New Quotation Number Manual </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                    <tr>
 
-                        <td id="IsPendingCollectionRequiredUnderTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsPendingCollectionRequiredUnderTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Pending Collection Required Under Team ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsprojectforCustomer" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsprojectforCustomer" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is project for Customer ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsRateEnabledforNewOrderScreenwithSize" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsRateEnabledforNewOrderScreenwithSize" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Rate Enabled for New Order Screen with Size ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsRestrictNearbyGeofence" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsRestrictNearbyGeofence" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Restrict Nearby Geofence ?</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                        <td id="IsAllowBreakageTracking" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAllowBreakageTracking" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Allow Breakage Tracking ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsAllowBreakageTrackingunderTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAllowBreakageTrackingunderTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Allow Breakage Trackingunder Team ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsAllowClickForPhotoRegister" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAllowClickForPhotoRegister" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Allow Click For Photo Register ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsAllowClickForVisit" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAllowClickForVisit" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Allow Click For Visit ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
 
-                        <td id="IsReturnEnableforParty" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsReturnEnableforParty" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Return Enable for Party ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsShowHomeLocationMap" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowHomeLocationMap" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Show Home Location Map ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsShowManualPhotoRegnInApp" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowManualPhotoRegnInApp" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Show Manual Photo Regn In App </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsShowMyDetails" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMyDetails" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Show My Details ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                        <td id="IsAllowClickForVisitForSpecificUser" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAllowClickForVisitForSpecificUser" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Allow Click For Visit For Specific User ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsAllowShopStatusUpdate" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAllowShopStatusUpdate" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Allow Shop Status Update ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsAlternateNoForCustomer" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAlternateNoForCustomer" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Alternate No For Customer ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsAttendVisitShowInDashboard" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAttendVisitShowInDashboard" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Attend Visit Show In Dashboard ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
 
-                        <td id="IsShowNearByTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowNearByTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Show Near By Team ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsShowRepeatOrderinNotification" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowRepeatOrderinNotification" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <%--Rev 5.0--%>
-                                    <%--<td>Is Show Repeat Orderin Notification ? </td>--%>
-                                    <td>Is Show Repeat Order in Notification ? </td>
-                                    <%--End of Rev 5.0 --%>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsShowRepeatOrdersNotificationinTeam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowRepeatOrdersNotificationinTeam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <%--Rev 5.0--%>
-                                    <%--<td>Is Show Repeat Orders Notificationin Team ? </td>--%>
-                                    <td>Is Show Repeat Orders Notification in Team ? </td>
-                                    <%--End of Rev 5.0--%>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsShowRevisitRemarksPopup" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowRevisitRemarksPopup" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Show Revisit Remarks Popup ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                        <td id="IsAutoLeadActivityDateTime" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAutoLeadActivityDateTime" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Auto Lead Activity DateTime ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsBeatRouteReportAvailableinTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsBeatRouteReportAvailableinTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Beat Route Report Available in Team ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsCollectionOrderWise" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCollectionOrderWise" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Collection Order Wise ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsFaceRecognitionOnEyeblink" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsFaceRecognitionOnEyeblink" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Face Recognition On Eyeblink ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
 
-                        <td id="IsShowTypeInRegistration" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowTypeInRegistration" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Show Type In Registration ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsTeamAttendance" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsTeamAttendance" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Team Attendance ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsTeamAttenWithoutPhoto" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsTeamAttenWithoutPhoto" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Team Atten Without Photo ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="IsWhatsappNoForCustomer" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsWhatsappNoForCustomer" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Is Whatsapp No For Customer ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                        <td id="isFaceRegistered" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkisFaceRegistered" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Face Registered ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsFeedbackAvailableInShop" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsFeedbackAvailableInShop" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Feedback Available In Shop ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsFeedbackHistoryActivated" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsFeedbackHistoryActivated" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Feedback History Activated ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsFromPortal" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsFromPortal" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is From Portal ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
 
-                    <tr>
+                                        <td id="IsIMEICheck" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsIMEICheck" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is IMEI Check ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IslandlineforCustomer" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIslandlineforCustomer" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is landline for Customer ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsNewQuotationfeatureOn" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsNewQuotationfeatureOn" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is New Quotation feature On ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsNewQuotationNumberManual" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsNewQuotationNumberManual" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is New Quotation Number Manual </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
 
-                        <td id="Leaveapprovalfromsupervisor" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkLeaveapprovalfromsupervisor" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Leave approval from supervisor </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="Leaveapprovalfromsupervisorinteam" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkLeaveapprovalfromsupervisorinteam" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Leave approval from supervisor in team </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="LogoutWithLogFile" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkLogoutWithLogFile" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Logout With Log File </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="MarkAttendNotification" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkMarkAttendNotification" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Mark Attend Notification </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                        <td id="IsPendingCollectionRequiredUnderTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsPendingCollectionRequiredUnderTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Pending Collection Required Under Team ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsprojectforCustomer" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsprojectforCustomer" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is project for Customer ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsRateEnabledforNewOrderScreenwithSize" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsRateEnabledforNewOrderScreenwithSize" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Rate Enabled for New Order Screen with Size ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsRestrictNearbyGeofence" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsRestrictNearbyGeofence" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Restrict Nearby Geofence ?</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
 
-                    <tr>
-                        <td id="PartyUpdateAddrMandatory" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkPartyUpdateAddrMandatory" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Party Update Addr Mandatory </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="PowerSaverSetting" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkPowerSaverSetting" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Power Saver Setting </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="ShopScreenAftVisitRevisit" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShopScreenAftVisitRevisit" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Shop Screen Aft Visit Revisit </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="Show_App_Logout_Notification" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShow_App_Logout_Notification" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show App Logout Notification </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                        <td id="IsReturnEnableforParty" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsReturnEnableforParty" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Return Enable for Party ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsShowHomeLocationMap" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowHomeLocationMap" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show Home Location Map ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsShowManualPhotoRegnInApp" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowManualPhotoRegnInApp" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show Manual Photo Regn In App </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsShowMyDetails" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMyDetails" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show My Details ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
 
-                        <td id="ShowAmountNewQuotation" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowAmountNewQuotation" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Amount New Quotation </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="ShowAutoRevisitInAppMenu" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowAutoRevisitInAppMenu" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Auto Revisit In App Menu </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="ShowAutoRevisitInDashboard" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowAutoRevisitInDashboard" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Auto Revisit In Dashboard </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="ShowCollectionAlert" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowCollectionAlert" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Collection Alert </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                        <td id="IsShowNearByTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowNearByTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show Near By Team ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsShowRepeatOrderinNotification" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowRepeatOrderinNotification" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <%--Rev 5.0--%>
+                                                    <%--<td>Is Show Repeat Orderin Notification ? </td>--%>
+                                                    <td>Is Show Repeat Order in Notification ? </td>
+                                                    <%--End of Rev 5.0 --%>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsShowRepeatOrdersNotificationinTeam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowRepeatOrdersNotificationinTeam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <%--Rev 5.0--%>
+                                                    <%--<td>Is Show Repeat Orders Notificationin Team ? </td>--%>
+                                                    <td>Is Show Repeat Orders Notification in Team ? </td>
+                                                    <%--End of Rev 5.0--%>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsShowRevisitRemarksPopup" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowRevisitRemarksPopup" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show Revisit Remarks Popup ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
 
-                        <td id="ShowCollectionOnlywithInvoiceDetails" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowCollectionOnlywithInvoiceDetails" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Collection Only with Invoice Details </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="ShowQuantityNewQuotation" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowQuantityNewQuotation" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Quantity New Quotation </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="ShowTotalVisitAppMenu" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowTotalVisitAppMenu" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Total Visit App Menu </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="ShowUserwiseLeadMenu" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowUserwiseLeadMenu" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Userwise Lead Menu </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
+                                        <td id="IsShowTypeInRegistration" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowTypeInRegistration" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show Type In Registration ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsTeamAttendance" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsTeamAttendance" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Team Attendance ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsTeamAttenWithoutPhoto" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsTeamAttenWithoutPhoto" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Team Atten Without Photo ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="IsWhatsappNoForCustomer" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsWhatsappNoForCustomer" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Whatsapp No For Customer ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                        <td id="ShowZeroCollectioninAlert" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowZeroCollectioninAlert" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Zero Collectionin Alert </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="UpdateOtherID" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkUpdateOtherID" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Update Other ID ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="UpdateUserID" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkUpdateUserID" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Update User ID ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="UpdateUserName" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkUpdateUserName" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Update User Name ? </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+                                    <tr>
 
-                    <tr>
-                        <td id="WillRoomDBShareinLogin" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkWillRoomDBShareinLogin" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show user Last St Type </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="ShowPurposeInShopVisit" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowPurposeInShopVisit" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Purpose In Shop Visit </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--Rev 3.0--%>
-                        <td id="divShowEmployeePerformance" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowEmployeePerformance" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Employee Performance </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%-- End of Rev 3.0--%>
-                        <%--Rev 4.0--%>
-                        <td id="divShowBeatInMenu" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowBeatInMenu" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Beat In Menu </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--End of Rev 4.0--%>
-                    </tr>
-                    <%--Rev 6.0--%>
-                    <tr>
-                        <td id="divShowWorkType" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowWorkType" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Work Type </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="divShowMarketSpendTimer" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowMarketSpendTimer" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Market Spend Timer </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="divShowUploadImageInAppProfile" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowUploadImageInAppProfile" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Upload Image In App Profile </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="divShowCalendar" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowCalendar" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Calendar </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="divShowCalculator" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowCalculator" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Calculator </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="divShowInactiveCustomer" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowInactiveCustomer" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Inactive Customer </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="divShowAttendanceSummary" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowAttendanceSummary" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Attendance Summary </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--Rev 7.0--%>
-                        <td id="divMenuShowAIMarketAssistant" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkMenuShowAIMarketAssistant" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show menu for AI Market Assistant </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="divUsbDebuggingRestricted" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkUsbDebuggingRestricted" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>USB Debugging Restricted </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--End of Rev 7.0--%>
-                        <%--Rev 8.0--%>
-                        <td id="divShowLatLongInOutletMaster" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowLatLongInOutletMaster" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Latitude Longitude in Outlet Master </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--End of Rev 8.0--%>
-                        <%--Rev 9.0--%>
-                        <td id="divIsCallLogHistoryActivated" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsCallLogHistoryActivated" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Call Log History Activated </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--End of Rev 9.0--%>
-                        <%--Rev 10.0--%>
-                        <td id="divIsShowMenuCRMContacts" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsShowMenuCRMContacts" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Menu CRM Contacts </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td id="divIsCheckBatteryOptimization" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkIsCheckBatteryOptimization" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Check Battery Optimization </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--End of Rev 10.0--%>
-                        <%--End of Rev 6.0--%>
-                        <%--End of Mantis Issue 25207--%>
-                        <%--Rev 11.0--%>
-                        <td id="divShowPartyWithGeoFence" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowPartyWithGeoFence" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Party With Geo Fence  </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="divShowPartyWithCreateOrder" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkShowPartyWithCreateOrder" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Show Party With Create Order  </td>
-                                </tr>
-                            </table>
-                        </td>
-                         <%--Rev 11.0 END--%>
-                        <%--Rev 12.0--%>
-                        <td id="divAdditionalinfoRequiredforContactListing" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkAdditionalinfoRequiredforContactListing" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Additional Information Required for Contact Listing  </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <%--End of Rev 12.0--%>
-                    </tr>
-                    <%--Rev 12.0--%>
-                    <tr>
-                        <td id="divAdditionalinfoRequiredforContactAdd" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkAdditionalinfoRequiredforContactAdd" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Additional Information Required for Contact Add  </td>
-                                </tr>
-                            </table>
-                        </td>
-                        <td id="divContactAddresswithGeofence" runat="server">
-                            <table>
-                                <tr>
-                                    <td>
-                                        <dxe:ASPxCheckBox ID="chkContactAddresswithGeofence" runat="server" Text="">
-                                        </dxe:ASPxCheckBox>
-                                    </td>
-                                    <td>Contact Address with Geofence </td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <%--End of Rev 12.0--%>
+                                        <td id="Leaveapprovalfromsupervisor" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkLeaveapprovalfromsupervisor" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Leave approval from supervisor </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="Leaveapprovalfromsupervisorinteam" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkLeaveapprovalfromsupervisorinteam" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Leave approval from supervisor in team </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="LogoutWithLogFile" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkLogoutWithLogFile" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Logout With Log File </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="MarkAttendNotification" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkMarkAttendNotification" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Mark Attend Notification </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                </table>
+                                    <tr>
+                                        <td id="PartyUpdateAddrMandatory" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkPartyUpdateAddrMandatory" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Party Update Addr Mandatory </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="PowerSaverSetting" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkPowerSaverSetting" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Power Saver Setting </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="ShopScreenAftVisitRevisit" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShopScreenAftVisitRevisit" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Shop Screen Aft Visit Revisit </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="Show_App_Logout_Notification" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShow_App_Logout_Notification" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show App Logout Notification </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td id="ShowAmountNewQuotation" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowAmountNewQuotation" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Amount New Quotation </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="ShowAutoRevisitInAppMenu" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowAutoRevisitInAppMenu" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Auto Revisit In App Menu </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="ShowAutoRevisitInDashboard" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowAutoRevisitInDashboard" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Auto Revisit In Dashboard </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="ShowCollectionAlert" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowCollectionAlert" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Collection Alert </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td id="ShowCollectionOnlywithInvoiceDetails" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowCollectionOnlywithInvoiceDetails" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Collection Only with Invoice Details </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="ShowQuantityNewQuotation" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowQuantityNewQuotation" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Quantity New Quotation </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="ShowTotalVisitAppMenu" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowTotalVisitAppMenu" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Total Visit App Menu </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="ShowUserwiseLeadMenu" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowUserwiseLeadMenu" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Userwise Lead Menu </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+
+                                        <td id="ShowZeroCollectioninAlert" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowZeroCollectioninAlert" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Zero Collectionin Alert </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="UpdateOtherID" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkUpdateOtherID" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Update Other ID ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="UpdateUserID" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkUpdateUserID" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Update User ID ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="UpdateUserName" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkUpdateUserName" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Update User Name ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td id="WillRoomDBShareinLogin" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkWillRoomDBShareinLogin" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show user Last St Type </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="ShowPurposeInShopVisit" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowPurposeInShopVisit" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Purpose In Shop Visit </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--Rev 3.0--%>
+                                        <td id="divShowEmployeePerformance" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowEmployeePerformance" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Employee Performance </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%-- End of Rev 3.0--%>
+                                        <%--Rev 4.0--%>
+                                        <td id="divShowBeatInMenu" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowBeatInMenu" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Beat In Menu </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 4.0--%>
+                                    </tr>
+                                    <%--Rev 6.0--%>
+                                    <tr>
+                                        <td id="divShowWorkType" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowWorkType" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Work Type </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divShowMarketSpendTimer" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowMarketSpendTimer" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Market Spend Timer </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divShowUploadImageInAppProfile" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowUploadImageInAppProfile" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Upload Image In App Profile </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divShowCalendar" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowCalendar" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Calendar </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="divShowCalculator" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowCalculator" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Calculator </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divShowInactiveCustomer" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowInactiveCustomer" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Inactive Customer </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divShowAttendanceSummary" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowAttendanceSummary" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Attendance Summary </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--Rev 7.0--%>
+                                        <td id="divMenuShowAIMarketAssistant" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkMenuShowAIMarketAssistant" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show menu for AI Market Assistant </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="divUsbDebuggingRestricted" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkUsbDebuggingRestricted" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>USB Debugging Restricted </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 7.0--%>
+                                        <%--Rev 8.0--%>
+                                        <td id="divShowLatLongInOutletMaster" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowLatLongInOutletMaster" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Latitude Longitude in Outlet Master </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 8.0--%>
+                                        <%--Rev 9.0--%>
+                                        <td id="divIsCallLogHistoryActivated" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCallLogHistoryActivated" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Call Log History Activated </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 9.0--%>
+                                        <%--Rev 10.0--%>
+                                        <td id="divIsShowMenuCRMContacts" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowMenuCRMContacts" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Menu CRM Contacts </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="divIsCheckBatteryOptimization" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCheckBatteryOptimization" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Check Battery Optimization </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 10.0--%>
+                                        <%--End of Rev 6.0--%>
+                                        <%--End of Mantis Issue 25207--%>
+                                        <%--Rev 11.0--%>
+                                        <td id="divShowPartyWithGeoFence" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowPartyWithGeoFence" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Party With Geo Fence  </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divShowPartyWithCreateOrder" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowPartyWithCreateOrder" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Party With Create Order  </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--Rev 11.0 END--%>
+                                        <%--Rev 12.0--%>
+                                        <td id="divAdditionalinfoRequiredforContactListing" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkAdditionalinfoRequiredforContactListing" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Additional Information Required for Contact Listing  </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 12.0--%>
+                                    </tr>
+                                    <%--Rev 12.0--%>
+                                    <tr>
+                                        <td id="divAdditionalinfoRequiredforContactAdd" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkAdditionalinfoRequiredforContactAdd" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Additional Information Required for Contact Add  </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divContactAddresswithGeofence" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkContactAddresswithGeofence" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Contact Address with Geofence </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 12.0--%>
+                                        <%--Rev 14.0--%>
+                                        <td id="divIsCRMPhonebookSyncEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCRMPhonebookSyncEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is CRM Phonebook Sync Enable ?</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divIsCRMSchedulerEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCRMSchedulerEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is CRM Scheduler Enable ?</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--Rev 14.0 end--%>
+                                    </tr>
+                                   
+                                    <tr>
+                                        <%--Rev 14.0--%>
+                                        <td id="divIsCRMAddEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCRMAddEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is CRM Add Enable ?</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divIsCRMEditEnable" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsCRMEditEnable" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is CRM Edit Enable ?</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--Rev 14.0 End--%>
+                                        <%--Rev 15.0--%>
+                                        <td id="divIsShowAddressInParty" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowAddressInParty" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show Address In Party ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divIsShowUpdateInvoiceDetails" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowUpdateInvoiceDetails" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show Update Invoice Details ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 15.0--%>
+                                        <%--Rev 16.0--%>
+                                     </tr>
+                                     <tr>
+                                        <td id="divIsSpecialPriceWithEmployee" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsSpecialPriceWithEmployee" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Special Price With Employee ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <%--End of Rev 16.0--%>
+                                        <%--Rev 17.0--%>
+                                         <td id="divIsShowCRMOpportunity" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowCRMOpportunity" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show CRM Opportunity ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                          <td id="divIsEditEnableforOpportunity" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsEditEnableforOpportunity" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Edit Enable for Opportunity ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td id="divIsDeleteEnableforOpportunity" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsDeleteEnableforOpportunity" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Delete Enable for Opportunity ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                         <%--End of Rev 17.0--%>
+                                    </tr>
+                                    <%--Rev 18.0--%>
+                                    <tr>
+                                         <td id="divIsShowDateWiseOrderInApp" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsShowDateWiseOrderInApp" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Is Show Date Wise Order In App ? </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                     <%-- End of Rev 18.0--%>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+
+                <%--<table class="tblWhiteS">--%>
+
+                <%--<tr>
+                        <td colspan="4">
+                            <div class="segHeader">Report</div>
+                        </td>
+                    </tr>--%>
+
+                <%--<tr>
+                        <td colspan="4">
+                            <div class="segHeader">Configuration</div>
+                        </td>
+                    </tr>--%>
+
+
+                <%--</table>--%>
                 <div class="clear"></div>
                 <br />
-
-                <div class="col-md-12">
-                    <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-primary" Text="Save" OnClick="btnUpdate_Click" OnClientClick="return setvalue()"
-                        ValidationGroup="a" />
-                    <input id="btnCancel" type="button" class="btn btn-danger" value="Cancel" onclick="Cancel_Click()" />
+                <div class="footer-btns">
+                    <div class="col-md-12">
+                        <asp:Button ID="btnUpdate" runat="server" CssClass="btn btn-primary" Text="Save" OnClick="btnUpdate_Click" OnClientClick="return setvalue()"
+                            ValidationGroup="a" />
+                        <input id="btnCancel" type="button" class="btn btn-danger" value="Cancel" onclick="Cancel_Click()" />
+                    </div>
                 </div>
+
+                <%--End of Rev 13.0--%>
             </div>
         </div>
     </div>

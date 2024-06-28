@@ -2,6 +2,8 @@
  * Rev 1.0      21-03-2023      Sanchita    V2.0.39     Dashboard optimization. Refer: 25741
  * Rev 2.0      27-06-2023      Sanchita    V2.0.41     State & Branch selection facility is required in the Order Analytics in Dashboard
  *                                                      Refer: 26309
+ * Rev 3.0      27-06-2023      Sanchita    V2.0.41     In Portal Dashboard, under Field Visit and Team Visit tabs Order Value coloumn shall be added
+ *                                                      Refer: 27403
  *******************************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -357,7 +359,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                 if (dd.FilterName == "AT_WORK")
                 {
-                    ColumnName = "EMPNAME [Employee],DESIGNATION [Designation],EMPID [Employee ID],BRANCH [Branch],ISNULL(CONTACTNO,'') [Login ID],LOGGEDIN [First in time],CASE WHEN LOGEDOUT='--' THEN '' ELSE LOGEDOUT END [Last logout time],CURRENT_STATUS [Current Status],ISNULL(GPS_INACTIVE_DURATION,'00:00') +' (HH:MM)' [GPS Inactivity],ISNULL(SHOPS_VISITED,0) [Shops Visited],ISNULL(TOTAL_ORDER_BOOKED_VALUE,'0.00') [Sales Value],ISNULL(TOTAL_COLLECTION,'0.00') [Collection Amt.],EMPCODE EMPID";
+                    // Rev 3.0
+                    //ColumnName = "EMPNAME [Employee],DESIGNATION [Designation],EMPID [Employee ID],BRANCH [Branch],ISNULL(CONTACTNO,'') [Login ID],LOGGEDIN [First in time],CASE WHEN LOGEDOUT='--' THEN '' ELSE LOGEDOUT END [Last logout time],CURRENT_STATUS [Current Status],ISNULL(GPS_INACTIVE_DURATION,'00:00') +' (HH:MM)' [GPS Inactivity],ISNULL(SHOPS_VISITED,0) [Shops Visited],ISNULL(TOTAL_ORDER_BOOKED_VALUE,'0.00') [Sales Value],ISNULL(TOTAL_COLLECTION,'0.00') [Collection Amt.],EMPCODE EMPID";
+                    ColumnName = "EMPNAME [Employee],DESIGNATION [Designation],EMPID [Employee ID],BRANCH [Branch],ISNULL(CONTACTNO,'') [Login ID],LOGGEDIN [First in time],CASE WHEN LOGEDOUT='--' THEN '' ELSE LOGEDOUT END [Last logout time],CURRENT_STATUS [Current Status],ISNULL(GPS_INACTIVE_DURATION,'00:00') +' (HH:MM)' [GPS Inactivity],ISNULL(SHOPS_VISITED,0) [Shops Visited],ISNULL(TOTAL_ORDER_BOOKED_VALUE,'0.00') [Sales Value],ISNULL(ITCORDER_VALUE,'0.00') [Order Value],ISNULL(TOTAL_COLLECTION,'0.00') [Collection Amt.],EMPCODE EMPID ";
+                    // End of Rev 3.0
 
                     orderby = " order by SHOPS_VISITED DESC";
                 }
@@ -425,7 +430,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                 if (dd.FilterName == "AT_WORK")
                 {
-                    ColumnName = "EMPNAME [Employee],DESIGNATION [Designation],EMPID [Employee ID],BRANCHDESC [Branch],ISNULL(CONTACTNO,'') [Login ID],LOGGEDIN [First in time],CASE WHEN LOGEDOUT='--' THEN '' ELSE LOGEDOUT END [Last logout time],CURRENT_STATUS [Current Status],ISNULL(GPS_INACTIVE_DURATION,'00:00') +' (HH:MM)' [GPS Inactivity],ISNULL(SHOPS_VISITED,0) [Shops Visited],ISNULL(TOTAL_ORDER_BOOKED_VALUE,'0.00') [Sales Value],ISNULL(TOTAL_COLLECTION,'0.00') [Collection Amt.],CHANNEL [Channel],CIRCLE [Circle],SECTION [Section], EMPCODE EMPID";
+                    // Rev 3.0
+                    //ColumnName = "EMPNAME [Employee],DESIGNATION [Designation],EMPID [Employee ID],BRANCHDESC [Branch],ISNULL(CONTACTNO,'') [Login ID],LOGGEDIN [First in time],CASE WHEN LOGEDOUT='--' THEN '' ELSE LOGEDOUT END [Last logout time],CURRENT_STATUS [Current Status],ISNULL(GPS_INACTIVE_DURATION,'00:00') +' (HH:MM)' [GPS Inactivity],ISNULL(SHOPS_VISITED,0) [Shops Visited],ISNULL(TOTAL_ORDER_BOOKED_VALUE,'0.00') [Sales Value],ISNULL(TOTAL_COLLECTION,'0.00') [Collection Amt.],CHANNEL [Channel],CIRCLE [Circle],SECTION [Section], EMPCODE EMPID";
+                    ColumnName = "EMPNAME [Employee],DESIGNATION [Designation],EMPID [Employee ID],BRANCHDESC [Branch],ISNULL(CONTACTNO,'') [Login ID],LOGGEDIN [First in time],CASE WHEN LOGEDOUT='--' THEN '' ELSE LOGEDOUT END [Last logout time],CURRENT_STATUS [Current Status],ISNULL(GPS_INACTIVE_DURATION,'00:00') +' (HH:MM)' [GPS Inactivity],ISNULL(SHOPS_VISITED,0) [Shops Visited],ISNULL(TOTAL_ORDER_BOOKED_VALUE,'0.00') [Sales Value],ISNULL(ITCORDER_VALUE,'0.00') [Order Value],ISNULL(TOTAL_COLLECTION,'0.00') [Collection Amt.],CHANNEL [Channel],CIRCLE [Circle],SECTION [Section], EMPCODE EMPID";
+                    // End of Rev 3.0
 
                     orderby = " order by SHOPS_VISITED DESC";
                 }

@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                04-04-2024        V2 .0.46          Sanchita            0027345: Two checkbox required in parameter for Order register report. *@
+@*2.0                03-05-2024        V2 .0.47          Priti               0027407: "Party Status" - needs to add in the following reports. *@
 @*====================================================== Revision History ==========================================================*@
 @Html.DevExpress().GridView(settings =>
 {
@@ -91,12 +92,20 @@
         x.VisibleIndex = 8;
         x.Width = 100;
     });
-
+    //Rev 2.0
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PARTYSTATUS";
+        x.Caption = "Party Status";
+        x.VisibleIndex = 9;
+        x.Width = 100;
+    });
+    //Rev 2.0 End
     settings.Columns.Add(x =>
     {
         x.FieldName = "PPName";
         x.Caption = "PP Name";
-        x.VisibleIndex = 9;
+        x.VisibleIndex = 10;
         x.Width = 100;
     });
 
@@ -104,7 +113,7 @@
     {
         x.FieldName = "DDName";
         x.Caption = "DD Name";
-        x.VisibleIndex = 10;
+        x.VisibleIndex = 11;
         x.Width = 100;
     });
 
@@ -112,7 +121,7 @@
     {
         x.FieldName = "ORDDATE";
         x.Caption = "Order Date";
-        x.VisibleIndex = 11;
+        x.VisibleIndex = 12;
         x.Width = 100;
     });
 
@@ -121,7 +130,7 @@
     {
         x.FieldName = "ORDRNO";
         x.Caption = "Order Number";
-        x.VisibleIndex = 12;
+        x.VisibleIndex = 13;
         x.Width = 200;
 
     });
@@ -131,7 +140,7 @@
     {
         x.FieldName = "PRODUCT";
         x.Caption = "Product";
-        x.VisibleIndex = 13;
+        x.VisibleIndex = 14;
         x.Width = 200;
     });
 
@@ -139,7 +148,7 @@
     {
         x.FieldName = "QUANTITY";
         x.Caption = "Quantity";
-        x.VisibleIndex = 14;
+        x.VisibleIndex = 15;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
         x.Width = 100;
     });
@@ -151,7 +160,7 @@
         {
             x.FieldName = "MRP";
             x.Caption = "MRP";
-            x.VisibleIndex = 15;
+            x.VisibleIndex = 16;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
             x.PropertiesEdit.DisplayFormatString = "0.00";
@@ -160,7 +169,7 @@
         {
             x.FieldName = "DISCOUNT";
             x.Caption = "Discount";
-            x.VisibleIndex = 16;
+            x.VisibleIndex = 17;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
             x.PropertiesEdit.DisplayFormatString = "0.00";
@@ -169,7 +178,7 @@
         {
             x.FieldName = "RATE";
             x.Caption = "Rate";
-            x.VisibleIndex = 17;
+            x.VisibleIndex = 18;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
         });
@@ -179,7 +188,7 @@
         {
             x.FieldName = "ORDVALUE";
             x.Caption = "Order Value";
-            x.VisibleIndex = 18;
+            x.VisibleIndex = 19;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
         });
@@ -190,7 +199,7 @@
             {
                 x.FieldName = "Scheme_Qty";
                 x.Caption = "Scheme Qty";
-                x.VisibleIndex = 19;
+                x.VisibleIndex = 20;
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 //x.PropertiesEdit.DisplayFormatString = "0.00";
@@ -199,7 +208,7 @@
             {
                 x.FieldName = "Scheme_Rate";
                 x.Caption = "Scheme Rate";
-                x.VisibleIndex = 20;
+                x.VisibleIndex = 21;
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
@@ -208,7 +217,7 @@
             {
                 x.FieldName = "Total_Scheme_Price";
                 x.Caption = "Scheme Value";
-                x.VisibleIndex = 21;
+                x.VisibleIndex = 22;
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
@@ -222,68 +231,6 @@
         {
             x.FieldName = "MRP";
             x.Caption = "MRP";
-            x.VisibleIndex = 15;
-            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-            x.Width = 100;
-            x.PropertiesEdit.DisplayFormatString = "0.00";
-        });
-        settings.Columns.Add(x =>
-        {
-            x.FieldName = "RATE";
-            x.Caption = "Rate";
-            x.VisibleIndex = 16;
-            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-            x.Width = 100;
-        });
-
-
-        settings.Columns.Add(x =>
-        {
-            x.FieldName = "ORDVALUE";
-            x.Caption = "Order Value";
-            x.VisibleIndex = 17;
-            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-            x.Width = 100;
-        });
-        //Mantis Issue 24593
-        if (TempData["IsSchemeDetails"].ToString() == "1")
-        {
-            settings.Columns.Add(x =>
-            {
-                x.FieldName = "Scheme_Qty";
-                x.Caption = "Scheme Qty";
-                x.VisibleIndex = 18;
-                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-                x.Width = 100;
-                //x.PropertiesEdit.DisplayFormatString = "0.00";
-            });
-            settings.Columns.Add(x =>
-            {
-                x.FieldName = "Scheme_Rate";
-                x.Caption = "Scheme Rate";
-                x.VisibleIndex = 19;
-                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-                x.Width = 100;
-                x.PropertiesEdit.DisplayFormatString = "0.00";
-            });
-            settings.Columns.Add(x =>
-            {
-                x.FieldName = "Total_Scheme_Price";
-                x.Caption = "Scheme Value";
-                x.VisibleIndex = 20;
-                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-                x.Width = 100;
-                x.PropertiesEdit.DisplayFormatString = "0.00";
-            });
-        }
-        //End of Mantis Issue 24593
-    }
-    else if (ViewBag.IsShowDiscount ==1)
-    {
-        settings.Columns.Add(x =>
-        {
-            x.FieldName = "DISCOUNT";
-            x.Caption = "Discount";
             x.VisibleIndex = 16;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
@@ -340,13 +287,22 @@
         }
         //End of Mantis Issue 24593
     }
-    else
+    else if (ViewBag.IsShowDiscount ==1)
     {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "DISCOUNT";
+            x.Caption = "Discount";
+            x.VisibleIndex = 17;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 100;
+            x.PropertiesEdit.DisplayFormatString = "0.00";
+        });
         settings.Columns.Add(x =>
         {
             x.FieldName = "RATE";
             x.Caption = "Rate";
-            x.VisibleIndex = 15;
+            x.VisibleIndex = 18;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
         });
@@ -356,7 +312,7 @@
         {
             x.FieldName = "ORDVALUE";
             x.Caption = "Order Value";
-            x.VisibleIndex = 16;
+            x.VisibleIndex = 19;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
         });
@@ -367,7 +323,7 @@
             {
                 x.FieldName = "Scheme_Qty";
                 x.Caption = "Scheme Qty";
-                x.VisibleIndex = 17;
+                x.VisibleIndex = 20;
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 //x.PropertiesEdit.DisplayFormatString = "0.00";
@@ -376,7 +332,7 @@
             {
                 x.FieldName = "Scheme_Rate";
                 x.Caption = "Scheme Rate";
-                x.VisibleIndex = 18;
+                x.VisibleIndex = 21;
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
@@ -385,7 +341,60 @@
             {
                 x.FieldName = "Total_Scheme_Price";
                 x.Caption = "Scheme Value";
+                x.VisibleIndex = 22;
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.Width = 100;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+            });
+        }
+        //End of Mantis Issue 24593
+    }
+    else
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "RATE";
+            x.Caption = "Rate";
+            x.VisibleIndex = 16;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 100;
+        });
+
+
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "ORDVALUE";
+            x.Caption = "Order Value";
+            x.VisibleIndex = 17;
+            x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            x.Width = 100;
+        });
+        //Mantis Issue 24593
+        if (TempData["IsSchemeDetails"].ToString() == "1")
+        {
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Scheme_Qty";
+                x.Caption = "Scheme Qty";
+                x.VisibleIndex = 18;
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.Width = 100;
+                //x.PropertiesEdit.DisplayFormatString = "0.00";
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Scheme_Rate";
+                x.Caption = "Scheme Rate";
                 x.VisibleIndex = 19;
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+                x.Width = 100;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+            });
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "Total_Scheme_Price";
+                x.Caption = "Scheme Value";
+                x.VisibleIndex = 20;
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";

@@ -1,11 +1,20 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" CodeBehind="SpecialPriceUpload.aspx.cs" Inherits="ERP.OMS.Management.Activities.SpecialPriceUpload" %>
+﻿<%--====================================================== Revision History ================================================================
+Rev Number DATE               VERSION          DEVELOPER           CHANGES
+//1.0        03-06-2024        2.0.47          Priti               	0027493: Modification in ITC special price upload module.
+====================================================== Revision History ================================================================--%>
+<%@ Page Title="" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" CodeBehind="SpecialPriceUpload.aspx.cs" Inherits="ERP.OMS.Management.Activities.SpecialPriceUpload" %>
 
 <%@ Register Assembly="DevExpress.Web.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Data.Linq" TagPrefix="dx" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="../Activities/CSS/SearchPopup.css" rel="stylesheet" />
-    <script src="../Activities/JS/SearchPopup.js"></script>
+   <%-- <script src="../Activities/JS/SearchPopup.js"></script>--%>
     <script src="../../../Scripts/SearchMultiPopup.js"></script>
+      <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+  <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
+
+     <script src="../Activities/JS/SearchPopupDatatable.js"></script>
     <style>
         .fullMulti .multiselect-native-select, .fullMulti .multiselect-native-select .btn-group {
             width: 100%;
@@ -415,13 +424,13 @@
             opacity: .5;
         }
 
-        #AddProductTable , #ProductTable {
+        #AddProductTable, #ProductTable {
             margin-top: 10px;
         }
 
-            #EmployeeTable table tr th {
-                padding: 5px 10px;
-            }
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
 
         .dynamicPopupTbl {
             font-family: 'Poppins', sans-serif !important;
@@ -521,44 +530,41 @@
         }
         /*Rev end 1.0*/
 
-        #divAddButton, #divImportButton
-        {
+        #divAddButton, #divImportButton {
             margin-right: 8px;
         }
 
-        #divImportButton .btn
-        {
-            margin-right: 8px;
-        }
+            #divImportButton .btn {
+                margin-right: 8px;
+            }
 
-        #txtProduct
-        {
+        #txtProduct {
             margin-right: 8px;
             margin-left: 5px;
         }
 
 
         .btn-primary {
-        background-color: #09527b;
-    }
-
-    .btn-info {
-        background-color: #1eadb9;
-    }
-
-    .btn-warning {
-        background-color: #bf822c;
-    }
-
-    .btn-view-log {
-        background: #7919a9;
-        color: #fff;
-    }
-
-        .btn-view-log:hover {
-            color: #fff;
-            background: #440662;
+            background-color: #09527b;
         }
+
+        .btn-info {
+            background-color: #1eadb9;
+        }
+
+        .btn-warning {
+            background-color: #bf822c;
+        }
+
+        .btn-view-log {
+            background: #7919a9;
+            color: #fff;
+        }
+
+            .btn-view-log:hover {
+                color: #fff;
+                background: #440662;
+            }
 
         .btn-show {
             background: #011a9d;
@@ -570,33 +576,59 @@
                 background: #031366;
             }
 
-    /*.tblspace > tbody > tr > td {
+        /*.tblspace > tbody > tr > td {
         padding-right: 10px;
     }*/
 
-    .btn:focus {
-        color: #fff;
-    }
+        .btn:focus {
+            color: #fff;
+        }
 
-    .btn-default
-    {
-        background-color: #e8e8e8 !important;
-    }
+        .btn-default {
+            background-color: #e8e8e8 !important;
+        }
 
-    .btn-default:focus
-    {
-        color: #111 !important;
-    }
+            .btn-default:focus {
+                color: #111 !important;
+            }
 
-    .btn:focus
-    {
-        outline: none;
-    }
+        .btn:focus {
+            outline: none;
+        }
 
-    #modalSS .modal-dialog
-    {
+        #modalSS .modal-dialog {
             width: 850px !important;
-    }
+        }
+
+        #EmployeeTableTbl_length label, #AddProductTableTbl_length label
+        {
+                display: flex;
+                align-items: center;
+        }
+
+        #EmployeeTableTbl_filter input, #AddProductTableTbl_filter input
+        {
+            height: 30px;
+            box-shadow: none;
+            outline: none;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            padding: 0 5px;
+        }
+
+        #EmployeeTable {
+            margin-top: 10px !important;
+        }
+
+        #EmployeeTableTbl_length label select, #AddProductTableTbl_length label select
+        {
+                margin: 0 5px;
+        }
+
+        #EmployeeModel .modal-dialog
+        {
+            width: 50% !important;
+        }
 
         @media only screen and (max-width: 768px) {
             .breadCumb {
@@ -618,9 +650,56 @@
         }
     </style>
     <script>
+        // Rev 3.0
+        function EmployeeButnClick(s, e) {
+            $('#EmployeeModel').modal('show');
+            $("#txtEmployeeSearch").focus();
+        }
+
+        function EmployeebtnKeyDown(s, e) {
+            if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+                $('#EmployeeModel').modal('show');
+                $("#txtEmployeeSearch").focus();
+            }
+        }
+
+        function Employeekeydown(e) {
+
+            var OtherDetails = {}
+            OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+            OtherDetails.DesignationId = document.getElementById("cmbDesg").value;
+            if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+                return false;
+            }
+            if (e.code == "Enter" || e.code == "NumpadEnter") {
+                var HeaderCaption = [];
+                HeaderCaption.push("Employee Name");
+                HeaderCaption.push("Employee Code");
+                if ($("#txtEmployeeSearch").val() != null && $("#txtEmployeeSearch").val() != "") {
+                    callonServer("/OMS/Management/Activities/SpecialPriceUpload.aspx/GetEmployee", OtherDetails, "EmployeeTable", HeaderCaption, "EmployeeIndex", "SetEmployee");
+                }
+            }
+            else if (e.code == "ArrowDown") {
+                if ($("input[EmployeeIndex=0]"))
+                    $("input[EmployeeIndex=0]").focus();
+            }
+        }
+
+        function SetEmployee(Id, Name) {
+            var key = Id;
+            if (key != null && key != '') {
+                $("#txtEmployee_hidden").val(Id);
+                ctxtEmployee.SetText(Name);
+                $('#EmployeeModel').modal('hide');
+            }
+        }
+
+        // End of Rev 3.0
+    </script>
+    <script>
         function AddProductButnClick(s, e) {
             $("#AddProductTable").empty();
-            var html = "<table border='1' width='100%' class='dynamicPopupTbl'><tr class='HeaderStyle'><th style='display:none'>id</th><th>Product Name</th><th>Product Description</th></tr></table>";
+            var html = "<table border='1' width='100%' class='dynamicPopupTbl'><tr class='HeaderStyle'><th style='display:none'>id</th><th>Product Code</th><th>Product Name</th></tr></table>";
             $("#AddProductTable").html(html);
             setTimeout(function () { $("#txtAddProdSearch").focus(); }, 500);
             $('#txtAddProdSearch').val('');
@@ -640,9 +719,9 @@
             OtherDetails.SearchKey = $("#txtAddProdSearch").val();
             if (e.code == "Enter" || e.code == "NumpadEnter") {
                 var HeaderCaption = [];
+                HeaderCaption.push("Product Code");
                 HeaderCaption.push("Product Name");
-                HeaderCaption.push("Product Description");
-                
+
                 if ($("#txtAddProdSearch").val() != '') {
                     callonServer("/OMS/Management/Activities/SpecialPriceUpload.aspx/GetProduct", OtherDetails, "AddProductTable", HeaderCaption, "AddProdIndex", "SetProduct");
                 }
@@ -811,7 +890,7 @@
         function ProductButnClick(s, e) {
             $("#txtProduct_hidden").val("");
             $("#ProductTable").empty();
-            var html = "<table border='1' width='100%' class='dynamicPopupTbl'><tr class='HeaderStyle'><th style='display:none'>id</th><th>Product Name</th><th>Product Description</th></tr></table>";
+            var html = "<table border='1' width='100%' class='dynamicPopupTbl'><tr class='HeaderStyle'><th style='display:none'>id</th><th>Product Code</th><th>Product Name</th></tr></table>";
             $("#ProductTable").html(html);
             setTimeout(function () { $("#txtProdSearch").focus(); }, 500);
             $('#txtProdSearch').val('');
@@ -835,9 +914,9 @@
 
             if (e.code == "Enter" || e.code == "NumpadEnter") {
                 var HeaderCaption = [];
+                HeaderCaption.push("Product Code");
                 HeaderCaption.push("Product Name");
-                HeaderCaption.push("Product Description");
-                
+
                 if ($("#txtProdSearch").val() != '') {
                     //callonServer("/OMS/Management/Activities/SpecialPriceUpload.aspx/GetProduct", OtherDetails, "ProductTable", HeaderCaption, "ProdIndex", "SetSelectedValues");
                     callonServerM("/OMS/Management/Activities/SpecialPriceUpload.aspx/GetProduct", OtherDetails, "ProductTable", HeaderCaption, "ProdIndex", "SetSelectedValues", "ProductSource");
@@ -922,25 +1001,43 @@
 
     </script>
     <script type="text/javascript">
-        function AddSaveButtonClick(flag) {
+        function AddSaveButtonClick(flag) {           
 
             var ProductID = $("#HiddenProductID").val();
             var BRANCH = $("#ddlBRANCH").val();
 
-            if (ProductID == "0") {
-                $("#AddMandatorysProduct").show();
-                ctxtProductNameAdd.Focus();
-                return false;
-            }
-            if (BRANCH == "0") {
+            if (BRANCH == "0" || BRANCH == "" || BRANCH == null) {
                 $("#AddMandatorysBRANCH").show();
                 $("#ddlBRANCH").Focus();
                 return false;
             }
+            else {
+                $("#AddMandatorysBRANCH").hide();
+            }
+
+            if (ProductID == "0" || ProductID == "") {
+                $("#AddMandatorysProduct").show();
+                ctxtProductNameAdd.Focus();
+                return false;
+            }
+            else {
+                $("#AddMandatorysProduct").hide();
+            }
+
+           
             if (ctxtSPECIALPRICEAdd.GetValue() == "0.00") {
                 $("#AddMandatorysSPECIALPRICE").show();
                 ctxtSPECIALPRICEAdd.Focus();
                 return false;
+            }
+            else {
+                $("#AddMandatorysSPECIALPRICE").hide();
+            }
+
+
+            var des = document.getElementById("cmbDesg").value;
+            if (des == "") {               
+                des = 0;
             }
 
             $.ajax({
@@ -949,7 +1046,12 @@
                 data: JSON.stringify({
                     "ProductID": ProductID,
                     "BRANCH": BRANCH,
-                    "SPECIALPRICE": ctxtSPECIALPRICEAdd.GetValue()
+                    "SPECIALPRICE": ctxtSPECIALPRICEAdd.GetValue(),
+                    <%--  Rev 1.0 --%>
+                    "DesignationId": des,
+                    "EMPINTERNALID": $("#txtEmployee_hidden").val(),
+                    "SPECIALPRICEID": $.trim($("#HiddenSPECIALPRICEID").val())
+                    <%--  Rev 1.0 End--%>
 
                 }),
                 contentType: "application/json; charset=utf-8",
@@ -965,11 +1067,12 @@
                             $("#TblSearch").show();
                             $("#lblheading").html("Special Price Upload");
                             $("#divAddButton").show();
-                            $("#divcross").hide();                           
+                            $("#divcross").hide();
                             $("#AddSPECIALPRICE").hide();
                             $("#divImportButton").show();
                             clear();
-                            cGridSpecialPriceUpload.Refresh();
+                            //cGridSpecialPriceUpload.Refresh();
+                            ShowData();
                             return false;
                         }
 
@@ -1064,7 +1167,7 @@
                                     if (msg.d == "1") {
                                         jAlert("Deleted Successfuly");
                                         cGridSpecialPriceUpload.Refresh();
-                                    
+
                                         return false;
                                     }
                                 }
@@ -1080,19 +1183,35 @@
             //alert(data);
             for (var i = 0; i < data.d.length; i++) {
                 document.getElementById('hdnProdId').value = data.d[i].ProductID;
-                ctxtBRANCH.SetValue(data.d[i].branch_description);
-                ctxtPRODUCTCODE.SetValue(data.d[i].PRODUCT_CODE);
-                ctxtPRODUCTNAME.SetValue(data.d[i].Products_Name);
-                ctxtSPECIALPRICE.SetValue(data.d[i].SPECIAL_PRICE);
+                //ctxtBRANCH.SetValue(data.d[i].branch_description);
+                //ctxtPRODUCTCODE.SetValue(data.d[i].PRODUCT_CODE);
+                //ctxtPRODUCTNAME.SetValue(data.d[i].Products_Name);
+                //ctxtSPECIALPRICE.SetValue(data.d[i].SPECIAL_PRICE);
+                //ctxtDesignation.SetValue(data.d[i].deg_designation);
+                //ctxtEditEmployee.SetValue(data.d[i].Employee_Name);
+
+                $("#ddlBRANCH").val(data.d[i].BRANCH_ID);
+                $("#cmbDesg").val(data.d[i].DesignationID);                
+                ctxtEmployee.SetValue(data.d[i].Employee_Name);
+                $("#txtEmployee_hidden").val(data.d[i].EMPINTERNALID);               
+
+                ctxtProductNameAdd.SetText(data.d[i].Products_Name);
+                $("#HiddenProductID").val(data.d[i].ProductID);    
+                
+                ctxtSPECIALPRICEAdd.SetValue(data.d[i].SPECIAL_PRICE);
+
 
             }
-            $("#entry").show();
+            //$("#entry").show();
             $("#view").hide();
             $("#divAddButton").hide();
             $("#divcross").show();
             $("#lblheading").html("Modify Special Price Upload");
             $("#TblSearch").hide();
-            $("#AddSPECIALPRICE").hide();
+
+            //$("#AddSPECIALPRICE").hide();
+            $("#AddSPECIALPRICE").show();
+
             $("#divImportButton").hide();
         }
 
@@ -1132,7 +1251,7 @@
             $("#AddSPECIALPRICE").hide();
 
         }
-        
+
         function clear() {
             ctxtBRANCH.SetValue("");
             ctxtPRODUCTCODE.SetValue("");
@@ -1140,7 +1259,17 @@
             ctxtSPECIALPRICE.SetValue("0.00");
             ctxtProductNameAdd.SetValue("");
             ctxtSPECIALPRICEAdd.SetValue("0.00");
+            ctxtDesignation.SetValue("");
+            ctxtEditEmployee.SetValue("");
+            $("#ddlBRANCH").val("");
+            $("#cmbDesg").val("");
+            ctxtEmployee.SetValue("");
+            $("#txtEmployee_hidden").val("");
 
+            ctxtProductNameAdd.SetText("");
+            $("#HiddenProductID").val("");
+
+            ctxtSPECIALPRICEAdd.SetValue("");
         }
 
         $(document).ready(function () {
@@ -1321,8 +1450,8 @@
                     </div>
                     <div id="divImportButton">
                         <asp:Button ID="btndownload" runat="server" CssClass="btn btn-info" OnClick="btndownload_Click" Text="Download Format" UseSubmitBehavior="False" />
-                        <button type="button" onclick="ImportUpdatePopOpenProductStock();" class="btn btn-warning" >Import (Add/Update)</button>
-                        <button type="button" class="btn btn-view-log btn-radius " data-toggle="modal" data-target="#modalSS" id="btnViewLog" onclick="ViewLogData();">View Log</button>
+                        <button type="button" onclick="ImportUpdatePopOpenProductStock();" class="btn btn-warning">Import (Add/Update)</button>
+                        <button type="button" class="btn btn-view-log btn-radius " data-toggle="modal" data-target="#modalSS" id="btnViewLog" onclick="ViewLogData();" >View Log</button>
 
                     </div>
                     <div id="TblSearch" class="dis-flex">
@@ -1360,20 +1489,26 @@
                         <CellStyle Wrap="False" CssClass="gridcellleft"></CellStyle>
                         <Settings AllowAutoFilterTextInputTimer="False" />
                     </dxe:GridViewDataTextColumn>
-                    <dxe:GridViewDataTextColumn VisibleIndex="2" FieldName="PRODUCTCODE" Caption="Item Code" Width="25%">
+                   <%-- Rev 1.0--%>
+                    <dxe:GridViewDataTextColumn VisibleIndex="2" FieldName="Employee_Name" Caption="Employee" Width="30%">
                         <CellStyle Wrap="False" CssClass="gridcellleft"></CellStyle>
                         <Settings AllowAutoFilterTextInputTimer="False" />
                     </dxe:GridViewDataTextColumn>
-                    <dxe:GridViewDataTextColumn VisibleIndex="3" FieldName="PRODUCTNAME" Caption="Item Name" Width="30%">
+                   <%--  Rev 1.0 End--%>
+                    <dxe:GridViewDataTextColumn VisibleIndex="3" FieldName="PRODUCTCODE" Caption="Item Code" Width="25%">
                         <CellStyle Wrap="False" CssClass="gridcellleft"></CellStyle>
                         <Settings AllowAutoFilterTextInputTimer="False" />
                     </dxe:GridViewDataTextColumn>
-                    <dxe:GridViewDataTextColumn VisibleIndex="4" FieldName="SPECIALPRICE" Caption="Spcial Price" Width="15%">
+                    <dxe:GridViewDataTextColumn VisibleIndex="4" FieldName="PRODUCTNAME" Caption="Item Name" Width="30%">
+                        <CellStyle Wrap="False" CssClass="gridcellleft"></CellStyle>
+                        <Settings AllowAutoFilterTextInputTimer="False" />
+                    </dxe:GridViewDataTextColumn>
+                    <dxe:GridViewDataTextColumn VisibleIndex="5" FieldName="SPECIALPRICE" Caption="Spcial Price" Width="15%">
                         <CellStyle Wrap="False" CssClass="gridcellleft"></CellStyle>
                         <Settings AllowAutoFilterTextInputTimer="False" />
                     </dxe:GridViewDataTextColumn>
 
-                    <dxe:GridViewCommandColumn VisibleIndex="5" Width="10%" ButtonType="Image" Caption="Actions" HeaderStyle-HorizontalAlign="Center">
+                    <dxe:GridViewCommandColumn VisibleIndex="6" Width="10%" ButtonType="Image" Caption="Actions" HeaderStyle-HorizontalAlign="Center">
                         <CustomButtons>
                             <dxe:GridViewCommandColumnCustomButton ID="CustomBtnEdit" meta:resourcekey="GridViewCommandColumnCustomButtonResource1" Image-ToolTip="Edit" Styles-Style-CssClass="pad">
                                 <Image Url="/assests/images/Edit.png"></Image>
@@ -1409,13 +1544,30 @@
                     <dxe:ASPxTextBox ID="txtBRANCH" ClientInstanceName="ctxtBRANCH" runat="server" ReadOnly="true">
                     </dxe:ASPxTextBox>
                 </div>
+                <%--  Rev 1.0 --%>
+                <div class="col-md-2">
+                    <label>DESIGNATION</label>
+                    <div style="position: relative">
+                        <dxe:ASPxTextBox ID="txtDesignation" ClientInstanceName="ctxtDesignation" runat="server" ReadOnly="true">
+                        </dxe:ASPxTextBox>
+                    </div>
+                </div>
+                 
+                <div class="col-md-2">
+                    <label>EMPLOYEE</label>
+                    <div style="position: relative">
+                        <dxe:ASPxTextBox ID="txtEditEmployee" ClientInstanceName="ctxtEditEmployee" runat="server" ReadOnly="true">
+                        </dxe:ASPxTextBox>
+                    </div>
+                </div>
+                 <%--  Rev 1.0 End--%>
                 <div class="col-md-2">
                     <label>PRODUCT CODE</label>
                     <dxe:ASPxTextBox ID="txtPRODUCTCODE" ClientInstanceName="ctxtPRODUCTCODE" runat="server" ReadOnly="true">
                     </dxe:ASPxTextBox>
 
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <label>PRODUCT NAME</label>
                     <dxe:ASPxTextBox ID="txtPRODUCTNAME" ClientInstanceName="ctxtPRODUCTNAME" runat="server" ReadOnly="true">
                     </dxe:ASPxTextBox>
@@ -1448,10 +1600,32 @@
 
                 <div class="col-md-2 h-branch-select">
                     <label>BRANCH</label>
-                    <asp:DropDownList ID="ddlBRANCH" runat="server" CssClass="sml" Width="100%"></asp:DropDownList>
+                    <asp:DropDownList ID="ddlBRANCH" runat="server" CssClass="sml" Width="100%" DataTextField="branch_description" DataValueField="branch_id"></asp:DropDownList>
                     <span id="AddMandatorysBRANCH" class="fa fa-exclamation-circle iconRed" style="color: red; position: absolute; display: none; right: -11px; top: 24px;"
                         title="Mandatory"></span>
                 </div>
+                <%--  Rev 1.0 --%>
+                <div class="col-md-3  h-branch-select">
+                    <label>Designation</label>
+                    <div style="position: relative">
+                        <asp:DropDownList ID="cmbDesg" runat="server" Width="100%" DataTextField="deg_designation" DataValueField="deg_id">
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <label>Employee(s)</label>
+                    <div style="position: relative">
+                        <dxe:ASPxButtonEdit ID="txtEmployee" runat="server" ReadOnly="true" ClientInstanceName="ctxtEmployee">
+                            <Buttons>
+                                <dxe:EditButton>
+                                </dxe:EditButton>
+                            </Buttons>
+                            <ClientSideEvents ButtonClick="function(s,e){EmployeeButnClick();}" KeyDown="EmployeebtnKeyDown" />
+                        </dxe:ASPxButtonEdit>
+                        <asp:HiddenField ID="txtEmployee_hidden" runat="server" />
+                    </div>
+                </div>
+                <%--  Rev 1.0 End--%>
                 <div class="col-md-2">
                     <label>Product(s)</label>
                     <div style="position: relative">
@@ -1506,7 +1680,7 @@
     <asp:HiddenField ID="HiddenProductID" runat="server" />
     <asp:HiddenField ID="Hiddenvalidfrom" runat="server" />
     <asp:HiddenField ID="Hiddenvalidupto" runat="server" />
-   
+
     <!--Product Modal -->
     <div class="modal fade" id="ProductModel" role="dialog">
         <div class="modal-dialog">
@@ -1524,8 +1698,8 @@
                         <table border='1' width="100%" class="dynamicPopupTbl">
                             <tr class="HeaderStyle">
                                 <th class="hide">id</th>
+                                <th>Product Code</th>
                                 <th>Product Name</th>
-                                <th>Product Description</th>                                
                             </tr>
                         </table>
                     </div>
@@ -1556,9 +1730,9 @@
                         <table border='1' width="100%" class="dynamicPopupTbl">
                             <tr class="HeaderStyle">
                                 <th class="hide">id</th>
+                                <th>Product Code</th>
                                 <th>Product Name</th>
-                                <th>Product Description</th>
-                               
+
                             </tr>
                         </table>
                     </div>
@@ -1574,71 +1748,71 @@
     </div>
 
     <div class="modal fade" id="modalSS" role="dialog">
-    <div class="modal-dialog fullWidth">           
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Special Price Upload Log</h4>
+        <div class="modal-dialog fullWidth">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Special Price Upload Log</h4>
+                </div>
+                <div class="modal-body">
+                    <dxe:ASPxGridView ID="GvImportDetailsSearch" runat="server" AutoGenerateColumns="False" SettingsBehavior-AllowSort="true"
+                        ClientInstanceName="cGvImportDetailsSearch" KeyFieldName="LOGID" Width="100%" OnDataBinding="GvImportDetailsSearch_DataBinding" Settings-VerticalScrollBarMode="Auto" Settings-VerticalScrollableHeight="400">
+
+                        <SettingsBehavior ConfirmDelete="false" ColumnResizeMode="NextColumn" />
+                        <Styles>
+                            <Header SortingImageSpacing="5px" ImageSpacing="5px"></Header>
+                            <FocusedRow HorizontalAlign="Left" VerticalAlign="Top" CssClass="gridselectrow"></FocusedRow>
+                            <LoadingPanel ImageSpacing="10px"></LoadingPanel>
+                            <FocusedGroupRow CssClass="gridselectrow"></FocusedGroupRow>
+                            <Footer CssClass="gridfooter"></Footer>
+                        </Styles>
+                        <Columns>
+                            <dxe:GridViewDataTextColumn Visible="False" VisibleIndex="0" FieldName="LOGID" Caption="LogID" SortOrder="Descending">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="1" FieldName="CREATED_ON" Caption="Date" Width="10%">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                                <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn VisibleIndex="1" FieldName="sProducts_Code" Caption="Product Code" Width="10%">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                                <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="2" FieldName="LOOPCOUNTER" Caption="Row Number" Width="13%">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="3" FieldName="sProducts_Name" Width="8%" Caption="Product Name">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="4" FieldName="FILENAME" Width="14%" Caption="File Name">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                                <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
+                            </dxe:GridViewDataTextColumn>
+                            <dxe:GridViewDataTextColumn VisibleIndex="5" FieldName="DESCRIPTION" Caption="Description" Width="10%" Settings-AllowAutoFilter="False">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+
+                            <dxe:GridViewDataTextColumn VisibleIndex="5" FieldName="STATUS" Caption="Status" Width="14%" Settings-AllowAutoFilter="False">
+                                <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                        </Columns>
+                        <Settings ShowGroupPanel="True" ShowStatusBar="Visible" ShowFilterRow="true" ShowFilterRowMenu="true" />
+                        <SettingsSearchPanel Visible="false" />
+                        <SettingsPager NumericButtonCount="200" PageSize="200" ShowSeparators="True" Mode="ShowPager">
+                            <PageSizeItemSettings Visible="true" ShowAllItem="false" Items="200,400,600" />
+                            <FirstPageButton Visible="True">
+                            </FirstPageButton>
+                            <LastPageButton Visible="True">
+                            </LastPageButton>
+                        </SettingsPager>
+                    </dxe:ASPxGridView>
+
+                </div>
+
             </div>
-            <div class="modal-body">
-                <dxe:ASPxGridView ID="GvImportDetailsSearch" runat="server" AutoGenerateColumns="False" SettingsBehavior-AllowSort="true"
-                    ClientInstanceName="cGvImportDetailsSearch" KeyFieldName="LOGID" Width="100%" OnDataBinding="GvImportDetailsSearch_DataBinding" Settings-VerticalScrollBarMode="Auto" Settings-VerticalScrollableHeight="400">
-
-                    <SettingsBehavior ConfirmDelete="false" ColumnResizeMode="NextColumn" />
-                    <Styles>
-                        <Header SortingImageSpacing="5px" ImageSpacing="5px"></Header>
-                        <FocusedRow HorizontalAlign="Left" VerticalAlign="Top" CssClass="gridselectrow"></FocusedRow>
-                        <LoadingPanel ImageSpacing="10px"></LoadingPanel>
-                        <FocusedGroupRow CssClass="gridselectrow"></FocusedGroupRow>
-                        <Footer CssClass="gridfooter"></Footer>
-                    </Styles>
-                    <Columns>
-                        <dxe:GridViewDataTextColumn Visible="False" VisibleIndex="0" FieldName="LOGID" Caption="LogID" SortOrder="Descending">
-                            <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
-                        </dxe:GridViewDataTextColumn>
-                        <dxe:GridViewDataTextColumn VisibleIndex="1" FieldName="CREATED_ON" Caption="Date" Width="10%">
-                            <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
-                            <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
-                        </dxe:GridViewDataTextColumn>
-
-                        <dxe:GridViewDataTextColumn VisibleIndex="1" FieldName="sProducts_Code" Caption="Product Code" Width="10%">
-                            <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
-                            <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
-                        </dxe:GridViewDataTextColumn>
-                        <dxe:GridViewDataTextColumn VisibleIndex="2" FieldName="LOOPCOUNTER" Caption="Row Number" Width="13%">
-                            <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
-                        </dxe:GridViewDataTextColumn>
-                        <dxe:GridViewDataTextColumn VisibleIndex="3" FieldName="sProducts_Name" Width="8%" Caption="Product Name">
-                            <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
-                        </dxe:GridViewDataTextColumn>
-                        <dxe:GridViewDataTextColumn VisibleIndex="4" FieldName="FILENAME" Width="14%" Caption="File Name">
-                            <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
-                            <PropertiesTextEdit DisplayFormatString="dd/MM/yyyy"></PropertiesTextEdit>
-                        </dxe:GridViewDataTextColumn>
-                        <dxe:GridViewDataTextColumn VisibleIndex="5" FieldName="DESCRIPTION" Caption="Description" Width="10%" Settings-AllowAutoFilter="False">
-                            <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
-                        </dxe:GridViewDataTextColumn>
-
-                        <dxe:GridViewDataTextColumn VisibleIndex="5" FieldName="STATUS" Caption="Status" Width="14%" Settings-AllowAutoFilter="False">
-                            <CellStyle Wrap="True" CssClass="gridcellleft"></CellStyle>
-                        </dxe:GridViewDataTextColumn>
-                    </Columns>
-                    <Settings ShowGroupPanel="True" ShowStatusBar="Visible" ShowFilterRow="true" ShowFilterRowMenu="true" />
-                    <SettingsSearchPanel Visible="false" />
-                    <SettingsPager NumericButtonCount="200" PageSize="200" ShowSeparators="True" Mode="ShowPager">
-                        <PageSizeItemSettings Visible="true" ShowAllItem="false" Items="200,400,600" />
-                        <FirstPageButton Visible="True">
-                        </FirstPageButton>
-                        <LastPageButton Visible="True">
-                        </LastPageButton>
-                    </SettingsPager>
-                </dxe:ASPxGridView>
-
-            </div>
-
         </div>
     </div>
-</div>
 
 
     <div id="myImportModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
@@ -1661,9 +1835,10 @@
                                             <asp:FileUpload runat="server" ID="fileprod" accept=".xls,.xlsx" />
                                         </div>
                                         <div class="pTop10  mTop5" style="margin-top: 10px;">
-                                            <%--<input type="submit" value="Import (Add/Update)" onclick="return ChekEmpSettingsUpload();" id="btnimportxls" class="btn btn-primary">--%>
+                                            <%--<input type="submit" value="Import (Add/Update)" onclick="return ChekEmpSettingsUpload();" id="btnimportxls" class="btn btn-primary">OnClientClick="return ChekprodUpload();"--%>
                                         </div>
-                                        <asp:Button runat="server" ID="btnimportxls" OnClick="ImportExcel" Text="Import (Add/Update)" OnClientClick="return ChekprodUpload();" CssClass="btn btn-primary" />
+                                        <asp:Button runat="server" ID="btnimportxls" OnClick="ImportExcel" Text="Import (Add/Update)"  CssClass="btn btn-primary" UseSubmitBehavior="false" />
+                                    
                                     </div>
                                 </div>
                             </div>
@@ -1678,9 +1853,37 @@
         </div>
     </div>
 
+    <div class="modal fade pmsModal w80 " id="EmployeeModel" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Employee Search</h4>
+                </div>
+                <div class="modal-body">
+                    <input type="text" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" class="form-control" autofocus width="100%" placeholder="Search By Employee Code" />
 
-  
+                    <div id="EmployeeTable">
+                        <table border='1' width="100%" class="dynamicPopupTbl">
+                            <tr class="HeaderStyle">
+                                <th class="hide">id</th>
+                                <th>Employee Name</th>
+                                <th>Employee Code</th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnSaveEmployee" class="btnOkformultiselection btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                    <button type="button" id="btnCloseEmployee" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
-   
+
+
 </asp:Content>

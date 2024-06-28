@@ -77,6 +77,12 @@ namespace MyShop.Models
     partial void Deletetbl_master_user(tbl_master_user instance);
     #endregion
 		
+		public ReportsDataContext() : 
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["FSM_ITCConnectionString10"].ConnectionString, mappingSource)
+		{
+			OnCreated();
+		}
+		
 		public ReportsDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
@@ -685,14 +691,6 @@ namespace MyShop.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<FTS_NewPartyDetailsReport> FTS_NewPartyDetailsReports
-		{
-			get
-			{
-				return this.GetTable<FTS_NewPartyDetailsReport>();
-			}
-		}
-		
 		public System.Data.Linq.Table<FTS_EMPLIST_REPORT> FTS_EMPLIST_REPORTs
 		{
 			get
@@ -797,22 +795,6 @@ namespace MyShop.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<FTSEMPLOYEEOUTLETMASTER_REPORT> FTSEMPLOYEEOUTLETMASTER_REPORTs
-		{
-			get
-			{
-				return this.GetTable<FTSEMPLOYEEOUTLETMASTER_REPORT>();
-			}
-		}
-		
-		public System.Data.Linq.Table<FTSDSPERFORMANCESUMMARY_REPORT> FTSDSPERFORMANCESUMMARY_REPORTs
-		{
-			get
-			{
-				return this.GetTable<FTSDSPERFORMANCESUMMARY_REPORT>();
-			}
-		}
-		
 		public System.Data.Linq.Table<FTSDSVISITDETAILSHIERARCHYCHANNELWISE_REPORT> FTSDSVISITDETAILSHIERARCHYCHANNELWISE_REPORTs
 		{
 			get
@@ -845,6 +827,62 @@ namespace MyShop.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<FTS_ProductMasterList> FTS_ProductMasterLists
+		{
+			get
+			{
+				return this.GetTable<FTS_ProductMasterList>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FTSEMPLOYEEPERFORMANCE_REPORT> FTSEMPLOYEEPERFORMANCE_REPORTs
+		{
+			get
+			{
+				return this.GetTable<FTSEMPLOYEEPERFORMANCE_REPORT>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CRM_CONTACT_LISTING> CRM_CONTACT_LISTINGs
+		{
+			get
+			{
+				return this.GetTable<CRM_CONTACT_LISTING>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FTSORDERREGISTER_REPORT> FTSORDERREGISTER_REPORTs
+		{
+			get
+			{
+				return this.GetTable<FTSORDERREGISTER_REPORT>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FSM_SHOPLIST_REPORT> FSM_SHOPLIST_REPORTs
+		{
+			get
+			{
+				return this.GetTable<FSM_SHOPLIST_REPORT>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FTS_NewPartyDetailsReport> FTS_NewPartyDetailsReports
+		{
+			get
+			{
+				return this.GetTable<FTS_NewPartyDetailsReport>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FTSEMPLOYEEOUTLETMASTER_REPORT> FTSEMPLOYEEOUTLETMASTER_REPORTs
+		{
+			get
+			{
+				return this.GetTable<FTSEMPLOYEEOUTLETMASTER_REPORT>();
+			}
+		}
+		
 		public System.Data.Linq.Table<FTSDSSUMMARY_REPORT> FTSDSSUMMARY_REPORTs
 		{
 			get
@@ -861,43 +899,11 @@ namespace MyShop.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<FTS_ProductMasterList> FTS_ProductMasterLists
+		public System.Data.Linq.Table<FTSDSPERFORMANCESUMMARY_REPORT> FTSDSPERFORMANCESUMMARY_REPORTs
 		{
 			get
 			{
-				return this.GetTable<FTS_ProductMasterList>();
-			}
-		}
-		
-		public System.Data.Linq.Table<FTSORDERREGISTER_REPORT> FTSORDERREGISTER_REPORTs
-		{
-			get
-			{
-				return this.GetTable<FTSORDERREGISTER_REPORT>();
-			}
-		}
-		
-		public System.Data.Linq.Table<FTSEMPLOYEEPERFORMANCE_REPORT> FTSEMPLOYEEPERFORMANCE_REPORTs
-		{
-			get
-			{
-				return this.GetTable<FTSEMPLOYEEPERFORMANCE_REPORT>();
-			}
-		}
-		
-		public System.Data.Linq.Table<FSM_SHOPLIST_REPORT> FSM_SHOPLIST_REPORTs
-		{
-			get
-			{
-				return this.GetTable<FSM_SHOPLIST_REPORT>();
-			}
-		}
-		
-		public System.Data.Linq.Table<CRM_CONTACT_LISTING> CRM_CONTACT_LISTINGs
-		{
-			get
-			{
-				return this.GetTable<CRM_CONTACT_LISTING>();
+				return this.GetTable<FTSDSPERFORMANCESUMMARY_REPORT>();
 			}
 		}
 	}
@@ -32438,807 +32444,6 @@ namespace MyShop.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTS_NewPartyDetailsReport")]
-	public partial class FTS_NewPartyDetailsReport
-	{
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<long> _SEQ;
-		
-		private string _ShopCode;
-		
-		private string _state;
-		
-		private string _StateHead;
-		
-		private string _StateHeadCode;
-		
-		private string _Supervisor;
-		
-		private string _SupervisorCode;
-		
-		private string _cnt_internalId;
-		
-		private string _EmpName;
-		
-		private string _EmpCode;
-		
-		private string _Designation;
-		
-		private string _PP_CODE;
-		
-		private string _PP_Name;
-		
-		private string _PP_LOCATION;
-		
-		private string _Outlet_Code;
-		
-		private string _Outlet_Name;
-		
-		private string _Outlet_ContactNo;
-		
-		private string _AlternateNo;
-		
-		private string _OutletLocation;
-		
-		private string _OutletStatus;
-		
-		private string _OutletSpecify;
-		
-		private System.Nullable<System.DateTime> _OwnerDOB;
-		
-		private System.Nullable<System.DateTime> _OwnerAnniversary;
-		
-		private string _PanCard;
-		
-		private string _AdhaarCard;
-		
-		private System.Nullable<System.DateTime> _CreateDate;
-		
-		private string _DD_CODE;
-		
-		private string _DD_Name;
-		
-		private string _DD_LOCATION;
-		
-		private string _country;
-		
-		private string _city;
-		
-		private string _area;
-		
-		private string _Outlet_owner;
-		
-		private string _Outlet_type;
-		
-		private string _OutletLat;
-		
-		private string _OutletLong;
-		
-		private string _CreateBy;
-		
-		private System.Nullable<System.DateTime> _CreateOn;
-		
-		private string _UpdateBy;
-		
-		private System.Nullable<System.DateTime> _UpdateOn;
-		
-		private string _Address;
-		
-		private string _Pincode;
-		
-		private string _Beat;
-		
-		public FTS_NewPartyDetailsReport()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
-		public System.Nullable<long> SEQ
-		{
-			get
-			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShopCode", DbType="NVarChar(MAX)")]
-		public string ShopCode
-		{
-			get
-			{
-				return this._ShopCode;
-			}
-			set
-			{
-				if ((this._ShopCode != value))
-				{
-					this._ShopCode = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_state", DbType="NVarChar(MAX)")]
-		public string state
-		{
-			get
-			{
-				return this._state;
-			}
-			set
-			{
-				if ((this._state != value))
-				{
-					this._state = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateHead", DbType="NVarChar(MAX)")]
-		public string StateHead
-		{
-			get
-			{
-				return this._StateHead;
-			}
-			set
-			{
-				if ((this._StateHead != value))
-				{
-					this._StateHead = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateHeadCode", DbType="NVarChar(MAX)")]
-		public string StateHeadCode
-		{
-			get
-			{
-				return this._StateHeadCode;
-			}
-			set
-			{
-				if ((this._StateHeadCode != value))
-				{
-					this._StateHeadCode = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Supervisor", DbType="NVarChar(MAX)")]
-		public string Supervisor
-		{
-			get
-			{
-				return this._Supervisor;
-			}
-			set
-			{
-				if ((this._Supervisor != value))
-				{
-					this._Supervisor = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SupervisorCode", DbType="NVarChar(MAX)")]
-		public string SupervisorCode
-		{
-			get
-			{
-				return this._SupervisorCode;
-			}
-			set
-			{
-				if ((this._SupervisorCode != value))
-				{
-					this._SupervisorCode = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cnt_internalId", DbType="NVarChar(MAX)")]
-		public string cnt_internalId
-		{
-			get
-			{
-				return this._cnt_internalId;
-			}
-			set
-			{
-				if ((this._cnt_internalId != value))
-				{
-					this._cnt_internalId = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmpName", DbType="NVarChar(MAX)")]
-		public string EmpName
-		{
-			get
-			{
-				return this._EmpName;
-			}
-			set
-			{
-				if ((this._EmpName != value))
-				{
-					this._EmpName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmpCode", DbType="NVarChar(MAX)")]
-		public string EmpCode
-		{
-			get
-			{
-				return this._EmpCode;
-			}
-			set
-			{
-				if ((this._EmpCode != value))
-				{
-					this._EmpCode = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Designation", DbType="NVarChar(MAX)")]
-		public string Designation
-		{
-			get
-			{
-				return this._Designation;
-			}
-			set
-			{
-				if ((this._Designation != value))
-				{
-					this._Designation = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PP_CODE", DbType="NVarChar(MAX)")]
-		public string PP_CODE
-		{
-			get
-			{
-				return this._PP_CODE;
-			}
-			set
-			{
-				if ((this._PP_CODE != value))
-				{
-					this._PP_CODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PP_Name", DbType="NVarChar(MAX)")]
-		public string PP_Name
-		{
-			get
-			{
-				return this._PP_Name;
-			}
-			set
-			{
-				if ((this._PP_Name != value))
-				{
-					this._PP_Name = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PP_LOCATION", DbType="NVarChar(MAX)")]
-		public string PP_LOCATION
-		{
-			get
-			{
-				return this._PP_LOCATION;
-			}
-			set
-			{
-				if ((this._PP_LOCATION != value))
-				{
-					this._PP_LOCATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_Code", DbType="NVarChar(MAX)")]
-		public string Outlet_Code
-		{
-			get
-			{
-				return this._Outlet_Code;
-			}
-			set
-			{
-				if ((this._Outlet_Code != value))
-				{
-					this._Outlet_Code = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_Name", DbType="NVarChar(MAX)")]
-		public string Outlet_Name
-		{
-			get
-			{
-				return this._Outlet_Name;
-			}
-			set
-			{
-				if ((this._Outlet_Name != value))
-				{
-					this._Outlet_Name = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_ContactNo", DbType="NVarChar(MAX)")]
-		public string Outlet_ContactNo
-		{
-			get
-			{
-				return this._Outlet_ContactNo;
-			}
-			set
-			{
-				if ((this._Outlet_ContactNo != value))
-				{
-					this._Outlet_ContactNo = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlternateNo", DbType="NVarChar(MAX)")]
-		public string AlternateNo
-		{
-			get
-			{
-				return this._AlternateNo;
-			}
-			set
-			{
-				if ((this._AlternateNo != value))
-				{
-					this._AlternateNo = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletLocation", DbType="NVarChar(MAX)")]
-		public string OutletLocation
-		{
-			get
-			{
-				return this._OutletLocation;
-			}
-			set
-			{
-				if ((this._OutletLocation != value))
-				{
-					this._OutletLocation = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletStatus", DbType="NVarChar(MAX)")]
-		public string OutletStatus
-		{
-			get
-			{
-				return this._OutletStatus;
-			}
-			set
-			{
-				if ((this._OutletStatus != value))
-				{
-					this._OutletStatus = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletSpecify", DbType="NVarChar(MAX)")]
-		public string OutletSpecify
-		{
-			get
-			{
-				return this._OutletSpecify;
-			}
-			set
-			{
-				if ((this._OutletSpecify != value))
-				{
-					this._OutletSpecify = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerDOB", DbType="DateTime")]
-		public System.Nullable<System.DateTime> OwnerDOB
-		{
-			get
-			{
-				return this._OwnerDOB;
-			}
-			set
-			{
-				if ((this._OwnerDOB != value))
-				{
-					this._OwnerDOB = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerAnniversary", DbType="DateTime")]
-		public System.Nullable<System.DateTime> OwnerAnniversary
-		{
-			get
-			{
-				return this._OwnerAnniversary;
-			}
-			set
-			{
-				if ((this._OwnerAnniversary != value))
-				{
-					this._OwnerAnniversary = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PanCard", DbType="NVarChar(MAX)")]
-		public string PanCard
-		{
-			get
-			{
-				return this._PanCard;
-			}
-			set
-			{
-				if ((this._PanCard != value))
-				{
-					this._PanCard = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdhaarCard", DbType="NVarChar(MAX)")]
-		public string AdhaarCard
-		{
-			get
-			{
-				return this._AdhaarCard;
-			}
-			set
-			{
-				if ((this._AdhaarCard != value))
-				{
-					this._AdhaarCard = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> CreateDate
-		{
-			get
-			{
-				return this._CreateDate;
-			}
-			set
-			{
-				if ((this._CreateDate != value))
-				{
-					this._CreateDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DD_CODE", DbType="NVarChar(100)")]
-		public string DD_CODE
-		{
-			get
-			{
-				return this._DD_CODE;
-			}
-			set
-			{
-				if ((this._DD_CODE != value))
-				{
-					this._DD_CODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DD_Name", DbType="NVarChar(300)")]
-		public string DD_Name
-		{
-			get
-			{
-				return this._DD_Name;
-			}
-			set
-			{
-				if ((this._DD_Name != value))
-				{
-					this._DD_Name = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DD_LOCATION", DbType="NVarChar(500)")]
-		public string DD_LOCATION
-		{
-			get
-			{
-				return this._DD_LOCATION;
-			}
-			set
-			{
-				if ((this._DD_LOCATION != value))
-				{
-					this._DD_LOCATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_country", DbType="NVarChar(300)")]
-		public string country
-		{
-			get
-			{
-				return this._country;
-			}
-			set
-			{
-				if ((this._country != value))
-				{
-					this._country = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_city", DbType="NVarChar(300)")]
-		public string city
-		{
-			get
-			{
-				return this._city;
-			}
-			set
-			{
-				if ((this._city != value))
-				{
-					this._city = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_area", DbType="NVarChar(300)")]
-		public string area
-		{
-			get
-			{
-				return this._area;
-			}
-			set
-			{
-				if ((this._area != value))
-				{
-					this._area = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_owner", DbType="NVarChar(300)")]
-		public string Outlet_owner
-		{
-			get
-			{
-				return this._Outlet_owner;
-			}
-			set
-			{
-				if ((this._Outlet_owner != value))
-				{
-					this._Outlet_owner = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_type", DbType="NVarChar(300)")]
-		public string Outlet_type
-		{
-			get
-			{
-				return this._Outlet_type;
-			}
-			set
-			{
-				if ((this._Outlet_type != value))
-				{
-					this._Outlet_type = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletLat", DbType="NVarChar(100)")]
-		public string OutletLat
-		{
-			get
-			{
-				return this._OutletLat;
-			}
-			set
-			{
-				if ((this._OutletLat != value))
-				{
-					this._OutletLat = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletLong", DbType="NVarChar(100)")]
-		public string OutletLong
-		{
-			get
-			{
-				return this._OutletLong;
-			}
-			set
-			{
-				if ((this._OutletLong != value))
-				{
-					this._OutletLong = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateBy", DbType="NVarChar(300)")]
-		public string CreateBy
-		{
-			get
-			{
-				return this._CreateBy;
-			}
-			set
-			{
-				if ((this._CreateBy != value))
-				{
-					this._CreateBy = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateOn", DbType="DateTime")]
-		public System.Nullable<System.DateTime> CreateOn
-		{
-			get
-			{
-				return this._CreateOn;
-			}
-			set
-			{
-				if ((this._CreateOn != value))
-				{
-					this._CreateOn = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdateBy", DbType="NVarChar(300)")]
-		public string UpdateBy
-		{
-			get
-			{
-				return this._UpdateBy;
-			}
-			set
-			{
-				if ((this._UpdateBy != value))
-				{
-					this._UpdateBy = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdateOn", DbType="DateTime")]
-		public System.Nullable<System.DateTime> UpdateOn
-		{
-			get
-			{
-				return this._UpdateOn;
-			}
-			set
-			{
-				if ((this._UpdateOn != value))
-				{
-					this._UpdateOn = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(MAX)")]
-		public string Address
-		{
-			get
-			{
-				return this._Address;
-			}
-			set
-			{
-				if ((this._Address != value))
-				{
-					this._Address = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pincode", DbType="NVarChar(50)")]
-		public string Pincode
-		{
-			get
-			{
-				return this._Pincode;
-			}
-			set
-			{
-				if ((this._Pincode != value))
-				{
-					this._Pincode = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Beat", DbType="VarChar(500)")]
-		public string Beat
-		{
-			get
-			{
-				return this._Beat;
-			}
-			set
-			{
-				if ((this._Beat != value))
-				{
-					this._Beat = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTS_EMPLIST_REPORT")]
 	public partial class FTS_EMPLIST_REPORT
 	{
@@ -39710,1230 +38915,6 @@ namespace MyShop.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSEMPLOYEEOUTLETMASTER_REPORT")]
-	public partial class FTSEMPLOYEEOUTLETMASTER_REPORT
-	{
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<int> _SEQ;
-		
-		private System.Nullable<long> _BRANCH_ID;
-		
-		private string _BRANCHDESC;
-		
-		private string _EMPCODE;
-		
-		private string _EMPID;
-		
-		private string _EMPNAME;
-		
-		private System.Nullable<int> _STATEID;
-		
-		private string _STATE;
-		
-		private System.Nullable<int> _DEG_ID;
-		
-		private string _DESIGNATION;
-		
-		private string _DATEOFJOINING;
-		
-		private string _CONTACTNO;
-		
-		private string _REPORTTOID;
-		
-		private string _REPORTTOUID;
-		
-		private string _REPORTTO;
-		
-		private string _RPTTODESG;
-		
-		private string _HREPORTTOID;
-		
-		private string _HREPORTTOUID;
-		
-		private string _HREPORTTO;
-		
-		private string _HRPTTODESG;
-		
-		private string _OUTLETID;
-		
-		private string _OUTLETNAME;
-		
-		private string _OUTLETADDRESS;
-		
-		private string _OUTLETCONTACT;
-		
-		private string _OUTLETLAT;
-		
-		private string _OUTLETLANG;
-		
-		private string _LASTVISITDATE;
-		
-		private string _LASTVISITTIME;
-		
-		private string _LASTVISITEDBY;
-		
-		private string _OUTLETSTATUS;
-		
-		private System.Nullable<byte> _OUTLETEMPSEX;
-		
-		private string _GENDERDESC;
-		
-		public FTSEMPLOYEEOUTLETMASTER_REPORT()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
-		public System.Nullable<int> SEQ
-		{
-			get
-			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
-		public System.Nullable<long> BRANCH_ID
-		{
-			get
-			{
-				return this._BRANCH_ID;
-			}
-			set
-			{
-				if ((this._BRANCH_ID != value))
-				{
-					this._BRANCH_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
-		public string BRANCHDESC
-		{
-			get
-			{
-				return this._BRANCHDESC;
-			}
-			set
-			{
-				if ((this._BRANCHDESC != value))
-				{
-					this._BRANCHDESC = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
-		public string EMPCODE
-		{
-			get
-			{
-				return this._EMPCODE;
-			}
-			set
-			{
-				if ((this._EMPCODE != value))
-				{
-					this._EMPCODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPID", DbType="NVarChar(100)")]
-		public string EMPID
-		{
-			get
-			{
-				return this._EMPID;
-			}
-			set
-			{
-				if ((this._EMPID != value))
-				{
-					this._EMPID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
-		public string EMPNAME
-		{
-			get
-			{
-				return this._EMPNAME;
-			}
-			set
-			{
-				if ((this._EMPNAME != value))
-				{
-					this._EMPNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATEID", DbType="Int")]
-		public System.Nullable<int> STATEID
-		{
-			get
-			{
-				return this._STATEID;
-			}
-			set
-			{
-				if ((this._STATEID != value))
-				{
-					this._STATEID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE", DbType="NVarChar(50)")]
-		public string STATE
-		{
-			get
-			{
-				return this._STATE;
-			}
-			set
-			{
-				if ((this._STATE != value))
-				{
-					this._STATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DEG_ID", DbType="Int")]
-		public System.Nullable<int> DEG_ID
-		{
-			get
-			{
-				return this._DEG_ID;
-			}
-			set
-			{
-				if ((this._DEG_ID != value))
-				{
-					this._DEG_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DESIGNATION", DbType="NVarChar(50)")]
-		public string DESIGNATION
-		{
-			get
-			{
-				return this._DESIGNATION;
-			}
-			set
-			{
-				if ((this._DESIGNATION != value))
-				{
-					this._DESIGNATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATEOFJOINING", DbType="NVarChar(10)")]
-		public string DATEOFJOINING
-		{
-			get
-			{
-				return this._DATEOFJOINING;
-			}
-			set
-			{
-				if ((this._DATEOFJOINING != value))
-				{
-					this._DATEOFJOINING = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACTNO", DbType="NVarChar(50)")]
-		public string CONTACTNO
-		{
-			get
-			{
-				return this._CONTACTNO;
-			}
-			set
-			{
-				if ((this._CONTACTNO != value))
-				{
-					this._CONTACTNO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOID", DbType="NVarChar(300)")]
-		public string REPORTTOID
-		{
-			get
-			{
-				return this._REPORTTOID;
-			}
-			set
-			{
-				if ((this._REPORTTOID != value))
-				{
-					this._REPORTTOID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOUID", DbType="NVarChar(100)")]
-		public string REPORTTOUID
-		{
-			get
-			{
-				return this._REPORTTOUID;
-			}
-			set
-			{
-				if ((this._REPORTTOUID != value))
-				{
-					this._REPORTTOUID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTO", DbType="NVarChar(300)")]
-		public string REPORTTO
-		{
-			get
-			{
-				return this._REPORTTO;
-			}
-			set
-			{
-				if ((this._REPORTTO != value))
-				{
-					this._REPORTTO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RPTTODESG", DbType="NVarChar(50)")]
-		public string RPTTODESG
-		{
-			get
-			{
-				return this._RPTTODESG;
-			}
-			set
-			{
-				if ((this._RPTTODESG != value))
-				{
-					this._RPTTODESG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOID", DbType="NVarChar(300)")]
-		public string HREPORTTOID
-		{
-			get
-			{
-				return this._HREPORTTOID;
-			}
-			set
-			{
-				if ((this._HREPORTTOID != value))
-				{
-					this._HREPORTTOID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOUID", DbType="NVarChar(100)")]
-		public string HREPORTTOUID
-		{
-			get
-			{
-				return this._HREPORTTOUID;
-			}
-			set
-			{
-				if ((this._HREPORTTOUID != value))
-				{
-					this._HREPORTTOUID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTO", DbType="NVarChar(300)")]
-		public string HREPORTTO
-		{
-			get
-			{
-				return this._HREPORTTO;
-			}
-			set
-			{
-				if ((this._HREPORTTO != value))
-				{
-					this._HREPORTTO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRPTTODESG", DbType="NVarChar(50)")]
-		public string HRPTTODESG
-		{
-			get
-			{
-				return this._HRPTTODESG;
-			}
-			set
-			{
-				if ((this._HRPTTODESG != value))
-				{
-					this._HRPTTODESG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETID", DbType="NVarChar(100)")]
-		public string OUTLETID
-		{
-			get
-			{
-				return this._OUTLETID;
-			}
-			set
-			{
-				if ((this._OUTLETID != value))
-				{
-					this._OUTLETID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETNAME", DbType="VarChar(5000)")]
-		public string OUTLETNAME
-		{
-			get
-			{
-				return this._OUTLETNAME;
-			}
-			set
-			{
-				if ((this._OUTLETNAME != value))
-				{
-					this._OUTLETNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETADDRESS", DbType="NVarChar(MAX)")]
-		public string OUTLETADDRESS
-		{
-			get
-			{
-				return this._OUTLETADDRESS;
-			}
-			set
-			{
-				if ((this._OUTLETADDRESS != value))
-				{
-					this._OUTLETADDRESS = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETCONTACT", DbType="NVarChar(100)")]
-		public string OUTLETCONTACT
-		{
-			get
-			{
-				return this._OUTLETCONTACT;
-			}
-			set
-			{
-				if ((this._OUTLETCONTACT != value))
-				{
-					this._OUTLETCONTACT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETLAT", DbType="NVarChar(MAX)")]
-		public string OUTLETLAT
-		{
-			get
-			{
-				return this._OUTLETLAT;
-			}
-			set
-			{
-				if ((this._OUTLETLAT != value))
-				{
-					this._OUTLETLAT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETLANG", DbType="NVarChar(MAX)")]
-		public string OUTLETLANG
-		{
-			get
-			{
-				return this._OUTLETLANG;
-			}
-			set
-			{
-				if ((this._OUTLETLANG != value))
-				{
-					this._OUTLETLANG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LASTVISITDATE", DbType="NVarChar(100)")]
-		public string LASTVISITDATE
-		{
-			get
-			{
-				return this._LASTVISITDATE;
-			}
-			set
-			{
-				if ((this._LASTVISITDATE != value))
-				{
-					this._LASTVISITDATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LASTVISITTIME", DbType="NVarChar(100)")]
-		public string LASTVISITTIME
-		{
-			get
-			{
-				return this._LASTVISITTIME;
-			}
-			set
-			{
-				if ((this._LASTVISITTIME != value))
-				{
-					this._LASTVISITTIME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LASTVISITEDBY", DbType="NVarChar(200)")]
-		public string LASTVISITEDBY
-		{
-			get
-			{
-				return this._LASTVISITEDBY;
-			}
-			set
-			{
-				if ((this._LASTVISITEDBY != value))
-				{
-					this._LASTVISITEDBY = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETSTATUS", DbType="NVarChar(10)")]
-		public string OUTLETSTATUS
-		{
-			get
-			{
-				return this._OUTLETSTATUS;
-			}
-			set
-			{
-				if ((this._OUTLETSTATUS != value))
-				{
-					this._OUTLETSTATUS = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETEMPSEX", DbType="TinyInt")]
-		public System.Nullable<byte> OUTLETEMPSEX
-		{
-			get
-			{
-				return this._OUTLETEMPSEX;
-			}
-			set
-			{
-				if ((this._OUTLETEMPSEX != value))
-				{
-					this._OUTLETEMPSEX = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GENDERDESC", DbType="NVarChar(100)")]
-		public string GENDERDESC
-		{
-			get
-			{
-				return this._GENDERDESC;
-			}
-			set
-			{
-				if ((this._GENDERDESC != value))
-				{
-					this._GENDERDESC = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSDSPERFORMANCESUMMARY_REPORT")]
-	public partial class FTSDSPERFORMANCESUMMARY_REPORT
-	{
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<int> _SEQ;
-		
-		private System.Nullable<long> _BRANCH_ID;
-		
-		private string _BRANCHDESC;
-		
-		private string _EMPCODE;
-		
-		private string _EMPID;
-		
-		private string _EMPNAME;
-		
-		private System.Nullable<int> _STATEID;
-		
-		private string _STATE;
-		
-		private System.Nullable<int> _DEG_ID;
-		
-		private string _DESIGNATION;
-		
-		private string _DATEOFJOINING;
-		
-		private string _CONTACTNO;
-		
-		private string _REPORTTOID;
-		
-		private string _REPORTTOUID;
-		
-		private string _REPORTTO;
-		
-		private string _RPTTODESG;
-		
-		private string _HREPORTTOID;
-		
-		private string _HREPORTTOUID;
-		
-		private string _HREPORTTO;
-		
-		private string _HRPTTODESG;
-		
-		private string _DATERANGE;
-		
-		private System.Nullable<int> _DAYSPRESENT;
-		
-		private System.Nullable<int> _QUALIFYATTENDANCE;
-		
-		private System.Nullable<int> _DAYSPOINTVISITED;
-		
-		private System.Nullable<int> _NEWSHOP_VISITED;
-		
-		private System.Nullable<int> _RE_VISITED;
-		
-		private System.Nullable<int> _TOTAL_VISIT;
-		
-		private System.Nullable<decimal> _DISTANCE_TRAVELLED;
-		
-		private string _AVGTIMESPENTINMARKET;
-		
-		private string _AVGSPENTDURATION;
-		
-		private System.Nullable<decimal> _SALE_VALUE;
-		
-		private System.Nullable<byte> _OUTLETEMPSEX;
-		
-		private string _GENDERDESC;
-		
-		public FTSDSPERFORMANCESUMMARY_REPORT()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
-		public System.Nullable<int> SEQ
-		{
-			get
-			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
-		public System.Nullable<long> BRANCH_ID
-		{
-			get
-			{
-				return this._BRANCH_ID;
-			}
-			set
-			{
-				if ((this._BRANCH_ID != value))
-				{
-					this._BRANCH_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
-		public string BRANCHDESC
-		{
-			get
-			{
-				return this._BRANCHDESC;
-			}
-			set
-			{
-				if ((this._BRANCHDESC != value))
-				{
-					this._BRANCHDESC = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
-		public string EMPCODE
-		{
-			get
-			{
-				return this._EMPCODE;
-			}
-			set
-			{
-				if ((this._EMPCODE != value))
-				{
-					this._EMPCODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPID", DbType="NVarChar(100)")]
-		public string EMPID
-		{
-			get
-			{
-				return this._EMPID;
-			}
-			set
-			{
-				if ((this._EMPID != value))
-				{
-					this._EMPID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
-		public string EMPNAME
-		{
-			get
-			{
-				return this._EMPNAME;
-			}
-			set
-			{
-				if ((this._EMPNAME != value))
-				{
-					this._EMPNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATEID", DbType="Int")]
-		public System.Nullable<int> STATEID
-		{
-			get
-			{
-				return this._STATEID;
-			}
-			set
-			{
-				if ((this._STATEID != value))
-				{
-					this._STATEID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE", DbType="NVarChar(50)")]
-		public string STATE
-		{
-			get
-			{
-				return this._STATE;
-			}
-			set
-			{
-				if ((this._STATE != value))
-				{
-					this._STATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DEG_ID", DbType="Int")]
-		public System.Nullable<int> DEG_ID
-		{
-			get
-			{
-				return this._DEG_ID;
-			}
-			set
-			{
-				if ((this._DEG_ID != value))
-				{
-					this._DEG_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DESIGNATION", DbType="NVarChar(50)")]
-		public string DESIGNATION
-		{
-			get
-			{
-				return this._DESIGNATION;
-			}
-			set
-			{
-				if ((this._DESIGNATION != value))
-				{
-					this._DESIGNATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATEOFJOINING", DbType="NVarChar(10)")]
-		public string DATEOFJOINING
-		{
-			get
-			{
-				return this._DATEOFJOINING;
-			}
-			set
-			{
-				if ((this._DATEOFJOINING != value))
-				{
-					this._DATEOFJOINING = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACTNO", DbType="NVarChar(50)")]
-		public string CONTACTNO
-		{
-			get
-			{
-				return this._CONTACTNO;
-			}
-			set
-			{
-				if ((this._CONTACTNO != value))
-				{
-					this._CONTACTNO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOID", DbType="NVarChar(300)")]
-		public string REPORTTOID
-		{
-			get
-			{
-				return this._REPORTTOID;
-			}
-			set
-			{
-				if ((this._REPORTTOID != value))
-				{
-					this._REPORTTOID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOUID", DbType="NVarChar(100)")]
-		public string REPORTTOUID
-		{
-			get
-			{
-				return this._REPORTTOUID;
-			}
-			set
-			{
-				if ((this._REPORTTOUID != value))
-				{
-					this._REPORTTOUID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTO", DbType="NVarChar(300)")]
-		public string REPORTTO
-		{
-			get
-			{
-				return this._REPORTTO;
-			}
-			set
-			{
-				if ((this._REPORTTO != value))
-				{
-					this._REPORTTO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RPTTODESG", DbType="NVarChar(50)")]
-		public string RPTTODESG
-		{
-			get
-			{
-				return this._RPTTODESG;
-			}
-			set
-			{
-				if ((this._RPTTODESG != value))
-				{
-					this._RPTTODESG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOID", DbType="NVarChar(300)")]
-		public string HREPORTTOID
-		{
-			get
-			{
-				return this._HREPORTTOID;
-			}
-			set
-			{
-				if ((this._HREPORTTOID != value))
-				{
-					this._HREPORTTOID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOUID", DbType="NVarChar(100)")]
-		public string HREPORTTOUID
-		{
-			get
-			{
-				return this._HREPORTTOUID;
-			}
-			set
-			{
-				if ((this._HREPORTTOUID != value))
-				{
-					this._HREPORTTOUID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTO", DbType="NVarChar(300)")]
-		public string HREPORTTO
-		{
-			get
-			{
-				return this._HREPORTTO;
-			}
-			set
-			{
-				if ((this._HREPORTTO != value))
-				{
-					this._HREPORTTO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRPTTODESG", DbType="NVarChar(50)")]
-		public string HRPTTODESG
-		{
-			get
-			{
-				return this._HRPTTODESG;
-			}
-			set
-			{
-				if ((this._HRPTTODESG != value))
-				{
-					this._HRPTTODESG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATERANGE", DbType="NVarChar(50)")]
-		public string DATERANGE
-		{
-			get
-			{
-				return this._DATERANGE;
-			}
-			set
-			{
-				if ((this._DATERANGE != value))
-				{
-					this._DATERANGE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DAYSPRESENT", DbType="Int")]
-		public System.Nullable<int> DAYSPRESENT
-		{
-			get
-			{
-				return this._DAYSPRESENT;
-			}
-			set
-			{
-				if ((this._DAYSPRESENT != value))
-				{
-					this._DAYSPRESENT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUALIFYATTENDANCE", DbType="Int")]
-		public System.Nullable<int> QUALIFYATTENDANCE
-		{
-			get
-			{
-				return this._QUALIFYATTENDANCE;
-			}
-			set
-			{
-				if ((this._QUALIFYATTENDANCE != value))
-				{
-					this._QUALIFYATTENDANCE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DAYSPOINTVISITED", DbType="Int")]
-		public System.Nullable<int> DAYSPOINTVISITED
-		{
-			get
-			{
-				return this._DAYSPOINTVISITED;
-			}
-			set
-			{
-				if ((this._DAYSPOINTVISITED != value))
-				{
-					this._DAYSPOINTVISITED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NEWSHOP_VISITED", DbType="Int")]
-		public System.Nullable<int> NEWSHOP_VISITED
-		{
-			get
-			{
-				return this._NEWSHOP_VISITED;
-			}
-			set
-			{
-				if ((this._NEWSHOP_VISITED != value))
-				{
-					this._NEWSHOP_VISITED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RE_VISITED", DbType="Int")]
-		public System.Nullable<int> RE_VISITED
-		{
-			get
-			{
-				return this._RE_VISITED;
-			}
-			set
-			{
-				if ((this._RE_VISITED != value))
-				{
-					this._RE_VISITED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTAL_VISIT", DbType="Int")]
-		public System.Nullable<int> TOTAL_VISIT
-		{
-			get
-			{
-				return this._TOTAL_VISIT;
-			}
-			set
-			{
-				if ((this._TOTAL_VISIT != value))
-				{
-					this._TOTAL_VISIT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DISTANCE_TRAVELLED", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> DISTANCE_TRAVELLED
-		{
-			get
-			{
-				return this._DISTANCE_TRAVELLED;
-			}
-			set
-			{
-				if ((this._DISTANCE_TRAVELLED != value))
-				{
-					this._DISTANCE_TRAVELLED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGTIMESPENTINMARKET", DbType="NVarChar(50)")]
-		public string AVGTIMESPENTINMARKET
-		{
-			get
-			{
-				return this._AVGTIMESPENTINMARKET;
-			}
-			set
-			{
-				if ((this._AVGTIMESPENTINMARKET != value))
-				{
-					this._AVGTIMESPENTINMARKET = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGSPENTDURATION", DbType="NVarChar(50)")]
-		public string AVGSPENTDURATION
-		{
-			get
-			{
-				return this._AVGSPENTDURATION;
-			}
-			set
-			{
-				if ((this._AVGSPENTDURATION != value))
-				{
-					this._AVGSPENTDURATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SALE_VALUE", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> SALE_VALUE
-		{
-			get
-			{
-				return this._SALE_VALUE;
-			}
-			set
-			{
-				if ((this._SALE_VALUE != value))
-				{
-					this._SALE_VALUE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETEMPSEX", DbType="TinyInt")]
-		public System.Nullable<byte> OUTLETEMPSEX
-		{
-			get
-			{
-				return this._OUTLETEMPSEX;
-			}
-			set
-			{
-				if ((this._OUTLETEMPSEX != value))
-				{
-					this._OUTLETEMPSEX = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GENDERDESC", DbType="NVarChar(100)")]
-		public string GENDERDESC
-		{
-			get
-			{
-				return this._GENDERDESC;
-			}
-			set
-			{
-				if ((this._GENDERDESC != value))
-				{
-					this._GENDERDESC = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSDSVISITDETAILSHIERARCHYCHANNELWISE_REPORT")]
 	public partial class FTSDSVISITDETAILSHIERARCHYCHANNELWISE_REPORT
 	{
@@ -44030,1356 +42011,6 @@ namespace MyShop.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSDSSUMMARY_REPORT")]
-	public partial class FTSDSSUMMARY_REPORT
-	{
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<int> _SEQ;
-		
-		private System.Nullable<long> _BRANCH_ID;
-		
-		private string _BRANCHDESC;
-		
-		private string _EMPCODE;
-		
-		private string _EMPID;
-		
-		private string _EMPNAME;
-		
-		private System.Nullable<int> _STATEID;
-		
-		private string _STATE;
-		
-		private System.Nullable<int> _DEG_ID;
-		
-		private string _DESIGNATION;
-		
-		private string _DATEOFJOINING;
-		
-		private string _CONTACTNO;
-		
-		private string _REPORTTOID;
-		
-		private string _REPORTTOUID;
-		
-		private string _REPORTTO;
-		
-		private string _RPTTODESG;
-		
-		private string _HREPORTTOID;
-		
-		private string _HREPORTTOUID;
-		
-		private string _HREPORTTO;
-		
-		private string _HRPTTODESG;
-		
-		private string _DATERANGE;
-		
-		private System.Nullable<int> _OUTLETSMAPPED;
-		
-		private System.Nullable<int> _NEWSHOP_VISITED;
-		
-		private System.Nullable<int> _RE_VISITED;
-		
-		private System.Nullable<int> _TOTAL_VISIT;
-		
-		private System.Nullable<decimal> _SALE_VALUE;
-		
-		private System.Nullable<decimal> _DISTANCE_TRAVELLED;
-		
-		private string _AVGTIMESPENTINMARKET;
-		
-		private string _AVGSPENTDURATION;
-		
-		private System.Nullable<byte> _OUTLETEMPSEX;
-		
-		private string _GENDERDESC;
-		
-		public FTSDSSUMMARY_REPORT()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
-		public System.Nullable<int> SEQ
-		{
-			get
-			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
-		public System.Nullable<long> BRANCH_ID
-		{
-			get
-			{
-				return this._BRANCH_ID;
-			}
-			set
-			{
-				if ((this._BRANCH_ID != value))
-				{
-					this._BRANCH_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
-		public string BRANCHDESC
-		{
-			get
-			{
-				return this._BRANCHDESC;
-			}
-			set
-			{
-				if ((this._BRANCHDESC != value))
-				{
-					this._BRANCHDESC = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
-		public string EMPCODE
-		{
-			get
-			{
-				return this._EMPCODE;
-			}
-			set
-			{
-				if ((this._EMPCODE != value))
-				{
-					this._EMPCODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPID", DbType="NVarChar(100)")]
-		public string EMPID
-		{
-			get
-			{
-				return this._EMPID;
-			}
-			set
-			{
-				if ((this._EMPID != value))
-				{
-					this._EMPID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
-		public string EMPNAME
-		{
-			get
-			{
-				return this._EMPNAME;
-			}
-			set
-			{
-				if ((this._EMPNAME != value))
-				{
-					this._EMPNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATEID", DbType="Int")]
-		public System.Nullable<int> STATEID
-		{
-			get
-			{
-				return this._STATEID;
-			}
-			set
-			{
-				if ((this._STATEID != value))
-				{
-					this._STATEID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE", DbType="NVarChar(50)")]
-		public string STATE
-		{
-			get
-			{
-				return this._STATE;
-			}
-			set
-			{
-				if ((this._STATE != value))
-				{
-					this._STATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DEG_ID", DbType="Int")]
-		public System.Nullable<int> DEG_ID
-		{
-			get
-			{
-				return this._DEG_ID;
-			}
-			set
-			{
-				if ((this._DEG_ID != value))
-				{
-					this._DEG_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DESIGNATION", DbType="NVarChar(50)")]
-		public string DESIGNATION
-		{
-			get
-			{
-				return this._DESIGNATION;
-			}
-			set
-			{
-				if ((this._DESIGNATION != value))
-				{
-					this._DESIGNATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATEOFJOINING", DbType="NVarChar(10)")]
-		public string DATEOFJOINING
-		{
-			get
-			{
-				return this._DATEOFJOINING;
-			}
-			set
-			{
-				if ((this._DATEOFJOINING != value))
-				{
-					this._DATEOFJOINING = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACTNO", DbType="NVarChar(50)")]
-		public string CONTACTNO
-		{
-			get
-			{
-				return this._CONTACTNO;
-			}
-			set
-			{
-				if ((this._CONTACTNO != value))
-				{
-					this._CONTACTNO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOID", DbType="NVarChar(300)")]
-		public string REPORTTOID
-		{
-			get
-			{
-				return this._REPORTTOID;
-			}
-			set
-			{
-				if ((this._REPORTTOID != value))
-				{
-					this._REPORTTOID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOUID", DbType="NVarChar(100)")]
-		public string REPORTTOUID
-		{
-			get
-			{
-				return this._REPORTTOUID;
-			}
-			set
-			{
-				if ((this._REPORTTOUID != value))
-				{
-					this._REPORTTOUID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTO", DbType="NVarChar(300)")]
-		public string REPORTTO
-		{
-			get
-			{
-				return this._REPORTTO;
-			}
-			set
-			{
-				if ((this._REPORTTO != value))
-				{
-					this._REPORTTO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RPTTODESG", DbType="NVarChar(50)")]
-		public string RPTTODESG
-		{
-			get
-			{
-				return this._RPTTODESG;
-			}
-			set
-			{
-				if ((this._RPTTODESG != value))
-				{
-					this._RPTTODESG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOID", DbType="NVarChar(300)")]
-		public string HREPORTTOID
-		{
-			get
-			{
-				return this._HREPORTTOID;
-			}
-			set
-			{
-				if ((this._HREPORTTOID != value))
-				{
-					this._HREPORTTOID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOUID", DbType="NVarChar(100)")]
-		public string HREPORTTOUID
-		{
-			get
-			{
-				return this._HREPORTTOUID;
-			}
-			set
-			{
-				if ((this._HREPORTTOUID != value))
-				{
-					this._HREPORTTOUID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTO", DbType="NVarChar(300)")]
-		public string HREPORTTO
-		{
-			get
-			{
-				return this._HREPORTTO;
-			}
-			set
-			{
-				if ((this._HREPORTTO != value))
-				{
-					this._HREPORTTO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRPTTODESG", DbType="NVarChar(50)")]
-		public string HRPTTODESG
-		{
-			get
-			{
-				return this._HRPTTODESG;
-			}
-			set
-			{
-				if ((this._HRPTTODESG != value))
-				{
-					this._HRPTTODESG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATERANGE", DbType="NVarChar(50)")]
-		public string DATERANGE
-		{
-			get
-			{
-				return this._DATERANGE;
-			}
-			set
-			{
-				if ((this._DATERANGE != value))
-				{
-					this._DATERANGE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETSMAPPED", DbType="Int")]
-		public System.Nullable<int> OUTLETSMAPPED
-		{
-			get
-			{
-				return this._OUTLETSMAPPED;
-			}
-			set
-			{
-				if ((this._OUTLETSMAPPED != value))
-				{
-					this._OUTLETSMAPPED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NEWSHOP_VISITED", DbType="Int")]
-		public System.Nullable<int> NEWSHOP_VISITED
-		{
-			get
-			{
-				return this._NEWSHOP_VISITED;
-			}
-			set
-			{
-				if ((this._NEWSHOP_VISITED != value))
-				{
-					this._NEWSHOP_VISITED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RE_VISITED", DbType="Int")]
-		public System.Nullable<int> RE_VISITED
-		{
-			get
-			{
-				return this._RE_VISITED;
-			}
-			set
-			{
-				if ((this._RE_VISITED != value))
-				{
-					this._RE_VISITED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTAL_VISIT", DbType="Int")]
-		public System.Nullable<int> TOTAL_VISIT
-		{
-			get
-			{
-				return this._TOTAL_VISIT;
-			}
-			set
-			{
-				if ((this._TOTAL_VISIT != value))
-				{
-					this._TOTAL_VISIT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SALE_VALUE", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> SALE_VALUE
-		{
-			get
-			{
-				return this._SALE_VALUE;
-			}
-			set
-			{
-				if ((this._SALE_VALUE != value))
-				{
-					this._SALE_VALUE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DISTANCE_TRAVELLED", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> DISTANCE_TRAVELLED
-		{
-			get
-			{
-				return this._DISTANCE_TRAVELLED;
-			}
-			set
-			{
-				if ((this._DISTANCE_TRAVELLED != value))
-				{
-					this._DISTANCE_TRAVELLED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGTIMESPENTINMARKET", DbType="NVarChar(50)")]
-		public string AVGTIMESPENTINMARKET
-		{
-			get
-			{
-				return this._AVGTIMESPENTINMARKET;
-			}
-			set
-			{
-				if ((this._AVGTIMESPENTINMARKET != value))
-				{
-					this._AVGTIMESPENTINMARKET = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGSPENTDURATION", DbType="NVarChar(50)")]
-		public string AVGSPENTDURATION
-		{
-			get
-			{
-				return this._AVGSPENTDURATION;
-			}
-			set
-			{
-				if ((this._AVGSPENTDURATION != value))
-				{
-					this._AVGSPENTDURATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETEMPSEX", DbType="TinyInt")]
-		public System.Nullable<byte> OUTLETEMPSEX
-		{
-			get
-			{
-				return this._OUTLETEMPSEX;
-			}
-			set
-			{
-				if ((this._OUTLETEMPSEX != value))
-				{
-					this._OUTLETEMPSEX = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GENDERDESC", DbType="NVarChar(100)")]
-		public string GENDERDESC
-		{
-			get
-			{
-				return this._GENDERDESC;
-			}
-			set
-			{
-				if ((this._GENDERDESC != value))
-				{
-					this._GENDERDESC = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSDSVISITDETAILS_REPORT")]
-	public partial class FTSDSVISITDETAILS_REPORT
-	{
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<long> _SEQ;
-		
-		private System.Nullable<int> _EMPROWID;
-		
-		private string _LOGINDATE;
-		
-		private string _LOGIN_DATETIME;
-		
-		private System.Nullable<long> _BRANCH_ID;
-		
-		private string _BRANCHDESC;
-		
-		private System.Nullable<long> _EMPUSERID;
-		
-		private string _EMPCODE;
-		
-		private string _EMPID;
-		
-		private string _EMPNAME;
-		
-		private System.Nullable<int> _STATEID;
-		
-		private string _STATE;
-		
-		private System.Nullable<int> _DEG_ID;
-		
-		private string _DESIGNATION;
-		
-		private string _DATEOFJOINING;
-		
-		private string _CONTACTNO;
-		
-		private string _REPORTTOID;
-		
-		private string _REPORTTOUID;
-		
-		private string _REPORTTO;
-		
-		private string _RPTTODESG;
-		
-		private string _HREPORTTOID;
-		
-		private string _HREPORTTOUID;
-		
-		private string _HREPORTTO;
-		
-		private string _HRPTTODESG;
-		
-		private System.Nullable<int> _OUTLETSMAPPED;
-		
-		private System.Nullable<int> _NEWSHOP_VISITED;
-		
-		private System.Nullable<int> _RE_VISITED;
-		
-		private System.Nullable<int> _TOTAL_VISIT;
-		
-		private System.Nullable<decimal> _DISTANCE_TRAVELLED;
-		
-		private string _AVGTIMESPENTINMARKET;
-		
-		private string _DAYSTTIME;
-		
-		private string _DAYENDTIME;
-		
-		private System.Nullable<decimal> _SALE_VALUE;
-		
-		private string _AVGSPENTDURATION;
-		
-		private System.Nullable<long> _DSTYPEID;
-		
-		private string _DSTYPE;
-		
-		private string _CIRCLE;
-		
-		private System.Nullable<int> _ATTENDANCE;
-		
-		private System.Nullable<int> _QUALIFIEDPRESENT;
-		
-		private System.Nullable<byte> _OUTLETEMPSEX;
-		
-		private string _GENDERDESC;
-		
-		public FTSDSVISITDETAILS_REPORT()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
-		public System.Nullable<long> SEQ
-		{
-			get
-			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPROWID", DbType="Int")]
-		public System.Nullable<int> EMPROWID
-		{
-			get
-			{
-				return this._EMPROWID;
-			}
-			set
-			{
-				if ((this._EMPROWID != value))
-				{
-					this._EMPROWID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LOGINDATE", DbType="NVarChar(10)")]
-		public string LOGINDATE
-		{
-			get
-			{
-				return this._LOGINDATE;
-			}
-			set
-			{
-				if ((this._LOGINDATE != value))
-				{
-					this._LOGINDATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LOGIN_DATETIME", DbType="NVarChar(10)")]
-		public string LOGIN_DATETIME
-		{
-			get
-			{
-				return this._LOGIN_DATETIME;
-			}
-			set
-			{
-				if ((this._LOGIN_DATETIME != value))
-				{
-					this._LOGIN_DATETIME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
-		public System.Nullable<long> BRANCH_ID
-		{
-			get
-			{
-				return this._BRANCH_ID;
-			}
-			set
-			{
-				if ((this._BRANCH_ID != value))
-				{
-					this._BRANCH_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
-		public string BRANCHDESC
-		{
-			get
-			{
-				return this._BRANCHDESC;
-			}
-			set
-			{
-				if ((this._BRANCHDESC != value))
-				{
-					this._BRANCHDESC = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPUSERID", DbType="BigInt")]
-		public System.Nullable<long> EMPUSERID
-		{
-			get
-			{
-				return this._EMPUSERID;
-			}
-			set
-			{
-				if ((this._EMPUSERID != value))
-				{
-					this._EMPUSERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
-		public string EMPCODE
-		{
-			get
-			{
-				return this._EMPCODE;
-			}
-			set
-			{
-				if ((this._EMPCODE != value))
-				{
-					this._EMPCODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPID", DbType="NVarChar(100)")]
-		public string EMPID
-		{
-			get
-			{
-				return this._EMPID;
-			}
-			set
-			{
-				if ((this._EMPID != value))
-				{
-					this._EMPID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
-		public string EMPNAME
-		{
-			get
-			{
-				return this._EMPNAME;
-			}
-			set
-			{
-				if ((this._EMPNAME != value))
-				{
-					this._EMPNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATEID", DbType="Int")]
-		public System.Nullable<int> STATEID
-		{
-			get
-			{
-				return this._STATEID;
-			}
-			set
-			{
-				if ((this._STATEID != value))
-				{
-					this._STATEID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE", DbType="NVarChar(50)")]
-		public string STATE
-		{
-			get
-			{
-				return this._STATE;
-			}
-			set
-			{
-				if ((this._STATE != value))
-				{
-					this._STATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DEG_ID", DbType="Int")]
-		public System.Nullable<int> DEG_ID
-		{
-			get
-			{
-				return this._DEG_ID;
-			}
-			set
-			{
-				if ((this._DEG_ID != value))
-				{
-					this._DEG_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DESIGNATION", DbType="NVarChar(50)")]
-		public string DESIGNATION
-		{
-			get
-			{
-				return this._DESIGNATION;
-			}
-			set
-			{
-				if ((this._DESIGNATION != value))
-				{
-					this._DESIGNATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATEOFJOINING", DbType="NVarChar(10)")]
-		public string DATEOFJOINING
-		{
-			get
-			{
-				return this._DATEOFJOINING;
-			}
-			set
-			{
-				if ((this._DATEOFJOINING != value))
-				{
-					this._DATEOFJOINING = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACTNO", DbType="NVarChar(50)")]
-		public string CONTACTNO
-		{
-			get
-			{
-				return this._CONTACTNO;
-			}
-			set
-			{
-				if ((this._CONTACTNO != value))
-				{
-					this._CONTACTNO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOID", DbType="NVarChar(300)")]
-		public string REPORTTOID
-		{
-			get
-			{
-				return this._REPORTTOID;
-			}
-			set
-			{
-				if ((this._REPORTTOID != value))
-				{
-					this._REPORTTOID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOUID", DbType="NVarChar(100)")]
-		public string REPORTTOUID
-		{
-			get
-			{
-				return this._REPORTTOUID;
-			}
-			set
-			{
-				if ((this._REPORTTOUID != value))
-				{
-					this._REPORTTOUID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTO", DbType="NVarChar(300)")]
-		public string REPORTTO
-		{
-			get
-			{
-				return this._REPORTTO;
-			}
-			set
-			{
-				if ((this._REPORTTO != value))
-				{
-					this._REPORTTO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RPTTODESG", DbType="NVarChar(50)")]
-		public string RPTTODESG
-		{
-			get
-			{
-				return this._RPTTODESG;
-			}
-			set
-			{
-				if ((this._RPTTODESG != value))
-				{
-					this._RPTTODESG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOID", DbType="NVarChar(300)")]
-		public string HREPORTTOID
-		{
-			get
-			{
-				return this._HREPORTTOID;
-			}
-			set
-			{
-				if ((this._HREPORTTOID != value))
-				{
-					this._HREPORTTOID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOUID", DbType="NVarChar(100)")]
-		public string HREPORTTOUID
-		{
-			get
-			{
-				return this._HREPORTTOUID;
-			}
-			set
-			{
-				if ((this._HREPORTTOUID != value))
-				{
-					this._HREPORTTOUID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTO", DbType="NVarChar(300)")]
-		public string HREPORTTO
-		{
-			get
-			{
-				return this._HREPORTTO;
-			}
-			set
-			{
-				if ((this._HREPORTTO != value))
-				{
-					this._HREPORTTO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRPTTODESG", DbType="NVarChar(50)")]
-		public string HRPTTODESG
-		{
-			get
-			{
-				return this._HRPTTODESG;
-			}
-			set
-			{
-				if ((this._HRPTTODESG != value))
-				{
-					this._HRPTTODESG = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETSMAPPED", DbType="Int")]
-		public System.Nullable<int> OUTLETSMAPPED
-		{
-			get
-			{
-				return this._OUTLETSMAPPED;
-			}
-			set
-			{
-				if ((this._OUTLETSMAPPED != value))
-				{
-					this._OUTLETSMAPPED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NEWSHOP_VISITED", DbType="Int")]
-		public System.Nullable<int> NEWSHOP_VISITED
-		{
-			get
-			{
-				return this._NEWSHOP_VISITED;
-			}
-			set
-			{
-				if ((this._NEWSHOP_VISITED != value))
-				{
-					this._NEWSHOP_VISITED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RE_VISITED", DbType="Int")]
-		public System.Nullable<int> RE_VISITED
-		{
-			get
-			{
-				return this._RE_VISITED;
-			}
-			set
-			{
-				if ((this._RE_VISITED != value))
-				{
-					this._RE_VISITED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTAL_VISIT", DbType="Int")]
-		public System.Nullable<int> TOTAL_VISIT
-		{
-			get
-			{
-				return this._TOTAL_VISIT;
-			}
-			set
-			{
-				if ((this._TOTAL_VISIT != value))
-				{
-					this._TOTAL_VISIT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DISTANCE_TRAVELLED", DbType="Decimal(38,2)")]
-		public System.Nullable<decimal> DISTANCE_TRAVELLED
-		{
-			get
-			{
-				return this._DISTANCE_TRAVELLED;
-			}
-			set
-			{
-				if ((this._DISTANCE_TRAVELLED != value))
-				{
-					this._DISTANCE_TRAVELLED = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGTIMESPENTINMARKET", DbType="NVarChar(50)")]
-		public string AVGTIMESPENTINMARKET
-		{
-			get
-			{
-				return this._AVGTIMESPENTINMARKET;
-			}
-			set
-			{
-				if ((this._AVGTIMESPENTINMARKET != value))
-				{
-					this._AVGTIMESPENTINMARKET = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DAYSTTIME", DbType="NVarChar(20)")]
-		public string DAYSTTIME
-		{
-			get
-			{
-				return this._DAYSTTIME;
-			}
-			set
-			{
-				if ((this._DAYSTTIME != value))
-				{
-					this._DAYSTTIME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DAYENDTIME", DbType="NVarChar(20)")]
-		public string DAYENDTIME
-		{
-			get
-			{
-				return this._DAYENDTIME;
-			}
-			set
-			{
-				if ((this._DAYENDTIME != value))
-				{
-					this._DAYENDTIME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SALE_VALUE", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> SALE_VALUE
-		{
-			get
-			{
-				return this._SALE_VALUE;
-			}
-			set
-			{
-				if ((this._SALE_VALUE != value))
-				{
-					this._SALE_VALUE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGSPENTDURATION", DbType="NVarChar(50)")]
-		public string AVGSPENTDURATION
-		{
-			get
-			{
-				return this._AVGSPENTDURATION;
-			}
-			set
-			{
-				if ((this._AVGSPENTDURATION != value))
-				{
-					this._AVGSPENTDURATION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DSTYPEID", DbType="BigInt")]
-		public System.Nullable<long> DSTYPEID
-		{
-			get
-			{
-				return this._DSTYPEID;
-			}
-			set
-			{
-				if ((this._DSTYPEID != value))
-				{
-					this._DSTYPEID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DSTYPE", DbType="NVarChar(600)")]
-		public string DSTYPE
-		{
-			get
-			{
-				return this._DSTYPE;
-			}
-			set
-			{
-				if ((this._DSTYPE != value))
-				{
-					this._DSTYPE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CIRCLE", DbType="NVarChar(MAX)")]
-		public string CIRCLE
-		{
-			get
-			{
-				return this._CIRCLE;
-			}
-			set
-			{
-				if ((this._CIRCLE != value))
-				{
-					this._CIRCLE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ATTENDANCE", DbType="Int")]
-		public System.Nullable<int> ATTENDANCE
-		{
-			get
-			{
-				return this._ATTENDANCE;
-			}
-			set
-			{
-				if ((this._ATTENDANCE != value))
-				{
-					this._ATTENDANCE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUALIFIEDPRESENT", DbType="Int")]
-		public System.Nullable<int> QUALIFIEDPRESENT
-		{
-			get
-			{
-				return this._QUALIFIEDPRESENT;
-			}
-			set
-			{
-				if ((this._QUALIFIEDPRESENT != value))
-				{
-					this._QUALIFIEDPRESENT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETEMPSEX", DbType="TinyInt")]
-		public System.Nullable<byte> OUTLETEMPSEX
-		{
-			get
-			{
-				return this._OUTLETEMPSEX;
-			}
-			set
-			{
-				if ((this._OUTLETEMPSEX != value))
-				{
-					this._OUTLETEMPSEX = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GENDERDESC", DbType="NVarChar(100)")]
-		public string GENDERDESC
-		{
-			get
-			{
-				return this._GENDERDESC;
-			}
-			set
-			{
-				if ((this._GENDERDESC != value))
-				{
-					this._GENDERDESC = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTS_ProductMasterList")]
 	public partial class FTS_ProductMasterList
 	{
@@ -45636,465 +42267,6 @@ namespace MyShop.Models
 				if ((this._UOM_Name != value))
 				{
 					this._UOM_Name = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSORDERREGISTER_REPORT")]
-	public partial class FTSORDERREGISTER_REPORT
-	{
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<int> _SEQ;
-		
-		private string _EMPCODE;
-		
-		private string _EMPNAME;
-		
-		private string _BRANCHDESC;
-		
-		private string _SHOPNAME;
-		
-		private string _ENTITYCODE;
-		
-		private string _ADDRESS;
-		
-		private string _CONTACT;
-		
-		private string _SHOPTYPE;
-		
-		private string _ORDDATE;
-		
-		private System.Nullable<long> _ORDID;
-		
-		private string _ORDRNO;
-		
-		private string _PRODUCT;
-		
-		private System.Nullable<decimal> _QUANTITY;
-		
-		private System.Nullable<decimal> _RATE;
-		
-		private System.Nullable<decimal> _ORDVALUE;
-		
-		private string _PPName;
-		
-		private string _DDName;
-		
-		private string _Employee_ID;
-		
-		private System.Nullable<decimal> _Scheme_Qty;
-		
-		private System.Nullable<decimal> _Scheme_Rate;
-		
-		private System.Nullable<decimal> _Total_Scheme_Price;
-		
-		private System.Nullable<decimal> _MRP;
-		
-		private System.Nullable<decimal> _DISCOUNT;
-		
-		public FTSORDERREGISTER_REPORT()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
-		public System.Nullable<int> SEQ
-		{
-			get
-			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
-		public string EMPCODE
-		{
-			get
-			{
-				return this._EMPCODE;
-			}
-			set
-			{
-				if ((this._EMPCODE != value))
-				{
-					this._EMPCODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
-		public string EMPNAME
-		{
-			get
-			{
-				return this._EMPNAME;
-			}
-			set
-			{
-				if ((this._EMPNAME != value))
-				{
-					this._EMPNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
-		public string BRANCHDESC
-		{
-			get
-			{
-				return this._BRANCHDESC;
-			}
-			set
-			{
-				if ((this._BRANCHDESC != value))
-				{
-					this._BRANCHDESC = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SHOPNAME", DbType="NVarChar(500)")]
-		public string SHOPNAME
-		{
-			get
-			{
-				return this._SHOPNAME;
-			}
-			set
-			{
-				if ((this._SHOPNAME != value))
-				{
-					this._SHOPNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ENTITYCODE", DbType="NVarChar(600)")]
-		public string ENTITYCODE
-		{
-			get
-			{
-				return this._ENTITYCODE;
-			}
-			set
-			{
-				if ((this._ENTITYCODE != value))
-				{
-					this._ENTITYCODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ADDRESS", DbType="NVarChar(MAX)")]
-		public string ADDRESS
-		{
-			get
-			{
-				return this._ADDRESS;
-			}
-			set
-			{
-				if ((this._ADDRESS != value))
-				{
-					this._ADDRESS = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACT", DbType="NVarChar(100)")]
-		public string CONTACT
-		{
-			get
-			{
-				return this._CONTACT;
-			}
-			set
-			{
-				if ((this._CONTACT != value))
-				{
-					this._CONTACT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SHOPTYPE", DbType="NVarChar(50)")]
-		public string SHOPTYPE
-		{
-			get
-			{
-				return this._SHOPTYPE;
-			}
-			set
-			{
-				if ((this._SHOPTYPE != value))
-				{
-					this._SHOPTYPE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDDATE", DbType="NVarChar(10)")]
-		public string ORDDATE
-		{
-			get
-			{
-				return this._ORDDATE;
-			}
-			set
-			{
-				if ((this._ORDDATE != value))
-				{
-					this._ORDDATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDID", DbType="BigInt")]
-		public System.Nullable<long> ORDID
-		{
-			get
-			{
-				return this._ORDID;
-			}
-			set
-			{
-				if ((this._ORDID != value))
-				{
-					this._ORDID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDRNO", DbType="NVarChar(60)")]
-		public string ORDRNO
-		{
-			get
-			{
-				return this._ORDRNO;
-			}
-			set
-			{
-				if ((this._ORDRNO != value))
-				{
-					this._ORDRNO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCT", DbType="NVarChar(500)")]
-		public string PRODUCT
-		{
-			get
-			{
-				return this._PRODUCT;
-			}
-			set
-			{
-				if ((this._PRODUCT != value))
-				{
-					this._PRODUCT = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUANTITY", DbType="Decimal(18,3)")]
-		public System.Nullable<decimal> QUANTITY
-		{
-			get
-			{
-				return this._QUANTITY;
-			}
-			set
-			{
-				if ((this._QUANTITY != value))
-				{
-					this._QUANTITY = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RATE", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> RATE
-		{
-			get
-			{
-				return this._RATE;
-			}
-			set
-			{
-				if ((this._RATE != value))
-				{
-					this._RATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDVALUE", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> ORDVALUE
-		{
-			get
-			{
-				return this._ORDVALUE;
-			}
-			set
-			{
-				if ((this._ORDVALUE != value))
-				{
-					this._ORDVALUE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PPName", DbType="NVarChar(100)")]
-		public string PPName
-		{
-			get
-			{
-				return this._PPName;
-			}
-			set
-			{
-				if ((this._PPName != value))
-				{
-					this._PPName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DDName", DbType="NVarChar(100)")]
-		public string DDName
-		{
-			get
-			{
-				return this._DDName;
-			}
-			set
-			{
-				if ((this._DDName != value))
-				{
-					this._DDName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Employee_ID", DbType="NVarChar(100)")]
-		public string Employee_ID
-		{
-			get
-			{
-				return this._Employee_ID;
-			}
-			set
-			{
-				if ((this._Employee_ID != value))
-				{
-					this._Employee_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Scheme_Qty", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> Scheme_Qty
-		{
-			get
-			{
-				return this._Scheme_Qty;
-			}
-			set
-			{
-				if ((this._Scheme_Qty != value))
-				{
-					this._Scheme_Qty = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Scheme_Rate", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> Scheme_Rate
-		{
-			get
-			{
-				return this._Scheme_Rate;
-			}
-			set
-			{
-				if ((this._Scheme_Rate != value))
-				{
-					this._Scheme_Rate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Total_Scheme_Price", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> Total_Scheme_Price
-		{
-			get
-			{
-				return this._Total_Scheme_Price;
-			}
-			set
-			{
-				if ((this._Total_Scheme_Price != value))
-				{
-					this._Total_Scheme_Price = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MRP", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> MRP
-		{
-			get
-			{
-				return this._MRP;
-			}
-			set
-			{
-				if ((this._MRP != value))
-				{
-					this._MRP = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DISCOUNT", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> DISCOUNT
-		{
-			get
-			{
-				return this._DISCOUNT;
-			}
-			set
-			{
-				if ((this._DISCOUNT != value))
-				{
-					this._DISCOUNT = value;
 				}
 			}
 		}
@@ -47081,6 +43253,996 @@ namespace MyShop.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CRM_CONTACT_LISTING")]
+	public partial class CRM_CONTACT_LISTING
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<int> _SEQ;
+		
+		private string _Shop_Code;
+		
+		private string _Shop_FirstName;
+		
+		private string _Shop_LastName;
+		
+		private string _Shop_Owner_Contact;
+		
+		private string _Shop_Owner_Email;
+		
+		private string _Shop_Address;
+		
+		private string _Shop_DOB;
+		
+		private string _Shop_date_aniversary;
+		
+		private string _Shop_CompanyName;
+		
+		private string _Shop_JobTitle;
+		
+		private string _Shop_CreateUserName;
+		
+		private string _Shop_TypeName;
+		
+		private string _Shop_StatusName;
+		
+		private string _Shop_SourceName;
+		
+		private string _Shop_ReferenceName;
+		
+		private string _Shop_StageName;
+		
+		private string _Shop_Remarks;
+		
+		private System.Nullable<decimal> _Shop_Amount;
+		
+		private string _Shop_NextFollowupDate;
+		
+		private string _Shop_Entity_Status;
+		
+		private string _Shop_Pincode;
+		
+		private string _Shop_WhatsappNoForCustomer;
+		
+		private string _Shop_Entered_ByName;
+		
+		private System.Nullable<System.DateTime> _Shop_Entered_On;
+		
+		private string _Shop_LastUpdated_ByName;
+		
+		private System.Nullable<System.DateTime> _Shop_LastUpdated_On;
+		
+		public CRM_CONTACT_LISTING()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
+		public System.Nullable<int> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Code", DbType="VarChar(100)")]
+		public string Shop_Code
+		{
+			get
+			{
+				return this._Shop_Code;
+			}
+			set
+			{
+				if ((this._Shop_Code != value))
+				{
+					this._Shop_Code = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_FirstName", DbType="NVarChar(500)")]
+		public string Shop_FirstName
+		{
+			get
+			{
+				return this._Shop_FirstName;
+			}
+			set
+			{
+				if ((this._Shop_FirstName != value))
+				{
+					this._Shop_FirstName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_LastName", DbType="NVarChar(500)")]
+		public string Shop_LastName
+		{
+			get
+			{
+				return this._Shop_LastName;
+			}
+			set
+			{
+				if ((this._Shop_LastName != value))
+				{
+					this._Shop_LastName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Owner_Contact", DbType="NVarChar(100)")]
+		public string Shop_Owner_Contact
+		{
+			get
+			{
+				return this._Shop_Owner_Contact;
+			}
+			set
+			{
+				if ((this._Shop_Owner_Contact != value))
+				{
+					this._Shop_Owner_Contact = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Owner_Email", DbType="NVarChar(300)")]
+		public string Shop_Owner_Email
+		{
+			get
+			{
+				return this._Shop_Owner_Email;
+			}
+			set
+			{
+				if ((this._Shop_Owner_Email != value))
+				{
+					this._Shop_Owner_Email = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Address", DbType="NVarChar(MAX)")]
+		public string Shop_Address
+		{
+			get
+			{
+				return this._Shop_Address;
+			}
+			set
+			{
+				if ((this._Shop_Address != value))
+				{
+					this._Shop_Address = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_DOB", DbType="NVarChar(50)")]
+		public string Shop_DOB
+		{
+			get
+			{
+				return this._Shop_DOB;
+			}
+			set
+			{
+				if ((this._Shop_DOB != value))
+				{
+					this._Shop_DOB = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_date_aniversary", DbType="NVarChar(50)")]
+		public string Shop_date_aniversary
+		{
+			get
+			{
+				return this._Shop_date_aniversary;
+			}
+			set
+			{
+				if ((this._Shop_date_aniversary != value))
+				{
+					this._Shop_date_aniversary = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_CompanyName", DbType="NVarChar(200)")]
+		public string Shop_CompanyName
+		{
+			get
+			{
+				return this._Shop_CompanyName;
+			}
+			set
+			{
+				if ((this._Shop_CompanyName != value))
+				{
+					this._Shop_CompanyName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_JobTitle", DbType="NVarChar(500)")]
+		public string Shop_JobTitle
+		{
+			get
+			{
+				return this._Shop_JobTitle;
+			}
+			set
+			{
+				if ((this._Shop_JobTitle != value))
+				{
+					this._Shop_JobTitle = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_CreateUserName", DbType="NText", UpdateCheck=UpdateCheck.Never)]
+		public string Shop_CreateUserName
+		{
+			get
+			{
+				return this._Shop_CreateUserName;
+			}
+			set
+			{
+				if ((this._Shop_CreateUserName != value))
+				{
+					this._Shop_CreateUserName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_TypeName", DbType="NVarChar(200)")]
+		public string Shop_TypeName
+		{
+			get
+			{
+				return this._Shop_TypeName;
+			}
+			set
+			{
+				if ((this._Shop_TypeName != value))
+				{
+					this._Shop_TypeName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_StatusName", DbType="NVarChar(200)")]
+		public string Shop_StatusName
+		{
+			get
+			{
+				return this._Shop_StatusName;
+			}
+			set
+			{
+				if ((this._Shop_StatusName != value))
+				{
+					this._Shop_StatusName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_SourceName", DbType="NVarChar(200)")]
+		public string Shop_SourceName
+		{
+			get
+			{
+				return this._Shop_SourceName;
+			}
+			set
+			{
+				if ((this._Shop_SourceName != value))
+				{
+					this._Shop_SourceName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_ReferenceName", DbType="NVarChar(200)")]
+		public string Shop_ReferenceName
+		{
+			get
+			{
+				return this._Shop_ReferenceName;
+			}
+			set
+			{
+				if ((this._Shop_ReferenceName != value))
+				{
+					this._Shop_ReferenceName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_StageName", DbType="NVarChar(200)")]
+		public string Shop_StageName
+		{
+			get
+			{
+				return this._Shop_StageName;
+			}
+			set
+			{
+				if ((this._Shop_StageName != value))
+				{
+					this._Shop_StageName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Remarks", DbType="NVarChar(MAX)")]
+		public string Shop_Remarks
+		{
+			get
+			{
+				return this._Shop_Remarks;
+			}
+			set
+			{
+				if ((this._Shop_Remarks != value))
+				{
+					this._Shop_Remarks = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Amount", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> Shop_Amount
+		{
+			get
+			{
+				return this._Shop_Amount;
+			}
+			set
+			{
+				if ((this._Shop_Amount != value))
+				{
+					this._Shop_Amount = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_NextFollowupDate", DbType="NVarChar(50)")]
+		public string Shop_NextFollowupDate
+		{
+			get
+			{
+				return this._Shop_NextFollowupDate;
+			}
+			set
+			{
+				if ((this._Shop_NextFollowupDate != value))
+				{
+					this._Shop_NextFollowupDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Entity_Status", DbType="VarChar(10)")]
+		public string Shop_Entity_Status
+		{
+			get
+			{
+				return this._Shop_Entity_Status;
+			}
+			set
+			{
+				if ((this._Shop_Entity_Status != value))
+				{
+					this._Shop_Entity_Status = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Pincode", DbType="NVarChar(120)")]
+		public string Shop_Pincode
+		{
+			get
+			{
+				return this._Shop_Pincode;
+			}
+			set
+			{
+				if ((this._Shop_Pincode != value))
+				{
+					this._Shop_Pincode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_WhatsappNoForCustomer", DbType="NVarChar(100)")]
+		public string Shop_WhatsappNoForCustomer
+		{
+			get
+			{
+				return this._Shop_WhatsappNoForCustomer;
+			}
+			set
+			{
+				if ((this._Shop_WhatsappNoForCustomer != value))
+				{
+					this._Shop_WhatsappNoForCustomer = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Entered_ByName", DbType="NVarChar(50)")]
+		public string Shop_Entered_ByName
+		{
+			get
+			{
+				return this._Shop_Entered_ByName;
+			}
+			set
+			{
+				if ((this._Shop_Entered_ByName != value))
+				{
+					this._Shop_Entered_ByName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Entered_On", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Shop_Entered_On
+		{
+			get
+			{
+				return this._Shop_Entered_On;
+			}
+			set
+			{
+				if ((this._Shop_Entered_On != value))
+				{
+					this._Shop_Entered_On = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_LastUpdated_ByName", DbType="NVarChar(50)")]
+		public string Shop_LastUpdated_ByName
+		{
+			get
+			{
+				return this._Shop_LastUpdated_ByName;
+			}
+			set
+			{
+				if ((this._Shop_LastUpdated_ByName != value))
+				{
+					this._Shop_LastUpdated_ByName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_LastUpdated_On", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Shop_LastUpdated_On
+		{
+			get
+			{
+				return this._Shop_LastUpdated_On;
+			}
+			set
+			{
+				if ((this._Shop_LastUpdated_On != value))
+				{
+					this._Shop_LastUpdated_On = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSORDERREGISTER_REPORT")]
+	public partial class FTSORDERREGISTER_REPORT
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<int> _SEQ;
+		
+		private string _EMPCODE;
+		
+		private string _EMPNAME;
+		
+		private string _BRANCHDESC;
+		
+		private string _SHOPNAME;
+		
+		private string _ENTITYCODE;
+		
+		private string _ADDRESS;
+		
+		private string _CONTACT;
+		
+		private string _SHOPTYPE;
+		
+		private string _ORDDATE;
+		
+		private System.Nullable<long> _ORDID;
+		
+		private string _ORDRNO;
+		
+		private string _PRODUCT;
+		
+		private System.Nullable<decimal> _QUANTITY;
+		
+		private System.Nullable<decimal> _RATE;
+		
+		private System.Nullable<decimal> _ORDVALUE;
+		
+		private string _PPName;
+		
+		private string _DDName;
+		
+		private string _Employee_ID;
+		
+		private System.Nullable<decimal> _Scheme_Qty;
+		
+		private System.Nullable<decimal> _Scheme_Rate;
+		
+		private System.Nullable<decimal> _Total_Scheme_Price;
+		
+		private System.Nullable<decimal> _MRP;
+		
+		private System.Nullable<decimal> _DISCOUNT;
+		
+		private string _PARTYSTATUS;
+		
+		public FTSORDERREGISTER_REPORT()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
+		public System.Nullable<int> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
+		public string EMPCODE
+		{
+			get
+			{
+				return this._EMPCODE;
+			}
+			set
+			{
+				if ((this._EMPCODE != value))
+				{
+					this._EMPCODE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
+		public string EMPNAME
+		{
+			get
+			{
+				return this._EMPNAME;
+			}
+			set
+			{
+				if ((this._EMPNAME != value))
+				{
+					this._EMPNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
+		public string BRANCHDESC
+		{
+			get
+			{
+				return this._BRANCHDESC;
+			}
+			set
+			{
+				if ((this._BRANCHDESC != value))
+				{
+					this._BRANCHDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SHOPNAME", DbType="NVarChar(500)")]
+		public string SHOPNAME
+		{
+			get
+			{
+				return this._SHOPNAME;
+			}
+			set
+			{
+				if ((this._SHOPNAME != value))
+				{
+					this._SHOPNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ENTITYCODE", DbType="NVarChar(600)")]
+		public string ENTITYCODE
+		{
+			get
+			{
+				return this._ENTITYCODE;
+			}
+			set
+			{
+				if ((this._ENTITYCODE != value))
+				{
+					this._ENTITYCODE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ADDRESS", DbType="NVarChar(MAX)")]
+		public string ADDRESS
+		{
+			get
+			{
+				return this._ADDRESS;
+			}
+			set
+			{
+				if ((this._ADDRESS != value))
+				{
+					this._ADDRESS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACT", DbType="NVarChar(100)")]
+		public string CONTACT
+		{
+			get
+			{
+				return this._CONTACT;
+			}
+			set
+			{
+				if ((this._CONTACT != value))
+				{
+					this._CONTACT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SHOPTYPE", DbType="NVarChar(50)")]
+		public string SHOPTYPE
+		{
+			get
+			{
+				return this._SHOPTYPE;
+			}
+			set
+			{
+				if ((this._SHOPTYPE != value))
+				{
+					this._SHOPTYPE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDDATE", DbType="NVarChar(10)")]
+		public string ORDDATE
+		{
+			get
+			{
+				return this._ORDDATE;
+			}
+			set
+			{
+				if ((this._ORDDATE != value))
+				{
+					this._ORDDATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDID", DbType="BigInt")]
+		public System.Nullable<long> ORDID
+		{
+			get
+			{
+				return this._ORDID;
+			}
+			set
+			{
+				if ((this._ORDID != value))
+				{
+					this._ORDID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDRNO", DbType="NVarChar(60)")]
+		public string ORDRNO
+		{
+			get
+			{
+				return this._ORDRNO;
+			}
+			set
+			{
+				if ((this._ORDRNO != value))
+				{
+					this._ORDRNO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCT", DbType="NVarChar(500)")]
+		public string PRODUCT
+		{
+			get
+			{
+				return this._PRODUCT;
+			}
+			set
+			{
+				if ((this._PRODUCT != value))
+				{
+					this._PRODUCT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUANTITY", DbType="Decimal(18,3)")]
+		public System.Nullable<decimal> QUANTITY
+		{
+			get
+			{
+				return this._QUANTITY;
+			}
+			set
+			{
+				if ((this._QUANTITY != value))
+				{
+					this._QUANTITY = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RATE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> RATE
+		{
+			get
+			{
+				return this._RATE;
+			}
+			set
+			{
+				if ((this._RATE != value))
+				{
+					this._RATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDVALUE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> ORDVALUE
+		{
+			get
+			{
+				return this._ORDVALUE;
+			}
+			set
+			{
+				if ((this._ORDVALUE != value))
+				{
+					this._ORDVALUE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PPName", DbType="NVarChar(100)")]
+		public string PPName
+		{
+			get
+			{
+				return this._PPName;
+			}
+			set
+			{
+				if ((this._PPName != value))
+				{
+					this._PPName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DDName", DbType="NVarChar(100)")]
+		public string DDName
+		{
+			get
+			{
+				return this._DDName;
+			}
+			set
+			{
+				if ((this._DDName != value))
+				{
+					this._DDName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Employee_ID", DbType="NVarChar(100)")]
+		public string Employee_ID
+		{
+			get
+			{
+				return this._Employee_ID;
+			}
+			set
+			{
+				if ((this._Employee_ID != value))
+				{
+					this._Employee_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Scheme_Qty", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> Scheme_Qty
+		{
+			get
+			{
+				return this._Scheme_Qty;
+			}
+			set
+			{
+				if ((this._Scheme_Qty != value))
+				{
+					this._Scheme_Qty = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Scheme_Rate", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> Scheme_Rate
+		{
+			get
+			{
+				return this._Scheme_Rate;
+			}
+			set
+			{
+				if ((this._Scheme_Rate != value))
+				{
+					this._Scheme_Rate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Total_Scheme_Price", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> Total_Scheme_Price
+		{
+			get
+			{
+				return this._Total_Scheme_Price;
+			}
+			set
+			{
+				if ((this._Total_Scheme_Price != value))
+				{
+					this._Total_Scheme_Price = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MRP", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> MRP
+		{
+			get
+			{
+				return this._MRP;
+			}
+			set
+			{
+				if ((this._MRP != value))
+				{
+					this._MRP = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DISCOUNT", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> DISCOUNT
+		{
+			get
+			{
+				return this._DISCOUNT;
+			}
+			set
+			{
+				if ((this._DISCOUNT != value))
+				{
+					this._DISCOUNT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PARTYSTATUS", DbType="VarChar(250)")]
+		public string PARTYSTATUS
+		{
+			get
+			{
+				return this._PARTYSTATUS;
+			}
+			set
+			{
+				if ((this._PARTYSTATUS != value))
+				{
+					this._PARTYSTATUS = value;
+				}
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FSM_SHOPLIST_REPORT")]
 	public partial class FSM_SHOPLIST_REPORT
 	{
@@ -47254,6 +44416,8 @@ namespace MyShop.Models
 		private string _BRANCHDESC;
 		
 		private string _REPORTTO_NAME;
+		
+		private string _PARTYSTATUS;
 		
 		public FSM_SHOPLIST_REPORT()
 		{
@@ -48618,69 +45782,1008 @@ namespace MyShop.Models
 				}
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PARTYSTATUS", DbType="VarChar(250)")]
+		public string PARTYSTATUS
+		{
+			get
+			{
+				return this._PARTYSTATUS;
+			}
+			set
+			{
+				if ((this._PARTYSTATUS != value))
+				{
+					this._PARTYSTATUS = value;
+				}
+			}
+		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CRM_CONTACT_LISTING")]
-	public partial class CRM_CONTACT_LISTING
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTS_NewPartyDetailsReport")]
+	public partial class FTS_NewPartyDetailsReport
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<long> _SEQ;
+		
+		private string _ShopCode;
+		
+		private string _state;
+		
+		private string _StateHead;
+		
+		private string _StateHeadCode;
+		
+		private string _Supervisor;
+		
+		private string _SupervisorCode;
+		
+		private string _cnt_internalId;
+		
+		private string _EmpName;
+		
+		private string _EmpCode;
+		
+		private string _Designation;
+		
+		private string _PP_CODE;
+		
+		private string _PP_Name;
+		
+		private string _PP_LOCATION;
+		
+		private string _Outlet_Code;
+		
+		private string _Outlet_Name;
+		
+		private string _Outlet_ContactNo;
+		
+		private string _AlternateNo;
+		
+		private string _OutletLocation;
+		
+		private string _OutletStatus;
+		
+		private string _OutletSpecify;
+		
+		private System.Nullable<System.DateTime> _OwnerDOB;
+		
+		private System.Nullable<System.DateTime> _OwnerAnniversary;
+		
+		private string _PanCard;
+		
+		private string _AdhaarCard;
+		
+		private System.Nullable<System.DateTime> _CreateDate;
+		
+		private string _DD_CODE;
+		
+		private string _DD_Name;
+		
+		private string _DD_LOCATION;
+		
+		private string _country;
+		
+		private string _city;
+		
+		private string _area;
+		
+		private string _Outlet_owner;
+		
+		private string _Outlet_type;
+		
+		private string _OutletLat;
+		
+		private string _OutletLong;
+		
+		private string _CreateBy;
+		
+		private System.Nullable<System.DateTime> _CreateOn;
+		
+		private string _UpdateBy;
+		
+		private System.Nullable<System.DateTime> _UpdateOn;
+		
+		private string _Address;
+		
+		private string _Pincode;
+		
+		private string _Beat;
+		
+		private string _Cluster;
+		
+		private string _Shop_Owner_Email2;
+		
+		private string _Alt_MobileNo1;
+		
+		private string _GSTN_NUMBER;
+		
+		private string _Trade_Licence_Number;
+		
+		private string _PARTYSTATUS;
+		
+		public FTS_NewPartyDetailsReport()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
+		public System.Nullable<long> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShopCode", DbType="NVarChar(MAX)")]
+		public string ShopCode
+		{
+			get
+			{
+				return this._ShopCode;
+			}
+			set
+			{
+				if ((this._ShopCode != value))
+				{
+					this._ShopCode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_state", DbType="NVarChar(MAX)")]
+		public string state
+		{
+			get
+			{
+				return this._state;
+			}
+			set
+			{
+				if ((this._state != value))
+				{
+					this._state = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateHead", DbType="NVarChar(MAX)")]
+		public string StateHead
+		{
+			get
+			{
+				return this._StateHead;
+			}
+			set
+			{
+				if ((this._StateHead != value))
+				{
+					this._StateHead = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateHeadCode", DbType="NVarChar(MAX)")]
+		public string StateHeadCode
+		{
+			get
+			{
+				return this._StateHeadCode;
+			}
+			set
+			{
+				if ((this._StateHeadCode != value))
+				{
+					this._StateHeadCode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Supervisor", DbType="NVarChar(MAX)")]
+		public string Supervisor
+		{
+			get
+			{
+				return this._Supervisor;
+			}
+			set
+			{
+				if ((this._Supervisor != value))
+				{
+					this._Supervisor = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SupervisorCode", DbType="NVarChar(MAX)")]
+		public string SupervisorCode
+		{
+			get
+			{
+				return this._SupervisorCode;
+			}
+			set
+			{
+				if ((this._SupervisorCode != value))
+				{
+					this._SupervisorCode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cnt_internalId", DbType="NVarChar(MAX)")]
+		public string cnt_internalId
+		{
+			get
+			{
+				return this._cnt_internalId;
+			}
+			set
+			{
+				if ((this._cnt_internalId != value))
+				{
+					this._cnt_internalId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmpName", DbType="NVarChar(MAX)")]
+		public string EmpName
+		{
+			get
+			{
+				return this._EmpName;
+			}
+			set
+			{
+				if ((this._EmpName != value))
+				{
+					this._EmpName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmpCode", DbType="NVarChar(MAX)")]
+		public string EmpCode
+		{
+			get
+			{
+				return this._EmpCode;
+			}
+			set
+			{
+				if ((this._EmpCode != value))
+				{
+					this._EmpCode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Designation", DbType="NVarChar(MAX)")]
+		public string Designation
+		{
+			get
+			{
+				return this._Designation;
+			}
+			set
+			{
+				if ((this._Designation != value))
+				{
+					this._Designation = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PP_CODE", DbType="NVarChar(MAX)")]
+		public string PP_CODE
+		{
+			get
+			{
+				return this._PP_CODE;
+			}
+			set
+			{
+				if ((this._PP_CODE != value))
+				{
+					this._PP_CODE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PP_Name", DbType="NVarChar(MAX)")]
+		public string PP_Name
+		{
+			get
+			{
+				return this._PP_Name;
+			}
+			set
+			{
+				if ((this._PP_Name != value))
+				{
+					this._PP_Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PP_LOCATION", DbType="NVarChar(MAX)")]
+		public string PP_LOCATION
+		{
+			get
+			{
+				return this._PP_LOCATION;
+			}
+			set
+			{
+				if ((this._PP_LOCATION != value))
+				{
+					this._PP_LOCATION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_Code", DbType="NVarChar(MAX)")]
+		public string Outlet_Code
+		{
+			get
+			{
+				return this._Outlet_Code;
+			}
+			set
+			{
+				if ((this._Outlet_Code != value))
+				{
+					this._Outlet_Code = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_Name", DbType="NVarChar(MAX)")]
+		public string Outlet_Name
+		{
+			get
+			{
+				return this._Outlet_Name;
+			}
+			set
+			{
+				if ((this._Outlet_Name != value))
+				{
+					this._Outlet_Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_ContactNo", DbType="NVarChar(MAX)")]
+		public string Outlet_ContactNo
+		{
+			get
+			{
+				return this._Outlet_ContactNo;
+			}
+			set
+			{
+				if ((this._Outlet_ContactNo != value))
+				{
+					this._Outlet_ContactNo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlternateNo", DbType="NVarChar(MAX)")]
+		public string AlternateNo
+		{
+			get
+			{
+				return this._AlternateNo;
+			}
+			set
+			{
+				if ((this._AlternateNo != value))
+				{
+					this._AlternateNo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletLocation", DbType="NVarChar(MAX)")]
+		public string OutletLocation
+		{
+			get
+			{
+				return this._OutletLocation;
+			}
+			set
+			{
+				if ((this._OutletLocation != value))
+				{
+					this._OutletLocation = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletStatus", DbType="NVarChar(MAX)")]
+		public string OutletStatus
+		{
+			get
+			{
+				return this._OutletStatus;
+			}
+			set
+			{
+				if ((this._OutletStatus != value))
+				{
+					this._OutletStatus = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletSpecify", DbType="NVarChar(MAX)")]
+		public string OutletSpecify
+		{
+			get
+			{
+				return this._OutletSpecify;
+			}
+			set
+			{
+				if ((this._OutletSpecify != value))
+				{
+					this._OutletSpecify = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerDOB", DbType="DateTime")]
+		public System.Nullable<System.DateTime> OwnerDOB
+		{
+			get
+			{
+				return this._OwnerDOB;
+			}
+			set
+			{
+				if ((this._OwnerDOB != value))
+				{
+					this._OwnerDOB = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OwnerAnniversary", DbType="DateTime")]
+		public System.Nullable<System.DateTime> OwnerAnniversary
+		{
+			get
+			{
+				return this._OwnerAnniversary;
+			}
+			set
+			{
+				if ((this._OwnerAnniversary != value))
+				{
+					this._OwnerAnniversary = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PanCard", DbType="NVarChar(MAX)")]
+		public string PanCard
+		{
+			get
+			{
+				return this._PanCard;
+			}
+			set
+			{
+				if ((this._PanCard != value))
+				{
+					this._PanCard = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdhaarCard", DbType="NVarChar(MAX)")]
+		public string AdhaarCard
+		{
+			get
+			{
+				return this._AdhaarCard;
+			}
+			set
+			{
+				if ((this._AdhaarCard != value))
+				{
+					this._AdhaarCard = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CreateDate
+		{
+			get
+			{
+				return this._CreateDate;
+			}
+			set
+			{
+				if ((this._CreateDate != value))
+				{
+					this._CreateDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DD_CODE", DbType="NVarChar(100)")]
+		public string DD_CODE
+		{
+			get
+			{
+				return this._DD_CODE;
+			}
+			set
+			{
+				if ((this._DD_CODE != value))
+				{
+					this._DD_CODE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DD_Name", DbType="NVarChar(300)")]
+		public string DD_Name
+		{
+			get
+			{
+				return this._DD_Name;
+			}
+			set
+			{
+				if ((this._DD_Name != value))
+				{
+					this._DD_Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DD_LOCATION", DbType="NVarChar(500)")]
+		public string DD_LOCATION
+		{
+			get
+			{
+				return this._DD_LOCATION;
+			}
+			set
+			{
+				if ((this._DD_LOCATION != value))
+				{
+					this._DD_LOCATION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_country", DbType="NVarChar(300)")]
+		public string country
+		{
+			get
+			{
+				return this._country;
+			}
+			set
+			{
+				if ((this._country != value))
+				{
+					this._country = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_city", DbType="NVarChar(300)")]
+		public string city
+		{
+			get
+			{
+				return this._city;
+			}
+			set
+			{
+				if ((this._city != value))
+				{
+					this._city = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_area", DbType="NVarChar(300)")]
+		public string area
+		{
+			get
+			{
+				return this._area;
+			}
+			set
+			{
+				if ((this._area != value))
+				{
+					this._area = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_owner", DbType="NVarChar(300)")]
+		public string Outlet_owner
+		{
+			get
+			{
+				return this._Outlet_owner;
+			}
+			set
+			{
+				if ((this._Outlet_owner != value))
+				{
+					this._Outlet_owner = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Outlet_type", DbType="NVarChar(300)")]
+		public string Outlet_type
+		{
+			get
+			{
+				return this._Outlet_type;
+			}
+			set
+			{
+				if ((this._Outlet_type != value))
+				{
+					this._Outlet_type = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletLat", DbType="NVarChar(100)")]
+		public string OutletLat
+		{
+			get
+			{
+				return this._OutletLat;
+			}
+			set
+			{
+				if ((this._OutletLat != value))
+				{
+					this._OutletLat = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OutletLong", DbType="NVarChar(100)")]
+		public string OutletLong
+		{
+			get
+			{
+				return this._OutletLong;
+			}
+			set
+			{
+				if ((this._OutletLong != value))
+				{
+					this._OutletLong = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateBy", DbType="NVarChar(300)")]
+		public string CreateBy
+		{
+			get
+			{
+				return this._CreateBy;
+			}
+			set
+			{
+				if ((this._CreateBy != value))
+				{
+					this._CreateBy = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateOn", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CreateOn
+		{
+			get
+			{
+				return this._CreateOn;
+			}
+			set
+			{
+				if ((this._CreateOn != value))
+				{
+					this._CreateOn = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdateBy", DbType="NVarChar(300)")]
+		public string UpdateBy
+		{
+			get
+			{
+				return this._UpdateBy;
+			}
+			set
+			{
+				if ((this._UpdateBy != value))
+				{
+					this._UpdateBy = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdateOn", DbType="DateTime")]
+		public System.Nullable<System.DateTime> UpdateOn
+		{
+			get
+			{
+				return this._UpdateOn;
+			}
+			set
+			{
+				if ((this._UpdateOn != value))
+				{
+					this._UpdateOn = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Address", DbType="NVarChar(MAX)")]
+		public string Address
+		{
+			get
+			{
+				return this._Address;
+			}
+			set
+			{
+				if ((this._Address != value))
+				{
+					this._Address = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Pincode", DbType="NVarChar(50)")]
+		public string Pincode
+		{
+			get
+			{
+				return this._Pincode;
+			}
+			set
+			{
+				if ((this._Pincode != value))
+				{
+					this._Pincode = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Beat", DbType="VarChar(500)")]
+		public string Beat
+		{
+			get
+			{
+				return this._Beat;
+			}
+			set
+			{
+				if ((this._Beat != value))
+				{
+					this._Beat = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Cluster", DbType="VarChar(500)")]
+		public string Cluster
+		{
+			get
+			{
+				return this._Cluster;
+			}
+			set
+			{
+				if ((this._Cluster != value))
+				{
+					this._Cluster = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Owner_Email2", DbType="VarChar(300)")]
+		public string Shop_Owner_Email2
+		{
+			get
+			{
+				return this._Shop_Owner_Email2;
+			}
+			set
+			{
+				if ((this._Shop_Owner_Email2 != value))
+				{
+					this._Shop_Owner_Email2 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Alt_MobileNo1", DbType="VarChar(40)")]
+		public string Alt_MobileNo1
+		{
+			get
+			{
+				return this._Alt_MobileNo1;
+			}
+			set
+			{
+				if ((this._Alt_MobileNo1 != value))
+				{
+					this._Alt_MobileNo1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GSTN_NUMBER", DbType="VarChar(100)")]
+		public string GSTN_NUMBER
+		{
+			get
+			{
+				return this._GSTN_NUMBER;
+			}
+			set
+			{
+				if ((this._GSTN_NUMBER != value))
+				{
+					this._GSTN_NUMBER = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Trade_Licence_Number", DbType="VarChar(100)")]
+		public string Trade_Licence_Number
+		{
+			get
+			{
+				return this._Trade_Licence_Number;
+			}
+			set
+			{
+				if ((this._Trade_Licence_Number != value))
+				{
+					this._Trade_Licence_Number = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PARTYSTATUS", DbType="VarChar(250)")]
+		public string PARTYSTATUS
+		{
+			get
+			{
+				return this._PARTYSTATUS;
+			}
+			set
+			{
+				if ((this._PARTYSTATUS != value))
+				{
+					this._PARTYSTATUS = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSEMPLOYEEOUTLETMASTER_REPORT")]
+	public partial class FTSEMPLOYEEOUTLETMASTER_REPORT
 	{
 		
 		private System.Nullable<int> _USERID;
 		
 		private System.Nullable<int> _SEQ;
 		
-		private string _Shop_Code;
+		private System.Nullable<long> _BRANCH_ID;
 		
-		private string _Shop_FirstName;
+		private string _BRANCHDESC;
 		
-		private string _Shop_LastName;
+		private string _EMPCODE;
 		
-		private string _Shop_Owner_Contact;
+		private string _EMPID;
 		
-		private string _Shop_Owner_Email;
+		private string _EMPNAME;
 		
-		private string _Shop_Address;
+		private System.Nullable<int> _STATEID;
 		
-		private string _Shop_DOB;
+		private string _STATE;
 		
-		private string _Shop_date_aniversary;
+		private System.Nullable<int> _DEG_ID;
 		
-		private string _Shop_CompanyName;
+		private string _DESIGNATION;
 		
-		private string _Shop_JobTitle;
+		private string _DATEOFJOINING;
 		
-		private string _Shop_CreateUserName;
+		private string _CONTACTNO;
 		
-		private string _Shop_TypeName;
+		private string _REPORTTOID;
 		
-		private string _Shop_StatusName;
+		private string _REPORTTOUID;
 		
-		private string _Shop_SourceName;
+		private string _REPORTTO;
 		
-		private string _Shop_ReferenceName;
+		private string _RPTTODESG;
 		
-		private string _Shop_StageName;
+		private string _HREPORTTOID;
 		
-		private string _Shop_Remarks;
+		private string _HREPORTTOUID;
 		
-		private System.Nullable<decimal> _Shop_Amount;
+		private string _HREPORTTO;
 		
-		private string _Shop_NextFollowupDate;
+		private string _HRPTTODESG;
 		
-		private string _Shop_Entity_Status;
+		private string _OUTLETID;
 		
-		private string _Shop_Pincode;
+		private string _OUTLETNAME;
 		
-		private string _Shop_WhatsappNoForCustomer;
+		private string _OUTLETADDRESS;
 		
-		private string _Shop_Entered_ByName;
+		private string _OUTLETCONTACT;
 		
-		private System.Nullable<System.DateTime> _Shop_Entered_On;
+		private string _OUTLETLAT;
 		
-		private string _Shop_LastUpdated_ByName;
+		private string _OUTLETLANG;
 		
-		private System.Nullable<System.DateTime> _Shop_LastUpdated_On;
+		private string _LASTVISITDATE;
 		
-		public CRM_CONTACT_LISTING()
+		private string _LASTVISITTIME;
+		
+		private string _LASTVISITEDBY;
+		
+		private string _OUTLETSTATUS;
+		
+		private System.Nullable<byte> _OUTLETEMPSEX;
+		
+		private string _GENDERDESC;
+		
+		private System.Nullable<long> _DSTYPEID;
+		
+		private string _DSTYPE;
+		
+		public FTSEMPLOYEEOUTLETMASTER_REPORT()
 		{
 		}
 		
@@ -48716,418 +46819,2609 @@ namespace MyShop.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Code", DbType="VarChar(100)")]
-		public string Shop_Code
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
+		public System.Nullable<long> BRANCH_ID
 		{
 			get
 			{
-				return this._Shop_Code;
+				return this._BRANCH_ID;
 			}
 			set
 			{
-				if ((this._Shop_Code != value))
+				if ((this._BRANCH_ID != value))
 				{
-					this._Shop_Code = value;
+					this._BRANCH_ID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_FirstName", DbType="NVarChar(500)")]
-		public string Shop_FirstName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
+		public string BRANCHDESC
 		{
 			get
 			{
-				return this._Shop_FirstName;
+				return this._BRANCHDESC;
 			}
 			set
 			{
-				if ((this._Shop_FirstName != value))
+				if ((this._BRANCHDESC != value))
 				{
-					this._Shop_FirstName = value;
+					this._BRANCHDESC = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_LastName", DbType="NVarChar(500)")]
-		public string Shop_LastName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
+		public string EMPCODE
 		{
 			get
 			{
-				return this._Shop_LastName;
+				return this._EMPCODE;
 			}
 			set
 			{
-				if ((this._Shop_LastName != value))
+				if ((this._EMPCODE != value))
 				{
-					this._Shop_LastName = value;
+					this._EMPCODE = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Owner_Contact", DbType="NVarChar(100)")]
-		public string Shop_Owner_Contact
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPID", DbType="NVarChar(100)")]
+		public string EMPID
 		{
 			get
 			{
-				return this._Shop_Owner_Contact;
+				return this._EMPID;
 			}
 			set
 			{
-				if ((this._Shop_Owner_Contact != value))
+				if ((this._EMPID != value))
 				{
-					this._Shop_Owner_Contact = value;
+					this._EMPID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Owner_Email", DbType="NVarChar(300)")]
-		public string Shop_Owner_Email
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
+		public string EMPNAME
 		{
 			get
 			{
-				return this._Shop_Owner_Email;
+				return this._EMPNAME;
 			}
 			set
 			{
-				if ((this._Shop_Owner_Email != value))
+				if ((this._EMPNAME != value))
 				{
-					this._Shop_Owner_Email = value;
+					this._EMPNAME = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Address", DbType="NVarChar(MAX)")]
-		public string Shop_Address
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATEID", DbType="Int")]
+		public System.Nullable<int> STATEID
 		{
 			get
 			{
-				return this._Shop_Address;
+				return this._STATEID;
 			}
 			set
 			{
-				if ((this._Shop_Address != value))
+				if ((this._STATEID != value))
 				{
-					this._Shop_Address = value;
+					this._STATEID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_DOB", DbType="NVarChar(50)")]
-		public string Shop_DOB
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE", DbType="NVarChar(50)")]
+		public string STATE
 		{
 			get
 			{
-				return this._Shop_DOB;
+				return this._STATE;
 			}
 			set
 			{
-				if ((this._Shop_DOB != value))
+				if ((this._STATE != value))
 				{
-					this._Shop_DOB = value;
+					this._STATE = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_date_aniversary", DbType="NVarChar(50)")]
-		public string Shop_date_aniversary
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DEG_ID", DbType="Int")]
+		public System.Nullable<int> DEG_ID
 		{
 			get
 			{
-				return this._Shop_date_aniversary;
+				return this._DEG_ID;
 			}
 			set
 			{
-				if ((this._Shop_date_aniversary != value))
+				if ((this._DEG_ID != value))
 				{
-					this._Shop_date_aniversary = value;
+					this._DEG_ID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_CompanyName", DbType="NVarChar(200)")]
-		public string Shop_CompanyName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DESIGNATION", DbType="NVarChar(50)")]
+		public string DESIGNATION
 		{
 			get
 			{
-				return this._Shop_CompanyName;
+				return this._DESIGNATION;
 			}
 			set
 			{
-				if ((this._Shop_CompanyName != value))
+				if ((this._DESIGNATION != value))
 				{
-					this._Shop_CompanyName = value;
+					this._DESIGNATION = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_JobTitle", DbType="NVarChar(500)")]
-		public string Shop_JobTitle
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATEOFJOINING", DbType="NVarChar(10)")]
+		public string DATEOFJOINING
 		{
 			get
 			{
-				return this._Shop_JobTitle;
+				return this._DATEOFJOINING;
 			}
 			set
 			{
-				if ((this._Shop_JobTitle != value))
+				if ((this._DATEOFJOINING != value))
 				{
-					this._Shop_JobTitle = value;
+					this._DATEOFJOINING = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_CreateUserName", DbType="NText", UpdateCheck=UpdateCheck.Never)]
-		public string Shop_CreateUserName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACTNO", DbType="NVarChar(50)")]
+		public string CONTACTNO
 		{
 			get
 			{
-				return this._Shop_CreateUserName;
+				return this._CONTACTNO;
 			}
 			set
 			{
-				if ((this._Shop_CreateUserName != value))
+				if ((this._CONTACTNO != value))
 				{
-					this._Shop_CreateUserName = value;
+					this._CONTACTNO = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_TypeName", DbType="NVarChar(200)")]
-		public string Shop_TypeName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOID", DbType="NVarChar(300)")]
+		public string REPORTTOID
 		{
 			get
 			{
-				return this._Shop_TypeName;
+				return this._REPORTTOID;
 			}
 			set
 			{
-				if ((this._Shop_TypeName != value))
+				if ((this._REPORTTOID != value))
 				{
-					this._Shop_TypeName = value;
+					this._REPORTTOID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_StatusName", DbType="NVarChar(200)")]
-		public string Shop_StatusName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOUID", DbType="NVarChar(100)")]
+		public string REPORTTOUID
 		{
 			get
 			{
-				return this._Shop_StatusName;
+				return this._REPORTTOUID;
 			}
 			set
 			{
-				if ((this._Shop_StatusName != value))
+				if ((this._REPORTTOUID != value))
 				{
-					this._Shop_StatusName = value;
+					this._REPORTTOUID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_SourceName", DbType="NVarChar(200)")]
-		public string Shop_SourceName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTO", DbType="NVarChar(300)")]
+		public string REPORTTO
 		{
 			get
 			{
-				return this._Shop_SourceName;
+				return this._REPORTTO;
 			}
 			set
 			{
-				if ((this._Shop_SourceName != value))
+				if ((this._REPORTTO != value))
 				{
-					this._Shop_SourceName = value;
+					this._REPORTTO = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_ReferenceName", DbType="NVarChar(200)")]
-		public string Shop_ReferenceName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RPTTODESG", DbType="NVarChar(50)")]
+		public string RPTTODESG
 		{
 			get
 			{
-				return this._Shop_ReferenceName;
+				return this._RPTTODESG;
 			}
 			set
 			{
-				if ((this._Shop_ReferenceName != value))
+				if ((this._RPTTODESG != value))
 				{
-					this._Shop_ReferenceName = value;
+					this._RPTTODESG = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_StageName", DbType="NVarChar(200)")]
-		public string Shop_StageName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOID", DbType="NVarChar(300)")]
+		public string HREPORTTOID
 		{
 			get
 			{
-				return this._Shop_StageName;
+				return this._HREPORTTOID;
 			}
 			set
 			{
-				if ((this._Shop_StageName != value))
+				if ((this._HREPORTTOID != value))
 				{
-					this._Shop_StageName = value;
+					this._HREPORTTOID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Remarks", DbType="NVarChar(MAX)")]
-		public string Shop_Remarks
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOUID", DbType="NVarChar(100)")]
+		public string HREPORTTOUID
 		{
 			get
 			{
-				return this._Shop_Remarks;
+				return this._HREPORTTOUID;
 			}
 			set
 			{
-				if ((this._Shop_Remarks != value))
+				if ((this._HREPORTTOUID != value))
 				{
-					this._Shop_Remarks = value;
+					this._HREPORTTOUID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Amount", DbType="Decimal(18,2)")]
-		public System.Nullable<decimal> Shop_Amount
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTO", DbType="NVarChar(300)")]
+		public string HREPORTTO
 		{
 			get
 			{
-				return this._Shop_Amount;
+				return this._HREPORTTO;
 			}
 			set
 			{
-				if ((this._Shop_Amount != value))
+				if ((this._HREPORTTO != value))
 				{
-					this._Shop_Amount = value;
+					this._HREPORTTO = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_NextFollowupDate", DbType="NVarChar(50)")]
-		public string Shop_NextFollowupDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRPTTODESG", DbType="NVarChar(50)")]
+		public string HRPTTODESG
 		{
 			get
 			{
-				return this._Shop_NextFollowupDate;
+				return this._HRPTTODESG;
 			}
 			set
 			{
-				if ((this._Shop_NextFollowupDate != value))
+				if ((this._HRPTTODESG != value))
 				{
-					this._Shop_NextFollowupDate = value;
+					this._HRPTTODESG = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Entity_Status", DbType="VarChar(10)")]
-		public string Shop_Entity_Status
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETID", DbType="NVarChar(100)")]
+		public string OUTLETID
 		{
 			get
 			{
-				return this._Shop_Entity_Status;
+				return this._OUTLETID;
 			}
 			set
 			{
-				if ((this._Shop_Entity_Status != value))
+				if ((this._OUTLETID != value))
 				{
-					this._Shop_Entity_Status = value;
+					this._OUTLETID = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Pincode", DbType="NVarChar(120)")]
-		public string Shop_Pincode
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETNAME", DbType="VarChar(5000)")]
+		public string OUTLETNAME
 		{
 			get
 			{
-				return this._Shop_Pincode;
+				return this._OUTLETNAME;
 			}
 			set
 			{
-				if ((this._Shop_Pincode != value))
+				if ((this._OUTLETNAME != value))
 				{
-					this._Shop_Pincode = value;
+					this._OUTLETNAME = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_WhatsappNoForCustomer", DbType="NVarChar(100)")]
-		public string Shop_WhatsappNoForCustomer
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETADDRESS", DbType="NVarChar(MAX)")]
+		public string OUTLETADDRESS
 		{
 			get
 			{
-				return this._Shop_WhatsappNoForCustomer;
+				return this._OUTLETADDRESS;
 			}
 			set
 			{
-				if ((this._Shop_WhatsappNoForCustomer != value))
+				if ((this._OUTLETADDRESS != value))
 				{
-					this._Shop_WhatsappNoForCustomer = value;
+					this._OUTLETADDRESS = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Entered_ByName", DbType="NVarChar(50)")]
-		public string Shop_Entered_ByName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETCONTACT", DbType="NVarChar(100)")]
+		public string OUTLETCONTACT
 		{
 			get
 			{
-				return this._Shop_Entered_ByName;
+				return this._OUTLETCONTACT;
 			}
 			set
 			{
-				if ((this._Shop_Entered_ByName != value))
+				if ((this._OUTLETCONTACT != value))
 				{
-					this._Shop_Entered_ByName = value;
+					this._OUTLETCONTACT = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_Entered_On", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Shop_Entered_On
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETLAT", DbType="NVarChar(MAX)")]
+		public string OUTLETLAT
 		{
 			get
 			{
-				return this._Shop_Entered_On;
+				return this._OUTLETLAT;
 			}
 			set
 			{
-				if ((this._Shop_Entered_On != value))
+				if ((this._OUTLETLAT != value))
 				{
-					this._Shop_Entered_On = value;
+					this._OUTLETLAT = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_LastUpdated_ByName", DbType="NVarChar(50)")]
-		public string Shop_LastUpdated_ByName
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETLANG", DbType="NVarChar(MAX)")]
+		public string OUTLETLANG
 		{
 			get
 			{
-				return this._Shop_LastUpdated_ByName;
+				return this._OUTLETLANG;
 			}
 			set
 			{
-				if ((this._Shop_LastUpdated_ByName != value))
+				if ((this._OUTLETLANG != value))
 				{
-					this._Shop_LastUpdated_ByName = value;
+					this._OUTLETLANG = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Shop_LastUpdated_On", DbType="DateTime")]
-		public System.Nullable<System.DateTime> Shop_LastUpdated_On
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LASTVISITDATE", DbType="NVarChar(100)")]
+		public string LASTVISITDATE
 		{
 			get
 			{
-				return this._Shop_LastUpdated_On;
+				return this._LASTVISITDATE;
 			}
 			set
 			{
-				if ((this._Shop_LastUpdated_On != value))
+				if ((this._LASTVISITDATE != value))
 				{
-					this._Shop_LastUpdated_On = value;
+					this._LASTVISITDATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LASTVISITTIME", DbType="NVarChar(100)")]
+		public string LASTVISITTIME
+		{
+			get
+			{
+				return this._LASTVISITTIME;
+			}
+			set
+			{
+				if ((this._LASTVISITTIME != value))
+				{
+					this._LASTVISITTIME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LASTVISITEDBY", DbType="NVarChar(200)")]
+		public string LASTVISITEDBY
+		{
+			get
+			{
+				return this._LASTVISITEDBY;
+			}
+			set
+			{
+				if ((this._LASTVISITEDBY != value))
+				{
+					this._LASTVISITEDBY = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETSTATUS", DbType="NVarChar(10)")]
+		public string OUTLETSTATUS
+		{
+			get
+			{
+				return this._OUTLETSTATUS;
+			}
+			set
+			{
+				if ((this._OUTLETSTATUS != value))
+				{
+					this._OUTLETSTATUS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETEMPSEX", DbType="TinyInt")]
+		public System.Nullable<byte> OUTLETEMPSEX
+		{
+			get
+			{
+				return this._OUTLETEMPSEX;
+			}
+			set
+			{
+				if ((this._OUTLETEMPSEX != value))
+				{
+					this._OUTLETEMPSEX = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GENDERDESC", DbType="NVarChar(100)")]
+		public string GENDERDESC
+		{
+			get
+			{
+				return this._GENDERDESC;
+			}
+			set
+			{
+				if ((this._GENDERDESC != value))
+				{
+					this._GENDERDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DSTYPEID", DbType="BigInt")]
+		public System.Nullable<long> DSTYPEID
+		{
+			get
+			{
+				return this._DSTYPEID;
+			}
+			set
+			{
+				if ((this._DSTYPEID != value))
+				{
+					this._DSTYPEID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DSTYPE", DbType="NVarChar(600)")]
+		public string DSTYPE
+		{
+			get
+			{
+				return this._DSTYPE;
+			}
+			set
+			{
+				if ((this._DSTYPE != value))
+				{
+					this._DSTYPE = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSDSSUMMARY_REPORT")]
+	public partial class FTSDSSUMMARY_REPORT
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<int> _SEQ;
+		
+		private System.Nullable<long> _BRANCH_ID;
+		
+		private string _BRANCHDESC;
+		
+		private string _EMPCODE;
+		
+		private string _EMPID;
+		
+		private string _EMPNAME;
+		
+		private System.Nullable<int> _STATEID;
+		
+		private string _STATE;
+		
+		private System.Nullable<int> _DEG_ID;
+		
+		private string _DESIGNATION;
+		
+		private string _DATEOFJOINING;
+		
+		private string _CONTACTNO;
+		
+		private string _REPORTTOID;
+		
+		private string _REPORTTOUID;
+		
+		private string _REPORTTO;
+		
+		private string _RPTTODESG;
+		
+		private string _HREPORTTOID;
+		
+		private string _HREPORTTOUID;
+		
+		private string _HREPORTTO;
+		
+		private string _HRPTTODESG;
+		
+		private string _DATERANGE;
+		
+		private System.Nullable<int> _OUTLETSMAPPED;
+		
+		private System.Nullable<int> _NEWSHOP_VISITED;
+		
+		private System.Nullable<int> _RE_VISITED;
+		
+		private System.Nullable<int> _TOTAL_VISIT;
+		
+		private System.Nullable<decimal> _SALE_VALUE;
+		
+		private System.Nullable<decimal> _ORDER_VALUE;
+		
+		private System.Nullable<decimal> _DISTANCE_TRAVELLED;
+		
+		private string _AVGTIMESPENTINMARKET;
+		
+		private string _AVGSPENTDURATION;
+		
+		private System.Nullable<byte> _OUTLETEMPSEX;
+		
+		private string _GENDERDESC;
+		
+		private System.Nullable<int> _TOTALCDMDAYS;
+		
+		public FTSDSSUMMARY_REPORT()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
+		public System.Nullable<int> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
+		public System.Nullable<long> BRANCH_ID
+		{
+			get
+			{
+				return this._BRANCH_ID;
+			}
+			set
+			{
+				if ((this._BRANCH_ID != value))
+				{
+					this._BRANCH_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
+		public string BRANCHDESC
+		{
+			get
+			{
+				return this._BRANCHDESC;
+			}
+			set
+			{
+				if ((this._BRANCHDESC != value))
+				{
+					this._BRANCHDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
+		public string EMPCODE
+		{
+			get
+			{
+				return this._EMPCODE;
+			}
+			set
+			{
+				if ((this._EMPCODE != value))
+				{
+					this._EMPCODE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPID", DbType="NVarChar(100)")]
+		public string EMPID
+		{
+			get
+			{
+				return this._EMPID;
+			}
+			set
+			{
+				if ((this._EMPID != value))
+				{
+					this._EMPID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
+		public string EMPNAME
+		{
+			get
+			{
+				return this._EMPNAME;
+			}
+			set
+			{
+				if ((this._EMPNAME != value))
+				{
+					this._EMPNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATEID", DbType="Int")]
+		public System.Nullable<int> STATEID
+		{
+			get
+			{
+				return this._STATEID;
+			}
+			set
+			{
+				if ((this._STATEID != value))
+				{
+					this._STATEID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE", DbType="NVarChar(50)")]
+		public string STATE
+		{
+			get
+			{
+				return this._STATE;
+			}
+			set
+			{
+				if ((this._STATE != value))
+				{
+					this._STATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DEG_ID", DbType="Int")]
+		public System.Nullable<int> DEG_ID
+		{
+			get
+			{
+				return this._DEG_ID;
+			}
+			set
+			{
+				if ((this._DEG_ID != value))
+				{
+					this._DEG_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DESIGNATION", DbType="NVarChar(50)")]
+		public string DESIGNATION
+		{
+			get
+			{
+				return this._DESIGNATION;
+			}
+			set
+			{
+				if ((this._DESIGNATION != value))
+				{
+					this._DESIGNATION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATEOFJOINING", DbType="NVarChar(10)")]
+		public string DATEOFJOINING
+		{
+			get
+			{
+				return this._DATEOFJOINING;
+			}
+			set
+			{
+				if ((this._DATEOFJOINING != value))
+				{
+					this._DATEOFJOINING = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACTNO", DbType="NVarChar(50)")]
+		public string CONTACTNO
+		{
+			get
+			{
+				return this._CONTACTNO;
+			}
+			set
+			{
+				if ((this._CONTACTNO != value))
+				{
+					this._CONTACTNO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOID", DbType="NVarChar(300)")]
+		public string REPORTTOID
+		{
+			get
+			{
+				return this._REPORTTOID;
+			}
+			set
+			{
+				if ((this._REPORTTOID != value))
+				{
+					this._REPORTTOID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOUID", DbType="NVarChar(100)")]
+		public string REPORTTOUID
+		{
+			get
+			{
+				return this._REPORTTOUID;
+			}
+			set
+			{
+				if ((this._REPORTTOUID != value))
+				{
+					this._REPORTTOUID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTO", DbType="NVarChar(300)")]
+		public string REPORTTO
+		{
+			get
+			{
+				return this._REPORTTO;
+			}
+			set
+			{
+				if ((this._REPORTTO != value))
+				{
+					this._REPORTTO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RPTTODESG", DbType="NVarChar(50)")]
+		public string RPTTODESG
+		{
+			get
+			{
+				return this._RPTTODESG;
+			}
+			set
+			{
+				if ((this._RPTTODESG != value))
+				{
+					this._RPTTODESG = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOID", DbType="NVarChar(300)")]
+		public string HREPORTTOID
+		{
+			get
+			{
+				return this._HREPORTTOID;
+			}
+			set
+			{
+				if ((this._HREPORTTOID != value))
+				{
+					this._HREPORTTOID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOUID", DbType="NVarChar(100)")]
+		public string HREPORTTOUID
+		{
+			get
+			{
+				return this._HREPORTTOUID;
+			}
+			set
+			{
+				if ((this._HREPORTTOUID != value))
+				{
+					this._HREPORTTOUID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTO", DbType="NVarChar(300)")]
+		public string HREPORTTO
+		{
+			get
+			{
+				return this._HREPORTTO;
+			}
+			set
+			{
+				if ((this._HREPORTTO != value))
+				{
+					this._HREPORTTO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRPTTODESG", DbType="NVarChar(50)")]
+		public string HRPTTODESG
+		{
+			get
+			{
+				return this._HRPTTODESG;
+			}
+			set
+			{
+				if ((this._HRPTTODESG != value))
+				{
+					this._HRPTTODESG = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATERANGE", DbType="NVarChar(50)")]
+		public string DATERANGE
+		{
+			get
+			{
+				return this._DATERANGE;
+			}
+			set
+			{
+				if ((this._DATERANGE != value))
+				{
+					this._DATERANGE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETSMAPPED", DbType="Int")]
+		public System.Nullable<int> OUTLETSMAPPED
+		{
+			get
+			{
+				return this._OUTLETSMAPPED;
+			}
+			set
+			{
+				if ((this._OUTLETSMAPPED != value))
+				{
+					this._OUTLETSMAPPED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NEWSHOP_VISITED", DbType="Int")]
+		public System.Nullable<int> NEWSHOP_VISITED
+		{
+			get
+			{
+				return this._NEWSHOP_VISITED;
+			}
+			set
+			{
+				if ((this._NEWSHOP_VISITED != value))
+				{
+					this._NEWSHOP_VISITED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RE_VISITED", DbType="Int")]
+		public System.Nullable<int> RE_VISITED
+		{
+			get
+			{
+				return this._RE_VISITED;
+			}
+			set
+			{
+				if ((this._RE_VISITED != value))
+				{
+					this._RE_VISITED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTAL_VISIT", DbType="Int")]
+		public System.Nullable<int> TOTAL_VISIT
+		{
+			get
+			{
+				return this._TOTAL_VISIT;
+			}
+			set
+			{
+				if ((this._TOTAL_VISIT != value))
+				{
+					this._TOTAL_VISIT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SALE_VALUE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> SALE_VALUE
+		{
+			get
+			{
+				return this._SALE_VALUE;
+			}
+			set
+			{
+				if ((this._SALE_VALUE != value))
+				{
+					this._SALE_VALUE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDER_VALUE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> ORDER_VALUE
+		{
+			get
+			{
+				return this._ORDER_VALUE;
+			}
+			set
+			{
+				if ((this._ORDER_VALUE != value))
+				{
+					this._ORDER_VALUE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DISTANCE_TRAVELLED", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> DISTANCE_TRAVELLED
+		{
+			get
+			{
+				return this._DISTANCE_TRAVELLED;
+			}
+			set
+			{
+				if ((this._DISTANCE_TRAVELLED != value))
+				{
+					this._DISTANCE_TRAVELLED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGTIMESPENTINMARKET", DbType="NVarChar(50)")]
+		public string AVGTIMESPENTINMARKET
+		{
+			get
+			{
+				return this._AVGTIMESPENTINMARKET;
+			}
+			set
+			{
+				if ((this._AVGTIMESPENTINMARKET != value))
+				{
+					this._AVGTIMESPENTINMARKET = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGSPENTDURATION", DbType="NVarChar(50)")]
+		public string AVGSPENTDURATION
+		{
+			get
+			{
+				return this._AVGSPENTDURATION;
+			}
+			set
+			{
+				if ((this._AVGSPENTDURATION != value))
+				{
+					this._AVGSPENTDURATION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETEMPSEX", DbType="TinyInt")]
+		public System.Nullable<byte> OUTLETEMPSEX
+		{
+			get
+			{
+				return this._OUTLETEMPSEX;
+			}
+			set
+			{
+				if ((this._OUTLETEMPSEX != value))
+				{
+					this._OUTLETEMPSEX = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GENDERDESC", DbType="NVarChar(100)")]
+		public string GENDERDESC
+		{
+			get
+			{
+				return this._GENDERDESC;
+			}
+			set
+			{
+				if ((this._GENDERDESC != value))
+				{
+					this._GENDERDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTALCDMDAYS", DbType="Int")]
+		public System.Nullable<int> TOTALCDMDAYS
+		{
+			get
+			{
+				return this._TOTALCDMDAYS;
+			}
+			set
+			{
+				if ((this._TOTALCDMDAYS != value))
+				{
+					this._TOTALCDMDAYS = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSDSVISITDETAILS_REPORT")]
+	public partial class FTSDSVISITDETAILS_REPORT
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<long> _SEQ;
+		
+		private System.Nullable<int> _EMPROWID;
+		
+		private string _LOGINDATE;
+		
+		private string _LOGIN_DATETIME;
+		
+		private System.Nullable<long> _BRANCH_ID;
+		
+		private string _BRANCHDESC;
+		
+		private System.Nullable<long> _EMPUSERID;
+		
+		private string _EMPCODE;
+		
+		private string _EMPID;
+		
+		private string _EMPNAME;
+		
+		private System.Nullable<int> _STATEID;
+		
+		private string _STATE;
+		
+		private System.Nullable<int> _DEG_ID;
+		
+		private string _DESIGNATION;
+		
+		private string _DATEOFJOINING;
+		
+		private string _CONTACTNO;
+		
+		private string _REPORTTOID;
+		
+		private string _REPORTTOUID;
+		
+		private string _REPORTTO;
+		
+		private string _RPTTODESG;
+		
+		private string _HREPORTTOID;
+		
+		private string _HREPORTTOUID;
+		
+		private string _HREPORTTO;
+		
+		private string _HRPTTODESG;
+		
+		private System.Nullable<int> _OUTLETSMAPPED;
+		
+		private System.Nullable<int> _NEWSHOP_VISITED;
+		
+		private System.Nullable<int> _RE_VISITED;
+		
+		private System.Nullable<int> _TOTAL_VISIT;
+		
+		private System.Nullable<decimal> _DISTANCE_TRAVELLED;
+		
+		private string _AVGTIMESPENTINMARKET;
+		
+		private string _DAYSTTIME;
+		
+		private string _DAYENDTIME;
+		
+		private System.Nullable<decimal> _SALE_VALUE;
+		
+		private System.Nullable<decimal> _ORDER_VALUE;
+		
+		private string _AVGSPENTDURATION;
+		
+		private System.Nullable<long> _DSTYPEID;
+		
+		private string _DSTYPE;
+		
+		private string _CIRCLE;
+		
+		private System.Nullable<int> _ATTENDANCE;
+		
+		private System.Nullable<int> _QUALIFIEDPRESENT;
+		
+		private System.Nullable<byte> _OUTLETEMPSEX;
+		
+		private string _GENDERDESC;
+		
+		private System.Nullable<int> _TOTALCDMDAYS;
+		
+		public FTSDSVISITDETAILS_REPORT()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
+		public System.Nullable<long> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPROWID", DbType="Int")]
+		public System.Nullable<int> EMPROWID
+		{
+			get
+			{
+				return this._EMPROWID;
+			}
+			set
+			{
+				if ((this._EMPROWID != value))
+				{
+					this._EMPROWID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LOGINDATE", DbType="NVarChar(10)")]
+		public string LOGINDATE
+		{
+			get
+			{
+				return this._LOGINDATE;
+			}
+			set
+			{
+				if ((this._LOGINDATE != value))
+				{
+					this._LOGINDATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LOGIN_DATETIME", DbType="NVarChar(10)")]
+		public string LOGIN_DATETIME
+		{
+			get
+			{
+				return this._LOGIN_DATETIME;
+			}
+			set
+			{
+				if ((this._LOGIN_DATETIME != value))
+				{
+					this._LOGIN_DATETIME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
+		public System.Nullable<long> BRANCH_ID
+		{
+			get
+			{
+				return this._BRANCH_ID;
+			}
+			set
+			{
+				if ((this._BRANCH_ID != value))
+				{
+					this._BRANCH_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
+		public string BRANCHDESC
+		{
+			get
+			{
+				return this._BRANCHDESC;
+			}
+			set
+			{
+				if ((this._BRANCHDESC != value))
+				{
+					this._BRANCHDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPUSERID", DbType="BigInt")]
+		public System.Nullable<long> EMPUSERID
+		{
+			get
+			{
+				return this._EMPUSERID;
+			}
+			set
+			{
+				if ((this._EMPUSERID != value))
+				{
+					this._EMPUSERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
+		public string EMPCODE
+		{
+			get
+			{
+				return this._EMPCODE;
+			}
+			set
+			{
+				if ((this._EMPCODE != value))
+				{
+					this._EMPCODE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPID", DbType="NVarChar(100)")]
+		public string EMPID
+		{
+			get
+			{
+				return this._EMPID;
+			}
+			set
+			{
+				if ((this._EMPID != value))
+				{
+					this._EMPID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
+		public string EMPNAME
+		{
+			get
+			{
+				return this._EMPNAME;
+			}
+			set
+			{
+				if ((this._EMPNAME != value))
+				{
+					this._EMPNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATEID", DbType="Int")]
+		public System.Nullable<int> STATEID
+		{
+			get
+			{
+				return this._STATEID;
+			}
+			set
+			{
+				if ((this._STATEID != value))
+				{
+					this._STATEID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE", DbType="NVarChar(50)")]
+		public string STATE
+		{
+			get
+			{
+				return this._STATE;
+			}
+			set
+			{
+				if ((this._STATE != value))
+				{
+					this._STATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DEG_ID", DbType="Int")]
+		public System.Nullable<int> DEG_ID
+		{
+			get
+			{
+				return this._DEG_ID;
+			}
+			set
+			{
+				if ((this._DEG_ID != value))
+				{
+					this._DEG_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DESIGNATION", DbType="NVarChar(50)")]
+		public string DESIGNATION
+		{
+			get
+			{
+				return this._DESIGNATION;
+			}
+			set
+			{
+				if ((this._DESIGNATION != value))
+				{
+					this._DESIGNATION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATEOFJOINING", DbType="NVarChar(10)")]
+		public string DATEOFJOINING
+		{
+			get
+			{
+				return this._DATEOFJOINING;
+			}
+			set
+			{
+				if ((this._DATEOFJOINING != value))
+				{
+					this._DATEOFJOINING = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACTNO", DbType="NVarChar(50)")]
+		public string CONTACTNO
+		{
+			get
+			{
+				return this._CONTACTNO;
+			}
+			set
+			{
+				if ((this._CONTACTNO != value))
+				{
+					this._CONTACTNO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOID", DbType="NVarChar(300)")]
+		public string REPORTTOID
+		{
+			get
+			{
+				return this._REPORTTOID;
+			}
+			set
+			{
+				if ((this._REPORTTOID != value))
+				{
+					this._REPORTTOID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOUID", DbType="NVarChar(100)")]
+		public string REPORTTOUID
+		{
+			get
+			{
+				return this._REPORTTOUID;
+			}
+			set
+			{
+				if ((this._REPORTTOUID != value))
+				{
+					this._REPORTTOUID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTO", DbType="NVarChar(300)")]
+		public string REPORTTO
+		{
+			get
+			{
+				return this._REPORTTO;
+			}
+			set
+			{
+				if ((this._REPORTTO != value))
+				{
+					this._REPORTTO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RPTTODESG", DbType="NVarChar(50)")]
+		public string RPTTODESG
+		{
+			get
+			{
+				return this._RPTTODESG;
+			}
+			set
+			{
+				if ((this._RPTTODESG != value))
+				{
+					this._RPTTODESG = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOID", DbType="NVarChar(300)")]
+		public string HREPORTTOID
+		{
+			get
+			{
+				return this._HREPORTTOID;
+			}
+			set
+			{
+				if ((this._HREPORTTOID != value))
+				{
+					this._HREPORTTOID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOUID", DbType="NVarChar(100)")]
+		public string HREPORTTOUID
+		{
+			get
+			{
+				return this._HREPORTTOUID;
+			}
+			set
+			{
+				if ((this._HREPORTTOUID != value))
+				{
+					this._HREPORTTOUID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTO", DbType="NVarChar(300)")]
+		public string HREPORTTO
+		{
+			get
+			{
+				return this._HREPORTTO;
+			}
+			set
+			{
+				if ((this._HREPORTTO != value))
+				{
+					this._HREPORTTO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRPTTODESG", DbType="NVarChar(50)")]
+		public string HRPTTODESG
+		{
+			get
+			{
+				return this._HRPTTODESG;
+			}
+			set
+			{
+				if ((this._HRPTTODESG != value))
+				{
+					this._HRPTTODESG = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETSMAPPED", DbType="Int")]
+		public System.Nullable<int> OUTLETSMAPPED
+		{
+			get
+			{
+				return this._OUTLETSMAPPED;
+			}
+			set
+			{
+				if ((this._OUTLETSMAPPED != value))
+				{
+					this._OUTLETSMAPPED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NEWSHOP_VISITED", DbType="Int")]
+		public System.Nullable<int> NEWSHOP_VISITED
+		{
+			get
+			{
+				return this._NEWSHOP_VISITED;
+			}
+			set
+			{
+				if ((this._NEWSHOP_VISITED != value))
+				{
+					this._NEWSHOP_VISITED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RE_VISITED", DbType="Int")]
+		public System.Nullable<int> RE_VISITED
+		{
+			get
+			{
+				return this._RE_VISITED;
+			}
+			set
+			{
+				if ((this._RE_VISITED != value))
+				{
+					this._RE_VISITED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTAL_VISIT", DbType="Int")]
+		public System.Nullable<int> TOTAL_VISIT
+		{
+			get
+			{
+				return this._TOTAL_VISIT;
+			}
+			set
+			{
+				if ((this._TOTAL_VISIT != value))
+				{
+					this._TOTAL_VISIT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DISTANCE_TRAVELLED", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> DISTANCE_TRAVELLED
+		{
+			get
+			{
+				return this._DISTANCE_TRAVELLED;
+			}
+			set
+			{
+				if ((this._DISTANCE_TRAVELLED != value))
+				{
+					this._DISTANCE_TRAVELLED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGTIMESPENTINMARKET", DbType="NVarChar(50)")]
+		public string AVGTIMESPENTINMARKET
+		{
+			get
+			{
+				return this._AVGTIMESPENTINMARKET;
+			}
+			set
+			{
+				if ((this._AVGTIMESPENTINMARKET != value))
+				{
+					this._AVGTIMESPENTINMARKET = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DAYSTTIME", DbType="NVarChar(20)")]
+		public string DAYSTTIME
+		{
+			get
+			{
+				return this._DAYSTTIME;
+			}
+			set
+			{
+				if ((this._DAYSTTIME != value))
+				{
+					this._DAYSTTIME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DAYENDTIME", DbType="NVarChar(20)")]
+		public string DAYENDTIME
+		{
+			get
+			{
+				return this._DAYENDTIME;
+			}
+			set
+			{
+				if ((this._DAYENDTIME != value))
+				{
+					this._DAYENDTIME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SALE_VALUE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> SALE_VALUE
+		{
+			get
+			{
+				return this._SALE_VALUE;
+			}
+			set
+			{
+				if ((this._SALE_VALUE != value))
+				{
+					this._SALE_VALUE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDER_VALUE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> ORDER_VALUE
+		{
+			get
+			{
+				return this._ORDER_VALUE;
+			}
+			set
+			{
+				if ((this._ORDER_VALUE != value))
+				{
+					this._ORDER_VALUE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGSPENTDURATION", DbType="NVarChar(50)")]
+		public string AVGSPENTDURATION
+		{
+			get
+			{
+				return this._AVGSPENTDURATION;
+			}
+			set
+			{
+				if ((this._AVGSPENTDURATION != value))
+				{
+					this._AVGSPENTDURATION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DSTYPEID", DbType="BigInt")]
+		public System.Nullable<long> DSTYPEID
+		{
+			get
+			{
+				return this._DSTYPEID;
+			}
+			set
+			{
+				if ((this._DSTYPEID != value))
+				{
+					this._DSTYPEID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DSTYPE", DbType="NVarChar(600)")]
+		public string DSTYPE
+		{
+			get
+			{
+				return this._DSTYPE;
+			}
+			set
+			{
+				if ((this._DSTYPE != value))
+				{
+					this._DSTYPE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CIRCLE", DbType="NVarChar(MAX)")]
+		public string CIRCLE
+		{
+			get
+			{
+				return this._CIRCLE;
+			}
+			set
+			{
+				if ((this._CIRCLE != value))
+				{
+					this._CIRCLE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ATTENDANCE", DbType="Int")]
+		public System.Nullable<int> ATTENDANCE
+		{
+			get
+			{
+				return this._ATTENDANCE;
+			}
+			set
+			{
+				if ((this._ATTENDANCE != value))
+				{
+					this._ATTENDANCE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUALIFIEDPRESENT", DbType="Int")]
+		public System.Nullable<int> QUALIFIEDPRESENT
+		{
+			get
+			{
+				return this._QUALIFIEDPRESENT;
+			}
+			set
+			{
+				if ((this._QUALIFIEDPRESENT != value))
+				{
+					this._QUALIFIEDPRESENT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETEMPSEX", DbType="TinyInt")]
+		public System.Nullable<byte> OUTLETEMPSEX
+		{
+			get
+			{
+				return this._OUTLETEMPSEX;
+			}
+			set
+			{
+				if ((this._OUTLETEMPSEX != value))
+				{
+					this._OUTLETEMPSEX = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GENDERDESC", DbType="NVarChar(100)")]
+		public string GENDERDESC
+		{
+			get
+			{
+				return this._GENDERDESC;
+			}
+			set
+			{
+				if ((this._GENDERDESC != value))
+				{
+					this._GENDERDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTALCDMDAYS", DbType="Int")]
+		public System.Nullable<int> TOTALCDMDAYS
+		{
+			get
+			{
+				return this._TOTALCDMDAYS;
+			}
+			set
+			{
+				if ((this._TOTALCDMDAYS != value))
+				{
+					this._TOTALCDMDAYS = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FTSDSPERFORMANCESUMMARY_REPORT")]
+	public partial class FTSDSPERFORMANCESUMMARY_REPORT
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<int> _SEQ;
+		
+		private System.Nullable<long> _BRANCH_ID;
+		
+		private string _BRANCHDESC;
+		
+		private string _EMPCODE;
+		
+		private string _EMPID;
+		
+		private string _EMPNAME;
+		
+		private System.Nullable<int> _STATEID;
+		
+		private string _STATE;
+		
+		private System.Nullable<int> _DEG_ID;
+		
+		private string _DESIGNATION;
+		
+		private string _DATEOFJOINING;
+		
+		private string _CONTACTNO;
+		
+		private string _REPORTTOID;
+		
+		private string _REPORTTOUID;
+		
+		private string _REPORTTO;
+		
+		private string _RPTTODESG;
+		
+		private string _HREPORTTOID;
+		
+		private string _HREPORTTOUID;
+		
+		private string _HREPORTTO;
+		
+		private string _HRPTTODESG;
+		
+		private string _DATERANGE;
+		
+		private System.Nullable<int> _DAYSPRESENT;
+		
+		private System.Nullable<int> _QUALIFYATTENDANCE;
+		
+		private System.Nullable<int> _DAYSPOINTVISITED;
+		
+		private System.Nullable<int> _NEWSHOP_VISITED;
+		
+		private System.Nullable<int> _RE_VISITED;
+		
+		private System.Nullable<int> _TOTAL_VISIT;
+		
+		private System.Nullable<decimal> _DISTANCE_TRAVELLED;
+		
+		private string _AVGTIMESPENTINMARKET;
+		
+		private string _AVGSPENTDURATION;
+		
+		private System.Nullable<decimal> _SALE_VALUE;
+		
+		private System.Nullable<decimal> _ORDER_VALUE;
+		
+		private System.Nullable<byte> _OUTLETEMPSEX;
+		
+		private string _GENDERDESC;
+		
+		private System.Nullable<int> _TOTALCDMDAYS;
+		
+		public FTSDSPERFORMANCESUMMARY_REPORT()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
+		public System.Nullable<int> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
+		public System.Nullable<long> BRANCH_ID
+		{
+			get
+			{
+				return this._BRANCH_ID;
+			}
+			set
+			{
+				if ((this._BRANCH_ID != value))
+				{
+					this._BRANCH_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCHDESC", DbType="NVarChar(300)")]
+		public string BRANCHDESC
+		{
+			get
+			{
+				return this._BRANCHDESC;
+			}
+			set
+			{
+				if ((this._BRANCHDESC != value))
+				{
+					this._BRANCHDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPCODE", DbType="NVarChar(100)")]
+		public string EMPCODE
+		{
+			get
+			{
+				return this._EMPCODE;
+			}
+			set
+			{
+				if ((this._EMPCODE != value))
+				{
+					this._EMPCODE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPID", DbType="NVarChar(100)")]
+		public string EMPID
+		{
+			get
+			{
+				return this._EMPID;
+			}
+			set
+			{
+				if ((this._EMPID != value))
+				{
+					this._EMPID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPNAME", DbType="NVarChar(300)")]
+		public string EMPNAME
+		{
+			get
+			{
+				return this._EMPNAME;
+			}
+			set
+			{
+				if ((this._EMPNAME != value))
+				{
+					this._EMPNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATEID", DbType="Int")]
+		public System.Nullable<int> STATEID
+		{
+			get
+			{
+				return this._STATEID;
+			}
+			set
+			{
+				if ((this._STATEID != value))
+				{
+					this._STATEID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_STATE", DbType="NVarChar(50)")]
+		public string STATE
+		{
+			get
+			{
+				return this._STATE;
+			}
+			set
+			{
+				if ((this._STATE != value))
+				{
+					this._STATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DEG_ID", DbType="Int")]
+		public System.Nullable<int> DEG_ID
+		{
+			get
+			{
+				return this._DEG_ID;
+			}
+			set
+			{
+				if ((this._DEG_ID != value))
+				{
+					this._DEG_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DESIGNATION", DbType="NVarChar(50)")]
+		public string DESIGNATION
+		{
+			get
+			{
+				return this._DESIGNATION;
+			}
+			set
+			{
+				if ((this._DESIGNATION != value))
+				{
+					this._DESIGNATION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATEOFJOINING", DbType="NVarChar(10)")]
+		public string DATEOFJOINING
+		{
+			get
+			{
+				return this._DATEOFJOINING;
+			}
+			set
+			{
+				if ((this._DATEOFJOINING != value))
+				{
+					this._DATEOFJOINING = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTACTNO", DbType="NVarChar(50)")]
+		public string CONTACTNO
+		{
+			get
+			{
+				return this._CONTACTNO;
+			}
+			set
+			{
+				if ((this._CONTACTNO != value))
+				{
+					this._CONTACTNO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOID", DbType="NVarChar(300)")]
+		public string REPORTTOID
+		{
+			get
+			{
+				return this._REPORTTOID;
+			}
+			set
+			{
+				if ((this._REPORTTOID != value))
+				{
+					this._REPORTTOID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTOUID", DbType="NVarChar(100)")]
+		public string REPORTTOUID
+		{
+			get
+			{
+				return this._REPORTTOUID;
+			}
+			set
+			{
+				if ((this._REPORTTOUID != value))
+				{
+					this._REPORTTOUID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_REPORTTO", DbType="NVarChar(300)")]
+		public string REPORTTO
+		{
+			get
+			{
+				return this._REPORTTO;
+			}
+			set
+			{
+				if ((this._REPORTTO != value))
+				{
+					this._REPORTTO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RPTTODESG", DbType="NVarChar(50)")]
+		public string RPTTODESG
+		{
+			get
+			{
+				return this._RPTTODESG;
+			}
+			set
+			{
+				if ((this._RPTTODESG != value))
+				{
+					this._RPTTODESG = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOID", DbType="NVarChar(300)")]
+		public string HREPORTTOID
+		{
+			get
+			{
+				return this._HREPORTTOID;
+			}
+			set
+			{
+				if ((this._HREPORTTOID != value))
+				{
+					this._HREPORTTOID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTOUID", DbType="NVarChar(100)")]
+		public string HREPORTTOUID
+		{
+			get
+			{
+				return this._HREPORTTOUID;
+			}
+			set
+			{
+				if ((this._HREPORTTOUID != value))
+				{
+					this._HREPORTTOUID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HREPORTTO", DbType="NVarChar(300)")]
+		public string HREPORTTO
+		{
+			get
+			{
+				return this._HREPORTTO;
+			}
+			set
+			{
+				if ((this._HREPORTTO != value))
+				{
+					this._HREPORTTO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HRPTTODESG", DbType="NVarChar(50)")]
+		public string HRPTTODESG
+		{
+			get
+			{
+				return this._HRPTTODESG;
+			}
+			set
+			{
+				if ((this._HRPTTODESG != value))
+				{
+					this._HRPTTODESG = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DATERANGE", DbType="NVarChar(50)")]
+		public string DATERANGE
+		{
+			get
+			{
+				return this._DATERANGE;
+			}
+			set
+			{
+				if ((this._DATERANGE != value))
+				{
+					this._DATERANGE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DAYSPRESENT", DbType="Int")]
+		public System.Nullable<int> DAYSPRESENT
+		{
+			get
+			{
+				return this._DAYSPRESENT;
+			}
+			set
+			{
+				if ((this._DAYSPRESENT != value))
+				{
+					this._DAYSPRESENT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUALIFYATTENDANCE", DbType="Int")]
+		public System.Nullable<int> QUALIFYATTENDANCE
+		{
+			get
+			{
+				return this._QUALIFYATTENDANCE;
+			}
+			set
+			{
+				if ((this._QUALIFYATTENDANCE != value))
+				{
+					this._QUALIFYATTENDANCE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DAYSPOINTVISITED", DbType="Int")]
+		public System.Nullable<int> DAYSPOINTVISITED
+		{
+			get
+			{
+				return this._DAYSPOINTVISITED;
+			}
+			set
+			{
+				if ((this._DAYSPOINTVISITED != value))
+				{
+					this._DAYSPOINTVISITED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NEWSHOP_VISITED", DbType="Int")]
+		public System.Nullable<int> NEWSHOP_VISITED
+		{
+			get
+			{
+				return this._NEWSHOP_VISITED;
+			}
+			set
+			{
+				if ((this._NEWSHOP_VISITED != value))
+				{
+					this._NEWSHOP_VISITED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RE_VISITED", DbType="Int")]
+		public System.Nullable<int> RE_VISITED
+		{
+			get
+			{
+				return this._RE_VISITED;
+			}
+			set
+			{
+				if ((this._RE_VISITED != value))
+				{
+					this._RE_VISITED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTAL_VISIT", DbType="Int")]
+		public System.Nullable<int> TOTAL_VISIT
+		{
+			get
+			{
+				return this._TOTAL_VISIT;
+			}
+			set
+			{
+				if ((this._TOTAL_VISIT != value))
+				{
+					this._TOTAL_VISIT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DISTANCE_TRAVELLED", DbType="Decimal(38,2)")]
+		public System.Nullable<decimal> DISTANCE_TRAVELLED
+		{
+			get
+			{
+				return this._DISTANCE_TRAVELLED;
+			}
+			set
+			{
+				if ((this._DISTANCE_TRAVELLED != value))
+				{
+					this._DISTANCE_TRAVELLED = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGTIMESPENTINMARKET", DbType="NVarChar(50)")]
+		public string AVGTIMESPENTINMARKET
+		{
+			get
+			{
+				return this._AVGTIMESPENTINMARKET;
+			}
+			set
+			{
+				if ((this._AVGTIMESPENTINMARKET != value))
+				{
+					this._AVGTIMESPENTINMARKET = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AVGSPENTDURATION", DbType="NVarChar(50)")]
+		public string AVGSPENTDURATION
+		{
+			get
+			{
+				return this._AVGSPENTDURATION;
+			}
+			set
+			{
+				if ((this._AVGSPENTDURATION != value))
+				{
+					this._AVGSPENTDURATION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SALE_VALUE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> SALE_VALUE
+		{
+			get
+			{
+				return this._SALE_VALUE;
+			}
+			set
+			{
+				if ((this._SALE_VALUE != value))
+				{
+					this._SALE_VALUE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ORDER_VALUE", DbType="Decimal(18,2)")]
+		public System.Nullable<decimal> ORDER_VALUE
+		{
+			get
+			{
+				return this._ORDER_VALUE;
+			}
+			set
+			{
+				if ((this._ORDER_VALUE != value))
+				{
+					this._ORDER_VALUE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OUTLETEMPSEX", DbType="TinyInt")]
+		public System.Nullable<byte> OUTLETEMPSEX
+		{
+			get
+			{
+				return this._OUTLETEMPSEX;
+			}
+			set
+			{
+				if ((this._OUTLETEMPSEX != value))
+				{
+					this._OUTLETEMPSEX = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GENDERDESC", DbType="NVarChar(100)")]
+		public string GENDERDESC
+		{
+			get
+			{
+				return this._GENDERDESC;
+			}
+			set
+			{
+				if ((this._GENDERDESC != value))
+				{
+					this._GENDERDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOTALCDMDAYS", DbType="Int")]
+		public System.Nullable<int> TOTALCDMDAYS
+		{
+			get
+			{
+				return this._TOTALCDMDAYS;
+			}
+			set
+			{
+				if ((this._TOTALCDMDAYS != value))
+				{
+					this._TOTALCDMDAYS = value;
 				}
 			}
 		}

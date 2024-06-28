@@ -1,4 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" CodeBehind="ProductsBranchMap.aspx.cs" Inherits="ERP.OMS.Management.Activities.ProductsBranchMap" %>
+﻿<%--====================================================== Revision History ================================================================
+Rev Number DATE              VERSION          DEVELOPER           CHANGES
+//1.0        07-05-2024        2.0.43          Priti               0027428 :Under Branch Wise Product mapping module , if IsActivateEmployeeBranchHierarchy=0, then the
+====================================================== Revision History ================================================================--%>
+
+
+<%@ Page Title="" Language="C#" MasterPageFile="~/OMS/MasterPage/ERP.Master" AutoEventWireup="true" CodeBehind="ProductsBranchMap.aspx.cs" Inherits="ERP.OMS.Management.Activities.ProductsBranchMap" %>
 
 <%@ Register Assembly="DevExpress.Web.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a"
     Namespace="DevExpress.Data.Linq" TagPrefix="dx" %>
@@ -594,6 +600,11 @@
             width: 850px !important;
         }
 
+        #gridProductLookup_DDD_PW-1
+        {
+            left: -300px !important;
+        }
+
         @media only screen and (max-width: 768px) {
             .breadCumb {
                 padding: 0 18%;
@@ -616,22 +627,48 @@
     <script>
 
         /* --------------Branch----------------------*/
-        function lookup_branchEndCall(s, e) {            
+        function lookup_branchEndCall(s, e) {
             cParentEmpComponentPanel.PerformCallback('BindParentEmpgrid');
             cChildEmpComponentPanel.PerformCallback('BindChildEmpGrid');
         }
-       
+
         $(function () {
+
+            //Rev 1.0
+            if ($("#hdnActivateEmployeeBranchHierarchy").val() == "0") {
+                $("#DivHeadBranch").hide();
+            }
+            else {
+                $("#DivHeadBranch").show();
+            }
+            $("#ddlbranchHO").change(function () {
+                var Ids = $(this).val();
+                cBranchComponentPanel.PerformCallback('BindComponentGrid' + '~' + $("#ddlbranchHO").val());
+            })
+            //Rev 1.0 End
             if ($("#hdAddOrEdit").val() != "Edit") {
-                cBranchComponentPanel.PerformCallback('BindComponentGrid' + '~' + 'All');
+                //Rev 1.0
+                var hdnActivateEmployeeBranchHierarchy = $("#hdnActivateEmployeeBranchHierarchy").val();
+                if (hdnActivateEmployeeBranchHierarchy == "0") {
+                    cBranchComponentPanel.PerformCallback('BindComponentGridBrnachMap');
+                }
+                else
+                {
+                    cBranchComponentPanel.PerformCallback('BindComponentGrid' + '~' + $("#ddlbranchHO").val()); 
+                }
+                //Rev 1.0 End
+
+                
             }
             else {
                 $("#lblheading").html("Modify Branch Wise Product Mapping");
                 gridbranchLookup.SetEnabled(false);
+                $("#DivHeadBranch").hide();
             }
-            
+
 
         });
+        
         function selectAll() {
             gridbranchLookup.gridView.SelectRows();
         }
@@ -682,7 +719,7 @@
         }
         /* --------------Parent End----------------------*/
 
-       /* -----------Data save-------------------------------*/
+        /* -----------Data save-------------------------------*/
         function SaveButtonClick(e) {
             if (gridbranchLookup.GetValue() == null) {
                 jAlert('Please select atleast one branch.');
@@ -701,7 +738,7 @@
             else {
                 cCallbackPanel.PerformCallback("SaveData");
             }
-            
+
         }
         function CallbackPanelEndCall(s, e) {
             if (cCallbackPanel.cpSaveSuccessOrFail == "1") {
@@ -727,7 +764,7 @@
         /* --------------Child Emp----------------------*/
 
 
-        
+
         function selectAllChildEmp() {
             cChildParentEmpLookup.gridView.SelectRows();
         }
@@ -739,7 +776,7 @@
             cChildParentEmpLookup.HideDropDown();
             cChildParentEmpLookup.Focus();
         }
-       
+
         /* --------------Child End----------------------*/
 
     </script>
@@ -766,8 +803,15 @@
 
 
         <div id="entry">
-            <div style="background: #f5f4f3; padding: 17px 0; margin-bottom: 0px; border-radius: 4px; border: 1px solid #ccc;" class="clearfix">
-
+            <div style="background: #fff; padding: 17px 0; margin-bottom: 0px; border-radius: 4px; border: 1px solid #ccc;" class="clearfix">
+                <%--Rev 1.0--%>
+                <div class="col-md-2 h-branch-select" id="DivHeadBranch">
+                    <label>Head Branch</label>
+                    <div>
+                        <asp:DropDownList ID="ddlbranchHO" runat="server" Width="100%" CssClass="form-control"></asp:DropDownList>
+                    </div>
+                </div>
+                <%--Rev 1.0 End--%>
                 <div class="col-md-2">
                     <label>Branch</label>
 
@@ -1018,10 +1062,11 @@
     </dxe:ASPxCallbackPanel>
 
 
-     <asp:HiddenField runat="server" ID="hdAddOrEdit" />
-     <asp:HiddenField runat="server" ID="hdnPageEditId" />
-
-
+    <asp:HiddenField runat="server" ID="hdAddOrEdit" />
+    <asp:HiddenField runat="server" ID="hdnPageEditId" />
+    <%--Rev 1.0--%>
+    <asp:HiddenField runat="server" ID="hdnActivateEmployeeBranchHierarchy" />
+    <%--Rev 1.0 End--%>
 
 
 

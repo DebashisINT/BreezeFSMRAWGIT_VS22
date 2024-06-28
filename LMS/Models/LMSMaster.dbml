@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="FSM_ITC" Class="LMSMasterDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.LMS_TOPICSMASTER_LISTING" Member="LMS_TOPICSMASTER_LISTINGs">
+    <Type Name="LMS_TOPICSMASTER_LISTING">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TOPICID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="TOPICNAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="TOPICBASEDON" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="TOPICSTATUS" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="CREATEDBY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CREATEDON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UPDATEDBY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATEDON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LMS_QUESTIONSMASTERLIST" Member="LMS_QUESTIONSMASTERLISTs">
+    <Type Name="LMS_QUESTIONSMASTERLIST">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="QUESTIONS_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="QUESTIONS_NAME" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="QUESTIONS_DESCRIPTN" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="CNTTOPIC" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="CNTCATEGORY" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="CREATEDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CREATEUSER" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MODIFYDATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MODIFYUSER" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LMS_CATEGORYMASTERLIST" Member="LMS_CATEGORYMASTERLISTs">
+    <Type Name="LMS_CATEGORYMASTERLIST">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="CATEGORYID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CATEGORYNAME" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="CATEGORYDESCRIPTION" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="CATEGORYSTATUS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreateDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="CreateUser" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ModifyDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ModifyUser" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LMS_POINTSETUPMASTERLIST" Member="LMS_POINTSETUPMASTERLISTs">
+    <Type Name="LMS_POINTSETUPMASTERLIST">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="POINTSETUPID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POINTSECTION" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="POINTSECTION_FOR" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="POINTS" Type="System.Decimal" DbType="Decimal(19,2)" CanBeNull="true" />
+      <Column Name="POINTSETUPSTATUS" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreateDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CreateUser" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ModifyDate" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="ModifyUser" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LMS_CONTENTMASTER_LISTING" Member="LMS_CONTENTMASTER_LISTINGs">
+    <Type Name="LMS_CONTENTMASTER_LISTING">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CONTENTID" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="CONTENTTITLE" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="CONTENTDESC" Type="System.String" DbType="NVarChar(300) NOT NULL" CanBeNull="false" />
+      <Column Name="CONTENT_TOPIC" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="CONTENT_PLAYSEQ" Type="System.Int64" DbType="BigInt NOT NULL" CanBeNull="false" />
+      <Column Name="CONTENTSTATUS" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="CONTENT_FILENAME" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CONTENT_FILESIZE" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CONTENT_FILEPATH" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CONTENT_FILETYPE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CONTENT_FILEDURATION" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="CONTENT_ALLOWLIKE" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="CONTENT_ALLOWCOMMENTS" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="CONTENT_ALLOWSHARE" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="CREATEDBY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="CREATEDON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UPDATEDBY" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="UPDATEDON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

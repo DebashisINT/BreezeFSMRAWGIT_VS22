@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer.SalesmanTrack;
+﻿/***************************************************************************************************************************************
+ * 1.0      V2.0.47     14-05-2024      Sanchita        Column Chooser facility is required in the Activity Details report. Mantis: 27422
+ * *************************************************************************************************************************************/
+using BusinessLogicLayer.SalesmanTrack;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
 using MyShop.Models;
@@ -111,6 +114,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         public IEnumerable GetReport(string ispageload)
         {
+            // Rev 1.0
+            DataTable dtColmn = obj.GetPageRetention(Session["userid"].ToString(), "ACTIVITY DETAILS");
+            if (dtColmn != null && dtColmn.Rows.Count > 0)
+            {
+                ViewBag.RetentionColumn = dtColmn;
+            }
+            // End of Rev 1.0
+
             string connectionString = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"]);
             string Userid = Convert.ToString(Session["userid"]);
 
@@ -317,5 +328,28 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
             return settings;
         }
-	}
+
+        // Rev 1.0
+        public ActionResult PageRetention(List<String> Columns)
+        {
+            try
+            {
+                String Col = "";
+                int i = 1;
+                if (Columns != null && Columns.Count > 0)
+                {
+                    Col = string.Join(",", Columns);
+                }
+
+                int k = obj.InsertPageRetention(Col, Session["userid"].ToString(), "ACTIVITY DETAILS");
+
+                return Json(k, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return RedirectToAction("Logout", "Login", new { Area = "" });
+            }
+        }
+        // End of Rev 1.0
+    }
 }

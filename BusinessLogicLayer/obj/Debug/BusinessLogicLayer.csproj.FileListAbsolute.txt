@@ -53,7 +53,6 @@ D:\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\Ionic.Zip.dll
 D:\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
 D:\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\EntityLayer.pdb
 D:\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\DataAccessLayer.pdb
-D:\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.csproj.CopyComplete
 E:\GitHub\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.dll
 E:\GitHub\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.pdb
 E:\GitHub\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\Aspose.Pdf.Kit.dll
@@ -94,3 +93,18 @@ E:\GIT22\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.cspro
 E:\GIT22\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.dll
 E:\GIT22\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\Business.450209FB.Up2Date
+D:\GITHUB\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\Business.450209FB.Up2Date
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.dll
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.pdb
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\Aspose.Pdf.Kit.dll
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\DataAccessLayer.dll
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\EntityLayer.dll
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\Ionic.Zip.dll
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\EntityLayer.pdb
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\bin\Debug\DataAccessLayer.pdb
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.csproj.AssemblyReference.cache
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.csproj.CoreCompileInputs.cache
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\Business.450209FB.Up2Date
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.dll
+D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.pdb

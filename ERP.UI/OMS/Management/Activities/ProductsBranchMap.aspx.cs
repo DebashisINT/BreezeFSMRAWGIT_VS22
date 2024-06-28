@@ -1,4 +1,9 @@
-﻿using ClosedXML.Excel;
+﻿//====================================================== Revision History ================================================================
+//Rev Number DATE              VERSION          DEVELOPER           CHANGES
+//1.0        07-05-2024        2.0.43          Priti               0027428 :Under Branch Wise Product mapping module , if IsActivateEmployeeBranchHierarchy=0, then the
+//====================================================== Revision History ================================================================
+
+using ClosedXML.Excel;
 using DataAccessLayer;
 using DevExpress.Web.Mvc;
 using DevExpress.Web;
@@ -46,7 +51,21 @@ namespace ERP.OMS.Management.Activities
             {
                 Session["ComponentData_Branch"] = null;
                 Session["ComponentData_Product"] = null;
-                
+
+                //REV 1.0 
+                BranchHoOffice();
+                CommonBL cbl = new CommonBL();
+                string mastersettings = cbl.GetSystemSettingsResult("IsActivateEmployeeBranchHierarchy");
+                if (mastersettings == "0")
+                {
+                    hdnActivateEmployeeBranchHierarchy.Value = "0";
+                }
+                else
+                {
+                    hdnActivateEmployeeBranchHierarchy.Value = "1";
+                }
+                //REV 1.0  End
+
                 if (Convert.ToString(Request.QueryString["key"]) != "ADD")
                 {
                     hdAddOrEdit.Value = "Edit";
@@ -61,6 +80,50 @@ namespace ERP.OMS.Management.Activities
                 }
             }
         }
+        //REV 1.0 
+        public void BranchHoOffice()
+        {            
+            DataTable stbill = new DataTable();            
+            DataTable dtBranchChild = new DataTable();
+            stbill = GetBranchheadoffice(Convert.ToString(HttpContext.Current.Session["userbranchHierarchy"]), "HO");           
+            if (stbill.Rows.Count > 0)
+            {
+                ddlbranchHO.DataSource = stbill;
+                ddlbranchHO.DataTextField = "Code";
+                ddlbranchHO.DataValueField = "branch_id";
+                ddlbranchHO.DataBind();
+                dtBranchChild = GetChildBranch(Convert.ToString(HttpContext.Current.Session["userbranchHierarchy"]));
+                if (dtBranchChild.Rows.Count > 0)
+                {
+                    ddlbranchHO.Items.Insert(0, new ListItem("All", "All"));
+                }              
+            }
+        }
+        public DataTable GetChildBranch(string CHILDBRANCH)
+        {
+            DataTable dt = new DataTable();
+            SqlConnection con = new SqlConnection(Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]));
+            SqlCommand cmd = new SqlCommand("PRC_FINDCHILDBRANCH_REPORT", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CHILDBRANCH", CHILDBRANCH);
+            cmd.CommandTimeout = 0;
+            SqlDataAdapter da = new SqlDataAdapter();
+            da.SelectCommand = cmd;
+            da.Fill(dt);
+            cmd.Dispose();
+            con.Dispose();
+            return dt;
+        }
+        public DataTable GetBranchheadoffice(string CHILDBRANCH, string Action)
+        {
+            DataTable ds = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("Get_AllbranchHO");
+            proc.AddPara("@CHILDBRANCH", CHILDBRANCH);
+            proc.AddPara("@Ation", Action);
+            ds = proc.GetTable();
+            return ds;
+        }
+        //REV 1.0  End
         public void MAPDetails(string MAPID)
         {
             DataSet dsBranchMapEditDetails = GetDetailsOfBranchMAP(MAPID);
@@ -239,42 +302,48 @@ namespace ERP.OMS.Management.Activities
         #region Branch Populate
         protected void Componentbranch_Callback(object source, DevExpress.Web.CallbackEventArgsBase e)
         {
+            DataTable ComponentTable = new DataTable();
             string FinYear = Convert.ToString(Session["LastFinYear"]);
             if (e.Parameter.Split('~')[0] == "BindComponentGrid")
-            {
-                DataTable ComponentTable = new DataTable();
+            {                
+                //REV 1.0
                 string Hoid = e.Parameter.Split('~')[1];
                 if (Hoid != "All")
                 {
-                    ComponentTable = GetBranch(Convert.ToString(HttpContext.Current.Session["userbranchHierarchy"]), Hoid);
-                    if (ComponentTable.Rows.Count > 0)
-                    {
-                        Session["ComponentData_Branch"] = ComponentTable;
-                        lookup_branch.DataSource = ComponentTable;
-                        lookup_branch.DataBind();
-                    }
-                    else
-                    {
-                        Session["ComponentData_Branch"] = ComponentTable;
-                        lookup_branch.DataSource = null;
-                        lookup_branch.DataBind();
-                    }
+                    ComponentTable = GetBranch(Convert.ToString(HttpContext.Current.Session["userbranchHierarchy"]), Hoid);                   
+                }
+                else
+                {                                  
+                    ComponentTable = oDBEngine.GetDataTable("select * from (select branch_id as ID,branch_description,branch_code from tbl_master_branch a where a.branch_id=1  union all select branch_id as ID,branch_description,branch_code from tbl_master_branch b where b.branch_parentId=1) a order by branch_description");               
+                }
+                if (ComponentTable.Rows.Count > 0)
+                {
+                    Session["ComponentData_Branch"] = ComponentTable;
+                    lookup_branch.DataSource = ComponentTable;
+                    lookup_branch.DataBind();
                 }
                 else
                 {
-
-                    ProcedureExecute proc = new ProcedureExecute("PRC_FSMBRANCHWISEPRODUCTMAPPING");
-                    proc.AddVarcharPara("@Action", 50, "FETCHBRANCHS");
-                    proc.AddIntegerPara("@USERID", Convert.ToInt32(HttpContext.Current.Session["userid"]));
-                    ComponentTable = proc.GetTable();
-                    if (ComponentTable.Rows.Count > 0)
-                    {
-                        Session["ComponentData_Branch"] = ComponentTable;
-                        lookup_branch.DataSource = ComponentTable;
-                        lookup_branch.DataBind();
-                    }
+                    Session["ComponentData_Branch"] = ComponentTable;
+                    lookup_branch.DataSource = null;
+                    lookup_branch.DataBind();
+                }
+                //REV 1.0 End
+            }
+            else if (e.Parameter.Split('~')[0] == "BindComponentGridBrnachMap") 
+            {
+                ProcedureExecute proc = new ProcedureExecute("PRC_FSMBRANCHWISEPRODUCTMAPPING");
+                proc.AddVarcharPara("@Action", 50, "FETCHBRANCHS");
+                proc.AddIntegerPara("@USERID", Convert.ToInt32(HttpContext.Current.Session["userid"]));
+                ComponentTable = proc.GetTable();
+                if (ComponentTable.Rows.Count > 0)
+                {
+                    Session["ComponentData_Branch"] = ComponentTable;
+                    lookup_branch.DataSource = ComponentTable;
+                    lookup_branch.DataBind();
                 }
             }
+
 
             //if (e.Parameter.Split('~')[0] == "BindComponentGrid")
             //{

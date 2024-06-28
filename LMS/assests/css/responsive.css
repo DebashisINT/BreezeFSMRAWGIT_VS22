@@ -1,0 +1,410 @@
+﻿/* SMARTPHONES PORTRAIT */
+@media only screen and (min-width: 300px) {
+
+
+}
+
+/* SMARTPHONES LANDSCAPE */
+@media only screen and (max-width: 480px) {
+    .tabs-style-shape nav li a {
+        
+        
+    }
+    .tabs.tabs-style-shape >nav >ul {
+        display:block;
+    }
+    .tabs-style-shape nav li {
+        margin:5px 0 !important; 
+    }
+    .tabs-style-shape nav li a{
+        margin:0 !important;
+    }
+    .tabs-style-shape nav li a >span {
+        border-radius:5px !important;
+        text-align:center;
+        padding: 0  !important;
+        font-size:100% !important;
+    }
+    .tabs-style-shape nav li a>svg  {
+        display:none;
+    }
+    ul.mapShowlist {
+        /*height: 80px;*/
+        border-radius: 3px;
+        clear: both;
+    }
+    .flotting-right-btn {
+        position: fixed !important;
+        right: -20px !important;
+        top: 30%;
+        z-index: 999;
+    }
+    .container {
+        width: 100% !important;
+        padding: 0;
+    }
+
+    .mainDashBoxes .flex-itm {
+        margin-right: 0px;
+        margin-top: 20px;
+        width: 100%;
+    }
+    .widgBox .icon {
+        width: 54px;
+        height: 98px;
+        font-size: 19px;
+    }
+    .widgBox .Numb {
+        font-size: 3.2em;
+    }
+    .widgBox .txt {
+        font-size: 13px;
+    }
+     .morethan7 {
+        column-count:1;
+        width:100% !important;
+    }
+    .morethan14 {
+        column-count:1;
+        width:100% !important;
+    }
+    .nav>li>a {
+        padding: 10px 6px;
+    }
+    ul.nopad> li {
+        width:100%;
+        margin-right:0;
+    }
+    .box-holder {
+        overflow-x:auto;
+    }
+    .tbleChoosedate {
+        float: none !important;
+        margin-right: 0 !important;
+        font-size: 14px;
+        /*margin-left:15px;*/
+        margin-left: 0;
+        width: 100%;
+    }
+    .tbleChoosedate > tbody > tr > td {
+        display:block !important;
+        text-align:left;
+
+    }
+    .dateWidth {
+        width:100% !important;
+    }
+    .multiselect-container.dropdown-menu {
+        min-width:auto !important;
+    }
+    .mapShowlist>li:first-child{
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+    .mapShowlist select#cmbState + .btn-group  {
+        width: 100%;
+        display: block;
+    }
+}
+
+/* TABLETS PORTRAIT */
+@media only screen and (max-width: 768px) {
+
+    .tabs-style-shape nav li a span {
+        font-size: 14px !important;
+    }
+    .prof a .user + span {
+        display:none
+    }
+     .sideNavigation {
+        width: 100%;
+        left: -100%;
+    }
+     .sideNavigation>ul {
+        margin:0;
+    }
+    .sideNavigation>ul>li>a .lnr {
+        -webkit-transform: translate(0px, 7px);
+        transform: translate(0px, 7px);
+        display: inline-block;
+    }
+    .navActivated .sideNavigation{
+        left:0;
+    }
+    .sideNavigation>ul>li>a .flText {
+            display: inline-block;
+        font-size: 1.4rem;
+        background: none;
+        position: static; 
+        left: 100%;
+        height: 100%;
+        text-align: left;
+        top: 0;
+        line-height: 32px;
+        padding: 6px 15px;
+        width: auto;
+        visibility:visible;
+        box-sizing: border-box;
+        text-transform: uppercase;
+    }
+    .sideNavigation>ul>li .submenu-fl {
+        position:static;
+        width: 100%
+    }
+    .morethan7 {
+        column-count:2;
+        width:100% !important;
+    }
+    .morethan14 {
+        column-count:2;
+        width:100% !important;
+    }
+    .colorBox {
+        margin-bottom:10px;
+    }
+    .profDrop {
+       right: 0;
+       left: auto;
+    }
+    .pignose-calendar {
+        font-size: 58%;
+    }
+    .pignose-calendar .pignose-calendar-top .pignose-calendar-top-month {
+        font-size: 70%;
+    }
+
+    .headerMain
+    {
+        padding-bottom: 20px;
+    }
+
+    .boxWidget {
+        overflow: hidden;
+        overflow-x: auto;
+    }
+
+    .dashboardHighlightWrap {
+        padding: 0px 8px;
+        padding-bottom: 22px;
+    }
+
+    .widgBox {
+        margin-bottom: 6px;
+    }
+
+    .mainDashBoxes .flex-itm
+    {
+        margin-left: 5px;
+    }
+
+    .pl-50 {
+        padding-left: 0 !important;
+    }
+
+    #cmbBranch + .btn-group > button, #cmbStateFV + .btn-group > button, #cmbBranchFV + .btn-group > button, #cmbState + .btn-group > button, #cmbStateTV + .btn-group > button, #cmbBranchTV + .btn-group > button, #cmbStateTVH + .btn-group > button, #cmbBranchTVH + .btn-group > button {
+        width: 230px;
+        box-shadow: 1px 1px 10px #0531646e;
+    }
+
+    .mapShowlist > li:not(:last-child) {
+        margin-bottom: 10px;
+    }
+
+    .multiselect-container.dropdown-menu {
+        left: 0;
+    }
+
+    #griddetailsHeadedtext {
+        width: 80%;
+        transform: inherit;
+    }
+
+    #griddetails {
+        margin-top: 25px !important;
+    }
+    .boxWidget {
+        padding: 0px !important;
+    }
+
+    .tabs-style-shape .tab-content {
+        border-radius: 15px !important;
+    }
+
+    .resulter.on {
+        width: 100%;
+        padding: 10px 5px;
+    }
+
+    #clonedMenus > a {
+        width: 100%;
+    }
+
+    .prof {
+        justify-content: center;
+        display: flex;
+        margin-right: 0;
+    }
+
+    ul.mapShowlist
+    {
+        border: none !important;
+    }
+
+    .container {
+        max-width: 100% !important;
+        padding: 0;
+    }
+
+    /*.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+    }*/
+
+    .box-holder .bxd-cont {
+        padding: 8px !important;
+    }
+
+    .pignose-calendar .pignose-calendar-unit a {
+        width: 28px !important;
+        height: 30px !important;
+    }
+
+    .tabs-style-shape .tab-content {
+        padding: 18px !important;
+    }
+
+    .pmsModal.w80 .modal-dialog {
+        width: 92% !important;
+    }
+
+    #lateTble_wrapper > .row > .col-sm-12, #example_wrapper > .row > .col-sm-12, #absentTble_wrapper > .row > .col-sm-12 {
+        overflow-x: auto !important;
+    }
+
+    .dateWidth {
+        max-width: 100% !important;
+        margin-bottom: 10px;
+    }
+    .tbleChoosedate > tbody > tr > td:not(:last-child) {
+        padding-right: 0 !important;
+    }
+
+    #DetailsTable {
+        overflow-x: auto;
+    }
+
+    .box-holder .hdd-rp {
+        width: 80%;
+    }
+
+    .toggleFullScreen {
+        right: 24px !important;
+    }
+
+    .breadCumb {
+        /*padding: 0 72px;*/
+        padding: 0 23%;
+    }
+
+    .px-5 {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .pmsModal.w50 .modal-dialog {
+        width: 98%;
+    }
+
+    #refreshgrid {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .dxgvControl_Elegant {
+        min-width: 100%;
+    }
+
+    .dxgvTable_Elegant {
+        table-layout: auto !important;
+        width: 100% !important;
+    }
+
+        .dxgvTable_Elegant th,
+        .dxgvTable_Elegant td {
+            white-space: nowrap;
+        }
+
+    .col-md-2 {
+        margin-bottom: 10px !important;
+    }
+
+    .headerMain {
+        flex-wrap: wrap;
+    }
+    .middleWraper {
+        justify-content: end;
+    }
+    .form_main {
+        overflow-x: auto;
+    }
+
+    .GridViewArea {
+        overflow-x: auto !important;
+    }
+
+    .overflow-x-auto {
+        overflow-x: auto !important;
+    }
+
+    .submenu-fl > li > a {
+        position: relative;
+        z-index: 999;
+    }
+
+    .tblspace > tbody > tr > td {
+        padding-right: 8px;
+    }
+
+    .dxgvCSD {
+        width: 100% !important;
+    }
+
+    .col-lg-2 {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .secboxback {
+        margin-bottom: 10px;
+    }
+
+    .parameter-btns .btn {
+        margin-bottom: 8px;
+    }
+
+    .eqpadtbl > tbody > tr > td
+    {
+        display: block;
+    }
+    .w150 {
+        width: 100% !important;
+    }
+
+    .w-100-mobile {
+        width: 100% !important;
+    }
+
+    .mb-10-mob
+    {
+        margin-bottom: 10px !important;
+    }
+}
+
+
+/* TABLET LANDSCAPE / DESKTOP */
+@media only screen and (min-width: 1024px) {
+
+
+}

@@ -1,6 +1,7 @@
 /***********************************************************************************************************
  * 1.0      Sanchita        V2.0.30     24-03-2023          Unable to modify Channel, Section, Circle once tagged with an Employee. 
  *                                                          Refer: 25754
+ * 2.0		PRITI           V2.0.47     13-05-2024	        0027425: At the time of any Employee creation, the branch ID shall be updated in employee branch mapping table                                                          
  * ***********************************************************************************************************/
 using System;
 using System.Configuration;
@@ -329,7 +330,11 @@ namespace ERP.OMS.Management.Master
                 //Tire architecture
                 // Mantis Issue 24655 [ paarmeter ChannelType, Circle and Section  added. Also ChannelDefault, CircleDefault and SectionDefault added ]
                 string InternalID = objEmployee.btnSave_Click_BL(Convert.ToString(DBNull.Value), CmbSalutation.SelectedItem.Value, txtFirstNmae.Text,
-                txtMiddleName.Text, txtLastName.Text, txtAliasName.Text, "0",
+                txtMiddleName.Text, txtLastName.Text, txtAliasName.Text,
+                //REV 2.0
+                //"0",
+                cmbBranch.SelectedItem.Value,
+                //REV 2.0 END
                 cmbGender.SelectedItem.Value, Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value),
                 Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value), Convert.ToString(DBNull.Value),
                 chkAllow, Convert.ToString(DBNull.Value), Convert.ToString(ChannelType), Convert.ToString(Circle), Convert.ToString(Section),

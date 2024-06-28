@@ -1,0 +1,1816 @@
+﻿
+@using LMS.Models;
+@model LMS.Models.LMSTopicsModel
+@{
+    ViewBag.Title = "Topic Setup";
+}
+@*<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+    <script src="~/Scripts/SearchPopup.js"></script>
+    <link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+    <script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+    <script src="~/Scripts/SearchMultiPopup.js"></script>*@
+
+<link href="/assests/pluggins/Transfer/icon_font/css/icon_font.css" rel="stylesheet" />
+<link href="/assests/pluggins/Transfer/css/jquery.transfer.css" rel="stylesheet" />
+<script src="/assests/pluggins/Transfer/jquery.transfer.js"></script>
+
+<style>
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        color: #fff;
+        /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 90% !important;
+    }
+
+    @@media screen and (min-width: 768px) {
+        .modal-dialog {
+            padding-top: 56px !important;
+        }
+
+        #UserSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog {
+            padding-top: 100px !important;
+        }
+    }
+
+
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 3px;
+        margin-bottom: 2px;
+        font-size: 13px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        /*height: 30px;
+        padding: 3px 12px;*/
+    }
+
+    .modalScroll .modal-body {
+        /*max-height: 88vh !important;*/
+        overflow-y: auto;
+        border-radius: 0 0 15px 15px !important;
+    }
+
+    .bulAssignTbl > tbody > tr > td {
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .mHead {
+        margin: 0;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+        color: #415ed2;
+        margin-bottom: 13px;
+    }
+
+    /*Rev 1.0*/
+
+    body, .dxtcLite_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 7px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select, .h-branch-select-new {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 38px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+        .h-branch-select-new::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 9px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    select:not(.btn):focus {
+        border-color: #094e8c;
+    }
+
+    select:not(.btn):focus-visible {
+        box-shadow: none;
+        outline: none;
+    }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        /*-webkit-appearance: none;*/
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+        /*height: 30px !important;*/
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 30px;
+    }
+
+    #dtFrom, #dtTo, #FormDate, #toDate, #appcbl_frm_dt {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 16px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #appcbl_frm_dt_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img,
+        #cmbDOJ_B-1 #cmbDOJ_B-1Img,
+        #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img,
+        #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #appcbl_frm_dt_B-1 #appcbl_frm_dt_B-1Img {
+            display: none;
+        }
+
+    #FormDate_I, #toDate_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+        width: 150px;
+    }
+
+    .pad-md-18 {
+        padding-top: 10px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue {
+        height: 34px;
+        border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1 {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .btn-sm, .btn-xs {
+        padding: 7px 10px !important;
+    }
+
+    #productAttributePopUp_PWH-1 span, #ASPxPopupControl2_PWH-1 span {
+        color: #fff !important;
+    }
+
+    #marketsGrid_DXPEForm_tcefnew, .dxgvPopupEditForm_PlasticBlue {
+        height: 220px !important;
+    }
+
+    .btn {
+        height: 34px;
+        border-radius: 50px;
+    }
+    /*Rev end 1.0*/
+    /*Rev start 3.0*/
+    .mrtop-6 {
+        margin-top: 6px;
+    }
+    @@media screen and (min-width: 768px)
+    {
+        #AddTopicModal .modal-dialog {
+            width: 48% !important;
+        }
+    }
+    
+
+    .btn-default {
+        background-color: #dbdbdb;
+    }
+
+        .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+            background-color: #c1c1c1;
+        }
+
+    #ddlSalesmanRe, #ddlSalesman1 {
+        -webkit-appearance: auto;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_PW-1 {
+        left: 15px !important;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_C_FNP_PW-1 {
+        left: 60px !important;
+    }
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #myImportContactModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+    /*End of Rev 4.0*/
+
+    .mt-15 {
+        margin-top: 15px;
+    }
+
+    .mb-10 {
+        margin-bottom: 5px;
+    }
+
+    .mr-5 {
+        margin-right: 5px;
+    }
+
+    .pmsModal .modal-body {
+        padding: 10px;
+        padding-bottom: 15px;
+    }
+
+        .pmsModal .modal-body .col-md-3, .pmsModal .modal-body .col-md-6, .pmsModal .modal-body .col-md-12 {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+    .personal-info {
+        background: #f9f9f9;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .pmsModal .modal-body select:not(.btn), .pmsModal .modal-body .form-control {
+        border-radius: 6px !important;
+        background: #fff !important;
+    }
+
+        .pmsModal .modal-body .form-control:focus {
+            box-shadow: none !important;
+        }
+
+    .company-info {
+        background: #f9f9f9 !important;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .others-info {
+        background: #f9f9f9 !important;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .section-heading {
+        width: 100%;
+        margin-top: -24px;
+        padding: 0 0 0 10px;
+        margin-bottom: 10px;
+    }
+
+    .personal-info .section-heading h4 {
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #10977e;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .company-info .section-heading h4 {
+        /*font-size: 16px !important;
+        padding: 6px 15px;
+        background: #971073;
+        color: #fff;
+        border-radius: 20px 20px;
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;*/
+
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #971073;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .others-info .section-heading h4 {
+        /*font-size: 16px !important;
+        padding: 6px 15px;
+        background: #974310;
+        color: #fff;
+        border-radius: 20px 20px;
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;*/
+
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #974310;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .ml-n15 {
+        margin-right: -18px;
+        text-align: end;
+    }
+
+    /* width */
+    .pmsModal .modal-body::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    .pmsModal .modal-body::-webkit-scrollbar-track {
+        box-shadow: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Handle */
+    .pmsModal .modal-body::-webkit-scrollbar-thumb {
+        background: #b1b1b1;
+        border-radius: 10px;
+    }
+
+        /* Handle on hover */
+        .pmsModal .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #8b8b8b;
+        }
+
+    #dtDOB_DDD_PW-1, #dtAnniversarydate_DDD_PW-1, #dtNextFollowDate_DDD_PW-1 {
+        left: -25px !important;
+    }
+
+    #dtDOB_DDD_C_FNP_PW-1, #dtNextFollowDate_DDD_C_FNP_PW-1 {
+        left: 45px !important;
+    }
+
+    #dtAnniversarydate_DDD_C_FNP_PW-1 {
+        left: 30px !important;
+        /*top: 0;*/
+    }
+
+    body.modal-open {
+        overflow: hidden;
+    }
+
+    .btn-clr-1 {
+        background-color: #313ec7 !important;
+    }
+
+    .btn-clr-2 {
+        background-color: #ff6a00 !important;
+    }
+
+    .btn-clr-3 {
+        background-color: #0ead7f !important;
+    }
+
+    .btn-clr-4 {
+        background-color: #86a113 !important;
+    }
+
+    .bg-color-6 {
+        background-color: #bd1c68 !important;
+    }
+
+        .bg-color-6 .badge {
+            background-color: #fff !important;
+            padding: 4px 7px;
+            color: #111;
+        }
+
+    .btn {
+        margin-right: 5px;
+        padding: 4px 10px;
+    }
+
+
+
+    #popup_message {
+        text-align: center !important;
+        padding: 0 !important;
+    }
+
+    #popup_container {
+        font-size: 14px !important;
+    }
+
+    #popup_panel {
+        margin-left: 0 !important;
+    }
+
+    #myImportModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+
+    #dtNextFollowDateOutOfRWarn, #dtDOBOutOfRWarn, #dtAnniversarydateOutOfRWarn {
+        left: 0 !important;
+        top: 60px !important;
+    }
+
+    .dxeOutOfRWarn_PlasticBlue {
+        font-size: 13px !important;
+    }
+
+    .validationDiv {
+        margin-bottom: 10px;
+    }
+
+    .btn-radius {
+        border-radius: 50px;
+        /*float:left;*/
+    }
+
+    /*.add-btn .btn-icon {
+        border-radius: 50px;
+        width: 22px;
+        height: 22px;
+        display: inline-block;
+        background: #0d4d91;
+        line-height: 22px;
+    }
+
+    .add-btn {
+        padding: 6px 10px 6px 6px !important;
+        background-color: #f8666f !important;
+        border-color: #f8666f !important;
+    }*/
+
+    .col-md-1, .col-md-2, .col-md-4 {
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+    }
+
+    .calendar-icon {
+        right: 14px !important;
+    }
+
+    .personal-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #10977e;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    .company-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #971073;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    .others-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #974310;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    /*.personal-info .section-heading h4:after {
+        content: "";
+        position: absolute;
+        left: -1px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 1px solid white;
+        border-top: 14px solid transparent;
+        border-bottom: 14px solid transparent;
+    }*/
+
+    .personal-info .section-heading h4 .bulet, .company-info .section-heading h4 .bulet, .others-info .section-heading h4 .bulet {
+        position: absolute;
+        right: 0px;
+        top: 11px;
+        background: #fff;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        box-shadow: 0px 0px 1px 2px rgb(26, 128, 44);
+    }
+
+    .company-info .section-heading h4 .bulet {
+        box-shadow: 0px 0px 1px 2px rgb(81 5 61) !important;
+    }
+
+    .others-info .section-heading h4 .bulet {
+        box-shadow: 0px 0px 1px 2px rgb(99 39 3) !important;
+    }
+
+    /*#btnshow, #ddlAppIds {
+        height: 30px;
+    }*/
+
+    #ddlAppIds {
+        padding: 2px 10px !important;
+    }
+
+    #UserSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog {
+        width: 42% !important;
+    }
+
+    .container {
+        width: 88%;
+    }
+
+    .only-view {
+        cursor: default !important;
+    }
+
+    @@media (min-width: 1200px) {
+        .container {
+            width: 88%;
+        }
+    }
+
+    /*.transfer-demo {
+        width: 640px;
+        height: 351px;
+    }*/
+
+        .transfer-demo .transfer-double-header {
+            display: none;
+        }
+
+    .transfer-double-selected-list-main .transfer-double-selected-list-ul .transfer-double-selected-list-li .checkbox-group {
+        width: 85%;
+    }
+
+    .red {
+        color: red;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+    }
+
+    .transfer-double-content-param {
+        border-bottom: 1px solid #4236f5;
+        background: #4236f5;
+        color: #e8e8e8;
+    }
+
+    .top-count-filter {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 15px;
+        /*background: #f3f3f3;
+        border-radius: 15px 15px 0 0;*/
+    }
+
+        .top-count-filter .btn {
+            height: auto;
+            border-radius: 15px;
+            padding: 10px 15px 5px 15px;
+            margin: 10px 10px 0 10px;
+            transition: all .5s;
+        }
+
+    .top-count-filter .btn h5 {
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0;
+        margin-bottom: 5px !important;
+    }
+
+    .filter-count
+    {
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .btn-total {
+        background-color: rgb(10 63 166 / 9%) !important;
+        
+    }
+
+        .btn-total:hover {
+            background-color: rgb(10 63 166) !important;
+            color: #fff !important;
+        }
+
+            .btn-total:hover h5, .btn-total:hover .filter-count,
+            .btn-total-used:hover h5, .btn-total-used:hover .filter-count,
+            .btn-total-unused:hover h5, .btn-total-unused:hover .filter-count {
+                color: #fff !important;
+            }
+
+            .btn-total h5, .btn-total-used h5, .btn-total-unused h5 {
+                color: #111;
+            }
+
+        .btn-total .filter-count {
+            color: #0D3B8C;
+        }
+
+    .btn-total-used {
+        background-color: #cbffe4 !important;
+    }
+
+        .btn-total-used:hover {
+            background-color: #0b8b48 !important;
+            color: #fff !important;
+        }
+
+        .btn-total-used .filter-count {
+            color: #0c8f38;
+        }
+
+    .btn-total-unused {
+        background-color: #ffe1e1 !important;
+    }
+
+        .btn-total-unused:hover {
+            background-color: #d01616 !important;
+            color: #fff !important;
+        }
+
+        .btn-total-unused .filter-count {
+            color: #d80606;
+        }
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+    }
+
+    .add-btn {
+        transition: all .4s;
+    }
+
+        .add-btn:hover {
+            color: #fff;
+            background-color: #0e4f23;
+            border-color: #0e4f23;
+        }
+
+        .add-btn .btn-icon i {
+            color: #238945;
+        }
+
+    .add-btn {
+        background-color: #238945;
+        margin-right: 5px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        height: 38px;
+        padding-left: 12px;
+        padding-right: 12px;
+        color: #fff;
+    }
+
+        .btn:active, .btn:hover, .btn:focus {
+            color: #fff !important;
+        }
+
+    .buttons-alignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0;
+    }
+
+    .show-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+        color: #054682;
+    }
+
+    .show-btn {
+        background: #054682;
+        transition: all .4s;
+    }
+
+        .show-btn:hover {
+            background: #072743;
+        }
+
+    .btn-cancel {
+        background-color: #DC0505;
+        color: #fff;
+    }
+
+    .btn-export {
+        background: #e17134;
+        color: #fff;
+    }
+
+        .btn-export:hover {
+            background: #a24716 !important;
+            color: #fff;
+        }
+
+    .transfer-double, .transfer-double-list-search-input, .transfer-double-selected-list-search-input {
+        width: 100%;
+    }
+
+        .transfer-double
+        {
+            border: none;
+        }
+
+    .transfer-double-content
+    {
+        padding: 0;
+    }
+
+    .transfer-double-content-left, .transfer-double-content-right {
+        width: 45%;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+    .transfer-double-content-middle {
+        width: 10%;
+        margin: 0 !important;
+        margin-top: 20% !important;
+    }
+
+    .transfer-double-list-main .transfer-double-list-ul, .transfer-double-selected-list-main .transfer-double-selected-list-ul {
+        padding-left: 5px;
+    }
+
+    .transfer-double-list-footer {
+        padding-left: 0;
+        height: auto;
+        background: #FADBFF;
+    }
+
+    
+
+    .btn-select-arrow {
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        border-radius: 50px;
+        color: #fff;
+        background: #b4b4b4;
+    }
+
+    .btn-arrow-active {
+        color: #fff;
+        background: #27ac15 !important;
+        cursor: pointer;
+    }
+
+    .transfer-double-content-param {
+        color: #fff;
+    }
+
+    .swal2-confirm.swal2-styled {
+        border-radius: 12px !important;
+    }
+
+    .swal2-styled {
+        border-radius: 12px !important;
+        padding: 8px 20px !important;
+        color: #fff !important;
+        font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+        margin-top: 5px !important;
+    }
+
+    div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+        background: rgb(0 0 0 / 20%) !important;
+    }
+</style>
+
+<script>
+    var Is_PageLoad = "Ispageload";
+
+    $(function () {
+
+
+        //gridLMSTopic.Refresh();
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("EnquiryFromGridLookup");
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("EnquiryFromGridLookup");
+        //lookup.GetGridView().Refresh();
+
+
+        $('body').on('click', '#btnshow', function () {
+
+            var flag = true;
+
+            Is_PageLoad = "1";
+            gridLMSTopic.Refresh();
+            gridLMSTopic.Refresh();
+
+
+            setTimeout(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/LMSTopics/GetTopicCount",
+                    //data: JSON.stringify(obj),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        $("#btnShowTotalTopics").text(response.TotalTopics);
+                        $("#btnShowUsedTopics").text(response.TotalUsedTopics);
+                        $("#btnShowUnusedTopics").text(response.TotalUnusedTopics);
+
+                    },
+                    error: function (response) {
+                        jAlert("Please try again later");
+                    }
+                });
+            }, 1000)
+
+        });
+
+
+        $('body').on('click', '#btnExportTo', function () {
+            var url = '@Url.Action("ExporRegisterList", "LMSTopics")'
+            window.location.href = url.replace("_type_");
+        });
+
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
+
+        $(".allow_decimal").on("input", function (evt) {
+            var self = $(this);
+            self.val(self.val().replace(/[^0-9\.]/g, ''));
+            if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                evt.preventDefault();
+            }
+        });
+
+
+
+    });
+
+    function OnStartCallback(s, e) {
+        e.customArgs["Is_PageLoad"] = Is_PageLoad;
+    }
+
+    function AddTopic() {
+        $("#hdnAddEditMode").val('ADDTOPIC');
+        $("#hdnTopicID").val(0);
+        $("#transfer1").html('');
+        $("#txtTopicName").val('');
+        $("#ddlTopicBasedOn").val(0);
+        $("#AddTopicModal").modal('show');
+    }
+
+    var selectedTopicBasedOnMapList;
+    function ddlTopicBasedOnChange() {
+        selectedTopicBasedOnMapList = '';
+        var obj = {};
+        obj.topic_basedon = $("#ddlTopicBasedOn").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/LMSTopics/GetBasedOnList",
+            data: JSON.stringify(obj),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data)
+                var temArr2 = [];
+                //var data = response.d;
+                for (var a = 0; a < data.length; a++) {
+                    if (data[a].selected) {
+                        temArr2.push(data[a].ID);
+                    }
+                }
+                selectedTopicBasedOnMapList = temArr2.join(",");
+                $("#transfer1").html('');
+
+                var tabNameText = data[0].tabNameText;
+                var rightTabNameText = data[0].rightTabNameText;
+                var searchPlaceholderText = data[0].searchPlaceholderText;
+                lblBasedOn.innerText = "Select " + tabNameText;
+
+                var settings1 = {
+                    "dataArray": data,
+                    "itemName": "NAME",
+                    "valueName": "ID",
+                    "tabNameText": tabNameText,
+                    "rightTabNameText": rightTabNameText,
+                    "searchPlaceholderText": searchPlaceholderText,
+                    "callable": function (items) {
+                        //console.dir(items)
+                        var temArr = [];
+                        for (var i = 0; i < items.length; i++) {
+                            temArr.push(items[i].ID);
+                        }
+                        selectedTopicBasedOnMapList = temArr.join(",");
+                    }
+                };
+                $("#transfer1").transfer(settings1);
+            }
+        });
+    }
+
+    @*function SaveTopics() {
+        jConfirm("Are you sure you want to save?", 'Alert', function (ret) {
+            if (ret) {
+                if ($("#txtTopicName").val() == "" || $("#txtTopicName").val() == null || $("#txtTopicName").val() == undefined) {
+                    jAlert("Please enter Topic Name.", "Alert", function () {
+                        setTimeout(function () {
+                            $("#txtTopicName").focus();
+                            return
+                        }, 200);
+                    });
+                    return
+                }
+
+                if ($("#ddlTopicBasedOn").val() == 0 || $("#ddlTopicBasedOn").val() == "" || $("#ddlTopicBasedOn").val() == null || $("#ddlTopicBasedOn").val() == undefined) {
+                    jAlert("Please select Based On.", "Alert", function () {
+                        setTimeout(function () {
+                            $("#ddlTopicBasedOn").focus();
+                            return
+                        }, 200);
+                    });
+                    return
+                }
+
+                if (selectedTopicBasedOnMapList == "" || selectedTopicBasedOnMapList == null || selectedTopicBasedOnMapList == undefined) {
+                    jAlert("Please select Based On Items.", "Alert", function () {
+                        setTimeout(function () {
+                            $("#ddlTopicBasedOn").focus();
+                            return
+                        }, 200);
+                    });
+                    return
+                }
+
+                var TopicBasedOnId = $("#ddlTopicBasedOn").val();
+                var action = $("#hdnAddEditMode").val();
+                var TopicID = $("#hdnTopicID").val();
+
+                var data = {
+                    Action: action,
+                    TopicID: TopicID,
+                    TopicBasedOnId: $("#ddlTopicBasedOn").val(),
+                    TopicName: $("#txtTopicName").val(),
+                    selectedTopicBasedOnMapList: selectedTopicBasedOnMapList
+                }
+
+                $.ajax({
+                    url: "@Url.Action("SaveTopic", "LMSTopics")",
+                    async: false,
+                    data: { data: data },
+                    type: 'POST',
+                    success: function (returnValue
+                    ) {
+                        if (returnValue.RETURN_VALUE == "-10") {
+                            jAlert("Error in Add.");
+                        }
+                        if (returnValue.RETURN_VALUE == "-20") {
+                            jAlert("Error in Update.");
+                        }
+                        else if (returnValue.RETURN_VALUE == "0" && returnValue.RETURN_DUPLICATEMAPNAME != "" ) {
+                            jAlert("Topic added successfully. Duplicate data exists for following Based On with this Topic:\n" + returnValue.RETURN_DUPLICATEMAPNAME + ".");
+                            //ClearData();
+                            $('#AddTopicModal').modal('hide');
+                        }
+                        else if (returnValue.RETURN_VALUE == "0" && returnValue.RETURN_DUPLICATEMAPNAME == "") {
+                            jAlert("Topic added successfully.");
+                            //ClearData();
+                            $('#AddTopicModal').modal('hide');
+                        }
+                        else if (returnValue.RETURN_VALUE == "1" ) {
+                            jAlert("Duplicate Topic name cannot be entered. Please enter a unique Topic name.");
+                        }
+
+
+                    },
+                    error: function () {
+                    },
+                });
+            }
+        });
+
+
+    }*@
+
+    function SaveTopics() {
+    Swal.fire({
+        title: 'Are you sure you want to save?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, save it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if ($("#txtTopicName").val().trim() == "") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Alert',
+                    text: 'Please enter Topic Name.'
+                }).then(() => {
+                    setTimeout(() => {
+                        $("#txtTopicName").focus();
+                    }, 200);
+                });
+                return;
+            }
+
+            if ($("#ddlTopicBasedOn").val() == 0 || $("#ddlTopicBasedOn").val().trim() == "") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Alert',
+                    text: 'Please select Based On.'
+                }).then(() => {
+                    setTimeout(() => {
+                        $("#ddlTopicBasedOn").focus();
+                    }, 200);
+                });
+                return;
+            }
+
+            if (selectedTopicBasedOnMapList == "" || selectedTopicBasedOnMapList == null) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Alert',
+                    text: 'Please select Based On Items.'
+                }).then(() => {
+                    setTimeout(() => {
+                        $("#ddlTopicBasedOn").focus();
+                    }, 200);
+                });
+                return;
+            }
+
+            var data = {
+                Action: $("#hdnAddEditMode").val(),
+                TopicID: $("#hdnTopicID").val(),
+                TopicBasedOnId: $("#ddlTopicBasedOn").val(),
+                TopicName: $("#txtTopicName").val().trim(),
+                selectedTopicBasedOnMapList: selectedTopicBasedOnMapList
+            }
+
+            $.ajax({
+                url: '@Url.Action("SaveTopic", "LMSTopics")',
+                type: 'POST',
+                data: { data: data },
+                success: function (returnValue) {
+                    if (returnValue.RETURN_VALUE == "-10") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error in Add.'
+                        });
+                    } else if (returnValue.RETURN_VALUE == "-20") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Error in Update.'
+                        });
+                    } else if (returnValue.RETURN_VALUE == "0" && returnValue.RETURN_DUPLICATEMAPNAME != "") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Topic added successfully. Duplicate data exists for the following Based On with this Topic:\n' + returnValue.RETURN_DUPLICATEMAPNAME
+                        }).then(() => {
+                            $('#AddTopicModal').modal('hide');
+                        });
+                    } else if (returnValue.RETURN_VALUE == "0" && returnValue.RETURN_DUPLICATEMAPNAME == "") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Topic added successfully.'
+                        }).then(() => {
+                            $('#AddTopicModal').modal('hide');
+                        });
+                    } else if (returnValue.RETURN_VALUE == "1") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Duplicate Topic name cannot be entered. Please enter a unique Topic name.'
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'An error occurred while saving the topic.'
+                    });
+                }
+            });
+        }
+    });
+}
+
+
+
+
+
+    function OpenLMSPointforEdit(TopicId) {
+        $("#hdnAddEditMode").val('EDITTOPIC');
+        $("#hdnTopicID").val(TopicId);
+
+        $.ajax({
+            url: "@Url.Action("ShowTopicDetails", "LMSTopics")",
+            async: false,
+            data: { TopicID: TopicId },
+            type: 'POST',
+            success: function (data) {
+                var temArr2 = [];
+                //var data = response.d;
+                for (var a = 0; a < data.length; a++) {
+                    if (data[a].selected) {
+                        temArr2.push(data[a].ID);
+                    }
+                }
+                selectedTopicBasedOnMapList = temArr2.join(",");
+
+                $("#txtTopicName").val(data[0].TOPICNAME);
+                $("#ddlTopicBasedOn").val(data[0].TOPICBASEDON_ID);
+
+                $("#transfer1").html('');
+
+                var tabNameText = data[0].tabNameText;
+                var rightTabNameText = data[0].rightTabNameText;
+                var searchPlaceholderText = data[0].searchPlaceholderText;
+                lblBasedOn.innerText = "Select " + tabNameText;
+
+                var settings1 = {
+                    "dataArray": data,
+                    "itemName": "NAME",
+                    "valueName": "ID",
+                    "tabNameText": tabNameText,
+                    "rightTabNameText": rightTabNameText,
+                    "searchPlaceholderText": searchPlaceholderText,
+                    "callable": function (items) {
+                        //console.dir(items)
+                        var temArr = [];
+                        for (var i = 0; i < items.length; i++) {
+                            temArr.push(items[i].ID);
+                        }
+                        selectedTopicBasedOnMapList = temArr.join(",");
+                    }
+                };
+                $("#transfer1").transfer(settings1);
+
+                $('#AddTopicModal').modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+    //function OnClickDeleteLMSPoint(TopicID) {
+    //    var url = '/LMSTopics/TopicDelete/';
+
+    //    jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+    //        if (ret == true) {
+    //            $.ajax({
+    //                type: "POST",
+    //                url: url,
+    //                data: JSON.stringify({ 'TopicID': TopicID }),
+    //                async: false,
+    //                contentType: "application/json; charset=utf-8",
+    //                dataType: "json",
+    //                success: function (response) {
+    //                    console.log(response);
+    //                    if (response == "-10") {
+    //                        jAlert("Error in Delete.");
+    //                        //GridShow();
+    //                    }
+    //                    else if (response == "1") {
+    //                        jAlert("Successfully Deleted.");
+    //                        gridLMSTopic.Refresh();
+    //                        //GridShow();
+    //                    }
+    //                    else {
+    //                        jAlert(response);
+    //                    }
+    //                },
+    //                error: function (response) {
+    //                    console.log(response);
+    //                }
+    //            });
+    //        }
+    //    });
+    //}
+
+
+    function OnClickDeleteLMSPoint(TopicID) {
+        var url = '/LMSTopics/TopicDelete/';
+
+        Swal.fire({
+            title: 'Confirm Delete?',
+            text: "Are you sure you want to delete this topic?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'TopicID': TopicID }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "-10") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Error in Delete.'
+                            });
+                            //GridShow();
+                        }
+                        else if (response == "1") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted',
+                                text: 'Successfully Deleted.'
+                            }).then(() => {
+                                gridLMSTopic.Refresh();
+                            });
+                            //GridShow();
+                        }
+                        else {
+                            Swal.fire({
+                                icon: 'info',
+                                title: 'Info',
+                                text: response
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'An error occurred while deleting the topic.'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
+</script>
+
+<div class="breadCumb">
+    <span>Topic Setup</span>
+</div>
+
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 p-3">
+                <div class="">
+
+
+                    <div class="col-md-12  buttons-alignment" style="padding-top: 0; margin-bottom: 15px;">
+                        <div class="add-show-btns">
+                            @*@if (ViewBag.CanAdd){*@
+                            <button type="button" class="btn add-btn" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="AddTopic();">
+                                <span class="btn-icon"><i class="fa fa-plus"></i></span> Topic
+                            </button>
+                            @*}*@
+
+                            @*@if (ViewBag.CanView){*@
+                            <button type="button" id="btnshow" class="btn show-btn" tabindex=4>
+                                <span class="btn-icon"><i class="fa fa-play" aria-hidden="true"></i></span> Show Data
+                            </button>
+                            @*}*@
+                        </div>
+                            @*@if (ViewBag.CanExport){*@
+                        <button type="button" id="btnExportTo" class="btn btn-success btn-export" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
+                            <span class="btn-icon"><img src="/assests/images/xlsx.png" /></span>&nbsp; Export to XLSX
+                        </button>
+                            @*}*@
+
+                        
+                    </div>
+
+                    <div class="col-md-12 top-count-filter" style="padding-top: 10px;">
+
+
+                        @*@if (ViewBag.CanView){*@
+                        <button type="button" class="btn btn-total btn-radius bg-color-6">
+                            <h5>Total topic(s)</h5> <span id="btnShowTotalTopics" class="filter-count">0</span>
+                        </button>
+
+                        @*}*@
+
+                        @*@if (ViewBag.CanView){*@
+                        <button type="button" class="btn btn-total-used btn-radius bg-color-6">
+                            <h5>Used topic(s)</h5> <span id="btnShowUsedTopics" class="filter-count">0</span>
+</button>
+
+                        @*}*@
+
+                        @*@if (ViewBag.CanView){*@
+                        <button type="button" class="btn btn-total-unused btn-radius bg-color-6">
+                            <h5>Unused topic(s)</h5> <span id="btnShowUnusedTopics" class="filter-count">0</span>
+</button>
+
+                        @*}*@
+
+
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="clearfix"></div>
+
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialTopicGridList", "LMSTopics", new { Is_PageLoad = "Ispageload" });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnAddEditMode" />
+<input type="hidden" id="hdnTopicID" />
+
+<div id="AddTopicModal" class="modal fade pmsModal w80" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Create Topic</h4>
+            </div>
+            <div class="modal-body">
+                <div class="clearfix">
+                    <div class="col-lg-6">
+                        <label>Topic Name<span style="color: red">*</span></label>
+                        <input type="text" id="txtTopicName" class="form-control" maxlength="250" />
+                        <asp:HiddenField ID="hdnHeaderId" runat="server" />
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Based On</label>
+                        @Html.DropDownListFor(m => m.TopicBasedOnId, new SelectList(Model.TopicBasedOnList, "TOPICBASEDON_ID", "TOPICBASEDON_NAME", Model.TopicBasedOnId), new { @id = "ddlTopicBasedOn", @class = "form-control", @onchange = "ddlTopicBasedOnChange();" })
+
+                    </div>
+                </div>
+                <div class="clearfix">
+                    <div class="col-md-12 mt-15">
+                        <label id="lblBasedOn" > </label>
+                        <div>
+                            <div id="transfer1" class="transfer-demo"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel & Exit</button>
+                <button type="button" class="btn btn-success" onclick="SaveTopics();">Save & Exit</button>
+            </div>
+        </div>
+
+    </div>
+</div>
