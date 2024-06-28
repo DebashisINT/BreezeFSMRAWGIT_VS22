@@ -587,6 +587,14 @@ namespace ERP.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<PRODUCTBRANCHMAPLIST> PRODUCTBRANCHMAPLISTs
+		{
+			get
+			{
+				return this.GetTable<PRODUCTBRANCHMAPLIST>();
+			}
+		}
+		
 		public System.Data.Linq.Table<FSMProduct_Master> FSMProduct_Masters
 		{
 			get
@@ -600,14 +608,6 @@ namespace ERP.Models
 			get
 			{
 				return this.GetTable<PRODUCTSPECIALPRICELIST>();
-			}
-		}
-		
-		public System.Data.Linq.Table<PRODUCTBRANCHMAPLIST> PRODUCTBRANCHMAPLISTs
-		{
-			get
-			{
-				return this.GetTable<PRODUCTBRANCHMAPLIST>();
 			}
 		}
 	}
@@ -24047,6 +24047,285 @@ namespace ERP.Models
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PRODUCTBRANCHMAPLIST")]
+	public partial class PRODUCTBRANCHMAPLIST
+	{
+		
+		private System.Nullable<int> _SEQ;
+		
+		private System.Nullable<long> _USERID;
+		
+		private System.Nullable<long> _SlNo;
+		
+		private System.Nullable<long> _PRODUCTBRANCHMAP_ID;
+		
+		private System.Nullable<long> _BRANCH_ID;
+		
+		private string _BRANCH;
+		
+		private System.Nullable<long> _PRODUCT_ID;
+		
+		private string _PRODUCTCODE;
+		
+		private string _PRODUCTNAME;
+		
+		private string _PARENTEMP;
+		
+		private string _CHILDEMP;
+		
+		private string _CREATED_BY;
+		
+		private System.Nullable<System.DateTime> _CREATED_ON;
+		
+		private string _MODIFIED_BY;
+		
+		private System.Nullable<System.DateTime> _MODIFIED_ON;
+		
+		public PRODUCTBRANCHMAPLIST()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
+		public System.Nullable<int> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="BigInt")]
+		public System.Nullable<long> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SlNo", DbType="BigInt")]
+		public System.Nullable<long> SlNo
+		{
+			get
+			{
+				return this._SlNo;
+			}
+			set
+			{
+				if ((this._SlNo != value))
+				{
+					this._SlNo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCTBRANCHMAP_ID", DbType="BigInt")]
+		public System.Nullable<long> PRODUCTBRANCHMAP_ID
+		{
+			get
+			{
+				return this._PRODUCTBRANCHMAP_ID;
+			}
+			set
+			{
+				if ((this._PRODUCTBRANCHMAP_ID != value))
+				{
+					this._PRODUCTBRANCHMAP_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
+		public System.Nullable<long> BRANCH_ID
+		{
+			get
+			{
+				return this._BRANCH_ID;
+			}
+			set
+			{
+				if ((this._BRANCH_ID != value))
+				{
+					this._BRANCH_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH", DbType="VarChar(200)")]
+		public string BRANCH
+		{
+			get
+			{
+				return this._BRANCH;
+			}
+			set
+			{
+				if ((this._BRANCH != value))
+				{
+					this._BRANCH = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCT_ID", DbType="BigInt")]
+		public System.Nullable<long> PRODUCT_ID
+		{
+			get
+			{
+				return this._PRODUCT_ID;
+			}
+			set
+			{
+				if ((this._PRODUCT_ID != value))
+				{
+					this._PRODUCT_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCTCODE", DbType="VarChar(80)")]
+		public string PRODUCTCODE
+		{
+			get
+			{
+				return this._PRODUCTCODE;
+			}
+			set
+			{
+				if ((this._PRODUCTCODE != value))
+				{
+					this._PRODUCTCODE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCTNAME", DbType="VarChar(100)")]
+		public string PRODUCTNAME
+		{
+			get
+			{
+				return this._PRODUCTNAME;
+			}
+			set
+			{
+				if ((this._PRODUCTNAME != value))
+				{
+					this._PRODUCTNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PARENTEMP", DbType="NVarChar(500)")]
+		public string PARENTEMP
+		{
+			get
+			{
+				return this._PARENTEMP;
+			}
+			set
+			{
+				if ((this._PARENTEMP != value))
+				{
+					this._PARENTEMP = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CHILDEMP", DbType="NVarChar(500)")]
+		public string CHILDEMP
+		{
+			get
+			{
+				return this._CHILDEMP;
+			}
+			set
+			{
+				if ((this._CHILDEMP != value))
+				{
+					this._CHILDEMP = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATED_BY", DbType="VarChar(100)")]
+		public string CREATED_BY
+		{
+			get
+			{
+				return this._CREATED_BY;
+			}
+			set
+			{
+				if ((this._CREATED_BY != value))
+				{
+					this._CREATED_BY = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATED_ON", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CREATED_ON
+		{
+			get
+			{
+				return this._CREATED_ON;
+			}
+			set
+			{
+				if ((this._CREATED_ON != value))
+				{
+					this._CREATED_ON = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFIED_BY", DbType="VarChar(100)")]
+		public string MODIFIED_BY
+		{
+			get
+			{
+				return this._MODIFIED_BY;
+			}
+			set
+			{
+				if ((this._MODIFIED_BY != value))
+				{
+					this._MODIFIED_BY = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFIED_ON", DbType="DateTime")]
+		public System.Nullable<System.DateTime> MODIFIED_ON
+		{
+			get
+			{
+				return this._MODIFIED_ON;
+			}
+			set
+			{
+				if ((this._MODIFIED_ON != value))
+				{
+					this._MODIFIED_ON = value;
+				}
+			}
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FSMProduct_Master")]
 	public partial class FSMProduct_Master
 	{
@@ -24114,6 +24393,8 @@ namespace ERP.Models
 		private string _pInv_MainAccount;
 		
 		private string _pRet_MainAccount;
+		
+		private string _sProduct_Status;
 		
 		public FSMProduct_Master()
 		{
@@ -24630,6 +24911,22 @@ namespace ERP.Models
 				}
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sProduct_Status", DbType="VarChar(50)")]
+		public string sProduct_Status
+		{
+			get
+			{
+				return this._sProduct_Status;
+			}
+			set
+			{
+				if ((this._sProduct_Status != value))
+				{
+					this._sProduct_Status = value;
+				}
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PRODUCTSPECIALPRICELIST")]
@@ -24655,6 +24952,10 @@ namespace ERP.Models
 		private string _PRODUCTNAME;
 		
 		private System.Nullable<decimal> _SPECIALPRICE;
+		
+		private string _Employee_Name;
+		
+		private string _EMPINTERNALID;
 		
 		public PRODUCTSPECIALPRICELIST()
 		{
@@ -24819,282 +25120,35 @@ namespace ERP.Models
 				}
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PRODUCTBRANCHMAPLIST")]
-	public partial class PRODUCTBRANCHMAPLIST
-	{
 		
-		private System.Nullable<int> _SEQ;
-		
-		private System.Nullable<long> _USERID;
-		
-		private System.Nullable<long> _SlNo;
-		
-		private System.Nullable<long> _PRODUCTBRANCHMAP_ID;
-		
-		private System.Nullable<long> _BRANCH_ID;
-		
-		private string _BRANCH;
-		
-		private System.Nullable<long> _PRODUCT_ID;
-		
-		private string _PRODUCTCODE;
-		
-		private string _PRODUCTNAME;
-		
-		private string _PARENTEMP;
-		
-		private string _CHILDEMP;
-		
-		private string _CREATED_BY;
-		
-		private System.Nullable<System.DateTime> _CREATED_ON;
-		
-		private string _MODIFIED_BY;
-		
-		private System.Nullable<System.DateTime> _MODIFIED_ON;
-		
-		public PRODUCTBRANCHMAPLIST()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
-		public System.Nullable<int> SEQ
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Employee_Name", DbType="NVarChar(500)")]
+		public string Employee_Name
 		{
 			get
 			{
-				return this._SEQ;
+				return this._Employee_Name;
 			}
 			set
 			{
-				if ((this._SEQ != value))
+				if ((this._Employee_Name != value))
 				{
-					this._SEQ = value;
+					this._Employee_Name = value;
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="BigInt")]
-		public System.Nullable<long> USERID
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EMPINTERNALID", DbType="NVarChar(200)")]
+		public string EMPINTERNALID
 		{
 			get
 			{
-				return this._USERID;
+				return this._EMPINTERNALID;
 			}
 			set
 			{
-				if ((this._USERID != value))
+				if ((this._EMPINTERNALID != value))
 				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SlNo", DbType="BigInt")]
-		public System.Nullable<long> SlNo
-		{
-			get
-			{
-				return this._SlNo;
-			}
-			set
-			{
-				if ((this._SlNo != value))
-				{
-					this._SlNo = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCTBRANCHMAP_ID", DbType="BigInt")]
-		public System.Nullable<long> PRODUCTBRANCHMAP_ID
-		{
-			get
-			{
-				return this._PRODUCTBRANCHMAP_ID;
-			}
-			set
-			{
-				if ((this._PRODUCTBRANCHMAP_ID != value))
-				{
-					this._PRODUCTBRANCHMAP_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH_ID", DbType="BigInt")]
-		public System.Nullable<long> BRANCH_ID
-		{
-			get
-			{
-				return this._BRANCH_ID;
-			}
-			set
-			{
-				if ((this._BRANCH_ID != value))
-				{
-					this._BRANCH_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BRANCH", DbType="VarChar(200)")]
-		public string BRANCH
-		{
-			get
-			{
-				return this._BRANCH;
-			}
-			set
-			{
-				if ((this._BRANCH != value))
-				{
-					this._BRANCH = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCT_ID", DbType="BigInt")]
-		public System.Nullable<long> PRODUCT_ID
-		{
-			get
-			{
-				return this._PRODUCT_ID;
-			}
-			set
-			{
-				if ((this._PRODUCT_ID != value))
-				{
-					this._PRODUCT_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCTCODE", DbType="VarChar(80)")]
-		public string PRODUCTCODE
-		{
-			get
-			{
-				return this._PRODUCTCODE;
-			}
-			set
-			{
-				if ((this._PRODUCTCODE != value))
-				{
-					this._PRODUCTCODE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PRODUCTNAME", DbType="VarChar(100)")]
-		public string PRODUCTNAME
-		{
-			get
-			{
-				return this._PRODUCTNAME;
-			}
-			set
-			{
-				if ((this._PRODUCTNAME != value))
-				{
-					this._PRODUCTNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PARENTEMP", DbType="NVarChar(500)")]
-		public string PARENTEMP
-		{
-			get
-			{
-				return this._PARENTEMP;
-			}
-			set
-			{
-				if ((this._PARENTEMP != value))
-				{
-					this._PARENTEMP = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CHILDEMP", DbType="NVarChar(500)")]
-		public string CHILDEMP
-		{
-			get
-			{
-				return this._CHILDEMP;
-			}
-			set
-			{
-				if ((this._CHILDEMP != value))
-				{
-					this._CHILDEMP = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATED_BY", DbType="VarChar(100)")]
-		public string CREATED_BY
-		{
-			get
-			{
-				return this._CREATED_BY;
-			}
-			set
-			{
-				if ((this._CREATED_BY != value))
-				{
-					this._CREATED_BY = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATED_ON", DbType="DateTime")]
-		public System.Nullable<System.DateTime> CREATED_ON
-		{
-			get
-			{
-				return this._CREATED_ON;
-			}
-			set
-			{
-				if ((this._CREATED_ON != value))
-				{
-					this._CREATED_ON = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFIED_BY", DbType="VarChar(100)")]
-		public string MODIFIED_BY
-		{
-			get
-			{
-				return this._MODIFIED_BY;
-			}
-			set
-			{
-				if ((this._MODIFIED_BY != value))
-				{
-					this._MODIFIED_BY = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFIED_ON", DbType="DateTime")]
-		public System.Nullable<System.DateTime> MODIFIED_ON
-		{
-			get
-			{
-				return this._MODIFIED_ON;
-			}
-			set
-			{
-				if ((this._MODIFIED_ON != value))
-				{
-					this._MODIFIED_ON = value;
+					this._EMPINTERNALID = value;
 				}
 			}
 		}

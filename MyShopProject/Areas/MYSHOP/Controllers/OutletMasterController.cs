@@ -6,6 +6,7 @@
 //4.0   V2 .0.41    Debashis    09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
 //5.0   V2.0.43     Sanchita    06/09/2023      A new user wise settings required named as ShowLatLongInOutletMaster. Refer: 26794
 //6.0   V2.0.46     Sanchita    03/04/2024      0027343: Employee Outlet Master : Report parameter one check box required 'Consider Inactive Outlets'
+//7.0   V2.0.47     Debashis    04/06/2024      In Employee Outlet Master report, add a “DS Type” column at the end.Refer:0027506
 #endregion===================================End of Revision History==================================================================
 
 using BusinessLogicLayer;
@@ -794,6 +795,30 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
             });
             // End of Rev 3.0
+            // Rev 7.0 Mantis: 0027506
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "DSTYPE";
+                x.Caption = "DS Type";
+                x.VisibleIndex = 17;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DSTYPE'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            });
+            // End of Rev 7.0 Mantis: 0027506
 
 
             #region//rev Pratik

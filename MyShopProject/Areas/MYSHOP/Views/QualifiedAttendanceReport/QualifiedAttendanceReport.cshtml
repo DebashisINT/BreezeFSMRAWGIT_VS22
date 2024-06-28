@@ -2,6 +2,8 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                07-02-2023        2.0.39           Pallab              25576: Report page design modification *@
 @*2.0                09-05-2023        2.0.39           Pallab              26072: Qualified Attendance report parameter alignment issue fix for small device *@
+@*3.0                05-06-2024        2.0.47           Sanchita            A new check box shall be implemented in Qualified Attendance 
+                                                                            report named as "Consider Day End". Mantis: 27498 *@
 @*====================================================== Revision History ==========================================================*@
 
 @model System.Data.DataSet
@@ -202,6 +204,13 @@
         e.customArgs["empcode"] = empId;
         e.customArgs["ChannelId"] = ChannelId;
         e.customArgs["is_pageload"] = is_pageload;
+        // Rev 3.0
+        var IsConsiderDayEnd = 0;
+        if (document.getElementById("IsConsiderDayEnd").checked) {
+            IsConsiderDayEnd = 1;
+        }
+        e.customArgs["IsConsiderDayEnd"] = IsConsiderDayEnd;
+        // End of Rev 3.0
     }
 
     var BranchId = [];
@@ -755,7 +764,7 @@
         }
 
     .w150 {
-        width: 160px;
+        width: 175px;
     }
 
     .eqpadtbl > tbody > tr > td:not(:last-child) {
@@ -1150,7 +1159,7 @@
 
                                 </div>
                             </td>
-                            
+
 
                         </tr>
                         <tr>
@@ -1162,6 +1171,12 @@
                                 <label for="">Select All</label>
                                 @*Rev end 1.0*@
                             </td>
+                            @*Rev 3.0*@
+                            <td class="w10 inputSpacer">
+                                <input class="styled-checkbox" type="checkbox" id="IsConsiderDayEnd" name="IsConsiderDayEnd" value="0">
+                                <label for="">Consider Day End</label>
+                            </td>
+                            @*End of Rev 3.0*@
                             <td style="padding-top: 22px;width:200px;">
                                 <label></label>
                                 <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>

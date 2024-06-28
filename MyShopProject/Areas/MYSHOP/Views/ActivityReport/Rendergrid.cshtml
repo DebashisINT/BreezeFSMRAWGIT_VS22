@@ -1,9 +1,16 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*/***************************************************************************************************************************************
+ * 1.0      V2.0.47     14-05-2024      Sanchita        Column Chooser facility is required in the Activity Details report. Mantis: 27422
+ * *************************************************************************************************************************************/*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "ListGrid";
     //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.CallbackRouteValues = new { Controller = "ActivityReport", Action = "Rendergrid" };
     settings.KeyFieldName = "SEQ";
+    // Rev 1.0
+    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+    // End of Rev 1.0
     //settings.EnableRowsCache = true;
     //settings.Settings.ShowFilterRow = true;
     //settings.SettingsPager.PageSize = 10;
@@ -24,13 +31,42 @@
     settings.SettingsPager.PageSize = 10;
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
     settings.Settings.ShowFilterRowMenu = true;
+    // Rev 1.0
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+    settings.SettingsBehavior.EnableRowHotTrack = true;
+    settings.SettingsCookies.Enabled = true;
+    settings.SettingsCookies.StorePaging = true;
+    settings.SettingsCookies.StoreColumnsVisiblePosition = true;
+    // End of Rev 1.0
 
     settings.Columns.Add(column =>
     {
         column.Caption = "Party";
         column.FieldName = "Shop_Name";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 180;
+        // Rev 1.0
+        //column.Width = 180;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shop_Name'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 180;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 180;
+        }
+        // End of Rev Sachita
     });
 
     settings.Columns.Add(column =>
@@ -38,7 +74,28 @@
         column.Caption = "Activity Date";
         column.FieldName = "Activity_Date";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 100;
+        // Rev 1.0
+        //column.Width = 100;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Activity_Date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -49,7 +106,28 @@
         //column.ColumnType = MVCxGridViewColumnType.DateEdit;
         //column.PropertiesEdit.DisplayFormatString = "HH:MM t";
         //(column.PropertiesEdit as DateEditProperties).EditFormatString = "HH:MM t";
-        column.Width = 100;
+        // Rev 1.0
+        //column.Width = 100;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Activity_Time'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -57,7 +135,28 @@
         column.Caption = "Contact Name";
         column.FieldName = "ContactName";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 150;
+        // Rev 1.0
+        //column.Width = 150;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ContactName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -65,7 +164,28 @@
         column.Caption = "Activity";
         column.FieldName = "ActivityName";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 150;
+        // Rev 1.0
+        //column.Width = 150;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ActivityName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -73,7 +193,29 @@
         column.FieldName = "ActivityTypeName";
         column.Caption = "Type";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 150;
+        // Rev 1.0
+        //column.Width = 150;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ActivityTypeName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -81,7 +223,28 @@
         column.FieldName = "Product_Name";
         column.Caption = "Product";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 200;
+        // Rev 1.0
+        //column.Width = 200;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Product_Name'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 200;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 200;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -89,7 +252,29 @@
         column.Caption = "Subject";
         column.FieldName = "ActivitySubject";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 180;
+        // Rev 1.0
+        //column.Width = 180;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ActivitySubject'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 180;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 180;
+        }
+        // End of Rev 1.0
+
     });
 
     settings.Columns.Add(column =>
@@ -97,7 +282,28 @@
         column.FieldName = "ActivityDetails";
         column.Caption = "Details";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 250;
+        // Rev 1.0
+        //column.Width = 250;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ActivityDetails'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 250;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 250;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -108,7 +314,28 @@
         //column.ColumnType = MVCxGridViewColumnType.DateEdit;
         //column.PropertiesEdit.DisplayFormatString = "hh:mm";
         //(column.PropertiesEdit as DateEditProperties).EditFormatString = "hh:mm";
-        column.Width = 100;
+        // Rev 1.0
+        //column.Width = 100;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Duration'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -116,7 +343,28 @@
         column.Caption = "Priority";
         column.FieldName = "PriorityName";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 150;
+        // Rev 1.0
+        //column.Width = 150;
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PriorityName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+        // End of Rev 1.0
+
     });
 
     settings.Columns.Add(column =>
@@ -124,7 +372,28 @@
         column.Caption = "Due Date";
         column.FieldName = "Due_Date";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 100;
+        // Rev 1.0
+        //column.Width = 100;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Due_Date'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -135,7 +404,28 @@
         //column.ColumnType = MVCxGridViewColumnType.DateEdit;
         //column.PropertiesEdit.DisplayFormatString = "hh:mm tt";
         //(column.PropertiesEdit as DateEditProperties).EditFormatString = "hh:mm tt";
-        column.Width = 100;
+        // Rev 1.0
+        //column.Width = 100;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Due_Time'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 100;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 100;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -143,9 +433,30 @@
         column.FieldName = "CREATE_BY";
         column.Caption = "Created By";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 150;
+        // Rev 1.0
+        //column.Width = 150;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CREATE_BY'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+        // End of Rev 1.0
     });
-    
+
     settings.Columns.Add(column =>
     {
         column.Caption = "Created On";
@@ -154,17 +465,59 @@
         column.ColumnType = MVCxGridViewColumnType.DateEdit;
         column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
         (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
-        column.Width = 150;
+        // Rev 1.0
+        //column.Width = 150;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CREATED_DATE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+        // End of Rev 1.0
     });
 
-    
+
 
     settings.Columns.Add(column =>
     {
         column.FieldName = "MODIFIED_BY";
         column.Caption = "Modified By";
         column.ColumnType = MVCxGridViewColumnType.TextBox;
-        column.Width = 120;
+        // Rev 1.0
+        //column.Width = 120;
+
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MODIFIED_BY'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 120;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 120;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(column =>
@@ -175,9 +528,31 @@
         column.ColumnType = MVCxGridViewColumnType.DateEdit;
         column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy hh:mm:ss";
         (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy hh:mm:ss";
-        column.Width = 150;
-    });
+        // Rev 1.0
+        //column.Width = 150;
 
-    settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MODIFIED_DATE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                column.Visible = false;
+            }
+            else
+            {
+                column.Visible = true;
+                column.Width = 150;
+            }
+        }
+        else
+        {
+            column.Visible = true;
+            column.Width = 150;
+        }
+        // End of Rev 1.0
+    });
+    // Rev 1.0
+    //settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+    // End of Rev 1.0
 
 }).Bind(Model).GetHtml()

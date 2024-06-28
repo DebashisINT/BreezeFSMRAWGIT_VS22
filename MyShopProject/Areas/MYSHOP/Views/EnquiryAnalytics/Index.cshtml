@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ===================================================*@
 @*Rev Number    DATE              VERSION          DEVELOPER           CHANGES*@
 @*Written by Sanchita on 23-11-2023 for V2.2.43    A new report required as Enquiry Analytics. Mantis: 27021 *@
+@*Rev 1.0    Sanchita   30-04-2024      V2.2.43    0027410: ENQUIRY ANALYTICS REPORT Column chooser not Working # Local *@
 @*====================================================== Revision History ===================================================*@
 
 @using MyShop.Models;
@@ -254,40 +255,65 @@
     function grid_CustomizationWindowCloseUp(s, e) {
         UpdateButtonText();
 
-        for (var i = 0; i <= gridCRMEnquiries.GetColumnsCount() ; i++) {
-            if (gridCRMEnquiries.GetColumn(i) != null) {
-                if (gridCRMEnquiries.GetColumn(i).visible == false) {
-                    console.log(gridCRMEnquiries.GetColumn(i).fieldName);
-                    visibleColumn.push(gridCRMEnquiries.GetColumn(i).fieldName);
+        // Rev 1.0
+        //for (var i = 0; i <= gridCRMEnquiries.GetColumnsCount() ; i++) {
+        //    if (gridCRMEnquiries.GetColumn(i) != null) {
+        //        if (gridCRMEnquiries.GetColumn(i).visible == false) {
+        //            console.log(gridCRMEnquiries.GetColumn(i).fieldName);
+        //            visibleColumn.push(gridCRMEnquiries.GetColumn(i).fieldName);
+        //        }
+        //    }
+        //}
+        for (var i = 0; i <= gridEnquiryAnalytics.GetColumnsCount(); i++) {
+            if (gridEnquiryAnalytics.GetColumn(i) != null) {
+                if (gridEnquiryAnalytics.GetColumn(i).visible == false) {
+                    console.log(gridEnquiryAnalytics.GetColumn(i).fieldName);
+                    visibleColumn.push(gridEnquiryAnalytics.GetColumn(i).fieldName);
                 }
             }
         }
+        // End of Rev 1.0
 
         addPageRetention(visibleColumn);
     }
 
     function UpdateCustomizationWindowVisibility() {
-        if (gridCRMEnquiries.IsCustomizationWindowVisible())
-            gridCRMEnquiries.HideCustomizationWindow();
+        // Rev 1.0
+        //if (gridCRMEnquiries.IsCustomizationWindowVisible())
+        //    gridCRMEnquiries.HideCustomizationWindow();
+        //else
+        //    gridCRMEnquiries.ShowCustomizationWindow();
+        if (gridEnquiryAnalytics.IsCustomizationWindowVisible())
+            gridEnquiryAnalytics.HideCustomizationWindow();
         else
-            gridCRMEnquiries.ShowCustomizationWindow();
+            gridEnquiryAnalytics.ShowCustomizationWindow();
+        // End of Rev 1.0
         UpdateButtonText();
     }
 
     function UpdateButtonText() {
-        var text = gridCRMEnquiries.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        // Rev 1.0
+        //var text = gridCRMEnquiries.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        var text = gridEnquiryAnalytics.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        // End of Rev 1.0
         text += " Column Chooser";
         btShowColumnChooser.SetText(text);
     }
 
     function addPageRetention(visibleColumn) {
         $.ajax({
-            url: "@Url.Action("PageRetention", "EnquiriesController")",
+            // Rev 1.0
+            //url: "@Url.Action("PageRetention", "EnquiriesController")",
+            url: "@Url.Action("PageRetention", "EnquiryAnalytics")",
+            // End of Rev 1.0
             async: false,
         data: { Columns: visibleColumn },
         type: 'POST',
-        success: function (data) {
-            gridCRMEnquiries.Refresh();
+            success: function (data) {
+            // Rev 1.0
+            //gridCRMEnquiries.Refresh();
+            gridEnquiryAnalytics.Refresh();
+            // End of Rev 1.0
         },
         error: function () {
         },
@@ -925,6 +951,7 @@
         margin-bottom: 10px;
         border-radius: 36px;
     }
+
         .bg-color-1:hover {
             background-color: #300136;
         }
@@ -935,9 +962,9 @@
         border-radius: 36px;
     }
 
-            .bg-color-2:hover {
-                background-color: #042c72;
-            }
+        .bg-color-2:hover {
+            background-color: #042c72;
+        }
 
     .bg-color-3 {
         background-color: #af1818;
@@ -979,7 +1006,7 @@
             background-color: #956706;
         }
 
-        /*.bg-color-6:before {
+    /*.bg-color-6:before {
             content: '';
             position: absolute;
             top: 0;
@@ -1047,15 +1074,15 @@
                         <div>
                             @if (ViewBag.CanView)
                             {
-                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                                <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
                             }
 
                             @if (ViewBag.CanExport)
                             {
-                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                                <option value="0">Export to</option>
-                                <option value="2">XLSX</option>
-                            </select>
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                    <option value="0">Export to</option>
+                                    <option value="2">XLSX</option>
+                                </select>
                             }
 
                         </div>
@@ -1069,32 +1096,32 @@
                     <!-- Button trigger modal -->
                     @if (ViewBag.CanView)
                     {
-                        <button type="button" class="btn btn-success bg-color-1" onclick="ShowPendingEnquiry();" data-toggle="tooltip" title="" 
+                        <button type="button" class="btn btn-success bg-color-1" onclick="ShowPendingEnquiry();" data-toggle="tooltip" title=""
                                 data-placement="top" data-original-title="Enquiry has not been Assigned">
                             Pending Enquiry <span id="btnPendingEnquirySpan" class="badge">0</span>
                         </button>
 
-                        <button type="button" class="btn btn-success bg-color-2" onclick="ShowInProcessEnquiry();" data-toggle="tooltip" title="" 
+                        <button type="button" class="btn btn-success bg-color-2" onclick="ShowInProcessEnquiry();" data-toggle="tooltip" title=""
                                 data-placement="top" data-original-title="Enquiry having an activity type as In Process">
                             In Process Enquiry <span id="btnInProcessEnquirySpan" class="badge">0</span>
                         </button>
 
-                        <button type="button" class="btn btn-success bg-color-3" onclick="ShowNotInterestedEnquiry();" data-toggle="tooltip" title="" 
+                        <button type="button" class="btn btn-success bg-color-3" onclick="ShowNotInterestedEnquiry();" data-toggle="tooltip" title=""
                                 data-placement="top" data-original-title="Enquiry having an activity type as Not interested">
                             Not Interested Enquiry <span id="btnNotInterestedEnquirySpan" class="badge">0</span>
                         </button>
 
-                        <button type="button" class="btn btn-success bg-color-4" onclick="ShowAssignedEnquiry();" data-toggle="tooltip" title="" 
+                        <button type="button" class="btn btn-success bg-color-4" onclick="ShowAssignedEnquiry();" data-toggle="tooltip" title=""
                                 data-placement="top" data-original-title="Enquiry which has been assigned">
                             Assigned Enquiry <span id="btnAssignedEnquirySpan" class="badge">0</span>
                         </button>
 
-                        <button type="button" class="btn btn-success bg-color-5" onclick="ShowReassignedEnquiry();" data-toggle="tooltip" title="" 
+                        <button type="button" class="btn btn-success bg-color-5" onclick="ShowReassignedEnquiry();" data-toggle="tooltip" title=""
                                 data-placement="top" data-original-title="Enquiry which has been Reassigned">
                             Reassigned Enquiry <span id="btnReassignedEnquirySpan" class="badge">0</span>
                         </button>
 
-                        <button type="button" class="btn btn-success bg-color-6" onclick="ShowHighRiskEnquiry();" data-toggle="tooltip" title="" 
+                        <button type="button" class="btn btn-success bg-color-6" onclick="ShowHighRiskEnquiry();" data-toggle="tooltip" title=""
                                 data-placement="top" data-original-title="No Activity Against Enquiry">
                             High Risk Enquiry <span id="btnHighRiskEnquirySpan" class="badge">0</span>
                         </button>

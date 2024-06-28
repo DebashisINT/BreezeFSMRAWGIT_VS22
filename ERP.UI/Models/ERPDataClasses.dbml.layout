@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.5, 8.5" name="ERPDataClasses">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.5, 14.25" name="ERPDataClasses">
   <DataContextMoniker Name="/ERPDataClassesDataContext" />
   <nestedChildShapes>
     <classShape Id="42b8dce0-9bc6-4a34-82ff-c3e9bb571e8e" isExpanded="false" absoluteBounds="2.75, 5.5, 2, 0.45">
@@ -380,7 +380,7 @@
         <elementListCompartment Id="534a029a-7bcf-433b-b0bc-a39449f6b47d" absoluteBounds="7.515, 7.335, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="7322984f-9bc4-4aa1-972c-d93f48aa833f" isExpanded="false" absoluteBounds="9.75, 6.875, 2, 0.45">
+    <classShape Id="7322984f-9bc4-4aa1-972c-d93f48aa833f" isExpanded="false" absoluteBounds="9.75, 6.875, 2.625, 0.45">
       <DataClassMoniker Name="/ERPDataClassesDataContext/FSMEmployee_Master" />
       <nestedChildShapes>
         <elementListCompartment Id="881d7f83-6203-4a32-8c47-153b7f2b2624" absoluteBounds="9.765, 7.335, 1.9700000000000002, 6.5953369140625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
@@ -398,22 +398,22 @@
         <elementListCompartment Id="feb1e1b3-1da9-47ce-934c-1790475028cf" absoluteBounds="2.89, 7.9600000000000009, 1.9700000000000002, 2.364705403645833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="c63287bd-6e29-4b81-9def-3e7de8a5a2d8" isExpanded="false" absoluteBounds="5.25, 7.5, 2, 0.45">
-      <DataClassMoniker Name="/ERPDataClassesDataContext/FSMProduct_Master" />
-      <nestedChildShapes>
-        <elementListCompartment Id="094e14d5-d4cc-4884-af82-35984de57a56" absoluteBounds="5.265, 7.96, 1.9700000000000002, 6.403035481770833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="58b50cc0-faaa-4b0c-acf4-6a7ec4961e8b" absoluteBounds="14.125, 0.625, 2, 2.7324039713541666">
-      <DataClassMoniker Name="/ERPDataClassesDataContext/PRODUCTSPECIALPRICELIST" />
-      <nestedChildShapes>
-        <elementListCompartment Id="f366a0fb-cec0-4e9d-8225-41f57104aa60" absoluteBounds="14.14, 1.085, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="cc7ddc53-c665-456c-ada0-b6d9ccae43e0" absoluteBounds="14.25, 3.75, 2, 3.6939111328124996">
       <DataClassMoniker Name="/ERPDataClassesDataContext/PRODUCTBRANCHMAPLIST" />
       <nestedChildShapes>
         <elementListCompartment Id="dc7bebb4-4a58-48a5-aacb-0b02f21449b4" absoluteBounds="14.265, 4.21, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="90755540-5360-480b-af42-49bf9da1a0d5" absoluteBounds="5.25, 6.875, 2, 7.1553369140625">
+      <DataClassMoniker Name="/ERPDataClassesDataContext/FSMProduct_Master" />
+      <nestedChildShapes>
+        <elementListCompartment Id="e6dad6ca-0692-4387-95ba-c807f3035956" absoluteBounds="5.265, 7.335, 1.9700000000000002, 6.5953369140625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="07739694-f150-401f-bac2-c27711551ed6" absoluteBounds="14.25, 0.625, 2, 3.1170068359375">
+      <DataClassMoniker Name="/ERPDataClassesDataContext/PRODUCTSPECIALPRICELIST" />
+      <nestedChildShapes>
+        <elementListCompartment Id="b337d5a9-a6e8-4e03-90b3-014718bcee19" absoluteBounds="14.265, 1.085, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

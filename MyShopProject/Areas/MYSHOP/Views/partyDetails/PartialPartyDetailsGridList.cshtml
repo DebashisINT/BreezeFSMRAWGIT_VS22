@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ===========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                03-05-2024        V2 .0.47         Priti               0027407: "Party Status" - needs to add in the following reports. *@
+@*2.0                29/05/2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules*@
+@*====================================================== Revision History ===========================================================*@
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridPartyDetails";
     settings.KeyFieldName = "ID";
@@ -27,6 +32,12 @@
 
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
 
+    // Rev 2.0
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+    // End of Rev 2.0
+
 
     //settings.Columns.Add(x =>
     //{
@@ -50,6 +61,25 @@
         x.Caption = "Emp. Name";
         x.VisibleIndex = 1;
         x.Width = 200;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EmpName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -58,6 +88,25 @@
         x.Caption = "Emp. Code";
         x.VisibleIndex = 2;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EmpCode'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -66,6 +115,25 @@
         x.Caption = "Designation";
         x.VisibleIndex = 3;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Designation'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -74,6 +142,25 @@
         x.Caption = "Supervisor";
         x.VisibleIndex = 4;
         x.Width = 200;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Supervisor'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -82,6 +169,25 @@
         x.Caption = "Supervisor Code";
         x.VisibleIndex = 5;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SupervisorCode'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
     //Mantis Issue 24928
     settings.Columns.Add(x =>
@@ -90,6 +196,25 @@
         x.Caption = "Address";
         x.VisibleIndex = 6;
         x.Width = 250;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Address'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -98,6 +223,25 @@
         x.Caption = "Pincode";
         x.VisibleIndex = 7;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Pincode'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
     //End of Mantis Issue 24928
     settings.Columns.Add(x =>
@@ -106,6 +250,25 @@
         x.Caption = "Country";
         x.VisibleIndex = 8;
         x.Width = 150;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='country'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -114,6 +277,25 @@
         x.Caption = "State";
         x.VisibleIndex = 9;
         x.Width = 150;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='state'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -122,6 +304,25 @@
         x.Caption = "District";
         x.VisibleIndex = 10;
         x.Width = 150;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='city'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -130,6 +331,25 @@
         x.Caption = "Area";
         x.VisibleIndex = 11;
         x.Width = 150;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='area'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -138,6 +358,25 @@
         x.Caption = "PP Code";
         x.VisibleIndex = 12;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PP_CODE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -146,6 +385,25 @@
         x.Caption = "PP Name";
         x.VisibleIndex = 13;
         x.Width = 200;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PP_Name'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -154,6 +412,25 @@
         x.Caption = "PP Location";
         x.VisibleIndex = 14;
         x.Width = 250;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PP_LOCATION'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -162,6 +439,25 @@
         x.Caption = "DD Code";
         x.VisibleIndex = 15;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DD_CODE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -170,6 +466,25 @@
         x.Caption = "DD Name";
         x.VisibleIndex = 16;
         x.Width = 200;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DD_Name'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -178,6 +493,25 @@
         x.Caption = "DD Location";
         x.VisibleIndex = 17;
         x.Width = 250;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DD_LOCATION'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -186,6 +520,25 @@
         x.Caption = "Outlet Code";
         x.VisibleIndex = 18;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_Code'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -194,6 +547,25 @@
         x.Caption = "Outlet Name";
         x.VisibleIndex = 19;
         x.Width = 200;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_Name'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -202,8 +574,54 @@
         x.Caption = "Outlet Type";
         x.VisibleIndex = 20;
         x.Width = 100;
-    });
 
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_type'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
+    });
+    //Rev 1.0
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PARTYSTATUS";
+        x.Caption = "Party Status";
+        x.VisibleIndex = 20;
+        x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
+    });
+    //Rev 1.0 End
     // Mantis Issue 25421
     settings.Columns.Add(x =>
     {
@@ -211,6 +629,25 @@
         x.Caption = "Beat";
         x.VisibleIndex = 21;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Beat'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
     // End of Mantis Issue 25421
 
@@ -220,6 +657,25 @@
         x.Caption = "Outlet Owner";
         x.VisibleIndex = 22;
         x.Width = 150;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_owner'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -228,6 +684,25 @@
         x.Caption = "Outlet Contact No";
         x.VisibleIndex = 23;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_ContactNo'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -236,6 +711,25 @@
         x.Caption = "Alternate No";
         x.VisibleIndex = 24;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AlternateNo'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -244,6 +738,25 @@
         x.Caption = "Outlet Location";
         x.VisibleIndex = 25;
         x.Width = 250;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletLocation'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -261,7 +774,7 @@
         {
             string Temp = Convert.ToString(DataBinder.Eval(c.DataItem, "OutletStatus"));
             if (Temp == "Active")
-                // x.CellStyle.BackColor = 
+                // x.CellStyle.BackColor =
                 //x.CellStyle.ForeColor = System.Drawing.Color.Green;
                 ViewContext.Writer.Write("<span style=\"color:Green\">" + c.Text + "</span>");
             else
@@ -271,6 +784,25 @@
                 ViewContext.Writer.Write("<span style=\"color:Red\">" + c.Text + "</span>");
         });
         //End of Mantis Issue 24928
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletStatus'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -279,6 +811,25 @@
         x.Caption = "Outlet Specify";
         x.VisibleIndex = 27;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletSpecify'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -290,6 +841,25 @@
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OwnerDOB'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -301,6 +871,25 @@
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OwnerAnniversary'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -309,6 +898,25 @@
         x.Caption = "Pan Card";
         x.VisibleIndex = 30;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PanCard'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -317,6 +925,25 @@
         x.Caption = "Aadhaar Card";
         x.VisibleIndex = 31;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AdhaarCard'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -325,6 +952,25 @@
         x.Caption = "Outlet Lat";
         x.VisibleIndex = 32;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletLat'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -333,45 +979,139 @@
         x.Caption = "Outlet Long";
         x.VisibleIndex = 33;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletLong'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "CreateOn";
         x.Caption = "Created On";
-        x.VisibleIndex = 34;
+        x.VisibleIndex = 35;
         x.Width = 100;
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy HH:mm:ss";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy HH:mm:ss";
 
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CreateOn'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "CreateBy";
         x.Caption = "Created By";
-        x.VisibleIndex = 35;
+        x.VisibleIndex = 36;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CreateBy'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "UpdateOn";
         x.Caption = "Updated On";
-        x.VisibleIndex = 36;
+        x.VisibleIndex = 37;
         x.Width = 100;
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
         x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy HH:mm:ss";
         (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy HH:mm:ss";
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='UpdateOn'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
     {
         x.FieldName = "UpdateBy";
         x.Caption = "Updated By";
-        x.VisibleIndex = 37;
+        x.VisibleIndex = 38;
         x.Width = 100;
+
+        // Rev 2.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='UpdateBy'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 2.0
     });
 
     settings.Columns.Add(x =>
@@ -391,7 +1131,7 @@
             //    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteForm('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Delete\"><img src=\"../../../assests/images/Delete.png\" /></a></div>"
             //);
 
-            if (ViewBag.CanDelete )
+            if (ViewBag.CanDelete)
             {
                 ViewContext.Writer.Write(
                     "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
@@ -406,10 +1146,10 @@
                 ViewContext.Writer.Write(
                     "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenShopforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Modify\"><img src=\"../../../assests/images/Edit.png\" /></a>" +
                      "" +
-                     "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><img src=\"../../../assests/images/change-status.png\" /></a>" 
+                     "<a href=\"javascript:void(0);\" onclick=\"ShopActiveInactive('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ShopCode")) + "')\" class=\"\" title=\"Change Status\"><img src=\"../../../assests/images/change-status.png\" /></a>"
                 );
             }
-            // End of Rev Sanchita
+            // End of Rev 2.0
 
 
 
@@ -422,7 +1162,7 @@
 
 
         x.Caption = "Action";
-        x.VisibleIndex = 38;
+        x.VisibleIndex = 39;
         //x.Width = 50;
         //x.SetDataItemTemplateContent(c =>
         //{floatedBtnArea

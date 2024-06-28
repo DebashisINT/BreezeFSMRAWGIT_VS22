@@ -1528,6 +1528,25 @@
       <Column Name="state" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.PRODUCTBRANCHMAPLIST" Member="PRODUCTBRANCHMAPLISTs">
+    <Type Name="PRODUCTBRANCHMAPLIST">
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="USERID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="SlNo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PRODUCTBRANCHMAP_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="BRANCH_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="BRANCH" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="PRODUCT_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="PRODUCTCODE" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
+      <Column Name="PRODUCTNAME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="PARENTEMP" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="CHILDEMP" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="CREATED_BY" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="CREATED_ON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MODIFIED_BY" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="MODIFIED_ON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.FSMProduct_Master" Member="FSMProduct_Masters">
     <Type Name="FSMProduct_Master">
       <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -1562,6 +1581,7 @@
       <Column Name="sRet_MainAccount" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="pInv_MainAccount" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="pRet_MainAccount" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="sProduct_Status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
     </Type>
   </Table>
   <Table Name="dbo.PRODUCTSPECIALPRICELIST" Member="PRODUCTSPECIALPRICELISTs">
@@ -1576,25 +1596,8 @@
       <Column Name="PRODUCTCODE" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
       <Column Name="PRODUCTNAME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="SPECIALPRICE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.PRODUCTBRANCHMAPLIST" Member="PRODUCTBRANCHMAPLISTs">
-    <Type Name="PRODUCTBRANCHMAPLIST">
-      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="USERID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="SlNo" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="PRODUCTBRANCHMAP_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="BRANCH_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="BRANCH" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
-      <Column Name="PRODUCT_ID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="PRODUCTCODE" Type="System.String" DbType="VarChar(80)" CanBeNull="true" />
-      <Column Name="PRODUCTNAME" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
-      <Column Name="PARENTEMP" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="CHILDEMP" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="CREATED_BY" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
-      <Column Name="CREATED_ON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="MODIFIED_BY" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
-      <Column Name="MODIFIED_ON" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Employee_Name" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="EMPINTERNALID" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

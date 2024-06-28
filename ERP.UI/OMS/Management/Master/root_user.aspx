@@ -5,7 +5,8 @@
    Rev 4.0      Sanchita            05-05-2023      V2.0.40     In Portal -> Master -> Organization -> User  -> Logedin user in app is shows green which is ok but after 
                                                                 pressing refresh button from action it is not turning red . Refer: 25947
    Rev 5.0      Sanchita            04-11-2024      V2.0.46     Company Add/Edit column is showing in User master which is irrelevant to FSM. Mantis: 27363
- *******************************************************************************************************--%>
+   Rev 6.0      Sanchita            03/06/2024      V2.0.47     27500: Attendance/ Leave Clear tab need to add in security Role of "Users"    
+*******************************************************************************************************--%>
 
 <%@ Page Title="Users" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master" Inherits="ERP.OMS.Management.Master.management_master_root_user" CodeBehind="root_user.aspx.cs" %>
 <%--Rev 1.0--%>
@@ -1750,10 +1751,14 @@
                                          
                                         
                                             <%--Mantis Issue 25116--%>
-                                            <a href="javascript:void(0);" onclick="AttendanceLeaveClear('<%# Container.KeyValue %>')" title="Attendance/Leave Clear">
-                                                <%--Rev 2.0--%>
-                                                <%--<img src="../../../assests/images/clear.png" / style="width:16px">--%>
-                                                <img src="../../../assests/images/clear2.png" / style=""></a>
+                                            <%--Rev 6.0--%>
+                                            <% if (rights.CanAttendanceLeaveClear){ %>
+                                            <%--End of Rev 6.0--%>
+                                                <a href="javascript:void(0);" onclick="AttendanceLeaveClear('<%# Container.KeyValue %>')" title="Attendance/Leave Clear">
+                                                    <%--Rev 2.0--%>
+                                                    <%--<img src="../../../assests/images/clear.png" / style="width:16px">--%>
+                                                    <img src="../../../assests/images/clear2.png" / style=""></a>
+                                            <% } %>
                                             <%--Rev end 2.0--%>
                                             <%--End of Mantis Issue 25116--%>
 

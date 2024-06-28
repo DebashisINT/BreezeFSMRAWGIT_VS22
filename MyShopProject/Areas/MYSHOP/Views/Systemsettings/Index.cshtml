@@ -4,6 +4,7 @@
 @* 2.0         30-06-2023        V2.0.41    Sanchita        Time format should be changed to 24 hours instead of 12 hours format in the
                                                             System Settings, Intime and Intime. Refer: 26466                      *@
 @* 3.0         03-04-2024        V2.0.46    Sanchita        FSM - SystemSettings - Login Time not loading in edit mode. refer:  *@
+@* 4.0         13-05-2024        V2.0.46    Sanchita        System setting page was not proper as per the design. refer: 27442 *@
 @*====================================================== Revision History ===================================================*@
 
 @model IEnumerable<MyShop.Models.SystemsettingsModel>
@@ -790,12 +791,13 @@
             <table id="systemsettingslist" class="table table-bordered table-bordered fff" style="width:100%">
                 <thead>
                     <tr>
+                        @*Rev 4.0 [width % changed. Description from 60% to 40%, Value from 25% to 35% and "word-break: break-all" added] *@
                         @*Rev 3.0*@
                         <th style="width:15%">Key</th>
                         @*End of Rev 3.0*@
-                        <th style="width:60%">Description</th>
-                        <th style="width:25%">Value</th>
-                        <th style="width:15%">Actions</th>
+                        <th style="width:40%">Description</th>
+                        <th style="width:35%; word-break: break-all;">Value</th>
+                        <th style="width:10%">Action(s)</th>
                     </tr>
                 </thead>
 
@@ -820,11 +822,12 @@
                                 <td>@item.Key</td>
                                 @*End of Rev 3.0*@
                                 <td>@item.Description</td>
-                                <td>@item.VALUE</td>
+                                @*Rev 4.0 [style ="word-break: break-all" added] *@
+                                <td style="word-break: break-all;">@item.VALUE</td>
                                 @*<td>@item.CONTROL_TYPE</td>*@
                                 <td class="text-center">
-                                    <a href="" onclick="ActionBtn('@item.CONTROL_TYPE', '@item.Description', '@item.VALUE', '@item.Key')" title="More Info" class="" data-toggle="modal">
-                                        <img src="../../../assests/images/info.png">
+                                    <a href="" onclick="ActionBtn('@item.CONTROL_TYPE', '@item.Description', '@item.VALUE', '@item.Key')" title="Edit" class="" data-toggle="modal">
+                                        <img src="../../../assests/images/Edit.png">
                                     </a>
                                 </td>
 

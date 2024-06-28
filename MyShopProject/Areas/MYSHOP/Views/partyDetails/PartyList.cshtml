@@ -10,6 +10,8 @@
 @*8.0                24/04/2023        V2.0.39          Pallab              Party List module all search popup auto focus add and "cancel" button color change. Refer: 25899*@
 @*9.0               15/01/2023         V2.0.45          Sanchita            Assign to DD field not working. Mantis 27102 *@
 @*10.0               11/04/2024          V2.0.46         Sanchita             0027348: FSM: Master > Contact > Parties [Delete Facility]*@
+@*11.0                29/05/2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules*@
+@*12.0              30/05/2024          V2.0.47         Sanchita            Mass Delete related tabs will be added in the security roles of Parties. Mantis: 27489*@
 @*====================================================== Revision History ===========================================================*@
 
 @using MyShop.Models;
@@ -2536,6 +2538,61 @@
 </script>
 @*End of Mantis Issue 25133*@
 
+@*Rev 11.0 *@
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+        visibleColumn = [];
+
+        for (var i = 0; i <= gridPartyDetails.GetColumnsCount() ; i++) {
+            if (gridPartyDetails.GetColumn(i) != null) {
+                if (gridPartyDetails.GetColumn(i).visible == false) {
+                    console.log(gridPartyDetails.GetColumn(i).fieldName);
+                    visibleColumn.push(gridPartyDetails.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridPartyDetails.IsCustomizationWindowVisible())
+            gridPartyDetails.HideCustomizationWindow();
+        else
+            gridPartyDetails.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridPartyDetails.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "partyDetails")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                gridPartyDetails.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+</script>
+
+@*End of Rev 11.0 *@
+
 <style>
     .pmsModal .modal-header {
         background: #298ecc !important;
@@ -3531,7 +3588,8 @@
                         }
                         @*End of Rev 4.0*@
                         @*Rev 10.0*@
-                        @if (ViewBag.CanDelete)
+                        @*Rev 12.0*@
+                        @*@if (ViewBag.CanDelete)
                         {
                             <button type="button" class="btn btn-danger" onclick="MassDeleteShopPopOpen();">
                                 Mass Delete
@@ -3545,7 +3603,27 @@
                             <button type="button" class="btn btn-mass-dlt-imp-log" onclick="MassDeleteShopLogPopOpen();">
                                 View Mass Delete Import Log
                             </button>
+                        }*@
+
+                        @if (ViewBag.CanMassDelete)
+                        {
+                            <button type="button" class="btn btn-danger" onclick="MassDeleteShopPopOpen();">
+                                Mass Delete
+                            </button>
                         }
+                        @if (ViewBag.CanMassDeleteDownloadImport)
+                        {
+                            <button type="button" class="btn btn-info" onclick="DownloadMassDeleteFormat();">
+                                Download Mass Delete Format
+                            </button>
+                            <button type="button" class="btn btn-danger" onclick="MassDeleteImportShopPopOpen();">
+                                Mass Delete Import
+                            </button>
+                            <button type="button" class="btn btn-mass-dlt-imp-log" onclick="MassDeleteShopLogPopOpen();">
+                                View Mass Delete Import Log
+                            </button>
+                        }
+                        @*End of Rev 12.0*@
                         @*End of Rev 10.0*@
                     </div>
                     <div class="clear"></div>
@@ -3643,6 +3721,19 @@
                 <div class="clearfix"></div>
 
                 <div class="scrooler">
+                    @*Rev 11.0 *@
+                    <div class="options">
+                        <div class="options-item">
+                            @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btShowColumnChooser";
+                            settings.Text = "Show Column Chooser";
+                            settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                            // settings.Theme = "MaterialCompactOrange";
+                        }).GetHtml()
+                        </div>
+                    </div>
+                    @*End of Rev 11.0 *@
                     <div id="refreshgrid">
                         @{
                             Html.RenderAction("PartialPartyDetailsGridList", "partyDetails", new { Fromdate = Model.Fromdate, Todate = Model.Todate, Is_PageLoad = "Ispageload" });

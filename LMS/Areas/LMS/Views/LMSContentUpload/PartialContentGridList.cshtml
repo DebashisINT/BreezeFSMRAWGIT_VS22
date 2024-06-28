@@ -1,0 +1,208 @@
+﻿
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridLMSContent";
+    settings.KeyFieldName = "CONTENTID";
+    settings.CallbackRouteValues = new { Action = "PartialContentGridList", Controller = "LMSContentUpload" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 200;
+
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    //settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SEQ";
+        column.Caption = "Sr. No\r\n";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.Width = 60;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENTTITLE";
+        column.Caption = "Title";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width= 150;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENTDESC";
+        column.Caption = "Description";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENTSTATUS";
+        column.Caption = "Active";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENT_TOPIC";
+        column.Caption = "Topic";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 120;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENT_PLAYSEQ";
+        column.Caption = "Play Sequence";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENT_FILENAME";
+        column.Caption = "Upload File Name";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 200;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENT_FILESIZE";
+        column.Caption = "Upload File Size";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 120;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENT_ALLOWLIKE";
+        column.Caption = "Allow like";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 120;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENT_ALLOWCOMMENTS";
+        column.Caption = "Allow comments";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 120;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENT_ALLOWSHARE";
+        column.Caption = "Allow share";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 120;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATEDBY";
+        column.Caption = "Created by";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATEDON";
+        column.Caption = "Created on";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        column.Width = 120;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UPDATEDBY";
+        column.Caption = "Modified by";
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 150;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UPDATEDON";
+        column.Caption = "Modified on";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        column.Width = 150;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenLMSContentforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
+                "" +
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteLMSContent('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
+            );
+        });
+
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.False;
+        x.Width = 100;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.Caption = "Action";
+
+
+
+    });
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+

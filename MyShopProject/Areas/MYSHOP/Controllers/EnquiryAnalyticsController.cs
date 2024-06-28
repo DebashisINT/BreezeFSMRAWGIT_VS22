@@ -1,6 +1,7 @@
 ﻿//====================================================== Revision History ===================================================
 //Rev Number DATE              VERSION          DEVELOPER           CHANGES*@
 //Written by Sanchita on 23-11-2023 for V2.2.43    A new report required as Enquiry Analytics.Mantis: 27021 *@
+// Rev 1.0    Sanchita   30-04-2024      V2.2.43    0027410: ENQUIRY ANALYTICS REPORT Column chooser not Working # Local
 //====================================================== Revision History ===================================================
 
 using BusinessLogicLayer;
@@ -260,6 +261,38 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
 
         }
+
+        // Rev 1.0
+        public ActionResult PageRetention(List<String> Columns)
+        {
+            try
+            {
+                String Col = "";
+                int i = 1;
+                if (Columns != null && Columns.Count > 0)
+                {
+                    Col = string.Join(",", Columns);
+                }
+                int k = InsertPageRetention(Col, Session["userid"].ToString(), "Enquiry Analytics");
+
+                return Json(k, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return RedirectToAction("Logout", "Login", new { Area = "" });
+            }
+        }
+        public int InsertPageRetention(string Col, String USER_ID, String ReportName)
+        {
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_PageRetention");
+            proc.AddPara("@Col", Col);
+            proc.AddPara("@ReportName", ReportName);
+            proc.AddPara("@USER_ID", USER_ID);
+            proc.AddPara("@ACTION", "INSERT");
+            int i = proc.RunActionQuery();
+            return i;
+        }
+        // End of Rev 1.0
         public DataTable GetPageRetention(String USER_ID, String ReportName)
         {
             DataTable dt = new DataTable();

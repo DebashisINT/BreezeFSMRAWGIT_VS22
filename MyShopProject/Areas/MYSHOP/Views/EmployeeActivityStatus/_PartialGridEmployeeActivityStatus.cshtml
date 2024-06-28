@@ -1,4 +1,8 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*====================================================== Revision History ===========================================================*@
+@*1.0      29/05/2024    V2.0.47     Sanchita      0027405: Colum Chooser Option needs to add for the following Modules*@
+@*====================================================== Revision History ===========================================================*@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridEmployeeActivityStatusList";
     settings.CallbackRouteValues = new { Action = "GetEmployeeActivityStatuslistPartial", Controller = "EmployeeActivityStatus" };
@@ -22,6 +26,12 @@
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
     settings.Settings.ShowFilterRowMenu = true;
 
+    // Rev 1.0
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+    // End of Rev 1.0
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "VISIT_DATETIME";
@@ -29,16 +39,54 @@
         x.VisibleIndex = 1;
         x.Width = 150;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // Rev 1.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='VISIT_DATETIME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 1.0
     });
-    
+
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "EMPLOYEE_ID";
-           x.Caption = "Employee ID";
-           x.VisibleIndex = 2;
-           x.Width = 150;
-           x.ColumnType = MVCxGridViewColumnType.TextBox;
-       });
+    {
+        x.FieldName = "EMPLOYEE_ID";
+        x.Caption = "Employee ID";
+        x.VisibleIndex = 2;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // Rev 1.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPLOYEE_ID'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 1.0
+    });
 
     settings.Columns.Add(x =>
     {
@@ -47,23 +95,79 @@
         x.VisibleIndex = 3;
         x.Width = 200;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // Rev 1.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "STATE_NAME";
-           x.Caption = "State Name";
-           x.VisibleIndex = 4;
-           x.Width = 100;
-       });
+    {
+        x.FieldName = "STATE_NAME";
+        x.Caption = "State Name";
+        x.VisibleIndex = 4;
+        x.Width = 100;
+
+        // Rev 1.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='STATE_NAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 1.0
+    });
 
     settings.Columns.Add(x =>
-       {
-           x.FieldName = "DESIGNATION";
-           x.Caption = "Designation";
-           x.VisibleIndex = 5;
-           x.Width = 100;
-       });
+    {
+        x.FieldName = "DESIGNATION";
+        x.Caption = "Designation";
+        x.VisibleIndex = 5;
+        x.Width = 100;
+
+        // Rev 1.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DESIGNATION'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 1.0
+    });
 
     settings.Columns.Add(x =>
     {
@@ -72,6 +176,25 @@
         x.VisibleIndex = 6;
         x.Width = 200;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // Rev 1.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGGEDIN'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(x =>
@@ -81,22 +204,60 @@
         x.VisibleIndex = 7;
         x.Width = 150;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+
+        // Rev 1.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='LOGEDOUT'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 1.0
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "ACTIVITYCNT";
-     x.Caption = "Activity Count";
-     x.VisibleIndex = 8;
-     x.Width = 150;
-     x.ColumnType = MVCxGridViewColumnType.TextBox;
-     x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-     x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
-     x.SetDataItemTemplateContent(c =>
-     {
-         ViewContext.Writer.Write("<a data-toggle='tooltip' data-placement='top' title='Click here to get detail report' style='cursor:pointer' onclick=\"Open2ndStage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "USERID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "VISIT_TIME_ORDBY")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "ACTIVITYCNT")) + "</a>");
-     });
- });
+    {
+        x.FieldName = "ACTIVITYCNT";
+        x.Caption = "Activity Count";
+        x.VisibleIndex = 8;
+        x.Width = 150;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a data-toggle='tooltip' data-placement='top' title='Click here to get detail report' style='cursor:pointer' onclick=\"Open2ndStage('" + Convert.ToString(DataBinder.Eval(c.DataItem, "USERID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "VISIT_TIME_ORDBY")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "ACTIVITYCNT")) + "</a>");
+        });
+
+        // Rev 1.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ACTIVITYCNT'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 1.0
+    });
 
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACTIVITYCNT").DisplayFormat = "0";
 

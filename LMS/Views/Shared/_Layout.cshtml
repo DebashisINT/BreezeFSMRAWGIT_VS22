@@ -1,0 +1,923 @@
+﻿@********************************************************************************************************************
+    Rev 1.0     Pallab      V2.0.41     02/06/2023      "Session expired" message change and alert design modification for FSM
+                                                        Refer: 26280
+    Rev 2.0     Pallab      V2.0.41     22/06/2023      FSM dashboard tab boxes click event disable, when "show data" button not clicked
+                                                        Refer: 26413
+    **********************************************************************************************************************@
+
+<!DOCTYPE html>
+<html>
+
+
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" value="notranslate">
+    <title>@ViewBag.Title - Welcome To FTS </title>
+
+
+    @*<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>*@
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>*@
+    <script src="~/assests/js/jquery3.3.1.min.js"></script>
+
+    <link href="~/assests/css/custom/jquery.alerts.css" rel="stylesheet" />
+
+    <script src="~/assests/js/jquery.alerts.js"></script>
+    <link href="/assests/css/jquery-ui.css" type="text/css" rel="stylesheet" />
+
+    @*<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.12.1/jquery-ui.min.js"></script>*@
+
+    @Html.DevExpress().GetStyleSheets(
+
+                new StyleSheet { ExtensionSuite = ExtensionSuite.GridView },
+                new StyleSheet { ExtensionSuite = ExtensionSuite.Editors, ExtensionType = ExtensionType.TreeList },
+                  new StyleSheet { ExtensionSuite = ExtensionSuite.TreeList, ExtensionType = ExtensionType.Button }
+    )
+
+
+
+    @Html.DevExpress().GetScripts(
+
+                  new Script { ExtensionSuite = ExtensionSuite.NavigationAndLayout },
+                    new Script { ExtensionSuite = ExtensionSuite.HtmlEditor },
+                    new Script { ExtensionSuite = ExtensionSuite.GridView },
+                    new Script { ExtensionSuite = ExtensionSuite.PivotGrid },
+                    new Script { ExtensionSuite = ExtensionSuite.Editors },
+                    new Script { ExtensionSuite = ExtensionSuite.Chart },
+
+                    new Script { ExtensionSuite = ExtensionSuite.Scheduler },
+                    new Script { ExtensionSuite = ExtensionSuite.TreeList }
+
+
+    )
+
+
+    <link rel="stylesheet" href="~/assests/bootstrap/css/bootstrap.min.css" />
+    @*<link rel="stylesheet" href="/assests/bootstrap/css/bootstrap-theme.min.css" />*@
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,400i,500,600,700,800,900&display=swap" rel="stylesheet">
+    @*<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />*@
+
+
+    <link href="/assests/pluggins/choosen/chosen.css" rel="stylesheet" />
+    @*<link rel="stylesheet" href="/assests/css/custom/main.css" />*@
+    @*<link rel="stylesheet" href="/assests/css/custom/newtheme.css" />
+        <link rel="stylesheet" href="/assests/css/custom/PMSStyles.css" />*@
+    <link rel="stylesheet" type="text/css" href="/assests/fonts/font-awesome/css/font-awesome.min.css" />
+    <link href="/assests/pluggins/customScroll/custoScroll.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/introjs.min.css" integrity="sha512-DcHJLWkmfnv+isBrT8M3PhKEhsHWhEgulhr8m5EuGhdAG9w+vUyjlwgR4ISLN0+s/m4ItmPsTOqPzW714dtr5w==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/assests/css/ftsNewScreen.css" />
+    <!-- Datatables -->
+    <link href="~/Content/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="~/Content/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+
+    @*Rev 1.0*@
+    <link href="~/assests/css/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/assests/js/sweetalert2.all.min.js"></script>
+    @*Rev end 1.0*@
+
+
+
+    <!-- bootstrap-daterangepicker -->
+    <script src="~/Content/vendors/moment/min/moment.min.js"></script>
+
+
+
+    <script src="~/Content/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+
+    <!-- bootstrap-daterangepicker -->
+    <link href="~/Content/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+
+
+    <!---Jalert-->
+    <link href="~/Scripts/jAlert-master/dist/jAlert.css" rel="stylesheet" />
+
+
+    @RenderSection("HeadResources", false)
+    <style>
+        #dayDate, #clock {
+            font-weight: 600;
+        }
+
+        .prof .lnr-chevron-down {
+            transform: translateY(3px);
+            display: inline-block;
+        }
+
+        table.dxgvTable_PlasticBlue > tbody > tr:nth-child(2) > td.dxgvHeader_PlasticBlue {
+            padding: 8px 8px !important;
+        }
+
+        .tooltip.right .tooltip-arrow {
+            border-right-color: #3ea053;
+        }
+
+        .tooltip.top .tooltip-arrow {
+            border-top-color: #3ea053;
+        }
+
+        .tooltip-inner {
+            background-color: #11a06d;
+        }
+        /*searchScreen*/
+        .searchScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            display: none;
+            background: rgba(0,0,0,0.6);
+            z-index: 99
+        }
+
+            .searchScreen.on {
+                display: block;
+            }
+
+        .inputcontainer {
+            background: #fff;
+            margin: 50px auto 20px auto;
+            max-width: 600px;
+            border-radius: 3px;
+            position: relative;
+        }
+
+            .inputcontainer > input {
+                width: 100%;
+                border: none;
+                height: 45px;
+                padding: 4px 8px;
+                border-radius: 3px;
+            }
+
+                .inputcontainer > input:focus, .inputcontainer > input:focus-visible,
+                .searcherInput > input:focus, .searcherInput > input:focus-visible {
+                    border: 1px solid #5195e9;
+                    outline: none;
+                }
+
+            .inputcontainer .arrow-down {
+                width: 0;
+                height: 0;
+                border-left: 13px solid transparent;
+                border-right: 13px solid transparent;
+                border-top: 10px solid #fff;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 99;
+                bottom: -7px;
+            }
+
+        .searchResult {
+            background: #fff;
+            border-radius: 13px;
+            min-height: 200px;
+            width: 75%;
+            margin: auto;
+            padding: 15px 20px;
+            max-height: 255px;
+            overflow: hidden;
+        }
+
+        #clonedMenus {
+            list-style-type: none;
+            padding: 0;
+            /*rev Pallab 25528*/
+            /*columns: 2;*/
+            display: flex;
+            flex-flow: wrap;
+            /*height: 390px;*/
+            max-height: 390px;
+            overflow-y: auto;
+            align-items: flex-start;
+            /*rev end Pallab 25528*/
+        }
+            /*rev Pallab 25528*/
+            #clonedMenus:active::-webkit-scrollbar-thumb,
+            #clonedMenus:focus::-webkit-scrollbar-thumb,
+            #clonedMenus:hover::-webkit-scrollbar-thumb {
+                visibility: visible;
+                border-radius: 5px !important;
+            }
+
+            #clonedMenus::-webkit-scrollbar-thumb {
+                background-color: darkgrey;
+                visibility: hidden;
+                transition: all .4s;
+            }
+
+            #clonedMenus::-webkit-scrollbar {
+                width: 6px;
+                height: 4px;
+            }
+            /*rev end Pallab 25528*/
+            #clonedMenus > li {
+                display: inline-block;
+                width: 100%;
+            }
+
+            #clonedMenus > a {
+                display: flex;
+                color: #484c5a;
+                padding: 10px 0 10px 38px;
+                position: relative;
+                flex-direction: column;
+                /*rev Pallab 25528*/
+                /*width: 50%;*/
+                width: 47%;
+                background: #f1f0f0;
+                margin: 0 6px 10px 6px;
+                border-radius: 10px;
+                min-height: 55px;
+                /*rev end Pallab 25528*/
+            }
+
+                #clonedMenus > a:after {
+                    /*rev Pallab 25528*/
+                    /*content: '\f0c1';*/
+                    content: '\f0f6';
+                    /*rev end Pallab 25528*/
+                    font-family: FontAwesome;
+                    position: absolute;
+                    /*rev Pallab 25528*/
+                    /*left: 0;*/
+                    left: 10px;
+                    /*rev end Pallab 25528*/
+                    width: 30px;
+                    line-height: 30px;
+                    height: 30px;
+                    display: inline-block;
+                    text-align: center;
+                    background: #5eb711;
+                    border-radius: 26%;
+                    color: #ffffff;
+                }
+
+                /*rev Pallab 25528*/
+                #clonedMenus > a.mblue {
+                    background: #3d6c131a;
+                }
+
+                #clonedMenus > a.Cpink {
+                    background: #c9187b1a;
+                }
+
+                #clonedMenus > a.delta {
+                    background: #215fbb1a;
+                }
+
+                #clonedMenus > a.alphaE {
+                    background: #5e25bd1a;
+                }
+
+                #clonedMenus > a.ramGr {
+                    background: #0e9c961a;
+                }
+
+                #clonedMenus > a.ieCle {
+                    background: #40560c1a;
+                }
+
+                #clonedMenus > a.samsoon {
+                    background: #3722441a;
+                }
+
+                #clonedMenus > a.regxs {
+                    background: #773e0c1a;
+                }
+
+                #clonedMenus > a.gogreen {
+                    background: #5eb7111a;
+                }
+                /*rev end Pallab 25528*/
+
+                #clonedMenus > a.mblue:after {
+                    background: #3d6c13;
+                    color: #ffffff;
+                }
+
+                #clonedMenus > a.Cpink:after {
+                    background: #c9187b;
+                    color: #ffffff;
+                }
+
+                #clonedMenus > a.delta:after {
+                    background: #215fbb;
+                    color: #ffffff;
+                }
+
+                #clonedMenus > a.alpha:after {
+                    background: #5e25bd;
+                    color: #ffffff;
+                }
+
+                #clonedMenus > a.ramGr:after {
+                    background: #0e9c96;
+                    color: #ffffff;
+                }
+
+                #clonedMenus > a.ieCle:after {
+                    background: #40560c;
+                    color: #fff;
+                }
+
+                #clonedMenus > a.samsoon:after {
+                    background: #372244;
+                    color: #fff;
+                }
+
+                #clonedMenus > a.regxs:after {
+                    background: #773e0c;
+                    color: #fff;
+                }
+
+                #clonedMenus > a:before {
+                    background: #a52f28;
+                    color: #fff;
+                    font-size: 9px;
+                    top: 11px;
+                }
+
+        .closeSearch {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            background: #eb5d5d;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            line-height: 35px;
+            border: 2px solid #fff;
+            cursor: pointer
+        }
+
+        .resulter {
+            position: absolute;
+            width: 500px;
+            background: #fff;
+            top: 120%;
+            right: 0;
+            padding: 0;
+            z-index: 99;
+            /*rev Pallab 25528*/
+            /*box-shadow: 0 3px 5px rgb(0 0 0 / 12%);*/
+            box-shadow: 0px 0px 14px rgb(9 78 140 / 45%);
+            /*border-radius: 0 0 8px 8px;*/
+            border-radius: 15px;
+            max-height: 450px;
+            /*rev end Pallab 25528 */
+            overflow: hidden;
+            height: 0;
+            display: block;
+            -webkit-transition: top 0.2s ease-in;
+            transition: top 0.2s ease-in;
+        }
+
+            .resulter.on {
+                padding: 15px;
+                top: 100%;
+                height: inherit;
+            }
+
+        .searcherInput > input {
+            border: 1px solid #d5d5d5;
+            border-radius: 20px;
+            min-height: 36px;
+            -webkit-transition: all 0.3s cubic-bezier(0.82, -0.01, 0, 1.61);
+            transition: all 0.3s cubic-bezier(0.82, -0.01, 0, 1.61);
+            width: 200px;
+            padding-left: 15px;
+        }
+
+
+            .searcherInput > input:focus {
+                width: 345px;
+            }
+
+        .searcherInput .iconZR {
+            position: absolute;
+            right: 4px;
+            top: 3px;
+            width: 30px;
+            height: 30px;
+            background: #5b4a4a;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            color: #fff;
+        }
+
+        #clonedMenus a span.ss {
+            font-size: 10px;
+            background: #f0f1df;
+            padding: 0 3px;
+            display: inline-block;
+            width: fit-content;
+            border-radius: 2px;
+        }
+
+        #clonedMenus a span {
+            display: block;
+            margin-left: 8px;
+        }
+
+        #pageLoader {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #fff;
+            z-index: 999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /*rev Pallab 25528 */
+        .search-heading {
+            position: relative;
+            margin-bottom: 12px;
+            font-size: 16px;
+            color: #222;
+        }
+
+        .search-heading-underline {
+            width: 60px;
+            height: 3px;
+            background: #215fbb;
+            display: block;
+            position: absolute;
+            bottom: -5px;
+        }
+        /*rev end Pallab 25528*/
+
+        .flex-dr {
+            display: flex;
+            align-items: center;
+        }
+
+        @@media only screen and (max-width: 767px) {
+            .flex-dr {
+                display: flex;
+                width: 100%;
+                flex-flow: row-reverse;
+            }
+
+            .headerMain {
+                flex-wrap: wrap;
+            }
+
+            .middleWraper {
+                justify-content: end;
+            }
+        }
+    </style>
+    <link href="~/assests/css/responsive.css" rel="stylesheet" />
+    <script>
+
+        $(document).ready(function () {
+            $('#pageLoader').hide();
+
+            $("#searchScreenHandle").click(function () {
+                $(".searchScreen").addClass("on");
+                $("#searchOnMenu").focus().val("");
+                myMenuFilter()
+            });
+            $(".closeSearch").click(function () {
+                $(".searchScreen").removeClass("on");
+
+            });
+            $(".searcherInput input").focusin(function () {
+                $(".resulter").addClass("on");
+            });
+            $(".searcherInput input").focusout(function () {
+                //
+                setTimeout(function () {
+                    $(".resulter").removeClass("on");
+                }, 500)
+            });
+            setTimeout(function () {
+                $("#clonedMenus li").each(function (id, elem) {
+
+                    var ss = $(elem).find('.ss');
+                    //console.log(ss);
+                    if ($(ss).text() == " ") {
+                        $(ss).css({ 'margin-top': '6px' });
+                    }
+                });
+            }, 1000)
+            $(".sideNavigation>ul li").each(function (id, elem) {
+
+                var classes = ['gogreen', 'mblue', 'Cpink', 'delta', 'alphaE', 'ramGr', 'ieCle', 'samsoon', 'regxs'];
+
+                if (!$(elem).children("ul").length) {
+                    var pMainModule = $(elem).closest('ul.submenu-fl.firstSub').parent('li').addClass('theItem').children('a').text();
+
+                    var arrTick = "";
+                    if (pMainModule != "") {
+                        arrTick = ">"
+                    } else {
+                        arrTick = ""
+                    }
+
+                    var pText = $(elem).closest('ul.submenu-fl').parent('li').addClass('theItem').children('a').text();
+                    var e = $(elem).clone();
+
+                    var s = $(elem).clone();
+                    var index = Math.floor(Math.random() * classes.length);
+                    var className = classes[index];
+                    var itemText = $(e).find('a').text();
+                    var itemText2 = $(s).find('a').text();
+                    var finalItem = $(e).find('a').addClass(className).html('<span class="ss"> ' + pMainModule + arrTick + pText + '</span><span class="texts"> ' + itemText + '</span>');
+                    var finalItem2 = $(s).addClass(className).find('a').html('<span class="texts"> ' + itemText + '</span>')
+                    //$(e).addClass(className);
+                    $('#clonedMenus').append(finalItem);
+                    //console.log(finalItem)
+                    $('#mApp').append(s);
+                }
+            });
+        });
+        function myMenuFilter() {
+
+
+            // Declare variables
+            var input, filter, ul, li, a, i, txtValue;
+            //input = document.getElementById('searchOnMenu');
+            input = document.getElementById('searchOnMenu');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById("clonedMenus");
+            li = ul.getElementsByTagName('a');
+            //console.log(filter);
+            //if (filter != "") {
+            //    $('#clonedMenus').show();
+            //} else {
+            //    $('#clonedMenus').hide();
+            //}
+            // Loop through all list items, and hide those who don't match the search query
+            for (i = 0; i < li.length; i++) {
+                a = li[i];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                } else {
+                    li[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="">
+    <div id="pageLoader"><img src="/assests/images/loadr.gif" style="width: 45px;" alt="" /></div>
+    <header class="clearfix headerMain align-items-center">
+
+        <div class="hamburger" data-toggle="tooltip" title="Click to open/close menu" data-placement="right" id="step1">
+            <div class="lineTop"></div>
+            <div class="lineBottom"></div>
+        </div>
+        <div class="d-flex flex-grow-1 middleWraper align-items-center">
+            <div class="logoWrap" id="step2"><img src="/assests/images/logo.png"></div>
+            <div class="dateTime" id="step3">
+                <img src="/assests/images/datetime.png" style="margin-right: 5px;">
+                <span class="text-uppercase" id="dayDate"></span>, <span id="yeaR"></span> |
+                <span id="clock"></span> <span class="text-muted "><small id="aMpM"></small></span>
+            </div>
+            <div class="search flex-grow-1">
+
+                <div class="form-group hide">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="exampleInputAmount" placeholder="Search">
+                        <div class="input-group-addon btn-transparent"><span class="lnr lnr-magnifier"></span></div>
+                    </div>
+                </div>
+                @*<div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" aria-label="Recipient's username" aria-describedby="button-addon2">
+                        <div class="input-group-append">
+                            <button class="btn btn-transparent" type="button" id="button-addon2"><span class="lnr lnr-magnifier"></span></button>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+
+        <div class="prof flex-grow-1 align-items-center ">
+            <ul class="nav">
+                @*<li> <i class="fa fa-search" style="cursor:pointer" id="searchScreenHandle"></i></li>*@
+                <li class="relative">
+                    <div class="searcherInput"><input type="text" onkeyup="myMenuFilter()" id="searchOnMenu" autocomplete="off" /><span class="iconZR"><i class="fa fa-search" style="cursor:pointer"></i></span></div>
+                    <div class="resulter">
+                        @*rev Pallab 25528*@
+                        @*<div>Search in Menus</div>*@
+                        <div class="search-heading">
+                            Search in Menus
+                            <div class="search-heading-underline"></div>
+                        </div>
+                        @*rev end Pallab 25528*@
+                        <ul id="clonedMenus"></ul>
+                    </div>
+                </li>
+                <li class=" dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @*<span class="user"><img src="/assests/images/user1.png" style="max-width:40px;" /></span>*@
+                        <span class="user"><img src="/assests/images/user1.png" style="" /></span>
+                        <span>
+                            Welcome,
+                            @if (!string.IsNullOrEmpty(Convert.ToString(Request.Cookies["sKey"])))
+                            {
+                                @Convert.ToString(Request.Cookies["sKey"].Value);
+                            }
+                        </span> <span class="lnr lnr-chevron-down"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right profDrop" aria-labelledby="dropdownMenu2">
+
+                        <li>
+                            <a class="dropdown-item" href='@Url.Action("ChangePassword", "Login", new { area = "" })'>
+                                <span class="lnr lnr-keyboard"></span>
+                                <span>Change Password</span>
+                            </a>
+                        </li>
+                        <li onclick="startIntro()">
+                            <a class="dropdown-item" href="#">
+                                <span class="lnr lnr-picture"></span>
+                                <span>Interface Overview</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href='@Url.Action("Logout","Login",new { area = "" })'>
+                                <span class="lnr lnr-exit"></span>
+                                <span>Logout</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item hide">
+                    <a class="nav-link logOt active" href="#" data-toggle="tooltip" data-placement="bottom" title="Logout"><span class="lnr lnr-exit"></span></a>
+                </li>
+            </ul>
+            @*<ul class="nav justify-content-end align-items-center">
+                    <li class="nav-item dropdown ">
+                        <a href="#" class="nav-link " type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="user"><img src="/assests/images/user1.png" style="max-width:40px;" /></span>
+                            <span>
+                                Welcome,
+                                @if (!string.IsNullOrEmpty(Convert.ToString(Request.Cookies["sKey"])))
+                                {
+                                @Convert.ToString(Request.Cookies["sKey"].Value);
+                                }
+                            </span> <span class="lnr lnr-chevron-down"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right profDrop" aria-labelledby="dropdownMenu2">
+
+                            <a class="dropdown-item" href='@Url.Action("ChangePassword", "Login", new { area = "" })'>
+                                <span class="lnr lnr-keyboard"></span>
+                                <span>Change Password</span>
+                            </a>
+                            <a class="dropdown-item" href='@Url.Action("Logout","Login",new { area = "" })'>
+                                <span class="lnr lnr-exit"></span>
+                                <span>Logout</span>
+                            </a>
+
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link logOt active" href="#" data-toggle="tooltip" data-placement="bottom" title="Logout"><span class="lnr lnr-exit"></span></a>
+                    </li>
+                </ul>*@
+        </div>
+    </header>
+
+    <div class="searchScreen">
+        <span class="closeSearch"><i class="fa fa-close"></i></span>
+        <div class="container">
+            <div class="inputcontainer"><input type="text" onkeyup="myMenuFilter()" placeholder="Search" autocomplete="off" id="searchOnMenu" /><div class="arrow-down"></div></div>
+            <div class="searchResult">
+                @*<ul id="clonedMenus"></ul>*@
+            </div>
+        </div>
+    </div>
+    <div class="sideNavigation">
+        @{
+            Html.RenderAction("_PartialMenu", "Common", new { area = "" });
+        }
+    </div>
+    @*<div class="sidebar transit">
+        <nav class="sidenav">
+
+        <ul class=""></ul>
+
+
+
+
+
+        <div class="text-center pwred">   </div>
+        </nav>
+        </div>*@
+
+
+
+    <section class="content-wraper">
+        <div class="dashboardHighlightWrap">
+            @RenderBody()
+        </div>
+    </section>
+
+
+
+
+
+
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)*@
+
+    <script type="text/javascript" src="/assests/bootstrap/js/bootstrap.min.js"></script>
+
+
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+            $('.hamburger').click(function () {
+                $('body').toggleClass('navActivated');
+            });
+            $('.widgBox').click(function () {
+                /*Rev 2.0*/
+                //$('.widgBox').removeClass('active');
+                //$(this).addClass('active');
+                /*Rev end 2.0*/
+            });
+            $('[data-toggle="tooltip"]').tooltip();
+
+
+            $('.stage3').each(function (a, b) {
+                var cnt = $(this).find('li').length
+
+                if (cnt >= 7) {
+                    $(this).removeClass('morethan14');
+                    $(this).addClass('morethan7');
+                } if (cnt >= 14) {
+                    $(this).removeClass('morethan7');
+                    $(this).addClass('morethan14');
+                } else { }
+            });
+
+            function getTime() {
+                var d = new Date();
+                d.setHours(d.getHours()); // offset from local time
+                var h = (d.getHours() % 12) || 12; // show midnight & noon as 12
+                return (
+                    (h < 10 ? '0' : '') + h +
+                    (d.getMinutes() < 10 ? ':0' : ':') + d.getMinutes() +
+                    // optional seconds display
+                    // ( d.getSeconds() < 10 ? ':0' : ':') + d.getSeconds() +
+                    (d.getHours() < 12 ? '' : '')
+                );
+
+            }
+            function forAmPm() {
+                var d = new Date();
+                d.setHours(d.getHours()); // offset from local time
+                var h = (d.getHours() % 12) || 12; // show midnight & noon as 12
+                return (
+
+                    // optional seconds display
+                    // ( d.getSeconds() < 10 ? ':0' : ':') + d.getSeconds() +
+                    (d.getHours() < 12 ? ' AM' : ' PM')
+                );
+            }
+            var clock = document.getElementById('clock');
+            var aMpM = document.getElementById('aMpM');
+
+            function formatDate(date) {
+                var monthNames = [
+                    "January", "February", "March",
+                    "April", "May", "June", "July",
+                    "August", "September", "October",
+                    "November", "December"
+                ];
+
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                return day + ' ' + monthNames[monthIndex] + ' ';
+            }
+            function getYear(yrr) {
+                var year = yrr.getFullYear();
+                return year;
+            }
+            var dayDate = document.getElementById('dayDate');
+            var YDate = document.getElementById('yeaR');
+
+            setInterval(function () {
+                dayDate.innerHTML = formatDate(new Date());
+                clock.innerHTML = getTime();
+                aMpM.innerHTML = forAmPm();
+                YDate.innerHTML = getYear(new Date());
+            }, 1000);
+
+            var menuHeight = $('.dashboardHighlightWrap').height() + 8;
+
+            $('.sideNavigation').css({ 'min-height': menuHeight + 'px' })
+        });
+    </script>
+
+    <script type="text/javascript" src="/assests/js/main.js"></script>
+
+    <script type="text/javascript" src="/assests/js/init.js"></script>
+
+    <script src="/assests/pluggins/customScroll/customScroll.js"></script>
+
+
+
+    <!-- Datatables -->
+    <script src="~/Content/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/Content/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/Content/vendors/datatables.net-scroller/js/datatables.scroller.min.js"></script>
+
+    <!---Jalert-->
+
+    <script src="~/Scripts/jAlert-master/dist/jAlert.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.min.js" integrity="sha512-VTd65gL0pCLNPv5Bsf5LNfKbL8/odPq0bLQ4u226UNmT7SzE4xk+5ckLNMuksNTux/pDLMtxYuf0Copz8zMsSA==" crossorigin="anonymous"></script>
+
+    <script>
+        function startIntro() {
+            $('body').addClass('navActivated');
+            var intro = introJs();
+            intro.setOptions({
+                steps: [
+                    {
+                        element: '#step1',
+                        intro: 'Click to open/close menu'
+                    },
+                    {
+                        element: '#Main13',
+                        intro: 'Configure various master data for FSM'
+                    },
+
+                    {
+                        element: '#Main193',
+                        intro: 'Configure various Settings like Dashboard settings, Addresses, IMEI etc.',
+                        position: 'right'
+                    },
+                    {
+                        element: '#Main20267',
+                        intro: 'Get the Attendance and Timesheet options'
+                    },
+                    {
+                        element: '#Main20368',
+                        intro: 'Get the list of various Reports and MIS'
+                    }
+                    //,
+                    //{
+                    //    element: '#cmbState',
+                    //    intro: 'Select state(s) to filter Dashboard data.'
+                    //}
+                    //,
+                    //{
+                    //    element: '#step7',
+                    //    intro: 'Click to get the route details of Employees with map'
+                    //},
+                    //{
+                    //    element: '#step8',
+                    //    intro: 'Click here to see the employees current location and visit count in map '
+                    //}
+                    //,
+                    //{
+                    //    element: '#step9',
+                    //    intro: 'Click here to get the lastly detected location details of employees'
+                    //}
+                ]
+            });
+
+            intro.start();
+        }
+    </script>
+    <style>
+        button:focus, a:focus {
+            outline: none !important;
+        }
+    </style>
+</body>
+
+</html>

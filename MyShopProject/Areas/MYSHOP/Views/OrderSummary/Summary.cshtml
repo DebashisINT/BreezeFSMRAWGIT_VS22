@@ -3,12 +3,11 @@
 @*1.0                20-01-2023        V2.0.38           Pallab              25576: Report page design modification *@
 @*2.0                03-02-2023        V2.0.38           PRITI               0025604: Enhancement Required in the Order Summary Report *@
 @*3.0                30-06-2023        V2.0.41           Sanchita            Employee filtration is not working in Order summary Report.Refer: 26260    *@
-
 @*4.0                19-07-2023        V2.0.42           Priti               0026135: Branch Parameter is required for various FSM reports
-
-@*5.0                19-07-2023        V2.0.41           Pallab              All action button should be under one column, cross icon add in "Select Design" popup in order summary
-                                                                                Refer: 26596 *@
-
+    @*5.0                19-07-2023        V2.0.41           Pallab              All action button should be under one column, cross icon add in "Select Design" popup in order summary
+                                                                                            Refer: 26596 *@
+@*6.0                29-04-2024        V2.0.46           Priti               0027411: Please make the Product List field non editable of the Order Summary page.
+@*7.0                29/05/2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules*@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.Reportorderregisterinput
@@ -464,6 +463,9 @@
                 $("#hdnproductorderid").val(data.Order_ProdId);
 
                 $("#btnEdit").attr('style', 'display:inline-block;');
+                /* REV 6.0*/
+                $("#idproduct").prop("disabled", true);
+                /* REV 6.0 End*/
             },
             error: function () {
                 alert('No dat to be displayed', "Alert!");
@@ -915,10 +917,10 @@
             color: #fff;
         }
 
-        .ja_noTitle .ja_body {
-            text-align: center;
-            font-size: 18px;
-        }
+    .ja_noTitle .ja_body {
+        text-align: center;
+        font-size: 18px;
+    }
 
     .ja_btn_wrap.optBack {
         margin-top: 15px;
@@ -1137,6 +1139,62 @@
     }
     //Rev 4.0 End
 </script>
+
+@* Rev 7.0 *@
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+        visibleColumn = [];
+
+        for (var i = 0; i <= gridorderrsummary.GetColumnsCount() ; i++) {
+            if (gridorderrsummary.GetColumn(i) != null) {
+                if (gridorderrsummary.GetColumn(i).visible == false) {
+                    console.log(gridorderrsummary.GetColumn(i).fieldName);
+                    visibleColumn.push(gridorderrsummary.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridorderrsummary.IsCustomizationWindowVisible())
+            gridorderrsummary.HideCustomizationWindow();
+        else
+            gridorderrsummary.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridorderrsummary.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "OrderSummary")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                gridorderrsummary.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+</script>
+
+@* End of Rev 7.0 *@
+
 <link href="~/Content/media.css" rel="stylesheet" />
 <div class="breadCumb">
     <span>Order Summary </span>
@@ -1230,7 +1288,7 @@
                                 }).GetHtml()
                                 </div>
                             </td>
-                            
+
                         </tr>
                         <tr>
                             @*Rev Debashis*@
@@ -1266,6 +1324,19 @@
             <div class="form_main ">
 
                 <div class="clear"></div>
+                @*Rev 7.0*@
+                <div class="options">
+                    <div class="options-item">
+                        @Html.DevExpress().Button(settings =>
+                    {
+                        settings.Name = "btShowColumnChooser";
+                        settings.Text = "Show Column Chooser";
+                        settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                        // settings.Theme = "MaterialCompactOrange";
+                    }).GetHtml()
+                    </div>
+                </div>
+                @*End of Rev 7.0*@
                 <div id="refreshgrid">
                 </div>
 

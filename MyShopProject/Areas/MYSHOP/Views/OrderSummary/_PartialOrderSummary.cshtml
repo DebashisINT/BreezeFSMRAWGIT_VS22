@@ -2,6 +2,7 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                19-07-2023        2.0.41           Pallab              All action button should be under one column, cross icon add in "Select Design" popup in order summary 
                                                                             Refer: 26596 *@
+@*2.0                29/05/2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules*@
 @*====================================================== Revision History ==========================================================*@
 
 @Html.DevExpress().GridView(settings =>
@@ -27,6 +28,12 @@
     settings.SettingsPager.PageSize = 10;
     //settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    // Rev 2.0
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+    // End of Rev 2.0
+
 
     //Rev Debashis
     if (TempData["IsPaitentDetails"].ToString() == "0")
@@ -38,6 +45,25 @@
             x.Caption = "Employee Name";
             x.VisibleIndex = 1;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EmployeeName'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -46,6 +72,25 @@
             x.Caption = "Branch";
             x.VisibleIndex = 2;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
 
@@ -55,6 +100,25 @@
             x.Caption = "Shop Name";
             x.VisibleIndex = 3;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='shop_name'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -63,6 +127,25 @@
             x.Caption = "Code";
             x.VisibleIndex = 4;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENTITYCODE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -72,6 +155,25 @@
             x.VisibleIndex = 5;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
 
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='address'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
+
         });
         settings.Columns.Add(x =>
         {
@@ -79,6 +181,25 @@
             x.Caption = "Contact";
             x.VisibleIndex = 6;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='owner_contact_no'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -87,6 +208,25 @@
             x.Caption = "Shop type";
             x.VisibleIndex = 7;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shoptype'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
 
@@ -96,6 +236,25 @@
             x.Caption = "Order Date";
             x.VisibleIndex = 8;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='date'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
 
@@ -105,6 +264,25 @@
             x.Caption = "Order Number";
             x.VisibleIndex = 9;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OrderCode'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -114,6 +292,25 @@
             x.VisibleIndex = 10;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='order_amount'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
         //Rev 1.0
         //settings.Columns.Add(x =>
@@ -173,6 +370,25 @@
             x.Caption = "Employee Name";
             x.VisibleIndex = 1;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EmployeeName'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -181,6 +397,25 @@
             x.Caption = "Branch";
             x.VisibleIndex = 2;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
 
@@ -190,6 +425,25 @@
             x.Caption = "Shop Name";
             x.VisibleIndex = 3;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='shop_name'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -198,6 +452,25 @@
             x.Caption = "Code";
             x.VisibleIndex = 4;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENTITYCODE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -207,6 +480,25 @@
             x.VisibleIndex = 5;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
 
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='address'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
+
         });
         settings.Columns.Add(x =>
         {
@@ -214,6 +506,25 @@
             x.Caption = "Contact";
             x.VisibleIndex = 6;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='owner_contact_no'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -222,6 +533,25 @@
             x.Caption = "Shop type";
             x.VisibleIndex = 7;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Shoptype'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -230,6 +560,25 @@
             x.Caption = "Patient Name";
             x.VisibleIndex = 8;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Patient_Name'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -238,6 +587,25 @@
             x.Caption = "Patient Phone No.";
             x.VisibleIndex = 9;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Patient_Phone_No'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -246,6 +614,25 @@
             x.Caption = "Patient Address";
             x.VisibleIndex = 10;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Patient_Address'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -254,6 +641,25 @@
             x.Caption = "Patient Hospital";
             x.VisibleIndex = 11;
             // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Hospital'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -262,6 +668,25 @@
             x.Caption = "Patient Email Address";
             x.VisibleIndex = 12;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Email_Address'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -270,6 +695,25 @@
             x.Caption = "Order Date";
             x.VisibleIndex = 13;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='date'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
 
@@ -279,6 +723,25 @@
             x.Caption = "Order Number";
             x.VisibleIndex = 14;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OrderCode'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -288,6 +751,25 @@
             x.VisibleIndex = 15;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             //x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+            // Rev 2.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='order_amount'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 2.0
         });
 
         settings.Columns.Add(x =>
@@ -301,7 +783,6 @@
                 ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenProductWindow('" + Convert.ToString(DataBinder.Eval(c.DataItem, "OrderId")) + "')\"><img class=\"mr-2\" src=\"../../../assests/images/eye2.png\" /></a>");
                 //Rev end 1.0
             });
-
 
         });
         settings.Columns.Add(x =>

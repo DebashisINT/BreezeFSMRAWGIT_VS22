@@ -15,6 +15,15 @@ namespace ERP.OMS.Management.Activities
     {
 
         /// <summary>
+        /// ddlbranchHO control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlbranchHO;
+
+        /// <summary>
         /// hdnSelectedBranches control.
         /// </summary>
         /// <remarks>
@@ -139,5 +148,14 @@ namespace ERP.OMS.Management.Activities
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HiddenField hdnPageEditId;
+
+        /// <summary>
+        /// hdnActivateEmployeeBranchHierarchy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnActivateEmployeeBranchHierarchy;
     }
 }

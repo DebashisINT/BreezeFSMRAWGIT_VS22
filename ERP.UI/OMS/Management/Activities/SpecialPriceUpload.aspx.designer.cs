@@ -96,6 +96,24 @@ namespace ERP.OMS.Management.Activities
         protected global::DevExpress.Web.ASPxTextBox txtBRANCH;
 
         /// <summary>
+        /// txtDesignation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox txtDesignation;
+
+        /// <summary>
+        /// txtEditEmployee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxTextBox txtEditEmployee;
+
+        /// <summary>
         /// txtPRODUCTCODE control.
         /// </summary>
         /// <remarks>
@@ -148,6 +166,33 @@ namespace ERP.OMS.Management.Activities
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlBRANCH;
+
+        /// <summary>
+        /// cmbDesg control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList cmbDesg;
+
+        /// <summary>
+        /// txtEmployee control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxButtonEdit txtEmployee;
+
+        /// <summary>
+        /// txtEmployee_hidden control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField txtEmployee_hidden;
 
         /// <summary>
         /// txtProductNameAdd control.

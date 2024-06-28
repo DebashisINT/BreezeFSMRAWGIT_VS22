@@ -1,4 +1,7 @@
-﻿using DataAccessLayer;
+﻿/**************************************************************************************************************************
+ * * Rev 1.0      Sanchita       V2.0.47      05-06-2024      27498: A new check box shall be implemented like the Attendance Register report named as "Consider Day End"
+ * **************************************************************************************************************************/
+using DataAccessLayer;
 using DevExpress.Export;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
@@ -150,6 +153,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     proc.AddPara("@EMPID", Employee);
                     proc.AddPara("@CHANNELID", Channel_Id);
                     proc.AddPara("@USERID", Convert.ToInt32(Session["userid"]));
+                    // Rev 1.0
+                    proc.AddPara("@CONSIDERDAYEND", Convert.ToString(model.IsConsiderDayEnd));
+                    // End of Rev 1.0
                     ds = proc.GetDataSet();
                 }
             }

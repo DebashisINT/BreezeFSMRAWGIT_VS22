@@ -1,10 +1,13 @@
-﻿#region======================================Revision History=========================================================================
-//1.0   V2.0.41    Debashis     25/07/2023      DS Visit Details - Two Columns Required.Refer: 0026474
-//2.0   V2.0.41    Debashis     09/08/2023      A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
-//3.0   V2 .0.44   Debashis     27/02/2024      'Sale Value' Field required in DS Visit Details/DS Visit Summary.Refer: 0027276
-//4.0   V2 .0.45   Debashis     29/03/2024      In DS Visit Details Report a new coloumn required 'New Outlets Visited' as like DS Visit
-//                                              Summary report.Refer: 0027328
-#endregion===================================End of Revision History==================================================================
+﻿#region======================================Revision History=======================================================================================================
+//1.0   V2.0.41    Debashis     25/07/2023     DS Visit Details - Two Columns Required.Refer: 0026474
+//2.0   V2.0.41    Debashis     09/08/2023     A coloumn named as Gender needs to be added in all the ITC reports.Refer: 0026680
+//3.0   V2 .0.44   Debashis     27/02/2024     'Sale Value' Field required in DS Visit Details/DS Visit Summary.Refer: 0027276
+//4.0   V2 .0.45   Debashis     29/03/2024     In DS Visit Details Report a new coloumn required 'New Outlets Visited' as like DS Visit
+//                                             Summary report.Refer: 0027328
+//5.0   V2.0.47    Debashis    03/06/2024      A new coloumn shall be added in the below mentioned reports.Refer: 0027402
+//6.0   V2.0.47    Debashis    03/06/2024      The respective Sales Value coloumn in the below mentioned reports shall be replaced with “Delivery value”.Refer: 0027499
+//7.0   V2.0.47    Debashis    10/06/2024      Add a new column at the end named as “Total CDM Days" in selected date range.Refer: 0027510
+#endregion===================================End of Revision History================================================================================================
 
 using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
@@ -766,7 +769,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             settings.Columns.Add(x =>
             {
                 x.FieldName = "SALE_VALUE";
-                x.Caption = "Sale Value";
+                //Rev 6.0 Mantis: 0027402
+                //x.Caption = "Sale Value";
+                x.Caption = "Delivery Value";
+                //End of Rev 6.0 Mantis: 0027402
                 x.VisibleIndex = 19;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
                 if (ViewBag.RetentionColumn != null)
@@ -789,6 +795,33 @@ namespace MyShop.Areas.MYSHOP.Controllers
             });
             //End of Rev 3.0 Mantis: 0027276
 
+            //Rev 5.0 Mantis: 0027402
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "ORDER_VALUE";
+                x.Caption = "Order Value";
+                x.VisibleIndex = 20;
+                x.PropertiesEdit.DisplayFormatString = "0.00";
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ORDER_VALUE'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+
+            });
+            //End of Rev 5.0 Mantis: 0027402
+
             settings.Columns.Add(x =>
             {
                 x.FieldName = "AVGSPENTDURATION";
@@ -796,7 +829,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 //x.Caption = "Avg time spent in OL(CFT-Customer Facing Time)(HH:MM)";
                 x.Caption = "Avg time spent in OL(CFT-New&Revisit)(HH:MM)";
                 //End of Rev Debashis 0024906
-                x.VisibleIndex = 20;
+                x.VisibleIndex = 21;
                 
                 if (ViewBag.RetentionColumn != null)
                 {
@@ -816,6 +849,35 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
 
             });
+
+            //Rev 7.0 Mantis: 0027510
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "TOTALCDMDAYS";
+                x.Caption = "Total CDM Days";
+                x.VisibleIndex = 22;
+                x.PropertiesEdit.DisplayFormatString = "0";
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTALCDMDAYS'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                        x.Width = 180;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                    x.Width = 180;
+                }
+                x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+            });
+            //End of Rev 7.0 Mantis: 0027510
 
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;

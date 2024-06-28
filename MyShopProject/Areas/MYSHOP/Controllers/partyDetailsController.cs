@@ -1,7 +1,9 @@
 ﻿/*************************************************************************************************************
 Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
 Rev 2.0     Sanchita   V2.0.44    19/12/2023      Beat related tab will be added in the security roles of Parties. Mantis: 27080  
-Rev 3.0     Sanchita   V2.0.46    11/04/2024      0027348: FSM: Master > Contact > Parties [Delete Facility]     
+Rev 3.0     Sanchita   V2.0.46    11/04/2024      0027348: FSM: Master > Contact > Parties [Delete Facility]    
+Rev 4.0     Sanchita   V2.0.47    29/05/2024      0027405: Colum Chooser Option needs to add for the following Modules   
+Rev 5.0     Sanchita   V2.0.47    30/05/2024      Mass Delete related tabs will be added in the security roles of Parties. Mantis: 27489
 *****************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -159,6 +161,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 ViewBag.CanReassignedAreaRouteBeat = rights.CanReassignedAreaRouteBeat;
                 ViewBag.CanReassignedAreaRouteBeatLog = rights.CanReassignedAreaRouteBeatLog;
                 // End of Rev 2.0
+                // Rev 5.0
+                ViewBag.CanMassDelete = rights.CanMassDelete;
+                ViewBag.CanMassDeleteDownloadImport = rights.CanMassDeleteDownloadImport;
+                // End of Rev 5.0
                 // Rev 3.0
                 CommonBL cbl = new CommonBL();
                 ViewBag.ShopDeleteWithAllTransactions = cbl.GetSystemSettingsResult("ShopDeleteWithAllTransactions");
@@ -193,6 +199,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
         {
             string connectionString = ConfigurationManager.ConnectionStrings["ERP_ConnectionString"].ConnectionString;
             string Userid = Convert.ToString(Session["userid"]);
+            // Rev 4.0
+            DataTable dtColmn = obj.GetPageRetention(Session["userid"].ToString(), "PARTY LIST");
+            if (dtColmn != null && dtColmn.Rows.Count > 0)
+            {
+                ViewBag.RetentionColumn = dtColmn;//.Rows[0]["ColumnName"].ToString()  DataTable na class pathao ok wait
+            }
+            // End of Rev 4.0
+
             if (Is_PageLoad != "Ispageload")
             {
                 ReportsDataContext dc = new ReportsDataContext(connectionString);
@@ -586,6 +600,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         private GridViewSettings GetDoctorBatchGridViewSettings()
         {
+            // Rev 4.0
+            DataTable dtColmn = obj.GetPageRetention(Session["userid"].ToString(), "PARTY LIST");
+            if (dtColmn != null && dtColmn.Rows.Count > 0)
+            {
+                ViewBag.RetentionColumn = dtColmn;//.Rows[0]["ColumnName"].ToString()  DataTable na class pathao ok wait
+            }
+            // End of Rev 4.0
+
             var settings = new GridViewSettings();
             settings.Name = "gridPartyDetails";
             settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
@@ -597,6 +619,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Emp. Name";
                 x.VisibleIndex = 1;
                 x.Width = 200;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EmpName'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -605,6 +646,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Emp. Code";
                 x.VisibleIndex = 2;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EmpCode'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -613,6 +673,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Designation";
                 x.VisibleIndex = 3;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Designation'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -621,6 +700,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Supervisor";
                 x.VisibleIndex = 4;
                 x.Width = 200;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Supervisor'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -629,6 +727,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Supervisor Code";
                 x.VisibleIndex = 5;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SupervisorCode'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
             //Mantis Issue 24928
             settings.Columns.Add(x =>
@@ -637,6 +754,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Address";
                 x.VisibleIndex = 6;
                 x.Width = 250;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Address'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -645,6 +781,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Pincode";
                 x.VisibleIndex = 7;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Pincode'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
             //End of Mantis Issue 24928
             settings.Columns.Add(x =>
@@ -653,6 +808,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Country";
                 x.VisibleIndex = 8;
                 x.Width = 150;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='country'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -661,6 +835,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "State";
                 x.VisibleIndex = 9;
                 x.Width = 150;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='state'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -669,6 +862,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "City";
                 x.VisibleIndex = 10;
                 x.Width = 150;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='city'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -677,6 +889,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Area";
                 x.VisibleIndex = 11;
                 x.Width = 150;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='area'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -685,6 +916,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "PP Code";
                 x.VisibleIndex = 12;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PP_CODE'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -693,6 +943,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "PP Name";
                 x.VisibleIndex = 13;
                 x.Width = 200;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PP_Name'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -701,6 +970,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "PP Location";
                 x.VisibleIndex = 14;
                 x.Width = 250;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PP_LOCATION'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -709,6 +997,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "DD Code";
                 x.VisibleIndex = 15;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DD_CODE'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -717,6 +1024,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "DD Name";
                 x.VisibleIndex = 16;
                 x.Width = 200;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DD_Name'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -725,6 +1051,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "DD Location";
                 x.VisibleIndex = 17;
                 x.Width = 250;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DD_LOCATION'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -733,6 +1078,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Code";
                 x.VisibleIndex = 18;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_Code'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -741,6 +1105,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Name";
                 x.VisibleIndex = 19;
                 x.Width = 200;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_Name'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -749,6 +1132,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Type";
                 x.VisibleIndex = 20;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_type'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             // Mantis Issue 25421
@@ -758,6 +1160,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Beat";
                 x.VisibleIndex = 21;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Beat'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
             // End of Mantis Issue 25421
 
@@ -767,6 +1188,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Owner";
                 x.VisibleIndex = 22;
                 x.Width = 150;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_owner'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -775,6 +1215,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Contact No";
                 x.VisibleIndex = 23;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Outlet_ContactNo'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -783,6 +1242,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Alternate No";
                 x.VisibleIndex = 24;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AlternateNo'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -791,6 +1269,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Location";
                 x.VisibleIndex = 25;
                 x.Width = 250;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletLocation'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -799,6 +1296,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Status";
                 x.VisibleIndex = 26;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletStatus'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -807,6 +1323,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Specify";
                 x.VisibleIndex = 27;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletSpecify'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -818,6 +1353,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.ColumnType = MVCxGridViewColumnType.DateEdit;
                 x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
                 (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OwnerDOB'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -829,6 +1383,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.ColumnType = MVCxGridViewColumnType.DateEdit;
                 x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
                 (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OwnerAnniversary'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -837,6 +1410,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Pan Card";
                 x.VisibleIndex = 30;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PanCard'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -845,6 +1437,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Aadhaar Card";
                 x.VisibleIndex = 31;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='AdhaarCard'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -853,6 +1464,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Lat";
                 x.VisibleIndex = 32;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletLat'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -861,6 +1491,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.Caption = "Outlet Long";
                 x.VisibleIndex = 33;
                 x.Width = 100;
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='OutletLong'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.Columns.Add(x =>
@@ -872,6 +1521,25 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 x.ColumnType = MVCxGridViewColumnType.DateEdit;
                 x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy HH:mm:ss";
                 (x.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy HH:mm:ss";
+
+                // Rev 4.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CreateDate'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 4.0
             });
 
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
@@ -3842,5 +4510,27 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
             return Json(ActiveGroupBeat, JsonRequestBehavior.AllowGet);
         }
+
+        // Rev 4.0
+        public ActionResult PageRetention(List<String> Columns)
+        {
+            try
+            {
+                String Col = "";
+                int i = 1;
+                if (Columns != null && Columns.Count > 0)
+                {
+                    Col = string.Join(",", Columns);
+                }
+                int k = obj.InsertPageRetention(Col, Session["userid"].ToString(), "PARTY LIST");
+
+                return Json(k, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                return RedirectToAction("Logout", "Login", new { Area = "" });
+            }
+        }
+        // End of Rev 4.0
     }
 }

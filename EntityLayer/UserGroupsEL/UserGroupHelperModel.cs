@@ -1,10 +1,13 @@
 ﻿/*************************************************************************************************************
 Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
-Rev 2.0     Sanchita   V2.0.44    19/12/2023      Beat related tab will be added in the security roles of Parties. Mantis: 27080     
+Rev 2.0     Sanchita   V2.0.44    19/12/2023      Beat related tab will be added in the security roles of Parties. Mantis: 27080 
+Rev 3.0     Sanchita   V2.0.47    30/05/2024      Mass Delete related tabs will be added in the security roles of Parties. Mantis: 27489 
+Rev 4.0     Sanchita   V2.0.47    03/06/2024      27500: Attendance/ Leave Clear tab need to add in security Role of "Users"     
 *****************************************************************************************************************/
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Lifetime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -68,6 +71,13 @@ namespace EntityLayer.UserGroupsEL
         public bool CanReassignedAreaRouteBeat { get; set; }
         public bool CanReassignedAreaRouteBeatLog { get; set; }
         // End of Rev 2.0
+        // Rev 3.0
+        public bool CanMassDelete { get; set; }
+        public bool CanMassDeleteDownloadImport { get; set; }
+        // End of Rev 3.0
+        // Rev 4.0
+        public bool CanAttendanceLeaveClear { get; set; }
+        // End of Rev 4.0
     }
 
     public class UserGroupSaveModel

@@ -1,4 +1,7 @@
-﻿using DataAccessLayer;
+﻿/***************************************************************************************************************************************
+ * 1.0      V2.0.47     14-05-2024      Sanchita        Column Chooser facility is required in the Activity Details report. Mantis: 27422
+ * *************************************************************************************************************************************/
+using DataAccessLayer;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -23,5 +26,29 @@ namespace BusinessLogicLayer.SalesmanTrack
             ds = proc.GetTable();
             return ds;
         }
+
+        // Rev 1.0
+        public int InsertPageRetention(string Col, String USER_ID, String ReportName)
+        {
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_PageRetention");
+            proc.AddPara("@Col", Col);
+            proc.AddPara("@ReportName", ReportName);
+            proc.AddPara("@USER_ID", USER_ID);
+            proc.AddPara("@ACTION", "INSERT");
+            int i = proc.RunActionQuery();
+            return i;
+        }
+
+        public DataTable GetPageRetention(String USER_ID, String ReportName)
+        {
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_PageRetention");
+            proc.AddPara("@ReportName", ReportName);
+            proc.AddPara("@USER_ID", USER_ID);
+            proc.AddPara("@ACTION", "DETAILS");
+            dt = proc.GetTable();
+            return dt;
+        }
+        // End of Rev 1.0
     }
 }

@@ -1,0 +1,143 @@
+﻿
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridLMSTopic";
+    settings.KeyFieldName = "TOPICID";
+    settings.CallbackRouteValues = new { Action = "PartialTopicGridList", Controller = "LMSTopics" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 200;
+
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    //settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SEQ";
+        column.Caption = "Sr. No\r\n";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TOPICNAME";
+        column.Caption = "Topic Name";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width= 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TOPICBASEDON";
+        column.Caption = "Based On";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width = 120;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TOPICSTATUS";
+        column.Caption = "Active";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width = 100;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATEDBY";
+        column.Caption = "Created by";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATEDON";
+        column.Caption = "Created on";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        //column.Width = 100;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UPDATEDBY";
+        column.Caption = "Modified by";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "UPDATEDON";
+        column.Caption = "Modified on";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        /*olumn.Width = 150;*/
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenLMSPointforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TOPICID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
+                "" +
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteLMSPoint('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "TOPICID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
+            );
+        });
+
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.False;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.Caption = "Action";
+
+
+
+    });
+
+}).Bind(Model).GetHtml()
+
+
+
+
+

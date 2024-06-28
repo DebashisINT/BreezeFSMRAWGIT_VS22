@@ -3,6 +3,7 @@
 //                                              Refer: 0025585
 //2.0   V2.0.41     Sanchita    19/07/2023      Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135
 //3.0   V2.0.47     Priti       19/07/2023      System is getting logged out while trying to export the Shops data into excel. Mantis: 0027324
+//4.0   V2.0.47     Sanchita    22-05-2024      0027405: Colum Chooser Option needs to add for the following Modules.
 #endregion===================================End of Revision History==================================================================
 using DataAccessLayer;
 using System;
@@ -165,6 +166,30 @@ namespace SalesmanTrack
             ds = proc.GetTable();
             return ds;
         }
+
+        // Rev 4.0
+        public int InsertPageRetention(string Col, String USER_ID, String ReportName)
+        {
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_PageRetention");
+            proc.AddPara("@Col", Col);
+            proc.AddPara("@ReportName", ReportName);
+            proc.AddPara("@USER_ID", USER_ID);
+            proc.AddPara("@ACTION", "INSERT");
+            int i = proc.RunActionQuery();
+            return i;
+        }
+
+        public DataTable GetPageRetention(String USER_ID, String ReportName)
+        {
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTS_PageRetention");
+            proc.AddPara("@ReportName", ReportName);
+            proc.AddPara("@USER_ID", USER_ID);
+            proc.AddPara("@ACTION", "DETAILS");
+            dt = proc.GetTable();
+            return dt;
+        }
+        // End of Rev 4.0
 
     }
 }

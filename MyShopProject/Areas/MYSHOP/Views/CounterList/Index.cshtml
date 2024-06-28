@@ -6,6 +6,7 @@
 @*4.0                19/07/2023        V2.0.41          Sanchita            Add Branch parameter in Listing of Master -> Shops report. Mantis : 26135*@
 @*5.0                21/07/2023        V2.0.41          Pallab              FSM Shop listing page parameter design issue fix. Mantis : 26608*@
 @*6.0                07-11-2023        V2.0.43          Sanchita            0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
+@*7.0                22-05-2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules. *@
 @*====================================================== Revision History =================================================================================================*@
 
 @model Models.CounterClass
@@ -515,6 +516,62 @@
 
     // End of Rev 4.0
 </script>
+
+@*Rev 7.0*@
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+        visibleColumn = [];
+
+        for (var i = 0; i <= gridCounterList.GetColumnsCount() ; i++) {
+            if (gridCounterList.GetColumn(i) != null) {
+                if (gridCounterList.GetColumn(i).visible == false) {
+                    console.log(gridCounterList.GetColumn(i).fieldName);
+                    visibleColumn.push(gridCounterList.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridCounterList.IsCustomizationWindowVisible())
+            gridCounterList.HideCustomizationWindow();
+        else
+            gridCounterList.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridCounterList.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "CounterList")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                gridCounterList.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+</script>
+
+@*End of Rev 7.0*@
+
 <link href="~/Content/media.css" rel="stylesheet" />
 
 <style>
@@ -967,6 +1024,19 @@
         <br />
 
         <div class="scrooler">
+            @*Rev 7.0*@
+            <div class="options">
+                <div class="options-item">
+                    @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                    // settings.Theme = "MaterialCompactOrange";
+                }).GetHtml()
+                </div>
+            </div>
+            @*End of Rev 7.0*@
             <div id="refreshgrid">
                 @{
                     // Rev 4.0 [ BranchId = Model.BranchId added]

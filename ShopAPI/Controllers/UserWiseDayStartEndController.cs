@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.40     Debashis    30/06/2023      One new method has been added.Row: 854
+//2.0   V2.0.47     Debashis    06/06/2024      Some new parameters have been added.Row: 941
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -52,6 +53,10 @@ namespace ShopAPI.Controllers
                 sqlcmd.Parameters.AddWithValue("@VISITDDNAME", model.visit_distributor_name);
                 sqlcmd.Parameters.AddWithValue("@VISITDDDATE", model.visit_distributor_date_time);
                 sqlcmd.Parameters.AddWithValue("@ISDDVISTEDONCEBYDAY", model.IsDDvistedOnceByDay);
+                //Rev 2.0 Row: 941
+                sqlcmd.Parameters.AddWithValue("@WORKACTIVITYID", model.attendance_worktype_id);
+                sqlcmd.Parameters.AddWithValue("@WORKACTIVITYDESCRIPTION", model.attendance_worktype_name);
+                //End of Rev 2.0 Row: 941
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);

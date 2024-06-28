@@ -1,4 +1,9 @@
-﻿@{
+﻿@*====================================================== Revision History ===================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@*1.0                30-04-2024        V2.0.42          Sanchita            0027420: MICRO LEARNING CONFIGURATION Issue # Demo Portal *@
+@*====================================================== Revision History ===================================================*@
+
+@{
     ViewBag.Title = "Document List";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -119,14 +124,17 @@
             FilePathIcon = window.location.origin + FilePathIcon;
 
             var arr = [];
-            
+
             if (isactive == 'True')
             {
                 $("#Active").prop("checked", true);
             }
             else
             {
-                $("#Active").prop("checked", true);
+                // Rev 1.0
+                //$("#Active").prop("checked", true);
+                $("#Active").prop("checked", false);
+                // End of Rev 1.0
             }
 
 
@@ -199,6 +207,9 @@
 
         function AddDocument() {
             $("#hdnAddEdit").val("");
+            // Rev 1.0
+            $("#Active").prop("checked", false);
+            // End of Rev 1.0
         }
 
         function SaveUserDocGroup() {
@@ -479,7 +490,6 @@
             background-image: none !important;
             padding: 11px 20px;
             border: none;
-            
             color: #fff;
         }
 
@@ -489,9 +499,6 @@
             opacity: .8 !important;
             font-size: 26px !important;
         }
-
-        
-
     </style>
 </head>
 <body>
@@ -519,167 +526,167 @@
                             {
                                 if (item.Filetype.ToUpper() == ".MP4")
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="relative">
-                                            <div class="title">@item.Name</div>
-                                            <div class="video-frame">
-                                                <div class="butHolder">
-                                                    <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                    <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                    <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
-                                                </div>
-                                                <video style="width: 100%; height: 190px;" controls>
-                                                    <source src="@Url.Content(@item.FilePath)" type="video/mp4" />
-                                                </video>
-
-                                            </div>
-                                            <div class="doc-description">@item.FileDescription</div>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="relative">
+                                    <div class="title">@item.Name</div>
+                                    <div class="video-frame">
+                                        <div class="butHolder">
+                                            <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                            <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                            <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
                                         </div>
+                                        <video style="width: 100%; height: 190px;" controls>
+                                            <source src="@Url.Content(@item.FilePath)" type="video/mp4" />
+                                        </video>
+
                                     </div>
+                                    <div class="doc-description">@item.FileDescription</div>
+                                </div>
+                            </div>
                                 }
                                 else if (item.Filetype.ToUpper() == ".MP3")
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="title">@item.Name</div>
-                                        <div class="video-frame">
-                                            <div class="butHolder">
-                                                <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
-                                            </div>
-                                            <audio style="width: 100%; height: 190px;" controls="controls">
-                                                <source src="@Url.Content(@item.FilePath)" type="audio/mpeg" />
-                                            </audio>
-
-                                        </div>
-                                        <div class="doc-description">@item.FileDescription</div>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="title">@item.Name</div>
+                                <div class="video-frame">
+                                    <div class="butHolder">
+                                        <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                        <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                        <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
                                     </div>
+                                    <audio style="width: 100%; height: 190px;" controls="controls">
+                                        <source src="@Url.Content(@item.FilePath)" type="audio/mpeg" />
+                                    </audio>
+
+                                </div>
+                                <div class="doc-description">@item.FileDescription</div>
+                            </div>
                                 }
 
                                 else if (item.Filetype.ToUpper() == ".DOC" || item.Filetype.ToUpper() == ".DOCX")
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="title">@item.Name</div>
-                                        <div class="video-frame">
-                                            <div class="butHolder">
-                                                <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="title">@item.Name</div>
+                                <div class="video-frame">
+                                    <div class="butHolder">
+                                        <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                        <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                        <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
 
-                                            </div>
-                                            <a href="@Url.Content(@item.FilePath)">
-                                                <img src="~/assests/images/Word-Logo.png" alt="Download Excel" height="200" width="200" class="center" />
-                                            </a>
-
-                                        </div>
-                                        <div class="doc-description">@item.FileDescription</div>
                                     </div>
+                                    <a href="@Url.Content(@item.FilePath)">
+                                        <img src="~/assests/images/Word-Logo.png" alt="Download Excel" height="200" width="200" class="center" />
+                                    </a>
+
+                                </div>
+                                <div class="doc-description">@item.FileDescription</div>
+                            </div>
                                 }
                                 else if (item.Filetype.ToUpper() == ".PPT" || item.Filetype.ToUpper() == ".PPTX")
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="title">@item.Name</div>
-                                        <div class="video-frame">
-                                            <div class="butHolder">
-                                                <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="title">@item.Name</div>
+                                <div class="video-frame">
+                                    <div class="butHolder">
+                                        <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                        <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                        <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
 
-                                            </div>
-                                            <a href="@Url.Content(@item.FilePath)">
-                                                <img src="~/assests/images/PowerPoint.png" alt="Download Excel" height="200" width="200" class="center" />
-                                            </a>
-
-                                        </div>
-                                        <div class="doc-description">@item.FileDescription</div>
                                     </div>
+                                    <a href="@Url.Content(@item.FilePath)">
+                                        <img src="~/assests/images/PowerPoint.png" alt="Download Excel" height="200" width="200" class="center" />
+                                    </a>
+
+                                </div>
+                                <div class="doc-description">@item.FileDescription</div>
+                            </div>
                                 }
                                 else if (item.Filetype.ToUpper() == ".PDF")
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="title">@item.Name</div>
-                                        <div class="video-frame">
-                                            <div class="butHolder">
-                                                <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="title">@item.Name</div>
+                                <div class="video-frame">
+                                    <div class="butHolder">
+                                        <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                        <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                        <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
 
-                                            </div>
-                                            <a href="@Url.Content(@item.FilePath)">
-                                                <iframe src="@Url.Content(@item.FilePath)" style="width:100%"></iframe>
-                                            </a>
-                                        </div>
-                                        <div class="doc-description">@item.FileDescription</div>
                                     </div>
+                                    <a href="@Url.Content(@item.FilePath)">
+                                        <iframe src="@Url.Content(@item.FilePath)" style="width:100%"></iframe>
+                                    </a>
+                                </div>
+                                <div class="doc-description">@item.FileDescription</div>
+                            </div>
                                 }
                                 else if (item.Filetype.ToUpper() == ".SQL" || item.Filetype.ToUpper() == ".TXT")
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="title">@item.Name</div>
-                                        <div class="video-frame">
-                                            <div class="butHolder">
-                                                <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="title">@item.Name</div>
+                                <div class="video-frame">
+                                    <div class="butHolder">
+                                        <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                        <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                        <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
 
-                                            </div>
-                                            <object data="@Url.Content(@item.FilePath)" width="300" height="200"></object>
-                                        </div>
-                                        <div class="doc-description">@item.FileDescription</div>
                                     </div>
+                                    <object data="@Url.Content(@item.FilePath)" width="300" height="200"></object>
+                                </div>
+                                <div class="doc-description">@item.FileDescription</div>
+                            </div>
                                 }
 
                                 else if (item.Filetype.ToUpper() == ".XLS" || item.Filetype.ToUpper() == ".CSV" || item.Filetype.ToUpper() == ".XLSX")
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="title">@item.Name</div>
-                                        <div class="video-frame">
-                                            <div class="butHolder">
-                                                <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="title">@item.Name</div>
+                                <div class="video-frame">
+                                    <div class="butHolder">
+                                        <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                        <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                        <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
 
-                                            </div>
-                                            <a href="@Url.Content(@item.FilePath)">
-                                                <img src="~/assests/images/excel-logo.png" alt="Download Excel" height="200" width="200" class="center" />
-                                            </a>
-
-                                        </div>
-                                        <div class="doc-description">@item.FileDescription</div>
                                     </div>
+                                    <a href="@Url.Content(@item.FilePath)">
+                                        <img src="~/assests/images/excel-logo.png" alt="Download Excel" height="200" width="200" class="center" />
+                                    </a>
+
+                                </div>
+                                <div class="doc-description">@item.FileDescription</div>
+                            </div>
                                 }
                                 else if (item.Filetype.ToUpper() == ".JPG" || item.Filetype.ToUpper() == ".JPEG" || item.Filetype.ToUpper() == ".PNG")
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="title">@item.Name</div>
-                                        <div class="video-frame">
-                                            <div class="butHolder">
-                                                <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="title">@item.Name</div>
+                                <div class="video-frame">
+                                    <div class="butHolder">
+                                        <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                        <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                        <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
 
-                                            </div>
-                                            <a class='example-image-link' href="@Url.Content(@item.FilePath)" data-lightbox='example-1'>
-                                                <img src="@Url.Content(@item.FilePath)" alt="Download Excel" height="180" width="250" class="center" />
-                                            </a>
-
-                                        </div>
-                                        <div class="doc-description">@item.FileDescription</div>
                                     </div>
+                                    <a class='example-image-link' href="@Url.Content(@item.FilePath)" data-lightbox='example-1'>
+                                        <img src="@Url.Content(@item.FilePath)" alt="Download Excel" height="180" width="250" class="center" />
+                                    </a>
+
+                                </div>
+                                <div class="doc-description">@item.FileDescription</div>
+                            </div>
                                 }
                                 else
                                 {
-                                    <div class="col-sm-4 col-md-4 col-xs-12">
-                                        <div class="title">@item.Name</div>
-                                        <div class="video-frame">
-                                            <div class="butHolder">
-                                                <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
-                                                <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
-                                                <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
+                            <div class="col-sm-4 col-md-4 col-xs-12">
+                                <div class="title">@item.Name</div>
+                                <div class="video-frame">
+                                    <div class="butHolder">
+                                        <span onclick="editNode('@item.ID','@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)','@item.FileDescription','@item.IsActive')"><img src="~/assests/images/2edit.png" /> Edit</span>
+                                        <span onclick="deleteNode('@item.ID', '@Url.Content(@item.FilePath)','@Url.Content(@item.FilePathIcon)')"><img src="~/assests/images/3button.png" />  Delete</span>
+                                        <span onclick="addUserToNode('@item.ID', ' @Url.Content(@item.FilePath) ')"><img src="~/assests/images/1share.png" /> Share</span>
 
-                                            </div>
-                                        </div>
                                     </div>
+                                </div>
+                            </div>
                                 }
 
 
@@ -700,86 +707,86 @@
             <div class="modal-content">
                 @using (Html.BeginForm("UploadVideo", "DocumentSharing", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Upload New File</h4>
-                    </div>
-                    <div class="modal-body" style="padding: 12px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Upload New File</h4>
+                </div>
+                <div class="modal-body" style="padding: 12px;">
 
-                        <div class="form-group hide">
-                            <label>Name:</label>
-                            <div class="custom-file">
-                                <input type="text" id="FileName" name="FileName" class="form-control" />
-                            </div>
-
+                    <div class="form-group hide">
+                        <label>Name:</label>
+                        <div class="custom-file">
+                            <input type="text" id="FileName" name="FileName" class="form-control" />
                         </div>
-                        <div class="row">
-                            <div class="col-sm-8">
-                                <div class="form-group">
-                                    <label>Description:</label>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="form-group">
+                                <label>Description:</label>
+                                <div class="custom-file">
+                                    <input type="text" id="FileDescription" name="FileDescription" maxlength="250" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group" style="padding-top: 21px;">
+                                <div class="custom-file">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" id="Active" value="true" name="Active"> Tick to mark Active
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Choose Icon File:</label>
+                                <div class="clearfix">
                                     <div class="custom-file">
-                                        <input type="text" id="FileDescription" name="FileDescription" maxlength="250" class="form-control" />
+                                        <input type="file" id="fileuploadicon" name="fileuploadicon" class="custom-file-input" accept="image/*" />
+
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
-                                <div class="form-group" style="padding-top: 21px;">
+                            <p class="text-muted red" style="color:red">Supported types : JPEG,TIF,PNG and GIF (File size limited to 1MB)</p>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Choose File:</label>
+                                <div class="clearfix">
                                     <div class="custom-file">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox" id="Active" value="true" name="Active"> Tick to mark Active
-                                            </label>
-                                        </div>
+                                        <input type="file" id="fileupload" name="fileupload" class="custom-file-input" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.pptx,.ppt,.mp4" />
+
                                     </div>
                                 </div>
                             </div>
+                            <p class="text-muted red" style="color:red">Supported types : PDF,DOC,DOCX,PPT,PPTX and MP4 (File size limited to 20MB)</p>
                         </div>
-
-
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Choose Icon File:</label>
-                                    <div class="clearfix">
-                                        <div class="custom-file">
-                                            <input type="file" id="fileuploadicon" name="fileuploadicon" class="custom-file-input" accept="image/*" />
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="text-muted red" style="color:red">Supported types : JPEG,TIF,PNG and GIF (File size limited to 1MB)</p>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Choose File:</label>
-                                    <div class="clearfix">
-                                        <div class="custom-file">
-                                            <input type="file" id="fileupload" name="fileupload" class="custom-file-input" accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf,.pptx,.ppt,.mp4" />
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="text-muted red" style="color:red">Supported types : PDF,DOC,DOCX,PPT,PPTX and MP4 (File size limited to 20MB)</p>
-                            </div>
-
-                        </div>
-
-                        <div class="progress">
-                            <div class="bar"></div>
-                            <div class="percent">0%</div>
-                        </div>
-
-                        <div id="status"></div>
-                        <input type="hidden" id="hdnAddEdit" name="hdnAddEdit" />
-                        <input type="hidden" id="hdnFileDuration" name="hdnFileDuration" />
-
 
                     </div>
-                    <div class="modal-footer">
-                        <input type="submit" id="btnUpload" class="btn btn-info" value="Upload" />
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    <div class="progress">
+                        <div class="bar"></div>
+                        <div class="percent">0%</div>
                     </div>
+
+                    <div id="status"></div>
+                    <input type="hidden" id="hdnAddEdit" name="hdnAddEdit" />
+                    <input type="hidden" id="hdnFileDuration" name="hdnFileDuration" />
+
+
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" id="btnUpload" class="btn btn-info" value="Upload" />
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
                 }
             </div>
         </div>
