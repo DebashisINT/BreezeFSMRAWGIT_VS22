@@ -3,6 +3,7 @@
 @*1.0                20-01-2023        V2.0.38           Pallab              0025576: Report page design modification *@
 @*2.0                19-07-2023        V2.0.42           Priti               0026135: Branch Parameter is required for various FSM reports *@
 @*3.0                04-04-2024        V2 .0.46          Sanchita            0027345: Two checkbox required in parameter for Order register report. *@
+@*4.0                29/05/2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules*@
 @*====================================================== Revision History ==========================================================*@
 
 @model Models.Reportorderregisterinput
@@ -27,6 +28,10 @@
 
         dtFrom.SetValue(d);
         dtTo.SetValue(d);
+
+        //Rev 4.0
+        gridorderregister.Refresh();
+        //End of Rev 4.0
 
         var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
         lookup.GetGridView().Refresh();
@@ -546,6 +551,61 @@
     }
     //Rev 2.0 End
 </script>
+
+@*Rev 4.0*@
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+        visibleColumn = [];
+
+        for (var i = 0; i <= gridorderregister.GetColumnsCount() ; i++) {
+            if (gridorderregister.GetColumn(i) != null) {
+                if (gridorderregister.GetColumn(i).visible == false) {
+                    console.log(gridorderregister.GetColumn(i).fieldName);
+                    visibleColumn.push(gridorderregister.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridorderregister.IsCustomizationWindowVisible())
+            gridorderregister.HideCustomizationWindow();
+        else
+            gridorderregister.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridorderregister.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "Report")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                gridorderregister.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+</script>
+@* End of Rev 4.0*@
+
 <link href="~/Content/media.css" rel="stylesheet" />
 <style>
     .inputSpacer {
@@ -1061,6 +1121,19 @@
 
 
                     <div class="clear"></div>
+                    @*Rev 4.0*@
+                    <div class="options">
+                        <div class="options-item">
+                            @Html.DevExpress().Button(settings =>
+                        {
+                            settings.Name = "btShowColumnChooser";
+                            settings.Text = "Show Column Chooser";
+                            settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                            // settings.Theme = "MaterialCompactOrange";
+                        }).GetHtml()
+                        </div>
+                    </div>
+                    @*End of Rev 4.0*@
                     <div id="refreshgrid">
 
                     </div>
@@ -1093,33 +1166,33 @@
                     <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
 
                     @*<div id="myModal" class="modal fade" data-backdrop="static" role="dialog">
-                            <div class="modal-dialog modal-lg" style="width:1000px">
+            <div class="modal-dialog modal-lg" style="width:1000px">
 
-                                 Modal content
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">Shop Visit List</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div id="divModalBody" style="padding-left:20px;">
-                                            <div id="refreshgridstatusgpsshowdetails" style="display:none;">
-                                                @{
+                 Modal content
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Shop Visit List</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="divModalBody" style="padding-left:20px;">
+                            <div id="refreshgridstatusgpsshowdetails" style="display:none;">
+                                @{
 
-                                                    //Html.RenderAction("ShopListActivity", "GPSStatus", new { Fromdate = Model.Fromdate, Todate = Model.Todate });
+                                    //Html.RenderAction("ShopListActivity", "GPSStatus", new { Fromdate = Model.Fromdate, Todate = Model.Todate });
 
-                                                        Html.RenderAction("ShopListActivityList", "GPSStatus");
+                                        Html.RenderAction("ShopListActivityList", "GPSStatus");
 
-                                                }
+                                }
 
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
-                        </div>*@
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>*@
                 </div>
             </div>
         </div>
