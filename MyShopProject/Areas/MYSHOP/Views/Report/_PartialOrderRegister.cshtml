@@ -2,6 +2,7 @@
 @*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
 @*1.0                04-04-2024        V2 .0.46          Sanchita            0027345: Two checkbox required in parameter for Order register report. *@
 @*2.0                03-05-2024        V2 .0.47          Priti               0027407: "Party Status" - needs to add in the following reports. *@
+@*3.0                29/05/2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules*@
 @*====================================================== Revision History ==========================================================*@
 @Html.DevExpress().GridView(settings =>
 {
@@ -28,12 +29,37 @@
     settings.SettingsPager.PageSize = 10;
     settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.TopAndBottom;
 
+    // Rev 3.0
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    settings.SettingsContextMenu.Enabled = true;
+    settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+    // End of Rev 3.0
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "Employee_ID";
         x.Caption = "Employee ID";
         x.VisibleIndex = 1;
         x.Width = 150;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Employee_ID'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     settings.Columns.Add(x =>
@@ -42,6 +68,25 @@
         x.Caption = "Employee Name";
         x.VisibleIndex = 2;
         x.Width = 150;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMPNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     settings.Columns.Add(x =>
@@ -50,6 +95,25 @@
         x.Caption = "Branch";
         x.VisibleIndex = 3;
         x.Width = 180;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BRANCHDESC'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
 
@@ -59,6 +123,25 @@
         x.Caption = "Shop Name";
         x.VisibleIndex = 4;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPNAME'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     settings.Columns.Add(x =>
@@ -67,6 +150,25 @@
         x.Caption = "Code";
         x.VisibleIndex = 5;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ENTITYCODE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     settings.Columns.Add(x =>
@@ -76,6 +178,25 @@
         x.VisibleIndex = 6;
         x.Width = 300;
 
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ADDRESS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
+
     });
     settings.Columns.Add(x =>
     {
@@ -83,6 +204,25 @@
         x.Caption = "Contact";
         x.VisibleIndex = 7;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='CONTACT'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     settings.Columns.Add(x =>
@@ -91,6 +231,25 @@
         x.Caption = "Shop type";
         x.VisibleIndex = 8;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='SHOPTYPE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
     //Rev 2.0
     settings.Columns.Add(x =>
@@ -99,6 +258,25 @@
         x.Caption = "Party Status";
         x.VisibleIndex = 9;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
     //Rev 2.0 End
     settings.Columns.Add(x =>
@@ -107,6 +285,25 @@
         x.Caption = "PP Name";
         x.VisibleIndex = 10;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PPName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     settings.Columns.Add(x =>
@@ -115,6 +312,25 @@
         x.Caption = "DD Name";
         x.VisibleIndex = 11;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DDName'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     settings.Columns.Add(x =>
@@ -123,6 +339,25 @@
         x.Caption = "Order Date";
         x.VisibleIndex = 12;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ORDDATE'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
 
@@ -133,6 +368,25 @@
         x.VisibleIndex = 13;
         x.Width = 200;
 
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ORDRNO'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
+
     });
 
 
@@ -142,6 +396,25 @@
         x.Caption = "Product";
         x.VisibleIndex = 14;
         x.Width = 200;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PRODUCT'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     settings.Columns.Add(x =>
@@ -151,6 +424,25 @@
         x.VisibleIndex = 15;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
         x.Width = 100;
+
+        // Rev 3.0
+        if (ViewBag.RetentionColumn != null)
+        {
+            System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='QUANTITY'");
+            if (row != null && row.Length > 0)  /// Check now
+            {
+                x.Visible = false;
+            }
+            else
+            {
+                x.Visible = true;
+            }
+        }
+        else
+        {
+            x.Visible = true;
+        }
+        // End of Rev 3.0
     });
 
     // Rev 1.0
@@ -164,6 +456,25 @@
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
             x.PropertiesEdit.DisplayFormatString = "0.00";
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MRP'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
         settings.Columns.Add(x =>
         {
@@ -173,6 +484,25 @@
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
             x.PropertiesEdit.DisplayFormatString = "0.00";
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DISCOUNT'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
         settings.Columns.Add(x =>
         {
@@ -181,6 +511,25 @@
             x.VisibleIndex = 18;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RATE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
 
 
@@ -191,6 +540,25 @@
             x.VisibleIndex = 19;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ORDVALUE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
         //Mantis Issue 24593
         if (TempData["IsSchemeDetails"].ToString() == "1")
@@ -203,6 +571,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 //x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Scheme_Qty'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
             settings.Columns.Add(x =>
             {
@@ -212,6 +599,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Scheme_Rate'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
             settings.Columns.Add(x =>
             {
@@ -221,6 +627,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Total_Scheme_Price'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
         }
         //End of Mantis Issue 24593
@@ -235,6 +660,25 @@
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
             x.PropertiesEdit.DisplayFormatString = "0.00";
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='MRP'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
         settings.Columns.Add(x =>
         {
@@ -243,6 +687,25 @@
             x.VisibleIndex = 17;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RATE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
 
 
@@ -253,6 +716,25 @@
             x.VisibleIndex = 18;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ORDVALUE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
         //Mantis Issue 24593
         if (TempData["IsSchemeDetails"].ToString() == "1")
@@ -265,6 +747,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 //x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Scheme_Qty'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
             settings.Columns.Add(x =>
             {
@@ -274,6 +775,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Scheme_Rate'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
             settings.Columns.Add(x =>
             {
@@ -283,11 +803,30 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Total_Scheme_Price'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
         }
         //End of Mantis Issue 24593
     }
-    else if (ViewBag.IsShowDiscount ==1)
+    else if (ViewBag.IsShowDiscount == 1)
     {
         settings.Columns.Add(x =>
         {
@@ -297,6 +836,25 @@
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
             x.PropertiesEdit.DisplayFormatString = "0.00";
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DISCOUNT'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
         settings.Columns.Add(x =>
         {
@@ -305,6 +863,25 @@
             x.VisibleIndex = 18;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RATE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
 
 
@@ -315,6 +892,25 @@
             x.VisibleIndex = 19;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ORDVALUE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
         //Mantis Issue 24593
         if (TempData["IsSchemeDetails"].ToString() == "1")
@@ -327,6 +923,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 //x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Scheme_Qty'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
             settings.Columns.Add(x =>
             {
@@ -336,6 +951,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Scheme_Rate'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
             settings.Columns.Add(x =>
             {
@@ -345,6 +979,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Total_Scheme_Price'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
         }
         //End of Mantis Issue 24593
@@ -358,6 +1011,25 @@
             x.VisibleIndex = 16;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RATE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
 
 
@@ -368,6 +1040,25 @@
             x.VisibleIndex = 17;
             x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
             x.Width = 100;
+
+            // Rev 3.0
+            if (ViewBag.RetentionColumn != null)
+            {
+                System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ORDVALUE'");
+                if (row != null && row.Length > 0)  /// Check now
+                {
+                    x.Visible = false;
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+            }
+            else
+            {
+                x.Visible = true;
+            }
+            // End of Rev 3.0
         });
         //Mantis Issue 24593
         if (TempData["IsSchemeDetails"].ToString() == "1")
@@ -380,6 +1071,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 //x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Scheme_Qty'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
             settings.Columns.Add(x =>
             {
@@ -389,6 +1099,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Scheme_Rate'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
             settings.Columns.Add(x =>
             {
@@ -398,6 +1127,25 @@
                 x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
                 x.Width = 100;
                 x.PropertiesEdit.DisplayFormatString = "0.00";
+
+                // Rev 3.0
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='Total_Scheme_Price'");
+                    if (row != null && row.Length > 0)  /// Check now
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
+                // End of Rev 3.0
             });
         }
         //End of Mantis Issue 24593
