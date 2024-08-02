@@ -4,6 +4,7 @@ Rev 2.0     Sanchita   V2.0.44    19/12/2023      Beat related tab will be added
 Rev 3.0     Sanchita   V2.0.46    11/04/2024      0027348: FSM: Master > Contact > Parties [Delete Facility]    
 Rev 4.0     Sanchita   V2.0.47    29/05/2024      0027405: Colum Chooser Option needs to add for the following Modules   
 Rev 5.0     Sanchita   V2.0.47    30/05/2024      Mass Delete related tabs will be added in the security roles of Parties. Mantis: 27489
+Rev 6.0     Priti      V2.0.48    08-07-2024      0027407: "Party Status" - needs to add in the following reports.
 *****************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -1152,7 +1153,32 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
                 // End of Rev 4.0
             });
+            //REV 6.0
+            settings.Columns.Add(x =>
+            {
+                x.FieldName = "PARTYSTATUS";
+                x.Caption = "Party Status";
+                x.VisibleIndex = 20;
+                x.Width = 100;
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
+                    if (row != null && row.Length > 0)
+                    {
+                        x.Visible = false;
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                }
+                else
+                {
+                    x.Visible = true;
+                }
 
+            });
+            //REV 6.0 End
             // Mantis Issue 25421
             settings.Columns.Add(x =>
             {

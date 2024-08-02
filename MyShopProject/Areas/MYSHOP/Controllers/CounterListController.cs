@@ -6,6 +6,7 @@
 //4.0   V2.0.45     Sanchita    22/01/2024      Supervisor name column is required in Shops report. Mantis: 27199
 //5.0   V2.0.47     Priti       19/04/2024      System is getting logged out while trying to export the Shops data into excel. Mantis: 0027324
 //6.0   V2.0.47     Sanchita    22-05-2024      0027405: Colum Chooser Option needs to add for the following Modules.
+//7.0   V2 .0.48    Priti       08-07-2024      0027407: "Party Status" - needs to add in the following reports.
 #endregion===================================End of Revision History==================================================================
 using System;
 using System.Collections.Generic;
@@ -447,7 +448,30 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 // End of Rev 6.0
             });
             //End of Rev Debashis -- 0024576
+            //Rev 7.0
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "Party Status";
+                column.FieldName = "PARTYSTATUS";
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
 
+            });
+            //Rev 7.0 End
 
             settings.Columns.Add(column =>
             {

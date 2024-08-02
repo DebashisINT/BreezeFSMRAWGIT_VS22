@@ -1,7 +1,8 @@
 ﻿/**************************************************************************************************
  * 1.0      Sanchita    V2.0.38     02/02/2023      Appconfig and User wise setting "IsAllDataInPortalwithHeirarchy = True"
  *                                                  then data in portal shall be populated based on Hierarchy Only. Refer: 25504
- * 2.0      Sanchita    V2.0.47     29/05/2024      0027405: Colum Chooser Option needs to add for the following Modules                                                 
+ * 2.0      Sanchita    V2.0.47     29/05/2024      0027405: Colum Chooser Option needs to add for the following Modules  
+ * 3.0      Priti       V2 .0.48    08-07-2024      0027407: "Party Status" - needs to add in the following reports.
  * ****************************************************************************************************/
 using BusinessLogicLayer.SalesmanTrack;
 using DevExpress.Web;
@@ -394,7 +395,29 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
                 // End of Rev 2.0
             });
-
+            // Rev 3.0
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "Party Status";
+                column.FieldName = "PARTYSTATUS";
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+            });
+            // End of Rev 3.0
             settings.Columns.Add(column =>
             {
                 column.Caption = "Brand";
