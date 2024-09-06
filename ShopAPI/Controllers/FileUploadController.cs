@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.48     Debashis    31/07/2024      A new method has been added.Row: 957
+#endregion===================================End of Revision History==================================================
+
+using Newtonsoft.Json.Linq;
 using ShopAPI.Models;
 using System;
 using System.Collections.Generic;
@@ -6,6 +10,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -359,5 +365,62 @@ namespace ShopAPI.Controllers
             }
             return Json(omodeloutput);
         }
+
+        //Rev 1.0 Row: 957 & 965
+        public JsonResult UploadShopRevisitAudio(UploadShopRevisitAudioInput model)
+        {
+            UploadRevisitAudioOutput omodel = new UploadRevisitAudioOutput();
+            string AudioName = "";
+            ShopRegister oview = new ShopRegister();
+            AudioName = model.audio.FileName;
+            try
+            {
+                var details = JObject.Parse(model.data);
+                var hhhh = Newtonsoft.Json.JsonConvert.DeserializeObject<UploadRevisitAudio>(model.data);
+                if (!string.IsNullOrEmpty(model.data))
+                {
+                    AudioName = hhhh.session_token + '_' + hhhh.user_id + '_' + AudioName;
+                    string vPath = Path.Combine(Server.MapPath("~/CommonFolder/ShopRevisitAudio"), AudioName);
+                    model.audio.SaveAs(vPath);
+                }
+
+                DataTable dt = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+
+                sqlcmd = new SqlCommand("PRC_APISHOPREVISITAUDIOINFO", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@ACTION", "SHOPAUDIOSAVE");
+                sqlcmd.Parameters.AddWithValue("@USER_ID", hhhh.user_id);
+                sqlcmd.Parameters.AddWithValue("@SHOP_ID", hhhh.shop_id);
+                sqlcmd.Parameters.AddWithValue("@VISIT_DATETIME", hhhh.visit_datetime);
+                sqlcmd.Parameters.AddWithValue("@REVISITORVISIT", hhhh.revisitORvisit);
+                sqlcmd.Parameters.AddWithValue("@SHOPVISIT_AUDIO", AudioName);
+                sqlcmd.Parameters.AddWithValue("@AUDIOPATH", "/CommonFolder/ShopRevisitAudio/" + AudioName);
+
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    omodel.status = "200";
+                    omodel.message = "Success.";
+                }
+                else
+                {
+                    omodel.status = "202";
+                    omodel.message = "Already Data found.";
+                }
+            }
+            catch (Exception msg)
+            {
+                omodel.status = "204" + AudioName;
+                omodel.message = msg.Message;
+            }
+            return Json(omodel);
+        }        
+        //End of Rev 1.0 Row: 957 & 965
     }
 }

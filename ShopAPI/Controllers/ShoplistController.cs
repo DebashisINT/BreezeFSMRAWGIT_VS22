@@ -8,6 +8,7 @@
 //7.0   V2.0.45     Debashis    03/04/2024      One new parameter has been added.Row: 914
 //8.0   V2.0.45     Debashis    11/04/2024      One new parameter has been added.Row: 917 & 918
 //9.0   V2.0.46     Debashis    24/04/2024      One new parameter has been added.Row: 923
+//10.0  V2.0.48     Debashis    05/08/2024      One new method has been added.Row: 965
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -1017,5 +1018,57 @@ namespace ShopAPI.Controllers
             }
         }
         //End of Rev 6.0 Row: 902 & Refer: 0027309
+
+        //Rev 10.0 Row: 965
+        [HttpPost]
+        public HttpResponseMessage FetchShopRevisitAudio(FetchShopRevisitAudioInput model)
+        {
+            FetchShopRevisitAudioOutput omodel = new FetchShopRevisitAudioOutput();
+            List<Audio_listOutput> Cview = new List<Audio_listOutput>();
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    omodel.status = "213";
+                    omodel.message = "Some input parameters are missing.";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+                }
+                else
+                {
+                    DataSet ds = new DataSet();
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("PRC_APISHOPREVISITAUDIOINFO", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "FETCHSHOPAUDIO");
+                    sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("DATALIMITINDAYS", model.data_limit_in_days);
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(ds);
+                    sqlcon.Close();
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        omodel.status = "200";
+                        omodel.message = "Successfully Get List.";
+                        Cview = APIHelperMethods.ToModelList<Audio_listOutput>(ds.Tables[0]);
+                        omodel.audio_list = Cview;
+                    }
+                    var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                omodel.status = "204";
+                omodel.message = ex.Message;
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+        //End of Rev 10.0 Row: 965
     }
 }

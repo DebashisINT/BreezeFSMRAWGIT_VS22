@@ -1153,13 +1153,14 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
                 // End of Rev 4.0
             });
+
             //REV 6.0
             settings.Columns.Add(x =>
             {
                 x.FieldName = "PARTYSTATUS";
                 x.Caption = "Party Status";
                 x.VisibleIndex = 20;
-                x.Width = 100;
+                x.Width = 100;               
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
@@ -1176,9 +1177,11 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 {
                     x.Visible = true;
                 }
-
+               
             });
             //REV 6.0 End
+
+
             // Mantis Issue 25421
             settings.Columns.Add(x =>
             {

@@ -1,4 +1,8 @@
-﻿using System;
+﻿#region======================================Revision History=========================================================
+//1.0   V2.0.48     Debashis    31/07/2024      Some new Parameters have been added.Row: 957
+#endregion===================================End of Revision History==================================================
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -80,4 +84,27 @@ namespace ShopAPI.Models
         //Extra Input for EuroBond
     }
 
+    //Rev 1.0 Row: 957
+    public class UploadShopRevisitAudioInput
+    {
+        public string data { get; set; }
+        public HttpPostedFileBase audio { get; set; }
+    }
+
+    public class UploadRevisitAudio
+    {
+        public string session_token { get; set; }
+        public string user_id { get; set; }
+        public string shop_id { get; set; }
+        public string visit_datetime { get; set; }
+        public string revisitORvisit { get; set; }
+        public string audio { get; set; }
+    }
+
+    public class UploadRevisitAudioOutput
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+    }
+    //End of Rev 1.0 Row: 957
 }

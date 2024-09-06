@@ -1,5 +1,6 @@
 ﻿/*********************************************************************************************************
  * 1.0     V2.0.41     Sanchita    02/06/2023      FSM - Message will be fired from first tab when logged out from the 2nd tab. Refer: 26273  
+ * 2.0     V2.0.48     Priti       21-08-2024      LMS Dashboard.Mantis: 0027667
  *********************************************************************************************************************************/
 using BusinessLogicLayer;
 using DataAccessLayer;
@@ -47,9 +48,16 @@ namespace MyShop.Models
 
         //////////////////////////////////////////////////
 
+        //Rev 2.0
+        public Int32 TotalLearners { get; set; }
+        public Int32 AssignedTopics { get; set; }
+        public Int32 YettoStart { get; set; }
+        public Int32 InProgress { get; set; }
 
+        public Int32 Completed { get; set; }
 
-
+        public Decimal AverageProgress { get; set; }
+        //Rev 2.0 END
     }
 
     public class FSMDashBoardFilter
@@ -81,6 +89,13 @@ namespace MyShop.Models
         public string BranchIdTV { get; set; }
 
         // End of Rev Sachita
+
+
+        //Rev Priti
+        public string ActionType { get; set; }
+        public string STATEIDS { get; set; }
+        public string BRANCHIDS { get; set; }
+        //Rev Priti END
 
         public List<StateData> GetStateList(Int32 userid)
         {
@@ -125,6 +140,28 @@ namespace MyShop.Models
 
         }
         // End of Mantis Issue 24729
+
+        //REV 2.0
+        public List<BranchData> GetLMSBranchList(Int32 userid, String stateIdList)
+        {
+            List<BranchData> lstbranch = new List<BranchData>();
+            DBEngine objdb = new DBEngine();
+            DataTable branchtable = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("prc_Dashboard");
+            proc.AddPara("@DASHBOARDACTION", "LMSDashboardBranchList");
+            proc.AddPara("@USERID", userid);
+            proc.AddPara("@STATEIDLIST", stateIdList);
+            branchtable = proc.GetTable();
+            lstbranch = (from DataRow dr in branchtable.Rows
+                         select new BranchData()
+                         {
+                             BranchID = Convert.ToInt32(dr["id"]),
+                             name = dr["Name"].ToString(),
+                         }).ToList();
+            return lstbranch;
+
+        }
+        //REV 2.0 End
     }
 
     public class StateData

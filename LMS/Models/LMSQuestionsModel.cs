@@ -11,8 +11,12 @@ namespace LMS.Models
 {
     public class LMSQuestionsModel
     {
+        public String QUESTIONS_ID { get; set; }
 
-        public DataTable GETLOOKUPVALUE(string Action)
+        public string Is_PageLoad { get; set; }
+        public string Is_PageLoadCategory { get; set; }
+        public string Is_PageLoadTopic { get; set; }
+        public DataTable GETLOOKUPVALUE(string Action,string ID)
         {
             ProcedureExecute proc;
             int rtrnvalue = 0;
@@ -21,6 +25,7 @@ namespace LMS.Models
             {
                 using (proc = new ProcedureExecute("PRC_LMS_QUESTIONS"))              {
                     proc.AddVarcharPara("@ACTION", 100, Action);
+                    proc.AddIntegerPara("@ID",Convert.ToInt32(ID));
                     dt = proc.GetTable();
                     return dt;
                 }
@@ -37,22 +42,36 @@ namespace LMS.Models
 
 
         public int SaveQuestion(string name, string Userid, string ID="0", string description="", string Option1= "", string Option2 = "", string Option3 = "", string Option4 = "" , string Point1 = "0" , string Point2 = "0", string Point3 = "0", string Point4 = "0"
-            , string chkCorrect1 = "", string chkCorrect2 = "", string chkCorrect3 = "", string chkCorrect4 = "", string TOPIC_ID = "", string Category_ID = "")
+            , string chkCorrect1 = "", string chkCorrect2 = "", string chkCorrect3 = "", string chkCorrect4 = "", string TOPIC_ID = "", string Category_ID = "",
+            string MODE = "", string CONTENTID = "")
         {
             ProcedureExecute proc;
 
             try
             {
+                // Rev Sanchita
+                if (MODE == "AddOnFly" || MODE == "AddOnFlySave")
+                {
+                    ID = "0";
+                }
+                // End of Rev Sanchita
+
                 DataTable dt = new DataTable();
                 String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
                 sqlcmd = new SqlCommand("PRC_LMS_QUESTIONS", sqlcon);
+
                 if (ID == "0")
                     sqlcmd.Parameters.AddWithValue("@ACTION", "ADD");
                 else
                     sqlcmd.Parameters.AddWithValue("@ACTION", "UPDATE");
+
+                // Rev Sanchita
+                sqlcmd.Parameters.AddWithValue("@MODE", MODE);
+                sqlcmd.Parameters.AddWithValue("@CONTENTID", CONTENTID);
+                // End of Rev Sanchita
                 sqlcmd.Parameters.AddWithValue("@QUESTIONNAME", name);
                 sqlcmd.Parameters.AddWithValue("@USER_ID", Userid);
                 sqlcmd.Parameters.AddWithValue("@QUESTIONDESCRIPTION", description);
@@ -150,13 +169,21 @@ namespace LMS.Models
     {
         public Int64 TOPICID { get; set; }
         public string TOPICNAME { get; set; }
+        public string TOPICBASEDON { get; set; }
     }
 
     public class GetCategory
     {
         public Int64 CATEGORYID { get; set; }
         public string CATEGORYNAME { get; set; }
+        public string CATEGORYDESCRIPTION { get; set; }
     }
-    
+    public class Tag
+    {
+        public int TOPICID { get; set; }
+        public string TOPICNAME { get; set; }
+
+
+    }
 
 }

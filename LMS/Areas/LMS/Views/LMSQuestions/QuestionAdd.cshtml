@@ -1,9 +1,28 @@
 ﻿
+@using System.Web.UI.WebControls
+@using DevExpress.Web.Mvc
+@using DevExpress.Web
+@model LMS.Models.LMSQuestionsModel
 @{
+
     ViewBag.Title = "Question Add";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
+    .crossBtn {
+        border: 1px solid #ccc;
+        border-radius: 50%;
+        color: #a5a5a5;
+        font-size: 20px !important;
+        height: 35px;
+        line-height: 33px !important;
+        position: absolute;
+        right: 5px;
+        text-align: center;
+        top: 5px;
+        width: 35px;
+    }
+
     .modal-header {
         padding: 8px;
         background: #094e8c;
@@ -173,7 +192,10 @@
         background: #fff;
         box-shadow: none;
     }
-
+    
+    #TopicGridLookup_I {
+        font-weight: 700 !important;
+    }
     .daterangepicker td.active, .daterangepicker td.active:hover {
         background-color: #175396;
     }
@@ -300,22 +322,46 @@
     }
 
     .pmsModal .modal-header {
-        background: #094e8c !important;
-        background-image: none !important;
+        /*background: #094e8c !important;
+background-image: none !important;*/
         padding: 11px 20px;
         border: none;
-        border-radius: 5px 5px 0 0;
-        color: #fff;
-        border-radius: 10px 10px 0 0;
+        border-radius: 15px 15px 0 0 !important;
+        /*color: #fff;*/
+        /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
     }
 
     .pmsModal .modal-content {
         border: none;
-        border-radius: 10px;
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
     }
 
+    /*.pmsModal .modal-header .modal-title {
+    font-size: 14px;
+}*/
+
     .pmsModal .modal-header .modal-title {
-        font-size: 14px;
+        font-size: 16px !important;
+        color: #111;
+        font-size: 24px;
+    }
+
+    .pmsModal .modal-header {
+        background: transparent !important;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #d5d5d5;
+    }
+
+    .close {
+        font-size: 34px;
+        opacity: .8;
+    }
+
+    button.close {
+        color: #111 !important;
+        font-weight: 400 !important;
+        opacity: .8 !important;
+        font-size: 32px !important;
     }
 
     .pmsModal .close {
@@ -541,13 +587,467 @@
     .swal2-html-container {
         margin-top: 5px !important;
     }
-</style>
-<script>
-    var TOPICID = [];
-    var TOPIC_ID = "";
 
-    var Category = [];
-    var Category_ID = "";
+    .delete-col {
+        width: 4%;
+        padding: 10px 10px;
+    }
+
+    .option-col {
+        width: 76%;
+        padding: 10px 10px;
+    }
+
+    .number-col {
+        width: 10%;
+        padding: 10px 10px;
+    }
+
+    .correct-col {
+        width: 10%;
+        padding: 10px 10px;
+    }
+
+    .ans-option {
+        display: flex;
+        align-items: center;
+    }
+
+    .save-exit-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .save-exit-btn button {
+            margin: 0 10px 15px;
+        }
+
+    .backBox {
+        padding: 15px !important;
+    }
+
+    .option-part {
+        background: #ffffffb8;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .backBox {
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+    }
+
+    .delete-col a img {
+        width: 25px;
+        transition: all .3s ease-in-out;
+    }
+
+    .delete-col a:hover img {
+        transform: scale(1.2);
+    }
+
+    /*.correct-col div {
+        border: 1px solid #ccc;
+        padding: 6px 5px;
+        border-radius: 4px;
+        height: 34px;
+    }*/
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        /*width: 140px;*/
+        background-color: #0d8f24;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #0d8f24 transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .btn-warning {
+        background: #e08d19;
+    }
+
+    .crossBtnN {
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #TopicGridLookup_DDD_gv, #CategoryGridLookup_DDD_gv {
+        width: 100% !important;
+    }
+
+    #TopicGridLookup_DDD_PW-1, #CategoryGridLookup_DDD_PW-1 {
+        width: 95% !important;
+    }
+
+    #btnSave .btn-icon, .cancel-catg .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 20px;
+        margin-right: 5px;
+    }
+
+        #btnSave .btn-icon img {
+            color: #238945;
+            width: 14px;
+        }
+
+    #btnSave.btn-warning .btn-icon img {
+        color: #e08d19;
+        width: 14px;
+    }
+
+        .cancel-catg .btn-icon img {
+            color: #DC0505;
+            width: 16px;
+        }
+</style>
+
+<script>
+      var TOPICID = [];
+  var TOPIC_ID = "";
+
+  var Category = [];
+  var Category_ID = "";
+
+    function validateInput(event) {
+        var input = event.target;
+        if (input.value.length >= 5 && (event.keyCode >= 48 && event.keyCode <= 57)) {
+            event.preventDefault();
+        }
+    }
+
+    function setup() {
+        var inputField1 = document.getElementById("txtPoint1");
+        inputField1.addEventListener("keydown", validateInput);
+
+        var inputField2 = document.getElementById("txtPoint2");
+        inputField2.addEventListener("keydown", validateInput);
+
+        var inputField3 = document.getElementById("txtPoint3");
+        inputField3.addEventListener("keydown", validateInput);
+
+
+        var inputField4 = document.getElementById("txtPoint4");
+        inputField4.addEventListener("keydown", validateInput);
+    }
+
+    window.onload = setup;
+
+    // Rev Sanchita
+    var QuestionID = 0;
+    var urlKeys = getUrlVars();
+    // End of Rev Sanchita
+
+    $(document).ready(function () {
+
+         $('#txtPoint4').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        if (this.value.length > 2) {
+            this.value = this.value.slice(0, 2); // Limit to 2 digits
+        }
+        });
+
+        $('#txtPoint3').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        if (this.value.length > 2) {
+        this.value = this.value.slice(0, 2); // Limit to 2 digits
+        }
+        });
+
+        $('#txtPoint2').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        if (this.value.length > 2) {
+        this.value = this.value.slice(0, 2); // Limit to 2 digits
+        }
+        });
+
+        $('#txtPoint1').on('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+        if (this.value.length > 2) {
+        this.value = this.value.slice(0, 2); // Limit to 2 digits
+        }
+        });
+
+
+
+        // Rev Sanchita
+        if (urlKeys.key == 'AddOnFly' || urlKeys.key == 'AddOnFlySave') {
+            TOPIC_ID = urlKeys.TOPICID;
+           // document.getElementById('TopicGridLookup_I').className = 'bold';
+            TopicGridLookup.SetEnabled(false);
+        }
+
+
+        //var actionUrlHtml = "";
+
+        //var ApprovalCross = $('#ApprovalCross');
+        //ApprovalCross.empty();
+
+        //if (urlKeys.key == 'AddOnFly') {
+        //    actionUrlHtml = `<a href="@Url.Action("Index", "LMSContentUpload")"><i class="fa fa-times"></i></a>` ;
+        //}
+        //else {
+        //    actionUrlHtml = `<a href="@Url.Action("Index", "LMSQuestions")"><i class="fa fa-times"></i></a>`;
+        //}
+        //ApprovalCross.append(actionUrlHtml);
+
+        // End of Rev Sanchita
+
+        $(".allow_decimal").on("input", function (evt) {
+            var self = $(this);
+            self.val(self.val().replace(/[^0-9\.]/g, ''));
+            if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                evt.preventDefault();
+            }
+        });
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
+
+        $('#txtQuestionName').focus();
+        $('#chkCorrect1').change(function () {
+            var chkCorrect1 = document.getElementById("chkCorrect1").checked ? "1" : "0";
+            if (chkCorrect1 == "1") {
+                $("#txtPoint1").prop("disabled", false);
+                $("#txtPoint1").focus();
+                
+            }
+            else {
+                $("#txtPoint1").prop("disabled", true);
+                
+            }
+        });
+
+        $('#chkCorrect2').change(function () {
+            var chkCorrect2 = document.getElementById("chkCorrect2").checked ? "1" : "0";
+            if (chkCorrect2 == "1") {
+                $("#txtPoint2").prop("disabled", false);
+                $("#txtPoint2").focus();
+                
+            }
+            else {
+                $("#txtPoint2").prop("disabled", true);
+                
+            }
+        });
+
+        $('#chkCorrect3').change(function () {
+            var chkCorrect3 = document.getElementById("chkCorrect3").checked ? "1" : "0";
+            if (chkCorrect3 == "1") {
+                $("#txtPoint3").prop("disabled", false);
+                $("#txtPoint3").focus();
+                
+            }
+            else {
+                $("#txtPoint3").prop("disabled", true);
+               
+            }
+        });
+
+        $('#chkCorrect4').change(function () {
+            var chkCorrect4 = document.getElementById("chkCorrect4").checked ? "1" : "0";
+            if (chkCorrect4 == "1") {
+                $("#txtPoint4").prop("disabled", false);
+                $("#txtPoint4").focus();
+                
+            }
+            else {
+                $("#txtPoint4").prop("disabled", true);
+                
+            }
+        });
+    });
+
+    function handleInputFocus(chkId, txtId, placeholderText) {
+        // Enable the focused input and remove its placeholder on checkbox change
+        $("#" + chkId).change(function () {
+            var isChecked = document.getElementById(chkId).checked ? "1" : "0";
+
+            // Disable and reset placeholders for all inputs
+            $(".txtPoint").prop("disabled", true).each(function () {
+                $(this).attr("placeholder", $(this).data("placeholder"));
+            });
+
+            // Enable the selected input if checked
+            if (isChecked == "1") {
+                $("#" + txtId).prop("disabled", false).focus();
+            }
+        });
+
+        // Remove placeholder on focus
+        $("#" + txtId).focus(function () {
+            $(this).attr("placeholder", "");
+        });
+
+        // Restore placeholder on focus out
+        $("#" + txtId).focusout(function () {
+            $(this).attr("placeholder", $(this).data("placeholder"));
+        });
+    }
+
+    // Initialize the inputs
+    $(document).ready(function () {
+        // Store original placeholders
+        $("#txtPoint1").data("placeholder", "Point 1");
+        $("#txtPoint2").data("placeholder", "Point 2");
+        $("#txtPoint3").data("placeholder", "Point 3");
+        $("#txtPoint4").data("placeholder", "Point 4");
+
+        // Apply the function to each checkbox/input pair
+        handleInputFocus('chkCorrect1', 'txtPoint1', 'Point 1');
+        handleInputFocus('chkCorrect2', 'txtPoint2', 'Point 2');
+        handleInputFocus('chkCorrect3', 'txtPoint3', 'Point 3');
+        handleInputFocus('chkCorrect4', 'txtPoint4', 'Point 4');
+    });
+
+
+
+
+
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    }
+
+    // Rev Sanchita
+    //var QuestionID = 0;
+    //var urlKeys = getUrlVars();
+
+    //if (urlKeys.key != 'Add') {
+    if (urlKeys.key != 'Add' && urlKeys.key != 'AddOnFly' && urlKeys.key != 'AddOnFlySave' ) {
+
+        //document.getElementById("TopicGridLookup_I").style.fontSize = "larger";
+       //$("#TopicGridLookup_I").addClass("bold");
+       //  //document.getElementById('TopicGridLookup_I').className = 'bold';
+        // End of Rev Sanchita
+       // $("#titleheader").va("Modify Question");
+
+
+        QuestionID = urlKeys.key;
+        $("#hdnIDADd").val(QuestionID);
+        if (QuestionID != 0) {
+            $('#btnSave').show();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("EditQuestion", "LMSQuestions")",
+                data: { id: QuestionID },
+                success: function (response) {
+                    if (response.code == "") {
+                        jAlert('No data found');
+                    }
+                    else {
+                        $("#txtQuestionName").val(response.NAME);
+                        $("#txtQuestionDescription").val(response.DESCRIPTION);
+
+
+                        $("#txtOption1").val(response.OPTIONS_NUMBER1);
+                        $("#txtOption2").val(response.OPTIONS_NUMBER2);
+                        $("#txtOption3").val(response.OPTIONS_NUMBER3);
+                        $("#txtOption4").val(response.OPTIONS_NUMBER4);
+
+
+                        $("#txtPoint1").val(response.OPTIONS_POINT1);
+                        $("#txtPoint2").val(response.OPTIONS_POINT2);
+                        $("#txtPoint3").val(response.OPTIONS_POINT3);
+                        $("#txtPoint4").val(response.OPTIONS_POINT4);
+
+                        if (response.OPTIONS_CORRECT1 == "True") {
+                            $("#chkCorrect1").prop("checked", true);
+                            $("#txtPoint1").prop("disabled", false);
+
+                        }
+                        else {
+                            $("#chkCorrect1").prop("checked", false);
+                            $("#txtPoint1").prop("disabled", true);
+                        }
+
+                        if (response.OPTIONS_CORRECT2 == "True") {
+                            $("#chkCorrect2").prop("checked", true);
+                            $("#txtPoint2").prop("disabled", false);
+                        }
+                        else {
+                            $("#chkCorrect2").prop("checked", false);
+                            $("#txtPoint2").prop("disabled", true);
+                        }
+
+                        if (response.OPTIONS_CORRECT3 == "True") {
+                            $("#chkCorrect3").prop("checked", true);
+                            $("#txtPoint3").prop("disabled", false);
+                        }
+                        else {
+                            $("#chkCorrect3").prop("checked", false);
+                            $("#txtPoint3").prop("disabled", true);
+                        }
+
+                        if (response.OPTIONS_CORRECT4 == "True") {
+                            $("#chkCorrect4").prop("checked", true);
+                            $("#txtPoint3").prop("disabled", false);
+                        }
+                        else {
+                            $("#chkCorrect4").prop("checked", false);
+                            $("#txtPoint4").prop("disabled", true);
+                        }
+
+
+                        TOPIC_ID = response.TOPICIDS;
+                        Category_ID = response.CATEGORYIDS;
+
+                    }
+                }
+            });
+
+
+
+
+        }
+    }
+
+
 
     function CategorySelectionChanged(s, e) {
         CategoryGridLookup.gridView.GetSelectedFieldValues("CATEGORYID", GetSelectedFieldValuesCallbackCategory);
@@ -568,24 +1068,24 @@
         CategoryGridLookup.gridView.SelectRows();
         Category = "";
         CategoryGridLookup.SetText("");
-            $.ajax({
-                type: 'POST',
-                url: "/LMSQuestions/GetCategoryListJson",
-                //data: { "Hoid": Hoid },
-                dataType: "json",
-                async: false,
-                success: function (data) {
-                    Category = [];
-                    Category_ID = "";
-                    $.each(data, function (i, data) {
-                        Category.push(data.CATEGORYID);
-                        Category_ID += data.CATEGORYID + ',';
-                    });
-                    CategoryGridLookup.gridView.SelectRows();
-                },
-                error: function () {
-                }
-            });
+        $.ajax({
+            type: 'POST',
+            url: "/LMSQuestions/GetCategoryListJson",
+            //data: { "Hoid": Hoid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                Category = [];
+                Category_ID = "";
+                $.each(data, function (i, data) {
+                    Category.push(data.CATEGORYID);
+                    Category_ID += data.CATEGORYID + ',';
+                });
+                CategoryGridLookup.gridView.SelectRows();
+            },
+            error: function () {
+            }
+        });
 
     }
     function DeSelectAllGridLookup(s, e) {
@@ -643,96 +1143,357 @@
 
 
 
-     
+
 </script>
 <script>
-        function SaveQuestion() {
-            var id = $("#hdnID").val();
+    function SaveQuestion(mode ) {
+            var id = $("#hdnIDADd").val();
             if (id == "") {
                 id = "0";
             }
-    if ($("#txtQuestionName").val().trim() == "") {
-        // SweetAlert for empty Question name
-        Swal.fire({
-            icon: 'warning',
-            title: 'Warning',
-            text: 'Enter Question Name to proceed.'
-        });
-        return false;
-    } else if ($("#txtQuestionDescription").val().trim() == "") {
-        // SweetAlert for empty Question description
-        Swal.fire({
-            icon: 'warning',
-            title: 'Warning',
-            text: 'Enter Question Description to proceed.'
-        });
-        return false;
-    } else {
+            if ($("#txtQuestionName").val().trim() == "") {
+            // SweetAlert for empty Question name
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Enter Question Name to proceed.'
+            });
+            return false;
+            }
 
-        var Option1 = $("#txtOption1").val().trim();
-        var Option2 = $("#txtOption2").val().trim();
-        var Option3 = $("#txtOption3").val().trim();
-        var Option4 = $("#txtOption4").val().trim();
+            //else if ($("#txtQuestionDescription").val().trim() == "") {
+            //// SweetAlert for empty Question description
+            //Swal.fire({
+            //    icon: 'warning',
+            //    title: 'Warning',
+            //    text: 'Enter Question Description to proceed.'
+            //});
+            //return false;
+            //}
+            else if ($("#txtOption1").val().trim() == "") {
+                // SweetAlert for empty Question description
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Enter Option1 to proceed.'
+                });
+                return false;
+            }
+            else if ($("#txtOption2").val().trim() == "") {
+                // SweetAlert for empty Question description
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Enter Option2 to proceed.'
+                });
+                return false;
+            }
+            else if ($("#txtOption3").val().trim() == "") {
+                // SweetAlert for empty Question description
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Enter Option3 to proceed.'
+                });
+                return false;
+            }
+            else if ($("#txtOption4").val().trim() == "") {
+                // SweetAlert for empty Question description
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Enter Option4 to proceed.'
+                });
+                return false;
+            }
+            if ($("#txtPoint1").val().trim() == "" || $("#txtPoint1").val().trim() == "0") {
 
-        var Point1 = $("#txtPoint1").val().trim();
-        var Point2 = $("#txtPoint2").val().trim();
-        var Point3 = $("#txtPoint3").val().trim();
-        var Point4 = $("#txtPoint4").val().trim();
+                if ($("#txtPoint2").val().trim() == "" || $("#txtPoint2").val().trim() == "0") {
 
-        var chkCorrect1 = document.getElementById("chkCorrect1").checked ? "1" : "0";
-        var chkCorrect2 = document.getElementById("chkCorrect2").checked ? "1" : "0";
-        var chkCorrect3 = document.getElementById("chkCorrect3").checked ? "1" : "0";
-        var chkCorrect4 = document.getElementById("chkCorrect4").checked ? "1" : "0";
+                    if ($("#txtPoint3").val().trim() == "" || $("#txtPoint3").val().trim() == "0") {
 
-        $.ajax({
-            type: "POST",
-            url: '@Url.Action("SaveQuestion", "LMSQuestions")',
-            data: {
-                name: $("#txtQuestionName").val().trim(),
-                id: id,
-                description: $("#txtQuestionDescription").val().trim(),
+                        if ($("#txtPoint4").val().trim() == "" || $("#txtPoint4").val().trim() == "0") {
 
-                Option1: Option1,
-                Option2: Option2,
-                Option3: Option3,
-                Option4: Option4,
-
-                Point1: Point1,
-                Point2: Point2,
-                Point3: Point3,
-                Point4: Point4,
-
-                chkCorrect1: chkCorrect1,
-                chkCorrect2: chkCorrect2,
-                chkCorrect3: chkCorrect3,
-                chkCorrect4: chkCorrect4,
-
-                TOPIC_ID: TOPIC_ID,
-                Category_ID: Category_ID
-
-            },
-            success: function (response) {
-                if (parseInt(response) > 0) {
-                    // SweetAlert success message
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Question saved successfully.'
-                    }).then(() => {
-                        $("#QuestionModal").modal('hide');
-                        location.reload();
-                    });
-                } else if (parseInt(response) == -1) {
-                    // SweetAlert duplicate Question name warning
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Duplicate Question name cannot be entered. Please enter a unique Question name.'
-                    });
+                            //jAlert('Enter Points  to proceed.');
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Warning',
+                                text: 'Please Enter minimum one point to proceed.'
+                            });
+                            return false;
+                        }
+                    }
                 }
             }
-        });
-    }
+            var chkCorrect1 = document.getElementById("chkCorrect1").checked ? "1" : "0";
+            var chkCorrect2 = document.getElementById("chkCorrect2").checked ? "1" : "0";
+            var chkCorrect3 = document.getElementById("chkCorrect3").checked ? "1" : "0";
+            var chkCorrect4 = document.getElementById("chkCorrect4").checked ? "1" : "0";
+
+            if (chkCorrect1 == "0") {
+
+                if (chkCorrect2 == "0") {
+
+                    if (chkCorrect3 == "0") {
+
+                        if (chkCorrect4 == "0") {
+
+                            Swal.fire({
+                                icon: 'warning',
+                                title: 'Warning',
+                                text: 'Please tick the correct answer(s).'
+                            });
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            if (TOPIC_ID.trim() == "") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Select Topic(s) to proceed.'
+                });
+                return false;
+            }
+            //else if (Category_ID.trim() == "") {
+            //    Swal.fire({
+            //        icon: 'warning',
+            //        title: 'Warning',
+            //        text: 'Select Category to proceed.'
+            //    });
+            //    return false;
+            //}
+            else {
+
+            var Option1 = $("#txtOption1").val().trim();
+            var Option2 = $("#txtOption2").val().trim();
+            var Option3 = $("#txtOption3").val().trim();
+            var Option4 = $("#txtOption4").val().trim();
+
+            var Point1 = $("#txtPoint1").val().trim();
+            var Point2 = $("#txtPoint2").val().trim();
+            var Point3 = $("#txtPoint3").val().trim();
+            var Point4 = $("#txtPoint4").val().trim();
+
+            var chkCorrect1 = document.getElementById("chkCorrect1").checked ? "1" : "0";
+
+            if (chkCorrect1 == "1") {
+                if ($("#txtPoint1").val().trim() == "" || $("#txtPoint1").val().trim() == "0") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Warning',
+                        text: 'Please Enter Point1 to proceed.'
+                    });
+                    return false;
+                }
+                if ($("#txtOption1").val().trim() == "" || $("#txtOption1").val().trim() == "0") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Warning',
+                        text: 'Please Enter Option1 to proceed.'
+                    });
+                    return false;
+                }
+            }
+
+            var chkCorrect2 = document.getElementById("chkCorrect2").checked ? "1" : "0";
+
+            if (chkCorrect2 == "1") {
+                if ($("#txtPoint2").val().trim() == "" || $("#txtPoint2").val().trim() == "0") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Warning',
+                        text: 'Please Enter Point2 to proceed.'
+                    });
+                    return false;
+                }
+                if ($("#txtOption2").val().trim() == "" || $("#txtOption2").val().trim() == "0") {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Warning',
+                        text: 'Please Enter Option2 to proceed.'
+                    });
+                    return false;
+                }
+            }
+            var chkCorrect3 = document.getElementById("chkCorrect3").checked ? "1" : "0";
+                if (chkCorrect3 == "1") {
+                    if ($("#txtPoint3").val().trim() == "" || $("#txtPoint3").val().trim() == "0") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: 'Please Enter Point3 to proceed.'
+                        });
+                        return false;
+                    }
+                    if ($("#txtOption3").val().trim() == "" || $("#txtOption3").val().trim() == "0") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: 'Please Enter Option3 to proceed.'
+                        });
+                        return false;
+                    }
+                }
+
+
+            var chkCorrect4 = document.getElementById("chkCorrect4").checked ? "1" : "0";
+
+                if (chkCorrect4 == "1") {
+                    if ($("#txtPoint4").val().trim() == "" || $("#txtPoint4").val().trim() == "0") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: 'Please Enter Point4 to proceed.'
+                        });
+                        return false;
+                    }
+                    if ($("#txtOption4").val().trim() == "" || $("#txtOption4").val().trim() == "0") {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: 'Please Enter Option4 to proceed.'
+                        });
+                        return false;
+                    }
+                }
+
+
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveQuestion", "LMSQuestions")',
+                data: {
+                    name: $("#txtQuestionName").val().trim(),
+                    id: id,
+                    description: $("#txtQuestionDescription").val().trim(),
+
+                    Option1: Option1,
+                    Option2: Option2,
+                    Option3: Option3,
+                    Option4: Option4,
+
+                    Point1: Point1,
+                    Point2: Point2,
+                    Point3: Point3,
+                    Point4: Point4,
+
+                    chkCorrect1: chkCorrect1,
+                    chkCorrect2: chkCorrect2,
+                    chkCorrect3: chkCorrect3,
+                    chkCorrect4: chkCorrect4,
+
+                    TOPIC_ID: TOPIC_ID,
+                    Category_ID: Category_ID,
+
+                    /*Rev Sanchita*/
+                    MODE: urlKeys.key,
+                    CONTENTID: urlKeys.CONTENTID
+                    /*End of Rev Sanchita*/
+
+                },
+                success: function (response) {
+                    if (parseInt(response) > 0) {
+                        // SweetAlert success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Question saved successfully.'
+                        }).then(() => {
+                            // $("#QuestionModal").modal('hide');
+                            // Rev Sanchita
+                            //var url = "/LMS/LMSQuestions/Index";
+                            //window.location.href = url;
+                            if (urlKeys.key == 'AddOnFly' || urlKeys.key == 'AddOnFlySave' || urlKeys.TOPICID > 0) {
+
+
+                                if (mode == "New") {
+                                            $.ajax({
+                                                    type: "POST",
+                                                    url: "@Url.Action("SetMapDataByTopicID", "LMSQuestions")",
+                                                    data: { TopicID: urlKeys.TOPICID },
+                                                    success: function (response) {
+                                                        if (response != null && response == true) {
+                                                            window.location.href = '/LMS/LMSQuestions/QuestionAdd?key=' + urlKeys.key +'&&TOPICID=' + urlKeys.TOPICID + '&&CONTENTID=' + urlKeys.CONTENTID;
+
+                                                        }
+                                                        else {
+                                                            jAlert('Please try again later.');
+                                                            return false;
+                                                        }
+                                                    }
+                                            });
+
+                                }
+                                else {
+                                    //window.location.href = '/LMS/LMSContentUpload/Index';
+
+                                    var FromSave = 0
+                                    if (urlKeys.key == 'AddOnFlySave') {
+                                        FromSave = 1
+                                    }
+
+                                    $.ajax({
+                                            type: "POST",
+                                            url: "@Url.Action("ReturnTopicIdFromQuestion", "LMSContentUpload")",
+                                            data: { TopicID: urlKeys.TOPICID, ContentID: urlKeys.CONTENTID, FromSave: FromSave },
+                                            success: function (response) {
+                                                if (response != null && response == true) {
+                                                    window.location.href = '/LMS/LMSContentUpload/Index';
+                                                }
+                                                else {
+                                                    jAlert('Please try again later.');
+                                                    return false;
+                                                }
+                                            }
+                                    });
+                                    
+                                }
+                                //Swal.fire({
+                                //    title: 'Question Add',
+                                //    text: "Do you want to add another question?",
+                                //    icon: 'question',
+                                //    showCancelButton: true,
+                                //    confirmButtonColor: '#3085d6',
+                                //    cancelButtonColor: '#d33',
+                                //    confirmButtonText: 'Yes',
+                                //    cancelButtonText: 'No'
+                                //}).then((result) => {
+                                //    if (result.isConfirmed) {
+                                //        window.location.href = '/LMS/LMSQuestions/QuestionAdd?key=AddOnFly&&TOPICID=' + urlKeys.TOPICID + '&&CONTENTID=' + urlKeys.CONTENTID;
+                                //    }
+                                //    else {
+                                //        window.location.href = '/LMS/LMSContentUpload/Index';
+                                //    }
+                                //});
+
+                            }
+                            else {
+                                if (mode == "New") {
+                                    var url = "/LMS/LMSQuestions/QuestionAdd?key=Add";
+                                    window.location.href = url;
+                                }
+                                else {
+                                    window.location.href = '/LMS/LMSQuestions/Index';
+                                }
+                            }
+                            // End of Rev Sanchita
+
+                            //location.reload();
+                        });
+                    } else if (parseInt(response) == -1) {
+                        // SweetAlert duplicate Question name warning
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Duplicate Question name cannot be entered. Please enter a unique Question name.'
+                        });
+                    }
+                }
+            });
+            }
 }
     function DeleteClick1()
     {
@@ -740,80 +1501,76 @@
         $("#txtPoint1").val("");
         $("#chkCorrect1").prop("checked", false);
     }
+    function checkboxClick1() {
+        $("#txtPoint1").val("");
+    }
     function DeleteClick2() {
         $("#txtOption2").val("");
         $("#txtPoint2").val("");
         $("#chkCorrect2").prop("checked", false);
+    }
+    function checkboxClick2() {
+        $("#txtPoint2").val("");
     }
     function DeleteClick3() {
         $("#txtOption3").val("");
         $("#txtPoint3").val("");
         $("#chkCorrect3").prop("checked", false);
     }
+    function checkboxClick3() {
+        $("#txtPoint3").val("");
+    }
     function DeleteClick4() {
         $("#txtOption4").val("");
         $("#txtPoint4").val("");
         $("#chkCorrect4").prop("checked", false);
     }
-    function getUrlVars() {
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for (var i = 0; i < hashes.length; i++) {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
+    function checkboxClick4() {
+        $("#txtPoint4").val("");
     }
-    return vars;
-    }
-    var QuestionID=0;
-    var urlKeys = getUrlVars();
-    if (urlKeys.key != 'Add') {
-        QuestionID = urlKeys.key;
-        if(QuestionID!=0)
-        {
-             $.ajax({
-             type: "POST",
-             url: "@Url.Action("EditQuestion", "LMSQuestions")",
-             data: { id: QuestionID },
-             success: function (response) {
-                 if (response.code == "") {
-                     jAlert('No data found');
-                 }
-                 else {
-                     $("#txtQuestionName").val(response.NAME);
-                     $("#txtQuestionDescription").val(response.DESCRIPTION);
+
+    // Rev Sanchita
+    function CancelQuestionAdd() {
+        if (urlKeys.key == 'AddOnFly' || urlKeys.key == 'AddOnFlySave' || urlKeys.TOPICID > 0) {
+            //window.location.href = '/LMS/LMSContentUpload/Index?TOPICID=' + urlKeys.TOPICID;
+            var FromSave = 0
+            if (urlKeys.key == 'AddOnFlySave') {
+                FromSave=1
+            }
 
 
-                    $("#txtQuestionName").val(response.NAME);
-                    $("#txtQuestionDescription").val(response.DESCRIPTION);
-                    $("#txtQuestionName").val(response.NAME);
-                    $("#txtQuestionDescription").val(response.DESCRIPTION);
-
-
-                    $("#txtQuestionName").val(response.NAME);
-                    $("#txtQuestionDescription").val(response.DESCRIPTION);
-                    $("#txtQuestionName").val(response.NAME);
-                    $("#txtQuestionDescription").val(response.DESCRIPTION);
-
-
-                    $("#txtQuestionName").val(response.NAME);
-                    $("#txtQuestionDescription").val(response.DESCRIPTION);
-                    $("#txtQuestionName").val(response.NAME);
-                    $("#txtQuestionDescription").val(response.DESCRIPTION);
-
-                         
-                  }
-             }
+            $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ReturnTopicIdFromQuestion", "LMSContentUpload")",
+                    data: { TopicID: urlKeys.TOPICID, ContentID: urlKeys.CONTENTID , FromSave: FromSave },
+                    success: function (response) {
+                        if (response != null && response == true) {
+                            window.location.href = '/LMS/LMSContentUpload/Index';
+                        }
+                        else {
+                            jAlert('Please try again later.');
+                            return false;
+                        }
+                    }
             });
+        }
+        else {
+            window.location.href = '/LMS/LMSQuestions/Index';
+        }
+    }
+    // End of Rev Sanchita
 
-    }
-    }
+ 
 </script>
+
+
 <div class="breadCumb">
-    <span id="titleheader">Add Question</span>
+    <span id="titleheader">@ViewBag.PageTitle</span>
+    @*<div id="ApprovalCross" class="crossBtnN"><a href="@Url.Action("Index", "LMSQuestions")"><i class="fa fa-times"></i></a></div>*@
+    <div id="ApprovalCross" onclick="CancelQuestionAdd()" class="crossBtnN"><i class="fa fa-times"></i></div>
 </div>
 <div class="container">
-    <div class="form_main backBox p-3">
+    <div class="form_main backBox p-3"> 
 
         <div class="row">
             <div class="col-md-12">
@@ -822,10 +1579,11 @@
                     <input type="text" id="txtQuestionName" maxlength="250" class="form-control" />
                 </div>
             </div>
-            <div class="col-md-12 mt-3">
-                <div><label>Question Description <span class="red">*</span></label></div>
+            <div class="col-md-12 mb-4 mt-3">
+                <div><label>Question Description </label></div>
                 <div>
-                    <input type="text" id="txtQuestionDescription" maxlength="500" class="form-control" />
+                    @*<textarea type="text" id="txtQuestionDescription" maxlength="500" class="form-control" />*@
+                    <textarea rows="5" class="form-control" style="height:50px" cols="20" id="txtQuestionDescription" maxlength="500"></textarea>
                 </div>
             </div>
         </div>
@@ -833,115 +1591,128 @@
             <div class="col-md-12">
                 <label>Options</label>
             </div>
-            <div>
-                <div class="col-md-1">
+
+        </div>
+
+        <div class="option-part">
+            <div class="ans-option">
+                <div class="delete-col">
                     <div>
-                        <a style='cursor:pointer' class='pad' onclick="DeleteClick1()"><img src='/assests/images/Delete.png' /> </a>
+                        <a style='cursor:pointer' class='pad tooltip-container' onclick="DeleteClick1()"><img src='/assests/images/clear-qst-ans.png' /><div class="tooltip">Clear</div> </a>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="option-col">
                     <div>
                         <input type="text" id="txtOption1" class="form-control" placeholder="Option 1" />
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="number-col">
                     <div>
-                        <input type="number" id="txtPoint1" class="form-control" placeholder="Point 1" />
+                        <input type="number" id="txtPoint1" class="form-control  numbersOnly" placeholder="Point 1" min="1" max="999" maxlength="3" disabled />
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div><input type="checkbox" id="chkCorrect1" class="styled-checkbox" /><label>Correct</label></div>
+                <div class="correct-col">
+                    <div><input type="checkbox" id="chkCorrect1" class="styled-checkbox" onclick="checkboxClick1()" /><label>Correct</label></div>
                 </div>
             </div>
-        </div>
-        <div class="row">
+            <div class="ans-option">
 
-            <div>
-                <div class="col-md-1">
+
+                <div class="delete-col">
                     <div>
-                        <a style='cursor:pointer' class='pad' onclick="DeleteClick2()"><img src='/assests/images/Delete.png' /> </a>
+                        <a style='cursor:pointer' class='pad tooltip-container' onclick="DeleteClick2()"><img src='/assests/images/clear-qst-ans.png' /> <div class="tooltip">Clear</div></a>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="option-col">
                     <div>
                         <input type="text" id="txtOption2" class="form-control" placeholder="Option 2" />
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="number-col">
                     <div>
-                        <input type="number" id="txtPoint2" class="form-control" placeholder="Point 2" />
+                        <input type="number" id="txtPoint2" class="form-control  numbersOnly" placeholder="Point 2" min="1" max="999" maxlength="3" disabled />
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div><input type="checkbox" id="chkCorrect2" class="styled-checkbox" /><label>Correct</label></div>
+                <div class="correct-col">
+                    <div><input type="checkbox" id="chkCorrect2" class="styled-checkbox" onclick="checkboxClick2()" /><label>Correct</label></div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
 
-            <div>
-                <div class="col-md-1">
+            </div>
+            <div class="ans-option">
+
+
+                <div class="delete-col">
                     <div>
-                        <a style='cursor:pointer' class='pad' onclick="DeleteClick3()"><img src='/assests/images/Delete.png' /> </a>
+                        <a style='cursor:pointer' class='pad tooltip-container' onclick="DeleteClick3()"><img src='/assests/images/clear-qst-ans.png' /> <div class="tooltip">Clear</div></a>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="option-col">
                     <div>
                         <input type="text" id="txtOption3" class="form-control" placeholder="Option 3" />
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="number-col">
                     <div>
-                        <input type="number" id="txtPoint3" class="form-control" placeholder="Point 3" />
+                        <input type="number" id="txtPoint3" class="form-control  numbersOnly" placeholder="Point 3" min="1" max="999" maxlength="3" disabled />
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div><input type="checkbox" id="chkCorrect3" class="styled-checkbox" /><label>Correct</label></div>
+                <div class="correct-col">
+                    <div><input type="checkbox" id="chkCorrect3" class="styled-checkbox" onclick="checkboxClick3()" /><label>Correct</label></div>
                 </div>
+
             </div>
-        </div>
-        <div class="row">
-            <div>
-                <div class="col-md-1">
+            <div class="ans-option">
+
+                <div class="delete-col">
                     <div>
-                        <a style='cursor:pointer' class='pad' onclick="DeleteClick4()"><img src='/assests/images/Delete.png' /> </a>
+                        <a style='cursor:pointer' class='pad tooltip-container' onclick="DeleteClick4()"><img src='/assests/images/clear-qst-ans.png' /> <div class="tooltip">Clear</div></a>
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="option-col">
                     <div>
                         <input type="text" id="txtOption4" class="form-control" placeholder="Option 4" />
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="number-col">
                     <div>
-                        <input type="number" id="txtPoint4" class="form-control" placeholder="Point 4" />
+                        <input type="number" id="txtPoint4" class="form-control  numbersOnly" placeholder="Point 4" min="1" max="999" maxlength="3" disabled />
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div><input type="checkbox" id="chkCorrect4" class="styled-checkbox" /><label>Correct</label></div>
+                <div class="correct-col">
+                    <div><input type="checkbox" id="chkCorrect4" class="styled-checkbox" onclick="checkboxClick4()" /><label>Correct</label></div>
                 </div>
+
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-4">
-                <label>Map Tropic(s)</label>
-                @Html.Action("GetTopicList", "LMSQuestions")
+        <div class="row mb-5 mt-4">
+            <div class="col-md-6">
+                <label>Map Topic(s)<span class="red">*</span></label>
+                @Html.Action("GetTopicList", "LMSQuestions", new { QUESTIONS_ID = @Model.QUESTIONS_ID })
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <label>Map Categories</label>
-                @Html.Action("GetCategoryList", "LMSQuestions")
+                @Html.Action("GetCategoryList", "LMSQuestions", new { QUESTIONS_ID = @Model.QUESTIONS_ID })
             </div>
 
         </div>
 
-        <div>
-            <button type="button" class="btn btn-cancel" onclick="location.href='@Url.Action("Index", "LMSQuestions")'">Cancel & Exit</button>
-            @if (ViewBag.CanAdd)
-            {
-                <button type="button" id="btnSave" class="btn btn-success" onclick="SaveQuestion()">Save and Exit</button>
-            }
-        </div>
+        <div class="save-exit-btn">
+            @*Rev Sanchita*@
+            @*<button type="button" class="btn btn-cancel" onclick="location.href='@Url.Action("Index", "LMSQuestions")'">Cancel & Exit</button>*@
+            <button type="button" class="btn btn-cancel cancel-catg" onclick="CancelQuestionAdd()"><span class="btn-icon"><img src="../../../assests/images/cancel.svg"></span> Cancel & Exit</button>
+            @*End of Rev Sanchita*@
 
-        <input type="hidden" id="hdnID" />
+            @if (ViewBag.CanAdd && Convert.ToInt16(ViewBag.IsView) == 0 || Convert.ToInt16(ViewBag.IsView) == 2)
+            {
+                <button type="button" id="btnSave" class="btn btn-warning" onclick="SaveQuestion('Exit')"><span class="btn-icon"><img src="../../../assests/images/save-instagram-orange.svg"></span> Save & Exit</button>
+            }
+            @if (ViewBag.CanAdd && Convert.ToInt16(ViewBag.IsView) == 0 || Convert.ToInt16(ViewBag.IsView) == 2)
+            {
+                <button type="button" id="btnSave" class="btn btn-success" onclick="SaveQuestion('New')"><span class="btn-icon"><img src="../../../assests/images/save-instagram.svg"></span> Save & New</button>
+            }
+
+        </div>
+        <input type="hidden" value="@Model.QUESTIONS_ID" id="hdnIDADd" />
+
     </div>
 </div>

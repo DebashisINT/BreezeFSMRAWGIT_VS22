@@ -455,7 +455,7 @@
     }
 
     .Widgheading {
-        font-size: 16px;
+        font-size: 20px;
         margin-bottom: 10px !important;
         font-weight: 700;
         font-family: 'Open Sans', sans-serif !important;
@@ -577,6 +577,8 @@
 #cmbStateTVH + .btn-group > button,
 #cmbBranchTVH + .btn-group > button,
 #cmbStateOrder + .btn-group > button,
+#cmbStateLMS + .btn-group > button,
+#cmbBranchLMS + .btn-group > button,
 #cmbBranchOrder + .btn-group > button {
     border-radius: 50px;
     overflow: hidden;
@@ -1285,7 +1287,8 @@
     left: 99%;
     margin: 0;
     width: 2.7em;
-    height: 101%;
+    /*height: 101%;*/
+    height: 40px;
     /*fill: #919294;*/
     fill: #4c80b9;
 }
@@ -1299,19 +1302,21 @@
             margin-right: -1px;
         }
 
-    .tabs-style-shape nav li a span {
-        display: block;
-        overflow: hidden;
-        padding: 0.32em 0;
-        /*background-color: #919294;*/
-        background-color: #4c80b9;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        /*Rev Pallab*/
-        /*font-size: 16px;*/
-        font-size: 15px;
-        /*Rev End Pallab*/
-    }
+.tabs-style-shape nav li a span {
+    display: block;
+    overflow: hidden;
+    padding: 0.32em 0;
+    /*background-color: #919294;*/
+    background-color: #4c80b9;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    /*Rev Pallab*/
+    /*font-size: 16px;*/
+    font-size: 15px;
+    /*Rev End Pallab*/
+    /*line-height: 40px;*/
+    height: 40px;
+}
 
 @media only screen and (max-width: 1505px) and (min-width: 1455px) {
 
@@ -1866,13 +1871,79 @@
     padding-bottom: 8px !important;
     border: 2px solid #fff;
 }
+/* Rectangle 204 */
 
-    .newStyleMN .widgBox.c2 {
-        /*background: #e8f5ff;*/
-        background: rgb(13,7,69);
-        /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%);*/
-        background: linear-gradient(150deg, rgb(124 110 8 / 90%) 0%, rgb(211 191 58) 100%);
+
+.newStyleMN .widgBox.c1 {
+    /*background: #e8f5ff;*/
+    background: rgb(13,7,69);
+    /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%);*/
+    background: linear-gradient(150deg, #95087E 0%, #E717C5 100%);
+}
+
+.widgBox.active.zoom.c1 {
+    /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%) !important;*/
+    background: #083b68 !important;
+    box-shadow: 1px 1px 15px #2068b2c4;
+}
+
+.widgBox.active.zoom.c1 .icon {
+    /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%) !important;*/
+    background: #072442 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+.newStyleMN .widgBox.c1 .icon {
+    /*border: 1px solid #140e4f;*/
+    /*box-shadow: 0px 0px 14px rgb(0 0 0 / 22%);*/
+    box-shadow: none;
+    /*color: #171052;*/
+    color: #fff;
+    /*background: #ffffff;*/
+    background: rgb(255 255 255 / 80%);
+}
+
+
+
+.newStyleMN .widgBox.c6 {
+    /*background: #e8f5ff;*/
+    background: rgb(13,7,69);
+    /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%);*/
+    background: linear-gradient(150deg, #04555C 0%, #18B2BF 100%);
+}
+
+.widgBox.active.zoom.c6 {
+    /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%) !important;*/
+    background: #083b68 !important;
+    box-shadow: 1px 1px 15px #2068b2c4;
+}
+
+    .widgBox.active.zoom.c6 .icon {
+        /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%) !important;*/
+        background: #072442 !important;
+        color: #fff !important;
+        border-color: #fff !important;
     }
+
+.newStyleMN .widgBox.c6 .icon {
+    /*border: 1px solid #140e4f;*/
+    /*box-shadow: 0px 0px 14px rgb(0 0 0 / 22%);*/
+    box-shadow: none;
+    /*color: #171052;*/
+    color: #fff;
+    /*background: #ffffff;*/
+    background: rgb(255 255 255 / 80%);
+}
+
+
+
+.newStyleMN .widgBox.c2 {
+    /*background: #e8f5ff;*/
+    background: rgb(13,7,69);
+    /*background: linear-gradient(150deg, rgba(13,7,69,1) 0%, rgba(133,123,223,1) 100%);*/
+    background: linear-gradient(150deg, #7D5706 0%, #D89608 100%);
+}
 
 /*.widgBox.active.c2 */
 .widgBox.active.zoom.c2 {
@@ -1901,7 +1972,7 @@
     /*background: #e9ffe9;*/
     background: rgb(241,96,114);
     /*background: linear-gradient(150deg, rgb(219 68 87) 0%, rgb(255 169 180) 100%);*/
-    background: linear-gradient(150deg, rgb(5 129 94 / 90%) 0%, rgb(45 223 174 / 90%) 100%);
+    background: linear-gradient(150deg, #047A59 0%, #2DDFAE 100%);
 }
 /*.widgBox.active.c3*/
 .widgBox.active.zoom.c3 
@@ -1961,7 +2032,7 @@
     background: rgb(47,128,255);
     /*background: linear-gradient(150deg, rgb(30 107 227) 0%, rgb(155 190 245) 100%);*/
     /*background: linear-gradient(150deg, rgb(203 128 17) 0%, rgb(245 194 118) 100%);*/
-    background: linear-gradient(150deg, rgb(46 100 6 / 90%) 0%, rgb(106 189 46) 100%);
+    background: linear-gradient(150deg, #295C04 0%, #6ABD2E 100%);
 }
 .widgBox.active.zoom.c5 {
     /* background: linear-gradient(150deg, rgb(203 128 17) 0%, rgb(245 194 118) 100%) !important;*/
@@ -2041,9 +2112,12 @@
 #lblTotal img, #lblAtWork img, #lblOnLeave img, #lblNotLoggedIn img,
 #lblTotalFV img, #lblAtWorkFV img, #lblOnLeaveFV img, #lblNotLoggedInFV img,
 #EMPTV img, #EAWTV img, #EOLTV img, #NLITV img,
-#EMPTVH img, #EAWTVH img, #EOLTVH img, #NLITVH img
-{
+#EMPTVH img, #EAWTVH img, #EOLTVH img, #NLITVH img {
     width: 40px !important;
+}
+
+#lblTotalLearners img, #lblAssignedTopics img, #lblYettoStart img, #lblInProgress img, #lblCompleted img {
+    width: 29px !important;
 }
 
 /*.dxgvTable_PlasticBlue .dxgvHEC, .dxgvTable_PlasticBlue .dxgvHEC {

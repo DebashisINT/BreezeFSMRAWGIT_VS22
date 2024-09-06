@@ -1,0 +1,131 @@
+﻿
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridWorkRoaster";
+    settings.KeyFieldName = "ID";
+    settings.CallbackRouteValues = new { Action = "PartialWorkRosterGridList", Controller = "WorkRoasterMaster" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SEQ";
+        column.Caption = "Sr. No\r\n";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        column.VisibleIndex = 1;
+        //column.ColumnType = MVCxGridViewColumnType.TextBox;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "ROSTENAME";
+        column.Caption = "Roster Name";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.VisibleIndex = 2;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width= 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(40);
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATEDATE";
+        column.Caption = "Created On";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.VisibleIndex = 2;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width= 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATEUSER";
+        column.Caption = "Created By";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.VisibleIndex = 2;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width= 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+
+        settings.Columns.Add(column =>
+    {
+        column.FieldName = "MODIFIEDDATE";
+        column.Caption = "Modified By";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.VisibleIndex = 2;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width= 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+        settings.Columns.Add(column =>
+    {
+        column.FieldName = "MODIFIEDUSER";
+        column.Caption = "Modified By";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.VisibleIndex = 2;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width= 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+
+            if (ViewBag.CanEdit)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"OpenWorkRosterforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ROSTERID")) + "')\"><img src='/assests/images/Edit.svg' style='margin-right:3px' /><div class=\"tooltip\">Edit</div></a>");
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"MapModuleForWorkRoster('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ROSTERID")) + "')\"><img src='/assests/images/module-map.svg' style='margin-right:3px' /><div class=\"tooltip\">Map Module</div></a>");
+            }
+            if (ViewBag.CanDelete)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"OnClickDeleteWorkRoster('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "ROSTERID")) + "')\"><img src='/assests/images/Delete.svg'/><div class=\"tooltip\">Delete</div> </a>");
+
+            }
+
+        });
+
+        x.VisibleIndex = 9;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.Caption = "Action";
+
+
+
+    });
+
+}).Bind(Model).GetHtml()
+
+
+
+
+

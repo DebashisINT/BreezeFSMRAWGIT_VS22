@@ -12,7 +12,8 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 9.0          03-08-2023      V2.0.42     Pallab          Clicked state or branch selection without click "show data" button, tab box number data showing, disable click event. Refer: 26663
 10.0         04-08-2023      V2.0.42     Sanchita        Data not comming in Field Visit and Team Visit tab when Visit tab is off. Mantis : 26672
 11.0         21-03-2024      V2.0.46     Sanchita        A new dashboard floating menu is required as "View Geography". Mantis: 27322
-12.0         21-03-2024      V2.0.46     Sanchita        A new dashboard floating icon is required as "View Geotrack"..Mantis: 27323 
+12.0         21-03-2024      V2.0.46     Sanchita        A new dashboard floating icon is required as "View Geotrack"..Mantis: 27323
+13.0         21-08-2024      V2.0.48     Priti           LMS Dashboard.Mantis: 0027667
 ====================================================== Revision History ==============================================-->
 
 @model MyShop.Models.FSMDashBoardFilter
@@ -28,7 +29,16 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy-L3SIYyrQ"></script>*@
 @*<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy - L3SIYyrQ"></script>*@
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbYMZjnt8T6yivYfIa4_R9oy - L3SIYyrQ"></script>
+@*REV 13.0*@
+@*<script src="~/assests/js/raphael.min.js"></script>
+<script src="~/assests/js/justgage.js"></script>*@
 
+@*<script src="https://cdn.jsdelivr.net/npm/gaugeJS@1.3.7/dist/gauge.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>*@
+
+<script src="~/assests/js/gauge.min.js"></script>
+<script src="~/assests/js/chart_lms.js"></script>
+@*REV 13.0 END*@
 <link href="~/Scripts/Charts/styles.css" rel="stylesheet" />
 <link href="~/Content/media.css" rel="stylesheet" />
 @*<script src="~/Scripts/Charts/apexcharts.min.js"></script>*@
@@ -41,7 +51,485 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
 <link href="~/assests/css/FsmDashboard.css" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css?family=Fira+Sans:200,300,400,500,600|Montserrat:300,400,500,600,700|Open+Sans+Condensed:300,700|Open+Sans:300,400,600,700" rel="stylesheet">
+<script>
+    //REV 13.0
+    var LMSstateids = [];
+    var LMSbranchids = [];
+    var isShowVisitDataClicked = false;
+    var Action = "";
 
+    function OnTotalLearnersClick(elem) {
+
+      
+        
+        
+         if (!isShowVisitDataClicked) {
+             Swal.fire({
+                 /*position: 'top',*/
+                 title: 'Please select show data first, then view the details from here. Thanks.',
+                 showConfirmButton: false,
+                 timer: 2000,
+                 customClass: "show-data-msg"
+             })
+             return;
+         }
+        
+         document.getElementById("griddetailsLMS").style.display = "block";
+         $('#dashDetailsLMS').removeClass('hide');
+         $('.boxWidget').removeClass('activeW');
+
+        $("#toggle-show-hide").show();
+
+         $('#collapseTwo').addClass('in');
+            $('#backSpn').attr("Style", "Display:none;");
+
+            if (elem == "TOTALUSERLIST") {
+                $("#griddetailsHeadedtextLMS").text("Total Learners");
+                /*rev Pallab*/
+                $('.widgBox').removeClass('active');
+                $('#lms-btn-4').addClass('active');
+                /*rev end Pallab*/
+            }   
+            else if (elem == "YETTOSTART") {
+                $("#griddetailsHeadedtextLMS").text("Total Learners");
+                /*rev Pallab*/
+                $('.widgBox').removeClass('active');
+                $('#lms-btn-2').addClass('active');
+                /*rev end Pallab*/
+            }
+            else if (elem == "AssignedTopic") {
+                $("#griddetailsHeadedtextLMS").text("Total Learners");
+                /*rev Pallab*/
+                $('.widgBox').removeClass('active');
+                $('#lms-btn-1').addClass('active');
+                /*rev end Pallab*/
+            }
+            else if (elem == "TOTALUSERPENDINGLIST") {
+                $("#griddetailsHeadedtextLMS").text("In Progress");
+                /*rev Pallab*/
+                $('.widgBox').removeClass('active');
+                $('#lms-btn-3').addClass('active');
+                /*rev end Pallab*/
+            }
+            else if (elem == "TOTALUSERCOMPLETEDLIST") {
+                $("#griddetailsHeadedtextLMS").text("Completed");
+                /*rev Pallab*/
+                $('.widgBox').removeClass('active');
+                $('#lms-btn-5').addClass('active');
+                /*rev end Pallab*/
+                }
+
+        Action = elem;
+        if (elem == "YETTOSTART") {
+            Action = "TOTALUSERLIST";
+        }
+        if (elem == "AssignedTopic") {
+            Action = "TOTALUSERLIST";
+        }
+
+
+         gridList.Refresh();
+         gridList.Refresh();
+    }
+   
+
+    function OnStartCallbackLMS(s, e) {
+
+        //let newBranch = $('#cmbBranchLMS').val();
+        //var isObject = typeof newBranch
+        //if (isObject == "object") {
+        //    if (newBranch != null && newBranch.length > 0) {
+        //        LMSbranchids = newBranch.join(',');
+        //    } else {
+        //        LMSbranchids = "";
+
+        //    }
+        //} else {
+        //    if (newBranch != null && newBranch.length > 0) {
+        //        LMSbranchids = newBranch;
+        //    }
+        //    else {
+        //        LMSbranchids = "";
+        //    }
+        //}
+
+        e.customArgs["ActionType"] = Action;
+        e.customArgs["STATEIDS"] = LMSstateids.join(',') ;
+        e.customArgs["BRANCHIDS"] = LMSbranchids.join(',');
+
+    }
+    function LMSgriddashboardgridviewexport() {
+    var url = '@Url.Action("LMSExportDashboardGridView", "DashboardMenu", new { type = "_type_" })';
+    // debugger;
+        var Headedtext = $("#griddetailsHeadedtextLMS").text();
+    url = url.replace("_type_", 3);
+    url = url + "&Name=" + Headedtext;
+    window.location.href = url;
+
+    //window.location.href = url.replace("_type_", 3, "_Name_", $("#griddetailsHeadedtext").text());
+    }
+
+
+
+
+
+    $(document).ready(function () {
+
+        $('#cmbStateLMS').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            maxHeight: 400,
+            enableCaseInsensitiveFiltering: true,
+            onDropdownHide: function (event) {
+                console.log("on hide");
+                GetSateValueLMS();
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+
+
+        $('#cmbBranchLMS').multiselect({
+            includeSelectAllOption: true,
+            enableFiltering: true,
+            maxHeight: 400,
+            enableCaseInsensitiveFiltering: true,
+            onDropdownHide: function (event) {
+                GetBranchValueLMS();
+            }
+        }).multiselect('selectAll', false).multiselect('updateButtonText');
+        LMSbranchids = $('#cmbBranchLMS').val();
+        LMSstateids = $('#cmbStateLMS').val();
+
+        var statelistcount = $('#hdnStateListCountLMS').val();
+        if (statelistcount > 0) {
+            for (var i = objsettings.length - 1; i >= 0; i--) {
+                if (objsettings[i].ID == settingsid) {
+                    objsettings.splice(i, 1);
+                }
+            }
+
+        }
+        else {
+            $('.bodymain_areastatewise').hide();
+        }
+
+    });
+    function GetSateValueLMS() {
+        console.log("state value");
+        LMSstateids = [];
+
+        var datalist = $('#cmbStateLMS').val();
+        if (datalist != null) {
+            LMSstateids = datalist;
+        }
+        else {
+            LMSstateids.push('999999');
+        }
+        cmbStatechangeLMS();
+    }
+    function cmbStatechangeLMS() {
+
+        if (!isShowVisitDataClicked) {
+            return;
+        }
+        settingsid = "1";
+        for (var i = objsettings.length - 1; i >= 0; i--) {
+            if (objsettings[i].ID == settingsid) {
+                objsettings.splice(i, 1);
+            }
+        }
+        if (settingsid == "1") {
+            stateid = LMSstateids.join(','); //;cmbState.GetValue();
+            var obj1 = {};
+            obj1.stateid = stateid;
+            $.ajax({
+                type: "POST",
+                url: "/DashboardMenu/DashboardBranchComboboxLMS",
+                data: JSON.stringify(obj1),
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    const mainData = response.map(function (item) {
+                        return {
+                            label: item.name,
+                            title: item.name,
+                            value: item.BranchID,
+                            selected: true
+                        }
+                    })
+
+                    $("#cmbBranchLMS").multiselect('dataprovider', mainData);
+                    //var newBranch = $('#cmbBranchLMS').val();
+                    //var isObject = typeof newBranch
+                    //if (isObject == "object") {
+                    //    if (newBranch != null && newBranch.length > 0) {
+                    //        LMSbranchids = newBranch.join(',');
+                    //    } else {
+                    //        LMSbranchids = "";
+                    //    }
+                    //} else {
+                    //    if (newBranch != null && newBranch.length > 0) {
+                    //        LMSbranchids = newBranch;
+                    //    }
+                    //    else {
+                    //        LMSbranchids = "";
+                    //    }
+                    //}
+                   // reloadBoxData(LMSbranchids);
+                },
+                error: function (response) {
+                    jAlert("Please try again later");
+                }
+            });
+
+        }
+    }
+
+    function GetBranchValueLMS() {
+        LMSbranchids = [];
+
+        var datalist = $('#cmbBranchLMS').val();
+        if (datalist != null) {
+            LMSbranchids = datalist;
+        }
+        else {
+            LMSbranchids.push('999999');
+        }
+        cmbBranchChangeLMS();
+    }
+    function cmbBranchChangeLMS() {
+
+        if (!isShowVisitDataClicked) {
+            return; // Disable click event
+        }
+        //let newBranch = $('#cmbBranchLMS').val();
+        //var isObject = typeof newBranch
+        //if (isObject == "object") {
+        //    if (newBranch != null && newBranch.length > 0) {
+        //        LMSbranchids = newBranch.join(',');
+        //    } else {
+        //        LMSbranchids = "";
+
+        //    }
+        //} else {
+        //    if (newBranch != null && newBranch.length > 0) {
+        //        LMSbranchids = newBranch;
+        //    }
+        //    else {
+        //        LMSbranchids = "";
+        //    }
+        //}
+        // reloadBoxData(LMSbranchids);
+        ShowLMSData();
+        gridList.Refresh();
+    }
+    function ShowLMSData() {
+
+        isShowVisitDataClicked = true;
+        $('#lms-btn-4').addClass('zoom');
+        $('#lms-btn-1').addClass('zoom');
+        $('#lms-btn-2').addClass('zoom');
+        $('#lms-btn-3').addClass('zoom');
+        $('#lms-btn-5').addClass('zoom');
+
+
+
+        WindowSize = $(window).width();
+
+        $(".visit-tb-hand").hide();
+        $("#lblTotalLearners").html("<img src='/assests/images/Spinner.gif' />");
+        $("#lblAssignedTopics").html("<img src='/assests/images/Spinner.gif' />");
+        $("#lblYettoStart").html("<img src='/assests/images/Spinner.gif' />");
+        $("#lblInProgress").html("<img src='/assests/images/Spinner.gif' />");
+        $("#lblCompleted").html("<img src='/assests/images/Spinner.gif' />");
+
+        //var branchidids = "";
+        //var isObject = typeof LMSbranchids
+        //if (isObject == "object") {
+        //    if (LMSbranchids != null && LMSbranchids.length > 0) {
+        //        branchidids = LMSbranchids.join(',');
+        //    } else {
+        //        branchidids = "";
+
+        //    }
+        //} else {
+        //    if (LMSbranchids != null && LMSbranchids.length > 0) {
+        //        branchidids = LMSbranchids;
+        //    }
+        //    else {
+        //        branchidids = "";
+        //    }
+        //}
+
+        objData = {};
+
+        var hdnLMS = $('#hdnLMS').val();
+        var obj = {};
+        obj.stateid = LMSstateids.join(',');
+        obj.branchid = LMSbranchids.join(',');;
+
+        if (hdnLMS > 0) {
+            $.ajax({
+                type: "POST",
+                url: "/DashboardMenu/GETLMSCOUNTDATA",
+                data: JSON.stringify(obj),
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    var g = '';
+
+                    $("#gaugeCanvas").html("");
+
+                    $("#lblTotalLearners").html(response.TotalLearners);
+
+                    $("#lblAssignedTopics").html(response.AssignedTopics);
+
+                    $("#lblYettoStart").html(response.YettoStart);
+
+                    $("#lblInProgress").html(response.InProgress);
+
+                    $("#lblCompleted").html(response.Completed);
+                    /*$("#lblAverageProgress").html(response.AverageProgress);*/
+                    $("#lblAverageProgress").html("Progress: " + response.AverageProgress + "%");
+
+                    /*rev Pallab*/
+
+                    //g = new JustGage({
+                    //    id: "gauge",
+                    //    value: response.AverageProgress,
+                    //    min: 0,
+                    //    max: 100,
+                    //    hideValue: true,
+                    //    title: "",
+                    //    levelColors: ["#76FF03"],
+                    //});
+
+                    $(".lms-chart-box").show();
+
+
+                    var opts = {
+                        angle: 0, // The span of the gauge arc
+                        lineWidth: 0.3, // The line thickness
+                        radiusScale: 1, // Relative radius
+                        pointer: {
+                            length: 0.6, // Relative to gauge radius
+                            strokeWidth: 0.035, // The thickness
+                            color: '#000000' // Pointer color
+                        },
+                        limitMax: false,     // If false, max value increases automatically if value > maxValue
+                        limitMin: false,     // If true, the min value of the gauge will be fixed
+                        colorStart: '#6FADCF',   // Colors
+                        colorStop: '#8FC0DA',    // Just experiment with them
+                        strokeColor: '#E0E0E0',  // To see which ones work best for you
+                        generateGradient: true,
+                        highDpiSupport: true,     // High resolution support
+                        staticZones: [
+                            { strokeStyle: "#F03E3E", min: 0, max: 30 },  // Red zone
+                            { strokeStyle: "#FFDD00", min: 30, max: 60 }, // Yellow zone
+                            { strokeStyle: "#30B32D", min: 60, max: 100 }, // Green zone
+                        ],
+                        staticLabels: {
+                            font: "10px sans-serif",  // Specifies font
+                            labels: [0, 30, 60, 100],  // Print labels at these values
+                            color: "#000000",  // Optional: Label text color
+                            fractionDigits: 0  // Optional: Numerical precision
+                        },
+                    };
+
+                    var target = document.getElementById('gaugeCanvas'); // Your canvas element
+                    var gauge = new Gauge(target).setOptions(opts); // Create gauge!
+
+                    gauge.maxValue = 100; // Set max gauge value
+                    gauge.setMinValue(0);  // Set min gauge value
+                    gauge.animationSpeed = 32; // Set animation speed (32 is default value)
+                    gauge.set(response.AverageProgress); // Set gauge value dynamically
+
+
+
+
+
+                    // Assuming you have the data received in these variables
+                    var lmsresponse = {
+                        InProgress: response.InProgress,
+                        Completed: response.Completed,
+                        YettoStart: response.YettoStart
+                    };
+
+                    var ctx = document.getElementById('myDoughnutChart').getContext('2d');
+
+                    // Create the Doughnut chart
+                    var myDoughnutChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: ['In Progress', 'Completed', 'Yet to Start'],
+                            datasets: [{
+                                data: [lmsresponse.InProgress, lmsresponse.Completed, lmsresponse.YettoStart],
+                                backgroundColor: [
+                                    '#18B2BF',  // Color for In Progress
+                                    '#6ABD2E',  // Color for Completed
+                                    '#E717C5'   // Color for Yet to Start
+                                ],
+                                hoverBackgroundColor: [
+                                    '#18B2BF',
+                                    '#6ABD2E',
+                                    '#E717C5'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'bottom',
+                                    labels: {
+                                        generateLabels: function (chart) {
+                                            let data = chart.data;
+                                            if (data.labels.length && data.datasets.length) {
+                                                return data.labels.map(function (label, i) {
+                                                    var value = data.datasets[0].data[i];
+                                                    return {
+                                                        text: `${value} ${label}`, // Label below the number
+                                                        fillStyle: data.datasets[0].backgroundColor[i],
+                                                        strokeStyle: data.datasets[0].hoverBackgroundColor[i],
+                                                        lineWidth: 2,
+                                                        hidden: isNaN(data.datasets[0].data[i]) || chart.getDatasetMeta(0).data[i].hidden,
+                                                        index: i
+                                                    };
+                                                });
+                                            }
+                                            return [];
+                                        },
+                                        boxWidth: 20,   // Width of the legend color box
+                                        padding: 20,    // Padding around the legend items
+                                        usePointStyle: true, // Use circles instead of squares
+                                        font: {
+                                            size: 14 // Font size for the legend text
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    enabled: true
+                                }
+                            }
+                        }
+                    });
+
+
+                    /*rev end Pallab*/
+
+                },
+                error: function (response) {
+                    jAlert("Please try again later");
+                }
+            });
+        }
+
+    }
+    //REV 13.0 End
+</script>
 <script>
 
 
@@ -1366,7 +1854,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     var Type = "";
     var FilterName = "";
     /*Rev 5.0*/
-    var isShowVisitDataClicked = false;
+
     /*Rev end 5.0*/
     function AtWorkClick(elem) {
         /*Rev 5.0*/
@@ -2587,6 +3075,14 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
             $(".tab-pane#attendanceTB, #tbsP").addClass("active");
             $(".tab-pane#profile").addClass("hide");
         }/*Rev end 2.0*/
+        /*REV 13.0*/
+        else if (getTabDetail == "LMS") {
+            $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
+            $(".tab-pane#LMSList").addClass("active");
+            $("#LMSList").addClass("active");
+            $(".tab-pane#profile").addClass("hide");
+        }
+        /*REV 13.0 END*/
         else {
             $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
             $(".tab-pane#profile, #tbsalesman").addClass("active");
@@ -2864,8 +3360,114 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
             transition: all .3s cubic-bezier(.84,-0.18,.31,1.26);
         }
 
-    @@media (max-width: 760px) {
-        .tool::after {
+    /*rev Pallab*/
+
+    .lmsgrid-show-hide-btn {
+        position: relative;
+    }
+
+        .lmsgrid-show-hide-btn button {
+            position: absolute;
+            right: 0px;
+            top: -44px;
+            border-radius: 10px;
+           /* width: 40px;*/
+            height: 40px;
+            text-align: center;
+            line-height: 34px;
+            background: #a16612;
+            color: #fff;
+            border: none;
+            padding: 0px 12px;
+        }
+
+    #gaugeCanvas {
+        width: 100%;
+        height: 250px;
+    }
+
+    #myDoughnutChart {
+        width: 100%;
+        height: 290px;
+    }
+
+    #lblAverageProgress {
+        font-size: 22px;
+        font-weight: 600;
+        color: #111;
+        min-height: 32px;
+    }
+
+    .info-tooltip-ap {
+        width: 24px;
+        height: 24px;
+        background: #4785e9;
+        border-radius: 50px;
+        padding: 2px 4px;
+        display: block;
+        margin-left: 10px;
+        /* line-height: 20px; */
+        box-sizing: border-box;
+        cursor: pointer;
+        transition: all .3s ease-in-out;
+    }
+
+        .info-tooltip-ap:hover {
+            background: ##194996;
+        }
+
+        .info-tooltip-ap img {
+            width: 100%;
+        }
+
+        .avg-prog-ftr
+        {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        width: 296px;
+        background-color: #7a0d8f;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 46%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #7a0d8f transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+        /*rev end Pallab*/
+        @@media (max-width: 760px) {
+            .tool::after {
             font-size: .75em;
             margin-left: -5em;
             width: 10em;
@@ -2897,6 +3499,8 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         #collapseOne.backBox > div {
             overflow-x: auto !important;
         }
+
+        
     }
 </style>
 <!--Leave list end-->
@@ -2922,6 +3526,49 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         //    }
         //}
     });
+
+    /*rev Pallab*/
+
+    $(document).ready(function () {
+        // Function to update the button based on grid visibility
+        function updateButtonState() {
+            var gridDetails = $('#griddetailsLMS');
+            var toggleButton = $('#toggle-show-hide');
+
+            if (gridDetails.is(':hidden')) {
+                // Grid is hidden, update button to "Show Grid" with down arrow
+                toggleButton.find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+                toggleButton.find('span').text('Show Grid');
+            } else {
+                // Grid is visible, update button to "Hide Grid" with up arrow
+                toggleButton.find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                toggleButton.find('span').text('Hide Grid');
+            }
+        }
+
+        // Initial button state update when the page loads
+        updateButtonState();
+
+        // Button click to toggle grid visibility with slide animation
+        $('#toggle-show-hide').click(function () {
+            var gridDetails = $('#griddetailsLMS');
+
+            // Slide toggle the grid's visibility with animation
+            gridDetails.slideToggle("slow", function () {
+                // Update the button state after the slide toggle completes
+                updateButtonState();
+            });
+        });
+
+        // Periodically check and update the button state to ensure consistency
+        setInterval(updateButtonState, 1000);
+    });
+
+
+
+
+    /*rev end Pallab*/
+
 </script>
 
 <div id="gridLoader" class="loader" style="display: none;">
@@ -3003,6 +3650,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
             <input type="hidden" class="getTabDetail" value="Attendance Analytics" />
         }
         // Rev end 2.0
+        //REV 13.0
+        else if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "LMS").Count() > 0)
+        {
+            <input type="hidden" class="getTabDetail" value="LMS" />
+        }
+        //REV 13.0 End
         else
         {
             <input type="hidden" class="getTabDetail" value="Visit" />
@@ -3044,6 +3697,8 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
         <input type="hidden" id="isLeaveList" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Leave List").Count()" />
 
+        <input type="hidden" id="hdnLMS" value="@Model.DashboardSettingMappedList.Where(x => x.DetailsName == "LMS").Count()" />
+
         //new Layout ContentControl area
         <div class="container">
 
@@ -3052,11 +3707,11 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
                     <nav>
                         <ul role="tablist" class="tabItemsLI">
                             @*<li class="active" role="presentation">
-                                    <a href="#home" class="" aria-controls="home" role="tab" data-toggle="tab">
-                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
-                                        <span>Attendance </span>
-                                    </a>
-                                </li>*@
+            <a href="#home" class="" aria-controls="home" role="tab" data-toggle="tab">
+                <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                <span>Attendance </span>
+            </a>
+        </li>*@
 
                             <!-- please uncomment this section for static dashboard value salesman & distributor-->
                             @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "Visit").Count() > 0)
@@ -3158,6 +3813,18 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
                                     </a>
                                 </li>
                             }
+                            @*REV 13.0*@
+                            @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "LMS").Count() > 0)
+                            {
+                                <li role="presentation" id="tbs7" class="shLeader">
+                                    <a href="#LMSList" class="" aria-controls="LMSList" role="tab" data-toggle="tab">
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <svg viewBox="0 0 80 60" preserveAspectRatio="none"><use xlink:href="#tabshape"></use></svg>
+                                        <span class="shLeader">LMS</span>
+                                    </a>
+                                </li>
+                            }
+                            @*REV 13.0 END*@
                             <li></li>
                         </ul>
                     </nav>
@@ -3374,12 +4041,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
                                                                 <span id="griddetailsHeadedtext" class="f6 translate-y-big"></span>
 
-                                                                <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
-                                                                    <span class="translate-y hide">Export To Excel</span>
-                                                                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexport()" /></span>
-                                                                </span>
-                                                                <span class="btn-prime">REFRESH</span>
-                                                                <span id="backSpn" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                                @*<span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                        <span class="translate-y hide">Export To Excel</span>
+                                                                        <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="griddashboardgridviewexport()" /></span>
+                                                                    </span>
+                                                                    <span class="btn-prime">REFRESH</span>
+                                                                    <span id="backSpn" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>*@
                                                             </h4>
                                                         </div>
                                                         <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
@@ -3939,6 +4606,117 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
                         </div>
 
+                        @*REV LMS Priti*@
+                        @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "LMS").Count() > 0)
+                        {
+                            <div role="tabpanel" class="tab-pane active" id="LMSList">
+
+                                <div class="">
+                                    @Html.Action("DashboardLMS", new { list = Model.DashboardSettingMappedList })
+                                </div>
+                                <div class="lmsgrid-show-hide-btn">
+                                    <button id="toggle-show-hide" style="display:none"><i class="fa fa-chevron-up" aria-hidden="true"></i> <span></span></button>
+                                </div>
+                                <div class="">
+                                    <div class="row " id="griddetailsLMS">
+                                        <div class="col-md-12">
+                                            <div class=" hide noShaded" id="dashDetailsLMS">
+                                                <div class="" id="accordion" role="tablist" aria-multiselectable="true">
+                                                    <div class="">
+                                                        <div class="panel-heading row" role="tab" id="headingOne">
+                                                            <h4 class="Widgheading relative" aria-expanded="true" aria-controls="collapseOne">
+                                                                <span id="griddetailsHeadedtextLMS" class="f6 translate-y-big"></span>
+                                                                <span class="btn-excel" data-toggle="tooltip" title="Export To Excel">
+                                                                    <span class="translate-y hide">Export To Excel</span>
+                                                                    <span class="icn"><img src="/assests/images/excel.png" style="width: 24px;" title="" onclick="LMSgriddashboardgridviewexport()" /></span>
+                                                                </span>
+                                                                <span class="btn-prime">REFRESH</span>
+                                                                <span id="backSpn" class="closeAcDetails clstyle"><i class="fa fa-arrow-left"></i> </span>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseOne" class="backBox p-3" role="tabpanel" aria-labelledby="headingOne">
+                                                            <div id="gridContainerLMS overflx">
+                                                                @Html.Partial("DashBoardGVLMS", new System.Data.DataTable())
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="box-holder mTop10 box-full lms-chart-box" style="display: none;">
+                                            @*<span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+                                            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                                                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                                                <img src="/assests/images/maximize.png" />
+                                            </span>
+                                            <div class="clearfix">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="hdd-rp">
+                                                            Average Progress
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bxd-cont">
+                                                <div class="row">
+                                                    <div class="col-md-12 text-center">
+
+                                                        @*<div id="" class="chartHolder font-normal"><div class="nCheck">Select date to refresh data</div></div>*@
+                                                        @*<div id="gauge" style="width:100%;"></div>*@
+                                                        <canvas id="gaugeCanvas"></canvas>
+                                                        <div class="avg-prog-ftr">
+                                                            <div class="Numb" id="lblAverageProgress"></div>
+                                                            <div class="info-tooltip-ap tooltip-container">
+                                                                <img src="~/assests/images/info-i.svg" />
+                                                                <div class="tooltip">(In Progress Topics / Assigned Topics) * 100</div></div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="box-holder mTop10 box-full lms-chart-box" style="display: none;">
+                                            @*<span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Toggle Fullscreen">*@
+                                            <span class="toggleFullScreen" data-toggle="tooltip" data-placement="bottom" title="Maximize">
+                                                @*<i class="fa fa-arrows-alt" aria-hidden="true"></i>*@
+                                                <img src="/assests/images/maximize.png" />
+                                            </span>
+                                            <div class="clearfix">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="hdd-rp">
+                                                            In Progress Vs Completed Vs Yet to Start
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="bxd-cont">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        @*<div id="" class="chartHolder font-normal"><div class="nCheck">Select date to refresh data</div></div>*@
+                                                        <canvas id="myDoughnutChart"></canvas>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        }
+                        @*REV LMS Priti*@
                     </div>
                 </div>
             </section>
@@ -4608,4 +5386,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 
     }
     // End of Mantis Issue 25455
+
+
+   
 </script>

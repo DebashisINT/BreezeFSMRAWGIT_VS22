@@ -11,6 +11,7 @@
 //10.0  V2.0.45     Debashis    23/04/2025      One new parameter has been added.Row: 921
 //11.0  V2.0.46     Debashis    24/04/2025      One new parameter has been added.Row: 923
 //12.0  V2.0.46     Debashis    24/04/2025      One new parameter has been added.Row: 924
+//13.0  V2.0.48     Debashis    05/08/2024      Some new methods have been added.Row: 965
 #endregion===================================End of Revision History==================================================
 
 using System.ComponentModel.DataAnnotations;
@@ -803,4 +804,27 @@ namespace ShopAPI.Models
         public string message { get; set; }
     }
     //End of Rev 7.0 Row: 902 & Refer: 0027309
+    //Rev 13.0 Row: 965
+    public class FetchShopRevisitAudioInput
+    {
+        public long user_id { get; set; }
+        public int data_limit_in_days { get; set; }
+    }
+
+    public class FetchShopRevisitAudioOutput
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public List<Audio_listOutput> audio_list { get; set; }
+    }
+
+    public class Audio_listOutput
+    {
+        public string shop_id { get; set; }
+        public string audio_path { get; set; }
+        public string isUploaded { get; set; }
+        public string datetime { get; set; }
+        public string revisitORvisit { get; set; }
+    }
+    //End of Rev 13.0 Row: 965
 }

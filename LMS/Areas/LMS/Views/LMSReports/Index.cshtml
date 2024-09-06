@@ -1,0 +1,1333 @@
+﻿
+@model LMS.Models.LMSReportsModel
+@{
+    ViewBag.Title = "Learning Analytics";
+}
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+
+<script>
+    var UserId = [];
+    $(document).ready(function () {
+        $('#UserModel').on('shown.bs.modal', function () {
+            $('#txtUserSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "UserSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function UserButnClick(s, e) {
+        $('#UserModel').modal('show');
+    }
+
+    function User_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#UserModel').modal('show');
+        }
+    }
+
+    function Userkeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtUserSearch").val()) == "" || $.trim($("#txtUserSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtUserSearch").val();
+        
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("User ");
+            HeaderCaption.push("User LoginId");
+
+
+            if ($("#txtUserSearch").val() != "") {
+                callonServerM("../../../Models/LMSService.asmx/GetUserList", OtherDetails, "UserTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "UserSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtUserSearch').focus();
+        else
+            $('#txtUserSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'UserSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#UserModel').modal('hide');
+                UserTxt.SetText(Name);
+                $('#hdnUserId').val(key);
+            }
+            else {
+                UserTxt.SetText('');
+                $('#hdnUserId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            UserId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                UserId.push(eids[i]);
+            }
+        } finally {
+            console.log(UserId);
+        }
+    }
+</script>
+<script>
+   // var is_pageload = "0";
+    $(function () {
+
+      //  gridDSVisitDetails.Refresh();
+
+        var d = new Date();
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("BranchGridLookup");
+        //lookup.GetGridView().Refresh();
+
+
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var mindt = new Date(selectedDate.getTime() + 1);
+                $("#txttoDate").daterangepicker("option", "minDate", mindt);
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var maxdt = new Date(selectedDate.getTime() - 1);
+                $("#txtfromDate").daterangepicker("option", "maxDate", maxdt);
+
+            }
+        });
+
+
+
+
+
+        //$('body').on('click', '#btnshow', function () {
+
+        //    var flag = true;
+        //    if (dtFrom.GetDate() == null) {
+        //        $('#MandatoryFromDate').attr('style', 'display:block');
+        //        flag = false;
+        //    }
+        //    else {
+        //        $('#MandatoryFromDate').attr('style', 'display:none');
+        //    }
+
+        //    if (dtTo.GetDate() == null) {
+        //        $('#MandatoryToDate').attr('style', 'display:block');
+        //        flag = false;
+        //    }
+        //    else {
+        //        $('#MandatoryToDate').attr('style', 'display:none');
+        //    }
+
+
+        //    datefrm = dtFrom.GetText();
+        //    var newdatefrom = datefrm.split("-").reverse().join("-");
+
+        //    var startdate = new Date(Date.parse(newdatefrom));
+        //    //  alert(startdate);
+
+
+        //    dateto = dtTo.GetText();
+        //    var newdateTo = dateto.split("-").reverse().join("-");
+
+        //    var endDate = new Date(Date.parse(newdateTo));
+
+        //    if (endDate < startdate) {
+
+        //        jAlert('From date should be before/equal To date');
+        //    }
+
+        //    else {
+        //        //$("#refreshgridDSVisitDetails").show();
+        //        if (flag == true) {
+        //            is_pageload = "1";
+
+        //            var start = $('#dtFrom_I').val();
+        //            var end = $('#dtTo_I').val();
+        //            start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+        //            end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+        //            var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+        //            //if (dayse <= 7) {
+        //            //if (dayse <= 30) {
+        //            //   // gridDSVisitDetails.Refresh();
+        //            //}
+        //            //else {
+        //            //    //jAlert("Searching days must be within 7 days");
+        //            //    jAlert("Searching days must be within One month");
+        //            //}
+        //            if (dayse < 35) {
+
+        //            }
+        //            else {
+        //                jAlert("Searching days must be within 35 days");
+        //                flag = false;
+        //                return false;
+        //            }
+        //        }
+        //    }
+        //    //alert(BranchId)
+        //    if (BranchId == "" || BranchId == null) {
+        //        //  $('#MandatoryState').attr('style', 'display:block');
+        //        jAlert("Please select Branch.");
+        //        flag = false;
+        //        return false;
+        //    }
+        //    else {
+        //        //   $('#MandatoryState').attr('style', 'display:none');
+        //    }
+        //    if ($('#IsEmpDSAll').is(':checked')) {
+        //        //UserDSAllSearch();
+
+        //    }
+        //    else {
+        //        if ($("#hdnUserDSId").val() == null || $("#hdnUserDSId").val() == "") {
+        //            //Rev Debashis 0024715
+        //            //jAlert("Please select User with designation DS.");
+        //            //Rev 2.0 Mantis: 0027360
+        //            /*jAlert("Please select User with designation DS/TL.");*/
+        //            jAlert("Please select User with designation DS.");
+        //            //End of Rev 2.0 Mantis: 0027360
+        //            //End of Rev Debashis 0024715
+        //            flag = false;
+        //            return false;
+        //        }
+        //        else {
+        //            GetEmpSelectedFieldValuesOndemand($("#hdnUserDSId").val());
+        //        }
+        //    }
+
+        //    gridDSVisitDetails.Refresh();
+
+
+        //});
+
+
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporSummaryList", "LMSReports", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+
+
+            }
+        });
+
+
+    })
+
+   
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();       
+        e.customArgs["is_pageload"] = "0";
+
+        // alert(e.customArgs["BranchId"]);
+
+    }
+
+    var TopicId = [];
+    var Topic_Id = "";
+    function TopicSelectionChanged(s, e) {
+        TopicGridLookup.gridView.GetSelectedFieldValues("TOPICID", GetSelectedFieldValuesCallbackTopic);
+    }
+    function GetSelectedFieldValuesCallbackTopic(values) {
+        try {
+            TopicId = [];
+            Topic_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                TopicId.push(values[i]);
+                Topic_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(TopicId);
+        }
+    }
+
+    function SelectAllGridLookupTopic(s, e) {
+        TopicGridLookup.gridView.SelectRows();
+        TopicId = "";
+        TopicGridLookup.SetText("");
+
+            $.ajax({
+                type: 'POST',
+                url: "/LMSReports/GetTopicList",
+               // data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    TopicId = [];
+                    Topic_Id = "";
+                    $.each(data, function (i, data) {
+                        TopicId.push(data.Topic_Id);
+                        Topic_Id += data.Topic_Id + ',';
+                    });
+                    TopicGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                    //BranchGridLookup.GetGridView().Refresh();
+                }
+            });
+            //BranchGridLookup.GetGridView().Refresh();
+
+
+
+    }
+    function DeSelectAllGridLookup(s, e) {
+        TopicGridLookup.gridView.UnselectRows();
+        TopicId = [];
+        Topic_Id = "";
+    }
+    var Content_Id = "";
+    var ContentId = [];
+    function ContentSelectionChanged(s, e) {
+        ContentGridLookup.gridView.GetSelectedFieldValues("CONTENTID", GetContentSelectedFieldValuesCallback);
+    }
+    function GetContentSelectedFieldValuesCallback(values) {
+        try {
+            ContentId = [];
+            for (var i = 0; i < values.length; i++) {
+                ContentId.push(values[i]);
+                Content_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(ContentId);
+        }
+    }
+    function SelectAllGridLookupContent(s, e) {
+        ContentGridLookup.gridView.SelectRows();
+        ContentGridLookup.SetText("");
+
+        $.ajax({
+            type: 'POST',
+            url: "/LMSReports/GetContentList",
+            //data: { "Hoid": Hoid },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                ContentId = [];
+                Content_Id = "";
+                $.each(data, function (i, data) {
+                    ContentId.push(data.Topic_Id);
+                    Content_Id += data.Topic_Id + ',';
+                });
+                ContentGridLookup.gridView.SelectRows();
+            },
+            error: function () {
+                //BranchGridLookup.GetGridView().Refresh();
+            }
+        });
+        //BranchGridLookup.GetGridView().Refresh();
+
+
+
+    }
+    function DeSelectAllGridLookupContent(s, e) {
+        ContentGridLookup.gridView.UnselectRows();
+        ContentId = [];
+        Content_Id = "";
+    }
+
+
+
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+</script>
+<script>
+    function GetData() {
+        GetEmpSelectedFieldValuesOndemand($("#hdnUserId").val());
+        var User_Ids = UserId.join(','); 
+        var _Status = $('#ddlStatus').val();
+        if (_Status == "") {
+            _Status = "";
+        }
+
+
+    var obj = {};
+    obj.UserIds = User_Ids;
+    obj.Topic_Id = Topic_Id;
+    obj.Content_Id = Content_Id;
+   
+    obj.fromdate = dtFrom.GetDate();
+    obj.todate = dtTo.GetDate();
+        obj._Status = _Status;
+   
+    
+   
+   
+        
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("CreateLINQTable", "LMSReports")",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(obj),
+            async: false,
+            success: function (response) {
+                gridList.Refresh();
+                gridList.Refresh();
+
+            }
+        });
+
+        //setTimeout(function () {
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/LMSReports/GetContentCount",
+        //        async: false,
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function (response) {
+
+        //            $("#btnShowTotalPending .filter-count").text(response.TotalPending);
+        //            $("#btnShowUsedCompleted .filter-count").text(response.TotalCOMPLETED);
+        //            $("#btnShowUnusedUntouched .filter-count").text(response.TotalUntouched);
+        //        },
+        //        error: function (response) {
+        //            jAlert("Please try again later");
+        //        }
+        //    });
+        //}, 1000)
+        
+    //}
+    
+}
+</script>
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #BranchGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+
+    .inputSpacer {
+        padding-top: 24px;
+    }
+
+        .inputSpacer input {
+            margin-right: 5px;
+        }
+
+    .fontLAbel {
+        font-weight: 400;
+    }
+
+    /*Rev 1.0*/
+    /*.selectH {
+        height: 28px !important;
+        padding: 0px 5px !important;
+    }*/
+    label {
+        margin-top: 5px;
+    }
+    /*Rev end 1.0*/
+
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    /*Rev 1.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 9px;
+        right: 24px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 39px;
+            right: 18px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .whclass.selectH {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlStatus {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+        #ddlStatus:focus-visible {
+            outline: none;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #UserTable {
+        margin-top: 10px;
+    }
+
+        #UserTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #UserTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 16.66%;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    /*Rev end 1.0*/
+
+    .btn {
+        border-radius: 8px;
+        height: 38px;
+        padding-left: 12px;
+        padding-right: 12px;
+        color: #fff;
+        transition: all .3s ease-in-out;
+    }
+
+        .btn:active, .btn:hover, .btn:focus {
+            color: #fff !important;
+        }
+
+    .show-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+        color: #054682;
+    }
+
+    .show-btn {
+        background: #054682;
+        transition: all .4s;
+        margin-right: 5px;
+    }
+
+        .show-btn:hover {
+            background: #072743;
+        }
+
+    .btn-export {
+        background: #e17134;
+        color: #fff;
+    }
+
+        .btn-export:hover {
+            background: #a24716 !important;
+            color: #fff;
+        }
+
+    .buttons-alignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0;
+    }
+
+    .count-filter-btns {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-total {
+        background-color: rgb(10 63 166 / 9%) !important;
+        display: flex;
+        align-items: center;
+        padding-right: 0 !important;
+        color: #fff;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .btn-total-used {
+        background-color: #cbffe4 !important;
+        display: flex;
+        align-items: center;
+        padding-right: 0 !important;
+        color: #fff;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        overflow: hidden !important;
+    }
+    .btn-total-unused {
+        background-color: #ffe1e1 !important;
+        display: flex;
+        align-items: center;
+        padding-right: 0 !important;
+        color: #fff;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .btn-total:hover {
+        background-color: rgb(10 63 166) !important;
+        color: #fff !important;
+    }
+
+    .btn-total-used:hover {
+        background-color: #0b8b48 !important;
+        color: #fff !important;
+    }
+
+    .btn-total-unused:hover {
+        background-color: #d01616 !important;
+        color: #fff !important;
+    }
+
+    .btn-total-used.active {
+        background-color: #0b8b48 !important;
+    }
+
+        .btn-total-used.active h5 {
+            color: #fff;
+        }
+
+
+    .btn-total .filter-count {
+        color: #ffffff;
+        background: #054682;
+        height: 38PX;
+        line-height: 38px;
+        min-width: 30px;
+        margin-left: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .btn-total-used .filter-count {
+        color: #fff;
+        background: #0c8f38;
+        height: 38px;
+        line-height: 38px;
+        min-width: 30px;
+        margin-left: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .filter-count {
+        font-size: 20px;
+        font-weight: 500;
+    }
+
+    .btn-total-unused .filter-count {
+        color: #fff;
+        background: #d80606;
+        height: 38px;
+        line-height: 38px;
+        min-width: 30px;
+        margin-left: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+        .btn-total:hover h5, .btn-total:hover .filter-count,
+        .btn-total-used:hover h5, .btn-total-used:hover .filter-count,
+        .btn-total-unused:hover h5, .btn-total-unused:hover .filter-count {
+            color: #fff !important;
+        }
+
+    .btn-total h5, .btn-total-used h5, .btn-total-unused h5 {
+        color: #111;
+        margin: 0;
+    }
+
+    .count-filter-btns .btn {
+        margin-left: 6px;
+    }
+
+    .p-0
+    {
+        padding-left: 0;
+        padding-right: 0;
+    }
+</style>
+
+<link href="~/Content/media.css" rel="stylesheet" />
+<div class="breadCumb">
+    <span>Learning Analytics</span>
+</div>
+
+<div class="container">
+    <div class="backBox px-3  font-pp">
+        <div class="">
+            <div class="col-md-12">
+                <div class="row">
+                    <table class="eqpadtbl mt-3 mb-3">
+                        <tr>
+
+                            <td class="w150 relative for-cust-icon">
+                                <label>Assign From Date</label>
+                                <div>
+                                    @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                                }).GetHtml()
+
+                                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                    <span id="MandatoryFromDate" style="display: none" class="validclass">
+                                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                    </span>
+                                </div>
+                            </td>
+
+                            <td class="w150 relative for-cust-icon">
+                                <label>Assign To Date</label>
+                                <div>
+
+                                    @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+
+                                }).GetHtml()
+
+                                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+
+                                    <span id="MandatoryToDate" style="display: none" class="validclass">
+                                        <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                    </span>
+                                </div>
+                            </td>
+
+
+                            <td class="w150">
+                                <label>Select Learner</label>
+                                <div>
+                                    @Html.DevExpress().ButtonEdit(
+                                    settings =>
+                                    {
+                                    settings.Name = "UserTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){UserButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){User_KeyDown(s,e);}";
+
+                                    }).GetHtml()
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>Select Topic </label>
+                                <div>
+                                    @Html.Action("GetTopicList", "LMSReports")
+                                </div>
+                            </td>
+                            <td class="w150">
+                                <label>Select Content </label>
+                                <div>
+                                    @Html.Action("GetContentList", "LMSReports")
+                                </div>
+                            </td>
+                            <td class="w150 h-branch-select">
+                                <label>Status </label>
+                                <div>
+                                    <select name="ddlStatus" id="ddlStatus">
+                                        <option value="">Select</option>
+                                        <option value="0">Pending</option>
+                                        <option value="1">Completed</option>
+                                        <option value="2">Untouched</option>
+                                    </select>
+                                </div>
+                            </td>
+
+
+
+                            <td style="padding-top: 22px;width:200px;">
+                                <label></label>                            
+
+                            </td>
+
+                        </tr>
+                        @*<tr>
+
+        <td></td>
+                        </tr>*@
+                    </table>
+                </div>
+
+                <div class="">
+                    <table class="eqpadtbl mt-1 mb-3"></table>
+                </div>
+            </div>
+
+            <div class="col-md-12 p-0">
+                <div class="buttons-alignment">
+                    <div class="add-show-btns">
+                        <button type="button" id="btnshow" class="btn show-btn" onclick="GetData();" tabindex=4><span class="btn-icon"><i class="fa fa-eye" aria-hidden="true"></i></span> Show</button>
+                        <select name="ddlAppIds" class="btn btn-sm btn-export" id="ddlAppIds">
+                            <option value="0">Export to</option>
+                            <option value="1">PDF</option>
+                            <option value="2">XLSX</option>
+                            <option value="3">XLS</option>
+                            <option value="4">RTF</option>
+                            <option value="5">CSV</option>
+                        </select>
+                    </div>
+
+
+                        <!--<div class="count-filter-btns">
+
+                            <label class="btn btn-total btn-radius bg-color-6" id="btnShowTotalPending"><h5>Pending</h5> <span class="filter-count">0</span></label>-->
+                            @*<button type="button" class="btn btn-total btn-radius bg-color-6" id="btnShowTotalPending" >
+                                <h5>Pending</h5> <span class="filter-count">0</span>
+                            </button>*@
+
+                            
+                            <!--<button type="button" class="btn btn-total-used btn-radius bg-color-6" id="btnShowUsedCompleted" >
+                                <h5>Completed</h5> <span class="filter-count">0</span>
+                            </button>
+
+                            
+                            <button type="button" class="btn btn-total-unused btn-radius bg-color-6" id="btnShowUnusedUntouched" >
+                                <h5>Untouched</h5> <span class="filter-count">0</span>
+                            </button>
+
+                            
+
+                        </div>-->
+                    </div>
+                </div>
+
+                </div>
+                <input type="hidden" id="hdnuser_id" />
+                <input type="hidden" id="hdnuser_state" />
+                <input type="hidden" id="hdnuser_shop" />
+                <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
+
+
+                <div style="clear: both;"><br /></div>
+                <div>
+                    @{
+                        Html.RenderAction("PartialReportListing", "LMSReports", new { is_pageload = "1" });
+                    }
+
+                </div>
+
+            </div>
+        </div>
+<!--User Modal -->
+<div class="modal fade pmsModal w50" id="UserModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Userkeydown(event)" id="txtUserSearch" width="100%" placeholder="Search By User Name" />
+                <div id="UserTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>User Name</th>
+                            <th>User Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('UserSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('UserSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnUserId" runat="server" />
+<!--User Modal -->

@@ -37,7 +37,8 @@
     }
 
     .modal-footer {
-        padding: 10px 20px 10px;
+        padding: 15px 10px 15px;
+        border-top: 1px solid #c0c0c0;
     }
 
     .dxgvLoadingPanel_PlasticBlue {
@@ -120,6 +121,7 @@
 
     .h-branch-select {
         position: relative;
+        background: #fff;
     }
 
         .h-branch-select::after {
@@ -311,22 +313,46 @@
     }
 
     .pmsModal .modal-header {
-        background: #094e8c !important;
-        background-image: none !important;
+        /*background: #094e8c !important;
+background-image: none !important;*/
         padding: 11px 20px;
         border: none;
-        border-radius: 5px 5px 0 0;
-        color: #fff;
-        border-radius: 10px 10px 0 0;
+        border-radius: 15px 15px 0 0 !important;
+        /*color: #fff;*/
+        /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
     }
 
     .pmsModal .modal-content {
         border: none;
-        border-radius: 10px;
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
     }
 
+    /*.pmsModal .modal-header .modal-title {
+    font-size: 14px;
+}*/
+
     .pmsModal .modal-header .modal-title {
-        font-size: 14px;
+        font-size: 16px !important;
+        color: #111;
+        font-size: 24px;
+    }
+
+    .pmsModal .modal-header {
+        background: transparent !important;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #d5d5d5;
+    }
+
+    .close {
+        font-size: 34px;
+        opacity: .8;
+    }
+
+    button.close {
+        color: #111 !important;
+        font-weight: 400 !important;
+        opacity: .8 !important;
+        font-size: 32px !important;
     }
 
     .pmsModal .close {
@@ -472,16 +498,16 @@
 
         .add-btn:hover {
             color: #fff;
-            background-color: #1b79d0;
-            border-color: #1b79d0;
+            background-color: #0e4f23;
+            border-color: #0e4f23;
         }
 
         .add-btn .btn-icon i {
-            color: #054682;
+            color: #238945;
         }
 
     .add-btn {
-        background: #054682;
+        background-color: #238945;
         margin-right: 5px;
     }
 
@@ -511,19 +537,155 @@
         background: #fff;
         line-height: 21px;
         margin-right: 5px;
-        color: #238945;
+        color: #054682;
     }
 
     .show-btn {
-        background-color: #238945;
+        background: #054682;
+        transition: all .4s;
+        margin-right: 5px;
     }
 
     .btn-cancel {
         background-color: #DC0505;
         color: #fff;
     }
+
+    .swal2-html-container {
+        margin-top: 5px !important;
+    }
+
+    div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+        width: 90px !important;
+        border-radius: 8px !important;
+    }
+
+    div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+        background: rgb(0 0 0 / 50%) !important;
+    }
+
+    div:where(.swal2-container).swal2-center > .swal2-popup {
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+
+    }
+
+    .swal2-confirm.swal2-styled {
+        border-radius: 8px !important;
+    }
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        /*width: 140px;*/
+        background-color: #0d8f24;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 42%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #0d8f24 transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        overflow: visible;
+    }
+
+    #btnSave .btn-icon, .cancel-catg .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 20px;
+        margin-right: 5px;
+    }
+
+        #btnSave .btn-icon img {
+            color: #238945;
+            width: 14px;
+        }
+
+        .cancel-catg .btn-icon img {
+            color: #DC0505;
+            width: 16px;
+        }
+
+    .cancel-catg:hover {
+        transform: scale(1.1);
+    }
+
+    .cancel-catg, #btnSave {
+        transition: all .3s ease-in-out;
+    }
+
+    #btnSave:hover {
+        transform: scale(1.1);
+    }
+
+    .cancel-catg {
+        margin-right: 5px;
+    }
 </style>
 <script>
+    $(document).ready(function () {
+
+
+        $('#txtPoints').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            if (this.value.length > 2) {
+                this.value = this.value.slice(0, 2); // Limit to 2 digits
+            }
+        });
+
+
+        $('#PointModal').on('shown.bs.modal', function () {
+            $('#ddlSection').focus();
+        });
+
+        $('.numbersOnly').keyup(function () {
+            if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+                this.value = this.value.replace(/[^0-9\.]/g, '');
+            }
+        });
+    });
+    function validateInput(event) {
+        var input = event.target;
+        if (input.value.length >= 5 && (event.keyCode >= 48 && event.keyCode <= 57)) {
+            event.preventDefault();
+        }
+    }
+
+    function setup() {
+        var inputField = document.getElementById("txtPoints");
+        inputField.addEventListener("keydown", validateInput);
+    }
+
+    window.onload = setup;
     var Is_PageLoad = "0";
 
     $(function () {
@@ -562,7 +724,7 @@
             });
             return false;
         }
-        else if ($("#txtPoints").val().trim() == "") {
+        else if ($("#txtPoints").val().trim() == ""||$("#txtPoints").val().trim() == "0") {
             //jAlert('Enter Points  to proceed.');
             Swal.fire({
                 icon: 'warning',
@@ -650,12 +812,12 @@
              title: 'Are you sure you want to delete?',
              text: "This action cannot be undone!",
              imageUrl: '/assests/images/delete-big.png', // Custom icon for confirmation
-             imageWidth: 50, // Adjust the width as needed
+             imageWidth: 40, // Adjust the width as needed
              showCancelButton: true,
              confirmButtonColor: '#3085d6',
              cancelButtonColor: '#d33',
-             confirmButtonText: 'Yes, delete it!',
-             cancelButtonText: 'Cancel'
+             confirmButtonText: 'Yes',
+             cancelButtonText: 'No'
          }).then((result) => {
              if (result.isConfirmed) {
                  $.ajax({
@@ -677,10 +839,10 @@
                          } else if (parseInt(response) == -1) {
                              // SweetAlert error message with custom icon
                              Swal.fire({
-                                 title: 'Error!',
+                                 title: 'Sorry!',
                                  text: 'Points already mapped with another module. Cannot delete.',
                                  imageUrl: '/path/to/your/error-icon.png', // Custom icon for error
-                                 imageWidth: 50, // Adjust the width as needed
+                                 imageWidth: 40, // Adjust the width as needed
                                  icon: 'error' // You can also keep the built-in icon type
                              });
                          }
@@ -709,13 +871,14 @@
                     {
                         <button type="button" id="btnshow" class="btn show-btn" tabindex=4> <span class="btn-icon"><i class="fa fa-eye" aria-hidden="true"></i></span> Show Data</button>
                     }
+                    @if (ViewBag.CanExport)
+                    {
+                        <button type="button" name="ddlAppIds" id="ddlAppIds" class="btn btn-sm btn-export">
+                            <span class="btn-icon"><img src="/assests/images/xlsx.png" /></span>&nbsp; Export to XLSX
+                        </button>
+                    }
                 </div>
-                @if (ViewBag.CanExport)
-                {
-                    <button type="button" name="ddlAppIds" id="ddlAppIds" class="btn btn-sm btn-export">
-                        <span class="btn-icon"><img src="/assests/images/xlsx.png" /></span>&nbsp; Export to XLSX
-                    </button>
-                }
+                
             </div>
 
         </div>
@@ -751,7 +914,7 @@
                         <div class="col-md-12 mt-3">
                             <div><label>Points  <span class="red">*</span></label></div>
                             <div>
-                                <input type="number" id="txtPoints" class="form-control" min="1" max="99999" maxlength="99999"/>
+                                <input type="number" id="txtPoints" class="form-control numbersOnly" min="1" max="99" maxlength="2"/>
                             </div>
                         </div>
                         <div class="col-md-12 mt-3">
@@ -762,10 +925,10 @@
             </div>
             <div class="modal-footer">
                 <div>
-                    <button type="button" class="btn btn-cancel" data-dismiss="modal">Cancel & Exit</button>
+                    <button type="button" class="btn btn-cancel cancel-catg" data-dismiss="modal"><span class="btn-icon"><img src="../../../assests/images/cancel.svg"></span> Cancel & Exit</button>
                     @if (ViewBag.CanAdd)
                     {
-                        <button type="button" id="btnSave" class="btn btn-success" onclick="SavePoint()">Save and Exit</button>
+                        <button type="button" id="btnSave" class="btn btn-success" onclick="SavePoint()"><span class="btn-icon"><img src="../../../assests/images/save-instagram.svg"></span> Save & Exit</button>
                     }
                 </div>
 

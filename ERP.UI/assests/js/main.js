@@ -6,45 +6,45 @@ Rev 2.0     Pallab      V2.0.41     02/06/2023      "Session expired" message ch
 *********************************************************************************************************************/
 
 // Rev 1.0
-//document.addEventListener("visibilitychange", () => {
-//    // it could be either hidden or visible
-//    if (document.visibilityState === 'visible') {
-//        checkSessionLogoutMasterPage();
-//    }
-//});
+document.addEventListener("visibilitychange", () => {
+    // it could be either hidden or visible
+    if (document.visibilityState === 'visible') {
+        checkSessionLogoutMasterPage();
+    }
+});
 
-//function checkSessionLogoutMasterPage() {
-//    $.ajax({
-//        type: "POST",
-//        url: "/MasterPopulate/checkSessionLogout",
-//        async: true,
-//        contentType: "application/json; charset=utf-8",
-//        dataType: "json",
-//        success: function (response) {
-//            if (response.SessionLoddedOut == '1') {
-//                /*Rev 2.0*/
-//                //jAlert('Session has expired !!!', 'Alert', function () {
-//                //    window.parent.location.href = '/oms/login.aspx';
-//                //});
-//                Swal.fire({
-//                    confirmButtonText: 'Login',
-//                    title: 'User Session has Expired!',
-//                    text: 'You have been logged out. Please log in again.',
-//                    allowOutsideClick: false,
-//                }).then((result) => {
-//                    if (result.isConfirmed) {
-//                        window.parent.location.href = '/oms/login.aspx';
-//                    }
-//                })
-//                /*Rev end 2.0*/
-//            }
-//        },
-//        error: function (response) {
-//            jAlert("Please try again later");
-//        }
-//    });
+function checkSessionLogoutMasterPage() {
+    $.ajax({
+        type: "POST",
+        url: "/MasterPopulate/checkSessionLogout",
+        async: true,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            if (response.SessionLoddedOut == '1') {
+                /*Rev 2.0*/
+                //jAlert('Session has expired !!!', 'Alert', function () {
+                //    window.parent.location.href = '/oms/login.aspx';
+                //});
+                Swal.fire({
+                    confirmButtonText: 'Login',
+                    title: 'User Session has Expired!',
+                    text: 'You have been logged out. Please log in again.',
+                    allowOutsideClick: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.parent.location.href = '/oms/login.aspx';
+                    }
+                })
+                /*Rev end 2.0*/
+            }
+        },
+        error: function (response) {
+            jAlert("Please try again later");
+        }
+    });
        
-//}
+}
 // End of Rev 1.0
 
 $(document).ready(function () {

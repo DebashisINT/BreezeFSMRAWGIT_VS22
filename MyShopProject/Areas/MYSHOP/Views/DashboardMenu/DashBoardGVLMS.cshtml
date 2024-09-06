@@ -1,0 +1,144 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+
+@*====================================================== Revision History ==========================================================*@
+
+@model System.Data.DataTable
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridList";
+    settings.KeyFieldName = "USER_ID";
+    settings.CallbackRouteValues = new { Action = "DashBoardGVLMS", Controller = "DashboardMenu" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.ClientSideEvents.BeginCallback = "OnStartCallbackLMS";
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "USER_ID";
+    //    x.Caption = "User ID";
+    //    x.VisibleIndex = 1;
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.Width = 100;
+
+    //});
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "USER_NAME";
+    //    x.Caption = "User Name";
+    //    x.VisibleIndex = 2;
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.Width = 100;
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "branch_description";
+    //    x.Caption = "Branch";
+    //    x.VisibleIndex = 3;
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.Width = 200;
+
+    //});
+
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "deg_designation";
+    //    x.Caption = "Designation";
+    //    x.VisibleIndex = 4;
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.Width = 200;
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "TOPICID";
+    //    x.Caption = "Assigned Topic";
+    //    x.VisibleIndex = 5;
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.Width = 200;
+
+    //});
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "CONTENT_ID";
+    //    x.Caption = "Assigned Content";
+    //    x.VisibleIndex = 6;
+
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.Width = 200;
+
+    //});
+    int visibleindex = 1;
+
+    if (Model != null)
+    {
+
+        double ColumnWidth = Model.Columns.Count;
+
+        if (Model.Columns.Count > 0)
+
+            foreach (System.Data.DataColumn column in Model.Columns)
+            {
+
+                //else
+                //{
+                var windowWidth = ViewBag.WindowSize;
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = column.ColumnName;
+                    x.Caption = column.ColumnName;
+                    x.VisibleIndex = visibleindex;
+                    x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                    visibleindex = visibleindex + 1;
+                    x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+                    if (column.DataType.FullName == "System.Decimal" || column.DataType.FullName == "System.Int32" || column.DataType.FullName == "System.Int64")
+                    {
+                        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                        // x.PropertiesEdit.DisplayFormatString = "0.00";
+                    }
+                    //else if (column.DataType.FullName == "System.DateTime")
+                    //{
+                    //    x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                    //    x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                    //}
+
+                });
+
+                // }
+
+            }
+
+
+
+        //settings.DataBound += (s, e) =>
+        //{
+
+        //    MVCxGridView grid = (MVCxGridView)s;
+        //    foreach (GridViewDataColumn c in grid.Columns)
+        //    {
+        //        if ((c.FieldName.ToString()).StartsWith("EMPID"))
+        //        {
+        //            c.Visible = false;
+        //        }
+        //    }
+        //};
+    }
+
+
+
+
+}).Bind(Model).GetHtml()

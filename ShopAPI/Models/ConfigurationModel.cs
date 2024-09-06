@@ -303,6 +303,10 @@ namespace ShopAPI.Models
         //Rev 26.0 Row: 904
         public bool IsShowLeaderBoard { get; set; }
         //End of Rev 26.0 Row: 904
+        //Rev 27.0 Row: 904
+        public int QuestionAfterNoOfContentForLMS { get; set; }
+        public bool IsAllowGPSTrackingInBackgroundForLMS { get; set; }
+        //End of Rev 27.0 Row: 968
     }
 
     public class ConfigurationModelInput

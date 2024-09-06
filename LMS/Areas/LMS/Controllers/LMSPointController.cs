@@ -207,6 +207,7 @@ namespace LMS.Areas.LMS.Controllers
                 x.Caption = "Created On";
                 x.VisibleIndex = 5;
                 x.Width = 200;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             });
             settings.Columns.Add(x =>
             {
@@ -221,6 +222,7 @@ namespace LMS.Areas.LMS.Controllers
                 x.Caption = "Updated On";
                 x.VisibleIndex = 7;
                 x.Width = 200;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             });
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;

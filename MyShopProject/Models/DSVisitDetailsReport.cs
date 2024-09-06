@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================================
 //1.0   V2 .0.44    Debashis    27/02/2024      'Sale Value' Field required in DS Visit Details/DS Visit Summary.Refer: 0027276
+//2.0   v2.0.48     Sanchita    26-08-2024      Working Hour customization for ITC users require. Mantis: 27661
 #endregion===================================End of Revision History==================================================================
 using Models;
 using System;
@@ -36,6 +37,12 @@ namespace MyShop.Models
         public List<GetBranch> modelbranch = new List<GetBranch>();
 
         public string is_pageload { get; set; }
+
+        // Rev 2.0
+        public string response_msg { get; set; }
+        public string response_begintime { get; set; }
+        public string response_endtime { get; set; }
+        // End of Rev 2.0
     }
 
     public class DSVisitDetailsModel

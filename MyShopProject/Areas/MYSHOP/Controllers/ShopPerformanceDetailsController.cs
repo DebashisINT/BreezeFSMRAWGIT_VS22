@@ -395,11 +395,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
                 // End of Rev 2.0
             });
+
             // Rev 3.0
             settings.Columns.Add(column =>
             {
                 column.Caption = "Party Status";
-                column.FieldName = "PARTYSTATUS";
+                column.FieldName = "PARTYSTATUS";                
                 if (ViewBag.RetentionColumn != null)
                 {
                     System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
@@ -415,9 +416,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 else
                 {
                     column.Visible = true;
-                }
+                }               
             });
             // End of Rev 3.0
+
             settings.Columns.Add(column =>
             {
                 column.Caption = "Brand";

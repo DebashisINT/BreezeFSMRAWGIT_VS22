@@ -1,0 +1,1249 @@
+﻿@*======================================Revision History=========================================================================
+
+    ===================================End of Revision History=====================================================================*@
+
+@model Models.SalesSummaryReport
+
+@{
+    ViewBag.Title = "Daily Call Report";
+    /// Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript" src="~/Scripts/globalize.js"></script>
+<script src="~/Scripts/cultures/globalize.cultures.js"></script>
+<script src="~/Scripts/chosen/chosen.jquery.min.js"></script>
+<link href="~/Scripts/chosen/chosen.min.css" rel="stylesheet" />
+<link href="~/Content/media.css" rel="stylesheet" />
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+<style>
+    #StateGridLookup_CC {
+        width: 100%;
+    }
+    #myImportModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+</style>
+<script>
+    var is_pageload = "0";
+    $(function () {
+
+        gridDailyCallReport.Refresh();
+        gridDailyCallReport.Refresh();
+
+        var d = new Date();
+
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+        //var lookup = ASPxClientControl.GetControlCollection().GetByName("StateGridLookup");
+        //lookup.GetGridView().Refresh();
+
+        $('#txtfromDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var mindt = new Date(selectedDate.getTime() + 1);
+                $("#txttoDate").daterangepicker("option", "minDate", mindt);
+            }
+        });
+
+        $('#txttoDate').daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            mask: true,
+            locale: {
+                format: 'DD-MM-YYYY'
+            },
+            onSelect: function (date) {
+
+                var selectedDate = new Date(date);
+                var maxdt = new Date(selectedDate.getTime() - 1);
+                $("#txtfromDate").daterangepicker("option", "maxDate", maxdt);
+
+            }
+        });
+
+        $('body').on('click', '#btnshow', function () {
+            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+            var flag = true;
+
+            if (dtFrom.GetDate() == null) {
+                $('#MandatoryFromDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryFromDate').attr('style', 'display:none');
+            }
+
+            if (dtTo.GetDate() == null) {
+                $('#MandatoryToDate').attr('style', 'display:block');
+                flag = false;
+            }
+            else {
+                $('#MandatoryToDate').attr('style', 'display:none');
+            }
+
+
+            if ($("#hdnBranchMandatory").val() == "0") {
+                if (BranchId == "" || BranchId == null) {
+                    jAlert("Please select Branch.");
+                    flag = false;
+                }
+            }
+
+            datefrm = dtFrom.GetText();
+            var newdatefrom = datefrm.split("-").reverse().join("-");
+
+            var startdate = new Date(Date.parse(newdatefrom));
+            //  alert(startdate);
+
+
+            dateto = dtTo.GetText();
+            var newdateTo = dateto.split("-").reverse().join("-");
+
+            var endDate = new Date(Date.parse(newdateTo));
+
+            if (endDate < startdate) {
+
+                jAlert('From date should be before/equal To date');
+            }
+
+            else {
+                //$("#refreshgridsalessummary").show();
+                if (flag == true) {
+                    is_pageload = "1";
+                  //  gridDailyCallReport.Refresh();
+                    //gridsalessummaryregister.Refresh();
+                    var start = $('#dtFrom_I').val();
+                    var end = $('#dtTo_I').val();
+                    start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+                    end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+                    var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+                    //if (dayse <= 7) {
+                    //Mantis Issue 24728
+                    //if (dayse <= 30) {
+                    //alert(dayse)
+                    if (dayse <= 34) {
+                    //End of Mantis Issue 24728
+                        gridDailyCallReport.Refresh();
+                    }
+                    else {
+                        //jAlert("Searching days must be within 7 days");
+                        //Mantis Issue 24728
+                        //jAlert("Searching days must be within One month");
+                        jAlert("Searching days must be within 35 days");
+                        //End of Mantis Issue 24728
+                    }
+                }
+            }
+        });
+
+        $('#ddlAppIds').on('change', function () {
+            if ($("#ddlAppIds option:selected").index() > 0) {
+                var selectedValue = $(this).val();
+                var desg = $("#drpdesignation").val();
+                var usrtype = $("#ddlusertypes").val();
+                $('#ddlAppIds').prop("selectedIndex", 0);
+                var url = '@Url.Action("ExporPerformanceList", "DailyCallReport", new { type = "_type_" })'
+                window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+    })
+
+    function StateStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function EmpStateLookupValChange() {
+        StateGridLookup.GetGridView().Refresh();
+        StateGridLookup.GetGridView().Refresh();
+    }
+    // Rev 3.0
+    function BranchStartCallback(s, e) {
+        e.customArgs["UserID"] = $("#hdnUserID").val();
+    }
+
+    function BranchLookupValChange() {
+        BranchGridLookup.GetGridView().Refresh();
+    }
+    // End of Rev 3.0
+
+    function OnStartCallback(s, e) {
+
+        e.customArgs["Fromdate"] = dtFrom.GetText();
+        e.customArgs["Todate"] = dtTo.GetText();
+        //e.customArgs["StateId"] = StateId;
+        //e.customArgs["desgid"] = desigId;
+        e.customArgs["empcode"] = empId;
+        e.customArgs["is_pageload"] = is_pageload;
+        //Rev 1.0 Mantis:0025586
+        //if ($('#IsRevisitContactDetails').prop('checked')) {
+        //    e.customArgs["IsRevisitContactDetails"] = 1;
+        //}
+        //else {
+        //    e.customArgs["IsRevisitContactDetails"] = 0;
+        //}
+        //End of Rev 1.0 Mantis:0025586
+        // Rev 3.0
+        e.customArgs["BranchId"] = BranchId;
+        // End of Rev 3.0
+        // alert(e.customArgs["StateId"]);
+
+    }
+
+    var StateId = [];
+    function StateSelectionChanged(s, e) {
+        StateGridLookup.gridView.GetSelectedFieldValues("ID", GetSelectedFieldValuesCallback);
+    }
+    function GetSelectedFieldValuesCallback(values) {
+
+        try {
+            StateId = [];
+            for (var i = 0; i < values.length; i++) {
+                StateId.push(values[i]);
+            }
+        } finally {
+            console.log(StateId);
+        }
+    }
+
+    var desigId = [];
+    function DesigSelectionChanged(s, e) {
+        DesigGridLookup.gridView.GetSelectedFieldValues("desgid", GetDesigSelectedFieldValuesCallback);
+    }
+    function GetDesigSelectedFieldValuesCallback(values) {
+        try {
+            desigId = [];
+            for (var i = 0; i < values.length; i++) {
+                desigId.push(values[i]);
+            }
+        } finally {
+            console.log(desigId);
+        }
+    }
+
+    var empId = [];
+    function EmpSelectionChanged(s, e) {
+        EmpGridLookup.gridView.GetSelectedFieldValues("empcode", GetEmpSelectedFieldValuesCallback);
+    }
+    function GetEmpSelectedFieldValuesCallback(values) {
+        try {
+            empId = [];
+            for (var i = 0; i < values.length; i++) {
+                empId.push(values[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+
+
+    function LookupValChange() {
+        EmpGridLookup.GetGridView().Refresh()
+        //EmpGridLookup.GetGridView().Refresh()
+    }
+
+    function EmpStartCallback(s, e) {
+        e.customArgs["StateId"] = StateId;
+        e.customArgs["desgid"] = desigId;
+        e.customArgs["userId"] = $("#hdnUserID").val();
+    }
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+    // Rev 3.0
+    var BranchId = [];
+    var Branch_Id = "";
+    function BranchSelectionChanged(s, e) {
+        BranchGridLookup.gridView.GetSelectedFieldValues("BRANCH_ID", GetSelectedFieldValuesCallbackBranch);
+    }
+    function GetSelectedFieldValuesCallbackBranch(values) {
+
+        try {
+            BranchId = [];
+            Branch_Id = "";
+            for (var i = 0; i < values.length; i++) {
+                BranchId.push(values[i]);
+                Branch_Id += values[i] + ',';
+            }
+        } finally {
+            console.log(BranchId);
+        }
+    }
+
+    function SelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.SelectRows();
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetSelectedChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                    BranchId = [];
+                    Branch_Id = "";
+                    $.each(data, function (i, data) {
+                        BranchId.push(data.BRANCH_ID);
+                        Branch_Id += data.BRANCH_ID + ',';
+                    });
+                    BranchGridLookup.gridView.SelectRows();
+                },
+                error: function () {
+                }
+            });
+        }
+    }
+    function DeSelectAllGridLookup(s, e) {
+        BranchGridLookup.gridView.UnselectRows();
+
+        BranchId = [];
+        Branch_Id = "";
+    }
+    function BindBranches() {
+        var Hoid = $('#HeadBranch').val();
+        BranchId = "";
+        BranchGridLookup.SetText("");
+        if (Hoid == null || Hoid == "") {
+            //Hoid = "0";
+            return false;
+        }
+        else {
+            $.ajax({
+                type: 'POST',
+                url: "/MasterPopulate/GetChildBranchList",
+                data: { "Hoid": Hoid },
+                dataType: "json",
+                async: false,
+                success: function (data) {
+                },
+                error: function () {
+                }
+            });
+            BranchGridLookup.GetGridView().Refresh();
+        }
+    }
+
+    // End of Rev 3.0
+
+    function OpenAudioRemarks(audiofile, shopname) {
+        $("#hdnAudioRemarksPath").val(audiofile);
+        $("#hdnShopName").val(shopname);
+        $("#lblShopName").text("Shop Name : " + shopname);
+
+        audiofile = audiofile.replace(".wav", ".mp3"); 
+
+        // Set the audio source
+        $('#audioPlayer source').attr('src',audiofile);
+        $('#audioPlayer')[0].load(); // Reload the audio element with the new source
+
+
+        $("#myAudioRemarksModal").modal('show');
+    }
+
+    function DownloadAudio() {
+        var url = '@Url.Action("DownloadAudio", "DailyCallReport")' + '?audiofile='+$("#hdnAudioRemarksPath").val();
+        window.location.href = url;
+       
+    }
+
+    function closeAudRem() {
+        
+        var audio = document.getElementById('audioPlayer');
+        audio.pause();
+        audio.currentTime = 0; // Reset audio to the beginning
+    }
+
+</script>
+
+
+<style>
+    .padTabl > tbody > tr > td {
+        padding: 3px 10px;
+    }
+
+    #tblshoplist > thead > tr > th {
+        background: #5F65AD !important;
+        border-top: 1px solid #0f87cc;
+        color: #fff;
+    }
+
+    #tblshoplist tbody > tr > th, #tblshoplist tfoot > tr > th, #tblshoplist thead > tr > td, #tblshoplist tbody > tr > td, #tblshoplist tfoot > tr > td {
+        padding: 1px 5px !important;
+    }
+
+    .scrooler {
+        width: 100%;
+        overflow-x: scroll;
+    }
+
+    .w1 {
+        width: 107px;
+    }
+
+    .date {
+        width: 62px;
+    }
+
+    .labelTbl > tbody > tr > td {
+        padding-right: 20px;
+        padding-bottom: 5px;
+    }
+
+    #StateGridLookup_ET > tbody > tr > td:first-child, #DesigGridLookup_ET > tbody > tr > td:first-child, #EmpGridLookup_ET > tbody > tr > td:first-child {
+        display: none;
+    }
+
+    .validclass {
+        position: absolute;
+        right: 3px;
+        top: 32px;
+    }
+    /*Rev Pallab*/
+    .pmsModal .modal-header {
+        background: #298ecc !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #txtEmployeeSearch {
+        margin-bottom: 12px;
+    }
+    /*Rev End Pallab*/
+
+    /*Rev 2.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 8px;
+            right: -2px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .whclass.selectH, #ddlShowReport {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+    /*Rev end 2.0*/
+
+    .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11 {
+        margin-bottom: 10px;
+    }
+
+    label {
+        margin-bottom: 0px;
+    }
+
+    #audioPlayer {
+        width: 65%;
+        height: 46px;
+    }
+
+    .w-35
+    {
+        width: 35%;
+        padding-left: 30px;
+    }
+
+    .justify-content-between {
+        justify-content: space-between;
+    }
+
+    .align-items-center{
+        align-items: center;
+    }
+
+    .btn-audio-download
+    {
+        width: 100%;
+        padding: 10px 12px;
+        height: 46px;
+        border-radius: 50px;
+        background: #7b1cb9;
+        color: #fff;
+    }
+
+        .btn-audio-download:focus {
+            border-color: #7b1cb9;
+            background: #7b1cb9;
+            outline: none;
+            box-shadow: none;
+            color: #fff;
+        }
+
+        .btn-audio-download:hover {
+            color: #fff;
+            background: #7b1cb9;
+        }
+
+    #lblShopName
+    {
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+
+</style>
+@*Rev 3.0*@
+<style>
+    #BranchGridLookup_CC {
+        width: 100%;
+    }
+
+    @@media only screen and (max-width: 767px) {
+        #refreshgridsalessummary {
+            overflow-x: auto;
+        }
+    }
+</style>
+@*End of Rev 3.0*@
+<script>
+    function onShowChooserClick(s, e) {
+        UpdateCustomizationWindowVisibility();
+    }
+    var visibleColumn = [];
+    function grid_CustomizationWindowCloseUp(s, e) {
+        UpdateButtonText();
+
+        for (var i = 0; i <= gridDailyCallReport.GetColumnsCount() ; i++) {
+            if (gridDailyCallReport.GetColumn(i) != null) {
+                if (gridDailyCallReport.GetColumn(i).visible == false) {
+                    console.log(gridDailyCallReport.GetColumn(i).fieldName);
+                    visibleColumn.push(gridDailyCallReport.GetColumn(i).fieldName);
+                }
+            }
+        }
+
+        addPageRetention(visibleColumn);
+    }
+
+    function UpdateCustomizationWindowVisibility() {
+        if (gridDailyCallReport.IsCustomizationWindowVisible())
+            gridDailyCallReport.HideCustomizationWindow();
+        else
+            gridDailyCallReport.ShowCustomizationWindow();
+        UpdateButtonText();
+    }
+
+    function UpdateButtonText() {
+        var text = gridDailyCallReport.IsCustomizationWindowVisible() ? "Hide" : "Show";
+        text += " Column Chooser";
+        btShowColumnChooser.SetText(text);
+    }
+
+    function addPageRetention(visibleColumn) {
+        $.ajax({
+            url: "@Url.Action("PageRetention", "Performance")",
+            async: false,
+            data: { Columns: visibleColumn },
+            type: 'POST',
+            success: function (data) {
+                gridDailyCallReport.Refresh();
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#EmployeeModel').on('shown.bs.modal', function () {
+            $('#txtEmployeeSearch').focus();
+        })
+    })
+    var ProdArr = new Array();
+    $(document).ready(function () {
+        var ProdObj = new Object();
+        ProdObj.Name = "EmployeeSource";
+        ProdObj.ArraySource = ProdArr;
+        arrMultiPopup.push(ProdObj);
+    })
+
+    function EmployeeButnClick(s, e) {
+        $('#EmployeeModel').modal('show');
+    }
+
+    function Employee_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter") {
+            $('#EmployeeModel').modal('show');
+        }
+    }
+
+    function Employeekeydown(e) {
+        var OtherDetails = {}
+
+        if ($.trim($("#txtEmployeeSearch").val()) == "" || $.trim($("#txtEmployeeSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtEmployeeSearch").val();
+        OtherDetails.ClassID = "";
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+
+            var HeaderCaption = [];
+            HeaderCaption.push("Employee Name");
+            HeaderCaption.push("Employee Code");
+
+
+            if ($("#txtEmployeeSearch").val() != "") {
+                callonServerM("../../../Models/ShopAddress.asmx/GetEmployeeList", OtherDetails, "EmployeeTable", HeaderCaption, "dPropertyIndex", "SetSelectedValues", "EmployeeSource");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[dPropertyIndex=0]"))
+                $("input[dPropertyIndex=0]").focus();
+        }
+    }
+
+    function SetfocusOnseach(indexName) {
+        if (indexName == "dPropertyIndex")
+            $('#txtEmployeeSearch').focus();
+        else
+            $('#txtEmployeeSearch').focus();
+    }
+
+    function SetSelectedValues(Id, Name, ArrName) {
+        if (ArrName == 'EmployeeSource') {
+            var key = Id;
+            if (key != null && key != '') {
+                $('#EmployeeModel').modal('hide');
+                EmployeeTxt.SetText(Name);
+                $('#hdnEmployeeId').val(key);
+            }
+            else {
+                EmployeeTxt.SetText('');
+                $('#hdnEmployeeId').val('');
+            }
+        }
+    }
+
+    function GetEmpSelectedFieldValuesOndemand(values) {
+        try {
+            empId = [];
+            var eids = values.split(',');
+            for (var i = 0; i < eids.length; i++) {
+                empId.push(eids[i]);
+            }
+        } finally {
+            console.log(empId);
+        }
+    }
+</script>
+
+<link href="~/Content/media.css" rel="stylesheet" />
+<div class="breadCumb">
+    <span>Daily Call Report</span>
+</div>
+
+<div class="container">
+    <div class="backBox mt-5 p-3 ">
+        <div class="mx-4 ">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3 relative for-cust-icon">
+                            <label>From Date</label>
+                            <div>
+                                @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtFrom";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                                }).GetHtml()
+                                @*Rev 2.0*@
+                                <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                @*Rev end 2.0*@
+                                <span id="MandatoryFromDate" style="display: none" class="validclass">
+                                    <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-3 relative for-cust-icon">
+                            <label>To Date</label>
+                            <div>
+                                @*@Html.TextBoxFor(m => m.Todate, new { @class = "form-control", @id = "txttoDate", @radonly = true, @tabindex = 3 })*@
+                                @Html.DevExpress().DateEditFor(x => x.Todate,
+                                deSettings =>
+                                {
+                                    deSettings.Name = "dtTo";
+                                    deSettings.Date = DateTime.Now;
+                                    deSettings.Properties.UseMaskBehavior = true;
+                                    deSettings.Properties.EditFormat = EditFormat.Custom;
+                                    deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                    deSettings.Properties.ShowOutOfRangeWarning = false;
+                                    deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+
+                                }).GetHtml()
+                                @*Rev 2.0*@
+                                <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                                @*Rev end 2.0*@
+                                <span id="MandatoryToDate" style="display: none" class="validclass">
+                                    <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                                </span>
+                            </div>
+                        </div>
+                        @*Rev 3.0*@
+                        @*<div class="col-md-3 relative for-cust-icon">*@
+                        <div class="col-md-3 relative">
+                            <label>Head Branch :</label>
+                            <div class="h-branch-select">
+                                <select id="HeadBranch" name="HeadBranch" onchange="BindBranches()" data-placeholder="Click or Type Here..." class="whclass selectH">
+                                    @foreach (var item in Model.modelbranch)
+                                    {
+                                        <option value="@item.BRANCH_ID">@item.CODE</option>
+                                    }
+                                </select>
+
+                            </div>
+                        </div>
+
+                        @*<div class="col-md-3 relative for-cust-icon">*@
+                        <div class="col-md-3 relative">
+                            <label>Branch :</label>
+                            <div>
+                                @Html.Action("GetChildBranchList", "MasterPopulate", new { Hoid = @ViewBag.h_id })
+                            </div>
+                        </div>
+                        
+
+                        <div class="col-md-3">
+                            <label>Employee(s)</label>
+                            <div>
+                                @*@Html.Action("GetEmpList", "MasterPopulate", new { userId = @Session["userid"].ToString() })*@
+
+                                @Html.DevExpress().ButtonEdit(
+                                settings =>
+                                {
+                                    settings.Name = "EmployeeTxt";
+                                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                    //settings.Text = Model.AssignedTo;
+                                    settings.ReadOnly = true;
+                                    settings.Properties.Buttons.Add("...");
+                                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){EmployeeButnClick(s,e);}";
+                                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Employee_KeyDown(s,e);}";
+
+                                }).GetHtml()
+
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3" style="padding-top: 18px;">
+                            @*Rev end 2.0*@
+                            <label></label>
+                            <button type="button" id="btnshow" name="btnshow" class="btn btn-success btnwidth" tabindex=4>Show</button>
+                            <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="1">PDF</option>
+                                <option value="2">XLSX</option>
+                                <option value="3">XLS</option>
+                                <option value="4">RTF</option>
+                                <option value="5">CSV</option>
+
+                            </select>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <input type="hidden" id="hdnuser_id" />
+            <input type="hidden" id="hdnuser_state" />
+            <input type="hidden" id="hdnuser_shop" />
+            <input type="hidden" id="hdnUserID" value="@Session["userid"].ToString()" />
+            <input type="hidden" id="hdnStateMandatory" value="@ViewBag.StateMandatory" />
+            @*Rev 4.0*@
+            <input type="hidden" id="hdnBranchMandatory" value="@ViewBag.BranchMandatory" />
+            @*End of Rev 4.0*@
+        </div>
+        @*Rev 2.0*@
+        @*</div>
+            </div>*@
+        <div style="clear: both;"><br /></div>
+        @*<div class="container">
+            <div class="backBox mt-1 p-3 ">*@
+        @*Rev end 2.0*@
+        <div class="mx-4 ">
+            <div class="options">
+                <div class="options-item">
+                    @Html.DevExpress().Button(settings =>
+                {
+                    settings.Name = "btShowColumnChooser";
+                    settings.Text = "Show Column Chooser";
+                    settings.ClientSideEvents.Click = "function (s, e) { onShowChooserClick(s,e); }";
+                    // settings.Theme = "MaterialCompactOrange";
+                }).GetHtml()
+                </div>
+            </div>
+            <div class="row">
+                <div id="refreshgridsalessummary">
+                    @{
+                        // Rev 3.0 [ BranchId = Model.BranchId added]
+                        Html.RenderAction("GetSalesParformanceList", "DailyCallReport", new { BranchId = Model.BranchId, Fromdate = Model.Fromdate, Todate = Model.Todate, empcode = Model.empcode, is_pageload = "0"});
+                        // Html.RenderAction("GetSalesSummaryList1", "SalesReportSummary");
+
+                    }
+                    @*change for design*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Employee Modal -->
+<div class="modal fade pmsModal w50" id="EmployeeModel" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Employee Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control" onkeydown="Employeekeydown(event)" id="txtEmployeeSearch" width="100%" placeholder="Search By Employee Name" />
+                <div id="EmployeeTable">
+                    <table border='1' width="100%">
+
+                        <tr class="HeaderStyle" style="font-size:small">
+                            <th>Select</th>
+                            <th class="hide">id</th>
+                            <th>Employee Name</th>
+                            <th>Employee Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btnOkformultiselection btn-default btn btn-danger" onclick="DeSelectAll('EmployeeSource')">Deselect All</button>
+                <button type="button" class="btnOkformultiselection btn-default  btn btn-success" data-dismiss="modal" onclick="OKPopup('EmployeeSource')">OK</button>
+                @*<button type="button" class="btnOkformultiselection btn-default" data-dismiss="modal">Close</button>*@
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myAudioRemarksModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="closeAudRem()">&times;</button>
+                <h4 class="modal-title">Audio Remarks</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4" id="lblShopName"></label>
+                                    <div class="col-lg-12 d-flex p-0 justify-content-between align-items-center">
+                                        <!-- Audio Player -->
+                                        <audio controls id="audioPlayer">
+                                            <source src="" type="audio/mp3">
+                                            Your browser does not support the audio element.
+                                        </audio>
+
+
+                                        <div class="pTop10 mTop5 w-35"><input type="submit" value="Download Audio" onclick="DownloadAudio();" id="btnDownloadAudio" class="btn btn-audio-download"></div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<asp:HiddenField ID="hdnEmployeeId" runat="server" />
+<asp:HiddenField ID="hdnAudioRemarksPath" runat="server" />
+<asp:HiddenField id="hdnShopName" runat="srver" />

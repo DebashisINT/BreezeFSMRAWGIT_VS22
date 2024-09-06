@@ -602,5 +602,11 @@
         <elementListCompartment Id="3089b499-19e2-4dab-8aa9-fdc5aaa6053d" absoluteBounds="7.015, 7.335, 1.9700000000000002, 7.1722412109375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
+    <classShape Id="f1f5b5f9-c452-4bca-9769-d648a9fcb07f" isExpanded="false" absoluteBounds="7.25, 10.75, 2, 0.45">
+      <DataClassMoniker Name="/ReportsDataContext/FTSDAILYCALL_REPORT" />
+      <nestedChildShapes>
+        <elementListCompartment Id="034df62e-08bc-496f-9f35-463bc479470c" absoluteBounds="7.265, 11.21, 1.9700000000000002, 11.595174153645832" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
   </nestedChildShapes>
 </ordesignerObjectsDiagram>
