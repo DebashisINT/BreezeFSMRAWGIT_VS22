@@ -24,6 +24,10 @@
  * 13.0               03-06-2024       V2.0.47           Sanchita         Some global settings are required for CRM Opportunity module. Mantis: 27481 *
  * 14.0               18-06-2024       V2.0.47           Sanchita         27436: Please create a global settings IsShowDateWiseOrderInApp   
  * 15.0               21-06-2024       V2.0.48           Sanchita         0027564: The default value should be zero for some of Global & User wise setting in FSM
+ * 16.0               04-07-2024       V2.0.48           Sanchita         27575: Two new global and user settings are required as 'IsUserWiseLMSEnable' and 'IsUserWiseLMSFeatureOnly'        
+ * 17.0               29-08-2024       V2.0.48           Sanchita         27648: Global and User wise settings isRecordAudioEnableForVisitRevisit shall be available 
+                                                                          in both System settings page and in User master.  
+ * 18.0               03-09-2024       V2.0.48           Priti            0027684: Create a new user setting as ShowClearQuiz
  *********************************************************************************************************************************/
 using System;
 using System.Data;
@@ -2545,6 +2549,44 @@ namespace ERP.OMS.Management.Master
                     chkIsShowDateWiseOrderInApp.Checked = false;
                 }
                 // End of Rev 14.0
+                // Rev 16.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUserWiseLMSEnable"]) == true)
+                {
+                    chkIsUserWiseLMSEnable.Checked = true;
+                }
+                else
+                {
+                    chkIsUserWiseLMSEnable.Checked = false;
+                }
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUserWiseLMSFeatureOnly"]) == true)
+                {
+                    chkIsUserWiseLMSFeatureOnly.Checked = true;
+                }
+                else
+                {
+                    chkIsUserWiseLMSFeatureOnly.Checked = false;
+                }
+                // End of Rev 16.0
+                // Rev 17.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUserWiseRecordAudioEnableForVisitRevisit"]) == true)
+                {
+                    chkIsUserWiseRecordAudioEnableForVisitRevisit.Checked = true;
+                }
+                else
+                {
+                    chkIsUserWiseRecordAudioEnableForVisitRevisit.Checked = false;
+                }
+                // End of Rev 17.0
+                // Rev 18.0
+                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["ShowClearQuiz"]) == true)
+                {
+                    chkDivShowClearQuiz.Checked = true;
+                }
+                else
+                {
+                    chkDivShowClearQuiz.Checked = false;
+                }
+                // End of Rev 18.0
 
                 hdnPartyType.Value = dsUserDetail.Tables[1].Rows[0]["Shop_TypeId"].ToString();
 
@@ -2985,6 +3027,18 @@ namespace ERP.OMS.Management.Master
                 // Rev 14.0
                 int IsShowDateWiseOrderInApp = 0;
                 // End of Rev 14.0
+                // Rev 16.0
+                int IsUserWiseLMSEnable = 0;
+                int IsUserWiseLMSFeatureOnly = 0;
+                // End of Rev 16.0
+                // Rev 17.0
+                int IsUserWiseRecordAudioEnableForVisitRevisit = 0;
+                // End of Rev 17.0
+
+                // Rev 18.0
+                int ShowClearQuiz = 0;
+                // End of Rev 18.0
+
 
                 if (chkIsActive.Checked == true)
                     isactive = "Y";
@@ -4507,6 +4561,30 @@ namespace ERP.OMS.Management.Master
                 else
                     IsShowDateWiseOrderInApp = 0;
                 // End of Rev 14.0
+                // Rev 16.0
+                if (chkIsUserWiseLMSEnable.Checked == true)
+                    IsUserWiseLMSEnable = 1;
+                else
+                    IsUserWiseLMSEnable = 0;
+                if (chkIsUserWiseLMSFeatureOnly.Checked == true)
+                    IsUserWiseLMSFeatureOnly = 1;
+                else
+                    IsUserWiseLMSFeatureOnly = 0;
+                // End of Rev 16.0
+                // Rev 17.0
+                if (chkIsUserWiseRecordAudioEnableForVisitRevisit.Checked == true)
+                    IsUserWiseRecordAudioEnableForVisitRevisit = 1;
+                else
+                    IsUserWiseRecordAudioEnableForVisitRevisit = 0;
+                // End of Rev 17.0
+
+                // Rev 18.0
+                if (chkDivShowClearQuiz.Checked == true)
+                    ShowClearQuiz = 1;
+                else
+                    ShowClearQuiz = 0;
+                // End of Rev 18.0
+
 
 
                 String PartyType = hdnPartyType.Value.ToString();
@@ -4887,7 +4965,17 @@ namespace ERP.OMS.Management.Master
                             // Rev 14.0
                             proc.AddPara("@IsShowDateWiseOrderInApp", IsShowDateWiseOrderInApp);
                             // End of Rev 14.0
+                            // Rev 16.0
+                            proc.AddPara("@IsUserWiseLMSEnable", IsUserWiseLMSEnable);
+                            proc.AddPara("@IsUserWiseLMSFeatureOnly", IsUserWiseLMSFeatureOnly);
+                            // End of Rev 16.0
+                            // Rev 17.0
+                            proc.AddPara("@IsUserWiseRecordAudioEnableForVisitRevisit", IsUserWiseRecordAudioEnableForVisitRevisit);
+                            // End of Rev 17.0
 
+                            // Rev 18.0
+                            proc.AddPara("@ShowClearQuiz", ShowClearQuiz);
+                            // End of Rev 18.0
 
                             DataTable dt = proc.GetTable();
 
@@ -5345,6 +5433,17 @@ namespace ERP.OMS.Management.Master
                             // Rev 14.0
                             proc.AddPara("@IsShowDateWiseOrderInApp", IsShowDateWiseOrderInApp);
                             // End of Rev 14.0
+                            // Rev 16.0
+                            proc.AddPara("@IsUserWiseLMSEnable", IsUserWiseLMSEnable);
+                            proc.AddPara("@IsUserWiseLMSFeatureOnly", IsUserWiseLMSFeatureOnly);
+                            // End of Rev 16.0
+                            // Rev 17.0
+                            proc.AddPara("@IsUserWiseRecordAudioEnableForVisitRevisit", IsUserWiseRecordAudioEnableForVisitRevisit);
+                            // End of Rev 17.0
+
+                            // Rev 18.0
+                            proc.AddPara("@ShowClearQuiz", ShowClearQuiz);
+                            // End of Rev 18.0
 
                             DataTable dt = proc.GetTable();
 
@@ -5797,7 +5896,17 @@ namespace ERP.OMS.Management.Master
                             // Rev 14.0
                             proc.AddPara("@IsShowDateWiseOrderInApp", IsShowDateWiseOrderInApp);
                             // End of Rev 14.0
+                            // Rev 16.0
+                            proc.AddPara("@IsUserWiseLMSEnable", IsUserWiseLMSEnable);
+                            proc.AddPara("@IsUserWiseLMSFeatureOnly", IsUserWiseLMSFeatureOnly);
+                            // End of Rev 16.0
+                            // Rev 17.0
+                            proc.AddPara("@IsUserWiseRecordAudioEnableForVisitRevisit", IsUserWiseRecordAudioEnableForVisitRevisit);
+                            // End of Rev 17.0 
 
+                            // Rev 18.0
+                            proc.AddPara("@ShowClearQuiz", ShowClearQuiz);
+                            // End of Rev 18.0 
 
                             DataTable dt = proc.GetTable();
 
@@ -5905,6 +6014,9 @@ namespace ERP.OMS.Management.Master
 
         public void UserWiseSetings()
         {
+            //REV 18.0
+            string strShowClearQuiz = ConfigurationManager.AppSettings["ShowClearQuiz"];
+            //REV 18.0 END
             //String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
             DataTable dt = new DataTable();
             //SqlCommand sqlcmd = new SqlCommand();
@@ -7979,8 +8091,59 @@ namespace ERP.OMS.Management.Master
                         }
                     }
                     // End of Rev 14.0
+                    // Rev 16.0
+                    else if (Convert.ToString(dr["key"]) == "IsUserWiseLMSEnable")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsUserWiseLMSEnable.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsUserWiseLMSEnable.Style.Add("display", "none");
+                        }
+                    }
+                    else if (Convert.ToString(dr["key"]) == "IsUserWiseLMSFeatureOnly")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsUserWiseLMSFeatureOnly.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsUserWiseLMSFeatureOnly.Style.Add("display", "none");
+                        }
+                    }
+                    // End of Rev 16.0
+                    // Rev 17.0
+                    else if (Convert.ToString(dr["key"]) == "isRecordAudioEnableForVisitRevisit")
+                    {
+                        if (Convert.ToString(dr["Value"]) == "1")
+                        {
+                            divIsUserWiseRecordAudioEnableForVisitRevisit.Style.Add("display", "table-cell");
+                        }
+                        else
+                        {
+                            divIsUserWiseRecordAudioEnableForVisitRevisit.Style.Add("display", "none");
+                        }
+                    }
+                    // End of Rev 17.0
+                    
+                    
                 }
             }
+
+
+            // Rev 18.0
+            if (strShowClearQuiz == "YES")
+            {
+                DivShowClearQuiz.Style.Add("display", "table-cell");                
+            }
+            else
+            {
+                DivShowClearQuiz.Style.Add("display", "none");
+            }
+            // End of Rev 18.0
         }
     }
 }

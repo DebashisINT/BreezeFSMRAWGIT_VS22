@@ -107,11 +107,11 @@
         {
             if (ViewBag.CanEdit)
             {
-                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "CATEGORYID")) + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /></a>");
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"EditClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "CATEGORYID")) + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /><div class=\"tooltip\">Edit</div></a>");
             }
             if (ViewBag.CanDelete)
             {
-                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "CATEGORYID")) + "')\"><img src='/assests/images/Delete.png'/> </a>");
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"DeleteClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "CATEGORYID")) + "')\"><img src='/assests/images/Delete.png'/><div class=\"tooltip\">Delete</div></a>");
 
             }
         });

@@ -323,10 +323,13 @@ ul{
     font-size: 14px;   
 }
 .sideNavigation > ul > li:hover > a {
-    background: #4f40db;
+    /*background: #4f40db;*/
+    background: #5b4ce3;
 }
-.sideNavigation>ul>li:hover .flText{
+.sideNavigation > ul > li:hover .flText {
     visibility: visible;
+    cursor: context-menu;
+    background: #5b4ce3;
 }
 .sideNavigation>ul>li:hover > .submenu-fl {
     display: block;
@@ -1582,6 +1585,17 @@ div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swa
     padding: 20px;
     border-radius: 0px;
     margin: 0;
+}
+
+.swal2-styled {
+    border-radius: 12px !important;
+    padding: 8px 20px !important;
+    color: #fff !important;
+    font-size: 14px !important;
+}
+
+.swal2-confirm.swal2-styled {
+    border-radius: 12px !important;
 }
 
 

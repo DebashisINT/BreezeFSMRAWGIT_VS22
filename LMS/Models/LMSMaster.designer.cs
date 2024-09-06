@@ -56,27 +56,27 @@ namespace LMS.Models
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<LMS_TOPICSMASTER_LISTING> LMS_TOPICSMASTER_LISTINGs
-		{
-			get
-			{
-				return this.GetTable<LMS_TOPICSMASTER_LISTING>();
-			}
-		}
-		
-		public System.Data.Linq.Table<LMS_QUESTIONSMASTERLIST> LMS_QUESTIONSMASTERLISTs
-		{
-			get
-			{
-				return this.GetTable<LMS_QUESTIONSMASTERLIST>();
-			}
-		}
-		
 		public System.Data.Linq.Table<LMS_CATEGORYMASTERLIST> LMS_CATEGORYMASTERLISTs
 		{
 			get
 			{
 				return this.GetTable<LMS_CATEGORYMASTERLIST>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LMS_CONTENTMASTER_LISTING> LMS_CONTENTMASTER_LISTINGs
+		{
+			get
+			{
+				return this.GetTable<LMS_CONTENTMASTER_LISTING>();
+			}
+		}
+		
+		public System.Data.Linq.Table<LMS_CONTENTQUESTIONMAP_LISTING> LMS_CONTENTQUESTIONMAP_LISTINGs
+		{
+			get
+			{
+				return this.GetTable<LMS_CONTENTQUESTIONMAP_LISTING>();
 			}
 		}
 		
@@ -88,407 +88,27 @@ namespace LMS.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<LMS_CONTENTMASTER_LISTING> LMS_CONTENTMASTER_LISTINGs
+		public System.Data.Linq.Table<LMS_QUESTIONSMASTERLIST> LMS_QUESTIONSMASTERLISTs
 		{
 			get
 			{
-				return this.GetTable<LMS_CONTENTMASTER_LISTING>();
+				return this.GetTable<LMS_QUESTIONSMASTERLIST>();
 			}
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_TOPICSMASTER_LISTING")]
-	public partial class LMS_TOPICSMASTER_LISTING
-	{
 		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<int> _SEQ;
-		
-		private System.Nullable<long> _TOPICID;
-		
-		private string _TOPICNAME;
-		
-		private string _TOPICBASEDON;
-		
-		private string _TOPICSTATUS;
-		
-		private string _CREATEDBY;
-		
-		private System.Nullable<System.DateTime> _CREATEDON;
-		
-		private string _UPDATEDBY;
-		
-		private System.Nullable<System.DateTime> _UPDATEDON;
-		
-		public LMS_TOPICSMASTER_LISTING()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
+		public System.Data.Linq.Table<LMS_REPORTSLIST> LMS_REPORTSLISTs
 		{
 			get
 			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
+				return this.GetTable<LMS_REPORTSLIST>();
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
-		public System.Nullable<int> SEQ
+		public System.Data.Linq.Table<LMS_TOPICSMASTER_LISTING> LMS_TOPICSMASTER_LISTINGs
 		{
 			get
 			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICID", DbType="BigInt")]
-		public System.Nullable<long> TOPICID
-		{
-			get
-			{
-				return this._TOPICID;
-			}
-			set
-			{
-				if ((this._TOPICID != value))
-				{
-					this._TOPICID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICNAME", DbType="NVarChar(300)")]
-		public string TOPICNAME
-		{
-			get
-			{
-				return this._TOPICNAME;
-			}
-			set
-			{
-				if ((this._TOPICNAME != value))
-				{
-					this._TOPICNAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICBASEDON", DbType="NVarChar(300)")]
-		public string TOPICBASEDON
-		{
-			get
-			{
-				return this._TOPICBASEDON;
-			}
-			set
-			{
-				if ((this._TOPICBASEDON != value))
-				{
-					this._TOPICBASEDON = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICSTATUS", DbType="NVarChar(10)")]
-		public string TOPICSTATUS
-		{
-			get
-			{
-				return this._TOPICSTATUS;
-			}
-			set
-			{
-				if ((this._TOPICSTATUS != value))
-				{
-					this._TOPICSTATUS = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDBY", DbType="NVarChar(50)")]
-		public string CREATEDBY
-		{
-			get
-			{
-				return this._CREATEDBY;
-			}
-			set
-			{
-				if ((this._CREATEDBY != value))
-				{
-					this._CREATEDBY = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDON", DbType="DateTime")]
-		public System.Nullable<System.DateTime> CREATEDON
-		{
-			get
-			{
-				return this._CREATEDON;
-			}
-			set
-			{
-				if ((this._CREATEDON != value))
-				{
-					this._CREATEDON = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UPDATEDBY", DbType="NVarChar(50)")]
-		public string UPDATEDBY
-		{
-			get
-			{
-				return this._UPDATEDBY;
-			}
-			set
-			{
-				if ((this._UPDATEDBY != value))
-				{
-					this._UPDATEDBY = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UPDATEDON", DbType="DateTime")]
-		public System.Nullable<System.DateTime> UPDATEDON
-		{
-			get
-			{
-				return this._UPDATEDON;
-			}
-			set
-			{
-				if ((this._UPDATEDON != value))
-				{
-					this._UPDATEDON = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_QUESTIONSMASTERLIST")]
-	public partial class LMS_QUESTIONSMASTERLIST
-	{
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<long> _SEQ;
-		
-		private System.Nullable<int> _QUESTIONS_ID;
-		
-		private string _QUESTIONS_NAME;
-		
-		private string _QUESTIONS_DESCRIPTN;
-		
-		private System.Nullable<long> _CNTTOPIC;
-		
-		private System.Nullable<long> _CNTCATEGORY;
-		
-		private System.Nullable<System.DateTime> _CREATEDATE;
-		
-		private string _CREATEUSER;
-		
-		private System.Nullable<System.DateTime> _MODIFYDATE;
-		
-		private string _MODIFYUSER;
-		
-		public LMS_QUESTIONSMASTERLIST()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
-		public System.Nullable<long> SEQ
-		{
-			get
-			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONS_ID", DbType="Int")]
-		public System.Nullable<int> QUESTIONS_ID
-		{
-			get
-			{
-				return this._QUESTIONS_ID;
-			}
-			set
-			{
-				if ((this._QUESTIONS_ID != value))
-				{
-					this._QUESTIONS_ID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONS_NAME", DbType="NVarChar(250)")]
-		public string QUESTIONS_NAME
-		{
-			get
-			{
-				return this._QUESTIONS_NAME;
-			}
-			set
-			{
-				if ((this._QUESTIONS_NAME != value))
-				{
-					this._QUESTIONS_NAME = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONS_DESCRIPTN", DbType="NVarChar(300)")]
-		public string QUESTIONS_DESCRIPTN
-		{
-			get
-			{
-				return this._QUESTIONS_DESCRIPTN;
-			}
-			set
-			{
-				if ((this._QUESTIONS_DESCRIPTN != value))
-				{
-					this._QUESTIONS_DESCRIPTN = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CNTTOPIC", DbType="BigInt")]
-		public System.Nullable<long> CNTTOPIC
-		{
-			get
-			{
-				return this._CNTTOPIC;
-			}
-			set
-			{
-				if ((this._CNTTOPIC != value))
-				{
-					this._CNTTOPIC = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CNTCATEGORY", DbType="BigInt")]
-		public System.Nullable<long> CNTCATEGORY
-		{
-			get
-			{
-				return this._CNTCATEGORY;
-			}
-			set
-			{
-				if ((this._CNTCATEGORY != value))
-				{
-					this._CNTCATEGORY = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDATE", DbType="DateTime")]
-		public System.Nullable<System.DateTime> CREATEDATE
-		{
-			get
-			{
-				return this._CREATEDATE;
-			}
-			set
-			{
-				if ((this._CREATEDATE != value))
-				{
-					this._CREATEDATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEUSER", DbType="NVarChar(100)")]
-		public string CREATEUSER
-		{
-			get
-			{
-				return this._CREATEUSER;
-			}
-			set
-			{
-				if ((this._CREATEUSER != value))
-				{
-					this._CREATEUSER = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFYDATE", DbType="DateTime")]
-		public System.Nullable<System.DateTime> MODIFYDATE
-		{
-			get
-			{
-				return this._MODIFYDATE;
-			}
-			set
-			{
-				if ((this._MODIFYDATE != value))
-				{
-					this._MODIFYDATE = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFYUSER", DbType="NVarChar(100)")]
-		public string MODIFYUSER
-		{
-			get
-			{
-				return this._MODIFYUSER;
-			}
-			set
-			{
-				if ((this._MODIFYUSER != value))
-				{
-					this._MODIFYUSER = value;
-				}
+				return this.GetTable<LMS_TOPICSMASTER_LISTING>();
 			}
 		}
 	}
@@ -651,213 +271,6 @@ namespace LMS.Models
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifyDate", DbType="DateTime")]
 		public System.Nullable<System.DateTime> ModifyDate
-		{
-			get
-			{
-				return this._ModifyDate;
-			}
-			set
-			{
-				if ((this._ModifyDate != value))
-				{
-					this._ModifyDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifyUser", DbType="NVarChar(100)")]
-		public string ModifyUser
-		{
-			get
-			{
-				return this._ModifyUser;
-			}
-			set
-			{
-				if ((this._ModifyUser != value))
-				{
-					this._ModifyUser = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_POINTSETUPMASTERLIST")]
-	public partial class LMS_POINTSETUPMASTERLIST
-	{
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<long> _SEQ;
-		
-		private System.Nullable<int> _POINTSETUPID;
-		
-		private System.Nullable<int> _POINTSECTION;
-		
-		private string _POINTSECTION_FOR;
-		
-		private System.Nullable<decimal> _POINTS;
-		
-		private string _POINTSETUPSTATUS;
-		
-		private string _CreateDate;
-		
-		private string _CreateUser;
-		
-		private string _ModifyDate;
-		
-		private string _ModifyUser;
-		
-		public LMS_POINTSETUPMASTERLIST()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
-		public System.Nullable<long> SEQ
-		{
-			get
-			{
-				return this._SEQ;
-			}
-			set
-			{
-				if ((this._SEQ != value))
-				{
-					this._SEQ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTSETUPID", DbType="Int")]
-		public System.Nullable<int> POINTSETUPID
-		{
-			get
-			{
-				return this._POINTSETUPID;
-			}
-			set
-			{
-				if ((this._POINTSETUPID != value))
-				{
-					this._POINTSETUPID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTSECTION", DbType="Int")]
-		public System.Nullable<int> POINTSECTION
-		{
-			get
-			{
-				return this._POINTSECTION;
-			}
-			set
-			{
-				if ((this._POINTSECTION != value))
-				{
-					this._POINTSECTION = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTSECTION_FOR", DbType="NVarChar(250)")]
-		public string POINTSECTION_FOR
-		{
-			get
-			{
-				return this._POINTSECTION_FOR;
-			}
-			set
-			{
-				if ((this._POINTSECTION_FOR != value))
-				{
-					this._POINTSECTION_FOR = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTS", DbType="Decimal(19,2)")]
-		public System.Nullable<decimal> POINTS
-		{
-			get
-			{
-				return this._POINTS;
-			}
-			set
-			{
-				if ((this._POINTS != value))
-				{
-					this._POINTS = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTSETUPSTATUS", DbType="NVarChar(50)")]
-		public string POINTSETUPSTATUS
-		{
-			get
-			{
-				return this._POINTSETUPSTATUS;
-			}
-			set
-			{
-				if ((this._POINTSETUPSTATUS != value))
-				{
-					this._POINTSETUPSTATUS = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="NVarChar(50)")]
-		public string CreateDate
-		{
-			get
-			{
-				return this._CreateDate;
-			}
-			set
-			{
-				if ((this._CreateDate != value))
-				{
-					this._CreateDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateUser", DbType="NVarChar(100)")]
-		public string CreateUser
-		{
-			get
-			{
-				return this._CreateUser;
-			}
-			set
-			{
-				if ((this._CreateUser != value))
-				{
-					this._CreateUser = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifyDate", DbType="NVarChar(50)")]
-		public string ModifyDate
 		{
 			get
 			{
@@ -1253,6 +666,1095 @@ namespace LMS.Models
 				if ((this._UPDATEDON != value))
 				{
 					this._UPDATEDON = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_CONTENTQUESTIONMAP_LISTING")]
+	public partial class LMS_CONTENTQUESTIONMAP_LISTING
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<int> _SEQ;
+		
+		private long _CONTENTID;
+		
+		private string _CONTENTTITLE;
+		
+		private string _CONTENTDESC;
+		
+		private long _QUESTIONSMAP_COUNT;
+		
+		public LMS_CONTENTQUESTIONMAP_LISTING()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
+		public System.Nullable<int> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENTID", DbType="BigInt NOT NULL")]
+		public long CONTENTID
+		{
+			get
+			{
+				return this._CONTENTID;
+			}
+			set
+			{
+				if ((this._CONTENTID != value))
+				{
+					this._CONTENTID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENTTITLE", DbType="NVarChar(100) NOT NULL", CanBeNull=false)]
+		public string CONTENTTITLE
+		{
+			get
+			{
+				return this._CONTENTTITLE;
+			}
+			set
+			{
+				if ((this._CONTENTTITLE != value))
+				{
+					this._CONTENTTITLE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENTDESC", DbType="NVarChar(300) NOT NULL", CanBeNull=false)]
+		public string CONTENTDESC
+		{
+			get
+			{
+				return this._CONTENTDESC;
+			}
+			set
+			{
+				if ((this._CONTENTDESC != value))
+				{
+					this._CONTENTDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONSMAP_COUNT", DbType="BigInt NOT NULL")]
+		public long QUESTIONSMAP_COUNT
+		{
+			get
+			{
+				return this._QUESTIONSMAP_COUNT;
+			}
+			set
+			{
+				if ((this._QUESTIONSMAP_COUNT != value))
+				{
+					this._QUESTIONSMAP_COUNT = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_POINTSETUPMASTERLIST")]
+	public partial class LMS_POINTSETUPMASTERLIST
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<long> _SEQ;
+		
+		private System.Nullable<int> _POINTSETUPID;
+		
+		private System.Nullable<int> _POINTSECTION;
+		
+		private string _POINTSECTION_FOR;
+		
+		private System.Nullable<int> _POINTS;
+		
+		private string _POINTSETUPSTATUS;
+		
+		private System.Nullable<System.DateTime> _CreateDate;
+		
+		private string _CreateUser;
+		
+		private System.Nullable<System.DateTime> _ModifyDate;
+		
+		private string _ModifyUser;
+		
+		public LMS_POINTSETUPMASTERLIST()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
+		public System.Nullable<long> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTSETUPID", DbType="Int")]
+		public System.Nullable<int> POINTSETUPID
+		{
+			get
+			{
+				return this._POINTSETUPID;
+			}
+			set
+			{
+				if ((this._POINTSETUPID != value))
+				{
+					this._POINTSETUPID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTSECTION", DbType="Int")]
+		public System.Nullable<int> POINTSECTION
+		{
+			get
+			{
+				return this._POINTSECTION;
+			}
+			set
+			{
+				if ((this._POINTSECTION != value))
+				{
+					this._POINTSECTION = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTSECTION_FOR", DbType="NVarChar(250)")]
+		public string POINTSECTION_FOR
+		{
+			get
+			{
+				return this._POINTSECTION_FOR;
+			}
+			set
+			{
+				if ((this._POINTSECTION_FOR != value))
+				{
+					this._POINTSECTION_FOR = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTS", DbType="Int")]
+		public System.Nullable<int> POINTS
+		{
+			get
+			{
+				return this._POINTS;
+			}
+			set
+			{
+				if ((this._POINTS != value))
+				{
+					this._POINTS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_POINTSETUPSTATUS", DbType="NVarChar(50)")]
+		public string POINTSETUPSTATUS
+		{
+			get
+			{
+				return this._POINTSETUPSTATUS;
+			}
+			set
+			{
+				if ((this._POINTSETUPSTATUS != value))
+				{
+					this._POINTSETUPSTATUS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CreateDate
+		{
+			get
+			{
+				return this._CreateDate;
+			}
+			set
+			{
+				if ((this._CreateDate != value))
+				{
+					this._CreateDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateUser", DbType="NVarChar(100)")]
+		public string CreateUser
+		{
+			get
+			{
+				return this._CreateUser;
+			}
+			set
+			{
+				if ((this._CreateUser != value))
+				{
+					this._CreateUser = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifyDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ModifyDate
+		{
+			get
+			{
+				return this._ModifyDate;
+			}
+			set
+			{
+				if ((this._ModifyDate != value))
+				{
+					this._ModifyDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifyUser", DbType="NVarChar(100)")]
+		public string ModifyUser
+		{
+			get
+			{
+				return this._ModifyUser;
+			}
+			set
+			{
+				if ((this._ModifyUser != value))
+				{
+					this._ModifyUser = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_QUESTIONSMASTERLIST")]
+	public partial class LMS_QUESTIONSMASTERLIST
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<long> _SEQ;
+		
+		private System.Nullable<int> _QUESTIONS_ID;
+		
+		private string _QUESTIONS_NAME;
+		
+		private string _QUESTIONS_DESCRIPTN;
+		
+		private System.Nullable<long> _CNTTOPIC;
+		
+		private System.Nullable<long> _CNTCATEGORY;
+		
+		private System.Nullable<System.DateTime> _CREATEDATE;
+		
+		private string _CREATEUSER;
+		
+		private System.Nullable<System.DateTime> _MODIFYDATE;
+		
+		private string _MODIFYUSER;
+		
+		public LMS_QUESTIONSMASTERLIST()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
+		public System.Nullable<long> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONS_ID", DbType="Int")]
+		public System.Nullable<int> QUESTIONS_ID
+		{
+			get
+			{
+				return this._QUESTIONS_ID;
+			}
+			set
+			{
+				if ((this._QUESTIONS_ID != value))
+				{
+					this._QUESTIONS_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONS_NAME", DbType="NVarChar(500)")]
+		public string QUESTIONS_NAME
+		{
+			get
+			{
+				return this._QUESTIONS_NAME;
+			}
+			set
+			{
+				if ((this._QUESTIONS_NAME != value))
+				{
+					this._QUESTIONS_NAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONS_DESCRIPTN", DbType="NVarChar(1000)")]
+		public string QUESTIONS_DESCRIPTN
+		{
+			get
+			{
+				return this._QUESTIONS_DESCRIPTN;
+			}
+			set
+			{
+				if ((this._QUESTIONS_DESCRIPTN != value))
+				{
+					this._QUESTIONS_DESCRIPTN = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CNTTOPIC", DbType="BigInt")]
+		public System.Nullable<long> CNTTOPIC
+		{
+			get
+			{
+				return this._CNTTOPIC;
+			}
+			set
+			{
+				if ((this._CNTTOPIC != value))
+				{
+					this._CNTTOPIC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CNTCATEGORY", DbType="BigInt")]
+		public System.Nullable<long> CNTCATEGORY
+		{
+			get
+			{
+				return this._CNTCATEGORY;
+			}
+			set
+			{
+				if ((this._CNTCATEGORY != value))
+				{
+					this._CNTCATEGORY = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDATE", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CREATEDATE
+		{
+			get
+			{
+				return this._CREATEDATE;
+			}
+			set
+			{
+				if ((this._CREATEDATE != value))
+				{
+					this._CREATEDATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEUSER", DbType="NVarChar(100)")]
+		public string CREATEUSER
+		{
+			get
+			{
+				return this._CREATEUSER;
+			}
+			set
+			{
+				if ((this._CREATEUSER != value))
+				{
+					this._CREATEUSER = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFYDATE", DbType="DateTime")]
+		public System.Nullable<System.DateTime> MODIFYDATE
+		{
+			get
+			{
+				return this._MODIFYDATE;
+			}
+			set
+			{
+				if ((this._MODIFYDATE != value))
+				{
+					this._MODIFYDATE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MODIFYUSER", DbType="NVarChar(100)")]
+		public string MODIFYUSER
+		{
+			get
+			{
+				return this._MODIFYUSER;
+			}
+			set
+			{
+				if ((this._MODIFYUSER != value))
+				{
+					this._MODIFYUSER = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_REPORTSLIST")]
+	public partial class LMS_REPORTSLIST
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<long> _SEQ;
+		
+		private System.Nullable<long> _USER_ID;
+		
+		private string _USER_NAME;
+		
+		private System.Nullable<long> _TOPICID;
+		
+		private string _TOPICNAME;
+		
+		private System.Nullable<long> _CONTENT_ID;
+		
+		private string _CONTENTTITLE;
+		
+		private string _CONTENTDESC;
+		
+		private System.Nullable<System.DateTime> _ASSIGNEDON;
+		
+		private string _COMPLETIONSTATUS;
+		
+		private string _TIMESPENT;
+		
+		private System.Nullable<System.DateTime> _CompletionDate;
+		
+		private System.Nullable<System.DateTime> _FirstAccessDateandTime;
+		
+		private System.Nullable<System.DateTime> _LastAccessDateandTime;
+		
+		private System.Nullable<int> _CompletionDurationDays;
+		
+		private string _user_loginId;
+		
+		public LMS_REPORTSLIST()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
+		public System.Nullable<long> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USER_ID", DbType="BigInt")]
+		public System.Nullable<long> USER_ID
+		{
+			get
+			{
+				return this._USER_ID;
+			}
+			set
+			{
+				if ((this._USER_ID != value))
+				{
+					this._USER_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USER_NAME", DbType="VarChar(50)")]
+		public string USER_NAME
+		{
+			get
+			{
+				return this._USER_NAME;
+			}
+			set
+			{
+				if ((this._USER_NAME != value))
+				{
+					this._USER_NAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICID", DbType="BigInt")]
+		public System.Nullable<long> TOPICID
+		{
+			get
+			{
+				return this._TOPICID;
+			}
+			set
+			{
+				if ((this._TOPICID != value))
+				{
+					this._TOPICID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICNAME", DbType="NVarChar(300)")]
+		public string TOPICNAME
+		{
+			get
+			{
+				return this._TOPICNAME;
+			}
+			set
+			{
+				if ((this._TOPICNAME != value))
+				{
+					this._TOPICNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENT_ID", DbType="BigInt")]
+		public System.Nullable<long> CONTENT_ID
+		{
+			get
+			{
+				return this._CONTENT_ID;
+			}
+			set
+			{
+				if ((this._CONTENT_ID != value))
+				{
+					this._CONTENT_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENTTITLE", DbType="NVarChar(100)")]
+		public string CONTENTTITLE
+		{
+			get
+			{
+				return this._CONTENTTITLE;
+			}
+			set
+			{
+				if ((this._CONTENTTITLE != value))
+				{
+					this._CONTENTTITLE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENTDESC", DbType="NVarChar(300)")]
+		public string CONTENTDESC
+		{
+			get
+			{
+				return this._CONTENTDESC;
+			}
+			set
+			{
+				if ((this._CONTENTDESC != value))
+				{
+					this._CONTENTDESC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ASSIGNEDON", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ASSIGNEDON
+		{
+			get
+			{
+				return this._ASSIGNEDON;
+			}
+			set
+			{
+				if ((this._ASSIGNEDON != value))
+				{
+					this._ASSIGNEDON = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_COMPLETIONSTATUS", DbType="NVarChar(20)")]
+		public string COMPLETIONSTATUS
+		{
+			get
+			{
+				return this._COMPLETIONSTATUS;
+			}
+			set
+			{
+				if ((this._COMPLETIONSTATUS != value))
+				{
+					this._COMPLETIONSTATUS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TIMESPENT", DbType="NVarChar(20)")]
+		public string TIMESPENT
+		{
+			get
+			{
+				return this._TIMESPENT;
+			}
+			set
+			{
+				if ((this._TIMESPENT != value))
+				{
+					this._TIMESPENT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompletionDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CompletionDate
+		{
+			get
+			{
+				return this._CompletionDate;
+			}
+			set
+			{
+				if ((this._CompletionDate != value))
+				{
+					this._CompletionDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstAccessDateandTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> FirstAccessDateandTime
+		{
+			get
+			{
+				return this._FirstAccessDateandTime;
+			}
+			set
+			{
+				if ((this._FirstAccessDateandTime != value))
+				{
+					this._FirstAccessDateandTime = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastAccessDateandTime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> LastAccessDateandTime
+		{
+			get
+			{
+				return this._LastAccessDateandTime;
+			}
+			set
+			{
+				if ((this._LastAccessDateandTime != value))
+				{
+					this._LastAccessDateandTime = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CompletionDurationDays", DbType="Int")]
+		public System.Nullable<int> CompletionDurationDays
+		{
+			get
+			{
+				return this._CompletionDurationDays;
+			}
+			set
+			{
+				if ((this._CompletionDurationDays != value))
+				{
+					this._CompletionDurationDays = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_user_loginId", DbType="VarChar(50)")]
+		public string user_loginId
+		{
+			get
+			{
+				return this._user_loginId;
+			}
+			set
+			{
+				if ((this._user_loginId != value))
+				{
+					this._user_loginId = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_TOPICSMASTER_LISTING")]
+	public partial class LMS_TOPICSMASTER_LISTING
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<int> _SEQ;
+		
+		private System.Nullable<long> _TOPICID;
+		
+		private string _TOPICNAME;
+		
+		private string _TOPICBASEDON;
+		
+		private string _TOPICSTATUS;
+		
+		private System.Nullable<long> _QUESTIONS_ID;
+		
+		private string _CREATEDBY;
+		
+		private System.Nullable<System.DateTime> _CREATEDON;
+		
+		private string _UPDATEDBY;
+		
+		private System.Nullable<System.DateTime> _UPDATEDON;
+		
+		private string _TOPIC_COMP_DAY;
+		
+		private string _TOPIC_ISDEFAULT;
+		
+		public LMS_TOPICSMASTER_LISTING()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="Int")]
+		public System.Nullable<int> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICID", DbType="BigInt")]
+		public System.Nullable<long> TOPICID
+		{
+			get
+			{
+				return this._TOPICID;
+			}
+			set
+			{
+				if ((this._TOPICID != value))
+				{
+					this._TOPICID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICNAME", DbType="NVarChar(300)")]
+		public string TOPICNAME
+		{
+			get
+			{
+				return this._TOPICNAME;
+			}
+			set
+			{
+				if ((this._TOPICNAME != value))
+				{
+					this._TOPICNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICBASEDON", DbType="NVarChar(300)")]
+		public string TOPICBASEDON
+		{
+			get
+			{
+				return this._TOPICBASEDON;
+			}
+			set
+			{
+				if ((this._TOPICBASEDON != value))
+				{
+					this._TOPICBASEDON = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICSTATUS", DbType="NVarChar(10)")]
+		public string TOPICSTATUS
+		{
+			get
+			{
+				return this._TOPICSTATUS;
+			}
+			set
+			{
+				if ((this._TOPICSTATUS != value))
+				{
+					this._TOPICSTATUS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONS_ID", DbType="BigInt")]
+		public System.Nullable<long> QUESTIONS_ID
+		{
+			get
+			{
+				return this._QUESTIONS_ID;
+			}
+			set
+			{
+				if ((this._QUESTIONS_ID != value))
+				{
+					this._QUESTIONS_ID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDBY", DbType="NVarChar(50)")]
+		public string CREATEDBY
+		{
+			get
+			{
+				return this._CREATEDBY;
+			}
+			set
+			{
+				if ((this._CREATEDBY != value))
+				{
+					this._CREATEDBY = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDON", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CREATEDON
+		{
+			get
+			{
+				return this._CREATEDON;
+			}
+			set
+			{
+				if ((this._CREATEDON != value))
+				{
+					this._CREATEDON = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UPDATEDBY", DbType="NVarChar(50)")]
+		public string UPDATEDBY
+		{
+			get
+			{
+				return this._UPDATEDBY;
+			}
+			set
+			{
+				if ((this._UPDATEDBY != value))
+				{
+					this._UPDATEDBY = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UPDATEDON", DbType="DateTime")]
+		public System.Nullable<System.DateTime> UPDATEDON
+		{
+			get
+			{
+				return this._UPDATEDON;
+			}
+			set
+			{
+				if ((this._UPDATEDON != value))
+				{
+					this._UPDATEDON = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPIC_COMP_DAY", DbType="NVarChar(10)")]
+		public string TOPIC_COMP_DAY
+		{
+			get
+			{
+				return this._TOPIC_COMP_DAY;
+			}
+			set
+			{
+				if ((this._TOPIC_COMP_DAY != value))
+				{
+					this._TOPIC_COMP_DAY = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPIC_ISDEFAULT", DbType="NVarChar(10)")]
+		public string TOPIC_ISDEFAULT
+		{
+			get
+			{
+				return this._TOPIC_ISDEFAULT;
+			}
+			set
+			{
+				if ((this._TOPIC_ISDEFAULT != value))
+				{
+					this._TOPIC_ISDEFAULT = value;
 				}
 			}
 		}

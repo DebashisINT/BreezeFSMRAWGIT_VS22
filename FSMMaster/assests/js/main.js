@@ -6,12 +6,12 @@ Rev 2.0     Pallab      V2.0.41     02/06/2023      "Session expired" message ch
 *********************************************************************************************************************/
 
 // Rev 1.0
-document.addEventListener("visibilitychange", () => {
-    // it could be either hidden or visible
-    if (document.visibilityState === 'visible') {
-        checkSessionLogoutMasterPage();
-    }
-});
+//document.addEventListener("visibilitychange", () => {
+//    // it could be either hidden or visible
+//    if (document.visibilityState === 'visible') {
+//        checkSessionLogoutMasterPage();
+//    }
+//});
 
 function checkSessionLogoutMasterPage() {
     $.ajax({

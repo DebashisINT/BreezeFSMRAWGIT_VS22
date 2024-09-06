@@ -325,6 +325,7 @@ ul{
 }
 .sideNavigation>ul>li:hover .flText{
     visibility: visible;
+    cursor: context-menu;
 }
 .sideNavigation>ul>li:hover > .submenu-fl {
     display: block;

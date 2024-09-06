@@ -11,6 +11,7 @@ namespace LMS.Models
     public class LMSCategoryModel
     {
         public string Is_PageLoad { get; set; }
+      
         public int SaveCategory(string name, string user, string ID = "0", string description="",string ActiveStatus="0")
         {
             ProcedureExecute proc;

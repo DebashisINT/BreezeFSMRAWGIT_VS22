@@ -1,0 +1,68 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridCategoryList";
+    settings.KeyFieldName = "CATEGORYID";
+    settings.CallbackRouteValues = new { Action = "PartialCategoryGridList", Controller = "LMSQuestions" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    //settings.Settings.ShowFilterRowMenu = true;
+    settings.ClientSideEvents.BeginCallback = "OnStartCallbackCategory";
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CATEGORYNAME";
+        x.Caption = "Category Name";
+        x.VisibleIndex = 1;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CATEGORYDESCRIPTION";
+        x.Caption = "Category Description";
+        x.VisibleIndex = 2;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+
+    });
+    //settings.Columns.Add(x =>
+    //{
+    //    x.FieldName = "CATEGORYSTATUS";
+    //    x.Caption = "Active";
+    //    x.VisibleIndex = 3;
+    //    x.ColumnType = MVCxGridViewColumnType.TextBox;
+    //    x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+
+    //});
+
+
+
+
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+
+
+
+

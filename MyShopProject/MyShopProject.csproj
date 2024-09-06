@@ -266,6 +266,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\CustomerVisitDetailsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CustomSMSController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\DailyAccountabilityTrackerController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\DailyCallReportController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\DashboardMenuController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\DashboardMenu_PartialController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\DashboardReportController.cs" />
@@ -1043,7 +1044,9 @@
     <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardGridViewDetails.cshtml" />
     <Content Include="assests\js\jquery-1.12.4.min.js" />
     <Content Include="assests\js\jquery3.3.1.min.js" />
+    <Content Include="assests\js\justgage.js" />
     <Content Include="assests\js\Leavelist.js" />
+    <Content Include="assests\js\raphael.min.js" />
     <Content Include="assests\js\sweetalert2.all.min.js" />
     <Content Include="assests\js\TeamVisit.js" />
     <Content Include="assests\js\TeamVisitH.js" />
@@ -2042,6 +2045,12 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_Layout1.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardLMS.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashBoardGVLMS.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardStateComboboxLMS.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardBranchComboboxLMS.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\DailyCallReport\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\DailyCallReport\PartialDailyCallReport.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -3161,7 +3170,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>5735</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5740/</IISUrl>
+          <IISUrl>http://localhost:5742/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

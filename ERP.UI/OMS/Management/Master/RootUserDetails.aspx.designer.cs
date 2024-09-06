@@ -4587,6 +4587,78 @@ namespace ERP.OMS.Management.Master
         protected global::DevExpress.Web.ASPxCheckBox chkIsShowDateWiseOrderInApp;
 
         /// <summary>
+        /// divIsUserWiseLMSEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsUserWiseLMSEnable;
+
+        /// <summary>
+        /// chkIsUserWiseLMSEnable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsUserWiseLMSEnable;
+
+        /// <summary>
+        /// divIsUserWiseLMSFeatureOnly control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsUserWiseLMSFeatureOnly;
+
+        /// <summary>
+        /// chkIsUserWiseLMSFeatureOnly control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsUserWiseLMSFeatureOnly;
+
+        /// <summary>
+        /// divIsUserWiseRecordAudioEnableForVisitRevisit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsUserWiseRecordAudioEnableForVisitRevisit;
+
+        /// <summary>
+        /// chkIsUserWiseRecordAudioEnableForVisitRevisit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsUserWiseRecordAudioEnableForVisitRevisit;
+
+        /// <summary>
+        /// DivShowClearQuiz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell DivShowClearQuiz;
+
+        /// <summary>
+        /// chkDivShowClearQuiz control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkDivShowClearQuiz;
+
+        /// <summary>
         /// btnUpdate control.
         /// </summary>
         /// <remarks>

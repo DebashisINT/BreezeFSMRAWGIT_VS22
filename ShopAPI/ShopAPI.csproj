@@ -273,6 +273,7 @@
     <Compile Include="Controllers\LeadTypeController.cs" />
     <Compile Include="Controllers\LeaveApprovalController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
+    <Compile Include="Controllers\LMSInfoDetailsController.cs" />
     <Compile Include="Controllers\LocationAddModifyController.cs" />
     <Compile Include="Controllers\LocationCaptureController.cs" />
     <Compile Include="Controllers\LoginConcurrentusersController.cs" />
@@ -400,6 +401,7 @@
     <Compile Include="Models\LeadTypeModel.cs" />
     <Compile Include="Models\LeaveApprovalRecord.cs" />
     <Compile Include="Models\Leavetype.cs" />
+    <Compile Include="Models\LMSInfoDetailsModel.cs" />
     <Compile Include="Models\LocationAddModifyModel.cs" />
     <Compile Include="Models\LocationfetchModel.cs" />
     <Compile Include="Models\LoginConcurrentusersModel.cs" />

@@ -1,4 +1,7 @@
-﻿using DataAccessLayer;
+﻿/**************************************************************************************************************************************
+ * Rev 1.0      V2.0.48     Sanchita        27673: If the settings IsUserWiseLMSFeatureOnly is set as true then in the portal end only LMS dashboard and LMS menu shall be visiible
+ * **************************************************************************************************************************************/
+using DataAccessLayer;
 using EntityLayer.CommonELS;
 using EntityLayer.MenuHelperELS;
 using System;
@@ -45,6 +48,9 @@ namespace BusinessLogicLayer.MenuBLS
                     ProcedureExecute Proc = new ProcedureExecute(UserMenuHelperProcedures.Proc_MenuHelper);
                     Proc.AddPara("@groupid", UserGroupId);
                     Proc.AddPara("@mode", Proc_MenuHelper_Mode.GetUserMenuList.ToString());
+                    // Rev 1.0
+                    Proc.AddPara("@userid", Convert.ToInt32(HttpContext.Current.Session["userid"]) );
+                    // End of Rev 1.0
                     DataTable dt = Proc.GetTable();
                     List<UserMenuListModel> AllMenus = DbHelpers.ToModelList<UserMenuListModel>(dt);
 

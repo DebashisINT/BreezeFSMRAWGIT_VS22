@@ -230,12 +230,28 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ERP.UI\bin\EntityLayer.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.68.0\lib\net462\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.68.0\lib\net462\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.68.0\lib\net462\Google.Apis.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NReco.VideoConverter, Version=1.2.1.0, Culture=neutral, PublicKeyToken=395ccb334978a0cd, processorArchitecture=MSIL">
+      <HintPath>..\packages\NReco.VideoConverter.1.2.1\lib\net45\NReco.VideoConverter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.CodeDom.7.0.0\lib\net462\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -313,6 +329,8 @@
     <Compile Include="Areas\LMS\Controllers\LMSCategoryController.cs" />
     <Compile Include="Areas\LMS\Controllers\LMSPointController.cs" />
     <Compile Include="Areas\LMS\Controllers\LMSQuestionsController.cs" />
+    <Compile Include="Areas\LMS\Controllers\LMSReportsController.cs" />
+    <Compile Include="Areas\LMS\Controllers\LMSSettingsController.cs" />
     <Compile Include="Areas\LMS\Controllers\LMSTopicsController.cs" />
     <Compile Include="Areas\LMS\LMSAreaRegistration.cs" />
     <Compile Include="Controllers\CommonController.cs" />
@@ -330,6 +348,11 @@
     </Compile>
     <Compile Include="Models\LMSPointModel.cs" />
     <Compile Include="Models\LMSQuestionsModel.cs" />
+    <Compile Include="Models\LMSReportsModel.cs" />
+    <Compile Include="Models\LMSService.asmx.cs">
+      <DependentUpon>LMSService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Models\LMSTopicsModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -819,6 +842,20 @@
     <Content Include="Areas\LMS\Views\LMSContentUpload\_LMSTopicPartial.cshtml" />
     <Content Include="Areas\LMS\Views\LMSQuestions\Index.cshtml" />
     <Content Include="Areas\LMS\Views\LMSQuestions\PartialQuestionsListing.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSContentUpload\_LMSCategoryPartial.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSContentUpload\PartialQuestionMapGridList.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSQuestions\QuestionAdd.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSQuestions\_CategoryLookUpPartial.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSQuestions\_TopicLookUpPartial.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSQuestions\PartialTopicDetailsListing.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSQuestions\PartialCategoryDetaisListing.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSContentUpload\PartialMappedQuesForView.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSReports\Index.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSReports\_TopicLookUpPartial.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSReports\_UserLookUpPartial.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSReports\_ContentLookUpPartial.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSReports\PartialReportListing.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSSettings\Index.cshtml" />
     <None Include="assests\js\jquery-1.10.2.intellisense.js" />
     <Content Include="assests\js\jquery-1.10.2.js" />
     <Content Include="assests\js\jquery-1.10.2.min.js" />
@@ -960,8 +997,9 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="favicon.ico" />
-    <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Models\LMSService.asmx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -1062,6 +1100,7 @@
       <LastGenOutput>LMSMaster.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="demofsm-fee63-firebase-adminsdk-m1emn-4e3e8bba2d.json" />
     <None Include="Models\LMSMaster.dbml.layout">
       <DependentUpon>LMSMaster.dbml</DependentUpon>
     </None>
@@ -1076,6 +1115,13 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Views\Common\_PartialMenu.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -1085,13 +1131,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Login\Index.cshtml" />
-    <Content Include="Views\Common\_PartialMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1151,7 +1190,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>49383</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44364/</IISUrl>
+          <IISUrl>https://localhost:44369/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -1,0 +1,86 @@
+﻿
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridLMSTopic";
+    settings.KeyFieldName = "TOPICID";
+    settings.CallbackRouteValues = new { Action = "PartialTopicGridList", Controller = "LMSQuestions" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallbackTOPIC";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 200;
+
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    settings.SettingsBehavior.EnableCustomizationWindow = true;
+    //settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "SEQ";
+    //    column.Caption = "Sr. No\r\n";
+    //    column.FixedStyle = GridViewColumnFixedStyle.Left;
+    //    //column.Width = 60;
+    //    column.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+
+    //});
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TOPICNAME";
+        column.Caption = "Topic Name";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width= 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "TOPICBASEDON";
+        column.Caption = "Based On";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width = 120;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(50);
+
+    });
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "TOPICSTATUS";
+    //    column.Caption = "Active";
+    //    //column.FixedStyle = GridViewColumnFixedStyle.Left;
+    //    column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+    //    //column.Width = 100;
+    //    column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    //});
+
+
+
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+

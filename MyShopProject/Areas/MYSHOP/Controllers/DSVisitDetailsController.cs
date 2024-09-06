@@ -7,12 +7,14 @@
 //5.0   V2.0.47    Debashis    03/06/2024      A new coloumn shall be added in the below mentioned reports.Refer: 0027402
 //6.0   V2.0.47    Debashis    03/06/2024      The respective Sales Value coloumn in the below mentioned reports shall be replaced with “Delivery value”.Refer: 0027499
 //7.0   V2.0.47    Debashis    10/06/2024      Add a new column at the end named as “Total CDM Days" in selected date range.Refer: 0027510
+//8.0   v2.0.48    Sanchita    26-08-2024      Working Hour customization for ITC users require. Mantis: 27661
 #endregion===================================End of Revision History================================================================================================
 
 using BusinessLogicLayer.SalesTrackerReports;
 using DataAccessLayer;
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
+using DocumentFormat.OpenXml.Vml.Office;
 using Models;
 using MyShop.Models;
 using SalesmanTrack;
@@ -907,5 +909,60 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 return RedirectToAction("Logout", "Login", new { Area = "" });
             }
         }
-	}
+
+        // Rev 8.0
+        public JsonResult CheckWorkingRoster(string module_ID)
+        {
+            //CommonBL ComBL = new CommonBL();
+            //string STBTransactionsRestrictBeyondTheWorkingDays = ComBL.GetSystemSettingsResult("STBTransactionsRestrictBeyondTheWorkingDays");
+
+            DSVisitDetailsReport apply = new DSVisitDetailsReport();
+
+            string output = string.Empty;
+            try
+            {
+                ProcedureExecute proc = new ProcedureExecute("PRC_WORKROSTER_ADDEDITVIEW");
+                proc.AddPara("@ACTION", "GETMODULEROSTERSTATUS");
+                proc.AddPara("@ModuleId", module_ID);
+                proc.AddPara("@USERID", Session["userid"].ToString() );
+                DataSet ds = proc.GetDataSet();
+                if (ds != null && ds.Tables[0].Rows.Count > 0)
+                {
+                    if (ds.Tables[0].Rows[0]["returnvalue"].ToString() == "true")
+                    {
+                        //output = "true";
+                        apply.response_msg = "true";
+                        apply.response_begintime = "";
+                        apply.response_endtime = "";
+                    }
+                    else if (ds.Tables[0].Rows[0]["returnvalue"].ToString() == "false")
+                    {
+                        //output = "false~" + ds.Tables[1].Rows[0]["BeginTime"].ToString() + "~" + ds.Tables[1].Rows[0]["EndTime"].ToString();
+
+                        apply.response_msg = "false";
+                        apply.response_begintime = ds.Tables[1].Rows[0]["BeginTime"].ToString();
+                        apply.response_endtime = ds.Tables[1].Rows[0]["EndTime"].ToString();
+                    }
+
+                }
+                else
+                {
+                    // output = "false";
+                    apply.response_msg = "false";
+                    apply.response_begintime = "";
+                    apply.response_endtime = "";
+                }
+            }
+            catch (Exception ex)
+            {
+                //output = ex.Message.ToString();
+                apply.response_msg = ex.Message.ToString();
+                apply.response_begintime = "";
+                apply.response_endtime = "";
+            }
+
+            return Json(apply, JsonRequestBehavior.AllowGet); 
+        }
+        // End of Rev 8.0
+    }
 }

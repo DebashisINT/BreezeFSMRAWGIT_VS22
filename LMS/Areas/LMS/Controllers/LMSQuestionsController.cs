@@ -13,6 +13,11 @@ using System.Data;
 using UtilityLayer;
 using DevExpress.Utils;
 using DevExpress.XtraSpreadsheet.Model;
+using DevExpress.XtraExport;
+using EntityLayer;
+using DataAccessLayer;
+//using DevExpress.DataAccess.Native.Data;
+//using DevExpress.DataAccess.Native.Data;
 
 namespace LMS.Areas.LMS.Controllers
 {
@@ -28,6 +33,13 @@ namespace LMS.Areas.LMS.Controllers
             ViewBag.CanExport = rights.CanExport;
             ViewBag.CanEdit = rights.CanEdit;
             ViewBag.CanDelete = rights.CanDelete;
+
+            obj.QUESTIONS_ID = Convert.ToString("0");
+            TempData["QUESTIONS_ID"] = null;
+            TempData["TopicID"] = null;
+            TempData["fromSave"] = null;
+            TempData.Keep();
+
             return View();
         }
 
@@ -39,9 +51,50 @@ namespace LMS.Areas.LMS.Controllers
             ViewBag.CanExport = rights.CanExport;
             ViewBag.CanEdit = rights.CanEdit;
             ViewBag.CanDelete = rights.CanDelete;
-            return View();
+
+          
+
+            //if (TempData["TopicID"] != null)
+            //{
+            //    obj.TOPICID = Convert.ToInt64(TempData["TopicID"]);
+            //    TempData.Keep();         
+     
+            //}
+
+            if (TempData["QUESTIONS_ID"] != null)
+            {
+                obj.QUESTIONS_ID = Convert.ToString(TempData["QUESTIONS_ID"]);
+                TempData.Keep();
+
+            }
+
+            if (TempData["IsView"] != null)
+            {
+                ViewBag.IsView = Convert.ToInt16(TempData["IsView"]);
+                TempData["IsView"] = null;
+                if(ViewBag.IsView == 0)
+                {
+                    ViewBag.PageTitle = "Modify Question";
+                }
+                else if (ViewBag.IsView == 2)
+                {
+                    ViewBag.PageTitle = "Add Question from Content";
+                }
+                else
+                {
+                    ViewBag.PageTitle = "View Question";
+                }
+                
+            }
+            else
+            {
+                ViewBag.IsView = 0;
+                ViewBag.PageTitle = "Add Question";
+            }
+            return View("~/Areas/LMS/Views/LMSQuestions/QuestionAdd.cshtml", obj);
+           
         }
-        public ActionResult PartialGridList(LMSCategoryModel model)
+        public ActionResult PartialGridList(LMSQuestionsModel model)
         {
             try
             {
@@ -105,15 +158,31 @@ namespace LMS.Areas.LMS.Controllers
             }
         }
         public JsonResult SaveQuestion(string name, string id, string description, string Option1, string Option2, string Option3, string Option4, string Point1
-            , string Point2, string Point3, string Point4, string chkCorrect1, string chkCorrect2, string chkCorrect3, string chkCorrect4,string TOPIC_ID,string Category_ID)
+            , string Point2, string Point3, string Point4, string chkCorrect1, string chkCorrect2, string chkCorrect3, string chkCorrect4,string TOPIC_ID,string Category_ID
+            // Rev Sanchita
+            , string MODE, string CONTENTID
+            // End of Rev Sanchita
+            )
         {
             int output = 0;
             string Userid = Convert.ToString(Session["userid"]);
             output = obj.SaveQuestion(name, Userid, id, description, Option1, Option2, Option3, Option4, Point1, Point2, Point3, Point4
-            , chkCorrect1, chkCorrect2, chkCorrect3, chkCorrect4, TOPIC_ID, Category_ID);
+            , chkCorrect1, chkCorrect2, chkCorrect3, chkCorrect4, TOPIC_ID, Category_ID, MODE, CONTENTID);
             return Json(output, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult SetMapDataByID(Int64 ID = 0, Int16 IsView = 0)
+        {
+            Boolean Success = false;
+            try
+            {
+                TempData["QUESTIONS_ID"] = ID;
+                TempData["IsView"] = IsView;
+                TempData.Keep();
+                Success = true;
+            }
+            catch { }
+            return Json(Success,JsonRequestBehavior.AllowGet);
+        }
         public JsonResult EditQuestion(string id)
         {
             DataSet output = new DataSet();
@@ -141,6 +210,9 @@ namespace LMS.Areas.LMS.Controllers
                     OPTIONS_CORRECT3 = Convert.ToString(output.Tables[0].Rows[0]["OPTIONS_CORRECT3"]),
                     OPTIONS_CORRECT4 = Convert.ToString(output.Tables[0].Rows[0]["OPTIONS_CORRECT4"]),
 
+
+                    CATEGORYIDS = Convert.ToString(output.Tables[0].Rows[0]["CATEGORYIDS"]),
+                    TOPICIDS = Convert.ToString(output.Tables[0].Rows[0]["TOPICIDS"]),
 
 
 
@@ -226,6 +298,7 @@ namespace LMS.Areas.LMS.Controllers
                 x.Caption = "Created On";
                 x.VisibleIndex = 6;
                 x.Width = 200;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             });
             settings.Columns.Add(x =>
             {
@@ -240,6 +313,7 @@ namespace LMS.Areas.LMS.Controllers
                 x.Caption = "Updated On";
                 x.VisibleIndex = 8;
                 x.Width = 200;
+                x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             });
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;
@@ -251,16 +325,49 @@ namespace LMS.Areas.LMS.Controllers
         }
 
 
-        public ActionResult GetTopicList()
+        public ActionResult GetTopicList( String QUESTIONS_ID)
         {
             BusinessLogicLayer.DBEngine oDBEngine = new BusinessLogicLayer.DBEngine(string.Empty);
             try
             {
+                GetTopic dataobj = new GetTopic();
+                List<GetTopic> productdata = new List<GetTopic>();
                 List<GetTopic> modelbranch = new List<GetTopic>();               
                 DataTable ComponentTable = new DataTable();
-                ComponentTable = obj.GETLOOKUPVALUE("GETTOPIC");                
+
+                if(QUESTIONS_ID =="" || QUESTIONS_ID ==null)
+                {
+                    QUESTIONS_ID = "0";
+                }
+                ComponentTable = obj.GETLOOKUPVALUE("GETTOPIC", QUESTIONS_ID);                
                 modelbranch = APIHelperMethods.ToModelList<GetTopic>(ComponentTable);
-                return PartialView("~/Areas/LMS/Views/LMSQuestions/_TopicLookUpPartial.cshtml", modelbranch);
+
+                DataSet output = new DataSet();
+                output = obj.EditQuestion(QUESTIONS_ID);
+                if (output.Tables[1].Rows.Count > 0)
+                {
+                    if (output.Tables[1] != null && output.Tables[1].Rows.Count > 0)
+                    {
+                        DataTable objData = output.Tables[1];
+                        foreach (DataRow row in objData.Rows)
+                        {
+                            dataobj = new GetTopic();
+                            dataobj.TOPICID = Convert.ToInt64(row["QUESTIONS_TOPICID"]);
+                            productdata.Add(dataobj);
+
+                        }
+                        ViewBag.QUESTIONS_TOPICIDS = productdata;
+                    }
+                    
+                }
+                if (TempData["TopicID"] != null)
+                {
+                    ViewBag.CONTENT_TOPICIDS = Convert.ToInt64(TempData["TopicID"]);
+                    ViewBag.CONTENT_FROMSAVE = Convert.ToInt64(TempData["fromSave"]);
+                }
+
+
+                    return PartialView("~/Areas/LMS/Views/LMSQuestions/_TopicLookUpPartial.cshtml", modelbranch);
 
             }
             catch
@@ -269,14 +376,41 @@ namespace LMS.Areas.LMS.Controllers
             }
         }
 
-        public ActionResult GetCategoryList()
+        public ActionResult GetCategoryList(String QUESTIONS_ID)
         {           
             try
             {
+                GetCategory dataobj = new GetCategory();
+                List<GetCategory> productdata = new List<GetCategory>();
                 List<GetCategory> modelbranch = new List<GetCategory>();
                 DataTable ComponentTable = new DataTable();
-                ComponentTable = obj.GETLOOKUPVALUE("GETCATEGORY");
+                if (QUESTIONS_ID == "")
+                {
+                    QUESTIONS_ID = "0";
+                }
+                ComponentTable = obj.GETLOOKUPVALUE("GETCATEGORY", QUESTIONS_ID);
                 modelbranch = APIHelperMethods.ToModelList<GetCategory>(ComponentTable);
+
+                DataSet output = new DataSet();
+                output = obj.EditQuestion(QUESTIONS_ID);
+                if (output.Tables[2].Rows.Count > 0)
+                {
+                    if (output.Tables[2] != null && output.Tables[2].Rows.Count > 0)
+                    {
+                        DataTable objData = output.Tables[2];
+                        foreach (DataRow row in objData.Rows)
+                        {
+                            dataobj = new GetCategory();
+                            dataobj.CATEGORYID = Convert.ToInt64(row["QUESTIONS_CATEGORYID"]);
+                            productdata.Add(dataobj);
+
+                        }
+                    }
+
+                }
+                ViewBag.QUESTIONS_CATEGORYIDS = productdata;
+
+
                 return PartialView("~/Areas/LMS/Views/LMSQuestions/_CategoryLookUpPartial.cshtml", modelbranch);
             }
             catch
@@ -290,7 +424,7 @@ namespace LMS.Areas.LMS.Controllers
             {
                 List<GetCategory> modelbranch = new List<GetCategory>();
                 DataTable ComponentTable = new DataTable();
-                ComponentTable = obj.GETLOOKUPVALUE("GETCATEGORY");
+                ComponentTable = obj.GETLOOKUPVALUE("GETCATEGORY","0");
                 modelbranch = APIHelperMethods.ToModelList<GetCategory>(ComponentTable);
                 return Json(modelbranch, JsonRequestBehavior.AllowGet);
 
@@ -306,7 +440,7 @@ namespace LMS.Areas.LMS.Controllers
             {
                 List<GetTopic> modelbranch = new List<GetTopic>();
                 DataTable ComponentTable = new DataTable();
-                ComponentTable = obj.GETLOOKUPVALUE("GETTOPIC");
+                ComponentTable = obj.GETLOOKUPVALUE("GETTOPIC","0");
                 modelbranch = APIHelperMethods.ToModelList<GetTopic>(ComponentTable);
                 return Json(modelbranch, JsonRequestBehavior.AllowGet);
 
@@ -315,6 +449,106 @@ namespace LMS.Areas.LMS.Controllers
             {
                 return RedirectToAction("Logout", "Login", new { Area = "" });
             }
+        }
+
+        public ActionResult PartialCategoryGridList(LMSQuestionsModel model)
+        {
+            try
+            {
+               
+                GetCategory dataobj = new GetCategory();
+                List<GetCategory> productdata = new List<GetCategory>();              
+                DataTable dt = new DataTable();             
+
+                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_LMS_QUESTIONS", sqlcon);
+                sqlcmd.Parameters.Add("@ACTION", "GETCATEGORYLISTINGDETAILS");             
+                sqlcmd.Parameters.Add("@ID", model.QUESTIONS_ID);
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    DataTable objData = dt;
+                    foreach (DataRow row in objData.Rows)
+                    {
+                        dataobj = new GetCategory();
+                        dataobj.CATEGORYID = Convert.ToInt64(row["CATEGORYID"]);
+                        dataobj.CATEGORYNAME = Convert.ToString(row["CATEGORYNAME"]);
+                        dataobj.CATEGORYDESCRIPTION = Convert.ToString(row["CATEGORYDESCRIPTION"]);
+                        productdata.Add(dataobj);
+
+                    }                    
+                }
+                return PartialView("PartialCategoryDetaisListing", productdata);
+            }
+            catch
+            {
+                return RedirectToAction("Logout", "Login", new { Area = "" });
+            }
+        }
+
+        public ActionResult PartialTopicGridList(LMSQuestionsModel model)
+        {
+            try
+            {
+
+                GetTopic dataobj = new GetTopic();
+                List<GetTopic> productdata = new List<GetTopic>();
+                DataTable dt = new DataTable();
+
+                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_LMS_QUESTIONS", sqlcon);
+                sqlcmd.Parameters.Add("@ACTION", "GETTOPICLISTINGDETAILS");
+                sqlcmd.Parameters.Add("@ID", model.QUESTIONS_ID);
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    DataTable objData = dt;
+                    foreach (DataRow row in objData.Rows)
+                    {
+                        dataobj = new GetTopic();
+                        dataobj.TOPICID = Convert.ToInt64(row["TOPICID"]);
+                        dataobj.TOPICNAME = Convert.ToString(row["TOPICNAME"]);
+                        dataobj.TOPICBASEDON = Convert.ToString(row["TOPICBASEDON"]);
+                        
+                        productdata.Add(dataobj);
+
+                    }
+                }
+                return PartialView("PartialTopicDetailsListing", productdata);
+            }
+            catch
+            {
+                return RedirectToAction("Logout", "Login", new { Area = "" });
+            }
+        }
+
+        public JsonResult SetMapDataByTopicID(Int64 TopicID = 0, Int64 fromSave=0)
+        {
+            Boolean Success = false;
+            try
+            {
+                TempData["TopicID"] = TopicID;
+                TempData["fromSave"] = fromSave;
+                TempData["IsView"] = 2;
+                TempData.Keep();
+                Success = true;
+            }
+            catch { }
+            return Json(Success, JsonRequestBehavior.AllowGet);
         }
     }
 }

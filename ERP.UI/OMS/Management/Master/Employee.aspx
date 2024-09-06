@@ -2066,19 +2066,19 @@ padding: 7px;
                                         <asp:HiddenField ID="txtEmployee_hidden" runat="server" />
 
                                     </div>
-                                    <% if (rights.CanView)
+                                   <%-- <% if (rights.CanView)
                                    { %>
                                     <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
-                                <% } %>
+                                <% } %>--%>
                                 </div>
                                 
                             </td>
-                            <%--<td id="show-btn">
+                            <td id="show-btn">
                                  <% if (rights.CanView)
                                    { %>
                                     <a href="javascript:void(0);" onclick="ShowData()" class="btn btn-show"><span>Show Data</span> </a>
                                 <% } %>
-                            </td>--%>
+                            </td>
                             <%--End of Rev 3.0--%>
                         <td>
                             

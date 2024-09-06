@@ -7,6 +7,7 @@
 @*5.0                22/01/2024        V2.0.45          Sanchita            Supervisor name column is required in Shops report. Mantis: 27199*@
 @*6.0                03-05-2024        V2.0.47          Priti               0027407: "Party Status" - needs to add in the following reports. *@
 @*7.0                22-05-2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules. *@
+@*8.0                08-07-2024        V2.0.48          PRITI               0027604: Shop report data visible issue. *@
 @*====================================================== Revision History ===========================================================*@
 
 @Html.DevExpress().GridView(settings =>
@@ -2141,7 +2142,9 @@
         //x.Width = 150;
         // End of Rev 7.0
         x.VisibleIndex = 65;
-
+        //Rev 8.0
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        //Rev 8.0 End
         // Rev 7.0
         if (ViewBag.RetentionColumn != null)
         {
@@ -2173,7 +2176,9 @@
         //x.Width = 150;
         // End of Rev 7.0
         x.VisibleIndex = 66;
-
+        //Rev 8.0
+        x.PropertiesEdit.DisplayFormatString = "hh: mm tt";
+        //Rev 8.0 End
         // Rev 7.0
         if (ViewBag.RetentionColumn != null)
         {

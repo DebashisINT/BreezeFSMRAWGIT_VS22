@@ -422,6 +422,34 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 }
                 // End of Rev 6.0
             });
+
+            //Rev 7.0
+            settings.Columns.Add(column =>
+            {
+                column.Caption = "Party Status";
+                column.FieldName = "PARTYSTATUS";              
+                if (ViewBag.RetentionColumn != null)
+                {
+                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
+                    if (row != null && row.Length > 0)
+                    {
+                        column.Visible = false;
+                    }
+                    else
+                    {
+                        column.Visible = true;
+                    }
+                }
+                else
+                {
+                    column.Visible = true;
+                }
+                
+            });
+            //Rev 7.0 End
+
+
+
             //Rev Debashis --0024576
             settings.Columns.Add(column =>
             {
@@ -448,30 +476,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 // End of Rev 6.0
             });
             //End of Rev Debashis -- 0024576
-            //Rev 7.0
-            settings.Columns.Add(column =>
-            {
-                column.Caption = "Party Status";
-                column.FieldName = "PARTYSTATUS";
-                if (ViewBag.RetentionColumn != null)
-                {
-                    System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PARTYSTATUS'");
-                    if (row != null && row.Length > 0)
-                    {
-                        column.Visible = false;
-                    }
-                    else
-                    {
-                        column.Visible = true;
-                    }
-                }
-                else
-                {
-                    column.Visible = true;
-                }
 
-            });
-            //Rev 7.0 End
 
             settings.Columns.Add(column =>
             {

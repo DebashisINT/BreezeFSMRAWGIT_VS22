@@ -1,0 +1,310 @@
+﻿@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+@model List<MyShop.Models.DashboardSettingMapped>
+@if (Model != null)
+{  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,800;1,900&display=swap" rel="stylesheet">   
+    <style>
+        .mapShowlist li .tootip {
+            font-family: 'Poppins', sans-serif !important;
+        }
+
+        .newStyleMN .widgBox .icon {
+            position: absolute;
+            border-radius: 6px;
+        }
+
+        .newStyleMN.lms-dashboard .widgBox .icon {
+            top: 1px !important;
+            left: 1px !important;
+        }
+
+        .newStyleMN .widgBox .txt {
+            width: 100% !important;
+            max-width: 100% !important;
+            font-family: 'Poppins', sans-serif !important;
+            padding-left: 0px;
+            font-weight: 400;
+            font-size: 14px;
+            margin-top: -9px;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+
+        .newStyleMN.lms-dashboard .widgBox .txt {
+            min-height: 27px !important;
+            font-size: 13px !important;
+        }
+
+        .dtday {
+            font-size: 13px;
+        }
+
+        .newStyleMN .widgBox .Numb {
+            font-family: 'Poppins', sans-serif !important;
+            font-weight: 500;
+            /*color: #083a72;*/
+            color: #fff;
+            text-align: left;
+            margin-bottom: 5px;
+        }
+
+        .newStyleMN.lms-dashboard .widgBox .Numb {
+            font-size: 30px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .newStyleMN .widgBox.active .Numb {
+            color: #fff;
+        }
+
+        .newStyleMN .widgBox {
+            border-radius: 15px;
+            padding: 15px;
+            padding-bottom: 15px;
+        }
+
+        .newStyleMN.lms-dashboard .widgBox {
+            padding-bottom: 3px !important;
+        }
+
+        .newStyleMN.lms-dashboard .widgBox {
+            padding-left: 45px !important;
+        }
+
+        .newStyleMN .lspacer {
+            padding-left: 5px
+        }
+
+        .flex-itm.scr:not(:last-child) .widgBox {
+            margin-right: 12px !important;
+        }
+
+
+        .mainDashBoxes.lms-dashboard .flex-itm {
+            width: 18%;
+        }
+
+        @@media only screen and (min-width: 889px) {
+            .mainDashBoxes.lms-dashboard .flex-itm:not(:last-child) {
+                margin-right: 8px;
+            }
+        }
+
+        .mainDashBoxes.lms-dashboard .flex-itm {
+            margin-left: 8px;
+        }
+
+        .justify-content-between {
+            justify-content: space-between;
+        }
+
+        .lms-dashboard .widgBox .icon {
+            width: 42px !important;
+            height: 84px !important;
+        }
+
+            .lms-dashboard .widgBox .icon.progress-chart {
+                background: transparent !important;
+                box-shadow: none !important;
+                width: 80px !important;
+            }
+
+        .newStyleMN.lms-dashboard .widgBox.avg-progress-box {
+            background: #69067C !important;
+            padding-left: 78px !important;
+        }
+
+        .lms-dashboard .widgBox .icon.progress-chart img {
+            width: 70px !important;
+        }
+
+        .lms-show-data-btn {
+            padding-left: 10px !important;
+        }
+
+        .widgBox.zoom:hover {
+            -webkit-transform: scale(1.06);
+            -moz-transform: scale(1.06);
+            transform: scale(1.06);
+        }
+
+        #LMSList .box-holder .hdd-rp {
+            font-size: 18px;
+            color: #222;
+        }
+    </style>
+    <script>
+        $(function () {
+            $("#step7").tooltip({
+                show: { effect: "slideDown", duration: 0 }, // Adjust the duration
+                position: {
+                    my: "left top",
+                    at: "right+5 top-5"
+                }
+            });
+        });
+    </script>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 Widgheading clearfix">
+                <ul class="mapShowlist clearfix">
+                    <li class="relative state-selection">
+                        @Html.Action("DashboardStateComboboxLMS")
+                    </li>
+                    <li class="relative branch-selection">
+                        @Html.Action("DashboardBranchComboboxLMS")
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="row">
+            <div class="clearfix mb-3">
+                <div class="d-flex justify-content-between mainDashBoxes newStyleMN lms-dashboard">
+                    @if (Model.Where(x => x.DetailsName == "Total Learners").Count() > 0)
+                    {
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox c2" id="lms-btn-4" onclick="OnTotalLearnersClick('TOTALUSERLIST');">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon">
+                                        <img src="/assests/images/total-learners.svg" />
+                                    </div>
+
+                                </div>
+                                <div class="lspacer">
+                                    <div class="Numb" id="lblTotalLearners">***</div>
+                                    <div class="flex-grow-1 txt">Total Learners</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.Where(x => x.DetailsName == "Assigned Topics").Count() > 0)
+                    {
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox c3" id="lms-btn-1" onclick="OnTotalLearnersClick('AssignedTopic');">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon">
+                                        <img src="/assests/images/assigned-topics.svg" />
+                                    </div>
+                                </div>
+                                <div class="lspacer">
+                                    <div class="Numb" id="lblAssignedTopics">***</div>
+                                    <div class="flex-grow-1 txt">Assigned Topics</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "Yet to Start").Count() > 0)
+                    {
+
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox c1" id="lms-btn-2" onclick="OnTotalLearnersClick('YETTOSTART');">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon">
+                                        <img src="/assests/images/yet-to-start.svg" />
+                                    </div>
+                                </div>
+                                <div class="lspacer">
+                                    <div class="Numb" id="lblYettoStart">***</div>
+                                    <div class="flex-grow-1 txt">Yet to Start</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "In Progress").Count() > 0)
+                    {
+
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox c6" id="lms-btn-3" onclick="OnTotalLearnersClick('TOTALUSERPENDINGLIST');">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon">
+                                        <img src="/assests/images/in-progress.svg" />
+                                    </div>
+                                </div>
+                                <div class="lspacer">
+                                    <div class="Numb" id="lblInProgress">***</div>
+                                    <div class="flex-grow-1 txt">In Progress</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "Completed").Count() > 0)
+                    {
+
+                        <div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox c5" id="lms-btn-5" onclick="OnTotalLearnersClick('TOTALUSERCOMPLETEDLIST');">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon">
+                                        <img src="/assests/images/completed-topics.svg" />
+                                    </div>
+                                </div>
+                                <div class="lspacer">
+                                    <div class="Numb" id="lblCompleted">***</div>
+                                    <div class="flex-grow-1 txt">Completed</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.Where(x => x.DetailsName == "Average Progress").Count() > 0)
+                    {
+                        @*<div class="flex-itm scr " data-scroll="accordion">
+                            <div class="widgBox avg-progress-box" id="a6">
+                                <div class="d-flex  align-items-center">
+                                    <div class="icon progress-chart">
+                                        <div id="gauge" style="width:70px; height:70px;"></div>
+                                    </div>
+                                </div>
+                                <div class="lspacer">
+                                    <div class="Numb" id="lblAverageProgress">***</div>
+                                    <div class="flex-grow-1 txt">Average<br />Progress</div>
+                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
+                                </div>
+                            </div>
+                        </div>*@
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right clearfix py-0 pl-50 lms-show-data-btn">
+            <table class="float-left">
+                <tr>
+                    <td>
+                        <button type="button" class="btn details-btn" id="summary-show-btn" onclick="ShowLMSData()" style=" line-height: 20px;" title="">
+                            <img src="/assests/images/dashboard-summary.png" style="margin-right: 2px;"> click here to show data
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.scr').on('click', function (e) {
+                e.preventDefault()
+
+                var position = $(this).attr("data-scroll");
+                /*Rev 2.0*/
+                /*var p = $('#' + position).offset().top;*/
+                var p = $('#' + position).offset();
+                /*Rev end 2.0*/
+                $("body, html").animate({
+                    scrollTop: 150
+                } /* speed */);
+            })
+        })
+    </script>
+
+
+}

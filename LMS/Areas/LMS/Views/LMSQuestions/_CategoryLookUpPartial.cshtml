@@ -9,8 +9,8 @@
         settings.Properties.ClientInstanceName = "CategoryGridLookup";
         settings.GridViewClientSideEvents.SelectionChanged = "CategorySelectionChanged";
         settings.Properties.ClientSideEvents.ValueChanged = "CategorySelectionChanged";
-       // settings.GridViewClientSideEvents.BeginCallback = "CategoryStartCallback";
-       // settings.Properties.ClientSideEvents.ValueChanged = "CategoryLookupValChange";
+        // settings.GridViewClientSideEvents.BeginCallback = "CategoryStartCallback";
+        // settings.Properties.ClientSideEvents.ValueChanged = "CategoryLookupValChange";
         settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(15);
         settings.GridViewProperties.SettingsPager.EnableAdaptivity = true;
         settings.Properties.SelectionMode = GridLookupSelectionMode.Multiple;
@@ -18,15 +18,12 @@
         settings.CommandColumn.ShowSelectCheckbox = true;
         settings.CommandColumn.ShowClearFilterButton = true;
         settings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.None;
-
-
         settings.Columns.Add(column =>
         {
             column.FieldName = "CATEGORYNAME";
             column.Caption = "Category";
             column.Width = System.Web.UI.WebControls.Unit.Percentage(85);
         });
-
         settings.Properties.Caption = " ";
         settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.Contains;
         settings.Properties.SelectionMode = DevExpress.Web.GridLookupSelectionMode.Multiple;
@@ -64,6 +61,18 @@
         {
             var gridLookup = (MVCxGridLookup)sender;
             gridLookup.GridView.Width = 310;
+        };
+
+        settings.PreRender = (s, e) =>
+        {
+            if (ViewBag.QUESTIONS_CATEGORYIDS != null)
+            {
+                foreach (var item in ViewBag.QUESTIONS_CATEGORYIDS)
+                {
+                    MVCxGridLookup l = s as MVCxGridLookup;
+                    l.GridView.Selection.SelectRowByKey(item.CATEGORYID);
+                }
+            }
         };
 
     }).BindList(Model).GetHtml()

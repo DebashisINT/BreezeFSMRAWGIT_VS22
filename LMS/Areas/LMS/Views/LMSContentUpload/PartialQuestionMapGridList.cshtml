@@ -1,0 +1,144 @@
+﻿
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridQuestionMapGridList";
+    settings.KeyFieldName = "CONTENTID";
+    settings.CallbackRouteValues = new { Action = "PartialQuestionMapGridList", Controller = "LMSContentUpload" };
+
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.ClientSideEvents.BeginCallback = "OnStartCallbackQuestion";
+
+
+
+
+    //settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    //settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    //settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    //settings.Settings.VerticalScrollableHeight = 200;
+
+
+    //settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    //settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    //settings.SettingsSearchPanel.Visible = true;
+    //settings.Settings.ShowFilterRow = true;
+    //settings.Settings.ShowGroupPanel = false;
+    //settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    //settings.Settings.ShowFooter = true;
+    //settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    //settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    //settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    //settings.SettingsPager.PageSize = 10;
+
+    //settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    //settings.SettingsBehavior.EnableCustomizationWindow = true;
+    //settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SEQ";
+        column.Caption = "Sr. No\r\n";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.Width = 60;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(8);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENTTITLE";
+        column.Caption = "Content Title";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(30);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTENTDESC";
+        column.Caption = "Description";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width = 200;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(35);
+
+    });
+    settings.Columns.Add(column =>
+    {
+        //column.FieldName = "QUESTIONSMAP_COUNT";
+        column.Caption = "Mapped Questions";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        //column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        //column.Width = 150;
+        column.Width = System.Web.UI.WebControls.Unit.Percentage(14);
+        // Rev Sanchita
+        column.SetDataItemTemplateContent(c =>
+        {
+            ViewContext.Writer.Write("<a style='cursor:pointer' onclick=\"OpenMappedQuestionsForView('" + Convert.ToString(DataBinder.Eval(c.DataItem, "CONTENTID")) + "','" + Convert.ToString(DataBinder.Eval(c.DataItem, "CONTENTTITLE")) + "')\">" + Convert.ToString(DataBinder.Eval(c.DataItem, "QUESTIONSMAP_COUNT")) + "</a>");
+        });
+        // End of Rev Sanchita
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.SetDataItemTemplateContent(tc =>
+        {
+            if (ViewBag.CanEdit)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"OpenMapQuesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "','" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTTITLE")) + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /><div class=\"tooltip\">Edit Mapping</div></a>");
+            }
+
+            if (ViewBag.CanEdit)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"OnClickDeleteMapQues('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\"><img src='/assests/images/Delete.png' style='margin-right:3px' /><div class=\"tooltip\">Delete Mapping</div></a>");
+            }
+
+            //ViewContext.Writer.Write(
+            //    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenMapQuesforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "','"+ Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTTITLE")) + "')\" class=\"\" title=\"Edit Mapping\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
+            //    "" +
+            //    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteMapQues('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\" class=\"\" title=\"Delete Mapping\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
+            //);
+        });
+
+        x.Settings.AllowDragDrop = DefaultBoolean.False;
+        x.Settings.AllowSort = DefaultBoolean.False;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(13);
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.Caption = "Action";
+
+
+
+    });
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+
+

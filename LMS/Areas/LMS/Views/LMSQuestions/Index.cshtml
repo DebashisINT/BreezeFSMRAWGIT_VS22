@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <style>
+
     .modal-header {
         padding: 8px;
         background: #094e8c;
@@ -507,6 +508,7 @@
     .show-btn {
         background: #054682;
         transition: all .4s;
+        margin-right: 5px;
     }
 
         .show-btn:hover {
@@ -542,12 +544,66 @@
     .swal2-html-container {
         margin-top: 5px !important;
     }
+
+    #refreshgrid {
+        position: relative;
+    }
+
+    #gridLMSTopic_DXPagerBottom_PSP, #gridCategoryList_DXPagerBottom_PSP {
+        right: 25px !important;
+        bottom: 0 !important;
+        left: auto !important;
+    }
+
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        /*width: 140px;*/
+        background-color: #0d8f24;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 42%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #0d8f24 transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        overflow: visible;
+    }
 </style>
 <script>
+   
     var Is_PageLoad = "0";
 
     $(function () {
-
+        
         $('body').on('click', '#btnshow', function () {
             Is_PageLoad = "1";
             gridList.Refresh();
@@ -580,17 +636,55 @@
     function AddQuestion() {
        // $("#hdnID").val('0');
        // $("#txtQuestionName").val('');
-       // $("#txtQuestionDescription").val('');
-        var url = '/LMS/LMSQuestions/QuestionAdd?key=Add';
-        window.location.href = url;
+        // $("#txtQuestionDescription").val('');
+          var url = '/LMS/LMSQuestions/QuestionAdd?key=Add';
+            window.location.href = url;
+
     }
 
     function EditClick(ID) {
         $("#hdnID").val(ID);
-        var url = '/LMS/LMSQuestions/QuestionAdd?key=' + ID;
-        window.location.href = url;
-      
-}
+        if (parseInt(ID) > 0) {
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SetMapDataByID", "LMSQuestions")",
+            data: { ID: ID, IsView: 0 },
+            success: function (response) {
+                if (response != null && response == true) {
+                    var url = '/LMS/LMSQuestions/QuestionAdd?key=' + ID;
+                    window.location.href = url;
+                }
+                else {
+                    jAlert('Please try again later.');
+                    return false;
+                }
+            }
+        });
+    }
+
+
+    }
+
+    function ViewClick(ID) {
+    $("#hdnID").val(ID);
+    if (parseInt(ID) > 0) {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetMapDataByID", "LMSQuestions")",
+                data: { ID: ID, IsView: 1 },
+                success: function (response) {
+                    if (response != null && response == true) {
+                        var url = '/LMS/LMSQuestions/QuestionAdd?key=' + ID +'&req=V';
+                        window.location.href = url;
+                    }
+                    else {
+                        jAlert('Please try again later.');
+                        return false;
+                    }
+                }
+            });
+        }
+    }
 
      function DeleteClick(ID) {
         $("#hdnID").val(ID);
@@ -664,6 +758,25 @@
             $('#txtQuestionName').focus();
         });
     });
+    var QUESTIONS_ID = "0";
+    function OpenTopics(ID) {
+        QUESTIONS_ID = ID;
+        gridLMSTopic.Refresh();
+        gridLMSTopic.Refresh();
+        $("#TopicModal").modal('show');
+    }
+    function OnStartCallbackTOPIC(s, e) {
+        e.customArgs["QUESTIONS_ID"] = QUESTIONS_ID;
+    }
+    function OpenCategories(ID) {
+        QUESTIONS_ID = ID;
+        gridCategoryList.Refresh();
+        gridCategoryList.Refresh();
+        $("#CategoryModal").modal('show');
+    }
+    function OnStartCallbackCategory(s, e) {
+        e.customArgs["QUESTIONS_ID"] = QUESTIONS_ID;
+    }
 </script>
 <div class="breadCumb">
     <span>Question</span>
@@ -683,17 +796,15 @@
                     {
                         <button type="button" id="btnshow" class="btn show-btn" tabindex=4> <span class="btn-icon"><i class="fa fa-eye" aria-hidden="true"></i></span> Show Data</button>
                     }
+                    @if (ViewBag.CanExport)
+                    {
+                        <button type="button" name="ddlAppIds" id="ddlAppIds" class="btn btn-sm btn-export">
+                            <span class="btn-icon"><img src="/assests/images/xlsx.png" /></span>&nbsp; Export to XLSX
+                        </button>
+
+                    }
                 </div>
-                @if (ViewBag.CanExport)
-                {
-                    <button type="button" name="ddlAppIds" id="ddlAppIds" class="btn btn-sm btn-export">
-                        <span class="btn-icon"><img src="/assests/images/xlsx.png" /></span>&nbsp; Export to XLSX
-                    </button>
-                    @*<select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
-                            <option value="0">Export to </option>
-                            <option value="1">XLSX</option>
-                        </select>*@
-                }
+                
             </div>
 
         </div>
@@ -706,4 +817,50 @@
             </div>
         </div>
     </div>
+
+    <div id="CategoryModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog" style="width: 700px;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Mapped Category(s)</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="divModalBody">
+                        <div class="scrooler">
+                            <div id="refreshgrid">
+                                @{
+                                    Html.RenderAction("PartialCategoryGridList", "LMSQuestions", new { Is_PageLoad = "0" });
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="TopicModal" class="modal pmsModal  fade" data-backdrop="static" role="dialog">
+        <div class="modal-dialog" style="width: 700px;">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Mapped Topic(s)</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="divModalBody">
+                        <div class="scrooler">
+                            <div id="refreshgrid">
+                                @{
+                                    Html.RenderAction("PartialTopicGridList", "LMSQuestions", new { Is_PageLoad = "0" });
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="hdnID" />
 </div>

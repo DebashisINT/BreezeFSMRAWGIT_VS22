@@ -180,11 +180,22 @@
     {
         x.SetDataItemTemplateContent(tc =>
         {
-            ViewContext.Writer.Write(
-                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenLMSContentforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
-                "" +
-                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteLMSContent('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
-            );
+            if (ViewBag.CanEdit)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"OpenLMSContentforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\"><img src='/assests/images/view-eye.svg' style='margin-right:3px' /><div class=\"tooltip\">View</div></a>");
+            }
+            if (ViewBag.CanDelete)
+            {
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"OnClickDeleteLMSContent('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\"><img src='/assests/images/Delete.png'/> <div class=\"tooltip\">Delete</div></a>");
+
+            }
+
+
+            //ViewContext.Writer.Write(
+            //    "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenLMSContentforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
+            //    "" +
+            //    "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteLMSContent('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "CONTENTID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
+            //);
         });
 
         x.Settings.AllowDragDrop = DefaultBoolean.False;

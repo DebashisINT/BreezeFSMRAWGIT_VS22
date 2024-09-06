@@ -16,17 +16,18 @@
 
 <style>
     .pmsModal .modal-header {
-        background: #094e8c !important;
-        background-image: none !important;
+        /*background: #094e8c !important;
+        background-image: none !important;*/
         padding: 11px 20px;
         border: none;
         border-radius: 15px 15px 0 0 !important;
-        color: #fff;
+        /*color: #fff;*/
         /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
     }
 
     .pmsModal .modal-content {
         border: none;
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
     }
 
     .pmsModal .modal-header .modal-title {
@@ -432,6 +433,7 @@
     .modal-content {
         border: none;
         border-radius: 16px;
+        overflow:hidden;
     }
 
     .modal-header .modal-title {
@@ -613,12 +615,19 @@
     .pmsModal .modal-body {
         padding: 10px;
         padding-bottom: 15px;
+        /*background: #f1e3ff;*/
     }
 
         .pmsModal .modal-body .col-md-3, .pmsModal .modal-body .col-md-6, .pmsModal .modal-body .col-md-12 {
             padding-right: 10px;
             padding-left: 10px;
         }
+
+    .modal-footer {
+        /*background: #3f0677;*/
+        margin-top: 0;
+        padding: 12px 20px 12px;
+    }
 
     .personal-info {
         background: #f9f9f9;
@@ -997,19 +1006,35 @@
 
     .filter-count
     {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 500;
     }
 
     .btn-total {
         background-color: rgb(10 63 166 / 9%) !important;
-        
+        display: flex;
+        align-items: center;
+        padding-right: 0 !important;
+        color: #fff;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        overflow: hidden !important;
     }
 
-        .btn-total:hover {
-            background-color: rgb(10 63 166) !important;
-            color: #fff !important;
+        .btn-total.active {
+            background-color: rgb(10 63 166 / 100%) !important;
+
         }
+
+            .btn-total.active h5
+            {
+                color: #fff;
+            }
+
+            .btn-total:hover {
+                background-color: rgb(10 63 166) !important;
+                color: #fff !important;
+            }
 
             .btn-total:hover h5, .btn-total:hover .filter-count,
             .btn-total-used:hover h5, .btn-total-used:hover .filter-count,
@@ -1017,17 +1042,49 @@
                 color: #fff !important;
             }
 
-            .btn-total h5, .btn-total-used h5, .btn-total-unused h5 {
-                color: #111;
-            }
-
-        .btn-total .filter-count {
-            color: #0D3B8C;
+        .btn-total h5, .btn-total-used h5, .btn-total-unused h5 {
+            color: #111;
+            margin: 0;
         }
+
+        .count-filter-btns .btn
+        {
+            margin-left: 6px;
+        }
+
+    /*.btn-total .filter-count {
+            color: #0D3B8C;
+        }*/
+
+    .btn-total .filter-count {
+        color: #ffffff;
+        background: #054682;
+        height: 38PX;
+        line-height: 38px;
+        min-width: 30px;
+        margin-left: 10px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
 
     .btn-total-used {
         background-color: #cbffe4 !important;
+        display: flex;
+        align-items: center;
+        padding-right: 0 !important;
+        color: #fff;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        overflow: hidden !important;
     }
+
+        .btn-total-used.active {
+            background-color: #0b8b48 !important;
+        }
+
+            .btn-total-used.active h5 {
+                color: #fff;
+            }
 
         .btn-total-used:hover {
             background-color: #0b8b48 !important;
@@ -1035,12 +1092,34 @@
         }
 
         .btn-total-used .filter-count {
-            color: #0c8f38;
+            color: #fff;
+            background: #0c8f38;
+            height: 38px;
+            line-height: 38px;
+            min-width: 30px;
+            margin-left: 10px;
+            padding-left: 5px;
+            padding-right: 5px;
         }
 
     .btn-total-unused {
         background-color: #ffe1e1 !important;
+        display: flex;
+        align-items: center;
+        padding-right: 0 !important;
+        color: #fff;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        overflow: hidden !important;
     }
+
+        .btn-total-unused.active {
+            background-color: #d01616 !important;
+        }
+
+            .btn-total-unused.active h5 {
+                color: #fff;
+            }
 
         .btn-total-unused:hover {
             background-color: #d01616 !important;
@@ -1048,7 +1127,14 @@
         }
 
         .btn-total-unused .filter-count {
-            color: #d80606;
+            color: #fff;
+            background: #d80606;
+            height: 38px;
+            line-height: 38px;
+            min-width: 30px;
+            margin-left: 10px;
+            padding-left: 5px;
+            padding-right: 5px;
         }
 
     .add-btn .btn-icon {
@@ -1059,6 +1145,12 @@
         background: #fff;
         line-height: 21px;
         margin-right: 5px;
+    }
+
+    .count-filter-btns
+    {
+        display: flex;
+        align-items: center;
     }
 
     .add-btn {
@@ -1141,6 +1233,7 @@
         .transfer-double
         {
             border: none;
+            background: transparent !important;
         }
 
     .transfer-double-content
@@ -1152,6 +1245,8 @@
         width: 45%;
         border-radius: 15px;
         overflow: hidden;
+        background: #fff;
+        box-shadow: 1px 1px 10px #1111112e;
     }
     .transfer-double-content-middle {
         width: 10%;
@@ -1167,6 +1262,8 @@
         padding-left: 0;
         height: auto;
         background: #FADBFF;
+        background: #d0932d;
+        color: #fff;
     }
 
     
@@ -1191,7 +1288,7 @@
     }
 
     .swal2-confirm.swal2-styled {
-        border-radius: 12px !important;
+        border-radius: 8px !important;
     }
 
     .swal2-styled {
@@ -1208,10 +1305,141 @@
     div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
         background: rgb(0 0 0 / 20%) !important;
     }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 18px;
+        color: #111;
+        font-size: 24px;
+    }
+
+    .pmsModal .modal-header {
+        background: transparent !important;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #d5d5d5;
+    }
+
+    .close {
+        font-size: 34px;
+        opacity: .8;
+    }
+
+    button.close {
+        color: #111 !important;
+        font-weight: 400 !important;
+        opacity: .8 !important;
+        font-size: 32px !important;
+    }
+
+    .cancel-btn, .save-btn {
+        transition: all .3s;
+    }
+
+    .modal-footer {
+        padding: 15px 10px 15px;
+        border-top: 1px solid #c0c0c0;
+    }
+
+    .cancel-btn:hover
+    {
+        transform: scale(1.1);
+    }
+
+        .save-btn:hover {
+            transform: scale(1.1);
+        }
+
+    div:where(.swal2-container) button:where(.swal2-styled):not([disabled])
+    {
+        width: 90px !important;
+        border-radius: 8px !important;
+    }
+
+    div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+        background: rgb(0 0 0 / 50%) !important;
+    }
+
+    div:where(.swal2-container).swal2-center > .swal2-popup {
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        /*width: 140px;*/
+        background-color: #0d8f24;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 42%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #0d8f24 transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        overflow: visible;
+    }
+
+    .save-btn .btn-icon, .cancel-catg .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 20px;
+        margin-right: 5px;
+    }
+
+        .save-btn .btn-icon img {
+            color: #238945;
+            width: 14px;
+        }
+
+        .cancel-catg .btn-icon img {
+            color: #DC0505;
+            width: 16px;
+        }
+
+    .d-none
+    {
+        display: none;
+    }
 </style>
 
 <script>
     var Is_PageLoad = "Ispageload";
+
+    function showLoader() {
+        $('#gmap-loader').removeClass('hide');
+    }
+
+    function hideLoader() {
+        $('#gmap-loader').addClass('hide');
+    }
 
     $(function () {
 
@@ -1232,6 +1460,7 @@
             gridLMSTopic.Refresh();
             gridLMSTopic.Refresh();
 
+            $("#btnShowTotalTopics").addClass("active");
 
             setTimeout(function () {
                 $.ajax({
@@ -1242,10 +1471,12 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
                     success: function (response) {
-                        $("#btnShowTotalTopics").text(response.TotalTopics);
-                        $("#btnShowUsedTopics").text(response.TotalUsedTopics);
-                        $("#btnShowUnusedTopics").text(response.TotalUnusedTopics);
-
+                        //$("#btnShowTotalTopics").text(response.TotalTopics);
+                        //$("#btnShowUsedTopics").text(response.TotalUsedTopics);
+                        //$("#btnShowUnusedTopics").text(response.TotalUnusedTopics);
+                        $("#btnShowTotalTopics .filter-count").text(response.TotalTopics);
+                        $("#btnShowUsedTopics .filter-count").text(response.TotalUsedTopics);
+                        $("#btnShowUnusedTopics .filter-count").text(response.TotalUnusedTopics);
                     },
                     error: function (response) {
                         jAlert("Please try again later");
@@ -1288,7 +1519,16 @@
         $("#hdnTopicID").val(0);
         $("#transfer1").html('');
         $("#txtTopicName").val('');
+        $("#chkStatus").prop("checked", false);
+        $("#hdnTopicStatusOld").val(0);
         $("#ddlTopicBasedOn").val(0);
+        lblBasedOn.innerText = "";
+        //$("#txtTopicName").focus();
+        document.getElementById("txtTopicName").focus();
+        $("#numTopicCompDay").val('0');
+        $("#chkDefault").prop("checked", false);
+
+        $("#lblHeading").text('Create Topic');
         $("#AddTopicModal").modal('show');
     }
 
@@ -1433,8 +1673,8 @@
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, save it!',
-        cancelButtonText: 'Cancel'
+        confirmButtonText: 'Yes',
+        cancelButtonText: 'No'
     }).then((result) => {
         if (result.isConfirmed) {
             if ($("#txtTopicName").val().trim() == "") {
@@ -1476,12 +1716,18 @@
                 return;
             }
 
+            showLoader();
+
             var data = {
                 Action: $("#hdnAddEditMode").val(),
                 TopicID: $("#hdnTopicID").val(),
                 TopicBasedOnId: $("#ddlTopicBasedOn").val(),
+                TopicStatus: $("#chkStatus").prop("checked"),
                 TopicName: $("#txtTopicName").val().trim(),
-                selectedTopicBasedOnMapList: selectedTopicBasedOnMapList
+                selectedTopicBasedOnMapList: selectedTopicBasedOnMapList,
+                TopicStatusOld: $("#hdnTopicStatusOld").val(),
+                TopicCompDay: $("#numTopicCompDay").val(),
+                DefaultTopic: $("#chkDefault").prop("checked")
             }
 
             $.ajax({
@@ -1492,24 +1738,17 @@
                     if (returnValue.RETURN_VALUE == "-10") {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
+                            title: 'Sorry!',
                             text: 'Error in Add.'
                         });
                     } else if (returnValue.RETURN_VALUE == "-20") {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
+                            title: 'Sorry!',
                             text: 'Error in Update.'
                         });
-                    } else if (returnValue.RETURN_VALUE == "0" && returnValue.RETURN_DUPLICATEMAPNAME != "") {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Success',
-                            text: 'Topic added successfully. Duplicate data exists for the following Based On with this Topic:\n' + returnValue.RETURN_DUPLICATEMAPNAME
-                        }).then(() => {
-                            $('#AddTopicModal').modal('hide');
-                        });
-                    } else if (returnValue.RETURN_VALUE == "0" && returnValue.RETURN_DUPLICATEMAPNAME == "") {
+                    }
+                    else if (returnValue.RETURN_VALUE == "1") {
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
@@ -1517,18 +1756,62 @@
                         }).then(() => {
                             $('#AddTopicModal').modal('hide');
                         });
-                    } else if (returnValue.RETURN_VALUE == "1") {
+
+                        Is_PageLoad = "Ispageload";
+                        gridLMSTopic.Refresh();
+                        gridLMSTopic.Refresh();
+                    }
+                    else if (returnValue.RETURN_VALUE == "2") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Topic updated successfully.'
+                        }).then(() => {
+                            $('#AddTopicModal').modal('hide');
+                        });
+
+                        Is_PageLoad = "Ispageload";
+                        gridLMSTopic.Refresh();
+                        gridLMSTopic.Refresh();
+                    }
+                    else if (returnValue.RETURN_VALUE == "0") {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
+                            title: 'Sorry!',
                             text: 'Duplicate Topic name cannot be entered. Please enter a unique Topic name.'
                         });
                     }
+
+                    hideLoader();
+
+                    //else if (returnValue.RETURN_VALUE == "0" && returnValue.RETURN_DUPLICATEMAPNAME != "") {
+                    //    Swal.fire({
+                    //        icon: 'success',
+                    //        title: 'Success',
+                    //        text: 'Topic added successfully. Duplicate data exists for the following Based On with this Topic:\n' + returnValue.RETURN_DUPLICATEMAPNAME
+                    //    }).then(() => {
+                    //        $('#AddTopicModal').modal('hide');
+                    //    });
+                    //} else if (returnValue.RETURN_VALUE == "0" && returnValue.RETURN_DUPLICATEMAPNAME == "") {
+                    //    Swal.fire({
+                    //        icon: 'success',
+                    //        title: 'Success',
+                    //        text: 'Topic added successfully.'
+                    //    }).then(() => {
+                    //        $('#AddTopicModal').modal('hide');
+                    //    });
+                    //} else if (returnValue.RETURN_VALUE == "1") {
+                    //    Swal.fire({
+                    //        icon: 'error',
+                    //        title: 'Error',
+                    //        text: 'Please enter a unique Topic name. Duplicate data exists for the following Based On with this Topic:\n' + returnValue.RETURN_DUPLICATEMAPNAME
+                    //    });
+                    //}
                 },
                 error: function () {
                     Swal.fire({
                         icon: 'error',
-                        title: 'Error',
+                        title: 'Sorry!',
                         text: 'An error occurred while saving the topic.'
                     });
                 }
@@ -1562,6 +1845,11 @@
 
                 $("#txtTopicName").val(data[0].TOPICNAME);
                 $("#ddlTopicBasedOn").val(data[0].TOPICBASEDON_ID);
+                $("#chkStatus").prop("checked", data[0].TOPICSTATUS);
+                $("#lblHeading").text('Edit Topic');
+                $("#hdnTopicStatusOld").val(data[0].TOPICSTATUS);
+                $("#numTopicCompDay").val(data[0].TOPIC_COMP_DAY);
+                $("#chkDefault").prop("checked", data[0].TOPIC_ISDEFAULT);
 
                 $("#transfer1").html('');
 
@@ -1635,14 +1923,16 @@
         var url = '/LMSTopics/TopicDelete/';
 
         Swal.fire({
-            title: 'Confirm Delete?',
-            text: "Are you sure you want to delete this topic?",
-            icon: 'question',
+            title: 'Are you sure you want to delete?',
+            text: "This action cannot be undone!",
+            /*icon: 'question',*/
+            imageUrl: '/assests/images/delete-big.png', 
+            imageWidth: 40, 
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel'
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -1657,8 +1947,24 @@
                         if (response == "-10") {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Error',
+                                title: 'Sorry!',
                                 text: 'Error in Delete.'
+                            });
+                            //GridShow();
+                        }
+                        else if (response == "0") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sorry!',
+                                text: 'This Topic is used in the Question module. Cannot be deleted.'
+                            });
+                            //GridShow();
+                        }
+                        else if (response == "-1") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sorry!',
+                                text: 'This Topic is used in the Content module. Cannot be deleted.'
                             });
                             //GridShow();
                         }
@@ -1684,7 +1990,7 @@
                         console.log(response);
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
+                            title: 'Sorry!',
                             text: 'An error occurred while deleting the topic.'
                         });
                     }
@@ -1692,9 +1998,54 @@
             }
         });
     }
+    function ShowTotalTopics(e) {
+        Is_PageLoad = 'TotalTopics';
+        gridLMSTopic.Refresh()
 
+        $("#btnShowTotalTopics").addClass("active");
+        $("#btnShowUsedTopics").removeClass("active");
+        $("#btnShowUnusedTopics").removeClass("active");
+    }
+
+    function ShowUsedTopics(e) {
+        Is_PageLoad = 'UsedTopics';
+        gridLMSTopic.Refresh()
+
+        $("#btnShowTotalTopics").removeClass("active");
+        $("#btnShowUsedTopics").addClass("active");
+        $("#btnShowUnusedTopics").removeClass("active");
+    }
+
+    function ShowUnusedTopics(e) {
+        Is_PageLoad = 'UnusedTopics';
+        gridLMSTopic.Refresh()
+
+        $("#btnShowTotalTopics").removeClass("active");
+        $("#btnShowUsedTopics").removeClass("active");
+        $("#btnShowUnusedTopics").addClass("active");
+    }
+
+    $(document).ready(function () {
+        $('#AddTopicModal').on('shown.bs.modal', function () {
+            $('#txtTopicName').focus();
+        });
+
+        $('#numTopicCompDay').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            //if (this.value.length > 2) {
+            //    this.value = this.value.slice(0, 2); // Limit to 2 digits
+            //}
+        });
+
+       
+    });
 
 </script>
+
+<div id="gmap-loader" class="mLoader hide">
+    <img src="/assests/images/Rainbow.gif" />
+    <h4>Saving Topic, Please Wait</h4>
+</div>
 
 <div class="breadCumb">
     <span>Topic Setup</span>
@@ -1710,55 +2061,61 @@
 
                     <div class="col-md-12  buttons-alignment" style="padding-top: 0; margin-bottom: 15px;">
                         <div class="add-show-btns">
-                            @*@if (ViewBag.CanAdd){*@
+                            @if (ViewBag.CanAdd){
                             <button type="button" class="btn add-btn" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="AddTopic();">
                                 <span class="btn-icon"><i class="fa fa-plus"></i></span> Topic
                             </button>
-                            @*}*@
+                            }
 
-                            @*@if (ViewBag.CanView){*@
+                            @if (ViewBag.CanView){
                             <button type="button" id="btnshow" class="btn show-btn" tabindex=4>
-                                <span class="btn-icon"><i class="fa fa-play" aria-hidden="true"></i></span> Show Data
+                                <span class="btn-icon"><i class="fa fa-eye" aria-hidden="true"></i></span> Show Data
                             </button>
-                            @*}*@
+                            }
+
+                            @if (ViewBag.CanExport){
+                            <button type="button" id="btnExportTo" class="btn btn-success btn-export" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
+                                <span class="btn-icon"><img src="/assests/images/xlsx.png" /></span>&nbsp; Export to XLSX
+                            </button>
+                            }
                         </div>
-                            @*@if (ViewBag.CanExport){*@
-                        <button type="button" id="btnExportTo" class="btn btn-success btn-export" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false">
-                            <span class="btn-icon"><img src="/assests/images/xlsx.png" /></span>&nbsp; Export to XLSX
-                        </button>
-                            @*}*@
 
-                        
+                        <div class="count-filter-btns">
+
+                            @if (ViewBag.CanView){
+                            <button type="button" class="btn btn-total btn-radius bg-color-6" id="btnShowTotalTopics" onclick="ShowTotalTopics();">
+                                <h5>Total topic(s)</h5> <span class="filter-count">0</span>
+                            </button>
+
+                            }
+
+                            @if (ViewBag.CanView){
+                            <button type="button" class="btn btn-total-used btn-radius bg-color-6" id="btnShowUsedTopics" onclick="ShowUsedTopics();">
+                                <h5>Used topic(s)</h5> <span class="filter-count">0</span>
+                            </button>
+
+                            }
+
+                            @if (ViewBag.CanView){
+                            <button type="button" class="btn btn-total-unused btn-radius bg-color-6" id="btnShowUnusedTopics" onclick="ShowUnusedTopics();">
+                                <h5>Unused topic(s)</h5> <span class="filter-count">0</span>
+                            </button>
+
+                            }
+
+                        </div>
+
+                        </div>
+
+                        @*<div class="col-md-12 top-count-filter" style="padding-top: 10px;">
+
+
+
+
+
+        </div>*@
+                        <div class="clear"></div>
                     </div>
-
-                    <div class="col-md-12 top-count-filter" style="padding-top: 10px;">
-
-
-                        @*@if (ViewBag.CanView){*@
-                        <button type="button" class="btn btn-total btn-radius bg-color-6">
-                            <h5>Total topic(s)</h5> <span id="btnShowTotalTopics" class="filter-count">0</span>
-                        </button>
-
-                        @*}*@
-
-                        @*@if (ViewBag.CanView){*@
-                        <button type="button" class="btn btn-total-used btn-radius bg-color-6">
-                            <h5>Used topic(s)</h5> <span id="btnShowUsedTopics" class="filter-count">0</span>
-</button>
-
-                        @*}*@
-
-                        @*@if (ViewBag.CanView){*@
-                        <button type="button" class="btn btn-total-unused btn-radius bg-color-6">
-                            <h5>Unused topic(s)</h5> <span id="btnShowUnusedTopics" class="filter-count">0</span>
-</button>
-
-                        @*}*@
-
-
-                    </div>
-                    <div class="clear"></div>
-                </div>
                 <div class="clear"></div>
                 <div class="clearfix"></div>
 
@@ -1776,30 +2133,50 @@
 
 <input type="hidden" id="hdnAddEditMode" />
 <input type="hidden" id="hdnTopicID" />
+<input type="hidden" id="hdnTopicStatusOld" />
 
 <div id="AddTopicModal" class="modal fade pmsModal w80" data-backdrop="static" role="dialog">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
-                <h4 class="modal-title">Create Topic</h4>
+                <h4 id="lblHeading" class="modal-title">Create Topic</h4>
             </div>
             <div class="modal-body">
                 <div class="clearfix">
                     <div class="col-lg-6">
                         <label>Topic Name<span style="color: red">*</span></label>
-                        <input type="text" id="txtTopicName" class="form-control" maxlength="250" />
+                        <input type="text" id="txtTopicName" class="form-control" maxlength="250" tabindex="-1" />
                         <asp:HiddenField ID="hdnHeaderId" runat="server" />
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-6 d-none">
+                        <label>Topic Completion Day(s)</label>
+                        <input type="number" id="numTopicCompDay" name="numTopicCompDay" class="form-control" maxlength="100" min="1" />
+                    </div>
+
+                    <div class="col-lg-4">
                         <label>Based On</label>
                         @Html.DropDownListFor(m => m.TopicBasedOnId, new SelectList(Model.TopicBasedOnList, "TOPICBASEDON_ID", "TOPICBASEDON_NAME", Model.TopicBasedOnId), new { @id = "ddlTopicBasedOn", @class = "form-control", @onchange = "ddlTopicBasedOnChange();" })
 
                     </div>
+
+                    <div class="col-lg-2" style="height: 60px;">
+                        <label> </label>
+                        <div class="active-checkbox mt-3"><input type="checkbox" id="chkStatus" name="chkStatus" class="styled-checkbox" /><label>Publish</label></div>
+                    </div>
+
+                </div>
+                <div class="clearfix">
+                    
+                    
+                    <div class="col-lg-4  d-none" style="height: 60px;">
+                        <label> </label>
+                        <div class="active-checkbox mt-3"><input type="checkbox" id="chkDefault" name="chkDefault" class="styled-checkbox" /><label>Default Topic</label></div>
+                    </div>
                 </div>
                 <div class="clearfix">
                     <div class="col-md-12 mt-15">
-                        <label id="lblBasedOn" > </label>
+                        <label id="lblBasedOn"> </label>
                         <div>
                             <div id="transfer1" class="transfer-demo"></div>
                         </div>
@@ -1807,8 +2184,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel & Exit</button>
-                <button type="button" class="btn btn-success" onclick="SaveTopics();">Save & Exit</button>
+                <button type="button" class="btn btn-danger cancel-btn cancel-catg" data-dismiss="modal"><span class="btn-icon"><img src="../../../assests/images/cancel.svg"></span> Cancel & Exit</button>
+                <button type="button" class="btn btn-success save-btn" onclick="SaveTopics();"><span class="btn-icon"><img src="../../../assests/images/save-instagram.svg"></span> Save & Exit</button>
             </div>
         </div>
 

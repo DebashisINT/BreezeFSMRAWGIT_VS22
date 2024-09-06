@@ -1,0 +1,10 @@
+﻿
+@model List<MyShop.Models.StateData>
+<select class="demo" multiple="multiple" id="cmbStateLMS">
+    @foreach (var item in Model)
+    {
+        <option value="@item.StateID">@item.name</option>
+    }
+</select>
+
+<input type="hidden" value="@ViewBag.StateListCount" id="hdnStateListCountLMS" />

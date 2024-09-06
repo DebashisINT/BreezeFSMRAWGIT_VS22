@@ -323,10 +323,13 @@ ul{
     font-size: 14px;   
 }
 .sideNavigation > ul > li:hover > a {
-    background: #4f40db;
+    /*background: #4f40db;*/
+    background: #5b4ce3;
 }
-.sideNavigation>ul>li:hover .flText{
+.sideNavigation > ul > li:hover .flText {
     visibility: visible;
+    cursor: context-menu;
+    background: #5b4ce3;
 }
 .sideNavigation>ul>li:hover > .submenu-fl {
     display: block;
