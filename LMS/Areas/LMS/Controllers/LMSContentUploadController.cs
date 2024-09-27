@@ -696,7 +696,19 @@ namespace LMS.Areas.LMS.Controllers
                 //    }
                 //}
 
-                string fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/demofsm-fee63-firebase-adminsdk-m1emn-4e3e8bba2d.json"); //Download from Firebase Console ServiceAccount
+                DBEngine odbengine = new DBEngine();
+                string fileName = "", projectname = "";
+                DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_PUSHNOTIFICATIONS");
+                proc.AddPara("@Action", "GETJSONFORINDUSNETTECH");
+                dt = proc.GetTable();
+                if (dt.Rows.Count > 0)
+                {
+                    fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/" + Convert.ToString(dt.Rows[0]["JSONFILE_NAME"]));
+                    projectname = Convert.ToString(dt.Rows[0]["PROJECT_NAME"]);
+                }
+
+                //string fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/demofsm-fee63-firebase-adminsdk-m1emn-4e3e8bba2d.json"); //Download from Firebase Console ServiceAccount
 
                 string scopes = "https://www.googleapis.com/auth/firebase.messaging";
                 var bearertoken = ""; // Bearer Token in this variable
@@ -717,7 +729,8 @@ namespace LMS.Areas.LMS.Controllers
                 var clientHandler = new HttpClientHandler();
                 var client = new HttpClient(clientHandler);
 
-                client.BaseAddress = new Uri("https://fcm.googleapis.com/v1/projects/demofsm-fee63/messages:send"); // FCM HttpV1 API
+                //client.BaseAddress = new Uri("https://fcm.googleapis.com/v1/projects/demofsm-fee63/messages:send"); // FCM HttpV1 API
+                client.BaseAddress = new Uri("https://fcm.googleapis.com/v1/projects/" + projectname + "/messages:send"); // FCM HttpV1 API
 
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -757,7 +770,8 @@ namespace LMS.Areas.LMS.Controllers
                 var data = new StringContent(jsonObj, Encoding.UTF8, "application/json");
                 data.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                var response = client.PostAsync("https://fcm.googleapis.com/v1/projects/demofsm-fee63/messages:send", data).Result; // Calling The FCM httpv1 API
+               // var response = client.PostAsync("https://fcm.googleapis.com/v1/projects/demofsm-fee63/messages:send", data).Result; // Calling The FCM httpv1 API
+                var response = client.PostAsync("https://fcm.googleapis.com/v1/projects/" + projectname + "/messages:send", data).Result; // Calling The FCM httpv1 API
 
                 //---------- Deserialize Json Response from API ----------------------------------
 
