@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.48     Debashis    31/07/2024      A new method has been added.Row: 957
+//2.0   V2.0.49     Debashis    17/09/2024      A new parameter has been added.Row: 977
 #endregion===================================End of Revision History==================================================
 
 using Newtonsoft.Json.Linq;
@@ -314,35 +315,38 @@ namespace ShopAPI.Controllers
 
                 string JsonXML = XmlConversion.ConvertToXml(omedl2, 0);
                 DataTable dt = new DataTable();
-                String con = System.Configuration.ConfigurationSettings.AppSettings["DBConnectionDefault"];
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
                 SqlCommand sqlcmd = new SqlCommand();
                 SqlConnection sqlcon = new SqlConnection(con);
                 sqlcon.Open();
 
                 sqlcmd = new SqlCommand("Proc_FTS_Order", sqlcon);
-                sqlcmd.Parameters.Add("@user_id", hhhh.user_id);
-                sqlcmd.Parameters.Add("@SessionToken", hhhh.session_token);
-                sqlcmd.Parameters.Add("@order_amount", hhhh.order_amount);
-                sqlcmd.Parameters.Add("@order_id", hhhh.order_id);
-                sqlcmd.Parameters.Add("@Shop_Id", hhhh.shop_id);
-                sqlcmd.Parameters.Add("@description", hhhh.description);
-                sqlcmd.Parameters.Add("@Collection", hhhh.collection);
-                sqlcmd.Parameters.Add("@order_date", hhhh.order_date);
-                sqlcmd.Parameters.Add("@Remarks", hhhh.remarks);
-                sqlcmd.Parameters.Add("@signatureName", signatureName);
-                sqlcmd.Parameters.Add("@Lat", hhhh.latitude);
-                sqlcmd.Parameters.Add("@Long", hhhh.longitude);
-                sqlcmd.Parameters.Add("@Order_Address", hhhh.address);
+                sqlcmd.Parameters.AddWithValue("@user_id", hhhh.user_id);
+                sqlcmd.Parameters.AddWithValue("@SessionToken", hhhh.session_token);
+                sqlcmd.Parameters.AddWithValue("@order_amount", hhhh.order_amount);
+                sqlcmd.Parameters.AddWithValue("@order_id", hhhh.order_id);
+                sqlcmd.Parameters.AddWithValue("@Shop_Id", hhhh.shop_id);
+                sqlcmd.Parameters.AddWithValue("@description", hhhh.description);
+                sqlcmd.Parameters.AddWithValue("@Collection", hhhh.collection);
+                sqlcmd.Parameters.AddWithValue("@order_date", hhhh.order_date);
+                sqlcmd.Parameters.AddWithValue("@Remarks", hhhh.remarks);
+                sqlcmd.Parameters.AddWithValue("@signatureName", signatureName);
+                sqlcmd.Parameters.AddWithValue("@Lat", hhhh.latitude);
+                sqlcmd.Parameters.AddWithValue("@Long", hhhh.longitude);
+                sqlcmd.Parameters.AddWithValue("@Order_Address", hhhh.address);
                 //Extra Input for 4Basecare
-                sqlcmd.Parameters.Add("@patient_no", hhhh.patient_no);
-                sqlcmd.Parameters.Add("@patient_name", hhhh.patient_name);
-                sqlcmd.Parameters.Add("@patient_address", hhhh.patient_address);
+                sqlcmd.Parameters.AddWithValue("@patient_no", hhhh.patient_no);
+                sqlcmd.Parameters.AddWithValue("@patient_name", hhhh.patient_name);
+                sqlcmd.Parameters.AddWithValue("@patient_address", hhhh.patient_address);
                 //Extra Input for 4Basecare
                 //Extra Input for EuroBond
-                sqlcmd.Parameters.Add("@Hospital ", hhhh.Hospital);
-                sqlcmd.Parameters.Add("@Email_Address ", hhhh.Email_Address);
+                sqlcmd.Parameters.AddWithValue("@Hospital ", hhhh.Hospital);
+                sqlcmd.Parameters.AddWithValue("@Email_Address ", hhhh.Email_Address);
                 //Extra Input for EuroBond
-                sqlcmd.Parameters.Add("@Product_List", JsonXML);
+                //Rev 2.0 Row: 907
+                sqlcmd.Parameters.AddWithValue("@OrderStatus ", hhhh.OrderStatus);
+                //End of Rev 2.0 Row: 907
+                sqlcmd.Parameters.AddWithValue("@Product_List", JsonXML);
                 sqlcmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
                 da.Fill(dt);

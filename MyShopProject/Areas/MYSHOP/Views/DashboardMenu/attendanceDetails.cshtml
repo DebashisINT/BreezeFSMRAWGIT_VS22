@@ -34,6 +34,8 @@
 <script src="../../../Scripts/SearchPopup.js"></script>
 <script src="../../../Scripts/SearchMultiPopup.js"></script>
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <script type="text/javascript">
 
@@ -667,24 +669,54 @@
         });
 
               var employeeUrl = '@Url.Action("GetUserData", "DashboardMenu")'
-                $.ajax({
-                    type: "POST",
-                    url: employeeUrl,
-                    processData: false,
-                    contentType: 'application/json',
-                    success: function (msg) {
-                        //console.log(msg);
-                        if (msg.length > 0) {
-                            var obj = "<option>Select</option>";
-                            for (i = 0; i < msg.length; i++) {
-                                obj += "<option value='" + msg[i].USER_ID + "'>" + msg[i].NAME + "</option>"
+                //$.ajax({
+                //    type: "POST",
+                //    url: employeeUrl,
+                //    processData: false,
+                //    contentType: 'application/json',
+                //    success: function (msg) {
+
+                //        if (msg.length > 0) {
+                //            var obj = "<option>Select</option>";
+                //            for (i = 0; i < msg.length; i++) {
+                //                obj += "<option value='" + msg[i].USER_ID + "'>" + msg[i].NAME + "</option>"
+                //            }
+                //            obj += "";
+
+                //            $("#userID").html(obj);
+                //        }
+                //    }
+        //});
+
+        $('#userID').select2({
+            placeholder: 'Select a user',
+            
+            
+            ajax: {
+                url: employeeUrl,
+                type: "POST",
+                dataType: 'json',
+                delay: 250, // Add delay to prevent flooding requests
+                data: function (params) {
+                    return {
+                        searchTerm: params.term // Pass search term for backend filtering
+                    };
+                },
+                processResults: function (data) {
+                    // Parse the results into the format expected by Select2
+                    return {
+                        results: $.map(data, function (item) {
+                            return {
+                                id: item.USER_ID,
+                                text: item.NAME
                             }
-                            obj += "";
-                            //console.log(obj)
-                            $("#userID").html(obj);
-                        }
-                    }
-                });
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
         $(".attendance-tb-hand").hide();
     }
 @*End of Mantis Issue 25455*@

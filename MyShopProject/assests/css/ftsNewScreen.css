@@ -1587,10 +1587,13 @@ div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swa
     margin: 0;
 }
 
+.introjs-helperLayer {
+    background-color: rgb(147 198 255 / 90%) !important;
+}
 
 
-@media only screen and (min-width: 768px) and (max-width: 1299px)
-{
+
+@media only screen and (min-width: 768px) and (max-width: 1299px) {
     .mainDashBoxes .flex-itm {
         width: 35%;
     }

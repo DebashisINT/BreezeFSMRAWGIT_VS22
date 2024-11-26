@@ -23,6 +23,7 @@ namespace LMS.Models
         public List<TopicBasedOnList> TopicBasedOnList { get; set; }
         public string TOPIC_ID { get; set; }
         public string VideoPath { get; set; }
+        public String QUESTIONS_ID { get; set; }
     }
 
     public class LMSContentAddModel
@@ -62,6 +63,7 @@ namespace LMS.Models
         public string CONTENT_FULLPATH { get; set; }
         public string CONTENT_FILEPATHICON { get; set; }
         public string CONTENT_FILENAMEICON { get; set; }
+        public string TopicSequence { get; set; }
 
     }
 
@@ -76,6 +78,8 @@ namespace LMS.Models
         public String TOPIC_ID { get; set; }
         public String TOPIC_NAME { get; set; }
         public String TOPIC_CONTENT_COUNT { get; set; }
+        public string TOPIC_SEQ { get; set; }
+
 
     }
 

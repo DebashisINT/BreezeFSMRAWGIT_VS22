@@ -6,6 +6,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 3.0                24-04-2023        2.0.39           Pallab/Sanchita     25861 : Event banner should dynamically change according to the date
 4.0                06-06-2023        2.0.41           Pallab              26302 : FSM portal login page make responsive and mobile friendly
 5.0                11-07-2023        2.0.42           Pallab              26550 : login page "Invalid UserID or Password!" visibility issue fix for small device
+6.0                07-10-2024        2.0.49           Priti               27754 : Copyright 2024 Indus Net Technologies [2.0.49] It is to be changed to   Copyright 2024 Breeze [2.0.49]
+7.0                09-10-2024        V2.0.49          Pallab/Sanchita     027763: Portal login page download APK functionality add   
 ====================================================== Revision History ===========================================================--%>
 
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="pLogin"
@@ -14,7 +16,10 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login to BreezeERP</title>
+    <%--REV 6.0--%>
+    <%--<title>Login to BreezeERP</title>--%>
+    <title>Login to BreezeFSM</title>
+    <%--REV 6.0 END--%>
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -1092,6 +1097,53 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
              display: block;
              font-size: 16px;
          }
+
+         .apk-download-btn {
+    position: fixed;
+    top: 28%;
+    right: 0;
+    padding: 10px 15px;
+    background: #5b0cb4;
+    border-radius: 12px 0 0 12px;
+    z-index: 99999;
+    transition: right 0.4s ease, width 0.4s ease; /* Smooth transition */
+    width: 55px; /* Initially only show the icon */
+    overflow: hidden; /* Hide text */
+    white-space: nowrap; /* Prevent text wrapping */
+    color: #fff !important;
+    font-size: 16px;
+}
+
+    .apk-download-btn:focus
+    {
+        outline: none !important;
+    }
+
+    .apk-download-btn:hover {
+        width: 175px; /* Expand to full button width on hover */
+        right: 0; /* Keep it fixed at the right */
+    }
+
+    .apk-download-btn img {
+        width: 25px;
+        vertical-align: middle;
+        margin-right: 10px;
+        /*transition: transform 0.4s ease;*/
+    }
+
+    .apk-download-btn:hover img {
+        transform: rotate(360deg); /* Optional icon spin effect on hover */
+    }
+
+    .apk-download-btn span {
+        opacity: 0; /* Initially hide text */
+        transition: opacity 0.4s ease; /* Smooth fade-in effect */
+    }
+
+    .apk-download-btn:hover span {
+        opacity: 1; /* Show text when hovered */
+    }
+
          /*Rev 5.0*/
          @media  only screen and (min-width: 767px) and (max-width: 1320px)
          {
@@ -1182,6 +1234,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
     </script>
 </head>
 <body onload="noBack();setInterval('blinkIt()',500);" onpageshow="if (event.persisted) noBack();" onunload="">
+
+   
+
     <%--Rev 2.0--%>
     <div id="switchArea" class="">
         <label class="switch">
@@ -1264,12 +1319,26 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                          <asp:Button ID="Submit1" ValidationGroup="login" runat="server" CssClass="btn btn-block loginbtn" Text="Submit" OnClick="Login_User" TabIndex="3" />
 						<asp:LinkButton ID="LinkButton1" runat="server" CausesValidation="False" TabIndex="4" CssClass="compemail hide" OnClick="LinkButton1_Click1">Forgot  Password?</asp:LinkButton>
 
+                          <%--Rev 7.0--%>
+                            <%--<a class="btn btn-primary" href="/assests/ITC_v_4.5.3_LIVE.apk">Download APK</a>--%>
+                            <asp:LinkButton ID="lnlDownloaderapk" runat="server" OnClick="lnlDownloaderapk_Click" CssClass="btn apk-download-btn"><img src="/assests/images/android-icon.png" class="" /> Download APK</asp:LinkButton>
+                                <%--<button ID="lnlDownloaderAPK" runat="server" OnClick="lnlDownloaderapk_Click" Class="btn apk-download-btn">
+                                    <img src="/assests/images/android-icon.png" class="" /> Download APK
+                                </button>--%>
+                            <%--End of Rev 7.0--%>
+
                          <div class="ftFooter">
-                             © Copyright <span id="yearCP"></span> Indus Net Technologies
+                            <%-- REV 6.0--%>
+                             <%--© Copyright <span id="yearCP"></span> Indus Net Technologies--%>
+                              © Copyright <span id="yearCP"></span> Breeze 
+                             <%-- REV 6.0 END--%>
                              <asp:Label ID="lblVersion" runat="server" Text="1.0.4" /> 
                             <a href="Management/Master/view-version-features.aspx" target="_blank" style="display:none">( What's New )</a><br />
                             
                          </div>
+
+                            
+
                      </div>
                     </form>
                      </div>

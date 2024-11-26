@@ -1,6 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //Written By : Debashis Talukder On 02/07/2024
-//Purpose: LMS Info Details.Row: 945,947,948,949,950,952,953,955,956,971,972,973,974 & 975
+//Purpose: LMS Info Details.Row: 945,947,948,949,950,952,953,955,956,971,972,973,974,975,988,989 & 995
 #endregion===================================End of Revision History==================================================
 
 using Newtonsoft.Json;
@@ -857,6 +857,235 @@ namespace ShopAPI.Controllers
                     omodel.message = "No data found";
                 }
 
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage TopicContentWiseAnswerLists(TopicContentWiseAnswerListsInput model)
+        {
+            TopicContentWiseAnswerListsOutput omodel = new TopicContentWiseAnswerListsOutput();
+            List<QuestionAnswerfetchlistOutput> Qoview = new List<QuestionAnswerfetchlistOutput>();
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    omodel.status = "213";
+                    omodel.message = "Some input parameters are missing.";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+                }
+                else
+                {
+                    DataSet ds = new DataSet();
+                    string con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("PRC_FSMLMSINFODETAILS", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "TOPICCONTENTWISEANSWER");
+                    sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@TOPIC_ID", model.topic_id);
+                    sqlcmd.Parameters.AddWithValue("@CONTENT_ID", model.content_id);
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(ds);
+                    sqlcon.Close();
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                        {
+                            for (int j = 0; j < ds.Tables[1].Rows.Count; j++)
+                            {
+                                List<QAOptionlistOutput> Ooview = new List<QAOptionlistOutput>();
+                                for (int k = 0; k < ds.Tables[2].Rows.Count; k++)
+                                {
+                                    if (Convert.ToInt64(ds.Tables[2].Rows[k]["topic_id"]) == Convert.ToInt64(ds.Tables[1].Rows[j]["topic_id"]) &&
+                                        Convert.ToInt64(ds.Tables[2].Rows[k]["content_id"]) == Convert.ToInt64(ds.Tables[1].Rows[j]["content_id"])
+                                        &&
+                                        Convert.ToInt64(ds.Tables[2].Rows[k]["question_id"]) == Convert.ToInt64(ds.Tables[1].Rows[j]["question_id"])
+                                        )
+                                    {
+                                        Ooview.Add(new QAOptionlistOutput()
+                                        {
+                                            question_id = Convert.ToInt64(ds.Tables[2].Rows[k]["question_id"]),
+                                            option_id = Convert.ToInt64(ds.Tables[2].Rows[k]["option_id"]),
+                                            option_no_1 = Convert.ToString(ds.Tables[2].Rows[k]["option_no_1"]),
+                                            option_point_1 = Convert.ToInt64(ds.Tables[2].Rows[k]["option_point_1"]),
+                                            isCorrect_1 = Convert.ToBoolean(ds.Tables[2].Rows[k]["isCorrect_1"]),
+                                            option_no_2 = Convert.ToString(ds.Tables[2].Rows[k]["option_no_2"]),
+                                            option_point_2 = Convert.ToInt64(ds.Tables[2].Rows[k]["option_point_2"]),
+                                            isCorrect_2 = Convert.ToBoolean(ds.Tables[2].Rows[k]["isCorrect_2"]),
+                                            option_no_3 = Convert.ToString(ds.Tables[2].Rows[k]["option_no_3"]),
+                                            option_point_3 = Convert.ToInt64(ds.Tables[2].Rows[k]["option_point_3"]),
+                                            isCorrect_3 = Convert.ToBoolean(ds.Tables[2].Rows[k]["isCorrect_3"]),
+                                            option_no_4 = Convert.ToString(ds.Tables[2].Rows[k]["option_no_4"]),
+                                            option_point_4 = Convert.ToInt64(ds.Tables[2].Rows[k]["option_point_4"]),
+                                            isCorrect_4 = Convert.ToBoolean(ds.Tables[2].Rows[k]["isCorrect_4"])
+                                        });
+                                    }
+                                }
+                                    if (Convert.ToInt64(ds.Tables[1].Rows[j]["topic_id"]) == Convert.ToInt64(ds.Tables[0].Rows[i]["topic_id"]) &&
+                                    Convert.ToInt64(ds.Tables[1].Rows[j]["content_id"]) == Convert.ToInt64(ds.Tables[0].Rows[i]["content_id"])
+                                    )
+                                    {
+                                        Qoview.Add(new QuestionAnswerfetchlistOutput()
+                                        {
+                                            topic_id = Convert.ToInt64(ds.Tables[1].Rows[j]["topic_id"]),
+                                            content_id = Convert.ToInt64(ds.Tables[1].Rows[j]["content_id"]),
+                                            question_id = Convert.ToInt64(ds.Tables[1].Rows[j]["question_id"]),
+                                            question = Convert.ToString(ds.Tables[1].Rows[j]["question"]),
+                                            question_description = Convert.ToString(ds.Tables[1].Rows[j]["question_description"]),
+                                            answered = Convert.ToString(ds.Tables[1].Rows[j]["answered"]),
+                                            isCorrectAnswer = Convert.ToBoolean(ds.Tables[1].Rows[j]["isCorrectAnswer"]),
+                                            option_list = Ooview
+                                        });
+                                    }
+                                }
+                            }
+                        }
+
+                        omodel.status = "200";
+                        omodel.message = "Successfully Get List.";
+                        omodel.question_answer_fetch_list = Qoview;
+                        omodel.user_id = model.user_id;
+                        omodel.topic_id = model.topic_id;
+                        omodel.topic_name = Convert.ToString(ds.Tables[0].Rows[0]["topic_name"]);
+                        omodel.content_id=model.content_id;
+                        omodel.content_name= Convert.ToString(ds.Tables[0].Rows[0]["content_name"]);
+                    }
+                    var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    return message;
+            }
+            catch (Exception ex)
+            {
+                omodel.status = "204";
+                omodel.message = ex.Message;
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage TopicContentWiseAnswerUpdate(TopicContentWiseAnswerUpdateInput model)
+        {
+            TopicContentWiseAnswerUpdateOutput omodel = new TopicContentWiseAnswerUpdateOutput();
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    omodel.status = "213";
+                    omodel.message = "Some input parameters are missing.";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+                }
+                else
+                {
+                    DataTable dt = new DataTable();
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("PRC_FSMLMSINFODETAILS", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "TOPICCONTENTWISEANSWERUPDATE");
+                    sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@TOPIC_ID", model.topic_id);
+                    sqlcmd.Parameters.AddWithValue("@TOPICNAME", model.topic_name);
+                    sqlcmd.Parameters.AddWithValue("@CONTENT_ID", model.content_id);
+                    sqlcmd.Parameters.AddWithValue("@QUESTION_ID", model.question_id);
+                    sqlcmd.Parameters.AddWithValue("@QUESTION", model.question);
+                    sqlcmd.Parameters.AddWithValue("@OPTION_ID", model.option_id);
+                    sqlcmd.Parameters.AddWithValue("@OPTION_NUMBER", model.option_number);
+                    sqlcmd.Parameters.AddWithValue("@OPTION_POINT", model.option_point);
+                    sqlcmd.Parameters.AddWithValue("@ISCORRECT", model.isCorrect);
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(dt);
+                    sqlcon.Close();
+                    if (dt.Rows.Count > 0)
+                    {
+                        omodel.status = "200";
+                        omodel.message = "Saved Successfully.";
+                    }
+                    var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                omodel.status = "204";
+                omodel.message = ex.Message;
+                var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                return message;
+            }
+        }
+
+        [HttpPost]
+        public HttpResponseMessage UserWiseAPPCrashDetails(UserWiseAPPCrashDetailsSaveInput model)
+        {
+            UserWiseAPPCrashDetailsSaveOutput omodel = new UserWiseAPPCrashDetailsSaveOutput();
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    omodel.status = "213";
+                    omodel.message = "Some input parameters are missing.";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, omodel);
+                }
+                else
+                {
+                    List<Userappcrashinfolists> omodel2 = new List<Userappcrashinfolists>();
+                    foreach (var s2 in model.crash_report_save_list)
+                    {
+                        omodel2.Add(new Userappcrashinfolists()
+                        {
+                            errorMessage = s2.errorMessage,
+                            stackTrace = s2.stackTrace,
+                            date_time = s2.date_time,
+                            device = s2.device,
+                            os_version = s2.os_version,
+                            app_version = s2.app_version,
+                            user_remarks = s2.user_remarks
+                        });
+                    }
+
+                    string JsonXML = XmlConversion.ConvertToXml(omodel2, 0);
+
+                    DataTable dt = new DataTable();
+                    String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                    SqlCommand sqlcmd = new SqlCommand();
+                    SqlConnection sqlcon = new SqlConnection(con);
+                    sqlcon.Open();
+                    sqlcmd = new SqlCommand("PRC_FSMLMSINFODETAILS", sqlcon);
+                    sqlcmd.Parameters.AddWithValue("@ACTION", "APPCRASHDETAILS");
+                    sqlcmd.Parameters.AddWithValue("@USER_ID", model.user_id);
+                    sqlcmd.Parameters.AddWithValue("@JsonXML", JsonXML);
+
+                    sqlcmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                    da.Fill(dt);
+                    sqlcon.Close();
+                    if (dt.Rows.Count > 0 && Convert.ToInt64(dt.Rows[0][0]) == model.user_id)
+                    {
+                        omodel.status = "200";
+                        omodel.message = "Crash report submitted successfully.";
+                    }
+                    else
+                    {
+                        omodel.status = "205";
+                        omodel.message = "Failed to submit crash report. Please try again later.";
+                    }
+                    var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
+                    return message;
+                }
+            }
+            catch (Exception ex)
+            {
+                omodel.status = "204";
+                omodel.message = ex.Message;
                 var message = Request.CreateResponse(HttpStatusCode.OK, omodel);
                 return message;
             }

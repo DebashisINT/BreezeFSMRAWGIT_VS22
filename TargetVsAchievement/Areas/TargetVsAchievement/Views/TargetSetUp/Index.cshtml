@@ -1,0 +1,1616 @@
+﻿
+@using TargetVsAchievement.Models;
+@model TargetVsAchievement.Models.TargetLevelSetupModel
+@{
+    ViewBag.Title = "Target Set Up";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .mt-22 {
+        margin-top: 25px;
+    }
+
+    .w-100 {
+        width: 100%;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .modal-footer {
+        padding: 15px 10px 15px;
+        border-top: 1px solid #c0c0c0;
+    }
+
+
+    .dxgvLoadingPanel_PlasticBlue {
+        left: 42% !important;
+    }
+    /*Rev 2.0*/
+    #gridUserList {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    /*Rev end 2.0*/
+
+    /*Rev 3.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    /*.dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }*/
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 13px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 33px;
+            right: 6px;
+            font-size: 18px;
+            transform: rotate(270deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        /* font-weight: 500;*/
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        /*background: #094e8c !important;
+    background-image: none !important;*/
+        padding: 11px 20px;
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        /*color: #fff;*/
+        /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+    /*.pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }*/
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 16px !important;
+        color: #111;
+        font-size: 24px;
+    }
+
+    .pmsModal .modal-header {
+        background: transparent !important;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #d5d5d5;
+    }
+
+    .close {
+        font-size: 34px;
+        opacity: .8;
+    }
+
+    button.close {
+        color: #111 !important;
+        font-weight: 400 !important;
+        opacity: .8 !important;
+        font-size: 32px !important;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    select:not(.btn) {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .dxgvControl_PlasticBlue a {
+        margin: 0 3px;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .linerHd {
+        background: #4e8fcf !important;
+    }
+
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #popup_message {
+        padding-left: 0 !important;
+        text-align: center !important;
+    }
+
+    #popup_panel {
+        margin: 14px 0 5px;
+    }
+
+    #popup_ok, #popup_cancel {
+        border-radius: 4px !important;
+    }
+    /*Rev end 4.0*/
+    /*Rev 5.0*/
+    #gridUserList_DXPagerTop_PSP, #gridUserList_DXPagerBottom_PSP {
+        right: 36px !important;
+        left: auto !important;
+    }
+    /*Rev end 5.0*/
+
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+    }
+
+    .add-btn {
+        transition: all .4s;
+    }
+
+        .add-btn:hover {
+            color: #fff;
+            background-color: #0e4f23;
+            border-color: #0e4f23;
+        }
+
+        .add-btn .btn-icon i {
+            color: #238945;
+        }
+
+    .add-btn {
+        background-color: #238945;
+        margin-right: 5px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        height: 34px;
+        padding-left: 12px;
+        padding-right: 12px;
+        color: #fff;
+    }
+
+        .btn:active, .btn:hover, .btn:focus {
+            color: #fff !important;
+        }
+
+    .buttons-alignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .show-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+        color: #054682;
+    }
+
+    .show-btn {
+        background: #054682;
+        transition: all .4s;
+        /*margin-right: 5px;*/
+    }
+
+        .show-btn:hover {
+            background: #072743;
+        }
+
+    .btn-cancel {
+        background-color: #DC0505;
+        color: #fff;
+    }
+
+    .btn-export {
+        background: #e17134;
+        color: #fff;
+    }
+
+        .btn-export:hover {
+            background: #a24716 !important;
+            color: #fff;
+        }
+
+    .swal2-confirm.swal2-styled {
+        border-radius: 8px !important;
+    }
+
+    .swal2-styled {
+        border-radius: 12px !important;
+        padding: 8px 20px !important;
+        color: #fff !important;
+        font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+        margin-top: 5px !important;
+    }
+
+    div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+        width: 90px !important;
+        border-radius: 8px !important;
+    }
+
+    div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+        background: rgb(0 0 0 / 50%) !important;
+    }
+
+    div:where(.swal2-container).swal2-center > .swal2-popup {
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        /*width: 140px;*/
+        background-color: #0d8f24;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 42%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #0d8f24 transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+           overflow: visible;
+    }
+
+    #btnSave .btn-icon, .cancel-catg .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 20px;
+        margin-right: 5px;
+    }
+
+        #btnSave .btn-icon img {
+            color: #238945;
+            width: 14px;
+        }
+
+    .cancel-catg, #btnSave {
+        transition: all .3s ease-in-out;
+    }
+
+        .cancel-catg .btn-icon img {
+            color: #DC0505;
+            width: 16px;
+        }
+
+        .cancel-catg:hover {
+            transform: scale(1.1);
+        }
+
+        #btnSave:hover {
+            transform: scale(1.1);
+        }
+
+    .modal-footer .btn + .btn {
+        margin-bottom: 0;
+        margin-left: 5px;
+    }
+
+    .cancel-catg {
+        margin-right: 5px;
+    }
+
+    .close:hover, .close:focus {
+        color: #111 !important;
+    }
+
+    .add-target-buttons {
+        padding: 0 15px;
+    }
+
+        .col-md-2, .add-target-buttons .col-md-3, .col-md-6 {
+            padding-right: 8px;
+            padding-left: 8px;
+        }
+
+    .sales-target {
+        background: #920FB9;
+        transition: all .3s;
+    }
+
+        .sales-target:hover {
+            background: #6a0d85;
+            transform: scale(1.1);
+        }
+
+        .sales-target .btn-icon i {
+            color: #920FB9;
+        }
+
+    .product-target {
+        background: #055f77;
+        transition: all .3s;
+    }
+
+        .product-target:hover {
+            background: #033f4f;
+            transform: scale(1.1);
+        }
+
+        .product-target .btn-icon i {
+            color: #087C6D;
+        }
+
+    .brand-value-target {
+        background: #8d6609;
+        transition: all .3s;
+    }
+
+        .brand-value-target:hover {
+            background: #644704;
+            transform: scale(1.1);
+        }
+
+        .brand-value-target .btn-icon i {
+            color: #977B07;
+        }
+
+    .wod-target:hover {
+        /*background: #977B07;*/
+        transform: scale(1.1);
+    }
+
+    .add-target-buttons {
+        display: flex;
+        align-items: center;
+    }
+
+        .add-target-buttons .btn {
+            height: 40px;
+            margin-right: 15px;
+        }
+
+    .btn-warning {
+        background-color: #bf982a;
+        /*border-color: #bf982a;*/
+    }
+
+    .btn-info {
+        background-color: #0ca1a5;
+        /*border-color: #46b8da;*/
+    }
+
+    .rowActive {
+        background-color: #ebf4ff !important;
+        color: #000 !important;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: none; /* Initially hidden */
+    }
+
+    .flex-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dxgvLoadingPanel_PlasticBlue {
+        display: none !important;
+    }
+
+    .flex-loader img {
+        width: 120px;
+    }
+
+    .flex-loader h4 {
+        font-size: 22px;
+        color: #000000;
+    }
+
+    #ddlTargetType:focus-visible {
+        outline: none;
+        border-color: #054682;
+    }
+
+    .download-button {
+        background-color: #8b2abf !important;
+    }
+
+    .view-log-btn {
+        background-color: #8a3e11 !important;
+    }
+
+    .px-15
+    {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    select:not(.btn) {
+        padding: 2px 23px 2px 10px !important;
+    }
+</style>
+<script>
+
+    var fromdate;
+    var todate;
+    var TargetType = "";
+    function theFunction() {
+        var TargetType = $('#ddlTargetType').val();
+        if (TargetType.trim() == "Select" || TargetType.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Select Target Type to proceed.'
+            });
+            return false;
+        }
+    }
+    function CloseLog() {
+        location.reload();
+    }
+
+    $(function () {
+        document.getElementById('ddlTargetType').addEventListener('change', function () {
+            const selectedValue = this.value;
+            const downloadLink = document.getElementById('downloadLink');
+            // Update href dynamically
+            if (selectedValue !== "Select") {
+                downloadLink.href = `/TargetSetUp/DownloadFormat?TargetType=${selectedValue}`;
+            } else {
+                downloadLink.href = "#";
+            }
+        });
+
+        var d = new Date();
+        dtFrom.SetValue(d);
+        dtTo.SetValue(d);
+
+        fromdate = dtFrom.GetDate();
+        todate = dtTo.GetDate();
+        TargetType = $('#ddlTargetType').val();
+
+        gridList.Refresh();
+        gridList.Refresh();
+
+
+        $('#ddlAppIds').on('change', function () {
+            var TargetType = $('#ddlTargetType').val();
+            if (TargetType.trim() == "Select" || TargetType.trim() == "") {
+                // SweetAlert for empty category description
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: 'Select Target Type to proceed.'
+                });
+                return false;
+            }
+
+        if ($("#ddlAppIds option:selected").index() > 0) {
+            var selectedValue = $(this).val();
+           
+            $('#ddlAppIds').prop("selectedIndex", 0);
+            var url = '@Url.Action("ExporSummaryList", "TargetSetUp", new { type = "_type_" })'
+           
+            url = url.replace("_type_", selectedValue);
+            url = url + "&Name=" + TargetType;
+            window.location.href = url;
+           // window.location.href = url.replace("_type_", selectedValue);
+            }
+        });
+
+    });
+
+    function ImportPopOpen() {
+        var TargetType = $('#ddlTargetType').val();
+        if (TargetType.trim() == "Select" || TargetType.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Select Target Type to proceed.'
+            });
+            return false;
+        }
+        else {
+            $("#myImportModal").modal('show');
+        }
+
+    }
+
+  function ClickToImport() {
+      todate = null;
+      fromdate = null;
+      var isprocess = false;
+      var TargetLevel = $('#ddlTargetType').val();
+
+      var filename = $("#fileprod").val();
+      if ($('#fileprod').get(0).files.length === 0) {
+          jAlert("No files selected.");
+          //Swal.fire({
+          //    icon: 'warning',
+          //    title: 'Warning',
+          //    text: 'No files selected.'
+          //});
+
+          return false;
+      }
+      else {
+          var extension = filename.replace(/^.*\./, '');
+          switch (extension.toLowerCase()) {
+              case 'xls':
+                  isprocess = true;
+              case 'xlsx':
+                  isprocess = true;
+              default:
+                  // Cancel the form submission
+                  if (!isprocess) {
+                      jAlert('Only excel file require.');
+                      //Swal.fire({
+                      //    icon: 'warning',
+                      //    title: 'Warning',
+                      //    text: 'Only excel file require.'
+                      //});
+
+                      return false;
+                  }
+          }
+      }
+
+      if (isprocess == true) {
+          var fileUpload = $("#fileprod").get(0);
+          var files = fileUpload.files;
+
+          // Create FormData object
+          var fileData = new FormData();
+
+          // Looping over all files and add it to FormData object
+          for (var i = 0; i < files.length; i++) {
+              fileData.append(files[i].name, files[i]);
+          }
+
+          if (TargetLevel == "SalesTarget") {
+              $.ajax({
+                    url: "@Url.Action("ImportExcelSalesTarget", "TargetSetUp")",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+
+                    success: function (result) {
+                        jAlert(result, 'Alert', function () {
+                            $("#fileprod").val('');
+                            $("#myImportModal").modal('hide');
+
+
+                            $.ajax({
+                                type: "POST",
+                                url: "@Url.Action("ImportLog", "TargetSetUp")",
+                                success: function (response) {
+                                    if (response) {
+                                        pcModalBeatImportLogMode.Show();
+                                        gridImportLog.Refresh();
+                                        gridImportLog.Refresh();
+                                    }
+                                }
+                            });
+                        });
+
+                    },
+                    error: function (err) {
+                        jAlert(err.statusText);
+                    }
+                });
+          }
+
+          if (TargetLevel == "ProductTarget") {
+                $.ajax({
+          url: "@Url.Action("ImportExcelProductTarget", "TargetSetUp")",
+          type: "POST",
+          contentType: false,
+          processData: false,
+          data: fileData,
+
+          success: function (result) {
+              jAlert(result, 'Alert', function () {
+                  $("#fileprod").val('');
+                  $("#myImportModal").modal('hide');
+
+
+                  $.ajax({
+                      type: "POST",
+                      url: "@Url.Action("ImportLog", "TargetSetUp")",
+                      success: function (response) {
+                          if (response) {
+                              pcModalBeatImportLogMode.Show();
+                              gridImportLog.Refresh();
+                              gridImportLog.Refresh();
+                          }
+                      }
+                  });
+              });
+
+          },
+          error: function (err) {
+              jAlert(err.statusText);
+          }
+      });
+          }
+
+
+          if (TargetLevel == "BrandTarget") {
+                 $.ajax({
+                  url: "@Url.Action("ImportExcelBrandTarget", "TargetSetUp")",
+                  type: "POST",
+                  contentType: false,
+                  processData: false,
+                  data: fileData,
+
+                  success: function (result) {
+                      jAlert(result, 'Alert', function () {
+                          $("#fileprod").val('');
+                          $("#myImportModal").modal('hide');
+
+
+                          $.ajax({
+                              type: "POST",
+                              url: "@Url.Action("ImportLog", "TargetSetUp")",
+                              success: function (response) {
+                                  if (response) {
+                                      pcModalBeatImportLogMode.Show();
+                                      gridImportLog.Refresh();
+                                      gridImportLog.Refresh();
+                                  }
+                              }
+                          });
+                      });
+
+                  },
+                  error: function (err) {
+                      jAlert(err.statusText);
+                  }
+              });
+          }
+
+
+          if (TargetLevel == "WODTarget") {
+            $.ajax({
+                  url: "@Url.Action("ImportExcelWODTarget", "TargetSetUp")",
+                  type: "POST",
+                  contentType: false,
+                  processData: false,
+                  data: fileData,
+
+                  success: function (result) {
+                      jAlert(result, 'Alert', function () {
+                          $("#fileprod").val('');
+                          $("#myImportModal").modal('hide');
+
+
+                          $.ajax({
+                              type: "POST",
+                              url: "@Url.Action("ImportLog", "TargetSetUp")",
+                              success: function (response) {
+                                  if (response) {
+                                      pcModalBeatImportLogMode.Show();
+                                      gridImportLog.Refresh();
+                                      gridImportLog.Refresh();
+                                  }
+                              }
+                          });
+                      });
+
+                  },
+                  error: function (err) {
+                      jAlert(err.statusText);
+                  }
+              });
+          }
+
+      }
+  }
+    function AddSalesTarget() {
+        var url = '/TargetVsAchievement/SalesTarget/Index?key=Add';
+        window.location.href = url;
+    }
+    function AddProductTarget() {
+        var url = '/TargetVsAchievement/ProductTargetAddEdit/Index?key=Add';
+        window.location.href = url;
+    }
+
+
+    function AddBrandVolumeValueTarget() {
+        var url = '/TargetVsAchievement/BrandVolumeValueTarget/Index?key=Add';
+        window.location.href = url;
+    }
+
+    function AddWODTarget() {
+        var url = '/TargetVsAchievement/WODTarget/Index?key=Add';
+        window.location.href = url;
+    }
+
+    function DateValidateFrom() {
+        if (dtTo.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+
+    function DateValidateTo() {
+        if (dtFrom.GetDate()) {
+            if (dtTo.GetDate() < dtFrom.GetDate()) {
+                dtTo.SetValue(dtFrom.GetDate());
+            }
+        }
+    }
+    function GetData() {
+
+        if ($('#ddlTargetType').val().trim() == "Select" || $('#ddlTargetType').val().trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Select Target Type to proceed.'
+            });
+            return false;
+        }
+        fromdate = dtFrom.GetDate();
+        todate = dtTo.GetDate();
+        TargetType = $('#ddlTargetType').val();
+
+        gridList.Refresh();
+        gridList.Refresh();
+    }
+    function OnStartCallback(s, e) {
+
+        document.getElementById("loading-overlay").style.display = "block";
+
+        e.customArgs["Fromdate"] = dtFrom.GetText().split("-").reverse().join("-")  ;
+        e.customArgs["Todate"] = dtTo.GetText().split("-").reverse().join("-") ;
+        e.customArgs["TargetType"] = TargetType;
+    }
+
+    function OnEndCallback() {
+        // Hide overlay and remove blur when data finishes loading
+        document.getElementById("loading-overlay").style.display = "none";
+        /*document.getElementById("grid-container").classList.remove("blur");*/
+    }
+
+    function DownloadFormat()
+    {
+        var TargetType = $('#ddlTargetType').val();
+        if (TargetType.trim() == "Select" || TargetType.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Select Target Type to proceed.'
+            });
+            return false;
+        }
+        //if (TargetType == "SalesTarget") {
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("DownloadFormat", "TargetSetUp")",
+                data: { TargetType: TargetType },
+                success: function (response) {
+                    @*if (response != null && response == true) {
+                       var url = '@Url.Action("DownloadFormat", "Beat")'
+                        window.location.href = url;
+                    }
+                    else {
+                        jAlert('Please try again later.');
+                        return false;
+                    }*@
+                }
+            });
+       // }
+
+    }
+    function EditClick(detailsid) {
+        if (parseInt(detailsid) > 0) {
+
+            var TargetType = $('#ddlTargetType').val();
+            if (TargetType == "SalesTarget") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SetDataByID", "SalesTarget")",
+                    data: { detailsid: detailsid, IsView: 0 },
+                    success: function (response) {
+                        if (response != null && response == true) {
+                            var url = $('#hdnAddUpdateSalesTarget').val();
+                            window.location.href = url;
+                        }
+                        else {
+                            jAlert('Please try again later.');
+                            return false;
+                        }
+                    }
+                });
+            }
+            else if (TargetType == "ProductTarget") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SetDataByID", "ProductTargetAddEdit")",
+                    data: { detailsid: detailsid, IsView: 0 },
+                    success: function (response) {
+                        if (response != null && response == true) {
+                            var url = $('#hdnAddUpdateProductTarget').val();
+                            window.location.href = url;
+                        }
+                        else {
+                            jAlert('Please try again later.');
+                            return false;
+                        }
+                    }
+                });
+            }
+            else if (TargetType == "BrandTarget") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SetDataByID", "BrandVolumeValueTarget")",
+                    data: { detailsid: detailsid, IsView: 0 },
+                    success: function (response) {
+                        if (response != null && response == true) {
+                            var url = $('#hdnAddUpdateBrandValueTarget').val();
+                            window.location.href = url;
+                        }
+                        else {
+                            jAlert('Please try again later.');
+                            return false;
+                        }
+                    }
+                });
+            }
+            else if (TargetType == "WODTarget") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("SetDataByID", "WODTarget")",
+                    data: { detailsid: detailsid, IsView: 0 },
+                    success: function (response) {
+                        if (response != null && response == true) {
+                            var url = $('#hdnAddUpdateWODTarget').val();
+                            window.location.href = url;
+                        }
+                        else {
+                            jAlert('Please try again later.');
+                            return false;
+                        }
+                    }
+                });
+            }
+
+        }
+    }
+
+    function DeleteClick(ID) {
+     $("#hdnID").val(ID);
+     var TargetType = $('#ddlTargetType').val();
+
+     // SweetAlert confirmation with custom icon
+ Swal.fire({
+     title: 'Are you sure you want to delete?',
+     text: "This action cannot be undone!",
+     imageUrl: '/assests/images/delete-big.png', // Custom icon for confirmation
+     imageWidth: 40, // Adjust the width as needed
+     showCancelButton: true,
+     confirmButtonColor: '#3085d6',
+     cancelButtonColor: '#d33',
+     confirmButtonText: 'Yes',
+     cancelButtonText: 'No'
+ }).then((result) => {
+     if (result.isConfirmed) {
+         $.ajax({
+             type: "POST",
+             url: '@Url.Action("Delete", "TargetSetUp")',
+             data: { ID: ID, TargetType: TargetType },
+             success: function (response) {
+                 if (parseInt(response) > 0) {
+                     // SweetAlert success message with custom icon
+                     Swal.fire({
+                         title: 'Deleted!',
+                         text: 'The record has been deleted successfully.',
+                         /*imageUrl: '/path/to/your/success-icon.png', */
+                         /*imageWidth: 50, */
+                         icon: 'success' // You can also keep the built-in icon type
+                     }).then(() => {
+                         location.reload();
+                     });
+                 } else if (parseInt(response) == -1) {
+                     // SweetAlert error message with custom icon
+                     Swal.fire({
+                         title: 'Sorry!',
+                         text: 'Sales Target already mapped with another module. Cannot delete.',
+                         imageUrl: '/path/to/your/error-icon.png',
+                         imageWidth: 50,
+                         icon: 'error' // You can also keep the built-in icon type
+                     });
+                 }
+             }
+         });
+     }
+ });
+ }
+
+    function ImportLogPopOpen() {
+        var d = new Date();
+
+        dtLogFrom_Import.SetValue(d);
+        dtLogTo_Import.SetValue(d);
+
+        pcModalImportViewMode.Show();
+    }
+    function ImportUserLog() {
+        var url = '/TargetSetUp/ImportManualLog/';
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: JSON.stringify({ 'Fromdt': dtLogFrom_Import.GetText(), 'ToDate': dtLogTo_Import.GetText() }),
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if (response == "True") {
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("ImportLog", "TargetSetUp")",
+                    success: function (response) {
+                        if (response) {
+                            pcModalImportViewMode.Hide();
+                            pcModalBeatImportLogMode.Show();
+                            gridImportLog.Refresh();
+                            gridImportLog.Refresh();
+                        }
+                    }
+                });
+            }
+            else {
+               jAlert(response);
+               //Swal.fire({
+               //    icon: 'error',
+               //    title: 'Sorry!',
+               //    text: response
+               // });
+            }
+        },
+        error: function (response) {
+            console.log(response);
+        }
+    });
+    }
+
+    function gridRowclick(s, e) {
+        $('#gridList').find('tr').removeClass('rowActive');
+
+
+        $(s.GetRow(e.visibleIndex)).addClass('rowActive');
+
+    }
+
+</script>
+<div class="breadCumb">
+    <span>Target Set Up</span>
+</div>
+
+<div class="overlay" id="loading-overlay">
+    <div class="flex-loader">
+        <img src="/assests/images/new-loader.gif" />
+        <h4>Data is loading, Please Wait</h4>
+    </div>
+
+</div>
+
+<div class="container">
+    <div class="form_main backBox p-3 mb-3">
+        <div class="row">
+            <div class="col-md-12 add-target-buttons">
+                <div class="add-show-btns">
+                    <button type="button" class="btn add-btn sales-target" onclick="AddSalesTarget();">
+                        <span class="btn-icon"><i class="fa fa-plus"></i></span> Sales Target
+                    </button>
+                </div>
+                @*</div>
+                    <div class="col-md-2">*@
+                <div class="add-show-btns">
+                    <button type="button" class="btn add-btn product-target" onclick="AddProductTarget();">
+                        <span class="btn-icon"><i class="fa fa-plus"></i></span> Product Target
+                    </button>
+
+                </div>
+                @*</div>
+                    <div class="col-md-3">*@
+                <div class="add-show-btns">
+                    <button type="button" class="btn add-btn brand-value-target" onclick="AddBrandVolumeValueTarget();">
+                        <span class="btn-icon"><i class="fa fa-plus"></i></span> Brand Volume/Value Target
+                    </button>
+
+                </div>
+                @*</div>
+                    <div class="col-md-2">*@
+                <div class="add-show-btns">
+                    <button type="button" class="btn add-btn wod-target" onclick="AddWODTarget();">
+                        <span class="btn-icon"><i class="fa fa-plus"></i></span>WOD Target
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form_main backBox p-3">
+        <div class="row px-15">
+            <div class="col-md-2 mb-3">
+                <label>From Date</label>
+                <div>
+                    @Html.DevExpress().DateEditFor(x => x.Fromdate,
+                    deSettings =>
+                    {
+                        deSettings.Name = "dtFrom";
+                        deSettings.Date = DateTime.Now;
+                        deSettings.Properties.UseMaskBehavior = true;
+                        deSettings.Properties.EditFormat = EditFormat.Custom;
+                        deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                        deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        deSettings.Properties.ShowOutOfRangeWarning = false;
+                        deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateFrom";
+                    }).GetHtml()
+
+                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+                    <span id="MandatoryFromDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryFromDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3">
+                <label>To Date</label>
+                <div>
+
+                    @Html.DevExpress().DateEditFor(x => x.Todate,
+                    deSettings =>
+                    {
+                        deSettings.Name = "dtTo";
+                        deSettings.Date = DateTime.Now;
+                        deSettings.Properties.UseMaskBehavior = true;
+                        deSettings.Properties.EditFormat = EditFormat.Custom;
+                        deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                        deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                        deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                        deSettings.Properties.ShowOutOfRangeWarning = false;
+                        deSettings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+
+                    }).GetHtml()
+
+                    <img src="/assests/images/calendar-icon.png" class="calendar-icon" />
+
+                    <span id="MandatoryToDate" style="display: none" class="validclass">
+                        <img id="img_MandatoryToDate" class="dxEditors_edtError_PlasticBlue" src="/DXR.axd?r=1_36-tyKfc" title="Mandatory">
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-2 mb-3  h-branch-select">
+                <label>Target Type </label>
+                <div>
+                    <select name="ddlStatus" id="ddlTargetType">
+                        <option value="Select">Select</option>
+                        <option value="SalesTarget">Sales Target</option>
+                        <option value="ProductTarget">Product Target</option>
+                        <option value="BrandTarget">Brand Volume/Value Target</option>
+                        <option value="WODTarget">WOD Target</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6 mt-22">
+                <div class="">
+                    <div class="add-show-btns">
+                        <button type="button" id="btnshow" class="btn show-btn" onclick="GetData();" tabindex=4><span class="btn-icon"><i class="fa fa-eye" aria-hidden="true"></i></span> Show</button>
+                        <select name="ddlAppIds" class="btn btn-sm btn-export" id="ddlAppIds">
+                                <option value="0">Export to</option>
+                                <option value="1">PDF</option>
+                                <option value="2">XLSX</option>
+                                <option value="3">XLS</option>
+                                <option value="4">RTF</option>
+                                <option value="5">CSV</option>
+                            </select>
+                        @*<button type="button" class="btn btn-warning" onclick="DownloadFormat();"> Download Format</button>*@
+                        <a id="downloadLink" href="" class="btn btn-warning download-button" onclick="return theFunction();">
+                            Download Format
+                        </a>
+                        <button type="button" class="btn btn-info" onclick="ImportPopOpen();"> Import File</button>
+                        <button type="button" class="btn btn-warning view-log-btn" onclick="ImportLogPopOpen();">View Log</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="clearfix"></div>
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                    @Html.Partial("_PartialTargetSetUpListing", new System.Data.DataTable())
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@Url.Action("EDITINDEX", "SalesTarget")" id="hdnAddUpdateSalesTarget" />
+<input type="hidden" value="@Url.Action("EDITINDEX", "BrandVolumeValueTarget")" id="hdnAddUpdateBrandValueTarget" />
+<input type="hidden" value="@Url.Action("EDITINDEX", "ProductTargetAddEdit")" id="hdnAddUpdateProductTarget" />
+<input type="hidden" value="@Url.Action("EDITINDEX", "WODTarget")" id="hdnAddUpdateWODTarget" />
+
+<div id="myImportModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Import Excel Template</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5 mt-4"><input type="submit" value="Import (Add/Update)" onclick="return ClickToImport();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalBeatImportLogMode";
+        settings.Width = 1200; //System.Web.UI.WebControls.Unit.Percentage(80);
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Import Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.ClientSideEvents.CloseButtonClick = "function(s, e) {CloseLog(); }";
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("ImportLog", new List<ImportLogModel>());
+            // ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportImportLogGrid();'>Export</button>");
+        });
+
+        //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+    }).GetHtml()
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalImportViewMode";
+            settings.Width = 300;
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Import  Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("ImportLogManual");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+        }).GetHtml()
+

@@ -4,6 +4,7 @@
    {
        settings.Name = "gridTeamVisitReport";
        settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+       settings.ClientSideEvents.EndCallback = "OnEndCallback";
        settings.CallbackRouteValues = new { Controller = "TeamVisitReport", Action = "TeamVisitReportGridViewCallback" };
        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
        settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;

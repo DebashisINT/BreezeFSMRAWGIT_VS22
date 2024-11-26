@@ -331,6 +331,8 @@
 
     function OnStartCallback(s, e) {
 
+        document.getElementById("loading-overlay").style.display = "block"; 
+
         e.customArgs["Fromdate"] = dtFrom.GetText();
         e.customArgs["Todate"] = dtTo.GetText();
         e.customArgs["BranchId"] = BranchId;
@@ -340,6 +342,11 @@
 
         // alert(e.customArgs["BranchId"]);
 
+    }
+
+    function OnEndCallback() {
+        // Hide overlay and remove blur when data finishes loading
+        document.getElementById("loading-overlay").style.display = "none";
     }
 
     var BranchId = [];
@@ -1018,6 +1025,39 @@
     }
 
     /*Rev end 1.0*/
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: none; /* Initially hidden */
+    }
+
+    .flex-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dxgvLoadingPanel_PlasticBlue {
+        display: none !important;
+    }
+
+    .flex-loader img {
+        width: 120px;
+    }
+
+    .flex-loader h4 {
+        font-size: 22px;
+        color: #000000;
+    }
 </style>
 
 <script>
@@ -1532,6 +1572,14 @@
 <link href="~/Content/media.css" rel="stylesheet" />
 <div class="breadCumb">
     <span>Team Visit</span>
+</div>
+
+<div class="overlay" id="loading-overlay">
+    <div class="flex-loader">
+        <img src="/assests/images/new-loader.gif" />
+        <h4>Data is loading, Please Wait</h4>
+    </div>
+
 </div>
 
 <div class="container">

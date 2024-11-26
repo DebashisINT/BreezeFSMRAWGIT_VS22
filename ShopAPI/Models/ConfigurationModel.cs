@@ -25,7 +25,15 @@
 //24.0  V2.0.45     Debashis    14/03/2024      Some new parameters have been added.Row: 901 & Refer: 0027279,0027285 & 0027282
 //25.0  V2.0.45     Debashis    03/04/2024      Some new parameters have been added.Row: 903
 //26.0  V2.0.44     Debashis    03/04/2024      A new parameter has been added.Row: 904
+//27.0  V2.0.44     Debashis    10/08/2024      Some new parameters have been added.Row: 968
+//28.0  V2.0.49     Debashis    17/09/2024      A new parameter has been added.Row: 979
+//29.0  V2.0.49     Debashis    27/09/2024      A new parameter has been added.Row: 981
+//30.0  V2.0.49     Debashis    01/10/2024      Some new parameters have been added.Row: 983
+//31.0  V2.0.49     Debashis    09/10/2024      Some new parameters have been added.Row: 985
+//32.0  V2.0.49     Debashis    23/10/2024      A new parameter has been added.Row: 987
+//33.0  V2.0.49     Debashis    15/11/2024      A new parameter has been added.Row: 1005
 #endregion===================================End of Revision History==============================================================
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -303,10 +311,33 @@ namespace ShopAPI.Models
         //Rev 26.0 Row: 904
         public bool IsShowLeaderBoard { get; set; }
         //End of Rev 26.0 Row: 904
-        //Rev 27.0 Row: 904
+        //Rev 27.0 Row: 968
         public int QuestionAfterNoOfContentForLMS { get; set; }
         public bool IsAllowGPSTrackingInBackgroundForLMS { get; set; }
         //End of Rev 27.0 Row: 968
+        //Rev 28.0 Row: 979
+        public bool IsRetailOrderStatusRequired { get; set; }
+        //End of Rev 28.0 Row: 979
+        //Rev 29.0 Row: 981
+        public bool IsVideoAutoPlayInLMS { get; set; }
+        //End of Rev 29.0 Row: 981
+        //Rev 30.0 Row: 983
+        public bool IsStockCheckFeatureOn { get; set; }
+        public bool IsShowDistributorWiseCurrentStockInOrder { get; set; }
+        public bool IsAllowNegativeStock { get; set; }
+        public bool StockCheckOnOrder1OrInvioce0 { get; set; }
+        //End of Rev 30.0 Row: 983
+        //Rev 31.0 Row: 985
+        public string AllowedCreditDays { get; set; }
+        public bool WillCreditDaysFollow { get; set; }
+        public bool AllowOrderOnOutstandingAndClosingStockDifference { get; set; }
+        //End of Rev 31.0 Row: 985
+        //Rev 32.0 Row: 987
+        public bool ShowRetryIncorrectQuiz { get; set; }
+        //End of Rev 32.0 Row: 987
+        //Rev 33.0 Row: 1005
+        public bool WillShowLoanDetailsInParty { get; set; }
+        //End of Rev 33.0 Row: 1005
     }
 
     public class ConfigurationModelInput

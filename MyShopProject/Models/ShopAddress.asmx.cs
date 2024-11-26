@@ -9,6 +9,7 @@
 //                                             Mantis: 26858
 // 6.0      V2.0.44    Sanchita    12-12-2023  A new design page is required as Contact (s) under CRM menu. Mantis: 27034  
 // 7.0      V2.0.46    Sanchita    11/04/2024  0027348: FSM: Master > Contact > Parties [Delete Facility]
+// 8.0      V2.0.49    Sanchita    04/10/2024  In Current stock Register report there shall be a stock import option. Mantis: 27707, 27724
 // ********************************************************************************************************************
 using DataAccessLayer;
 using Models;
@@ -465,6 +466,37 @@ namespace MyShop.Models
             return listShop;
         }
         // End of Rev 7.0
+        // Rev 8.0
+        [WebMethod(EnableSession = true)]
+        [ScriptMethod(ResponseFormat = ResponseFormat.Json)]
+        public object GetShopList(string SearchKey)
+        {
+            List<ShopListModel> listShop = new List<ShopListModel>();
+            if (HttpContext.Current.Session["userid"] != null)
+            {
+                SearchKey = SearchKey.Replace("'", "''");
+                //DataTable dt = new DataTable();
+                ProcedureExecute proc = new ProcedureExecute("PRC_FTSINSERTUPDATECURRENTSTOCK");
+                proc.AddPara("@ACTION", "GETSHOPLIST");
+                proc.AddPara("@USER_ID", Convert.ToInt32(Session["userid"]));
+                proc.AddPara("@SearchKey", SearchKey);
+                DataTable Shop = proc.GetTable();
+
+                listShop = (from DataRow dr in Shop.Rows
+                            select new ShopListModel()
+                            {
+                                Shop_Code = dr["SHOP_CODE"].ToString(),
+                                Shop_Name = dr["SHOP_NAME"].ToString(),
+                                EntityCode = Convert.ToString(dr["ENTITYCODE"]),
+                                ShopType_Name = dr["SHOPTYPENAME"].ToString(),
+                                Shop_Owner_Contact = Convert.ToString(dr["SHOP_OWNER_CONTACT"]),
+                                
+                            }).ToList();
+            }
+
+            return listShop;
+        }
+        // End of Rev 8.0
     }
 
     public class PPModel
@@ -538,5 +570,16 @@ namespace MyShop.Models
        // public string Shop_Owner_Contact { get; set; }
         public string ShopType_Name { get; set; }
     }
-    // End of Rev 7.0   
+    // End of Rev 7.0
+    // Rev 8.0
+    public class ShopListModel
+    {
+        public string Shop_Code { get; set; }
+        public string Shop_Name { get; set; }
+        //public string Entity_Location { get; set; }
+         public string EntityCode { get; set; }
+         public string Shop_Owner_Contact { get; set; }
+        public string ShopType_Name { get; set; }
+    }
+    // End of Rev 8.0
 }

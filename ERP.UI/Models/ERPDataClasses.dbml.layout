@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.5, 14.25" name="ERPDataClasses">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.5, 8.5" name="ERPDataClasses">
   <DataContextMoniker Name="/ERPDataClassesDataContext" />
   <nestedChildShapes>
     <classShape Id="42b8dce0-9bc6-4a34-82ff-c3e9bb571e8e" isExpanded="false" absoluteBounds="2.75, 5.5, 2, 0.45">
@@ -380,12 +380,6 @@
         <elementListCompartment Id="534a029a-7bcf-433b-b0bc-a39449f6b47d" absoluteBounds="7.515, 7.335, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="7322984f-9bc4-4aa1-972c-d93f48aa833f" isExpanded="false" absoluteBounds="9.75, 6.875, 2.625, 0.45">
-      <DataClassMoniker Name="/ERPDataClassesDataContext/FSMEmployee_Master" />
-      <nestedChildShapes>
-        <elementListCompartment Id="881d7f83-6203-4a32-8c47-153b7f2b2624" absoluteBounds="9.765, 7.335, 1.9700000000000002, 6.5953369140625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="2aac3682-a3b6-4f7e-8490-94a2d1832730" isExpanded="false" absoluteBounds="0.5, 7.5, 2, 0.45">
       <DataClassMoniker Name="/ERPDataClassesDataContext/FSMUser_Master_List" />
       <nestedChildShapes>
@@ -404,7 +398,7 @@
         <elementListCompartment Id="dc7bebb4-4a58-48a5-aacb-0b02f21449b4" absoluteBounds="14.265, 4.21, 1.9700000000000002, 3.1339111328125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="90755540-5360-480b-af42-49bf9da1a0d5" absoluteBounds="5.25, 6.875, 2, 7.1553369140625">
+    <classShape Id="90755540-5360-480b-af42-49bf9da1a0d5" isExpanded="false" absoluteBounds="5.25, 6.875, 2, 0.45">
       <DataClassMoniker Name="/ERPDataClassesDataContext/FSMProduct_Master" />
       <nestedChildShapes>
         <elementListCompartment Id="e6dad6ca-0692-4387-95ba-c807f3035956" absoluteBounds="5.265, 7.335, 1.9700000000000002, 6.5953369140625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
@@ -414,6 +408,12 @@
       <DataClassMoniker Name="/ERPDataClassesDataContext/PRODUCTSPECIALPRICELIST" />
       <nestedChildShapes>
         <elementListCompartment Id="b337d5a9-a6e8-4e03-90b3-014718bcee19" absoluteBounds="14.265, 1.085, 1.9700000000000002, 2.5570068359375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0655a5c3-5dc7-4d70-8c04-aec17c6e2bb0" isExpanded="false" absoluteBounds="5.375, 7.625, 2, 0.45">
+      <DataClassMoniker Name="/ERPDataClassesDataContext/FSMEmployee_Master" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6440e687-24e3-4ed2-93c9-680d8a8da7e3" absoluteBounds="5.39, 8.085, 1.9700000000000002, 6.7876383463541661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

@@ -24,7 +24,14 @@ namespace BusinessLogicLayer.SalesmanTrack
             ds = proc.GetDataSet();
             return ds;
         }
-
+        public DataSet GetLoanDetails()
+        {
+            DataSet ds = new DataSet();
+            ProcedureExecute proc = new ProcedureExecute("PRC_FTSInsertUpdateNewParty");
+            proc.AddPara("@ACTION", "LoanDetails");
+            ds = proc.GetDataSet();
+            return ds;
+        }
         public DataTable GetReportPartyDetails(string fromdate, string todate, string userid, String stateID, String userlist, String IS_ReAssignedDate)
         {
             DataTable ds = new DataTable();

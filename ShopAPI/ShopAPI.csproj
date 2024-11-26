@@ -55,15 +55,26 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.68.0\lib\net462\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.68.0\lib\net462\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.68.0\lib\net462\Google.Apis.Core.dll</HintPath>
+    </Reference>
     <Reference Include="GridMvc">
       <HintPath>..\packages\Grid.Mvc.3.0.0\lib\net40\GridMvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.CodeDom.7.0.0\lib\net462\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
@@ -72,6 +83,7 @@
       <HintPath>..\packages\System.Device.Location.Portable.1.0.0\lib\System.Device.Portable.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -274,6 +286,7 @@
     <Compile Include="Controllers\LeaveApprovalController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
     <Compile Include="Controllers\LMSInfoDetailsController.cs" />
+    <Compile Include="Controllers\LoanInfoDetailsController.cs" />
     <Compile Include="Controllers\LocationAddModifyController.cs" />
     <Compile Include="Controllers\LocationCaptureController.cs" />
     <Compile Include="Controllers\LoginConcurrentusersController.cs" />
@@ -289,6 +302,7 @@
     <Compile Include="Controllers\OfflineTeamController.cs" />
     <Compile Include="Controllers\OrderController.cs" />
     <Compile Include="Controllers\OrderWithProductAttributeController.cs" />
+    <Compile Include="Controllers\OrderWithStockMgmtDetailsController.cs" />
     <Compile Include="Controllers\OTPConfigurationController.cs" />
     <Compile Include="Controllers\PartyStatusController.cs" />
     <Compile Include="Controllers\PartyTypeController.cs" />
@@ -322,6 +336,7 @@
     <Compile Include="Controllers\SubTypeController.cs" />
     <Compile Include="Controllers\SurveyQAImageController.cs" />
     <Compile Include="Controllers\SurveyQuestionAnswerController.cs" />
+    <Compile Include="Controllers\TAInfoDetailsController.cs" />
     <Compile Include="Controllers\TAListController.cs" />
     <Compile Include="Controllers\TAManagementController.cs" />
     <Compile Include="Controllers\TaskController.cs" />
@@ -402,6 +417,7 @@
     <Compile Include="Models\LeaveApprovalRecord.cs" />
     <Compile Include="Models\Leavetype.cs" />
     <Compile Include="Models\LMSInfoDetailsModel.cs" />
+    <Compile Include="Models\LoanInfoDetailsModel.cs" />
     <Compile Include="Models\LocationAddModifyModel.cs" />
     <Compile Include="Models\LocationfetchModel.cs" />
     <Compile Include="Models\LoginConcurrentusersModel.cs" />
@@ -422,6 +438,7 @@
     <Compile Include="Models\OfflineTeamClass.cs" />
     <Compile Include="Models\Ordermanagement.cs" />
     <Compile Include="Models\OrderWithProductAttributeModel.cs" />
+    <Compile Include="Models\OrderWithStockMgmtDetailsModel.cs" />
     <Compile Include="Models\OTPClass.cs" />
     <Compile Include="Models\PartyStatusInput.cs" />
     <Compile Include="Models\PartyTypeModel.cs" />
@@ -451,6 +468,7 @@
     <Compile Include="Models\StockModel.cs" />
     <Compile Include="Models\SubType.cs" />
     <Compile Include="Models\SurveyQuestionAnswerModel.cs" />
+    <Compile Include="Models\TAInfoDetailsModel.cs" />
     <Compile Include="Models\TAModel.cs" />
     <Compile Include="Models\TaskModel.cs" />
     <Compile Include="Models\TimeSheet.cs" />

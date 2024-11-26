@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.38     Debashis    23/01/2023      Some new parameters have been added.Row: 805 to 806
+//2.0   V2.0.49     Debashis    17/09/2024      A new parameter has been added.Row: 977
 #endregion===================================End of Revision History==================================================
 using System;
 using System.Collections.Generic;
@@ -35,6 +36,9 @@ namespace ShopAPI.Models
         public string Hospital { get; set; }
         public string Email_Address { get; set; }
         //Extra Input for EuroBond
+        //Rev 2.0 Row: 977
+        public string OrderStatus { get; set; }
+        //End of Rev 2.0 Row: 977
     }
     public class OrderProductlist
     {
@@ -279,5 +283,23 @@ namespace ShopAPI.Models
         public string message { get; set; }
 
     }
-
+    //Rev 3.0 Row: 978
+    public class OrderStatusfetchInput
+    {
+        public Int32 user_id { get; set; }
+    }
+    public class OrderStatusfetchOutput
+    {
+        public string status { get; set; }
+        public string message { get; set; }
+        public Int32 user_id { get; set; }
+        public List<OrderStatusfetch> order_status_list { get; set; }
+    }
+    public class OrderStatusfetch
+    {
+        public string Order_Code { get; set; }
+        public string OrderStatus { get; set; }
+        public string Order_date { get; set; }
+    }
+    //End of Rev 3.0 Row: 978
 }

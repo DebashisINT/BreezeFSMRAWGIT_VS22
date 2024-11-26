@@ -4659,6 +4659,42 @@ namespace ERP.OMS.Management.Master
         protected global::DevExpress.Web.ASPxCheckBox chkDivShowClearQuiz;
 
         /// <summary>
+        /// divIsAllowProductCurrentStockUpdateFromApp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divIsAllowProductCurrentStockUpdateFromApp;
+
+        /// <summary>
+        /// chkIsAllowProductCurrentStockUpdateFromApp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkIsAllowProductCurrentStockUpdateFromApp;
+
+        /// <summary>
+        /// divShowTargetOnApp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell divShowTargetOnApp;
+
+        /// <summary>
+        /// chkShowTargetOnApp control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::DevExpress.Web.ASPxCheckBox chkShowTargetOnApp;
+
+        /// <summary>
         /// btnUpdate control.
         /// </summary>
         /// <remarks>

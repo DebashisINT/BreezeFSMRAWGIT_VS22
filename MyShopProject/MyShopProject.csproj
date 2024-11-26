@@ -110,6 +110,15 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\FTSEntityframework.dll</HintPath>
     </Reference>
+    <Reference Include="Google.Apis, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.1.68.0\lib\net462\Google.Apis.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Auth, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Auth.1.68.0\lib\net462\Google.Apis.Auth.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Apis.Core, Version=1.68.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
+      <HintPath>..\packages\Google.Apis.Core.1.68.0\lib\net462\Google.Apis.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip, Version=1.9.1.8, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <HintPath>..\packages\Ionic.Zip.1.9.1.8\lib\Ionic.Zip.dll</HintPath>
     </Reference>
@@ -120,15 +129,18 @@
     <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BreezeERPVSS\ERP\ERP.UI\bin\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.CodeDom, Version=7.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.CodeDom.7.0.0\lib\net462\System.CodeDom.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -261,6 +273,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\CounterListController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CRMContactController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CRMEnquiriesController.cs" />
+    <Compile Include="Areas\MYSHOP\Controllers\CurrentStockRegisterController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CurrentStockReportController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CustomerDetailsController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\CustomerVisitDetailsController.cs" />
@@ -399,6 +412,7 @@
     <Compile Include="Areas\MYSHOP\Controllers\TravelConveyanceController.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Areas\MYSHOP\Controllers\UpdateOrderStatusController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\UserversionController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ViewGeographyController.cs" />
     <Compile Include="Areas\MYSHOP\Controllers\ViewGeotrackController.cs" />
@@ -434,6 +448,7 @@
     <Compile Include="Models\ConfigueLeaderboardModel.cs" />
     <Compile Include="Models\CRMContactModel.cs" />
     <Compile Include="Models\CRMEnquiriesModel.cs" />
+    <Compile Include="Models\CurrentStockModel.cs" />
     <Compile Include="Models\CurrentStockReportModel.cs" />
     <Compile Include="Models\CustomerDetailsModel.cs" />
     <Compile Include="Models\CustomerVisitDetailsModel.cs" />
@@ -552,6 +567,7 @@
     <Compile Include="Models\ThirdPartyInvoiceBL.cs" />
     <Compile Include="Models\Trackshop.cs" />
     <Compile Include="Models\TravelConveyanceModelclass.cs" />
+    <Compile Include="Models\UpdateOrderStatusModel.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\UserversioningUsages.cs" />
     <Compile Include="Models\Userwiseattendance.cs" />
@@ -568,6 +584,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\MYSHOP\Views\CurrentStockRegister\Index.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DashboardMenu\FSMDashboard.cshtml" />
     <Content Include="Areas\MYSHOP\Views\EmployeesTarget\_EmployeesTargetSettingList.cshtml">
       <SubType>Code</SubType>
@@ -1532,6 +1549,15 @@
     <Content Include="Scripts\pluggins\multiselect\bootstrap-multiselect.js" />
     <Content Include="Scripts\SearchMultiPopup.js" />
     <Content Include="Scripts\SearchPopup.js" />
+    <Content Include="Views\Common\_PartialMenu.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Layout1.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2036,21 +2062,20 @@
     <Content Include="Areas\MYSHOP\Views\partyDetails\_BulkDeleteManualLogView.cshtml" />
     <Content Include="Areas\MYSHOP\Views\partyDetails\_MassDeleteManualLogView.cshtml" />
     <Content Include="Areas\MYSHOP\Views\partyDetails\MassDeleteLog.cshtml" />
-    <Content Include="Views\Common\_PartialMenu.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Shared\_Layout1.cshtml" />
-    <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardLMS.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashBoardGVLMS.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardStateComboboxLMS.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardBranchComboboxLMS.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DailyCallReport\Index.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DailyCallReport\PartialDailyCallReport.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\UpdateOrderStatus\Index.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\UpdateOrderStatus\_PartialUpdateOrderStatus.cshtml" />
+    <Content Include="demofsm-fee63-firebase-adminsdk-m1emn-4e3e8bba2d.json" />
+    <Content Include="Areas\MYSHOP\Views\CurrentStockRegister\_CurrentStockImportManualLogView.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\CurrentStockRegister\CurrentStockImportLog.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\CurrentStockRegister\PartialCurrentStockGridList.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\Beat\BeatImportLog.cshtml" />
+    <Content Include="Areas\MYSHOP\Views\Beat\BeatImportLogManual.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

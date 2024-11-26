@@ -1,0 +1,1841 @@
+﻿
+@using System.Web.UI.WebControls
+@using DevExpress.Web;
+@using DevExpress.Web.Mvc;
+
+@model TargetVsAchievement.Models.WODModel
+@{
+    ViewBag.Title = "WOD Target";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/fixedcolumns/3.3.0/js/dataTables.fixedColumns.min.js"></script>
+<script src="~/Scripts/SearchPopupDatatable.js"></script>
+<link href="~/assests/css/SearchPopup.css" rel="stylesheet" />
+<style>
+    #grid .dxgvHSDC > div, #grid .dxgvCSD {
+        width: 100% !important;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .full-grid, #grid {
+        width: 100% !important;
+    }
+
+    #gridLevelEntryList, #gridLevelEntryList > tbody > tr > td > div.dxgvHSDC > div {
+        width: 100% !important;
+    }
+
+    .dxgvControl_PlasticBlue td.dxgvBatchEditModifiedCell_PlasticBlue {
+        background: white !important;
+    }
+</style>
+<style>
+    .dxgvControl_PlasticBlue td.dxgvBatchEditModifiedCell_PlasticBlue {
+        background: #fff;
+    }
+
+    .dxgvStatusBar_PlasticBlue {
+        display: none;
+    }
+
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .modal-footer {
+        padding: 15px 10px 15px;
+        border-top: 1px solid #c0c0c0;
+    }
+
+
+    .dxgvLoadingPanel_PlasticBlue {
+        left: 42% !important;
+    }
+    /*Rev 2.0*/
+    #gridUserList {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    /*Rev end 2.0*/
+
+    /*Rev 3.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 14px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 33px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        /*font-weight: 500;*/
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        /*background: #094e8c !important;
+    background-image: none !important;*/
+        padding: 11px 20px;
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        /*color: #fff;*/
+        /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+    /*.pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }*/
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 16px !important;
+        color: #111;
+        font-size: 24px;
+    }
+
+    .pmsModal .modal-header {
+        background: transparent !important;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #d5d5d5;
+    }
+
+    .pmsModal .modal-body {
+        padding: 10px 20px;
+    }
+
+    .pmsModal .modal-footer {
+        padding: 10px 20px;
+    }
+
+    .close {
+        font-size: 34px;
+        opacity: .8;
+    }
+
+    button.close {
+        color: #111 !important;
+        font-weight: 400 !important;
+        opacity: .8 !important;
+        font-size: 32px !important;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    select:not(.btn) {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .dxgvControl_PlasticBlue a {
+        margin: 0 3px;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .linerHd {
+        background: #4e8fcf !important;
+    }
+
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #popup_message {
+        padding-left: 0 !important;
+        text-align: center !important;
+    }
+
+    #popup_panel {
+        margin: 14px 0 5px;
+    }
+
+    #popup_ok, #popup_cancel {
+        border-radius: 4px !important;
+    }
+    /*Rev end 4.0*/
+    /*Rev 5.0*/
+    #gridUserList_DXPagerTop_PSP, #gridUserList_DXPagerBottom_PSP {
+        right: 36px !important;
+        left: auto !important;
+    }
+    /*Rev end 5.0*/
+
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+    }
+
+    .add-btn {
+        transition: all .4s;
+    }
+
+        .add-btn:hover {
+            color: #fff;
+            background-color: #0e4f23;
+            border-color: #0e4f23;
+        }
+
+        .add-btn .btn-icon i {
+            color: #238945;
+        }
+
+    .add-btn {
+        background-color: #238945;
+        margin-right: 5px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        height: 34px;
+        padding-left: 12px;
+        padding-right: 12px;
+        color: #fff;
+    }
+
+        .btn:active, .btn:hover, .btn:focus {
+            color: #fff !important;
+        }
+
+    .buttons-alignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .show-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+        color: #054682;
+    }
+
+    .show-btn {
+        background: #054682;
+        transition: all .4s;
+        margin-right: 5px;
+    }
+
+        .show-btn:hover {
+            background: #072743;
+        }
+
+    .btn-cancel {
+        background-color: #DC0505;
+        color: #fff;
+    }
+
+    .btn-export {
+        background: #e17134;
+        color: #fff;
+    }
+
+        .btn-export:hover {
+            background: #a24716 !important;
+            color: #fff;
+        }
+
+    .swal2-confirm.swal2-styled {
+        border-radius: 8px !important;
+    }
+
+    .swal2-styled {
+        border-radius: 12px !important;
+        padding: 8px 20px !important;
+        color: #fff !important;
+        font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+        margin-top: 5px !important;
+    }
+
+    div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+        width: 90px !important;
+        border-radius: 8px !important;
+    }
+
+    div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+        background: rgb(0 0 0 / 50%) !important;
+    }
+
+    div:where(.swal2-container).swal2-center > .swal2-popup {
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        /*width: 140px;*/
+        background-color: #0d8f24;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 42%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #0d8f24 transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        /*overflow: visible;*/
+    }
+
+    #btnSave .btn-icon, .cancel-catg .btn-icon, .saveicon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 20px;
+        margin-right: 5px;
+    }
+
+        #btnSave .btn-icon img, .saveicon img {
+            color: #238945;
+            width: 14px;
+        }
+
+    .cancel-catg, #btnSave {
+        transition: all .3s ease-in-out;
+    }
+
+        .cancel-catg .btn-icon img {
+            color: #DC0505;
+            width: 16px;
+        }
+
+        .cancel-catg:hover {
+            transform: scale(1.1);
+        }
+
+        #btnSave:hover {
+            transform: scale(1.1);
+        }
+
+    .modal-footer .btn + .btn {
+        margin-bottom: 0;
+        margin-left: 5px;
+    }
+
+    .cancel-catg {
+        margin-right: 5px;
+    }
+
+    .close:hover, .close:focus {
+        color: #111 !important;
+    }
+
+    #WODCount {
+        padding: 0;
+    }
+
+        #WODCount input {
+            height: 100%;
+            padding: 0 5px;
+        }
+
+        .dxgvControl_PlasticBlue a {
+    margin: 5px 3px;
+    display: inline-block;
+}
+
+    .dataTables_length label {
+        display: flex;
+        align-items: center;
+    }
+
+    .dataTables_filter input {
+        /*display: block;*/
+        width: 60%;
+        height: 34px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #555;
+        vertical-align: middle;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .dataTables_length select {
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0;
+    }
+
+    .pagination > li > a, .pagination > li > span {
+        padding: 4px 8px;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        padding-top: 10px;
+    }
+
+    .crossBtnN {
+        color: #fff;
+        cursor: pointer;
+    }
+
+    div.dataTables_wrapper div.dataTables_info {
+        font-size: 12px;
+    }
+
+    #GridLevellistModel .modal-dialog {
+        width: 45%;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        outline: none;
+        border: none;
+    }
+
+    .dynamicPopupTbl > tbody > tr > td input {
+        width: 100%;
+        white-space: break-spaces;
+    }
+</style>
+<script>
+    var DetailsID = 0;
+    var GBOMNo = "";
+    var globalrowindex = 0;
+    var rowtime = 0;
+    var savemode = "";
+    var hasmsg = 0;
+
+    $(document).ready(function () {
+
+       // setTimeout(function () { AddNewRowWithSl(); }, 200);
+        var d = new Date();
+        WODTargetDate.SetValue(d);
+        //STARTEDATE.SetValue(d);
+        //ENDDATE.SetValue(d);
+
+
+        var hdnTargetLevel = $('#hdnTargetLevel').val();
+        var hdnDetailsID = $('#hdnDetailsID').val();
+        if (hdnTargetLevel != '' && hdnDetailsID > 0) {
+            $('#ddlTargetLevel').val(hdnTargetLevel);
+            //$('#HeaderLableID').text("Sales Target -Modify");
+            $('#ddlTargetLevel').prop('disabled', true);
+            $('#TargetNo').prop('disabled', true);
+
+            WODTargetDate.SetEnabled(false);
+
+            var partsDT = $('#hdnWODTargetDate').val().split("/");
+            var dayDT = parseInt(partsDT[1], 10);
+            var monthDT = parseInt(partsDT[0], 10) - 1; // Month is 0-based
+            var yearDT = parseInt(partsDT[2], 10);
+
+            var dateD = new Date(yearDT, monthDT, dayDT); // Month is 0-based, so 10 represents November
+            WODTargetDate.SetDate(dateD);
+        }
+
+        $('#TargetNo').blur(function () {
+            var value = $(this).val();
+            //alert(value);
+            var hdnDetailsID = $("#hdnDetailsID").val();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("CHECKUNIQUETARGETDOCNUMBER", "WODTarget")",
+                data: JSON.stringify({ TargetNo: value, TargetID: hdnDetailsID }),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    CheckUniqueCode = msg;
+                    if (CheckUniqueCode == 1) {
+                        //jAlert('Please enter unique No.');
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Sorry!',
+                            text: 'Please enter unique Document No to proceed.'
+                        });
+                        $('#TargetNo').val("");
+                        $('#TargetNo').Focus();
+                    }
+
+                }
+
+            });
+        });
+    });
+
+    function CancelAdd() {
+        window.location.href = '/TargetVsAchievement/TargetSetUp/Index';
+    }
+
+
+    function TargetAdd() {
+        window.location.href = '/TargetVsAchievement/TargetSetUp/Index';
+    }
+    function gridclick(s, e) {
+        globalrowindex = e.visibleIndex;
+    }
+    function AddNewRowWithSl() {
+        gridLevelEntryList.batchEditApi.EndEdit();
+        gridLevelEntryList.AddNewRow();
+        index = globalrowindex;
+        resuffleSerial();
+        setTimeout(function () {
+            gridLevelEntryList.batchEditApi.EndEdit();
+            gridLevelEntryList.batchEditApi.StartEdit(index, 1);
+        }, 200);
+    }
+    function resuffleSerial() {
+        var sl = 1;
+        var visiablerow = gridLevelEntryList.GetVisibleRowsOnPage();
+        if (visiablerow > 0 && rowtime == 0) {
+            sl = visiablerow;
+            rowtime++;
+        }
+        for (var i = -1; i > -500; i--) {
+            if (gridLevelEntryList.GetRow(i)) {
+                gridLevelEntryList.batchEditApi.StartEdit(i, 1);
+                gridLevelEntryList.GetEditor('SlNO').SetText(sl);
+                gridLevelEntryList.batchEditApi.StartEdit(i, 1);
+                sl = sl + 1;
+            }
+        }
+    }
+    function grid_CustomButtonClick(s) {
+
+        var noofvisiblerows = gridLevelEntryList.GetVisibleRowsOnPage();
+        if (noofvisiblerows != 1) {
+            gridLevelEntryList.batchEditApi.StartEdit(globalrowindex);
+            gridLevelEntryList.DeleteRow(globalrowindex);
+            if ($('#hdnDetailsID').val() == 0) {
+                resuffleSerial();
+            }
+            else {
+                DeleteRowProductGrid(s);
+            }
+            //BOMGridSetTotalAmount();
+        }
+
+    }
+    function grid_CustomButtonAddClick(s) {
+        AddNewRowWithSl();
+    }
+
+    function DeleteRowProductGrid(edit) {
+        var sl = 1;
+        gridLevelEntryList.batchEditApi.EndEdit();
+        for (var i = 0; i < 500; i++) {
+            if (gridLevelEntryList.GetRow(i)) {
+                var tr = gridLevelEntryList.GetRow(i);
+                if (tr.style.display != "none") {
+                    gridLevelEntryList.batchEditApi.StartEdit(i, 1);
+                    gridLevelEntryList.GetEditor('SlNO').SetText(sl);
+                    gridLevelEntryList.batchEditApi.StartEdit(i, 1);
+                    sl = sl + 1;
+                }
+            }
+        }
+        for (var i = -1; i > -500; i--) {
+            if (gridLevelEntryList.GetRow(i)) {
+                var tr = gridLevelEntryList.GetRow(i);
+                if (tr.style.display != "none") {
+                    gridLevelEntryList.batchEditApi.StartEdit(i, 1);
+                    gridLevelEntryList.GetEditor('SlNO').SetText(sl);
+                    gridLevelEntryList.batchEditApi.StartEdit(i, 1);
+                    sl = sl + 1;
+                }
+            }
+        }
+    }
+
+    function OpenLevelList(s, e) {
+        if (gridLevelEntryList.GetDataRow(globalrowindex) != null) {
+            slno = gridLevelEntryList.GetDataRow(globalrowindex).children[0].innerHTML.trim();
+        }
+        var TargetLevel = $("#ddlTargetLevel").val();
+        GridLevellist(TargetLevel);
+
+
+
+        $('#GridLevellistModel').modal('show');
+        $('#txtGridLevelName').focus();
+    }
+    function GridLevelListkeydown(e) {
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            if ($("#txtGridLevelName").val() != '') {
+                var TargetLevel = $("#ddlTargetLevel").val();
+                GridLevellist(TargetLevel);
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[GridTargetIndex=" + 0 + "]")) {
+                $("input[GridTargetIndex=" + 0 + "]").focus();
+                iindexprod++;
+            }
+            if ($("input[NonIProductIndex=" + 0 + "]")) {
+                $("input[NonIProductIndex=" + 0 + "]").focus();
+                iindexprod++;
+            }
+        }
+    }
+    function GridLevellist(Action) {
+        var SearchKey = $("#txtGridLevelName").val()
+        //gridproductlist = 1;
+        var OtherDetails = {}
+        OtherDetails.SearchKey = SearchKey;
+        OtherDetails.Type = Action;
+
+        var HeaderCaption = [];
+        HeaderCaption.push("Name");
+        HeaderCaption.push("Code");
+
+
+        callonServer("../../../Models/TargetWebService.asmx/GetTargetLevelDetailsList", OtherDetails, "GridTargetTable", HeaderCaption, "GridTargetIndex", "SetGridLevel");
+
+        setTimeout(function () {
+            $('#txtGridLevelName').focus();
+        }, 600);
+
+    }
+    function SetGridLevel(Id, Name, e) {
+
+        var TargetLevelID = Id;
+        var TargetLevelName = Name;
+
+        if (TargetLevelID != "") {
+
+            var data = TargetLevelID.split("|");
+            TargetLevelID = data[0];
+            var INTERNALID = data[1];
+
+
+            btnTARGETLEVEL.SetText(TargetLevelName);
+            $("#hdnTARGETLEVELID").val(TargetLevelID);
+            $("#hdnINTERNALID").val(INTERNALID);
+
+
+            //gridLevelEntryList.batchEditApi.StartEdit(globalrowindex, 9);
+            //gridLevelEntryList.GetEditor('TARGETLEVELID').SetText(TargetLevelID);
+            //gridLevelEntryList.GetEditor('TARGETLEVELID').visible = false;
+            //gridLevelEntryList.batchEditApi.StartEdit(globalrowindex, 2);
+            //gridLevelEntryList.GetEditor('TARGETLEVEL').SetText(TargetLevelName);
+            //gridLevelEntryList.GetEditor('TARGETLEVEL').visible = false;
+            //gridLevelEntryList.batchEditApi.StartEdit(globalrowindex, 11);
+            //gridLevelEntryList.GetEditor('INTERNALID').SetText(INTERNALID);
+
+
+            $('#GridLevellistModel').modal('hide');
+
+
+            //$('#ddlTargetLevel').prop('disabled', true);
+        }
+    }
+    function LevelKeyDown(s, e) {
+        console.log(e.htmlEvent.key);
+        if (e.htmlEvent.key == "Enter") {
+            s.OnButtonClick(0);
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[GridTargetIndex=0]"))
+                $("input[GridTargetIndex=0]").focus();
+        }
+    }
+
+
+    function OnStartCallback(s, e) {
+
+        var TargetNo = $('#TargetNo').val();
+        var TargetDate = GetServerDateFormat(WODTargetDate.GetValue());
+        var TargetLevel = $('#ddlTargetLevel option:selected').val();
+        var hdnDetailsID = $('#hdnDetailsID').val();
+        //if (hdnDetailsID > 0) {
+        //    DetailsID = hdnDetailsID;
+        //}
+
+
+        if (e != undefined) {
+            e.customArgs["TARGET_ID"] = hdnDetailsID;
+            e.customArgs["TargetType"] = TargetLevel;
+            e.customArgs["TargetNo"] = TargetNo;
+            e.customArgs["TargetDate"] = TargetDate;
+        }
+    }
+    function EntrySave(mode) {
+        savemode = mode;
+        hasmsg = 0;
+        var TargetNo = $('#TargetNo').val();
+        var TargetDate = GetServerDateFormat(WODTargetDate.GetValue());
+        var TargetLevel = $('#ddlTargetLevel option:selected').val();
+
+
+        if (TargetLevel.trim() == "Select" || TargetLevel.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select WOD Target Level to Proceed.'
+            });
+            return false;
+        }
+        else if ($("#TargetNo").val().trim() == "") {
+            // SweetAlert for empty category name
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Enter WOD Target Document No. to Proceed.'
+            });
+            return false;
+        } else if (TargetDate.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select Target Date to Proceed.'
+            });
+            return false;
+        }
+        var noofvisiblerows = gridLevelEntryList.GetVisibleRowsOnPage();
+        if (noofvisiblerows == 0) {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Please Add One Target For to proceed.'
+            });
+            return false;
+        }
+        var TargetNo = $('#TargetNo').val();
+        var TargetDate = GetServerDateFormat(WODTargetDate.GetValue());
+        var TargetLevel = $('#ddlTargetLevel option:selected').val();
+        var hdnDetailsID = $('#hdnDetailsID').val();
+
+        var data = {
+            TARGET_ID:hdnDetailsID,
+            TargetType:TargetLevel,
+            TargetNo:TargetNo,
+            TargetDate:TargetDate
+        }
+
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SaveWOD", "WODTarget")",
+            data: JSON.stringify({ Details: data }), // Correct JSON formatting
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response != null) {
+                    var Sucess = response.split('~')[0];
+                    var DetailsID = response.split('~')[1];
+                    var TargetNo = response.split('~')[2];
+                    var Message = response.split('~')[3];
+
+                    $('#hdnDetailsID').val(DetailsID);
+
+                    var newDetailsID = DetailsID;
+                    if (DetailsID > 0 && TargetNo != "") {
+                        ProductionID = 0;
+                        DetailsID = 0;
+
+                        Swal.fire({
+                            title: 'Success!',
+                            html: 'WOD Target Number: <strong style="color: #007bff;">' + TargetNo + '</strong> saved successfully.',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                if (savemode === "Exit") {
+                                    setTimeout(function () {
+                                        var url = $('#hdnListPage').val();
+                                        window.location.href = url;
+                                    }, 500);
+                                }
+                            }
+                        });
+
+                    } else {
+                        DetailsID = 0;
+                        savemode = "";
+
+                        if (Message === "duplicateLevel") {
+                            Swal.fire({
+                                title: 'Duplicate Entry',
+                                text: 'Duplicate record entry.',
+                                icon: 'warning',
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'Please try again later.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+
+                        return false;
+                    }
+                    Message = "";
+                }
+            }
+        });
+
+
+
+        //var oneproduct = "";
+        //var visiablerow = gridLevelEntryList.GetVisibleRowsOnPage();
+        //if (visiablerow > 0) {
+        //    for (var i = 100; i > -500; i--) {
+        //        if (gridLevelEntryList.GetRow(i)) {
+        //            if (oneproduct == "" || oneproduct == null) {
+        //                oneproduct = gridLevelEntryList.batchEditApi.GetCellValue(i, 'TARGETLEVEL');
+        //            }
+        //        }
+        //    }
+        //}
+
+        //if (visiablerow > 0) {
+        //    for (i = -1; i > -1000; i--) {
+        //        if (gridLevelEntryList.GetRow(i)) {
+        //            var TARGETLEVEL = gridLevelEntryList.GetEditor("TARGETLEVEL").GetValue();
+
+        //            if (TARGETLEVEL != "" && TARGETLEVEL != null) {
+
+        //                if (gridLevelEntryList.GetEditor("TIMEFRAME").GetValue() ==null) {
+        //                    jAlert("Select Timeframe.");
+        //                    return false;
+        //                }
+
+        //                if (gridLevelEntryList.GetEditor("STARTEDATE").GetValue() == null) {
+        //                    jAlert("Select Start Date.");
+        //                    return false;
+        //                }
+        //                if (gridLevelEntryList.GetEditor("ENDDATE").GetValue() == null) {
+        //                    jAlert("Select End Date.");
+        //                    return false;
+        //                }
+
+        //                if (parseFloat(gridLevelEntryList.GetEditor("WODCOUNT").GetValue()) == 0) {
+        //                    jAlert("WOD Count should be greater than zero!");
+        //                    return false;
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    for (var i = 0; i < 500; i++) {
+        //        if (gridLevelEntryList.GetRow(i)) {
+        //            var TARGETLEVEL = gridLevelEntryList.GetEditor("TARGETLEVEL").GetValue();
+
+        //            if (TARGETLEVEL != "" && TARGETLEVEL != null) {
+
+        //                if (gridLevelEntryList.GetEditor("TIMEFRAME").GetValue() == null) {
+        //                    jAlert("Select Timeframe.");
+        //                    return false;
+        //                }
+
+        //                if (gridLevelEntryList.GetEditor("STARTEDATE").GetValue() == null) {
+        //                    jAlert("Select Start Date.");
+        //                    return false;
+        //                }
+
+        //                if (gridLevelEntryList.GetEditor("ENDDATE").GetValue() == null) {
+        //                    jAlert("Select End Date.");
+        //                    return false;
+        //                }
+
+        //                if (parseFloat(gridLevelEntryList.GetEditor("WODCOUNT").GetValue()) == 0) {
+        //                    jAlert("WOD Count should be greater than zero!");
+        //                    return false;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+
+
+
+        //if (oneproduct != "" && oneproduct != null) {
+        //    addNewRowToEditgrid();
+        //    SuffleRows();
+        //    gridLevelEntryList.UpdateEdit();
+        //    gridLevelEntryList.UpdateEdit();
+        //}
+        //else {
+
+        //    jAlert('Cannot Save. You must enter atleast one Level to save this entry.');
+        //    return false;
+        //}
+    }
+    function addNewRowToEditgrid() {
+        gridLevelEntryList.batchEditApi.EndEdit();
+        gridLevelEntryList.AddNewRow();
+
+        var sl = 1;
+        var visiablerow = gridLevelEntryList.GetVisibleRowsOnPage();
+        if (visiablerow > 0) {
+            sl = visiablerow;
+        }
+        gridLevelEntryList.batchEditApi.StartEdit(globalrowindex, 1);
+        gridLevelEntryList.GetEditor('SlNO').SetText(sl);
+
+
+        setTimeout(function () {
+            gridLevelEntryList.batchEditApi.EndEdit();
+            gridLevelEntryList.batchEditApi.StartEdit(globalrowindex, 2);
+        }, 200);
+
+
+    }
+    function SuffleRows() {
+        for (var i = 0; i < 1000; i++) {
+            if (gridLevelEntryList.GetRow(i)) {
+                if (gridLevelEntryList.GetRow(i).style.display != "none") {
+                    gridLevelEntryList.batchEditApi.StartEdit(i, 8);
+                    gridLevelEntryList.GetEditor("UpdateEdit").SetText(i);
+                }
+            }
+        }
+
+        for (i = -1; i > -1000; i--) {
+            if (gridLevelEntryList.GetRow(i)) {
+                if (gridLevelEntryList.GetRow(i).style.display != "none") {
+                    gridLevelEntryList.batchEditApi.StartEdit(i, 8);
+                    gridLevelEntryList.GetEditor("UpdateEdit").SetText(i);
+                }
+            }
+        }
+    }
+    function GetServerDateFormat(today) {
+        if (today != "" && today != null) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+    function OnEndCallback(s, e) {
+        DetailsID = s.cpDetailsID;
+        TargetNo = s.cpTargetNo;
+        Message = s.cpMessage;
+
+        $('#hdnDetailsID').val(DetailsID);
+
+        if (s.cpBatchUpdate == "1") {
+            s.cpBatchUpdate = "0";
+
+            var newDetailsID = DetailsID;
+            if (DetailsID > 0 && TargetNo != "") {
+                ProductionID = 0;
+                DetailsID = 0;
+
+                Swal.fire({
+                    title: 'Success!',
+                    html: 'WOD Target Number: <strong style="color: #007bff;">' + TargetNo + '</strong> saved successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (savemode === "Exit") {
+                            setTimeout(function () {
+                                var url = $('#hdnListPage').val();
+                                window.location.href = url;
+                            }, 500);
+                        }
+                    }
+                });
+
+            } else {
+                DetailsID = 0;
+                savemode = "";
+
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Please try again later.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+
+                return false;
+            }
+            Message = "";
+        }
+
+        AddNewRowWithSl();
+    }
+
+
+
+
+    function EditLevelData(values)
+    {
+        $.ajax({
+            type: "POST",
+            //url: "@Url.Action("EditTargetData", "WODTarget")",
+            url: "../WODTarget/EditTargetData",
+            data: { HiddenID: values },
+            success: function (response) {
+                if (response != null) {
+
+                    //$('#ddlTargetLevel').val(response.TARGETLEVEL);
+                    //$('#TargetNo').val("");
+                    //WODTargetDate.SetValue(d);
+
+                    $("#hdnTARGETLEVELID").val(response.TARGETLEVELID),
+                    $("#hdnINTERNALID").val(response.INTERNALID),
+
+                    btnTARGETLEVEL.SetValue(response.TARGETLEVEL);
+                    $("#ddlTimeFrame").val(response.TIMEFRAME);
+                    $("#hdnLevelGuiIDS").val(response.Guids);
+
+                    // START DATE
+                    var partsST = response.STARTEDATE.split("-");
+                    var dayST = parseInt(partsST[0], 10);
+                    var monthST = parseInt(partsST[1], 10) - 1; // Month is 0-based
+                    var yearST = parseInt(partsST[2], 10);
+
+                    var dateS = new Date(yearST, monthST, dayST); // Month is 0-based, so 10 represents November
+                    STARTEDATE.SetDate(dateS);
+                    //
+
+
+                    // END DATE
+                    var partsED = response.ENDDATE.split("-");
+                    var dayED = parseInt(partsED[0], 10);
+                    var monthED = parseInt(partsED[1], 10) - 1; // Month is 0-based
+                    var yearED = parseInt(partsED[2], 10);
+
+                    var dateE = new Date(yearED, monthED, dayED); // Month is 0-based, so 10 represents November
+                    ENDDATE.SetDate(dateE);
+                    //
+
+                    cWODCount.SetText(response.WODCOUNT);
+                    /*$("#btnAdd").text("Save");*/
+                    $("#btnAdd").html('<span class="btn-icon saveicon"><img src="../../../assests/images/save-instagram.svg"></span> Save');
+                }
+            }
+        });
+    }
+
+</script>
+<script>
+    function btnAdd_Click() {
+
+
+        var _TimeFrame = $("#ddlTimeFrame").val();
+        var _STARTEDATE = GetServerDateFormat(STARTEDATE.GetValue());
+        var _ENDDATE = GetServerDateFormat(ENDDATE.GetValue());
+        var _WODCount = cWODCount.GetText();
+        var TargetNo = $('#TargetNo').val();
+        var TargetDate = GetServerDateFormat(WODTargetDate.GetValue());
+        var TargetLevel = $('#ddlTargetLevel option:selected').val();
+        var _TargetLevel = btnTARGETLEVEL.GetValue();
+
+        if (TargetLevel.trim() == "Select" || TargetLevel.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select WOD Target Level to Proceed.'
+            });
+            return false;
+        }
+        else if ($("#TargetNo").val().trim() == "") {
+            // SweetAlert for empty category name
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Enter WOD Document No. to Proceed.'
+            });
+            return false;
+        } else if (TargetDate.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select Target Date to Proceed.'
+            });
+            return false;
+        }
+        else if (_TargetLevel ==null) {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select Target Target For to Proceed.'
+            });
+            return false;
+        }
+        else if ($("#ddlTimeFrame").val().trim()== "Select") {
+            // SweetAlert for empty category name
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select Time Frame to Proceed.'
+            });
+            return false;
+        } else if (_STARTEDATE.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select Start Date to Proceed.'
+            });
+            return false;
+        }
+        else if (_ENDDATE.trim() == "") {
+            // SweetAlert for empty category description
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select End Date to Proceed.'
+            });
+            return false;
+        }
+        else if (parseFloat(_WODCount) ==0) {
+            // SweetAlert for empty category name
+            Swal.fire({
+                icon: 'warning',
+                title: 'Sorry!',
+                text: 'Select WOD Count to Proceed.'
+            });
+            return false;
+        }
+
+
+
+        var TARGETLEVELID = $("#hdnTARGETLEVELID").val();
+        var TARGET_LEVEL = btnTARGETLEVEL.GetValue();
+        var INTERNALID = $("#hdnINTERNALID").val();
+
+
+
+
+         $.ajax({
+                type: "POST",
+                url: "@Url.Action("CHECKUNIQUETARGETDETAILS", "WODTarget")",
+                data: JSON.stringify({ TargetType: TargetLevel, TARGETLEVELID: TARGETLEVELID, TARGETLEVEL: TARGET_LEVEL, INTERNALID: INTERNALID, TimeFrame: _TimeFrame, STARTEDATE: _STARTEDATE, ENDDATE: _ENDDATE }),
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    CheckUniqueCode = msg;
+                    if (CheckUniqueCode == 1) {
+                        jAlert('Please enter unique Target For,Time Frame,Start Date,End Date,WOD Count.');
+
+                    }
+                    else {
+                             var data = {
+                                 TARGETLEVELID: $("#hdnTARGETLEVELID").val(),
+                                 TARGETLEVEL: btnTARGETLEVEL.GetValue(),
+                                 INTERNALID: $("#hdnINTERNALID").val(),
+                                 TimeFrame: _TimeFrame,
+                                 STARTEDATE: _STARTEDATE,
+                                 ENDDATE: _ENDDATE,
+                                 WODCount: _WODCount,
+                                 Guids: $("#hdnLevelGuiIDS").val(),
+
+                             }
+
+                             $.ajax({
+                      type: "POST",
+                      url: "@Url.Action("AddLevelDetails", "WODTarget")",
+
+                      data: "{prod:" + JSON.stringify(data) + "}",
+                      async: true,
+                      contentType: "application/json; charset=utf-8",
+                      dataType: "json",
+                      success: function (response) {
+                                  if (response != null) {
+                                      gridLevelEntryList.Refresh();
+                                      gridLevelEntryList.Refresh();
+
+
+                                     // $("#ddlTargetLevel").val("Select");
+                                      //$('#TargetNo').val("");
+                                      $('#ddlTargetLevel').prop('disabled', true);
+
+                                      btnTARGETLEVEL.SetValue('');
+                                      $("#hdnTARGETLEVELID").val('');
+                                      $("#hdnINTERNALID").val('');
+                                      cWODCount.SetValue("0");
+                                      $("#ddlTimeFrame").val("Select");
+                                      $("#hdnLevelGuiIDS").val('');
+                                      ENDDATE.SetDate(null);
+                                      STARTEDATE.SetDate(null);
+
+                                      /*$("#btnAdd").text("Add");*/
+                                      $("#btnAdd").html('<span class="btn-icon"><i class="fa fa-plus"></i></span> Add');
+                                  }
+                              }
+                          });
+                         }
+
+                    }
+
+         });
+
+
+    }
+    function TimeFrameChange() {
+        var _STARTEDATE = STARTEDATE.GetValue();
+        var _ENDDATE = ENDDATE.GetValue();
+        var _TimeFrame = $("#ddlTimeFrame").val();
+
+        
+
+        if (_STARTEDATE != "" && _TimeFrame!="Select") {
+            const startDate = new Date(_STARTEDATE);
+            let endDate;
+
+            if (_TimeFrame === "Monthly") {
+                endDate = new Date(startDate.setMonth(startDate.getMonth() + 1));
+                var dateE = new Date(endDate.toISOString().split("T")[0]); // Month is 0-based, so 10 represents November
+                ENDDATE.SetDate(dateE);
+            } else if (_TimeFrame === "Yearly") {
+                endDate = new Date(startDate.setFullYear(startDate.getFullYear() + 1));
+                var dateE = new Date(endDate.toISOString().split("T")[0]); // Month is 0-based, so 10 represents November
+                ENDDATE.SetDate(dateE);
+            }
+            else {
+                if (ENDDATE.GetDate()) {
+                    if (STARTEDATE.GetDate() > ENDDATE.GetDate()) {
+                        STARTEDATE.SetValue(ENDDATE.GetDate());
+                    }
+                }
+            }
+
+        } else {
+            if (ENDDATE.GetDate()) {
+                if (STARTEDATE.GetDate() > ENDDATE.GetDate()) {
+                    STARTEDATE.SetValue(ENDDATE.GetDate());
+                }
+            }
+        }
+
+
+    }
+    function DateValidateTo() {
+        if (STARTEDATE.GetDate()) {
+            if (ENDDATE.GetDate() < STARTEDATE.GetDate()) {
+                ENDDATE.SetValue(STARTEDATE.GetDate());
+            }
+        }
+    }
+    function DeleteLevelData(values) {
+        var noofvisiblerows = gridLevelEntryList.GetVisibleRowsOnPage();
+        if (noofvisiblerows != 1) {
+            $.ajax({
+                type: "POST",
+                url: "../WODTarget/DeleteLevelData",
+                data: { HiddenID: values },
+                success: function (response) {
+                    if (response != null) {
+                        gridLevelEntryList.Refresh();
+                        gridLevelEntryList.Refresh();
+                    }
+                }
+            });
+        }
+    }
+</script>
+
+<div class="breadCumb">
+    <span id="HeaderLableID">WOD</span>
+    <div id="ApprovalCross" onclick="TargetAdd()" class="crossBtnN"><i class="fa fa-times"></i></div>
+</div>
+<div class="container">
+    <div class="form_main backBox p-3 mb-3">
+        <div class="row mb-4">
+            <div class="col-sm-4 h-branch-select">
+                <label>Employee Group <span style="color:red">*</span></label>
+                @Html.DropDownListFor(m => m.TargetType, new SelectList(Model.LevelList, "ID", "LEVEL_NAME", null), "Select", new { @id = "ddlTargetLevel", @class = "form-control" })
+
+                @*<select id="ddlTargetLevel" class="form-control">
+                    <option value="Select">Select</option>
+                    <option value="Region">Region level</option>
+                    <option value="ASM">ASM level</option>
+                    <option value="SalesOfficer">Sales Officer level</option>
+                    <option value="Salesman">Salesman Level</option>
+                    <option value="Beat">Beat level</option>
+                    <option value="Outlet">Outlet Level</option>
+                </select>*@
+            </div>
+            <div class=" col-sm-4">
+                <label>Document No. <span style="color:red">*</span></label>
+                <div class="relative">
+                    @Html.TextBoxFor(m => m.TargetNo, new { @class = "form-control", @MaxLength = "30" })
+                    <span id="EBOMNo" class="customerno pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; display: none" title="Mandatory"></span>
+                </div>
+            </div>
+            <div class=" col-sm-4">
+                <label>Date <span style="color:red">*</span></label>
+                <div class="relative">
+                    @Html.DevExpress().DateEdit(
+                                 settings =>
+                                 {
+                                     settings.Name = "WODTargetDate";
+                                     settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                     settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                     settings.Width = Unit.Percentage(100);
+                                     settings.Date = Convert.ToDateTime(@Model.TargetDate);
+                                     settings.Properties.UseMaskBehavior = true;
+
+                                 }
+                        ).GetHtml()
+                    <span id="EBOMDate_dt" class="customerno pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; display: none" title="Mandatory"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form_main backBox p-3">
+        <div class="row mb-4">
+            <div class=" col-sm-2">
+                <label>Target For<span style="color:red">*</span></label>
+                @Html.DevExpress().ButtonEdit(
+                settings =>
+                {
+                    settings.Name = "btnTARGETLEVEL";
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settings.Text = @Model.TARGETLEVEL;
+                    settings.ReadOnly = true;
+                    settings.Properties.Buttons.Add("...");
+                    settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){OpenLevelList(s,e);}";
+                    settings.Properties.ClientSideEvents.KeyDown = "function(s,e){LevelKeyDown(s,e);}";
+
+                }).GetHtml()
+            </div>
+            <div class="col-sm-2 h-branch-select">
+                <label>Time Frame<span style="color:red">*</span></label>
+                <select id="ddlTimeFrame" class="form-control">
+                    <option value="Select">Select</option>
+                    <option value="Monthly">Monthly</option>
+                    <option value="Yearly">Yearly</option>
+                    <option value="Custom">Custom</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <label>Start Date<span style="color:red">*</span></label>
+                <div class="relative">
+                    @Html.DevExpress().DateEdit(
+                                 settings =>
+                                 {
+                                     settings.Name = "STARTEDATE";
+                                     settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                     settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                     settings.Width = Unit.Percentage(100);
+                                     settings.Date = Convert.ToDateTime(@Model.STARTEDATE);
+                                     settings.Properties.UseMaskBehavior = true;
+                                     settings.Properties.ClientSideEvents.DateChanged = "TimeFrameChange";
+                                 }
+                        ).GetHtml()
+                    <span id="EBOMDate_dt" class="customerno pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; display: none" title="Mandatory"></span>
+                </div>
+            </div>
+            <div class=" col-sm-2">
+                <label>End Date<span style="color:red">*</span></label>
+                <div class="relative">
+                    @Html.DevExpress().DateEdit(
+                                 settings =>
+                                 {
+                                     settings.Name = "ENDDATE";
+                                     settings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                     settings.Properties.EditFormatString = "dd-MM-yyyy";
+                                     settings.Width = Unit.Percentage(100);
+                                     settings.Date = Convert.ToDateTime(@Model.ENDDATE);
+                                     settings.Properties.UseMaskBehavior = true;
+                                     settings.Properties.ClientSideEvents.DateChanged = "DateValidateTo";
+
+                                 }
+                        ).GetHtml()
+                    <span id="EBOMDate_dt" class="customerno pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; display: none" title="Mandatory"></span>
+                </div>
+            </div>
+            <div class=" col-sm-2">
+                <label>WOD Count<span style="color:red">*</span></label>
+                <div class="relative">
+                    @Html.DevExpress().TextBoxFor(m => m.WODCount,
+                     settings =>
+                     {
+                         settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                         settings.Properties.ClientInstanceName = "cWODCount";
+                         settings.Properties.MaskSettings.Mask = "<0..999999999>";
+                         settings.ControlStyle.CssClass = "form-control";
+                         // settings.Properties.ClientSideEvents.LostFocus = "function(s,e){EstimateGridSetAmount(s,e);}";
+                     }).GetHtml()
+                    <span id="EBOMNo" class="customerno pullleftClass fa fa-exclamation-circle iconRed " style="color: red; position: absolute; display: none" title="Mandatory"></span>
+                </div>
+            </div>
+            <div class=" col-sm-2">
+                <label class="">&nbsp; </label>
+                <div class="relative" style="">
+                    <button type="button" id="btnAdd" onclick="btnAdd_Click()" class="btn btn-success add-btn"><span class="btn-icon"><i class="fa fa-plus"></i></span> Add</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="scrooler">
+            <div id="refreshgrid">
+                @{
+                    Html.RenderAction("GetWODTargetEntryList", "WODTarget");
+                }
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="">
+            <div class=" mt-4">
+
+                @if (Convert.ToInt16(ViewBag.IsView) == 0)
+                {
+                    <button type="button" class="btn btn-success" id="btnSave" onclick="EntrySave('Exit');"><span class="btn-icon"><img src="../../../assests/images/save-instagram.svg"></span> Save and Exit</button>
+                }
+                <button type="button" class="btn btn-cancel cancel-catg" onclick="CancelAdd()"><span class="btn-icon"><img src="../../../assests/images/cancel.svg"></span> Cancel & Exit</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@Url.Action("Index", "TargetSetUp")" id="hdnListPage" />
+<input type="hidden" value="@Model.TARGET_ID" id="hdnDetailsID" />
+<input type="hidden" value="@Model.TargetType" id="hdnTargetLevel" />
+<input type="hidden" value="@Model.TargetDate" id="hdnWODTargetDate" />
+
+<input type="hidden" value="" id="hdnTARGETLEVELID" />
+<input type="hidden" value="" id="hdnINTERNALID" />
+<input type="hidden" value="" id="hdnLevelGuiIDS" />
+
+<!-- Grid Level List -->
+<div class="modal fade pmsModal" id="GridLevellistModel" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Select Level</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" onkeydown="GridLevelListkeydown(event)" id="txtGridLevelName" autofocus width="100%" placeholder="Search By  Name" />
+                <div id="GridTargetTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th> Name</th>
+                            <th> Code</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-cancel" data-dismiss="modal" onclick="SetFocusDesc()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Grid Level List-->

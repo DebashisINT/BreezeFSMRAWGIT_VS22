@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ==========================================================*@
 @*Rev Number    DATE            VERSION    DEVELOPER      CHANGES*@
 @*1.0           28-03-2024      2.0.46     Sanchita       27299: One settings page required for Leaderboard in the backend. Below points should be captured for different section. *@
+@*2.0           30-09-2024      2.0.49     Pallab                Grid row highlighted when edit action button clicked *@
 @*====================================================== Revision History ==========================================================*@
 
 @model  MyShop.Models.ConfigueLeaderboardModel
@@ -406,22 +407,23 @@
         color: red;
     }
 
-    .active-checkbox
-    {
+    .active-checkbox {
         display: flex;
         margin-top: 30px;
     }
 
-    input[type="radio"], input[type="checkbox"]
-    {
+    input[type="radio"], input[type="checkbox"] {
         margin-left: 5px;
     }
 
-    #forTopSpaceControl .btn
-    {
+    #forTopSpaceControl .btn {
         margin-right: 5px;
     }
-
+    /*Rev 2.0*/
+    .highlighted-row {
+        background-color: #e3f2ff;
+    }
+    /*Rev end 2.0*/
     /*Rev end 1.0*/
     @@media only screen and (max-width: 768px) {
         .breadCumb > span {
@@ -574,6 +576,15 @@
 
     }
 </script>
+@*Rev 2.0*@
+<script>
+    function highlightRow(element) {
+        $('.highlighted-row').removeClass('highlighted-row');
+
+        $(element).closest('tr').addClass('highlighted-row');
+    }
+</script>
+@*Rev end 2.0*@
 <div class="breadCumb">
     <span>Leaderboard Settings </span>
 </div>
@@ -586,10 +597,10 @@
                     @Html.DropDownListFor(m => m.pointID, new SelectList(Model.section, "ID", "POINT_SECTION", Model.pointID), "Select", new { @id = "idPointSection", @class = "form-control", @tabindex = 1 })
                 </div>
                 <div>
-                    @Html.TextBoxFor(m => m.POINT_SECTION, new { @readonly = "readonly", @class = "form-control", @id = "txtPointScheme", @tabindex = 1})
+                    @Html.TextBoxFor(m => m.POINT_SECTION, new { @readonly = "readonly", @class = "form-control", @id = "txtPointScheme", @tabindex = 1 })
                 </div>
             </div>
-            
+
             <div class="col-md-2 mb-3">
                 <label>Points</label><span class="red" id="spaneligible">*</span>
                 <div>
@@ -598,7 +609,7 @@
 
                 </div>
             </div>
-            
+
             <div class="col-md-1 mb-3 active-checkbox">
                 <label>Active</label>
                 <div>
@@ -607,12 +618,12 @@
 
                 </div>
             </div>
-            
+
             <div class="col-md-4 mb-3 mt-4" style="padding-top: 7px;" id="forTopSpaceControl">
                 <label>&nbsp;</label>
                 @if (ViewBag.CanAdd)
-                {
-                    <button type="button" id="btnshow" class="btn btn-success " tabindex=4>Add</button>
+                    {
+                <button type="button" id="btnshow" class="btn btn-success " tabindex=4>Add</button>
                 }
 
                 <button type="button" id="btnclear" class="btn btn-danger " tabindex=6>Cancel</button>
@@ -642,6 +653,6 @@
     </div>
 
     <input type="hidden" id="hdPointId" />
-  
+
 </div>
 

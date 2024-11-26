@@ -1,5 +1,6 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.48     Debashis    31/07/2024      Some new Parameters have been added.Row: 957
+//2.0   V2.0.49     Debashis    17/09/2024      A new parameter has been added.Row: 977
 #endregion===================================End of Revision History==================================================
 
 using System;
@@ -70,6 +71,9 @@ namespace ShopAPI.Models
         public string Hospital { get; set; }
         public string Email_Address { get; set; }
         //Extra Input for EuroBond
+        //Rev 2.0 Row: 977
+        public string OrderStatus { get; set; }
+        //End of Rev 2.0 Row: 977
         public List<OrderSignaturelist> product_list { get; set; }
     }
     public class OrderSignaturelist

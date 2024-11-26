@@ -1,6 +1,6 @@
 ﻿//********************************************************************************************************************
-// Rev 1.0    Sanchita    V2.0.45     14-02-2024      Change Password option not working. Mantis: 27242
-
+// Rev 1.0    Sanchita           V2.0.45     14-02-2024      Change Password option not working. Mantis: 27242
+// Rev 2.0    Pallab/Sanchita    V2.0.49     09-10-2024      027763: Portal login page download APK functionality add        
 //**********************************************************************************************************************
 using MyShop.Models;
 using System;
@@ -61,5 +61,30 @@ namespace MyShop.Controllers
                 return View();
             }
         }
+
+        // Rev 2.0
+        public ActionResult DownloadAPK()
+        {
+            //string FileName = "PartyList.xlsx";
+            string[,] getData;
+            getData = oDBEngine.GetFieldValue("FSM_CONFIG_APKDET", "APKFILE_NAME", null, 1);
+            string FileName = getData[0, 0];
+
+            string strPath = (Convert.ToString(System.AppDomain.CurrentDomain.BaseDirectory) + "/Apk/" + FileName);
+
+
+            System.Web.HttpResponse response = System.Web.HttpContext.Current.Response;
+            response.ClearContent();
+            response.Clear();
+            response.ContentType = "image/jpeg";
+            response.AddHeader("Content-Disposition", "attachment; filename=" + FileName + ";");
+            //response.TransmitFile(Server.MapPath("~/Commonfolder/PartyList.xlsx"));
+            response.TransmitFile(strPath);
+            response.Flush();
+            response.End();
+
+            return null;
+        }
+        // End of Rev 2.0
     }
 }

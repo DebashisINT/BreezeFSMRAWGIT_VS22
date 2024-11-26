@@ -399,6 +399,9 @@
     // End of Rev 4.0
 
     function OnStartCallback(s, e) {
+
+        document.getElementById("loading-overlay").style.display = "block";
+
         e.customArgs["StateId"] = StateId;
         e.customArgs["TypeID"] = typeId;
         e.customArgs["Ispageload"] = Ispageload;
@@ -413,6 +416,12 @@
         // Rev 4.0
         e.customArgs["BranchId"] = BranchId;
         // End of Rev 4.0
+    }
+
+    function OnEndCallback() {
+        // Hide overlay and remove blur when data finishes loading
+        document.getElementById("loading-overlay").style.display = "none";
+        /*document.getElementById("grid-container").classList.remove("blur");*/
     }
 
 
@@ -565,6 +574,14 @@
             error: function () {
             },
         });
+
+    }
+
+    function gridRowclick(s, e) {
+        $('#gridCounterList').find('tr').removeClass('rowActive');
+
+
+        $(s.GetRow(e.visibleIndex)).addClass('rowActive');
 
     }
 
@@ -850,6 +867,44 @@
 
     /*Rev end 3.0*/
 
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: none; /* Initially hidden */
+    }
+
+    .flex-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dxgvLoadingPanel_PlasticBlue {
+        display: none !important;
+    }
+
+    .flex-loader img {
+        width: 120px;
+    }
+
+    .flex-loader h4 {
+        font-size: 22px;
+        color: #000000;
+    }
+
+    .rowActive {
+        background-color: #ebf4ff !important;
+        color: #000 !important;
+    }
+
     @@media only screen and (max-width: 768px) {
         /*.breadCumb > span {
             padding: 9px 10px;
@@ -881,6 +936,13 @@
 
 <div class="breadCumb">
     <span>Shop</span>
+</div>
+<div class="overlay" id="loading-overlay">
+    <div class="flex-loader">
+        <img src="/assests/images/new-loader.gif" />
+        <h4>Data is loading, Please Wait</h4>
+    </div>
+
 </div>
 <div class="container">
     <div class="form_main backBox p-3">

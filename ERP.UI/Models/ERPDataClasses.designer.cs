@@ -563,14 +563,6 @@ namespace ERP.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<FSMEmployee_Master> FSMEmployee_Masters
-		{
-			get
-			{
-				return this.GetTable<FSMEmployee_Master>();
-			}
-		}
-		
 		public System.Data.Linq.Table<FSMUser_Master_List> FSMUser_Master_Lists
 		{
 			get
@@ -608,6 +600,14 @@ namespace ERP.Models
 			get
 			{
 				return this.GetTable<PRODUCTSPECIALPRICELIST>();
+			}
+		}
+		
+		public System.Data.Linq.Table<FSMEmployee_Master> FSMEmployee_Masters
+		{
+			get
+			{
+				return this.GetTable<FSMEmployee_Master>();
 			}
 		}
 	}
@@ -22994,609 +22994,6 @@ namespace ERP.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FSMEmployee_Master")]
-	public partial class FSMEmployee_Master
-	{
-		
-		private string _Employee_Grade;
-		
-		private System.Nullable<int> _SRLNO;
-		
-		private string _ContactID;
-		
-		private string _Code;
-		
-		private string _Name;
-		
-		private string _FirstName;
-		
-		private string _MiddleName;
-		
-		private string _LastName;
-		
-		private System.Nullable<int> _cnt_id;
-		
-		private string _BranchName;
-		
-		private string _Department;
-		
-		private System.Nullable<int> _DepartmentID;
-		
-		private string _CTC;
-		
-		private string _ReportTo;
-		
-		private string _ReportToID;
-		
-		private string _DOJ;
-		
-		private string _CreatedBy;
-		
-		private string _Designation;
-		
-		private string _DesignationID;
-		
-		private string _Company;
-		
-		private string _OrganizationID;
-		
-		private string _Email_Ids;
-		
-		private string _PhoneMobile_Numbers;
-		
-		private string _FatherName;
-		
-		private string _PanCardNumber;
-		
-		private string _cnt_OtherID;
-		
-		private System.Nullable<int> _USERID;
-		
-		private System.Nullable<System.DateTime> _CreateDate;
-		
-		private System.Nullable<System.DateTime> _LastModifyDate;
-		
-		private string _AdditionalReportingHead;
-		
-		private string _Colleague;
-		
-		private string _Colleague1;
-		
-		private string _Colleague2;
-		
-		public FSMEmployee_Master()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Employee_Grade", DbType="VarChar(100)")]
-		public string Employee_Grade
-		{
-			get
-			{
-				return this._Employee_Grade;
-			}
-			set
-			{
-				if ((this._Employee_Grade != value))
-				{
-					this._Employee_Grade = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SRLNO", DbType="Int")]
-		public System.Nullable<int> SRLNO
-		{
-			get
-			{
-				return this._SRLNO;
-			}
-			set
-			{
-				if ((this._SRLNO != value))
-				{
-					this._SRLNO = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactID", DbType="VarChar(100)")]
-		public string ContactID
-		{
-			get
-			{
-				return this._ContactID;
-			}
-			set
-			{
-				if ((this._ContactID != value))
-				{
-					this._ContactID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(100)")]
-		public string Code
-		{
-			get
-			{
-				return this._Code;
-			}
-			set
-			{
-				if ((this._Code != value))
-				{
-					this._Code = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(500)")]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this._Name = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(200)")]
-		public string FirstName
-		{
-			get
-			{
-				return this._FirstName;
-			}
-			set
-			{
-				if ((this._FirstName != value))
-				{
-					this._FirstName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MiddleName", DbType="VarChar(200)")]
-		public string MiddleName
-		{
-			get
-			{
-				return this._MiddleName;
-			}
-			set
-			{
-				if ((this._MiddleName != value))
-				{
-					this._MiddleName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(200)")]
-		public string LastName
-		{
-			get
-			{
-				return this._LastName;
-			}
-			set
-			{
-				if ((this._LastName != value))
-				{
-					this._LastName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cnt_id", DbType="Int")]
-		public System.Nullable<int> cnt_id
-		{
-			get
-			{
-				return this._cnt_id;
-			}
-			set
-			{
-				if ((this._cnt_id != value))
-				{
-					this._cnt_id = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BranchName", DbType="VarChar(500)")]
-		public string BranchName
-		{
-			get
-			{
-				return this._BranchName;
-			}
-			set
-			{
-				if ((this._BranchName != value))
-				{
-					this._BranchName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Department", DbType="VarChar(200)")]
-		public string Department
-		{
-			get
-			{
-				return this._Department;
-			}
-			set
-			{
-				if ((this._Department != value))
-				{
-					this._Department = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentID", DbType="Int")]
-		public System.Nullable<int> DepartmentID
-		{
-			get
-			{
-				return this._DepartmentID;
-			}
-			set
-			{
-				if ((this._DepartmentID != value))
-				{
-					this._DepartmentID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CTC", DbType="VarChar(500)")]
-		public string CTC
-		{
-			get
-			{
-				return this._CTC;
-			}
-			set
-			{
-				if ((this._CTC != value))
-				{
-					this._CTC = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportTo", DbType="VarChar(500)")]
-		public string ReportTo
-		{
-			get
-			{
-				return this._ReportTo;
-			}
-			set
-			{
-				if ((this._ReportTo != value))
-				{
-					this._ReportTo = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportToID", DbType="VarChar(500)")]
-		public string ReportToID
-		{
-			get
-			{
-				return this._ReportToID;
-			}
-			set
-			{
-				if ((this._ReportToID != value))
-				{
-					this._ReportToID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DOJ", DbType="VarChar(200)")]
-		public string DOJ
-		{
-			get
-			{
-				return this._DOJ;
-			}
-			set
-			{
-				if ((this._DOJ != value))
-				{
-					this._DOJ = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedBy", DbType="VarChar(200)")]
-		public string CreatedBy
-		{
-			get
-			{
-				return this._CreatedBy;
-			}
-			set
-			{
-				if ((this._CreatedBy != value))
-				{
-					this._CreatedBy = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Designation", DbType="VarChar(500)")]
-		public string Designation
-		{
-			get
-			{
-				return this._Designation;
-			}
-			set
-			{
-				if ((this._Designation != value))
-				{
-					this._Designation = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DesignationID", DbType="VarChar(200)")]
-		public string DesignationID
-		{
-			get
-			{
-				return this._DesignationID;
-			}
-			set
-			{
-				if ((this._DesignationID != value))
-				{
-					this._DesignationID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company", DbType="VarChar(200)")]
-		public string Company
-		{
-			get
-			{
-				return this._Company;
-			}
-			set
-			{
-				if ((this._Company != value))
-				{
-					this._Company = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationID", DbType="VarChar(200)")]
-		public string OrganizationID
-		{
-			get
-			{
-				return this._OrganizationID;
-			}
-			set
-			{
-				if ((this._OrganizationID != value))
-				{
-					this._OrganizationID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email_Ids", DbType="VarChar(250)")]
-		public string Email_Ids
-		{
-			get
-			{
-				return this._Email_Ids;
-			}
-			set
-			{
-				if ((this._Email_Ids != value))
-				{
-					this._Email_Ids = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneMobile_Numbers", DbType="VarChar(100)")]
-		public string PhoneMobile_Numbers
-		{
-			get
-			{
-				return this._PhoneMobile_Numbers;
-			}
-			set
-			{
-				if ((this._PhoneMobile_Numbers != value))
-				{
-					this._PhoneMobile_Numbers = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FatherName", DbType="VarChar(500)")]
-		public string FatherName
-		{
-			get
-			{
-				return this._FatherName;
-			}
-			set
-			{
-				if ((this._FatherName != value))
-				{
-					this._FatherName = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PanCardNumber", DbType="VarChar(100)")]
-		public string PanCardNumber
-		{
-			get
-			{
-				return this._PanCardNumber;
-			}
-			set
-			{
-				if ((this._PanCardNumber != value))
-				{
-					this._PanCardNumber = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cnt_OtherID", DbType="VarChar(200)")]
-		public string cnt_OtherID
-		{
-			get
-			{
-				return this._cnt_OtherID;
-			}
-			set
-			{
-				if ((this._cnt_OtherID != value))
-				{
-					this._cnt_OtherID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
-		public System.Nullable<int> USERID
-		{
-			get
-			{
-				return this._USERID;
-			}
-			set
-			{
-				if ((this._USERID != value))
-				{
-					this._USERID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> CreateDate
-		{
-			get
-			{
-				return this._CreateDate;
-			}
-			set
-			{
-				if ((this._CreateDate != value))
-				{
-					this._CreateDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastModifyDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> LastModifyDate
-		{
-			get
-			{
-				return this._LastModifyDate;
-			}
-			set
-			{
-				if ((this._LastModifyDate != value))
-				{
-					this._LastModifyDate = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdditionalReportingHead", DbType="VarChar(500)")]
-		public string AdditionalReportingHead
-		{
-			get
-			{
-				return this._AdditionalReportingHead;
-			}
-			set
-			{
-				if ((this._AdditionalReportingHead != value))
-				{
-					this._AdditionalReportingHead = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Colleague", DbType="VarChar(500)")]
-		public string Colleague
-		{
-			get
-			{
-				return this._Colleague;
-			}
-			set
-			{
-				if ((this._Colleague != value))
-				{
-					this._Colleague = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Colleague1", DbType="VarChar(500)")]
-		public string Colleague1
-		{
-			get
-			{
-				return this._Colleague1;
-			}
-			set
-			{
-				if ((this._Colleague1 != value))
-				{
-					this._Colleague1 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Colleague2", DbType="VarChar(500)")]
-		public string Colleague2
-		{
-			get
-			{
-				return this._Colleague2;
-			}
-			set
-			{
-				if ((this._Colleague2 != value))
-				{
-					this._Colleague2 = value;
-				}
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FSMUser_Master_List")]
 	public partial class FSMUser_Master_List
 	{
@@ -25149,6 +24546,627 @@ namespace ERP.Models
 				if ((this._EMPINTERNALID != value))
 				{
 					this._EMPINTERNALID = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.FSMEmployee_Master")]
+	public partial class FSMEmployee_Master
+	{
+		
+		private string _Employee_Grade;
+		
+		private System.Nullable<int> _SRLNO;
+		
+		private string _ContactID;
+		
+		private string _Code;
+		
+		private string _Name;
+		
+		private string _FirstName;
+		
+		private string _MiddleName;
+		
+		private string _LastName;
+		
+		private System.Nullable<int> _cnt_id;
+		
+		private string _BranchName;
+		
+		private string _Department;
+		
+		private System.Nullable<int> _DepartmentID;
+		
+		private string _CTC;
+		
+		private string _ReportTo;
+		
+		private string _ReportToID;
+		
+		private string _DOJ;
+		
+		private string _CreatedBy;
+		
+		private string _Designation;
+		
+		private string _DesignationID;
+		
+		private string _Company;
+		
+		private string _OrganizationID;
+		
+		private string _Email_Ids;
+		
+		private string _PhoneMobile_Numbers;
+		
+		private string _FatherName;
+		
+		private string _PanCardNumber;
+		
+		private string _cnt_OtherID;
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<System.DateTime> _CreateDate;
+		
+		private System.Nullable<System.DateTime> _LastModifyDate;
+		
+		private string _AdditionalReportingHead;
+		
+		private string _Colleague;
+		
+		private string _Colleague1;
+		
+		private string _Colleague2;
+		
+		private string _EmpTargetLevel;
+		
+		public FSMEmployee_Master()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Employee_Grade", DbType="VarChar(100)")]
+		public string Employee_Grade
+		{
+			get
+			{
+				return this._Employee_Grade;
+			}
+			set
+			{
+				if ((this._Employee_Grade != value))
+				{
+					this._Employee_Grade = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SRLNO", DbType="Int")]
+		public System.Nullable<int> SRLNO
+		{
+			get
+			{
+				return this._SRLNO;
+			}
+			set
+			{
+				if ((this._SRLNO != value))
+				{
+					this._SRLNO = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ContactID", DbType="VarChar(100)")]
+		public string ContactID
+		{
+			get
+			{
+				return this._ContactID;
+			}
+			set
+			{
+				if ((this._ContactID != value))
+				{
+					this._ContactID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Code", DbType="VarChar(100)")]
+		public string Code
+		{
+			get
+			{
+				return this._Code;
+			}
+			set
+			{
+				if ((this._Code != value))
+				{
+					this._Code = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(500)")]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this._Name = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="VarChar(200)")]
+		public string FirstName
+		{
+			get
+			{
+				return this._FirstName;
+			}
+			set
+			{
+				if ((this._FirstName != value))
+				{
+					this._FirstName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MiddleName", DbType="VarChar(200)")]
+		public string MiddleName
+		{
+			get
+			{
+				return this._MiddleName;
+			}
+			set
+			{
+				if ((this._MiddleName != value))
+				{
+					this._MiddleName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="VarChar(200)")]
+		public string LastName
+		{
+			get
+			{
+				return this._LastName;
+			}
+			set
+			{
+				if ((this._LastName != value))
+				{
+					this._LastName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cnt_id", DbType="Int")]
+		public System.Nullable<int> cnt_id
+		{
+			get
+			{
+				return this._cnt_id;
+			}
+			set
+			{
+				if ((this._cnt_id != value))
+				{
+					this._cnt_id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_BranchName", DbType="VarChar(500)")]
+		public string BranchName
+		{
+			get
+			{
+				return this._BranchName;
+			}
+			set
+			{
+				if ((this._BranchName != value))
+				{
+					this._BranchName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Department", DbType="VarChar(200)")]
+		public string Department
+		{
+			get
+			{
+				return this._Department;
+			}
+			set
+			{
+				if ((this._Department != value))
+				{
+					this._Department = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DepartmentID", DbType="Int")]
+		public System.Nullable<int> DepartmentID
+		{
+			get
+			{
+				return this._DepartmentID;
+			}
+			set
+			{
+				if ((this._DepartmentID != value))
+				{
+					this._DepartmentID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CTC", DbType="VarChar(500)")]
+		public string CTC
+		{
+			get
+			{
+				return this._CTC;
+			}
+			set
+			{
+				if ((this._CTC != value))
+				{
+					this._CTC = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportTo", DbType="VarChar(500)")]
+		public string ReportTo
+		{
+			get
+			{
+				return this._ReportTo;
+			}
+			set
+			{
+				if ((this._ReportTo != value))
+				{
+					this._ReportTo = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ReportToID", DbType="VarChar(500)")]
+		public string ReportToID
+		{
+			get
+			{
+				return this._ReportToID;
+			}
+			set
+			{
+				if ((this._ReportToID != value))
+				{
+					this._ReportToID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DOJ", DbType="VarChar(200)")]
+		public string DOJ
+		{
+			get
+			{
+				return this._DOJ;
+			}
+			set
+			{
+				if ((this._DOJ != value))
+				{
+					this._DOJ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedBy", DbType="VarChar(200)")]
+		public string CreatedBy
+		{
+			get
+			{
+				return this._CreatedBy;
+			}
+			set
+			{
+				if ((this._CreatedBy != value))
+				{
+					this._CreatedBy = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Designation", DbType="VarChar(500)")]
+		public string Designation
+		{
+			get
+			{
+				return this._Designation;
+			}
+			set
+			{
+				if ((this._Designation != value))
+				{
+					this._Designation = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DesignationID", DbType="VarChar(200)")]
+		public string DesignationID
+		{
+			get
+			{
+				return this._DesignationID;
+			}
+			set
+			{
+				if ((this._DesignationID != value))
+				{
+					this._DesignationID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company", DbType="VarChar(200)")]
+		public string Company
+		{
+			get
+			{
+				return this._Company;
+			}
+			set
+			{
+				if ((this._Company != value))
+				{
+					this._Company = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OrganizationID", DbType="VarChar(200)")]
+		public string OrganizationID
+		{
+			get
+			{
+				return this._OrganizationID;
+			}
+			set
+			{
+				if ((this._OrganizationID != value))
+				{
+					this._OrganizationID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Email_Ids", DbType="VarChar(250)")]
+		public string Email_Ids
+		{
+			get
+			{
+				return this._Email_Ids;
+			}
+			set
+			{
+				if ((this._Email_Ids != value))
+				{
+					this._Email_Ids = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneMobile_Numbers", DbType="VarChar(100)")]
+		public string PhoneMobile_Numbers
+		{
+			get
+			{
+				return this._PhoneMobile_Numbers;
+			}
+			set
+			{
+				if ((this._PhoneMobile_Numbers != value))
+				{
+					this._PhoneMobile_Numbers = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FatherName", DbType="VarChar(500)")]
+		public string FatherName
+		{
+			get
+			{
+				return this._FatherName;
+			}
+			set
+			{
+				if ((this._FatherName != value))
+				{
+					this._FatherName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PanCardNumber", DbType="VarChar(100)")]
+		public string PanCardNumber
+		{
+			get
+			{
+				return this._PanCardNumber;
+			}
+			set
+			{
+				if ((this._PanCardNumber != value))
+				{
+					this._PanCardNumber = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cnt_OtherID", DbType="VarChar(200)")]
+		public string cnt_OtherID
+		{
+			get
+			{
+				return this._cnt_OtherID;
+			}
+			set
+			{
+				if ((this._cnt_OtherID != value))
+				{
+					this._cnt_OtherID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreateDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> CreateDate
+		{
+			get
+			{
+				return this._CreateDate;
+			}
+			set
+			{
+				if ((this._CreateDate != value))
+				{
+					this._CreateDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastModifyDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> LastModifyDate
+		{
+			get
+			{
+				return this._LastModifyDate;
+			}
+			set
+			{
+				if ((this._LastModifyDate != value))
+				{
+					this._LastModifyDate = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AdditionalReportingHead", DbType="VarChar(500)")]
+		public string AdditionalReportingHead
+		{
+			get
+			{
+				return this._AdditionalReportingHead;
+			}
+			set
+			{
+				if ((this._AdditionalReportingHead != value))
+				{
+					this._AdditionalReportingHead = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Colleague", DbType="VarChar(500)")]
+		public string Colleague
+		{
+			get
+			{
+				return this._Colleague;
+			}
+			set
+			{
+				if ((this._Colleague != value))
+				{
+					this._Colleague = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Colleague1", DbType="VarChar(500)")]
+		public string Colleague1
+		{
+			get
+			{
+				return this._Colleague1;
+			}
+			set
+			{
+				if ((this._Colleague1 != value))
+				{
+					this._Colleague1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Colleague2", DbType="VarChar(500)")]
+		public string Colleague2
+		{
+			get
+			{
+				return this._Colleague2;
+			}
+			set
+			{
+				if ((this._Colleague2 != value))
+				{
+					this._Colleague2 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmpTargetLevel", DbType="VarChar(200)")]
+		public string EmpTargetLevel
+		{
+			get
+			{
+				return this._EmpTargetLevel;
+			}
+			set
+			{
+				if ((this._EmpTargetLevel != value))
+				{
+					this._EmpTargetLevel = value;
 				}
 			}
 		}

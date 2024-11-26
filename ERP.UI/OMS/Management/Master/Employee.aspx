@@ -10,6 +10,7 @@
    Rev 9.0      Pallab             02/08/2023      V2.0.42     26656: "View Log" popup loader and page size options showing outside in the popup issue fix
    Rev 10.0     Sanchita           08/08/2023      V2.0.42     FSM - Masters - Organization - Employees - Change Supervisor should be On Demand Search. Mantis: 26700  
    Rev 11.0     Sanchita           09/08/2023      V2.0.42     FSM Portal - Enhance the Export to excel in Employee Master. Mantis : 26708 
+   Rev 12.0     Sanchita           25/10/2024      V2.0.49     In employee master a new filed is required as Target Level.. Mantis : 27773    
  *******************************************************************************************************--%>
 
 <%@ Page Title="Employee" Language="C#" AutoEventWireup="True" Inherits="ERP.OMS.Management.Master.management_master_Employee" CodeBehind="Employee.aspx.cs" MasterPageFile="~/OMS/MasterPage/ERP.Master" %>
@@ -2422,13 +2423,21 @@ padding: 7px;
                                 </CellStyle>
                             </dxe:GridViewDataTextColumn>
 
-                            <dxe:GridViewCommandColumn Visible="False" ShowDeleteButton="true" VisibleIndex="16">
+                            <%--Rev 12.0--%>
+                            <dxe:GridViewDataTextColumn Caption="Target Level" FieldName="EmpTargetLevel" Width="250px"
+                                VisibleIndex="16" >
+                                <CellStyle CssClass="gridcellleft" Wrap="true">
+                                </CellStyle>
+                            </dxe:GridViewDataTextColumn>
+                            <%--End of Rev 12.0--%>
+
+                            <dxe:GridViewCommandColumn Visible="False" ShowDeleteButton="true" VisibleIndex="17">
                                 <%--<DeleteButton Visible="True" Text="Delete">
                                 </DeleteButton>--%>
                             </dxe:GridViewCommandColumn>
                             <%--Rev work start 26.04.2022 0024853: Copy feature add in Employee master--%>
                             <%--<dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="17" Width="100px">--%>
-                            <dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="17" Width="150px">
+                            <dxe:GridViewDataTextColumn HeaderStyle-HorizontalAlign="Center" CellStyle-HorizontalAlign="center" VisibleIndex="18" Width="150px">
                                 <%--Rev work close 26.04.2022 0024853: Copy feature add in Employee master--%>
                                 <DataItemTemplate>
                                     <% if (rights.CanContactPerson)

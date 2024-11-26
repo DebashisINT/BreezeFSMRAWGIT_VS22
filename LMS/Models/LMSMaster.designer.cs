@@ -111,6 +111,14 @@ namespace LMS.Models
 				return this.GetTable<LMS_TOPICSMASTER_LISTING>();
 			}
 		}
+		
+		public System.Data.Linq.Table<LMS_REPORTTOPICLIST> LMS_REPORTTOPICLISTs
+		{
+			get
+			{
+				return this.GetTable<LMS_REPORTTOPICLIST>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_CATEGORYMASTERLIST")]
@@ -1547,6 +1555,8 @@ namespace LMS.Models
 		
 		private string _TOPIC_ISDEFAULT;
 		
+		private string _TOPIC_SEQ;
+		
 		public LMS_TOPICSMASTER_LISTING()
 		{
 		}
@@ -1599,7 +1609,7 @@ namespace LMS.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICNAME", DbType="NVarChar(300)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICNAME", DbType="VarChar(300)")]
 		public string TOPICNAME
 		{
 			get
@@ -1615,7 +1625,7 @@ namespace LMS.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICBASEDON", DbType="NVarChar(300)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICBASEDON", DbType="VarChar(300)")]
 		public string TOPICBASEDON
 		{
 			get
@@ -1631,7 +1641,7 @@ namespace LMS.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICSTATUS", DbType="NVarChar(10)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICSTATUS", DbType="VarChar(10)")]
 		public string TOPICSTATUS
 		{
 			get
@@ -1663,7 +1673,7 @@ namespace LMS.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDBY", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CREATEDBY", DbType="VarChar(50)")]
 		public string CREATEDBY
 		{
 			get
@@ -1695,7 +1705,7 @@ namespace LMS.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UPDATEDBY", DbType="NVarChar(50)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UPDATEDBY", DbType="VarChar(50)")]
 		public string UPDATEDBY
 		{
 			get
@@ -1727,7 +1737,7 @@ namespace LMS.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPIC_COMP_DAY", DbType="NVarChar(10)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPIC_COMP_DAY", DbType="VarChar(10)")]
 		public string TOPIC_COMP_DAY
 		{
 			get
@@ -1743,7 +1753,7 @@ namespace LMS.Models
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPIC_ISDEFAULT", DbType="NVarChar(10)")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPIC_ISDEFAULT", DbType="VarChar(10)")]
 		public string TOPIC_ISDEFAULT
 		{
 			get
@@ -1755,6 +1765,211 @@ namespace LMS.Models
 				if ((this._TOPIC_ISDEFAULT != value))
 				{
 					this._TOPIC_ISDEFAULT = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPIC_SEQ", DbType="VarChar(10)")]
+		public string TOPIC_SEQ
+		{
+			get
+			{
+				return this._TOPIC_SEQ;
+			}
+			set
+			{
+				if ((this._TOPIC_SEQ != value))
+				{
+					this._TOPIC_SEQ = value;
+				}
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.LMS_REPORTTOPICLIST")]
+	public partial class LMS_REPORTTOPICLIST
+	{
+		
+		private System.Nullable<int> _USERID;
+		
+		private System.Nullable<long> _SEQ;
+		
+		private System.Nullable<long> _TOPICID;
+		
+		private string _TOPICNAME;
+		
+		private string _TOPICSTATUS;
+		
+		private System.Nullable<long> _CONTENTID;
+		
+		private string _CONTENTTITLE;
+		
+		private string _CONTENTSTATUS;
+		
+		private string _QuestionMapped;
+		
+		private System.Nullable<long> _QUESTIONSCount;
+		
+		public LMS_REPORTTOPICLIST()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_USERID", DbType="Int")]
+		public System.Nullable<int> USERID
+		{
+			get
+			{
+				return this._USERID;
+			}
+			set
+			{
+				if ((this._USERID != value))
+				{
+					this._USERID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SEQ", DbType="BigInt")]
+		public System.Nullable<long> SEQ
+		{
+			get
+			{
+				return this._SEQ;
+			}
+			set
+			{
+				if ((this._SEQ != value))
+				{
+					this._SEQ = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICID", DbType="BigInt")]
+		public System.Nullable<long> TOPICID
+		{
+			get
+			{
+				return this._TOPICID;
+			}
+			set
+			{
+				if ((this._TOPICID != value))
+				{
+					this._TOPICID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICNAME", DbType="NVarChar(300)")]
+		public string TOPICNAME
+		{
+			get
+			{
+				return this._TOPICNAME;
+			}
+			set
+			{
+				if ((this._TOPICNAME != value))
+				{
+					this._TOPICNAME = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TOPICSTATUS", DbType="NVarChar(20)")]
+		public string TOPICSTATUS
+		{
+			get
+			{
+				return this._TOPICSTATUS;
+			}
+			set
+			{
+				if ((this._TOPICSTATUS != value))
+				{
+					this._TOPICSTATUS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENTID", DbType="BigInt")]
+		public System.Nullable<long> CONTENTID
+		{
+			get
+			{
+				return this._CONTENTID;
+			}
+			set
+			{
+				if ((this._CONTENTID != value))
+				{
+					this._CONTENTID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENTTITLE", DbType="NVarChar(300)")]
+		public string CONTENTTITLE
+		{
+			get
+			{
+				return this._CONTENTTITLE;
+			}
+			set
+			{
+				if ((this._CONTENTTITLE != value))
+				{
+					this._CONTENTTITLE = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CONTENTSTATUS", DbType="NVarChar(20)")]
+		public string CONTENTSTATUS
+		{
+			get
+			{
+				return this._CONTENTSTATUS;
+			}
+			set
+			{
+				if ((this._CONTENTSTATUS != value))
+				{
+					this._CONTENTSTATUS = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuestionMapped", DbType="NVarChar(20)")]
+		public string QuestionMapped
+		{
+			get
+			{
+				return this._QuestionMapped;
+			}
+			set
+			{
+				if ((this._QuestionMapped != value))
+				{
+					this._QuestionMapped = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QUESTIONSCount", DbType="BigInt")]
+		public System.Nullable<long> QUESTIONSCount
+		{
+			get
+			{
+				return this._QUESTIONSCount;
+			}
+			set
+			{
+				if ((this._QUESTIONSCount != value))
+				{
+					this._QUESTIONSCount = value;
 				}
 			}
 		}

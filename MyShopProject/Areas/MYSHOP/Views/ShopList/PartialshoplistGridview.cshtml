@@ -12,7 +12,9 @@
 
     settings.CallbackRouteValues = new { Action = "Getshoplist", Controller = "ShopList" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallback";
-
+    //Rev 1.0
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    //Rev end 1.0
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
@@ -429,6 +431,8 @@
         x.VisibleIndex = 34;
     });
     //REV 2.0 END
+
+    settings.ClientSideEvents.RowClick = "gridRowclick";
 
 }).Bind(Model).GetHtml()
 

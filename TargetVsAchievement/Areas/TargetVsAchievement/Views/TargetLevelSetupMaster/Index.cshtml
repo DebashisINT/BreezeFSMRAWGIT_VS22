@@ -1,0 +1,1441 @@
+﻿
+@using TargetVsAchievement.Models;
+@model TargetVsAchievement.Models.TargetLevelSetupModel
+
+@{
+    ViewBag.Title = "Target Level Set Up";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="/assests/pluggins/Transfer/icon_font/css/icon_font.css" rel="stylesheet" />
+<link href="/assests/pluggins/Transfer/css/jquery.transfer.css" rel="stylesheet" />
+<script src="/assests/pluggins/Transfer/jquery.transfer.js"></script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<style>
+    .modal-header {
+        padding: 8px;
+        background: #094e8c;
+        border-radius: 8px 8px 0 0;
+    }
+
+    button.close {
+        color: #fff;
+        font-weight: 300;
+        opacity: .5;
+    }
+
+    .close:hover, .close:focus {
+        color: #fff;
+        opacity: 1;
+    }
+
+    .modal-content {
+        border-radius: 10px;
+    }
+
+    .modal-footer {
+        padding: 15px 10px 15px;
+        border-top: 1px solid #c0c0c0;
+    }
+
+
+    .dxgvLoadingPanel_PlasticBlue {
+        left: 42% !important;
+    }
+    /*Rev 2.0*/
+    #gridUserList {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    /*Rev end 2.0*/
+
+    /*Rev 3.0*/
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            content: '<';
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 5px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 8px;
+        right: 14px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            position: absolute;
+            top: 8px;
+            right: -2px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .whclass.selectH {
+        padding-right: 30px;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .pmsModal .modal-header {
+        /*background: #094e8c !important;
+    background-image: none !important;*/
+        padding: 11px 20px;
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        /*color: #fff;*/
+        /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+    /*.pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }*/
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 16px !important;
+        color: #111;
+        font-size: 24px;
+    }
+
+    .pmsModal .modal-header {
+        background: transparent !important;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #d5d5d5;
+    }
+
+    .pmsModal.w120 .modal-dialog {
+        width: 50% !important;
+    }
+
+    .close {
+        font-size: 34px;
+        opacity: .8;
+    }
+
+    button.close {
+        color: #111 !important;
+        font-weight: 400 !important;
+        opacity: .8 !important;
+        font-size: 32px !important;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img {
+            display: none;
+        }
+
+    #dtFrom_I, #dtTo_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        z-index: 1;
+    }
+
+    .pad-md-18 {
+        padding-top: 24px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    select:not(.btn) {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .dxgvControl_PlasticBlue a {
+        margin: 0 3px;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .linerHd {
+        background: #4e8fcf !important;
+    }
+
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #popup_message {
+        padding-left: 0 !important;
+        text-align: center !important;
+    }
+
+    #popup_panel {
+        margin: 14px 0 5px;
+    }
+
+    #popup_ok, #popup_cancel {
+        border-radius: 4px !important;
+    }
+    /*Rev end 4.0*/
+    /*Rev 5.0*/
+    #gridUserList_DXPagerTop_PSP, #gridUserList_DXPagerBottom_PSP {
+        right: 36px !important;
+        left: auto !important;
+    }
+    /*Rev end 5.0*/
+
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+    }
+
+    .add-btn {
+        transition: all .4s;
+    }
+
+        .add-btn:hover {
+            color: #fff;
+            background-color: #0e4f23;
+            border-color: #0e4f23;
+        }
+
+        .add-btn .btn-icon i {
+            color: #238945;
+        }
+
+    .add-btn {
+        background-color: #238945;
+        margin-right: 5px;
+    }
+
+    .btn {
+        border-radius: 8px;
+        height: 38px;
+        padding-left: 12px;
+        padding-right: 12px;
+        color: #fff;
+    }
+
+        .btn:active, .btn:hover, .btn:focus {
+            color: #fff !important;
+        }
+
+    .buttons-alignment {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .show-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+        color: #054682;
+    }
+
+    .show-btn {
+        background: #054682;
+        transition: all .4s;
+        margin-right: 5px;
+    }
+
+        .show-btn:hover {
+            background: #072743;
+        }
+
+    .btn-cancel {
+        background-color: #DC0505;
+        color: #fff;
+    }
+
+    .btn-export {
+        background: #e17134;
+        color: #fff;
+    }
+
+        .btn-export:hover {
+            background: #a24716 !important;
+            color: #fff;
+        }
+
+    .swal2-confirm.swal2-styled {
+        border-radius: 8px !important;
+    }
+
+    .swal2-styled {
+        border-radius: 12px !important;
+        padding: 8px 20px !important;
+        color: #fff !important;
+        font-size: 14px !important;
+    }
+
+    .swal2-html-container {
+        margin-top: 5px !important;
+    }
+
+    div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+        width: 90px !important;
+        border-radius: 8px !important;
+    }
+
+    div:where(.swal2-container).swal2-backdrop-show, div:where(.swal2-container).swal2-noanimation {
+        background: rgb(0 0 0 / 50%) !important;
+    }
+
+    div:where(.swal2-container).swal2-center > .swal2-popup {
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        /*width: 140px;*/
+        background-color: #0d8f24;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 42%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #0d8f24 transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        overflow: visible;
+    }
+
+    .save-btn .btn-icon, .cancel-catg .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 20px;
+        margin-right: 5px;
+    }
+
+        .save-btn .btn-icon img {
+            color: #238945;
+            width: 14px;
+        }
+
+    .cancel-catg, .save-btn {
+        transition: all .3s ease-in-out;
+    }
+
+        .cancel-catg .btn-icon img {
+            color: #DC0505;
+            width: 16px;
+        }
+
+        .cancel-catg:hover {
+            transform: scale(1.1);
+        }
+
+    .save-btn:hover {
+        transform: scale(1.1);
+    }
+
+    .modal-footer .btn + .btn {
+        margin-bottom: 0;
+        margin-left: 5px;
+    }
+
+    .cancel-catg {
+        margin-right: 5px;
+    }
+
+    .close:hover, .close:focus {
+        color: #111 !important;
+    }
+
+
+
+    .step-container {
+        position: relative;
+        margin-top: 5px;
+        min-height: 480px;
+    }
+
+    .step-box {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+        /*border: 2px solid #ccc;*/
+        border-radius: 8px;
+        color: white;
+        width: 250px;
+        height: 70px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+        .step-box img {
+            margin-right: 8px;
+            width: 55px;
+            height: 55px;
+        }
+
+    /* Specific colors for each step */
+    .step-box-1 {
+        background-color: #AC27EE;
+    }
+
+    .step-box-2 {
+        background-color: #07AF82;
+    }
+
+    .step-box-3 {
+        background-color: #E19D08;
+    }
+
+    .step-box-4 {
+        background-color: #CB0AA5;
+    }
+
+    .step-box-5 {
+        background-color: #3498db;
+    }
+
+    .step-box-6 {
+        background-color: #d35400;
+    }
+
+    /* Stairs alignment */
+    .step-box-1 {
+        top: 0px;
+        left: 0px;
+    }
+
+    .step-box-2 {
+        top: 80px;
+        left: 150px;
+    }
+
+    .step-box-3 {
+        top: 160px;
+        left: 300px;
+    }
+
+    .step-box-4 {
+        top: 240px;
+        left: 450px;
+    }
+
+    .step-box-5 {
+        top: 320px;
+        left: 600px;
+    }
+
+    .step-box-6 {
+        top: 400px;
+        left: 750px;
+    }
+
+    /* Connector line for each step */
+    .step-connector {
+        position: absolute;
+        width: 3px;
+        height: 55px;
+        background-color: #ccc;
+    }
+
+    /* Connector positions */
+    .step-connector-1 {
+        top: 60px;
+        left: 100px;
+        background-color: #AC27EE;
+        position: relative;
+    }
+
+        .step-connector-1::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #AC27EE;
+        }
+
+    .step-connector-2 {
+        top: 90px;
+        left: 245px;
+        background-color: #07AF82;
+        position: relative;
+    }
+
+        .step-connector-2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #07AF82;
+        }
+
+    .step-connector-3 {
+        top: 110px;
+        left: 400px;
+        background-color: #E19D08;
+        position: relative;
+    }
+
+        .step-connector-3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #E19D08;
+        }
+
+    .step-connector-4 {
+        top: 135px;
+        left: 550px;
+        background-color: #CB0AA5;
+        position: relative;
+    }
+
+        .step-connector-4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #CB0AA5;
+        }
+
+    .step-connector-5 {
+        top: 160px;
+        left: 700px;
+        background-color: #3498db;
+        position: relative;
+    }
+
+        .step-connector-5::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #3498db;
+        }
+
+    .hidden {
+        display: none;
+    }
+
+    .pmsModal .modal-body select:not(.btn), .pmsModal .modal-body .form-control {
+        border-radius: 6px !important;
+        background: #fff !important;
+    }
+
+        .pmsModal .modal-body .form-control:focus {
+            box-shadow: none !important;
+        }
+
+    #step-2, #step-3, #step-4 {
+        cursor: pointer;
+    }
+
+
+    .transfer-double, .transfer-double-list-search-input, .transfer-double-selected-list-search-input {
+        width: 100%;
+    }
+
+    .transfer-double {
+        border: none;
+        background: transparent !important;
+    }
+
+    .transfer-double-content {
+        padding: 0;
+    }
+
+    .transfer-double-content-left, .transfer-double-content-right {
+        width: 45%;
+        border-radius: 15px;
+        overflow: hidden;
+        background: #fff;
+        box-shadow: 1px 1px 10px #1111112e;
+    }
+
+    .transfer-double-content-middle {
+        width: 10%;
+        margin: 0 !important;
+        margin-top: 20% !important;
+    }
+
+    .transfer-double-list-main .transfer-double-list-ul, .transfer-double-selected-list-main .transfer-double-selected-list-ul {
+        padding-left: 5px;
+    }
+
+    .transfer-double-list-footer {
+        padding-left: 0;
+        height: auto;
+        background: #FADBFF;
+        background: #d0932d;
+        color: #fff;
+    }
+
+    .transfer-double-content-param {
+        border-bottom: 1px solid #4236f5;
+        background: #4236f5;
+        color: #e8e8e8;
+    }
+
+    .btn-select-arrow {
+        width: 34px;
+        height: 34px;
+        line-height: 34px;
+        border-radius: 50px;
+        color: #fff;
+        background: #b4b4b4;
+    }
+
+    .btn-arrow-active {
+        color: #fff;
+        background: #27ac15 !important;
+        cursor: pointer;
+    }
+
+    .transfer-double-content-param {
+        color: #fff;
+    }
+
+    .transfer-double-header {
+        display: none;
+    }
+
+    #lblTargetLevel {
+        color: #291cad;
+        font-size: 15px;
+    }
+
+    .flex-wrap {
+        flex-wrap: wrap;
+    }
+
+    .based-on-radio {
+        display: flex;
+        align-items: center;
+        color: #291cad;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+        .based-on-radio input {
+            margin-top: 0;
+            margin-right: 3px;
+        }
+
+    #AddTargetLevelModal .modal-body label {
+        margin-bottom: 0 !important;
+    }
+
+    .transfer-double-list-footer {
+        line-height: 26px;
+    }
+
+    #AddTargetLevelModal .modal-body label#lblBasedOn {
+        margin-bottom: 6px !important;
+    }
+
+    .add-new-btn {
+        -webkit-animation: pulse 1s;
+        animation: pulse-afct 1s;
+        box-shadow: 0 0 0 10px transparent;
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+    }
+
+    @@-webkit-keyframes pulse-afct {
+        0% {
+            box-shadow: 0 0 0 0 #164f929e;
+        }
+    }
+
+    @@keyframes pulse-afct {
+        0% {
+            box-shadow: 0 0 0 0 #164f929e;
+        }
+    }
+
+    .add-new-btn .btn-icon {
+        border-radius: 50px;
+        width: 22px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 23px;
+        margin-right: 5px;
+        position: absolute;
+        right: 2px;
+        bottom: 7px;
+        text-align: center;
+    }
+
+        .add-new-btn .btn-icon i {
+            color: #404040;
+        }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .select2-container--default .select2-selection--single {
+        height: 34px;
+        /*padding: 6px 12px;*/
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+    }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 34px;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 32px;
+            width: 23px;
+        }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow b {
+                border-width: 7px 5px 0 5px;
+            }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered:focus-visible,
+        .select2-container--default .select2-selection--single {
+            box-shadow: none;
+            outline: none;
+        }
+
+    #based-on-selection-div {
+        width: 100%;
+        margin-top: 10px;
+    }
+</style>
+
+
+<script>
+    var Is_PageLoad = "0";
+
+
+    function hideStep(stepId) {
+        $('#' + stepId).addClass('hidden');
+        adjustSteps();
+    }
+
+    function adjustSteps() {
+        var visibleSteps = $('.step-box').not('.hidden');
+        visibleSteps.each(function (index) {
+            $(this).css('top', (index * 100) + 'px'); // Adjusts vertical position
+            $(this).css('left', (index * 100) + 'px'); // Adjusts horizontal position
+        });
+
+        $('.step-connector').each(function (index) {
+            var stepBefore = visibleSteps.eq(index);
+            if (stepBefore.length > 0) {
+                $(this).css('top', parseInt(stepBefore.css('top')) + 60 + 'px');
+                $(this).css('left', parseInt(stepBefore.css('left')) + 250 + 'px');
+            } else {
+                $(this).addClass('hidden'); // Hide unused connectors
+            }
+        });
+    }
+
+    function ClearData() {
+        $("#ddlDesignation").val(0);
+        $("#based-on-selection-div").hide();
+
+        lblBasedOn.innerText = "";
+        $("#transfer1").html('');
+        $('input[name="optBasedOn"]').prop('checked', false);
+    }
+
+    function AddEditLevel(salesmanLevel) {
+
+        $("#hdnSalesmanLevel").val(salesmanLevel);
+
+        if (salesmanLevel == "ASM") {
+            $("#lblHeading").text("Create Target Level");
+            $("#lblTargetLevel").text("ASM Level");
+        }
+        else if (salesmanLevel == "SLO") {
+            $("#lblHeading").text("Create Target Level");
+            $("#lblTargetLevel").text("Sales Officer Level");
+        }
+        else if (salesmanLevel == "SLM") {
+            $("#lblHeading").text("Create Target Level");
+            $("#lblTargetLevel").text("Salesman Level");
+        }
+
+        ClearData();
+
+        LoadEmployeeOnChange('SHOW')
+
+        $("#AddTargetLevelModal").modal('show');
+    }
+
+    function ShowHideDesignation() {
+        $("#ddlDesignation").val(0);
+
+        if ($('input[name="optBasedOn"]:checked').val() == 2) {
+            $("#based-on-selection-div").show();
+            $("#transfer1").html('');
+            lblBasedOn.innerText = "";
+        }
+        else {
+            $("#based-on-selection-div").hide();
+            LoadEmployeeOnChange('GETEMPLOYEELIST');
+        }
+    }
+
+
+    var selectedEmployeeBasedOnMapList;
+    function LoadEmployeeOnChange(action) {
+        selectedEmployeeBasedOnMapList = '';
+        var obj = {};
+        obj.action = action;
+        obj.deg_id = $("#ddlDesignation").val();
+        obj.SalesmanLevel = $("#hdnSalesmanLevel").val();
+
+        $.ajax({
+            type: "POST",
+            url: "/TargetLevelSetupMaster/GetEmployeeList",
+            data: JSON.stringify(obj),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data)
+                if (data.length>0){
+                    var temArr2 = [];
+                    //var data = response.d;
+                    for (var a = 0; a < data.length; a++) {
+                        if (data[a].selected) {
+                            temArr2.push(data[a].ID);
+                        }
+                    }
+                    selectedEmployeeBasedOnMapList = temArr2.join(",");
+                    $("#transfer1").html('');
+
+                    var tabNameText = "Employee(s)";
+                    var rightTabNameText = "Selected Employee(s)";
+                    var searchPlaceholderText = "search in employees";
+                    lblBasedOn.innerText = "Select Employee(s)";
+
+                    var settings1 = {
+                        "dataArray": data,
+                        "itemName": "NAME",
+                        "valueName": "ID",
+                        "tabNameText": tabNameText,
+                        "rightTabNameText": rightTabNameText,
+                        "searchPlaceholderText": searchPlaceholderText,
+                        "callable": function (items) {
+                            //console.dir(items)
+                            var temArr = [];
+                            for (var i = 0; i < items.length; i++) {
+                                temArr.push(items[i].ID);
+                            }
+                            selectedEmployeeBasedOnMapList = temArr.join(",");
+                        }
+                    };
+                    $("#transfer1").transfer(settings1);
+                }
+                
+            }
+        });
+    }
+
+    function SaveTargetEmpMap() {
+        Swal.fire({
+            title: 'Are you sure you want to save?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                //if ($('input[name="optBasedOn"]:checked').val() == 0 || $('input[name="optBasedOn"]:checked').val() == null) {
+                //    Swal.fire({
+                //        icon: 'warning',
+                //        title: 'Alert',
+                //        text: 'Please select Based On.'
+                //    }).then(() => {
+                //        setTimeout(() => {
+                //            $("#optBasedOn").focus();
+                //        }, 200);
+                //    });
+                //    return;
+                //}
+
+                if (selectedEmployeeBasedOnMapList == "" || selectedEmployeeBasedOnMapList == null) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Alert',
+                        text: 'Please select Employees.'
+                    }).then(() => {
+                        setTimeout(() => {
+                            $("#optBasedOn").focus();
+                        }, 200);
+                    });
+                    return;
+                }
+
+
+                //showLoader();
+
+                var data = {
+                    Action: "ADD",
+                    SalesmanLevel: $("#hdnSalesmanLevel").val(),
+                    BasedOn: $('input[name="optBasedOn"]:checked').val(),
+                    selectedEmployeeBasedOnMapList: selectedEmployeeBasedOnMapList
+                }
+
+                $.ajax({
+                    url: '@Url.Action("SaveTargetEmpMap", "TargetLevelSetupMaster")',
+                    type: 'POST',
+                    data: { data: data },
+                    success: function (returnValue) {
+                        if (returnValue.RETURN_VALUE == "-10") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sorry!',
+                                text: 'Error in Add.'
+                            });
+                        }
+                        else if (returnValue.RETURN_VALUE == "-20") {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sorry!',
+                                text: 'Error in Update.'
+                            });
+                        }
+                        else if (returnValue.RETURN_VALUE == "1") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Employee tagged with Target Level successfully.'
+                            }).then(() => {
+                                $('#AddTargetLevelModal').modal('hide');
+                            });
+
+                            Is_PageLoad = "Ispageload";
+                            $("#AddTargetLevelModal").modal('show');
+                            //gridLMSTopic.Refresh();
+                            //gridLMSTopic.Refresh();
+                        }
+                        else if (returnValue.RETURN_VALUE == "2") {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: 'Employee tagged with Target Level successfully.'
+                            }).then(() => {
+                                $('#AddTargetLevelModal').modal('hide');
+                            });
+
+                            Is_PageLoad = "Ispageload";
+                            $("#AddTargetLevelModal").modal('show');
+                            //gridLMSTopic.Refresh();
+                            //gridLMSTopic.Refresh();
+                        }
+
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Sorry!',
+                            text: 'An error occurred while saving the topic.'
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        // Initialize Select2 on the dropdown
+        $('#ddlDesignation').select2({
+            placeholder: "Select a designation",  // Optional placeholder
+            
+        });
+
+        // Optional: Re-trigger the 'onchange' event manually if needed
+        $('#ddlDesignation').on('change', function () {
+            LoadEmployeeOnChange('GETEMPLOYEELIST');
+        });
+    });
+</script>
+
+<div class="breadCumb">
+    <span>Target Level Set Up</span>
+</div>
+
+<div class="container">
+    <div class="form_main backBox p-3">
+        <div class="row">
+            <div class="col-md-12 buttons-alignment" style="padding-top: 0;margin-bottom: 15px;">
+
+                <div class="step-container">
+                    <!-- Step 1 -->
+                    <div class="step-box step-box-1" id="step-1">
+                        <img src="../../../assests/images/target-icon-1.svg" alt="Region Icon">
+                        <span>Region Level Target</span>
+                    </div>
+                    <div class="step-connector step-connector-1"></div>
+
+                    <!-- Step 2 -->
+                    <div class="step-box step-box-2 add-new-btn" id="step-2" onclick="AddEditLevel('ASM')">
+                        <img src="../../../assests/images/target-icon-2.svg" alt="Area Manager Icon">
+                        <span>Area Manager Level Target</span>
+                        <span class="btn-icon"><i class="fa fa-plus"></i></span>
+                    </div>
+                    <div class="step-connector step-connector-2"></div>
+
+                    <!-- Step 3 -->
+                    <div class="step-box step-box-3 add-new-btn" id="step-3" onclick="AddEditLevel('SLO')">
+                        <img src="../../../assests/images/target-icon-3.svg" alt="Sales Officer Icon">
+                        <span>Sales Officer Level Target</span>
+                        <span class="btn-icon"><i class="fa fa-plus"></i></span>
+                    </div>
+                    <div class="step-connector step-connector-3"></div>
+
+                    <!-- Step 4 -->
+                    <div class="step-box step-box-4 add-new-btn" id="step-4" onclick="AddEditLevel('SLM')">
+                        <img src="../../../assests/images/target-icon-4.svg" alt="Salesman Icon">
+                        <span>Salesman Level Target</span>
+                        <span class="btn-icon"><i class="fa fa-plus"></i></span>
+                    </div>
+                    <div class="step-connector step-connector-4"></div>
+
+                    <!-- Step 5 -->
+                    <div class="step-box step-box-5" id="step-5">
+                        <img src="../../../assests/images/target-icon-5.svg" alt="Beat Icon">
+                        <span>Beat Level Target</span>
+                    </div>
+                    <div class="step-connector step-connector-5"></div>
+
+                    <!-- Step 6 -->
+                    <div class="step-box step-box-6" id="step-6">
+                        <img src="../../../assests/images/target-icon-6.svg" alt="Outlet Icon">
+                        <span>Outlet Level Target</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <div class="scrooler">
+            @*<div id="refreshgrid">
+                    @{
+                        Html.RenderAction("PartialGridList", "LMSCategory", new { Is_PageLoad = "0" });
+                    }
+                </div>*@
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnSalesmanLevel" />
+
+<div id="AddTargetLevelModal" class="modal fade pmsModal w120" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="ClearData()">&times;</button>
+                <h4 id="lblHeading" class="modal-title">Create Target Level </h4>
+            </div>
+            <div class="modal-body">
+                <div class="clearfix">
+                    <div class="col-lg-6 mb-4">
+                        <label>Target Level: </label>
+                        <label id="lblTargetLevel"><b> </b></label>
+                    </div>
+                    <div class="col-lg-6 d-flex flex-wrap">
+                        <label>Based On: </label>
+                        <div class="d-flex">
+                            <div class="mr-3 ml-2 based-on-radio"><input type="radio" name="optBasedOn" id="optBasedOn" onclick="ShowHideDesignation()" value="1" @(Model.LevelBasedOn == 1 ? "checked='checked'" : "") /> <span>Employee</span></div>
+                            <div class="based-on-radio"><input type="radio" name="optBasedOn" id="optBasedOn" onclick="ShowHideDesignation()" value="2" @(Model.LevelBasedOn == 2 ? "checked='checked'" : "") /> <span>Designation</span></div>
+                        </div>
+
+                        @*@Html.DropDownListFor(m => m.DesignationId, new SelectList(Model.DesignationList, "deg_id", "deg_designation", Model.DesignationId), new { @id = "ddlDesignation", @class = "form-control", @onchange = "LoadEmployeeOnChange('GETEMPLOYEELIST');" })*@
+                    <div id="based-on-selection-div">
+                        @Html.DropDownListFor(m => m.DesignationId,
+                            new SelectList(Model.DesignationList, "deg_id", "deg_designation", Model.DesignationId),
+                            new
+                            {
+                                @id = "ddlDesignation",
+                                @class = "form-control",
+                                @onchange = "LoadEmployeeOnChange('GETEMPLOYEELIST');"
+                            })
+                    </div>
+                    </div>
+                </div>
+
+                <div class="clearfix">
+                    <div class="col-md-12 mt-15">
+                        <label id="lblBasedOn"> </label>
+                        <div>
+                            <div id="transfer1" class="transfer-demo"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success save-btn" onclick="SaveTargetEmpMap();"><span class="btn-icon"><img src="../../../assests/images/save-instagram.svg"></span> Save & Exit</button>
+                <button type="button" class="btn btn-danger cancel-btn cancel-catg" data-dismiss="modal"><span class="btn-icon"><img src="../../../assests/images/cancel.svg"></span> Cancel & Exit</button>
+
+            </div>
+        </div>
+
+    </div>
+</div>

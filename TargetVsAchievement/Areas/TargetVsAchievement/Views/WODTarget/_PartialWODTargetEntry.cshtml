@@ -1,0 +1,156 @@
+﻿
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridLevelEntryList";
+    settings.CallbackRouteValues = new { Action = "GetWODTargetEntryList", Controller = "WODTarget" };
+    settings.KeyFieldName = "Guids";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.VerticalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
+    settings.SettingsEditing.BatchEditSettings.ShowConfirmOnLosingChanges = false;
+    settings.SettingsBehavior.AllowSort = false;
+
+    settings.SettingsEditing.BatchEditSettings.EditMode = DevExpress.Web.GridViewBatchEditMode.Cell;
+    settings.SettingsEditing.BatchEditSettings.StartEditAction = DevExpress.Web.GridViewBatchStartEditAction.Click;
+    settings.SettingsEditing.NewItemRowPosition = DevExpress.Web.GridViewNewItemRowPosition.Bottom;
+    settings.Settings.HorizontalScrollBarMode = DevExpress.Web.ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = DevExpress.Web.ColumnResizeMode.Control;
+    settings.SettingsPager.PageSizeItemSettings.Visible = false;
+    settings.SettingsPager.PageSize = 100000;
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SlNO";
+        x.Caption = "Sl#";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(7);
+        x.ReadOnly = true;
+        //x.Index = 1;
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TARGETLEVEL";
+        x.Caption = "Target For";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+        x.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TIMEFRAME";
+        x.Caption = "Time Frame";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "STARTEDATE";
+        x.Caption = "Start Date";
+        x.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "ENDDATE";
+        x.Caption = "End Date";
+        x.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "WODCOUNT";
+        x.Caption = "WOD Count";
+
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        x.EditFormSettings.Visible = DevExpress.Utils.DefaultBoolean.True;
+        (x.PropertiesEdit as DevExpress.Web.TextBoxProperties).MaskSettings.Mask = "<0..999999999>";
+
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        x.EditCellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        (x.PropertiesEdit as DevExpress.Web.TextBoxProperties).Style.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        DevExpress.Web.TextBoxProperties txtEditProperties = x.PropertiesEdit as DevExpress.Web.TextBoxProperties;
+
+        //x.Index = 6;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.Caption = "Action";
+        //x.VisibleIndex = 16;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+        x.SetDataItemTemplateContent(c =>
+        {
+            string EnqRights = "";
+
+            //EnqRights = EnqRights + "<a style='cursor:pointer;' onclick=\"EditLevelData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Guids")) + "')\"><span class='ico editColor' ><i class='fa fa-pencil-square-o assig' aria-hidden='true' data-toggle='tooltip' data-placement='left' title='Edit'></i></span><span class='hidden-xs'></span> </a>";
+            EnqRights = EnqRights + "<a style='cursor:pointer;' onclick=\"EditLevelData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Guids")) + "')\"><span class='ico editColor' ><img src=\"../../../assests/images/Edit.png\" /></span><span class='hidden-xs'></span> </a>";
+
+            //EnqRights = EnqRights + "&nbsp;&nbsp;<a style='cursor:pointer;' onclick=\"DeleteLevelData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Guids")) + "')\"><span class='ico deleteColor'><i class='fa fa-trash' aria-hidden='true' data-toggle='tooltip' data-placement='left' title='Delete'></i></span><span class='hidden-xs'></span></a>";
+            EnqRights = EnqRights + "&nbsp;&nbsp;<a style='cursor:pointer;' onclick=\"DeleteLevelData('" + Convert.ToString(DataBinder.Eval(c.DataItem, "Guids")) + "')\"><span class='ico deleteColor'><img src=\"../../../assests/images/Delete.png\" /></span><span class='hidden-xs'></span></a>";
+
+            ViewContext.Writer.Write(EnqRights);
+        });
+    });
+
+
+    settings.Columns.Add(x =>
+    {
+
+        x.FieldName = "TARGETLEVELID";
+        x.Caption = "";
+        //x.CellStyle.CssClass = "hide";
+        //x.HeaderStyle.CssClass = "hide";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(0);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "INTERNALID";
+        x.Caption = "";
+        //x.CellStyle.CssClass = "hide";
+        //x.HeaderStyle.CssClass = "hide";
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(0);
+    });
+
+
+
+    settings.CustomJSProperties = (s, e) =>
+    {
+        if (ViewData["Success"] != null)
+        {
+            if (Convert.ToBoolean(ViewData["Success"]))
+            {
+                e.Properties["cpBatchUpdate"] = "1";
+            }
+        }
+        else
+        {
+            e.Properties["cpBatchUpdate"] = "0";
+        }
+
+        e.Properties["cpDetailsID"] = Convert.ToInt32(ViewData["DetailsID"]);
+        e.Properties["cpTargetNo"] = Convert.ToString(ViewData["TargetNo"]);
+        e.Properties["cpMessage"] = Convert.ToString(ViewData["Message"]);
+    };
+
+    //settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+    //settings.ClientSideEvents.EndCallback = "OnEndCallback";
+
+}).Bind(Model).GetHtml()
+
+
+
+

@@ -36,4 +36,23 @@ namespace MyShop.Models
         public Int64 RouteId { get; set; }
         public string RouteName { get; set; }
     }
+
+    public class BeatImportLogModel
+    {
+        public string AreaCode { get; set; }
+        public string AreaName { get; set; }
+        public string RouteCode { get; set; }
+        public string RouteName { get; set; }
+        public string BeatCode { get; set; }
+        public string BeatName { get; set; }
+        public string UserName { get; set; }
+        public string UserID { get; set; }
+        public string OutletEntityID { get; set; }
+        public string OutletName { get; set;}
+        public string ImportStatus { get; set;}
+        public string ImportMsg { get; set;}
+        public string ImportDate { get; set;}
+        public string CreateUser { get; set;}
+
+    }
 }

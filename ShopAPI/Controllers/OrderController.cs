@@ -1,5 +1,7 @@
 ﻿#region======================================Revision History=========================================================
 //1.0   V2.0.38     Debashis    23/01/2023      Some new parameters have been added.Row: 805 to 806
+//2.0   V2.0.49     Debashis    17/09/2024      A new parameter has been added.Row: 977
+//3.0   V2.0.49     Debashis    17/09/2024      A new method has been added.Row: 978
 #endregion===================================End of Revision History==================================================
 using ShopAPI.Models;
 using System;
@@ -120,6 +122,9 @@ namespace ShopAPI.Controllers
                     sqlcmd.Parameters.AddWithValue("@Hospital ", model.Hospital);
                     sqlcmd.Parameters.AddWithValue("@Email_Address ", model.Email_Address);
                     //Extra Input for EuroBond
+                    //Rev 2.0 Row: 907
+                    sqlcmd.Parameters.AddWithValue("@OrderStatus ", model.OrderStatus);
+                    //End of Rev 2.0 Row: 907
                     sqlcmd.Parameters.AddWithValue("@Product_List", JsonXML);
                     sqlcmd.CommandType = CommandType.StoredProcedure;
                     SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
@@ -677,8 +682,53 @@ namespace ShopAPI.Controllers
             }
         }
 
+        //Rev 3.0 Row: 978
+        [HttpPost]
+        public HttpResponseMessage OrderStatusList(OrderStatusfetchInput model)
+        {            
+            OrderStatusfetchOutput odata = new OrderStatusfetchOutput();
+            List<OrderStatusfetch> oview = new List<OrderStatusfetch>();
 
+            if (!ModelState.IsValid)
+            {
+                odata.status = "213";
+                odata.message = "Some input parameters are missing.";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, odata);
+            }
+            else
+            {
+                String token = System.Configuration.ConfigurationManager.AppSettings["AuthToken"];
 
+                DataTable dt = new DataTable();
+                String con = System.Configuration.ConfigurationManager.AppSettings["DBConnectionDefault"];
+                SqlCommand sqlcmd = new SqlCommand();
+                SqlConnection sqlcon = new SqlConnection(con);
+                sqlcon.Open();
+                sqlcmd = new SqlCommand("PRC_FSMAPIORDERSTATUS", sqlcon);
+                sqlcmd.Parameters.AddWithValue("@user_id", model.user_id);
 
+                sqlcmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(sqlcmd);
+                da.Fill(dt);
+                sqlcon.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    oview = APIHelperMethods.ToModelList<OrderStatusfetch>(dt);
+                    odata.user_id = model.user_id;
+                    odata.order_status_list = oview;
+                    odata.status = "200";
+                    odata.message = "Successfully get Order Status List.";
+                }
+                else
+                {
+                    odata.status = "205";
+                    odata.message = "No data found";
+                }
+
+                var message = Request.CreateResponse(HttpStatusCode.OK, odata);
+                return message;
+            }
+        }
+        //End of Rev 3.0 Row: 978
     }
 }

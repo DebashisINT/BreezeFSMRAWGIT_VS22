@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.5, 19.25" name="Reports">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 16.5, 24.375" name="Reports">
   <DataContextMoniker Name="/ReportsDataContext" />
   <nestedChildShapes>
     <classShape Id="6f8bddd7-026f-4c14-800e-203cf2368696" isExpanded="false" absoluteBounds="4.75, 0.5, 2, 0.45">
@@ -560,22 +560,10 @@
         <elementListCompartment Id="a425e05c-a078-41d4-b108-80ed7e42977a" absoluteBounds="2.64, 11.085, 1.9700000000000002, 5.6338297526041661" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="074b5a88-7c66-4cd3-aba5-92c3609752fb" isExpanded="false" absoluteBounds="7, 8.75, 2, 0.45">
-      <DataClassMoniker Name="/ReportsDataContext/FTSORDERREGISTER_REPORT" />
-      <nestedChildShapes>
-        <elementListCompartment Id="87d7d634-a7c7-42ce-a8fe-7d43ccac60ee" absoluteBounds="7.015, 9.21, 1.9700000000000002, 5.249226888020833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
     <classShape Id="d963e6e9-5ac2-4cca-a63f-85236622a6b2" absoluteBounds="14.25, 1.625, 2, 17.347312825520834">
       <DataClassMoniker Name="/ReportsDataContext/FSM_SHOPLIST_REPORT" />
       <nestedChildShapes>
         <elementListCompartment Id="98be3f1d-e376-4fd9-80c4-0f62d3322595" absoluteBounds="14.265, 2.085, 1.9700000000000002, 16.787312825520832" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="ca70d945-66b6-4563-90e5-f1f0dce48929" isExpanded="false" absoluteBounds="9.25, 7.5, 2, 0.45">
-      <DataClassMoniker Name="/ReportsDataContext/FTS_NewPartyDetailsReport" />
-      <nestedChildShapes>
-        <elementListCompartment Id="53105e79-e21f-4613-b0ba-6d089d0f4e58" absoluteBounds="9.265, 7.9600000000000009, 1.9700000000000002, 9.8644612630208321" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="18ec98c8-3e19-4643-b54e-b839b840a9db" isExpanded="false" absoluteBounds="2.625, 7.5, 2, 0.45">
@@ -606,6 +594,24 @@
       <DataClassMoniker Name="/ReportsDataContext/FTSDAILYCALL_REPORT" />
       <nestedChildShapes>
         <elementListCompartment Id="034df62e-08bc-496f-9f35-463bc479470c" absoluteBounds="7.265, 11.21, 1.9700000000000002, 11.595174153645832" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="30fa4677-a181-41f6-92a6-c6395b96fcfe" isExpanded="false" absoluteBounds="9.25, 10, 3, 0.45">
+      <DataClassMoniker Name="/ReportsDataContext/FTSORDERREGISTER_REPORT" />
+      <nestedChildShapes>
+        <elementListCompartment Id="83ea50e0-bb94-4663-8e23-69fadc63189c" absoluteBounds="9.265, 10.46, 2.9699999999999998, 5.826131184895833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="865d224c-1854-450a-9c43-fb023b6ddbf4" isExpanded="false" absoluteBounds="0.625, 11.375, 2, 0.45">
+      <DataClassMoniker Name="/ReportsDataContext/FSM_CURRENTSTOCK_LISTING" />
+      <nestedChildShapes>
+        <elementListCompartment Id="54909b81-90d2-4451-95c2-75063e26613e" absoluteBounds="0.64, 11.835, 1.9700000000000002, 3.518513997395833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="ef66c25d-1ba5-46c3-9ba6-a6f2c4a8e993" absoluteBounds="10, 11, 2, 13.116681315104165">
+      <DataClassMoniker Name="/ReportsDataContext/FTS_NewPartyDetailsReport" />
+      <nestedChildShapes>
+        <elementListCompartment Id="ef07a34c-19e8-4cc1-b8f5-3ee114faa3fd" absoluteBounds="10.015, 11.46, 1.9700000000000002, 12.556681315104166" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
   </nestedChildShapes>

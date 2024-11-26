@@ -4,6 +4,7 @@
  * Rev 3.0      Priti       15/02/2023      V2.0.39    	0025676: Employee Import Facility
  * Rev 4.0      Sanchita    08-08-2023      V2.0.42     FSM - Masters - Organization - Employees - Change Supervisor should be On Demand Search. Mantis: 26700
  * Rev 5.0      Sanchita    09-08-2023      V2.0.42     FSM Portal - Enhance the Export to excel in Employee Master. Mantis : 26708
+ * Rev 6.0      Sanchita    25/10/2024      V2.0.49     In employee master a new filed is required as Target Level.. Mantis : 27773
  *******************************************************************************************************/
 using System;
 using System.Data;
@@ -855,7 +856,10 @@ namespace ERP.OMS.Management.Master
             {
                 SqlConnection con = new SqlConnection(Convert.ToString(System.Web.HttpContext.Current.Session["ErpConnection"]));
                 con.Open();
-                string selectQuery = "SELECT Name [Name], Code as [Employee Code] ,Employee_Grade [Grade] , cnt_OtherID [Other ID], Company [Company], BranchName [Branch] ,Department [Department], Designation [Designation],CTC [CTC],DOJ [Joining On], ReportTo [Report To], AdditionalReportingHead [Additional Reporting Head], Colleague [Colleague], Colleague1 [Colleague1], Colleague2 [Colleague2] from FSMEmployee_Master Where USERID=" + Convert.ToInt32(Session["userid"]) + " order by cnt_id desc";
+                // Rev 6.0
+                //string selectQuery = "SELECT Name [Name], Code as [Employee Code] ,Employee_Grade [Grade] , cnt_OtherID [Other ID], Company [Company], BranchName [Branch] ,Department [Department], Designation [Designation],CTC [CTC],DOJ [Joining On], ReportTo [Report To], AdditionalReportingHead [Additional Reporting Head], Colleague [Colleague], Colleague1 [Colleague1], Colleague2 [Colleague2] from FSMEmployee_Master Where USERID=" + Convert.ToInt32(Session["userid"]) + " order by cnt_id desc";
+                string selectQuery = "SELECT Name [Name], Code as [Employee Code] ,Employee_Grade [Grade] , cnt_OtherID [Other ID], Company [Company], BranchName [Branch] ,Department [Department], Designation [Designation],CTC [CTC],DOJ [Joining On], ReportTo [Report To], AdditionalReportingHead [Additional Reporting Head], Colleague [Colleague], Colleague1 [Colleague1], Colleague2 [Colleague2], EmpTargetLevel [EmpTargetLevel] from FSMEmployee_Master Where USERID=" + Convert.ToInt32(Session["userid"]) + " order by cnt_id desc";
+                // End of Rev 6.0
                 SqlDataAdapter myCommand = new SqlDataAdapter(selectQuery, con);
 
                 // Create and fill a DataSet.

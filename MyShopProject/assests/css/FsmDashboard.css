@@ -2057,8 +2057,19 @@
     background: rgb(255 255 255 / 80%);
 }
 
-.marg-b-50
-{
+.lms-dashboard .widgBox.active.zoom .icon {
+    top: 2px !important;
+    left: 2px !important;
+    height: 81px !important;
+}
+
+.lms-dashboard .widgBox.active.zoom:hover .icon {
+    top: 0 !important;
+    left: 0 !important;
+    
+}
+
+.marg-b-50 {
     margin-bottom: 30px;
 }
 /*rev 1.0*/

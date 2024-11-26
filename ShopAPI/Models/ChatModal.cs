@@ -1,4 +1,7 @@
-﻿using System;
+﻿/********************************************************************************************************************
+ * 1.0       10/09/2024        V2.0.48          Sanchita          27690: Quotation Notification issue @ Eurobond
+ * *******************************************************************************************************************/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -161,4 +164,45 @@ namespace ShopAPI.Models
         public string message { get; set; }
 
     }
+
+    // Rev 1.0
+    public class Data
+    {
+
+        public string body { get; set; }
+        public string UserName { get; set; }
+        public string UserID { get; set; }
+        public string header { get; set; }
+        public string type { get; set; }
+        public string msg_id { get; set; }
+        public string msg { get; set; }
+        public string time { get; set; }
+
+        public string from_user_id { get; set; }
+        public string isGroup { get; set; }
+        public string from_id { get; set; }
+        public string from_name { get; set; }
+        public string from_user_name { get; set; }
+    }
+
+    public class Message
+    {
+        public string token { get; set; }
+        public Data data { get; set; }
+        public Notification notification { get; set; }
+    }
+
+    public class Notification
+    {
+        public string title { get; set; }
+        public string body { get; set; }
+    }
+
+    public class Root
+    {
+        public Message message { get; set; }
+
+    }
+    // End of Rev 1.0
+
 }

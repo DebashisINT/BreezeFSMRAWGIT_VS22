@@ -330,6 +330,7 @@
     <Compile Include="Areas\LMS\Controllers\LMSPointController.cs" />
     <Compile Include="Areas\LMS\Controllers\LMSQuestionsController.cs" />
     <Compile Include="Areas\LMS\Controllers\LMSReportsController.cs" />
+    <Compile Include="Areas\LMS\Controllers\LMSReportTopicListController.cs" />
     <Compile Include="Areas\LMS\Controllers\LMSSettingsController.cs" />
     <Compile Include="Areas\LMS\Controllers\LMSTopicsController.cs" />
     <Compile Include="Areas\LMS\LMSAreaRegistration.cs" />
@@ -349,6 +350,7 @@
     <Compile Include="Models\LMSPointModel.cs" />
     <Compile Include="Models\LMSQuestionsModel.cs" />
     <Compile Include="Models\LMSReportsModel.cs" />
+    <Compile Include="Models\LMSReportTopicListModel.cs" />
     <Compile Include="Models\LMSService.asmx.cs">
       <DependentUpon>LMSService.asmx</DependentUpon>
       <SubType>Component</SubType>
@@ -856,6 +858,8 @@
     <Content Include="Areas\LMS\Views\LMSReports\_ContentLookUpPartial.cshtml" />
     <Content Include="Areas\LMS\Views\LMSReports\PartialReportListing.cshtml" />
     <Content Include="Areas\LMS\Views\LMSSettings\Index.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSReportTopicList\Index.cshtml" />
+    <Content Include="Areas\LMS\Views\LMSReportTopicList\PartialReportTopicList.cshtml" />
     <None Include="assests\js\jquery-1.10.2.intellisense.js" />
     <Content Include="assests\js\jquery-1.10.2.js" />
     <Content Include="assests\js\jquery-1.10.2.min.js" />

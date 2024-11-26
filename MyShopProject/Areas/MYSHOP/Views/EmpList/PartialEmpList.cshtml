@@ -9,7 +9,9 @@
 
     settings.CallbackRouteValues = new { Action = "GetEmpList", Controller = "EmpList" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallback";
-
+    //Rev 1.0
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    //Rev end 1.0
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
@@ -544,6 +546,9 @@
     //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "DISTANCE_TRAVELLED").DisplayFormat = "0.00";
     //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE").DisplayFormat = "0.00";
     //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_COLLECTION").DisplayFormat = "0.00";
+
+    settings.ClientSideEvents.RowClick = "gridRowclick";
+
 }).Bind(Model).GetHtml()
 
 

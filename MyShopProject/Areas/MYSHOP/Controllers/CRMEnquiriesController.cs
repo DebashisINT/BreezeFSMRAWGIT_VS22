@@ -5,6 +5,9 @@
                                                                  Mantis: 26727
   3.0       23-11-2023        V2.0.43          Sanchita          Bulk Import feature required for Enquiry Module.Mantis: 27020 
   4.0		25-04-2024	      V2.0.46		   Priti             0027383: New Enquires type Add and Hide # Eurobond Portal
+  5.0       10/09/2024        V2.0.48          Sanchita          27690: Quotation Notification issue @ Eurobond
+  6.0       28/09/2024        V2.0.49          Priti             Report taking too much time time to generate.Now resolved.Refer: 0027728
+
 **************************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -14,6 +17,7 @@ using DevExpress.Web;
 using DevExpress.Web.Mvc;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Google.Apis.Auth.OAuth2;
 using Models;
 using MyShop.Models;
 using Newtonsoft.Json;
@@ -298,11 +302,13 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
                     //int user_id = Convert.ToInt32(HttpContext.Current.Session["userid"]);
 
-                   // DataTable dt = new DataTable();
-                   
+                    // DataTable dt = new DataTable();
+                    
                 }
-
-                GetCRMEnquiriesListing(EnquiryFrom, datfrmat, dattoat);
+                //REV 6.0
+                //GetCRMEnquiriesListing(EnquiryFrom, datfrmat, dattoat);
+                GetCRMEnquiriesListing(EnquiryFrom, datfrmat, dattoat, model.Is_PageLoad);
+                //REV 6.0 END
 
                 model.Is_PageLoad = "Ispageload";
 
@@ -319,8 +325,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
            
         }
-        
-        public void GetCRMEnquiriesListing(string EnquiryFrom, string FromDate, string ToDate)
+        //REV 6.0 
+        //public void GetCRMEnquiriesListing(string EnquiryFrom, string FromDate, string ToDate)
+        public void GetCRMEnquiriesListing(string EnquiryFrom, string FromDate, string ToDate,string IsPageLoad)
+        //REV 6.0 END
         {
             string user_id = Convert.ToString(Session["userid"]);
             //string FROMDATE = dtFrom.ToString("yyyy-MM-dd");
@@ -338,6 +346,9 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 proc.AddPara("@ENQUIRIESFROM", EnquiryFrom);
                 proc.AddPara("@FROMDATE", FromDate);
                 proc.AddPara("@TODATE", ToDate);
+                //REV 6.0 
+                proc.AddPara("@ISPAGELOAD", IsPageLoad);
+                //REV 6.0 END
                 dt = proc.GetTable();
 
             }
@@ -3405,7 +3416,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         {
                             // Rev 2.0
                             //SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]));
-                            SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]), lead_date, enquiry_type);
+                            SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]), "lead_work", lead_date, enquiry_type);
                             // End of 2.0
                         }
                     }
@@ -3430,62 +3441,148 @@ namespace MyShop.Areas.MYSHOP.Controllers
             }
         }
         // Rev 2.0 [parameters "lead_date" and "enquiry_type" added]
-        public static void SendPushNotification(string message, string deviceid, string Customer, string Requesttype, string lead_date, string enquiry_type)
+        // Rev 5.0
+        //public static void SendPushNotification(string message="", string deviceid = "", string Customer="", string Requesttype="", 
+        //    string lead_date="", string enquiry_type="", string title="", string type="")
+        public void SendPushNotification(string message = "", string deviceid = "", string Customer = "", string Requesttype = "", string type = "",
+            string lead_date = "", string enquiry_type = "", string title = "")
+            // End of Rev 5.0
         {
             try
             {
                 //string applicationID = "AAAAS0O97Kk:APA91bH8_KgkJzglOUHC1ZcMEQFjQu8fsj1HBKqmyFf-FU_I_GLtXL_BFUytUjhlfbKvZFX9rb84PWjs05HNU1QyvKy_TJBx7nF70IdIHBMkPgSefwTRyDj59yXz4iiKLxMiXJ7vel8B";
                 //string senderId = "323259067561";
-                string applicationID = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["AppID"]);
-                string senderId = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["SenderID"]);
+                // Rev 5.0
+                //string applicationID = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["AppID"]);
                 //string senderId = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["SenderID"]);
-                string deviceId = deviceid;
-                WebRequest tRequest = WebRequest.Create("https://fcm.googleapis.com/fcm/send");
-                tRequest.Method = "post";
-                tRequest.ContentType = "application/json";
+                ////string senderId = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["SenderID"]);
+                //string deviceId = deviceid;
+                //WebRequest tRequest = WebRequest.Create("https://fcm.googleapis.com/fcm/send");
+                //tRequest.Method = "post";
+                //tRequest.ContentType = "application/json";
 
-                var data2 = new
-                {
-                    to = deviceId,
-                    //notification = new
-                    //{
-                    //    body = message,
-                    //    title = ""
-                    //},
-                    data = new
-                    {
-                        UserName = Customer,
-                        UserID = Requesttype,
-                        body = message,
-                        // Rev 2.0
-                        type = "lead_work",
-                        lead_date = lead_date,
-                        enquiry_type = enquiry_type
-                        // End of Rev 2.0
-                    }
-                };
+                //var data2 = new
+                //{
+                //    to = deviceId,
+                //    //notification = new
+                //    //{
+                //    //    body = message,
+                //    //    title = ""
+                //    //},
+                //    data = new
+                //    {
+                //        UserName = Customer,
+                //        UserID = Requesttype,
+                //        body = message,
+                //        // Rev 2.0
+                //        type = "lead_work",
+                //        lead_date = lead_date,
+                //        enquiry_type = enquiry_type
+                //        // End of Rev 2.0
+                //    }
+                //};
 
-                var serializer = new JavaScriptSerializer();
-                var json = serializer.Serialize(data2);
-                Byte[] byteArray = Encoding.UTF8.GetBytes(json);
-                tRequest.Headers.Add(string.Format("Authorization: key={0}", applicationID));
-                tRequest.Headers.Add(string.Format("Sender: id={0}", senderId));
-                tRequest.ContentLength = byteArray.Length;
-                using (Stream dataStream = tRequest.GetRequestStream())
-                {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    using (WebResponse tResponse = tRequest.GetResponse())
-                    {
-                        using (Stream dataStreamResponse = tResponse.GetResponseStream())
-                        {
-                            using (StreamReader tReader = new StreamReader(dataStreamResponse))
-                            {
-                                String sResponseFromServer = tReader.ReadToEnd();
-                                string str = sResponseFromServer;
-                            }
-                        }
-                    }
+                //var serializer = new JavaScriptSerializer();
+                //var json = serializer.Serialize(data2);
+                //Byte[] byteArray = Encoding.UTF8.GetBytes(json);
+                //tRequest.Headers.Add(string.Format("Authorization: key={0}", applicationID));
+                //tRequest.Headers.Add(string.Format("Sender: id={0}", senderId));
+                //tRequest.ContentLength = byteArray.Length;
+                //using (Stream dataStream = tRequest.GetRequestStream())
+                //{
+                //    dataStream.Write(byteArray, 0, byteArray.Length); 
+                //    using (WebResponse tResponse = tRequest.GetResponse())
+                //    {
+                //        using (Stream dataStreamResponse = tResponse.GetResponseStream())
+                //        {
+                //            using (StreamReader tReader = new StreamReader(dataStreamResponse))
+                //            {
+                //                String sResponseFromServer = tReader.ReadToEnd();
+                //                string str = sResponseFromServer;
+                //            }
+                //        }
+                //    }
+                //}
+
+
+                DBEngine odbengine = new DBEngine();
+                string fileName = "", projectname = "" ;
+                
+                DataTable dt = odbengine.GetDataTable("select JSONFILE_NAME, PROJECT_NAME from FSM_CONFIG_FIREBASENITIFICATION WHERE ID=1");
+                
+                if (dt.Rows.Count > 0 ) {
+                    fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/"+ Convert.ToString(dt.Rows[0]["JSONFILE_NAME"]));
+                    projectname = Convert.ToString(dt.Rows[0]["PROJECT_NAME"]);
                 }
+
+                //string fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/demofsm-fee63-firebase-adminsdk-m1emn-4e3e8bba2d.json"); //Download from Firebase Console ServiceAccount
+
+                string scopes = "https://www.googleapis.com/auth/firebase.messaging";
+                var bearertoken = ""; // Bearer Token in this variable
+                using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+
+                {
+
+                    bearertoken = GoogleCredential
+                      .FromStream(stream) // Loads key file
+                      .CreateScoped(scopes) // Gathers scopes requested
+                      .UnderlyingCredential // Gets the credentials
+                      .GetAccessTokenForRequestAsync().Result; // Gets the Access Token
+
+                }
+
+                ///--------Calling FCM-----------------------------
+
+                var clientHandler = new HttpClientHandler();
+                var client = new HttpClient(clientHandler);
+
+                client.BaseAddress = new Uri("https://fcm.googleapis.com/v1/projects/"+ projectname + "/messages:send"); // FCM HttpV1 API
+
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                //client.DefaultRequestHeaders.Accept.Add("Authorization", "Bearer " + bearertoken);
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", bearertoken); // Authorization Token in this variable
+
+                //---------------Assigning Of data To Model --------------
+
+                Root rootObj = new Root();
+                rootObj.message = new Message();
+                rootObj.message.token = deviceid;  //"AAAA8_ptc9A:APA91bGhMaxl_Mm811bpvNExTIyZZz16krSTnCAp1RpbRKV8hZuIh9gsI6svxMvZO74WaZl3piBPHJzp2N3NN3JRS8a150BAmyLnwqa7nJUFay_kxNm11dQfdDCl00QUPncGCKq1kPYH"; //FCM Token id
+
+                rootObj.message.data = new Data();
+                rootObj.message.data.UserName = Customer;
+                rootObj.message.data.UserID = Requesttype;
+                rootObj.message.data.body = message;
+                rootObj.message.data.type = type;
+                rootObj.message.data.lead_date = lead_date;
+                rootObj.message.data.enquiry_type = enquiry_type;
+
+
+                //rootObj.message.data.title = title;
+                //rootObj.message.data.header = title;
+                //rootObj.message.data.imgNotification_Icon = imgNotification_Icon;
+                // rootObj.message.data.key_2 = "Sample Key2";
+                //rootObj.message.notification = new Notification();
+                //rootObj.message.notification.title = title;
+                //rootObj.message.notification.body = message;
+
+                //-------------Convert Model To JSON ----------------------
+
+                var jsonObj = new JavaScriptSerializer().Serialize(rootObj);
+
+                //------------------------Calling Of FCM Notify API-------------------
+
+                var data = new StringContent(jsonObj, Encoding.UTF8, "application/json");
+                data.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = client.PostAsync("https://fcm.googleapis.com/v1/projects/" + projectname +"/messages:send", data).Result; // Calling The FCM httpv1 API
+
+                //---------- Deserialize Json Response from API ----------------------------------
+
+                var jsonResponse = response.Content.ReadAsStringAsync().Result;
+                var responseObj = new JavaScriptSerializer().DeserializeObject(jsonResponse);
+                // End of Rev 5.0
             }
             catch (Exception ex)
             {
