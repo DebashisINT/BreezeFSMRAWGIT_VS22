@@ -1527,6 +1527,21 @@
         document.getElementById("txtTopicName").focus();
         $("#numTopicCompDay").val('0');
         $("#chkDefault").prop("checked", false);
+        $("#numTopicSequence").val('0');
+
+        $.ajax({
+            type: "POST",
+            url: "/LMSTopics/GetLastTopicSeq",
+            //data: JSON.stringify(obj),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                console.log(data)
+                $("#numTopicSequence").val(data.TopicSequence);
+            }
+        });
+
 
         $("#lblHeading").text('Create Topic');
         $("#AddTopicModal").modal('show');
@@ -1716,6 +1731,19 @@
                 return;
             }
 
+            if ($("#numTopicSequence").val() == 0 || $("#numTopicSequence").val().trim() == "") {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Alert',
+                    text: 'Please enter Topic Sequence.'
+                }).then(() => {
+                    setTimeout(() => {
+                        $("#numTopicSequence").focus();
+                    }, 200);
+                });
+                return;
+            }
+
             showLoader();
 
             var data = {
@@ -1727,7 +1755,8 @@
                 selectedTopicBasedOnMapList: selectedTopicBasedOnMapList,
                 TopicStatusOld: $("#hdnTopicStatusOld").val(),
                 TopicCompDay: $("#numTopicCompDay").val(),
-                DefaultTopic: $("#chkDefault").prop("checked")
+                DefaultTopic: $("#chkDefault").prop("checked"),
+                TopicSequence: $("#numTopicSequence").val()
             }
 
             $.ajax({
@@ -1741,7 +1770,8 @@
                             title: 'Sorry!',
                             text: 'Error in Add.'
                         });
-                    } else if (returnValue.RETURN_VALUE == "-20") {
+                    }
+                    else if (returnValue.RETURN_VALUE == "-20") {
                         Swal.fire({
                             icon: 'error',
                             title: 'Sorry!',
@@ -1779,6 +1809,13 @@
                             icon: 'error',
                             title: 'Sorry!',
                             text: 'Duplicate Topic name cannot be entered. Please enter a unique Topic name.'
+                        });
+                    }
+                    else if (returnValue.RETURN_VALUE == "-30") {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Sorry!',
+                            text: 'Duplicate Topic Sequence cannot be entered. Please enter a unique Topic Sequence. [Last Topic Sequence : ' + returnValue.RETURN_DUPLICATEMAPNAME +']'
                         });
                     }
 
@@ -1850,6 +1887,7 @@
                 $("#hdnTopicStatusOld").val(data[0].TOPICSTATUS);
                 $("#numTopicCompDay").val(data[0].TOPIC_COMP_DAY);
                 $("#chkDefault").prop("checked", data[0].TOPIC_ISDEFAULT);
+                $("#numTopicSequence").val(data[0].TOPIC_SEQ);
 
                 $("#transfer1").html('');
 
@@ -2036,7 +2074,12 @@
             //    this.value = this.value.slice(0, 2); // Limit to 2 digits
             //}
         });
-
+        $('#numTopicSequence').on('input', function () {
+            this.value = this.value.replace(/[^0-9]/g, '');
+            //if (this.value.length > 2) {
+            //    this.value = this.value.slice(0, 2); // Limit to 2 digits
+            //}
+        });
        
     });
 
@@ -2091,14 +2134,14 @@
 
                             @if (ViewBag.CanView){
                             <button type="button" class="btn btn-total-used btn-radius bg-color-6" id="btnShowUsedTopics" onclick="ShowUsedTopics();">
-                                <h5>Used topic(s)</h5> <span class="filter-count">0</span>
+                                <h5>Published topic(s)</h5> <span class="filter-count">0</span>
                             </button>
 
                             }
 
                             @if (ViewBag.CanView){
                             <button type="button" class="btn btn-total-unused btn-radius bg-color-6" id="btnShowUnusedTopics" onclick="ShowUnusedTopics();">
-                                <h5>Unused topic(s)</h5> <span class="filter-count">0</span>
+                                <h5>Unpublished topic(s)</h5> <span class="filter-count">0</span>
                             </button>
 
                             }
@@ -2144,36 +2187,39 @@
             </div>
             <div class="modal-body">
                 <div class="clearfix">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12 mb-3">
                         <label>Topic Name<span style="color: red">*</span></label>
                         <input type="text" id="txtTopicName" class="form-control" maxlength="250" tabindex="-1" />
                         <asp:HiddenField ID="hdnHeaderId" runat="server" />
+                    </div>
+                    <div class="col-lg-3">
+                        <label>Topic Sequence</label>
+                        <input type="number" id="numTopicSequence" name="numTopicSequence" class="form-control" maxlength="100" min="1" />
                     </div>
                     <div class="col-lg-6 d-none">
                         <label>Topic Completion Day(s)</label>
                         <input type="number" id="numTopicCompDay" name="numTopicCompDay" class="form-control" maxlength="100" min="1" />
                     </div>
-
                     <div class="col-lg-4">
                         <label>Based On</label>
                         @Html.DropDownListFor(m => m.TopicBasedOnId, new SelectList(Model.TopicBasedOnList, "TOPICBASEDON_ID", "TOPICBASEDON_NAME", Model.TopicBasedOnId), new { @id = "ddlTopicBasedOn", @class = "form-control", @onchange = "ddlTopicBasedOnChange();" })
 
                     </div>
-
                     <div class="col-lg-2" style="height: 60px;">
                         <label> </label>
                         <div class="active-checkbox mt-3"><input type="checkbox" id="chkStatus" name="chkStatus" class="styled-checkbox" /><label>Publish</label></div>
                     </div>
-
-                </div>
-                <div class="clearfix">
-                    
-                    
-                    <div class="col-lg-4  d-none" style="height: 60px;">
+                    <div class="col-lg-3  " style="height: 60px;">
                         <label> </label>
                         <div class="active-checkbox mt-3"><input type="checkbox" id="chkDefault" name="chkDefault" class="styled-checkbox" /><label>Default Topic</label></div>
                     </div>
                 </div>
+                @*<div class="clearfix">
+                    <div class="col-lg-4  " style="height: 60px;">
+                        <label> </label>
+                        <div class="active-checkbox mt-3"><input type="checkbox" id="chkDefault" name="chkDefault" class="styled-checkbox" /><label>Default Topic</label></div>
+                    </div>
+                </div>*@
                 <div class="clearfix">
                     <div class="col-md-12 mt-15">
                         <label id="lblBasedOn"> </label>

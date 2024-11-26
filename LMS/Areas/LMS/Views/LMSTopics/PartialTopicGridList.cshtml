@@ -97,17 +97,17 @@
         column.Width = 100;
         //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
     });
-    settings.Columns.Add(column =>
-    {
-        column.FieldName = "TOPIC_COMP_DAY";
-        column.Caption = "Topic Completion Day(s)";
-        //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        column.VisibleIndex = 5;
-        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
-        column.Width = 170;
-        //column.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "TOPIC_COMP_DAY";
+    //    column.Caption = "Topic Completion Day(s)";
+    //    //column.FixedStyle = GridViewColumnFixedStyle.Left;
+    //    column.VisibleIndex = 5;
+    //    column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+    //    column.Width = 170;
+    //    //column.Width = System.Web.UI.WebControls.Unit.Percentage(20);
 
-    });
+    //});
     settings.Columns.Add(column =>
     {
         column.FieldName = "TOPIC_ISDEFAULT";
@@ -120,10 +120,20 @@
     });
     settings.Columns.Add(column =>
     {
+        column.FieldName = "TOPIC_SEQ";
+        column.Caption = "Topic Sequence";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.VisibleIndex = 7;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 130;
+        //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
+    settings.Columns.Add(column =>
+    {
         column.FieldName = "CREATEDBY";
         column.Caption = "Created by";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
-        column.VisibleIndex = 7;
+        column.VisibleIndex = 8;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
         column.Width = 150;
         //column.Width = System.Web.UI.WebControls.Unit.Percentage(15);
@@ -135,7 +145,7 @@
         column.ColumnType = MVCxGridViewColumnType.DateEdit;
         column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-        column.VisibleIndex = 8;
+        column.VisibleIndex = 9;
         column.Width = 100;
         //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
     });
@@ -145,7 +155,7 @@
         column.Caption = "Modified by";
         //column.FixedStyle = GridViewColumnFixedStyle.Left;
         column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
-        column.VisibleIndex = 9;
+        column.VisibleIndex = 10;
         column.Width = 150;
         //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
     });
@@ -156,7 +166,7 @@
         column.ColumnType = MVCxGridViewColumnType.DateEdit;
         column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
         (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
-        column.VisibleIndex = 10;
+        column.VisibleIndex = 11;
         column.Width = 100;
         //column.Width = System.Web.UI.WebControls.Unit.Percentage(10);
     });
@@ -185,7 +195,7 @@
 
         //x.Settings.AllowDragDrop = DefaultBoolean.False;
         //x.Settings.AllowSort = DefaultBoolean.False;
-        x.VisibleIndex = 11;
+        x.VisibleIndex = 12;
         x.Width = 150;
         //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;

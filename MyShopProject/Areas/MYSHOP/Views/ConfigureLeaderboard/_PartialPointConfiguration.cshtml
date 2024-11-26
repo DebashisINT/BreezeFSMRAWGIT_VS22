@@ -1,6 +1,7 @@
 ﻿@**********************************************************************************************************************************@
 @* Written by Sanchita     29-03-2024  for    V2.0.46  27299: One settings page required for Leaderboard in the backend. Below points should be captured for different section.
-@**********************************************************************************************************************************@
+              Pallab       30-09-2024  for    V2.0.49         Grid row highlighted when edit action button clicked
+    @**********************************************************************************************************************************@
 
 @*@model MyShop.Models.TravelConveyanceModelclass*@
 @Html.DevExpress().GridView(settings =>
@@ -82,7 +83,11 @@
         {
             if (ViewBag.CanEdit)
             {
-                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditConfiguration('" + Convert.ToString(DataBinder.Eval(c.DataItem, "pointID")) + "')\"><img src='/assests/images/Edit.png' /></a>");
+                //Rev Pallab: row highlight when edit icon clicked
+                //ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditConfiguration('" + Convert.ToString(DataBinder.Eval(c.DataItem, "pointID")) + "')\"><img src='/assests/images/Edit.png' /></a>");
+                var rowId = Convert.ToString(DataBinder.Eval(c.DataItem, "pointID"));
+                ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"EditConfiguration('" + rowId + "'); highlightRow(this)\"><img src='/assets/images/Edit.png' /></a>");
+                //Rev end Pallab
             }
 
             //  ViewContext.Writer.Write("<a style='cursor:pointer' class='pad' onclick=\"DeleteTConveyance('" + Convert.ToString(DataBinder.Eval(c.DataItem, "pointID")) + "')\"><img src='/assests/images/Delete.png' </a>");

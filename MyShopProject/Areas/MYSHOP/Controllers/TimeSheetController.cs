@@ -1,4 +1,7 @@
-﻿using BusinessLogicLayer;
+﻿/****************************************************************************************************************************
+ * 1.0       10/09/2024        V2.0.48          Sanchita          27690: Quotation Notification issue @ Eurobond
+ * ***************************************************************************************************************************/
+using BusinessLogicLayer;
 using DataAccessLayer;
 using MyShop.Models;
 using System;
@@ -427,7 +430,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     {
                         if (Convert.ToString(dt.Rows[i]["device_token"]) != "")
                         {
-                            SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]));
+                            // Rev 1.0
+                            //SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]));
+
+                            CRMEnquiriesController obj = new CRMEnquiriesController();
+                            obj.SendPushNotification(messagetext, Convert.ToString(dt.Rows[i]["device_token"]), Convert.ToString(dt.Rows[i]["user_name"]), Convert.ToString(dt.Rows[i]["user_id"]), "timesheet");
+                            // End of Rev 1.0
                         }
                     }
                     status = "200";
@@ -451,65 +459,66 @@ namespace MyShop.Areas.MYSHOP.Controllers
            
         }
 
-        public static void SendPushNotification(string message, string deviceid, string Customer, string Requesttype)
-        {
-            try
-            {
-                //string applicationID = "AAAAS0O97Kk:APA91bH8_KgkJzglOUHC1ZcMEQFjQu8fsj1HBKqmyFf-FU_I_GLtXL_BFUytUjhlfbKvZFX9rb84PWjs05HNU1QyvKy_TJBx7nF70IdIHBMkPgSefwTRyDj59yXz4iiKLxMiXJ7vel8B";
-                //string senderId = "323259067561";
-                string applicationID = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["AppID"]);
-                string senderId = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["SenderID"]);
-                //string senderId = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["SenderID"]);
-                string deviceId = deviceid;
-                WebRequest tRequest = WebRequest.Create("https://fcm.googleapis.com/fcm/send");
-                tRequest.Method = "post";
-                tRequest.ContentType = "application/json";
+        // Rev 1.0
+        //public static void SendPushNotification(string message, string deviceid, string Customer, string Requesttype)
+        //{
+        //    try
+        //    {
+        //        //string applicationID = "AAAAS0O97Kk:APA91bH8_KgkJzglOUHC1ZcMEQFjQu8fsj1HBKqmyFf-FU_I_GLtXL_BFUytUjhlfbKvZFX9rb84PWjs05HNU1QyvKy_TJBx7nF70IdIHBMkPgSefwTRyDj59yXz4iiKLxMiXJ7vel8B";
+        //        //string senderId = "323259067561";
+        //        string applicationID = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["AppID"]);
+        //        string senderId = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["SenderID"]);
+        //        //string senderId = Convert.ToString(System.Configuration.ConfigurationSettings.AppSettings["SenderID"]);
+        //        string deviceId = deviceid;
+        //        WebRequest tRequest = WebRequest.Create("https://fcm.googleapis.com/fcm/send");
+        //        tRequest.Method = "post";
+        //        tRequest.ContentType = "application/json";
 
-                var data2 = new
-                {
-                    to = deviceId,
-                    //notification = new
-                    //{
-                    //    body = message,
-                    //    title = ""
-                    //},
-                    data = new
-                    {
-                        UserName = Customer,
-                        UserID = Requesttype,
-                        body = message,
-                        type = "timesheet"
-                    }
-                };
+        //        var data2 = new
+        //        {
+        //            to = deviceId,
+        //            //notification = new
+        //            //{
+        //            //    body = message,
+        //            //    title = ""
+        //            //},
+        //            data = new
+        //            {
+        //                UserName = Customer,
+        //                UserID = Requesttype,
+        //                body = message,
+        //                type = "timesheet"
+        //            }
+        //        };
 
-                var serializer = new JavaScriptSerializer();
-                var json = serializer.Serialize(data2);
-                Byte[] byteArray = Encoding.UTF8.GetBytes(json);
-                tRequest.Headers.Add(string.Format("Authorization: key={0}", applicationID));
-                tRequest.Headers.Add(string.Format("Sender: id={0}", senderId));
-                tRequest.ContentLength = byteArray.Length;
-                using (Stream dataStream = tRequest.GetRequestStream())
-                {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    using (WebResponse tResponse = tRequest.GetResponse())
-                    {
-                        using (Stream dataStreamResponse = tResponse.GetResponseStream())
-                        {
-                            using (StreamReader tReader = new StreamReader(dataStreamResponse))
-                            {
-                                String sResponseFromServer = tReader.ReadToEnd();
-                                string str = sResponseFromServer;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string str = ex.Message;
-            }
-        }
-
+        //        var serializer = new JavaScriptSerializer();
+        //        var json = serializer.Serialize(data2);
+        //        Byte[] byteArray = Encoding.UTF8.GetBytes(json);
+        //        tRequest.Headers.Add(string.Format("Authorization: key={0}", applicationID));
+        //        tRequest.Headers.Add(string.Format("Sender: id={0}", senderId));
+        //        tRequest.ContentLength = byteArray.Length;
+        //        using (Stream dataStream = tRequest.GetRequestStream())
+        //        {
+        //            dataStream.Write(byteArray, 0, byteArray.Length);
+        //            using (WebResponse tResponse = tRequest.GetResponse())
+        //            {
+        //                using (Stream dataStreamResponse = tResponse.GetResponseStream())
+        //                {
+        //                    using (StreamReader tReader = new StreamReader(dataStreamResponse))
+        //                    {
+        //                        String sResponseFromServer = tReader.ReadToEnd();
+        //                        string str = sResponseFromServer;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string str = ex.Message;
+        //    }
+        //}
+        // End of Rev 1.0
 
 
         [HttpPost]

@@ -28,6 +28,8 @@ namespace LMS.Models
         public string TopicStatusOld { get; set; }
         public string TopicCompDay { get; set; }
         public string DefaultTopic { get; set; }
+        public string TopicSequence { get; set; }
+
     }
 
     public class TopicBasedOnList
@@ -50,6 +52,8 @@ namespace LMS.Models
         public bool TOPICSTATUS { get; set; }
         public string TOPIC_COMP_DAY { get; set; }
         public bool TOPIC_ISDEFAULT { get; set; }
+        public string TOPIC_SEQ { get; set; }
+
 
     }
 

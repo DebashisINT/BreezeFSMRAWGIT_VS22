@@ -1,0 +1,1131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B0174A18-0564-4944-8B7C-2D4BB3C59995}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TargetVsAchievement</RootNamespace>
+    <AssemblyName>TargetVsAchievement</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44320</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BusinessLogicLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\BusinessLogicLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="DataAccessLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\DataAccessLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxSpreadsheet.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.Web.ASPxSpreadsheet.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxTreeList.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.Web.ASPxTreeList.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.Mvc5.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.Web.Mvc5.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Web.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.Web.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.Xpo.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraBars.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraBars.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraCharts.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v15.1.Web, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraCharts.v15.1.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraEditors.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v15.1.Core, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraGauges.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v15.1.Presets, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraGauges.v15.1.Presets.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v15.1.Win, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraGauges.v15.1.Win.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraLayout.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraLayout.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraMap.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraMap.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPivotGrid.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraPivotGrid.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraPrinting.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraReports.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1.Extensions, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraReports.v15.1.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v15.1.Web, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraReports.v15.1.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraScheduler.v15.1.Core, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraScheduler.v15.1.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v15.1, Version=15.1.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ERP.UI\bin\DevExpress.XtraTreeList.v15.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.7.2.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MyShopProject\bin\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\EntityLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <HintPath>bin\Microsoft.Office.Interop.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.1\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.9.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.9\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.9\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.9\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="UtilityLayer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\UtilityLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\TargetVsAchievement\Controllers\BrandVolumeValueTargetController.cs" />
+    <Compile Include="Areas\TargetVsAchievement\Controllers\ProductTargetAddEditController.cs" />
+    <Compile Include="Areas\TargetVsAchievement\Controllers\SalesTargetController.cs" />
+    <Compile Include="Areas\TargetVsAchievement\Controllers\TargetLevelSetupMasterController.cs" />
+    <Compile Include="Areas\TargetVsAchievement\Controllers\TargetSetUpController.cs" />
+    <Compile Include="Areas\TargetVsAchievement\Controllers\WODTargetController.cs" />
+    <Compile Include="Areas\TargetVsAchievement\TargetVsAchievementAreaRegistration.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrandVolumeValueTargetModel.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ProductTargetAddModel.cs" />
+    <Compile Include="Models\SalesTargetModel.cs" />
+    <Compile Include="Models\TargetLevelSetupModel.cs" />
+    <Compile Include="Models\TargetWebService.asmx.cs">
+      <DependentUpon>TargetWebService.asmx</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Models\WODModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assests\bootstrap\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="assests\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="assests\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="assests\bootstrap\css\bootstrap.css" />
+    <Content Include="assests\bootstrap\css\bootstrap.min.css" />
+    <Content Include="assests\bootstrap\css\MasterPage.css" />
+    <Content Include="assests\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="assests\bootstrap\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="assests\bootstrap\js\bootstrap.js" />
+    <Content Include="assests\bootstrap\js\bootstrap.min.js" />
+    <Content Include="assests\css\custom\AjaxStyle.css" />
+    <Content Include="assests\css\custom\demos.css" />
+    <Content Include="assests\css\custom\dhtmlgoodies_calendar.css" />
+    <Content Include="assests\css\custom\GenericCss.css" />
+    <Content Include="assests\css\custom\jquery.alerts.css" />
+    <Content Include="assests\css\custom\jquery.confirm.css" />
+    <Content Include="assests\css\custom\jquery.timeentry.css" />
+    <Content Include="assests\css\custom\main.css" />
+    <Content Include="assests\css\custom\menu-bar.css" />
+    <Content Include="assests\css\custom\menu-item.css" />
+    <Content Include="assests\css\custom\MultipleSelectionDDLCSS.css" />
+    <Content Include="assests\css\custom\PageStyle.css" />
+    <Content Include="assests\css\custom\PMSStyles.css" />
+    <Content Include="assests\css\custom\SearchPopup.bak.css" />
+    <Content Include="assests\css\custom\SearchPopup.css" />
+    <Content Include="assests\css\custom\style.css" />
+    <Content Include="assests\css\custom\sumoselect.css" />
+    <Content Include="assests\css\FsmDashboard.css" />
+    <Content Include="assests\css\ftsNewScreen.css" />
+    <Content Include="assests\css\images\excel.png" />
+    <Content Include="assests\css\images\ui-icons_444444_256x240.png" />
+    <Content Include="assests\css\jquery-duration-picker.css" />
+    <Content Include="assests\css\jquery-ui.css" />
+    <Content Include="assests\css\login.css" />
+    <Content Include="assests\css\newlogin.css" />
+    <Content Include="assests\css\pignose.calendar.min.css" />
+    <Content Include="assests\css\responsive.css" />
+    <Content Include="assests\css\SearchPopup.css" />
+    <Content Include="assests\css\sweetalert2.min.css" />
+    <Content Include="assests\fonts\font-awesome\css\font-awesome.css" />
+    <Content Include="assests\fonts\font-awesome\css\font-awesome.min.css" />
+    <Content Include="assests\fonts\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="assests\fonts\icon_navs.svg" />
+    <Content Include="assests\fonts\pignose.calendar.svg" />
+    <Content Include="assests\images\1.png" />
+    <Content Include="assests\images\10.png" />
+    <Content Include="assests\images\11.png" />
+    <Content Include="assests\images\12.png" />
+    <Content Include="assests\images\13.png" />
+    <Content Include="assests\images\14.png" />
+    <Content Include="assests\images\15.png" />
+    <Content Include="assests\images\16.png" />
+    <Content Include="assests\images\17.png" />
+    <Content Include="assests\images\18.png" />
+    <Content Include="assests\images\19.png" />
+    <Content Include="assests\images\1share.png" />
+    <Content Include="assests\images\2.png" />
+    <Content Include="assests\images\20.png" />
+    <Content Include="assests\images\21.png" />
+    <Content Include="assests\images\22.png" />
+    <Content Include="assests\images\23.png" />
+    <Content Include="assests\images\24.png" />
+    <Content Include="assests\images\25.png" />
+    <Content Include="assests\images\26.png" />
+    <Content Include="assests\images\27.png" />
+    <Content Include="assests\images\28.png" />
+    <Content Include="assests\images\29.png" />
+    <Content Include="assests\images\2edit.png" />
+    <Content Include="assests\images\3.png" />
+    <Content Include="assests\images\30.png" />
+    <Content Include="assests\images\31.png" />
+    <Content Include="assests\images\32.png" />
+    <Content Include="assests\images\33.png" />
+    <Content Include="assests\images\34.png" />
+    <Content Include="assests\images\35.png" />
+    <Content Include="assests\images\36.png" />
+    <Content Include="assests\images\37.png" />
+    <Content Include="assests\images\38.png" />
+    <Content Include="assests\images\39.png" />
+    <Content Include="assests\images\3button.png" />
+    <Content Include="assests\images\4.png" />
+    <Content Include="assests\images\40.png" />
+    <Content Include="assests\images\41.png" />
+    <Content Include="assests\images\42.png" />
+    <Content Include="assests\images\43.png" />
+    <Content Include="assests\images\44.png" />
+    <Content Include="assests\images\45.png" />
+    <Content Include="assests\images\46.png" />
+    <Content Include="assests\images\47.png" />
+    <Content Include="assests\images\48.png" />
+    <Content Include="assests\images\49.png" />
+    <Content Include="assests\images\5.png" />
+    <Content Include="assests\images\50.png" />
+    <Content Include="assests\images\51.png" />
+    <Content Include="assests\images\52.png" />
+    <Content Include="assests\images\53.png" />
+    <Content Include="assests\images\54.png" />
+    <Content Include="assests\images\55.png" />
+    <Content Include="assests\images\56.png" />
+    <Content Include="assests\images\6.png" />
+    <Content Include="assests\images\7.png" />
+    <Content Include="assests\images\8.png" />
+    <Content Include="assests\images\9.png" />
+    <Content Include="assests\images\a.png" />
+    <Content Include="assests\images\absent.png" />
+    <Content Include="assests\images\activeState.png" />
+    <Content Include="assests\images\activity.png" />
+    <Content Include="assests\images\add-adress.png" />
+    <Content Include="assests\images\Add.png" />
+    <Content Include="assests\images\addmember.png" />
+    <Content Include="assests\images\addnew.gif" />
+    <Content Include="assests\images\ajax-loader.gif" />
+    <Content Include="assests\images\Animated_Email.gif" />
+    <Content Include="assests\images\applied-amount.png" />
+    <Content Include="assests\images\appr-rej-icon.png" />
+    <Content Include="assests\images\approved-amount.png" />
+    <Content Include="assests\images\approved.png" />
+    <Content Include="assests\images\arrow2.gif" />
+    <Content Include="assests\images\arrowright.jpg" />
+    <Content Include="assests\images\arrow_down.gif" />
+    <Content Include="assests\images\arrow_down.jpg" />
+    <Content Include="assests\images\arrow_up.gif" />
+    <Content Include="assests\images\arrow_up.jpg" />
+    <Content Include="assests\images\assign-salesman.png" />
+    <Content Include="assests\images\at-work.png" />
+    <Content Include="assests\images\attach.png" />
+    <Content Include="assests\images\Attached.png" />
+    <Content Include="assests\images\attachment.png" />
+    <Content Include="assests\images\av.jpg" />
+    <Content Include="assests\images\average-order-value.png" />
+    <Content Include="assests\images\back-topic.svg" />
+    <Content Include="assests\images\back.jpg" />
+    <Content Include="assests\images\back.png" />
+    <Content Include="assests\images\backhead.png" />
+    <Content Include="assests\images\battery-status.png" />
+    <Content Include="assests\images\bcktip.png" />
+    <Content Include="assests\images\bcktool.png" />
+    <Content Include="assests\images\bg.jpg" />
+    <Content Include="assests\images\bglogin.jpg" />
+    <Content Include="assests\images\bill.png" />
+    <Content Include="assests\images\blue-dot.png" />
+    <Content Include="assests\images\blue.bmp" />
+    <Content Include="assests\images\blue_foward.png" />
+    <Content Include="assests\images\blue_reload.png" />
+    <Content Include="assests\images\blue_rewind.png" />
+    <Content Include="assests\images\blue_save.png" />
+    <Content Include="assests\images\body-bg.jpg" />
+    <Content Include="assests\images\booking.png" />
+    <Content Include="assests\images\border.png" />
+    <Content Include="assests\images\Box_Black.PNG" />
+    <Content Include="assests\images\Box_Blue.png" />
+    <Content Include="assests\images\Box_Green.png" />
+    <Content Include="assests\images\Box_Red.png" />
+    <Content Include="assests\images\branch-map.png" />
+    <Content Include="assests\images\branchassign.png" />
+    <Content Include="assests\images\btn-go.gif" />
+    <Content Include="assests\images\btnPinkActive.jpg" />
+    <Content Include="assests\images\calendar-icon.png" />
+    <Content Include="assests\images\calendar.jpg" />
+    <Content Include="assests\images\cancel.svg" />
+    <Content Include="assests\images\cash.png" />
+    <Content Include="assests\images\cashbudget.png" />
+    <Content Include="assests\images\Cash_BackSearch.jpg" />
+    <Content Include="assests\images\Cash_Home.jpeg" />
+    <Content Include="assests\images\Cash_Search-icon.jpg" />
+    <Content Include="assests\images\Cash_Search-icon.png" />
+    <Content Include="assests\images\change-dark.png" />
+    <Content Include="assests\images\change-status.png" />
+    <Content Include="assests\images\change.png" />
+    <Content Include="assests\images\changeIcon.png" />
+    <Content Include="assests\images\changeP.png" />
+    <Content Include="assests\images\chart_display.gif" />
+    <Content Include="assests\images\clear-qst-ans.png" />
+    <Content Include="assests\images\clear.png" />
+    <Content Include="assests\images\clear2.png" />
+    <Content Include="assests\images\click-hand.png" />
+    <Content Include="assests\images\close.gif" />
+    <Content Include="assests\images\Closed.png" />
+    <Content Include="assests\images\closePop.png" />
+    <Content Include="assests\images\close_over.gif" />
+    <Content Include="assests\images\cntrlogo_1.jpg" />
+    <Content Include="assests\images\cntrlogo_16.jpg" />
+    <Content Include="assests\images\cntrlogo_17.jpg" />
+    <Content Include="assests\images\cntrlogo_20.jpg" />
+    <Content Include="assests\images\cntrlogo_5.jpg" />
+    <Content Include="assests\images\cntrlogo_6.jpg" />
+    <Content Include="assests\images\content.svg" />
+    <Content Include="assests\images\contractimages.gif" />
+    <Content Include="assests\images\controls.png" />
+    <Content Include="assests\images\copy.png" />
+    <Content Include="assests\images\copy2.png" />
+    <Content Include="assests\images\create-img.svg" />
+    <Content Include="assests\images\CrIcon.png" />
+    <Content Include="assests\images\crossT.png" />
+    <Content Include="assests\images\crs.png" />
+    <Content Include="assests\images\CurrencyImage1.jpg" />
+    <Content Include="assests\images\dashboard-summary.png" />
+    <Content Include="assests\images\datetime.png" />
+    <Content Include="assests\images\delete-big.png" />
+    <Content Include="assests\images\delete-content.png" />
+    <Content Include="assests\images\Delete.png" />
+    <Content Include="assests\images\disk.gif" />
+    <Content Include="assests\images\doc.png" />
+    <Content Include="assests\images\document.png" />
+    <Content Include="assests\images\down.gif" />
+    <Content Include="assests\images\downarrow.png" />
+    <Content Include="assests\images\download.png" />
+    <Content Include="assests\images\down_over.gif" />
+    <Content Include="assests\images\down_time.gif" />
+    <Content Include="assests\images\down_time_over.gif" />
+    <Content Include="assests\images\ds-mapping.png" />
+    <Content Include="assests\images\ds1.png" />
+    <Content Include="assests\images\ds2.png" />
+    <Content Include="assests\images\ds3.png" />
+    <Content Include="assests\images\Edit-big.png" />
+    <Content Include="assests\images\edit-content.png" />
+    <Content Include="assests\images\Edit.jpg" />
+    <Content Include="assests\images\Edit.png" />
+    <Content Include="assests\images\EHeaderBack.gif" />
+    <Content Include="assests\images\email.png" />
+    <Content Include="assests\images\emp-outlet.png" />
+    <Content Include="assests\images\employees.png" />
+    <Content Include="assests\images\end.png" />
+    <Content Include="assests\images\endBG.JPG" />
+    <Content Include="assests\images\endlessLoading.gif" />
+    <Content Include="assests\images\endprogressBG.JPG" />
+    <Content Include="assests\images\enquiry.png" />
+    <Content Include="assests\images\error.png" />
+    <Content Include="assests\images\excel-logo.png" />
+    <Content Include="assests\images\excel.png" />
+    <Content Include="assests\images\exchange.png" />
+    <Content Include="assests\images\export-excel.png" />
+    <Content Include="assests\images\exportcsv.gif" />
+    <Content Include="assests\images\exportword.gif" />
+    <Content Include="assests\images\exportxls.gif" />
+    <Content Include="assests\images\eye.png" />
+    <Content Include="assests\images\eye2.png" />
+    <Content Include="assests\images\feedback.png" />
+    <Content Include="assests\images\file.gif" />
+    <Content Include="assests\images\filter.png" />
+    <Content Include="assests\images\first.gif" />
+    <Content Include="assests\images\folder.gif" />
+    <Content Include="assests\images\footerbg.jpg" />
+    <Content Include="assests\images\full.jpg" />
+    <Content Include="assests\images\geography.png" />
+    <Content Include="assests\images\geotrack.png" />
+    <Content Include="assests\images\Go.gif" />
+    <Content Include="assests\images\Gradient.jpg" />
+    <Content Include="assests\images\green-dot.png" />
+    <Content Include="assests\images\green.bmp" />
+    <Content Include="assests\images\gridhead.gif" />
+    <Content Include="assests\images\headbg.jpg" />
+    <Content Include="assests\images\headerpanel.gif" />
+    <Content Include="assests\images\hierarchywise-viewparty.png" />
+    <Content Include="assests\images\high-signal.png" />
+    <Content Include="assests\images\history.png" />
+    <Content Include="assests\images\icoaccts.gif" />
+    <Content Include="assests\images\icoactivity.gif" />
+    <Content Include="assests\images\icoexport.gif" />
+    <Content Include="assests\images\icohome.gif" />
+    <Content Include="assests\images\icopipe.gif" />
+    <Content Include="assests\images\icoprint.gif" />
+    <Content Include="assests\images\icosearch.gif" />
+    <Content Include="assests\images\icoxls.gif" />
+    <Content Include="assests\images\inactiveState.png" />
+    <Content Include="assests\images\indianrupee.jpg" />
+    <Content Include="assests\images\info-back.png" />
+    <Content Include="assests\images\info.png" />
+    <Content Include="assests\images\infoIcon.png" />
+    <Content Include="assests\images\JournalEntry.jpeg" />
+    <Content Include="assests\images\l.jpg" />
+    <Content Include="assests\images\late-ent.png" />
+    <Content Include="assests\images\lead.png" />
+    <Content Include="assests\images\left-arw.png" />
+    <Content Include="assests\images\left.gif" />
+    <Content Include="assests\images\LeftNav.gif" />
+    <Content Include="assests\images\left_over.gif" />
+    <Content Include="assests\images\lightbox\bg-checker.png" />
+    <Content Include="assests\images\lightbox\box.png" />
+    <Content Include="assests\images\lightbox\bullet.gif" />
+    <Content Include="assests\images\lightbox\close.png" />
+    <Content Include="assests\images\lightbox\donate.png" />
+    <Content Include="assests\images\lightbox\favicon.gif" />
+    <Content Include="assests\images\lightbox\loading.gif" />
+    <Content Include="assests\images\lightbox\location-pin.png" />
+    <Content Include="assests\images\lightbox\location-pinEnd.png" />
+    <Content Include="assests\images\lightbox\location-pinStart.png" />
+    <Content Include="assests\images\lightbox\next.png" />
+    <Content Include="assests\images\lightbox\prev.png" />
+    <Content Include="assests\images\lightbox\speech-bubbles.png" />
+    <Content Include="assests\images\live.png" />
+    <Content Include="assests\images\lms-icon.png" />
+    <Content Include="assests\images\loader-img.gif" />
+    <Content Include="assests\images\loader.gif" />
+    <Content Include="assests\images\loading.gif" />
+    <Content Include="assests\images\loading_background.png" />
+    <Content Include="assests\images\loadr.gif" />
+    <Content Include="assests\images\locat1.png" />
+    <Content Include="assests\images\locate.png" />
+    <Content Include="assests\images\login-bg.gif" />
+    <Content Include="assests\images\login-head.gif" />
+    <Content Include="assests\images\login.gif" />
+    <Content Include="assests\images\Login.jpg" />
+    <Content Include="assests\images\logo-mini.png" />
+    <Content Include="assests\images\logo.bmp" />
+    <Content Include="assests\images\logo.jpg" />
+    <Content Include="assests\images\logo.png" />
+    <Content Include="assests\images\logo.png.jpg" />
+    <Content Include="assests\images\logo2.jpg" />
+    <Content Include="assests\images\logout.png" />
+    <Content Include="assests\images\logo_arin.png.jpg" />
+    <Content Include="assests\images\logo_test.bmp" />
+    <Content Include="assests\images\lprogressBG.JPG" />
+    <Content Include="assests\images\maintenance.jpg" />
+    <Content Include="assests\images\map-icon-bg.png" />
+    <Content Include="assests\images\map.png" />
+    <Content Include="assests\images\mapsMarkerT1.png" />
+    <Content Include="assests\images\mapsMarkerT1Green.png" />
+    <Content Include="assests\images\mapsMarkerT1Red.png" />
+    <Content Include="assests\images\maximize.png" />
+    <Content Include="assests\images\meeting.png" />
+    <Content Include="assests\images\Members.png" />
+    <Content Include="assests\images\menback.png" />
+    <Content Include="assests\images\menu-bar-gradient.jpg" />
+    <Content Include="assests\images\menu-bar-gradient1.JPG" />
+    <Content Include="assests\images\menu-bar-right-arrow.gif" />
+    <Content Include="assests\images\menu-bar-right-arrow.png" />
+    <Content Include="assests\images\menu_strip_bg.jpg" />
+    <Content Include="assests\images\menu_strip_bg1.JPG" />
+    <Content Include="assests\images\menu_strip_down_arrow.gif" />
+    <Content Include="assests\images\menu_strip_down_arrow.png" />
+    <Content Include="assests\images\menu_strip_separator.gif" />
+    <Content Include="assests\images\minimize.png" />
+    <Content Include="assests\images\mmark.png" />
+    <Content Include="assests\images\more.png" />
+    <Content Include="assests\images\more.svg" />
+    <Content Include="assests\images\New_messag1.gif" />
+    <Content Include="assests\images\next.gif" />
+    <Content Include="assests\images\next.svg" />
+    <Content Include="assests\images\next_fast.gif" />
+    <Content Include="assests\images\NLogin\001-dashboard.png" />
+    <Content Include="assests\images\NLogin\004-user-interface.png" />
+    <Content Include="assests\images\NLogin\007-destination.png" />
+    <Content Include="assests\images\NLogin\checked.png" />
+    <Content Include="assests\images\NLogin\left-top-image.png" />
+    <Content Include="assests\images\NLogin\loginDark_bg.png" />
+    <Content Include="assests\images\NLogin\loginDark_bg2.jpg" />
+    <Content Include="assests\images\NLogin\loginPh.png" />
+    <Content Include="assests\images\NLogin\logo.png" />
+    <Content Include="assests\images\NLogin\mobile-app-mockup.jpg" />
+    <Content Include="assests\images\NLogin\password-2.png" />
+    <Content Include="assests\images\NLogin\password.png" />
+    <Content Include="assests\images\NLogin\screen1.png" />
+    <Content Include="assests\images\NLogin\screen2.png" />
+    <Content Include="assests\images\NLogin\user-2.png" />
+    <Content Include="assests\images\NLogin\user.png" />
+    <Content Include="assests\images\not-loggedin.png" />
+    <Content Include="assests\images\not-verified.png" />
+    <Content Include="assests\images\ok.jpg" />
+    <Content Include="assests\images\on-leave.png" />
+    <Content Include="assests\images\on-time.png" />
+    <Content Include="assests\images\onmouse_addnew.gif" />
+    <Content Include="assests\images\onmouse_exportcsv.gif" />
+    <Content Include="assests\images\onmouse_exportword.gif" />
+    <Content Include="assests\images\onmouse_exportxls.gif" />
+    <Content Include="assests\images\onmouse_search.gif" />
+    <Content Include="assests\images\open.gif" />
+    <Content Include="assests\images\orange-dot.png" />
+    <Content Include="assests\images\order-delivered.png" />
+    <Content Include="assests\images\PageSize.gif" />
+    <Content Include="assests\images\partyIcon.png" />
+    <Content Include="assests\images\partyMarker.png" />
+    <Content Include="assests\images\PDFICON.jpg" />
+    <Content Include="assests\images\pending-amount.png" />
+    <Content Include="assests\images\percentage.png" />
+    <Content Include="assests\images\pFirst.png" />
+    <Content Include="assests\images\phone_number.png" />
+    <Content Include="assests\images\picture.png" />
+    <Content Include="assests\images\pinD.png" />
+    <Content Include="assests\images\pink-dot.png" />
+    <Content Include="assests\images\pinSha.png" />
+    <Content Include="assests\images\pLast.png" />
+    <Content Include="assests\images\play-button.svg" />
+    <Content Include="assests\images\pNext.png" />
+    <Content Include="assests\images\popuparrow.jpg" />
+    <Content Include="assests\images\pPrev.png" />
+    <Content Include="assests\images\prev.gif" />
+    <Content Include="assests\images\preview.jpg" />
+    <Content Include="assests\images\previous.svg" />
+    <Content Include="assests\images\previous_disabled.gif" />
+    <Content Include="assests\images\previous_fast_disabled.gif" />
+    <Content Include="assests\images\print.gif" />
+    <Content Include="assests\images\print.png" />
+    <Content Include="assests\images\Processing.gif" />
+    <Content Include="assests\images\profile1.png" />
+    <Content Include="assests\images\progress.gif" />
+    <Content Include="assests\images\progressBG.JPG" />
+    <Content Include="assests\images\question-add.svg" />
+    <Content Include="assests\images\question-map.png" />
+    <Content Include="assests\images\quiz-time.svg" />
+    <Content Include="assests\images\r.jpg" />
+    <Content Include="assests\images\Rainbow.gif" />
+    <Content Include="assests\images\re-assign-salesman.png" />
+    <Content Include="assests\images\reassign.png" />
+    <Content Include="assests\images\red-dot.png" />
+    <Content Include="assests\images\refresh1.jpg" />
+    <Content Include="assests\images\rejected-amount.png" />
+    <Content Include="assests\images\remarks.png" />
+    <Content Include="assests\images\reset-status.png" />
+    <Content Include="assests\images\retail.png" />
+    <Content Include="assests\images\right.gif" />
+    <Content Include="assests\images\rightArrowHand.jpg" />
+    <Content Include="assests\images\RightNav.gif" />
+    <Content Include="assests\images\right_over.gif" />
+    <Content Include="assests\images\route.png" />
+    <Content Include="assests\images\rupee.png" />
+    <Content Include="assests\images\sales.png" />
+    <Content Include="assests\images\save-circle.svg" />
+    <Content Include="assests\images\save-instagram-orange.svg" />
+    <Content Include="assests\images\save-instagram.svg" />
+    <Content Include="assests\images\save.svg" />
+    <Content Include="assests\images\schedule.png" />
+    <Content Include="assests\images\sdown.JPG" />
+    <Content Include="assests\images\search.gif" />
+    <Content Include="assests\images\shopBlack.png" />
+    <Content Include="assests\images\shopGreen.png" />
+    <Content Include="assests\images\shopIc.png" />
+    <Content Include="assests\images\shopNormal.png" />
+    <Content Include="assests\images\shopOrange.png" />
+    <Content Include="assests\images\shopRed.png" />
+    <Content Include="assests\images\show-details.png" />
+    <Content Include="assests\images\show-play.png" />
+    <Content Include="assests\images\show.png" />
+    <Content Include="assests\images\sms.png" />
+    <Content Include="assests\images\snext.JPG" />
+    <Content Include="assests\images\snext1.JPG" />
+    <Content Include="assests\images\Spinner.gif" />
+    <Content Include="assests\images\start.png" />
+    <Content Include="assests\images\state-map.png" />
+    <Content Include="assests\images\storeIc.png" />
+    <Content Include="assests\images\storeIcNotActive.png" />
+    <Content Include="assests\images\storeIcon.png" />
+    <Content Include="assests\images\storeIconBlack.png" />
+    <Content Include="assests\images\storeIconBlue.png" />
+    <Content Include="assests\images\storeIconGreen.png" />
+    <Content Include="assests\images\storeIconOrange.png" />
+    <Content Include="assests\images\storeIconRed.png" />
+    <Content Include="assests\images\subnavhov.gif" />
+    <Content Include="assests\images\subnavlink.gif" />
+    <Content Include="assests\images\success.png" />
+    <Content Include="assests\images\sup.JPG" />
+    <Content Include="assests\images\test-drive.png" />
+    <Content Include="assests\images\tip.png" />
+    <Content Include="assests\images\topic-icon-1.svg" />
+    <Content Include="assests\images\topic-icon-2.svg" />
+    <Content Include="assests\images\topic-icon-3.svg" />
+    <Content Include="assests\images\topic-icon-4.svg" />
+    <Content Include="assests\images\topic-icon-5.svg" />
+    <Content Include="assests\images\topic-icon-6.svg" />
+    <Content Include="assests\images\topic-icon-7.svg" />
+    <Content Include="assests\images\topic-icon-8.svg" />
+    <Content Include="assests\images\total-order-value.png" />
+    <Content Include="assests\images\total-order.png" />
+    <Content Include="assests\images\tow-truck.png" />
+    <Content Include="assests\images\tracker.png" />
+    <Content Include="assests\images\tracking.png" />
+    <Content Include="assests\images\transfer.png" />
+    <Content Include="assests\images\undo.svg" />
+    <Content Include="assests\images\up-loading.svg" />
+    <Content Include="assests\images\update_ttl.gif" />
+    <Content Include="assests\images\upload-new.svg" />
+    <Content Include="assests\images\upload.png" />
+    <Content Include="assests\images\upload.svg" />
+    <Content Include="assests\images\user1.png" />
+    <Content Include="assests\images\user2.png" />
+    <Content Include="assests\images\Useradd.png" />
+    <Content Include="assests\images\verified.png" />
+    <Content Include="assests\images\video-lesson.svg" />
+    <Content Include="assests\images\view-eye.svg" />
+    <Content Include="assests\images\view-map.png" />
+    <Content Include="assests\images\view-outlet.png" />
+    <Content Include="assests\images\view-party-wt.png" />
+    <Content Include="assests\images\view-party.png" />
+    <Content Include="assests\images\view-route.png" />
+    <Content Include="assests\images\viewIcon.png" />
+    <Content Include="assests\images\viewt1.png" />
+    <Content Include="assests\images\vp-hierarchy.png" />
+    <Content Include="assests\images\warehouse.png" />
+    <Content Include="assests\images\Warning.png" />
+    <Content Include="assests\images\Word-Logo.png" />
+    <Content Include="assests\images\xlsx.png" />
+    <Content Include="assests\js\ajax-dynamic-list.js" />
+    <Content Include="assests\js\ajax-dynamic-list1.js" />
+    <Content Include="assests\js\ajax-dynamic-list1_rootfile.js" />
+    <Content Include="assests\js\ajax-dynamic-list1_wofolder.js" />
+    <Content Include="assests\js\ajax-dynamic-list_rootfile.js" />
+    <Content Include="assests\js\ajax-dynamic-list_wofolder.js" />
+    <Content Include="assests\js\ajaxList.js" />
+    <Content Include="assests\js\ajaxList_rootfile.js" />
+    <Content Include="assests\js\ajaxList_wofolder.js" />
+    <Content Include="assests\js\angular.min.js" />
+    <Content Include="assests\js\ColumnChooser\ColumnChooser.js" />
+    <Content Include="assests\js\Date\datevalidate.js" />
+    <Content Include="assests\js\dhtmlgoodies_calendar.js" />
+    <Content Include="assests\js\FieldVisit.js" />
+    <Content Include="assests\js\floating-1.12.js" />
+    <Content Include="assests\js\frmCDN\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="assests\js\frmCDN\list.min.js" />
+    <Content Include="assests\js\frmCDN\moment.js" />
+    <Content Include="assests\js\GenericJScript.js" />
+    <Content Include="assests\js\gen_validatorv31.js" />
+    <Content Include="assests\js\init.js" />
+    <Content Include="Areas\TargetVsAchievement\Views\SalesTarget\Index.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\SalesTarget\_PartialSalesTargetEntry.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\TargetSetUp\Index.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\ProductTargetAddEdit\Index.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\ProductTargetAddEdit\PartialProductTargetEntryGrid.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\TargetSetUp\_PartialTargetSetUpListing.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\BrandVolumeValueTarget\Index.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\BrandVolumeValueTarget\_PartialBrandVolumeValueTargetEntry.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\WODTarget\Index.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\WODTarget\_PartialWODTargetEntry.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\TargetSetUp\ImportLogManual.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\TargetSetUp\ImportLog.cshtml" />
+    <None Include="assests\js\jquery-1.10.2.intellisense.js" />
+    <Content Include="assests\js\jquery-1.10.2.js" />
+    <Content Include="assests\js\jquery-1.10.2.min.js" />
+    <Content Include="assests\js\jquery-1.12.4.min.js" />
+    <Content Include="assests\js\jquery-1.3.1.js" />
+    <Content Include="assests\js\jquery-1.3.2.js" />
+    <Content Include="assests\js\jquery-1.3.2.min.js" />
+    <Content Include="assests\js\jquery-2.2.3.min.js" />
+    <Content Include="assests\js\jquery-duration-picker.js" />
+    <Content Include="assests\js\jquery-ui.min.js" />
+    <Content Include="assests\js\jquery.alerts.js" />
+    <Content Include="assests\js\jquery.colorbox-min.js" />
+    <Content Include="assests\js\jquery.colorbox.js" />
+    <Content Include="assests\js\jquery.confirm.min.js" />
+    <Content Include="assests\js\jquery.meio.mask.js" />
+    <Content Include="assests\js\jquery.min.js" />
+    <Content Include="assests\js\jquery.sumoselect.min.js" />
+    <Content Include="assests\js\jquery.timeentry.js" />
+    <Content Include="assests\js\jquery.timepicker.min.js" />
+    <None Include="assests\js\jquery.validate-vsdoc.js" />
+    <Content Include="assests\js\jquery.validate.js" />
+    <Content Include="assests\js\jquery.validate.min.js" />
+    <Content Include="assests\js\jquery.validate.unobtrusive.js" />
+    <Content Include="assests\js\jquery.validate.unobtrusive.min.js" />
+    <Content Include="assests\js\jquery3.3.1.min.js" />
+    <Content Include="assests\js\justgage.js" />
+    <Content Include="assests\js\Leavelist.js" />
+    <Content Include="assests\js\loaddata.js" />
+    <Content Include="assests\js\loaddata1.js" />
+    <Content Include="assests\js\main.js" />
+    <Content Include="assests\js\MasterPage.js" />
+    <Content Include="assests\js\modalmsg.js" />
+    <Content Include="assests\js\modernizr-2.6.2.js" />
+    <Content Include="assests\js\MultipleSelectionDDLJS.js" />
+    <Content Include="assests\js\PageMethods.js" />
+    <Content Include="assests\js\progress.js" />
+    <Content Include="assests\js\raphael.min.js" />
+    <Content Include="assests\js\respond.js" />
+    <Content Include="assests\js\respond.min.js" />
+    <Content Include="assests\js\sweetalert2.all.min.js" />
+    <Content Include="assests\js\TeamVisit.js" />
+    <Content Include="assests\js\TeamVisitH.js" />
+    <Content Include="assests\js\vendor\jquery-1.11.2.min.js" />
+    <Content Include="assests\js\wz_tooltip.js" />
+    <None Include="assests\js\_references.js" />
+    <Content Include="assests\logoshort.png" />
+    <Content Include="assests\pluggins\amchart4\animated.js" />
+    <Content Include="assests\pluggins\amchart4\charts.js" />
+    <Content Include="assests\pluggins\amchart4\core.js" />
+    <Content Include="assests\pluggins\amchart5\Animated.js" />
+    <Content Include="assests\pluggins\amchart5\exporting.js" />
+    <Content Include="assests\pluggins\amchart5\index.js" />
+    <Content Include="assests\pluggins\amchart5\percent.js" />
+    <Content Include="assests\pluggins\amchart5\xy.js" />
+    <Content Include="assests\pluggins\amchart\charts.js" />
+    <Content Include="assests\pluggins\amchart\core.js" />
+    <Content Include="assests\pluggins\amchart\maps.js" />
+    <Content Include="assests\pluggins\amchart\themes\amcharts.js" />
+    <Content Include="assests\pluggins\amchart\themes\amchartsdark.js" />
+    <Content Include="assests\pluggins\amchart\themes\animated.js" />
+    <Content Include="assests\pluggins\amchart\themes\dark.js" />
+    <Content Include="assests\pluggins\amchart\themes\dataviz.js" />
+    <Content Include="assests\pluggins\amchart\themes\frozen.js" />
+    <Content Include="assests\pluggins\amchart\themes\kelly.js" />
+    <Content Include="assests\pluggins\amchart\themes\material.js" />
+    <Content Include="assests\pluggins\amchart\themes\microchart.js" />
+    <Content Include="assests\pluggins\amchart\themes\moonrisekingdom.js" />
+    <Content Include="assests\pluggins\amchart\themes\patterns.js" />
+    <Content Include="assests\pluggins\amchart\themes\spiritedaway.js" />
+    <Content Include="assests\pluggins\bootstrap-multiselect\bootstrap-multiselect.min.js" />
+    <Content Include="assests\pluggins\choosen\choosen.min.css" />
+    <Content Include="assests\pluggins\choosen\choosen.min.js" />
+    <Content Include="assests\pluggins\choosen\chosen-sprite.png" />
+    <Content Include="assests\pluggins\choosen\chosen.css" />
+    <Content Include="assests\pluggins\customScroll\customScroll.js" />
+    <Content Include="assests\pluggins\customScroll\custoScroll.css" />
+    <Content Include="assests\pluggins\DataTable\jquery.dataTables.min.css" />
+    <Content Include="assests\pluggins\DataTable\jquery.dataTables.min.js" />
+    <Content Include="assests\pluggins\datePicker\bootstrap-datepicker.js" />
+    <Content Include="assests\pluggins\datePicker\datepicker.css" />
+    <Content Include="assests\pluggins\driver\driver.min.css" />
+    <Content Include="assests\pluggins\driver\driver.min.js" />
+    <Content Include="assests\pluggins\easyui\easyui.css" />
+    <Content Include="assests\pluggins\easyui\icon.css" />
+    <Content Include="assests\pluggins\easyui\images\tree_icons.png" />
+    <Content Include="assests\pluggins\easyui\jquery.easyui.min.js" />
+    <Content Include="assests\pluggins\gmapCustomize\infobox.js" />
+    <Content Include="assests\pluggins\gmapCustomize\markerclusterer_packed.js" />
+    <Content Include="assests\pluggins\gmapCustomize\markerwithlabel_packed.js" />
+    <Content Include="assests\pluggins\images\close-btn.png" />
+    <Content Include="assests\pluggins\images\close.png" />
+    <Content Include="assests\pluggins\images\cluster.png" />
+    <Content Include="assests\pluggins\images\loading.gif" />
+    <Content Include="assests\pluggins\images\man.png" />
+    <Content Include="assests\pluggins\images\next.png" />
+    <Content Include="assests\pluggins\images\prev.png" />
+    <Content Include="assests\pluggins\jquery.alert\images\help.gif" />
+    <Content Include="assests\pluggins\jquery.alert\images\important.gif" />
+    <Content Include="assests\pluggins\jquery.alert\images\info.gif" />
+    <Content Include="assests\pluggins\jquery.alert\images\title.gif" />
+    <Content Include="assests\pluggins\jquery.alert\jquery.alerts.css" />
+    <Content Include="assests\pluggins\jquery.alert\jquery.alerts.js" />
+    <Content Include="assests\pluggins\jquery.alert\jquery.ui.draggable.js" />
+    <Content Include="assests\pluggins\LightBox\lightbox.css" />
+    <Content Include="assests\pluggins\LightBox\lightbox.js" />
+    <Content Include="assests\pluggins\LineIcons\font-css\LineIcons.css" />
+    <Content Include="assests\pluggins\LineIcons\fonts\LineIcons.svg" />
+    <Content Include="assests\pluggins\multiSearchable\jquery.dropdown.min.css" />
+    <Content Include="assests\pluggins\multiSearchable\jquery.dropdown.min.js" />
+    <Content Include="assests\pluggins\multiSearchable\mock.js" />
+    <Content Include="assests\pluggins\openstreetmap\images\leaflet.routing.icons.png" />
+    <Content Include="assests\pluggins\openstreetmap\images\leaflet.routing.icons.svg" />
+    <Content Include="assests\pluggins\openstreetmap\images\marker-icon.png" />
+    <Content Include="assests\pluggins\openstreetmap\images\routing-icon.png" />
+    <Content Include="assests\pluggins\openstreetmap\leaflet.css" />
+    <Content Include="assests\pluggins\openstreetmap\leaflet.js" />
+    <Content Include="assests\pluggins\openstreetmap\leaflet.markercluster.js" />
+    <Content Include="assests\pluggins\openstreetmap\MarkerCluster.css" />
+    <Content Include="assests\pluggins\pignose.calendar.min.js" />
+    <Content Include="assests\pluggins\Scrola\scrola.min.js" />
+    <Content Include="assests\pluggins\TimePicker\bootstrap-timepicker.min.css" />
+    <Content Include="assests\pluggins\TimePicker\bootstrap-timepicker.min.js" />
+    <Content Include="assests\pluggins\TimePicker\timepicker.min.css" />
+    <Content Include="assests\pluggins\TimePicker\timepicker.min.js" />
+    <Content Include="assests\pluggins\Transfer\css\jquery.transfer.css" />
+    <Content Include="assests\pluggins\Transfer\icon_font\css\icon_font.css" />
+    <Content Include="assests\pluggins\Transfer\icon_font\font\iconfont.svg" />
+    <Content Include="assests\pluggins\Transfer\jquery.transfer.js" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-grid.rtl.css" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.css" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Content\bootstrap-utilities.css" />
+    <Content Include="Content\bootstrap-utilities.min.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.css" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\bootstrap.rtl.css" />
+    <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Models\TargetWebService.asmx" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Areas\TargetVsAchievement\Views\web.config" />
+    <Content Include="Areas\TargetVsAchievement\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\TargetVsAchievement\Views\TargetLevelSetupMaster\Index.cshtml" />
+    <Content Include="assests\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="assests\bootstrap\css\bootstrap.css.map" />
+    <Content Include="assests\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="assests\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="assests\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="assests\css\custom\style.css.bak" />
+    <Content Include="assests\fonts\Billy-Ohio.woff" />
+    <Content Include="assests\fonts\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="assests\fonts\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="assests\fonts\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="assests\fonts\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="assests\fonts\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="assests\fonts\font-awesome\less\animated.less" />
+    <Content Include="assests\fonts\font-awesome\less\bordered-pulled.less" />
+    <Content Include="assests\fonts\font-awesome\less\core.less" />
+    <Content Include="assests\fonts\font-awesome\less\fixed-width.less" />
+    <Content Include="assests\fonts\font-awesome\less\font-awesome.less" />
+    <Content Include="assests\fonts\font-awesome\less\icons.less" />
+    <Content Include="assests\fonts\font-awesome\less\larger.less" />
+    <Content Include="assests\fonts\font-awesome\less\list.less" />
+    <Content Include="assests\fonts\font-awesome\less\mixins.less" />
+    <Content Include="assests\fonts\font-awesome\less\path.less" />
+    <Content Include="assests\fonts\font-awesome\less\rotated-flipped.less" />
+    <Content Include="assests\fonts\font-awesome\less\screen-reader.less" />
+    <Content Include="assests\fonts\font-awesome\less\stacked.less" />
+    <Content Include="assests\fonts\font-awesome\less\variables.less" />
+    <Content Include="assests\fonts\font-awesome\scss\font-awesome.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_animated.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_core.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_icons.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_larger.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_list.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_mixins.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_path.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_stacked.scss" />
+    <Content Include="assests\fonts\font-awesome\scss\_variables.scss" />
+    <Content Include="assests\fonts\icon_navs.eot" />
+    <Content Include="assests\fonts\icon_navs.ttf" />
+    <Content Include="assests\fonts\icon_navs.woff" />
+    <Content Include="assests\fonts\OpenSans-CondBold.ttf" />
+    <Content Include="assests\fonts\OpenSans-CondLight.ttf" />
+    <Content Include="assests\fonts\OpenSans-CondLightItalic.ttf" />
+    <Content Include="assests\fonts\pignose.calendar.eot" />
+    <Content Include="assests\fonts\pignose.calendar.ttf" />
+    <Content Include="assests\fonts\pignose.calendar.woff" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-Black.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-Bold.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-BoldIt.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-Extrabold.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-Light.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-LightItalic.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-Regular.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-RegularItalic.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-Semibold.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNova-SemiboldItalic.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNovaCond-Light.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNovaCond-LightIt.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNovaCond-Regular.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNovaCond-RegularIt.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNovaCond-Semibold.otf" />
+    <Content Include="assests\fonts\ProximaNova\ProximaNovaCond-SemiboldIt.otf" />
+    <Content Include="assests\js\jquery-1.10.2.min.map" />
+    <Content Include="assests\pluggins\amchart\charts.js.map" />
+    <Content Include="assests\pluggins\amchart\core.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\amcharts.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\amchartsdark.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\animated.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\dark.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\dataviz.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\frozen.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\kelly.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\material.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\microchart.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\moonrisekingdom.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\patterns.js.map" />
+    <Content Include="assests\pluggins\amchart\themes\spiritedaway.js.map" />
+    <Content Include="assests\pluggins\LineIcons\fonts\LineIcons.eot" />
+    <Content Include="assests\pluggins\LineIcons\fonts\LineIcons.ttf" />
+    <Content Include="assests\pluggins\LineIcons\fonts\LineIcons.woff" />
+    <Content Include="assests\pluggins\LineIcons\fonts\LineIcons.woff2" />
+    <Content Include="assests\pluggins\Transfer\icon_font\font\iconfont.eot" />
+    <Content Include="assests\pluggins\Transfer\icon_font\font\iconfont.ttf" />
+    <Content Include="assests\pluggins\Transfer\icon_font\font\iconfont.woff" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\SearchPopup.js" />
+    <Content Include="Scripts\SearchPopupDatatable.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Login\View.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Common\_PartialMenu.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\TargetVsAchievement\Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.rtl.min.css.map" />
+    <Content Include="Content\bootstrap.rtl.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Content\bootstrap-utilities.min.css.map" />
+    <Content Include="Content\bootstrap-utilities.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Content\bootstrap-grid.rtl.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>61711</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44321/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

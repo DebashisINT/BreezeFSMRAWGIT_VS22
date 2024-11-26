@@ -1,11 +1,18 @@
 ﻿/*************************************************************************************************************
 Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+Rev 2.0     Priti      V2.0.49    15-11-2024      0027799: A new Global settings required as WillShowLoanDetailsInParty.
+
 *****************************************************************************************************************/
+using DevExpress.Web.ASPxTreeList.Internal;
+using DevExpress.XtraCharts.Native;
+using Microsoft.Owin.BuilderProperties;
 using Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.Core.Metadata.Edm;
 using System.Linq;
+using System.Net;
 using System.Web;
 
 namespace MyShop.Models
@@ -149,6 +156,41 @@ namespace MyShop.Models
         public string StateID_BulkModify { get; set; }
         public List<StateList_BulkModify> StateList_BulkModify { get; set; }
         // End of Rev 1.0
+
+
+        //REV 2.0
+        public string BKT { get; set; }
+        public Decimal TOTALOUTSTANDING { get; set; }
+        public Decimal POS { get; set; }
+        public Decimal EMIAMOUNT { get; set; }
+        public Decimal ALLCHARGES { get; set; }
+        public Decimal TOTALCOLLECTABLE { get; set; }
+        public string RISK { get; set; }
+        public string WORKABLE { get; set; }
+        public string DISPOSITIONCODE { get; set; }
+        public string PTPDATE { get; set; }
+        public Decimal PTPAMOUNT { get; set; }
+        public string COLLECTIONDATE { get; set; }
+        public Decimal COLLECTIONAMOUNT { get; set; }
+        public string FINALSTATUS { get; set; }
+
+        public Int64 RiskId { get; set; }
+        public List<LOANTypes> RiskList { get; set; }
+
+        public string WORKABLEID { get; set; }
+        public List<WORKABLEVALUE> WORKABLELIST { get; set; }
+
+
+        public Int64 DISPOSITIONID { get; set; }
+        public List<LOANTypes> DISPOSITIONCODELIST { get; set; }
+
+        public Int64 FINALSTATUSID { get; set; }
+        public List<LOANTypes> FINALSTATUSLIST { get; set; }
+
+
+        //REV 2.0 END
+
+
     }
 
     public class PPList
@@ -329,6 +371,33 @@ namespace MyShop.Models
         public string Alt_MobileNo1 { get; set; }
         public string Shop_Owner_Email2 { get; set; }
         //End of Mantis Issue 24571
+
+
+        //REV 2.0
+        public string BKT { get; set; }
+        public Decimal TOTALOUTSTANDING { get; set; }
+        public Decimal POS { get; set; }
+        public Decimal EMIAMOUNT { get; set; }
+        public Decimal ALLCHARGES { get; set; }
+        public Decimal TOTALCOLLECTABLE { get; set; }
+        public string RISK { get; set; }
+        public string WORKABLE { get; set; }
+        public string DISPOSITIONCODE { get; set; }
+        public string PTPDATE { get; set; }
+        public Decimal PTPAMOUNT { get; set; }
+        public string COLLECTIONDATE { get; set; }
+        public Decimal COLLECTIONAMOUNT { get; set; }
+        public string FINALSTATUS { get; set; }
+        public Int64 RiskId { get; set; }
+        public string WORKABLEID { get; set; }    
+        public Int64 DISPOSITIONID { get; set; }      
+        public Int64 FINALSTATUSID { get; set; }
+
+
+
+        //REV 2.0 END
+
+
     }
 
     public class clsGroupBeat

@@ -16,7 +16,9 @@
 
     settings.CallbackRouteValues = new { Action = "GetCounterlistPartial", Controller = "CounterList" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallback";
-
+    //Rev 1.0
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    //Rev end 1.0
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
@@ -291,13 +293,13 @@
             else
             {
                 x.Visible = true;
-                x.Width = 300;
+                x.Width = 350;
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = 300;
+            x.Width = 350;
         }
         // End of Rev 7.0
 
@@ -584,13 +586,13 @@
             else
             {
                 x.Visible = true;
-                x.Width = 100;
+                x.Width = 150;
             }
         }
         else
         {
             x.Visible = true;
-            x.Width = 100;
+            x.Width = 150;
         }
         // End of Rev 7.0
     });
@@ -2241,6 +2243,8 @@
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "Shoptype"); ;
     //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE");
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "countactivity").DisplayFormat = "0";
+
+    settings.ClientSideEvents.RowClick = "gridRowclick";
 
 }).Bind(Model).GetHtml()
 

@@ -243,4 +243,20 @@ namespace Models
         public string NAME { get; set; }
     }
     //End of Mantis Issue 25133
+
+
+    public class WORKABLEVALUE
+    {
+        public string ID { get; set; }
+
+        public string NAME { get; set; }
+    }
+
+
+    public class LOANTypes
+    {
+        public Int64 ID { get; set; }
+
+        public string Name { get; set; }
+    }
 }

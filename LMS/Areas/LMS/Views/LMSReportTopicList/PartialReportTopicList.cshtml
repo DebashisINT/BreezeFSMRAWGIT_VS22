@@ -1,0 +1,111 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+
+@*====================================================== Revision History ==========================================================*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridList";
+    settings.KeyFieldName = "SEQ";
+    settings.CallbackRouteValues = new { Action = "PartialReportTopicList", Controller = "LMSReportTopicList" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "SEQ";
+        x.Caption = "SL No.";
+        x.VisibleIndex = 1;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = 70;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(5);
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOPICNAME";
+        x.Caption = "Topic Name";
+        x.VisibleIndex = 1;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = 200;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TOPICSTATUS";
+        x.Caption = "Status(Published/ Unpublished)";
+        x.VisibleIndex = 3;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = 200;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTENTTITLE";
+        x.Caption = "Content Name";
+        x.VisibleIndex = 4;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = 200;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CONTENTSTATUS";
+        x.Caption = "Status(Published/ Unpublished)";
+        x.VisibleIndex = 5;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = 180;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "QuestionMapped";
+        x.Caption = "Question Mapped(Yes/No)";
+        x.VisibleIndex = 6;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = 200;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+
+    });
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "QUESTIONSCount";
+        x.Caption = "Question Count";
+        x.VisibleIndex = 7;
+
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        //x.Width = 120;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+
+    });
+
+
+
+}).Bind(Model).GetHtml()
+
+
+
+
+
+
+
+
+
+

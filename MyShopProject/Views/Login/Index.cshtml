@@ -1,6 +1,7 @@
 ﻿@*====================================================== Revision History ===========================================================
 Rev Number         DATE              VERSION          DEVELOPER           CHANGES
 1.0                14-01-2023        2.0.38           Pallab              Design change if we provide wrong password: fix
+2.0                09-10-2024        V2.0.49          Pallab/Sanchita     027763: Portal login page download APK functionality add   
 ====================================================== Revision History ===========================================================*@
 
 @model MyShop.Models.LoginModel
@@ -75,6 +76,12 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             else var expires = "";
             document.cookie = name + "=" + value + expires + "; path=/";
         }
+        // Rev 2.0
+        function DownloadAPK() {
+            var url = '@Url.Action("DownloadAPK", "Login")'
+            window.location.href = url;
+        }
+        // End of Rev 2.0
 
         removeCookiesKeyFromStorage();
     </script>
@@ -818,11 +825,66 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             max-width: 68%;
             margin-top: 4%;
         }
+
+        .apk-download-btn {
+            position: fixed;
+            top: 28%;
+            right: 0;
+            padding: 10px 15px;
+            background: #5b0cb4;
+            border-radius: 12px 0 0 12px;
+            z-index: 99999;
+            transition: right 0.4s ease, width 0.4s ease; /* Smooth transition */
+            width: 55px; /* Initially only show the icon */
+            overflow: hidden; /* Hide text */
+            white-space: nowrap; /* Prevent text wrapping */
+            color: #fff !important;
+            font-size: 16px;
+        }
+
+            .apk-download-btn:focus
+            {
+                outline: none !important;
+            }
+
+            .apk-download-btn:hover {
+                width: 175px; /* Expand to full button width on hover */
+                right: 0; /* Keep it fixed at the right */
+            }
+
+            .apk-download-btn img {
+                width: 25px;
+                vertical-align: middle;
+                margin-right: 10px;
+                /*transition: transform 0.4s ease;*/
+            }
+
+            .apk-download-btn:hover img {
+                transform: rotate(360deg); /* Optional icon spin effect on hover */
+            }
+
+            .apk-download-btn span {
+                opacity: 0; /* Initially hide text */
+                transition: opacity 0.4s ease; /* Smooth fade-in effect */
+            }
+
+            .apk-download-btn:hover span {
+                opacity: 1; /* Show text when hovered */
+            }
     </style>
 </head>
 <body>
     @using (Html.BeginForm("SubmitForm", "Login", FormMethod.Post, new { @id = "fromsalesman" }))
     {
+
+        @*Rev 2.0*@
+        @*<a class="btn btn-primary" href="/assests/ITC_v_4.5.3_LIVE.apk">Download APK</a>*@
+
+        <button type="button" class="btn apk-download-btn" onclick="DownloadAPK();">
+            <img src="/assests/images/android-icon.png" class="" /> Download APK
+        </button>
+        @*End of Rev 2.0*@
+
         <section class="mainLogin">
             <div class="flexArea">
                 <div class="contentArea">
@@ -862,6 +924,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                 </div>
                                 <div style="font-size: 12px; font-family: 'Open Sans', sans-serif; color: #4a4a4a; text-align: center; ">Application best viewed at <a href="#">1280 x 720</a> resolution in <a href="#">Google Chrome</a> 59 or above</div>
                                 <input type="submit" value="Sign in" class="btn btn-block loginbtn" />
+
+
 
                                 <div class="ftFooter">
                                     © Copyright 2023 Indus Net Technologies.<br />

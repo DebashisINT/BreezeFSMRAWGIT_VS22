@@ -9,7 +9,8 @@ Rev 6.0     Pallab      V2.0.39     25/04/2023      Products module all search p
 Rev 7.0     Sanchita    V2.0.40     16/05/2023      Product MRP & Discount percentage import facility required while importing Product Master. Refer: 25785
 Rev 8.0     Sanchita    V2.0.43     06/11/2023      On demand search is required in Product Master & Projection Entry. Mantis: 26858
 Rev 9.0     Sanchita    V2.0.45     25/01/2024      FSM Product Master - Colour Search - saved colurs not showing ticked. Mantis: 27211
-Rev 10.0    Priti       V2.0.47     13/05/2024      Color code Save issue in product master # Eurobond Portal. Mantis: 27211    
+Rev 10.0    Priti       V2.0.47     13/05/2024      Color code Save issue in product master # Eurobond Portal. Mantis: 27211 
+Rev 11.0    Sanchita    V2.0.49     23/09/2024      Go to Product master >> Click on Add new >> Change Product Attribute >> Search brand Name. Mantis: 0027713    
 -------------------------------------------------------------------------------------------------------------------------- --%>
 <%@ Page Title="Products" Language="C#" AutoEventWireup="true" MasterPageFile="~/OMS/MasterPage/ERP.Master"
     Inherits="ERP.OMS.Management.Store.Master.management_master_Store_sProducts" CodeBehind="sProducts.aspx.cs" %>
@@ -5284,7 +5285,10 @@ Rev 10.0    Priti       V2.0.47     13/05/2024      Color code Save issue in pro
                     <h4 class="modal-title">Brand</h4>
                 </div>
                 <div class="modal-body">
-                    <input type="text" onkeydown="Brandkeydown(event)" id="txtBrandSearch"  class="form-control" autofocus width="100%" placeholder="Search By Employee Name" />
+                    <%-- Rev 11.0--%>
+                    <%-- <input type="text" onkeydown="Brandkeydown(event)" id="txtBrandSearch"  class="form-control" autofocus width="100%" placeholder="Search By Employee Name" />--%>
+                    <input type="text" onkeydown="Brandkeydown(event)" id="txtBrandSearch"  class="form-control" autofocus width="100%" placeholder="Search By Brand Name" />
+                    <%--End of Rev 11.0--%>
 
                     <div id="BrandTable">
                         <table border='1' width="100%" class="dynamicPopupTbl">

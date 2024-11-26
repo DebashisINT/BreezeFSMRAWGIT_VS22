@@ -108,3 +108,17 @@ D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.cs
 D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\Business.450209FB.Up2Date
 D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.dll
 D:\Projects\BreezeFSMGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.pdb
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.dll
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\BusinessLogicLayer.pdb
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\Aspose.Pdf.Kit.dll
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\DataAccessLayer.dll
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\EntityLayer.dll
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\Ionic.Zip.dll
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\Microsoft.QualityTools.Testing.Fakes.dll
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\EntityLayer.pdb
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\bin\Debug\DataAccessLayer.pdb
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.csproj.AssemblyReference.cache
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.csproj.CoreCompileInputs.cache
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\obj\Debug\Business.450209FB.Up2Date
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.dll
+D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\BusinessLogicLayer\obj\Debug\BusinessLogicLayer.pdb

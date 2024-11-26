@@ -4,10 +4,11 @@
 @*2.0                14-06-2023        2.0.41           Pallab              26337: Attendance Register report parameter design issue fix *@
 @*3.0                19/07/2023        V2.0.41          Sanchita            Add Branch parameter in MIS - Attendance Register. Mantis : 26135*@
 @*4.0                11/08/2023        V2.0.42          Sanchita            Two check box is required to show the first call time & last call time in Attendance Register Report
-     *                                                                      Mantis : 26707
-@*5.0                07-11-2023        V2.0.43          Sanchita            0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
-@*6.0                08-11-2023        V2.0.44          Sanchita            26954 : In Attendance Register Report, Including Inactive users check box implementation is required
-@*====================================================== Revision History ==========================================================*@
+                                                                                            Mantis : 26707
+    @*5.0                07-11-2023        V2.0.43          Sanchita            0026895: System will prompt for Branch selection if the Branch hierarchy is activated.
+    @*6.0                08-11-2023        V2.0.44          Sanchita            26954 : In Attendance Register Report, Including Inactive users check box implementation is required
+    @*7.0                01-10-2024        V2.0.49          Pallab              27743 : Attendance Register report data show button multiple time clicked, page stuck and showing no response.
+    @*====================================================== Revision History ==========================================================*@
 
 @model System.Data.DataSet
 
@@ -43,122 +44,90 @@
 
         $('body').on('click', '#btnshow', function () {
 
-            GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+    GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
 
-            var flag = true;
 
-            if (dtFrom.GetDate() == null) {
-                $('#MandatoryFromDate').attr('style', 'display:block');
-                flag = false;
+
+    var flag = true;
+
+    if (dtFrom.GetDate() == null) {
+        $('#MandatoryFromDate').attr('style', 'display:block');
+        flag = false;
+    } else {
+        $('#MandatoryFromDate').attr('style', 'display:none');
+    }
+
+    if (dtTo.GetDate() == null) {
+        $('#MandatoryToDate').attr('style', 'display:block');
+        flag = false;
+    } else {
+        $('#MandatoryToDate').attr('style', 'display:none');
+    }
+
+    datefrm = dtFrom.GetText();
+    var newdatefrom = datefrm.split("-").reverse().join("-");
+
+    var startdate = new Date(Date.parse(newdatefrom));
+
+    dateto = dtTo.GetText();
+    var newdateTo = dateto.split("-").reverse().join("-");
+
+    var endDate = new Date(Date.parse(newdateTo));
+
+    if (endDate < startdate) {
+        jAlert('From date should be before/equal To date');
+
+    } else {
+        var start = $('#dtFrom_I').val();
+        var end = $('#dtTo_I').val();
+        start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+        end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+        var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
+
+        if (dayse > 35) {
+            jAlert("Searching days must be within 35 days");
+
+            return false;
+        }
+
+        if ($("#hdnBranchMandatory").val() == "0") {
+            if (BranchId == "" || BranchId == null) {
+                jAlert("Please select Branch.");
+
+                return false;
             }
-            else {
-                $('#MandatoryFromDate').attr('style', 'display:none');
-            }
+        }
 
-            if (dtTo.GetDate() == null) {
-                $('#MandatoryToDate').attr('style', 'display:block');
-                flag = false;
-            }
-            else {
-                $('#MandatoryToDate').attr('style', 'display:none');
-            }
+        var data = [];
+        data.is_pageload = "0";
 
-            datefrm = dtFrom.GetText();
-            var newdatefrom = datefrm.split("-").reverse().join("-");
-
-            var startdate = new Date(Date.parse(newdatefrom));
-            //  alert(startdate);
-
-
-            dateto = dtTo.GetText();
-            var newdateTo = dateto.split("-").reverse().join("-");
-
-            var endDate = new Date(Date.parse(newdateTo));
-
-            if (endDate < startdate) {
-
-                jAlert('From date should be before/equal To date');
-            }
-            else {
-                //$("#refreshgridsalessummary").show();
-                var start = $('#dtFrom_I').val();
-                var end = $('#dtTo_I').val();
-                start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
-                end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
-
-                var dayse = Math.round((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60 * 24));
-                //Mantis Issue 24728
-                if (dayse <= 35) {
-
+        var surl = '@Url.Action("PerformanceGridViewCallback", "HorizontalAttendance")';
+        // Rev 7.0
+        // Making the AJAX call asynchronous
+        $.ajax({
+            url: surl,
+            data: { model: data },
+            type: 'POST',
+            success: function (data) {
+                if (dayse <= 30 && flag == true) {
+                    is_pageload = "1";
+                    gridsalesmanView.Refresh(); // Refresh the grid
                 }
-                else {
-                    jAlert("Searching days must be within 35 days");
-                    flag = false;
-                    return false;
-                }
-                //End of Mantis Issue 24728
-                // Rev 5.0
-                if ($("#hdnBranchMandatory").val() == "0") {
-                    if (BranchId == "" || BranchId == null) {
-                        jAlert("Please select Branch.");
-                        flag = false;
-                        return false;
-                    }
-                }
-                // End of Rev 5.0
-                //debugger;
-                var data = [];
+            },
+            complete: function () {
+                // Hide the loader after grid data is loaded and AJAX call is complete
 
-                data.is_pageload = "0";
+            },
+            error: function () {
+                // Hide the loader in case of an error
 
-                var surl = '@Url.Action("PerformanceGridViewCallback", "HorizontalAttendance")';
-                $.ajax({
-                    url: surl,
-                    async: false,
-                    data: {model:data},
-                    type: 'POST',
-                    success: function (data) {
-                        // gridsalesmanView.PerformCallback('clear');
-                      //  gridsalesmanView.Refresh();
-                    },
-                    error: function () {
-
-                    },
-                });
-
-                var surl = '@Url.Action("PerformanceGridViewCallback", "HorizontalAttendance")';
-                $.ajax({
-                    url: surl,
-                    async: false,
-                    data: { model: data },
-                    type: 'POST',
-                    success: function (data) {
-                        //gridsalesmanView.PerformCallback('clear');
-                    },
-                    error: function () {
-
-                    },
-                });
-
-                //is_pageload = "0";
-
-                //gridsalesmanView.Refresh();
-                //is_pageload = "1";
-                if (dayse <= 30) {
-                    if (flag == true) {
-                        is_pageload = "1";
-                        gridsalesmanView.Refresh();
-                        //Mantise work 0025111
-                        gridsalesmanView.Refresh();
-                        //End of Mantise work 0025111
-                    }
-                }
-                else {
-                    jAlert("Searching days must be within 30 days.");
-
-                }
             }
         });
+    }
+});
+
+
 
         $('#ddlSumExport').on('change', function () {
             if ($("#ddlSumExport option:selected").index() > 0) {
@@ -185,8 +154,9 @@
     // End of Rev 3.0
 
     function OnStartCallback(s, e) {
-
-
+        // Rev 7.0
+        document.getElementById("loading-overlay").style.display = "block";
+        // Rev end 7.0
         var TotalKMTravelled=0;
         var SecondarySalesValue=0;
         var IdleTimeCount=0;
@@ -268,8 +238,16 @@
         // Rev 6.0
         e.customArgs["ShowInactiveUser"] = ShowInactiveUser;
         // End of Rev 6.0
-    }
 
+
+    }
+    // Rev 7.0
+    function OnEndCallback() {
+        // Hide overlay and remove blur when data finishes loading
+        document.getElementById("loading-overlay").style.display = "none";
+        /*document.getElementById("grid-container").classList.remove("blur");*/
+    }
+    // Rev end 7.0
 
     function DateValidateFrom() {
         if (dtTo.GetDate()) {
@@ -998,10 +976,52 @@
         margin-bottom: 10px;
     }
 
-    .dashboardHighlightWrap
-    {
+    .dashboardHighlightWrap {
         overflow: visible !important;
     }
+
+    /*Rev 7.0*/
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: none; /* Initially hidden */
+    }
+
+    .flex-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dxgvLoadingPanel_PlasticBlue {
+        display: none !important;
+    }
+
+    .flex-loader img {
+        width: 120px;
+    }
+
+    .flex-loader h4 {
+        font-size: 22px;
+        color: #000000;
+    }
+
+    .whclass.selectH {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+        appearance: none;
+    }
+
+    /*Rev end 7.0*/
 </style>
 @*End of Rev 3.0*@
 
@@ -1090,9 +1110,26 @@
     }
 </script>
 
+<script>
+
+
+
+</script>
+
+
 <div class="breadCumb">
     <span>Attendance Register</span>
 </div>
+@*Rev 7.0*@
+<div class="overlay" id="loading-overlay">
+    <div class="flex-loader">
+        <img src="/assests/images/new-loader.gif" />
+        <h4>Data is loading, Please Wait</h4>
+    </div>
+
+</div>
+@*Rev end 7.0*@
+
 <div class="container">
     <div class="backBox mt-5 p-3">
         <div class="row">
@@ -1338,7 +1375,6 @@
         </div>
         <div style="clear: both;"><br /></div>
         <div id="refreshgridperformancewisemonth">
-
             @Html.Partial("PerformanceGridViewCallback", Model)
         </div>
     </div>

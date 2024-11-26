@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSMMaster", "FSMMaster\FSMM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LMS", "LMS\LMS.csproj", "{73962037-5EA7-4BD8-B60A-384897AFDD44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargetVsAchievement", "TargetVsAchievement\TargetVsAchievement.csproj", "{B0174A18-0564-4944-8B7C-2D4BB3C59995}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{73962037-5EA7-4BD8-B60A-384897AFDD44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73962037-5EA7-4BD8-B60A-384897AFDD44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73962037-5EA7-4BD8-B60A-384897AFDD44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0174A18-0564-4944-8B7C-2D4BB3C59995}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0174A18-0564-4944-8B7C-2D4BB3C59995}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0174A18-0564-4944-8B7C-2D4BB3C59995}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0174A18-0564-4944-8B7C-2D4BB3C59995}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

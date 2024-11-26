@@ -189,6 +189,12 @@
         var url = "/OMS/management/Activities/leaveapproval.aspx?key=" + applyuser + "&AU=" + approveuser + "";
         window.open(url);
     }
+
+    function gridRowclick(s, e) {
+        $('#gridLeaveDetails').find('tr').removeClass('rowActive');
+
+        $(s.GetRow(e.visibleIndex)).addClass('rowActive');
+    }
 </script>
 
 <style>
@@ -562,6 +568,11 @@
         padding-top: 24px;
     }
     /*Rev end 1.0*/
+
+    .rowActive {
+        background-color: #ebf4ff !important;
+        color: #000 !important;
+    }
 </style>
 <link href="~/Content/media.css" rel="stylesheet" />
 

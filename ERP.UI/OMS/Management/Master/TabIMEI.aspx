@@ -507,6 +507,64 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
         height: 135px !important;
     }
 
+    .FilterSide .btn
+    {
+        height: 34px;
+        border-radius: 8px;
+        padding: 6px 12px !important;
+    }
+
+    .btn-warning
+    {
+        background-color: #cc841d;
+    }
+
+
+    .add-btn .btn-icon {
+    border-radius: 50px;
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    background: #fff;
+    line-height: 21px;
+    margin-right: 5px;
+}
+
+.add-btn {
+    transition: all .4s;
+}
+
+    .add-btn:hover {
+        color: #fff;
+        background-color: #0e4f23;
+        border-color: #0e4f23;
+    }
+
+    .add-btn .btn-icon i {
+        color: #238945;
+    }
+
+.add-btn {
+    background-color: #238945;
+    margin-right: 5px;
+}
+
+.clear-btn .btn-icon {
+    border-radius: 50px;
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    background: #fff;
+    line-height: 23px;
+    margin-right: 5px;
+    
+}
+
+.clear-btn .btn-icon img {
+    width: 18px;
+}
+
+
     @media only screen and (max-width: 768px) {
         /*.backBox
         {
@@ -563,12 +621,12 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                 <div style="padding-right: 5px;">
                     <% if (rights.CanAdd)
                        { %>
-                    <a href="javascript:void(0);" onclick="AddBranch();" class="btn btn-success mr-2"><span>Add New</span> </a>
+                    <a href="javascript:void(0);" onclick="AddBranch();" class="btn btn-success add-btn mr-2"><span class="btn-icon"><i class="fa fa-plus"></i></span> New </a>
                     <% } %>
 
                     <% if (rights.CanExport)
                        { %>
-                    <asp:DropDownList ID="drdExport" runat="server" CssClass="btn btn-sm btn-primary" OnSelectedIndexChanged="cmbExport_SelectedIndexChanged" AutoPostBack="true" OnChange="if(!AvailableExportOption()){return false;}">
+                    <asp:DropDownList ID="drdExport" runat="server" CssClass="btn btn-sm btn-primary mr-2" OnSelectedIndexChanged="cmbExport_SelectedIndexChanged" AutoPostBack="true" OnChange="if(!AvailableExportOption()){return false;}">
                         <asp:ListItem Value="0">Export to</asp:ListItem>
                         <asp:ListItem Value="1">PDF</asp:ListItem>
                         <asp:ListItem Value="2">XLS</asp:ListItem>
@@ -580,7 +638,9 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                     <%--Mantis Issue 24491--%>
                     <% if (rights.CanDelete)
                        { %>
-                    <a href="javascript:void(0);" onclick="ClearIMEIS();" class="btn btn-success mr-2"><span>Clear IMEIS</span> </a>
+                    <a href="javascript:void(0);" onclick="ClearIMEIS();" class="btn btn-warning mr-2 clear-btn">
+                        <span class="btn-icon"><img src="../../../assests/images/clean.svg"/></span>
+                        Clear IMEIS </a>
                     <% } %>
                     <%--End of Mantis Issue 24491--%>
                 </div>

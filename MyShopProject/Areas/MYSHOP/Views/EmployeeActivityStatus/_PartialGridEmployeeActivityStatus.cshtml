@@ -8,6 +8,10 @@
     settings.CallbackRouteValues = new { Action = "GetEmployeeActivityStatuslistPartial", Controller = "EmployeeActivityStatus" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallback";
 
+    //Rev 1.0
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    //Rev end 1.0
+
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
 
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
@@ -37,8 +41,9 @@
         x.FieldName = "VISIT_DATETIME";
         x.Caption = "Date";
         x.VisibleIndex = 1;
-        x.Width = 150;
+        //x.Width = 150;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
         // Rev 1.0
         if (ViewBag.RetentionColumn != null)
@@ -65,8 +70,9 @@
         x.FieldName = "EMPLOYEE_ID";
         x.Caption = "Employee ID";
         x.VisibleIndex = 2;
-        x.Width = 150;
+        //x.Width = 150;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
         // Rev 1.0
         if (ViewBag.RetentionColumn != null)
@@ -93,8 +99,9 @@
         x.FieldName = "EMPNAME";
         x.Caption = "Employee Name";
         x.VisibleIndex = 3;
-        x.Width = 200;
+        //x.Width = 200;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
         // Rev 1.0
         if (ViewBag.RetentionColumn != null)
         {
@@ -120,7 +127,8 @@
         x.FieldName = "STATE_NAME";
         x.Caption = "State Name";
         x.VisibleIndex = 4;
-        x.Width = 100;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
 
         // Rev 1.0
         if (ViewBag.RetentionColumn != null)
@@ -147,7 +155,8 @@
         x.FieldName = "DESIGNATION";
         x.Caption = "Designation";
         x.VisibleIndex = 5;
-        x.Width = 100;
+        //x.Width = 100;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
 
         // Rev 1.0
         if (ViewBag.RetentionColumn != null)
@@ -174,8 +183,9 @@
         x.FieldName = "LOGGEDIN";
         x.Caption = "Login Time";
         x.VisibleIndex = 6;
-        x.Width = 200;
+        //x.Width = 200;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
         // Rev 1.0
         if (ViewBag.RetentionColumn != null)
@@ -202,8 +212,9 @@
         x.FieldName = "LOGEDOUT";
         x.Caption = "Logout Time";
         x.VisibleIndex = 7;
-        x.Width = 150;
+        //x.Width = 150;
         x.ColumnType = MVCxGridViewColumnType.TextBox;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
         // Rev 1.0
         if (ViewBag.RetentionColumn != null)
@@ -230,7 +241,8 @@
         x.FieldName = "ACTIVITYCNT";
         x.Caption = "Activity Count";
         x.VisibleIndex = 8;
-        x.Width = 150;
+        //x.Width = 150;
+        x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
         x.ColumnType = MVCxGridViewColumnType.TextBox;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
@@ -262,5 +274,7 @@
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "ACTIVITYCNT").DisplayFormat = "0";
 
     //settings.ClientSideEvents.BeginCallback = "OnBeginCallback";
+
+    settings.ClientSideEvents.RowClick = "gridRowclick";
 
 }).Bind(Model).GetHtml()

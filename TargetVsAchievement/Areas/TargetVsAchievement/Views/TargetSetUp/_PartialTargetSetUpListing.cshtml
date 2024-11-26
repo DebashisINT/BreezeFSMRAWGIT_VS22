@@ -1,0 +1,126 @@
+﻿@*====================================================== Revision History ==========================================================*@
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+
+@*====================================================== Revision History ==========================================================*@
+
+@model System.Data.DataTable
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridList";
+    settings.KeyFieldName = "ID";
+    settings.CallbackRouteValues = new { Action = "_PartialTargetSetUpListing", Controller = "TargetSetUp" };
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+   // settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = true;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "40", "50" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+    settings.Settings.ShowFilterRowMenu = true;
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+
+    int visibleindex = 1;
+
+    if (Model != null)
+    {
+
+        double ColumnWidth = Model.Columns.Count;
+
+        if (Model.Columns.Count > 0)
+
+            foreach (System.Data.DataColumn column in Model.Columns)
+            {
+                var windowWidth = ViewBag.WindowSize;
+                settings.Columns.Add(x =>
+                {
+                    if (column.ColumnName == "ID")
+                    {
+                        x.CellStyle.CssClass = "hide";
+                        x.HeaderStyle.CssClass = "hide";
+                        x.FieldName = column.ColumnName;
+                        x.Caption = column.ColumnName;
+                        x.VisibleIndex = visibleindex;
+                        x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                        visibleindex = visibleindex + 1;
+                        //x.Width = System.Web.UI.WebControls.Unit.Percentage(0);
+                        //x.Width = 0;
+                    }
+                    else
+                    {
+                        x.FieldName = column.ColumnName;
+                        x.Caption = column.ColumnName;
+                        x.VisibleIndex = visibleindex;
+                        x.Settings.AutoFilterCondition = AutoFilterCondition.Contains;
+                        visibleindex = visibleindex + 1;
+                        //x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                        x.Width = 150;
+                    }
+                    
+                    if (column.DataType.FullName == "System.Decimal" || column.DataType.FullName == "System.Int32" || column.DataType.FullName == "System.Int64")
+                    {
+                        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+                        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
+
+                    }
+                    if (column.DataType.FullName == "System.DateTime")
+                    {
+                        x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+                    }
+                    if (column.Caption == "Action")
+                    {
+                        x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                        x.HeaderStyle.VerticalAlign = System.Web.UI.WebControls.VerticalAlign.Middle;
+                        x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+                        x.Width = System.Web.UI.WebControls.Unit.Percentage(20);
+                        x.SetDataItemTemplateContent(c =>
+                        {
+                            //if (ViewBag.CanEdit)
+                            //{
+                            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"EditClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "')\"><img src='/assests/images/Edit.png' style='margin-right:3px' /><div class=\"tooltip\">Edit</div></a>");
+                            //}
+                            //            if (ViewBag.CanDelete)
+                            //{
+                            ViewContext.Writer.Write("<a style='cursor:pointer' class='pad tooltip-container' onclick=\"DeleteClick('" + Convert.ToString(DataBinder.Eval(c.DataItem, "ID")) + "')\"><img src='/assests/images/Delete.png'/><div class=\"tooltip\">Delete</div></a>");
+
+                            // }
+                        });
+                    }
+
+
+
+                });
+
+                // }
+
+            }
+
+
+
+        //settings.DataBound += (s, e) =>
+        //{
+
+        //    MVCxGridView grid = (MVCxGridView)s;
+        //    foreach (GridViewDataColumn c in grid.Columns)
+        //    {
+        //        if ((c.FieldName.ToString()).StartsWith("EMPID"))
+        //        {
+        //            c.Visible = false;
+        //        }
+        //    }
+        //};
+    }
+
+
+    settings.ClientSideEvents.RowClick = "gridRowclick";
+
+}).Bind(Model).GetHtml()
+

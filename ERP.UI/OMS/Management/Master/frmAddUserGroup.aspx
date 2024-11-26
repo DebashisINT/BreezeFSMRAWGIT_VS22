@@ -17,11 +17,12 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
             width: 200%;
         }
         .tree-title>div {
-            min-width:250px;
+                width: 7%;
         }
 
             .tree-title span {
                 float: left;
+                    width: 93%;
                
             }
         .tree-title span input {

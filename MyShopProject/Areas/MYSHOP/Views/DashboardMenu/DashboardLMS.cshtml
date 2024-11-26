@@ -1,10 +1,15 @@
-﻿@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+﻿<!--====================================================== Revision History ====================================================================================
+@*Rev Number         DATE              VERSION          DEVELOPER           CHANGES*@
+1.0                  08-10-2024        V2.0.49          Priti               0027753: In LMS Dashboard, the count of the Assigned topics will be all the topics under whom at least one content is mapped
+                                                         code changes accouding to discussion with Gautam da
+====================================================== Revision History ======================================================================================-->
 @model List<MyShop.Models.DashboardSettingMapped>
 @if (Model != null)
-{  
+{
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,800;1,900&display=swap" rel="stylesheet">   
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,800;1,900&display=swap" rel="stylesheet">
+
     <style>
         .mapShowlist li .tootip {
             font-family: 'Poppins', sans-serif !important;
@@ -16,8 +21,8 @@
         }
 
         .newStyleMN.lms-dashboard .widgBox .icon {
-            top: 1px !important;
-            left: 1px !important;
+            top: 0px !important;
+            left: 0px !important;
         }
 
         .newStyleMN .widgBox .txt {
@@ -176,7 +181,7 @@
                                 </div>
                                 <div class="lspacer">
                                     <div class="Numb" id="lblTotalLearners">***</div>
-                                    <div class="flex-grow-1 txt">Total Learners</div>
+                                    <div class="flex-grow-1 txt">Learning analytics</div>
                                     <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
                                 </div>
                             </div>
@@ -257,19 +262,19 @@
                     @if (Model.Where(x => x.DetailsName == "Average Progress").Count() > 0)
                     {
                         @*<div class="flex-itm scr " data-scroll="accordion">
-                            <div class="widgBox avg-progress-box" id="a6">
-                                <div class="d-flex  align-items-center">
-                                    <div class="icon progress-chart">
-                                        <div id="gauge" style="width:70px; height:70px;"></div>
+                                <div class="widgBox avg-progress-box" id="a6">
+                                    <div class="d-flex  align-items-center">
+                                        <div class="icon progress-chart">
+                                            <div id="gauge" style="width:70px; height:70px;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="lspacer">
+                                        <div class="Numb" id="lblAverageProgress">***</div>
+                                        <div class="flex-grow-1 txt">Average<br />Progress</div>
+                                        <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
                                     </div>
                                 </div>
-                                <div class="lspacer">
-                                    <div class="Numb" id="lblAverageProgress">***</div>
-                                    <div class="flex-grow-1 txt">Average<br />Progress</div>
-                                    <div class="text-right hide"><span class="lnr lnr-arrow-down dwn arrD"></span></div>
-                                </div>
-                            </div>
-                        </div>*@
+                            </div>*@
                     }
                 </div>
             </div>

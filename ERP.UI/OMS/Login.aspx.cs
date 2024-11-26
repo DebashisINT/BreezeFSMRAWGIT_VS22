@@ -1,5 +1,6 @@
 ﻿/****************************************************************************************************************
  * 1.0      24-04-2023        2.0.39      Pallab/Sanchita       Event banner should dynamically change according to the date. Refer: 25861
+ * 2.0      09-10-2024        V2.0.49     Pallab/Sanchita       027763: Portal login page download APK functionality add
  *****************************************************************************************************************/
 
 using System;
@@ -16,6 +17,7 @@ using System.Management;
 using System.Runtime.InteropServices;
 // Rev 1.0
 using DataAccessLayer;
+using DocumentFormat.OpenXml.Spreadsheet;
 // End of Rev 1.0
 
 public partial class pLogin : System.Web.UI.Page
@@ -618,6 +620,24 @@ public partial class pLogin : System.Web.UI.Page
     //}
 
     #endregion
+
+    // Rev 2.0
+    protected void lnlDownloaderapk_Click(object sender, EventArgs e)
+    {
+        //string strFileName = "Employee Master Data.xlsx";
+
+        string[,] getData;
+        getData = oDBEngine.GetFieldValue("FSM_CONFIG_APKDET", "APKFILE_NAME", null, 1);
+        string strFileName = getData[0, 0];
+
+        string strPath = (Convert.ToString(System.AppDomain.CurrentDomain.BaseDirectory) + "/Apk/" + strFileName);
+
+        Response.ContentType = "application/apk";
+        Response.AppendHeader("Content-Disposition", "attachment; filename="+ strFileName);
+        Response.TransmitFile(strPath);
+        Response.End();
+    }
+    // End of Rev 2.0
 
 }
 

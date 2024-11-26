@@ -1,0 +1,2277 @@
+﻿@*/***************************************************************************************
+        * Written by Sanchita on 24/09/2024 for V2.0.49
+        27707: In Item Current Stock there shall be a stock import option. The sample import file is attached.
+
+    ****************************************************************************************/*@
+
+@using MyShop.Models;
+@model MyShop.Models.CurrentStockImportLogModel
+@{
+    ViewBag.Title = "Current Stock";
+}
+<link href="~/assests/css/custom/PMSStyles.css" rel="stylesheet" />
+<script src="~/Scripts/SearchPopup.js"></script>
+<link href="~/assests/css/custom/SearchPopup.css" rel="stylesheet" />
+<script src="~/assests/pluggins/choosen/choosen.min.js"></script>
+<script src="~/Scripts/SearchMultiPopup.js"></script>
+
+<style>
+    .pmsModal .modal-header {
+        /*background: #094e8c !important;*/
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        color: #fff;
+        background: linear-gradient(to right, #1f5fbf, #11998e) !important;
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+    }
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .pmsModal.w70 .modal-dialog {
+        width: 90% !important;
+    }
+
+    @@media screen and (min-width: 768px) {
+        .modal-dialog {
+            padding-top: 56px !important;
+        }
+
+        #ShopSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog, #ProductSearchModel .model-dialog {
+            padding-top: 100px !important;
+        }
+    }
+
+
+
+    #myModal label {
+        font-weight: 500;
+        margin-top: 3px;
+        margin-bottom: 2px;
+        font-size: 13px;
+    }
+
+    .red {
+        color: red;
+    }
+
+    .sample {
+        font-size: 12px;
+        color: #d48a28;
+    }
+
+    .buttonphoto {
+        padding: 11px 12px;
+        display: inline-block;
+        background: #dee3f7;
+        margin-top: 11px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .buttonphoto:hover {
+            background: #415ed2;
+            color: #fff;
+        }
+
+    .infoQ {
+        color: #4b98b8;
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    #PanModel {
+        z-index: 9999;
+    }
+
+    .inputShrink select:not(.btn), .inputShrink .form-control:not(textarea) {
+        height: 34px;
+        padding: 3px 12px;
+    }
+
+    .modalScroll .modal-body {
+        max-height: 88vh !important;
+        /*overflow-y: auto;*/
+        border-radius: 0 0 15px 15px !important;
+    }
+
+    .bulAssignTbl > tbody > tr > td {
+        padding-right: 15px;
+        padding-bottom: 15px;
+    }
+
+    .mHead {
+        margin: 0;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+        color: #415ed2;
+        margin-bottom: 13px;
+    }
+
+    /*Rev 1.0*/
+
+    body, .dxtcLite_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    #BranchGridLookup {
+        min-height: 34px;
+        border-radius: 5px;
+    }
+
+    .dxeButtonEditButton_PlasticBlue {
+        background: #094e8c !important;
+        border-radius: 4px !important;
+        padding: 0 4px !important;
+    }
+
+    .dxeButtonDisabled_PlasticBlue {
+        background: #ababab !important;
+    }
+
+    .chosen-container-single .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+        border-radius: 4px;
+        height: 30px;
+        top: 1px;
+        right: 1px;
+        /*position:relative;*/
+    }
+
+        .chosen-container-single .chosen-single div b {
+            display: none;
+        }
+
+        .chosen-container-single .chosen-single div::after {
+            /*content: '<';*/
+            content: url(../../../assests/images/left-arw.png);
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            font-size: 13px;
+            transform: rotate(269deg);
+            font-weight: 500;
+        }
+
+    .chosen-container-active.chosen-with-drop .chosen-single div {
+        background: #094e8c;
+        color: #fff;
+    }
+
+        .chosen-container-active.chosen-with-drop .chosen-single div::after {
+            transform: rotate(90deg);
+            right: 7px;
+        }
+
+    .calendar-icon {
+        position: absolute;
+        bottom: 7px;
+        right: 20px;
+        z-index: 0;
+        cursor: pointer;
+    }
+
+    .date-select .form-control {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #ddlState, #ddlPartyType, #divoutletStatus, #slmonth, #slyear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    .h-branch-select, .h-branch-select-new {
+        position: relative;
+    }
+
+        .h-branch-select::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 31px;
+            right: 6px;
+            font-size: 18px;
+            transform: rotate(270deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 18px;
+            z-index: 0;
+        }
+
+        .h-branch-select-new::after {
+            content: '<';
+            /*content: url(../../../assests/images/left-arw.png);*/
+            position: absolute;
+            top: 9px;
+            right: 13px;
+            font-size: 18px;
+            transform: rotate(269deg);
+            font-weight: 500;
+            background: #094e8c;
+            color: #fff;
+            height: 18px;
+            display: block;
+            width: 28px;
+            /* padding: 10px 0; */
+            border-radius: 4px;
+            text-align: center;
+            line-height: 19px;
+            z-index: 0;
+        }
+
+    select:not(.btn):focus {
+        border-color: #094e8c;
+    }
+
+    select:not(.btn):focus-visible {
+        box-shadow: none;
+        outline: none;
+    }
+
+    .multiselect.dropdown-toggle {
+        text-align: left;
+    }
+
+    .multiselect.dropdown-toggle, #ddlMonth, #ddlYear {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background-color: transparent;
+    }
+
+    select:not(.btn) {
+        padding-right: 30px;
+        /*-webkit-appearance: none;*/
+        position: relative;
+        z-index: 1;
+        background-color: #fff;
+        height: 34px !important;
+    }
+
+    #ddlShowReport:focus-visible {
+        box-shadow: none;
+        outline: none;
+        border: 1px solid #164f93;
+    }
+
+    #ddlShowReport:focus {
+        border: 1px solid #164f93;
+    }
+
+    .whclass.selectH:focus-visible {
+        outline: none;
+    }
+
+    .whclass.selectH:focus {
+        border: 1px solid #164f93;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border: 1px Solid #ccc;
+    }
+
+    .chosen-container-single .chosen-single {
+        border: 1px solid #ccc;
+        background: #fff;
+        box-shadow: none;
+    }
+
+    .daterangepicker td.active, .daterangepicker td.active:hover {
+        background-color: #175396;
+    }
+
+    label {
+        font-weight: 500;
+    }
+
+    .dxgvHeader_PlasticBlue {
+        background: #164f94;
+    }
+
+    .dxgvSelectedRow_PlasticBlue td.dxgv {
+        color: #fff;
+    }
+
+    .dxeCalendarHeader_PlasticBlue {
+        background: #185598;
+    }
+
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue,
+    .dxbButton_PlasticBlue,
+    .dxeCalendar_PlasticBlue,
+    .dxeEditArea_PlasticBlue,
+    .dxgvControl_PlasticBlue, .dxgvDisabled_PlasticBlue {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        font-weight: 500;
+    }
+
+    .btnPadding .btn {
+        padding: 7px 14px !important;
+        border-radius: 4px;
+    }
+
+    .btnPadding {
+        padding-top: 24px !important;
+    }
+
+    .dxeButtonEdit_PlasticBlue {
+        border-radius: 5px;
+        height: 34px;
+    }
+
+    #dtFrom, #dtTo, #FormDate, #toDate, #appcbl_frm_dt {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    #tblshoplist_wrapper .dataTables_scrollHeadInner table tr th {
+        background: #165092;
+        vertical-align: middle;
+        font-weight: 500;
+    }
+
+    /*#refreshgrid {
+        background: #e5e5e5;
+        padding: 0 10px;
+        margin-top: 15px;
+        border-radius: 8px;
+    }*/
+
+    .styled-checkbox {
+        position: absolute;
+        opacity: 0;
+        z-index: 1;
+    }
+
+        .styled-checkbox + label {
+            position: relative;
+            /*cursor: pointer;*/
+            padding: 0;
+            margin-bottom: 0 !important;
+        }
+
+            .styled-checkbox + label:before {
+                content: "";
+                margin-right: 6px;
+                display: inline-block;
+                vertical-align: text-top;
+                width: 16px;
+                height: 16px;
+                /*background: #d7d7d7;*/
+                margin-top: 2px;
+                border-radius: 2px;
+                border: 1px solid #c5c5c5;
+            }
+
+        .styled-checkbox:hover + label:before {
+            background: #094e8c;
+        }
+
+
+        .styled-checkbox:checked + label:before {
+            background: #094e8c;
+        }
+
+        .styled-checkbox:disabled + label {
+            color: #b8b8b8;
+            cursor: auto;
+        }
+
+            .styled-checkbox:disabled + label:before {
+                box-shadow: none;
+                background: #ddd;
+            }
+
+        .styled-checkbox:checked + label:after {
+            content: "";
+            position: absolute;
+            left: 3px;
+            top: 9px;
+            background: white;
+            width: 2px;
+            height: 2px;
+            box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white, 4px -8px 0 white;
+            transform: rotate(45deg);
+        }
+
+    #dtstate {
+        padding-right: 8px;
+    }
+
+    .modal-header {
+        background: #094e8c !important;
+        background-image: none !important;
+        padding: 11px 20px;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .modal-content {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .modal-header .modal-title {
+        font-size: 14px;
+    }
+
+    .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    #EmployeeTable {
+        margin-top: 10px;
+    }
+
+        #EmployeeTable table tr th {
+            padding: 5px 10px;
+        }
+
+    .dynamicPopupTbl {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+        .dynamicPopupTbl > tbody > tr > td,
+        #EmployeeTable table tr th {
+            font-family: 'Poppins', sans-serif !important;
+            font-size: 12px;
+        }
+
+    .w150 {
+        width: 160px;
+    }
+
+    .eqpadtbl > tbody > tr > td:not(:last-child) {
+        padding-right: 20px;
+    }
+
+    #dtFrom_B-1, #dtTo_B-1, #cmbDOJ_B-1, #cmbLeaveEff_B-1, #FormDate_B-1, #toDate_B-1, #appcbl_frm_dt_B-1 {
+        background: transparent !important;
+        border: none;
+        width: 30px;
+        padding: 10px !important;
+    }
+
+        #dtFrom_B-1 #dtFrom_B-1Img,
+        #dtTo_B-1 #dtTo_B-1Img,
+        #cmbDOJ_B-1 #cmbDOJ_B-1Img,
+        #cmbLeaveEff_B-1 #cmbLeaveEff_B-1Img,
+        #FormDate_B-1 #FormDate_B-1Img, #toDate_B-1 #toDate_B-1Img, #appcbl_frm_dt_B-1 #appcbl_frm_dt_B-1Img {
+            display: none;
+        }
+
+    #FormDate_I, #toDate_I {
+        background: transparent;
+    }
+
+    .for-cust-icon {
+        position: relative;
+        /*z-index: 1;*/
+        width: 150px;
+    }
+
+    .pad-md-18 {
+        padding-top: 10px;
+    }
+
+    .open .dropdown-toggle.btn-default {
+        background: transparent !important;
+    }
+
+    .input-group-btn .multiselect-clear-filter {
+        height: 32px;
+        border-radius: 0 4px 4px 0;
+    }
+
+    .btn .caret {
+        display: none;
+    }
+
+    .iminentSpan button.multiselect.dropdown-toggle {
+        height: 34px;
+    }
+
+    .col-lg-2 {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .dxeCalendarSelected_PlasticBlue {
+        color: White;
+        background-color: #185598;
+    }
+
+    .dxeTextBox_PlasticBlue {
+        height: 34px;
+        border-radius: 4px;
+    }
+
+    #cmbDOJ_DDD_PW-1 {
+        z-index: 9999 !important;
+    }
+
+    #cmbDOJ, #cmbLeaveEff {
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .btn-sm, .btn-xs {
+        padding: 7px 10px !important;
+    }
+
+    #productAttributePopUp_PWH-1 span, #ASPxPopupControl2_PWH-1 span {
+        color: #fff !important;
+    }
+
+    #marketsGrid_DXPEForm_tcefnew, .dxgvPopupEditForm_PlasticBlue {
+        height: 220px !important;
+    }
+
+    .btn {
+        height: 35px;
+        border-radius: 8px;
+    }
+    /*Rev end 1.0*/
+    /*Rev start 3.0*/
+    .mrtop-6 {
+        margin-top: 6px;
+    }
+
+    #myModalReAssignSalesman .modal-dialog {
+        max-width: 32%;
+    }
+
+    #myModal .modal-dialog {
+        max-width: 70%;
+    }
+
+    .btn-default {
+        background-color: #dbdbdb;
+    }
+
+        .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
+            background-color: #c1c1c1;
+        }
+
+    #ddlSalesmanRe, #ddlSalesman1 {
+        -webkit-appearance: auto;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_PW-1 {
+        left: 15px !important;
+    }
+
+    #divDate #appcbl_frm_dt_DDD_C_FNP_PW-1 {
+        left: 60px !important;
+    }
+    /*Rev end 3.0*/
+    /*Rev 4.0*/
+    #myImportContactModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+    /*End of Rev 4.0*/
+
+    .mt-15 {
+        margin-top: 5px;
+    }
+
+    .mb-10 {
+        margin-bottom: 5px;
+    }
+
+    .mr-5 {
+        margin-right: 5px;
+    }
+
+    .pmsModal .modal-body {
+        padding: 15px 30px;
+        padding-bottom: 20px;
+    }
+
+        .pmsModal .modal-body .col-md-3, .pmsModal .modal-body .col-md-6, .pmsModal .modal-body .col-md-12 {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+    .personal-info {
+        background: #f9f9f9;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .pmsModal .modal-body select:not(.btn), .pmsModal .modal-body .form-control {
+        border-radius: 6px !important;
+        
+    }
+
+        .pmsModal .modal-body .form-control:focus {
+            box-shadow: none !important;
+        }
+
+    .company-info {
+        background: #f9f9f9 !important;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .others-info {
+        background: #f9f9f9 !important;
+        padding: 10px 0;
+        border-radius: 10px;
+        border: 1px dashed #8f8f8f;
+        margin-bottom: 30px;
+    }
+
+    .section-heading {
+        width: 100%;
+        margin-top: -24px;
+        padding: 0 0 0 10px;
+        margin-bottom: 10px;
+    }
+
+    .personal-info .section-heading h4 {
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #10977e;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .company-info .section-heading h4 {
+        /*font-size: 16px !important;
+        padding: 6px 15px;
+        background: #971073;
+        color: #fff;
+        border-radius: 20px 20px;
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;*/
+
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #971073;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .others-info .section-heading h4 {
+        /*font-size: 16px !important;
+        padding: 6px 15px;
+        background: #974310;
+        color: #fff;
+        border-radius: 20px 20px;
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;*/
+
+        font-size: 14px !important;
+        padding: 6px 15px 6px 10px;
+        background: #974310;
+        color: #fff;
+        /*border-radius: 20px 20px;*/
+        display: inline-block;
+        margin: 0;
+        font-weight: 400;
+        position: relative;
+    }
+
+    .ml-n15 {
+        margin-right: -8px;
+        text-align: end;
+    }
+
+    /* width */
+    .pmsModal .modal-body::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    .pmsModal .modal-body::-webkit-scrollbar-track {
+        box-shadow: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    /* Handle */
+    .pmsModal .modal-body::-webkit-scrollbar-thumb {
+        background: #b1b1b1;
+        border-radius: 10px;
+    }
+
+        /* Handle on hover */
+        .pmsModal .modal-body::-webkit-scrollbar-thumb:hover {
+            background: #8b8b8b;
+        }
+
+    #dtDOB_DDD_PW-1, #dtAnniversarydate_DDD_PW-1, #dtNextFollowDate_DDD_PW-1 {
+        left: -25px !important;
+    }
+
+    #dtDOB_DDD_C_FNP_PW-1, #dtNextFollowDate_DDD_C_FNP_PW-1 {
+        left: 45px !important;
+    }
+
+    #dtAnniversarydate_DDD_C_FNP_PW-1 {
+        left: 30px !important;
+        /*top: 0;*/
+    }
+
+    body.modal-open {
+        overflow: hidden;
+    }
+
+    .btn-clr-1 {
+        background-color: #313ec7 !important;
+    }
+
+    .btn-clr-2 {
+        background-color: #ff6a00 !important;
+    }
+
+    .btn-clr-3 {
+        background-color: #b107a1 !important;
+    }
+
+    .btn-clr-4 {
+        background-color: #a19113 !important;
+    }
+
+    .btn-clr-5 {
+        background-color: #10a1ab !important;
+    }
+
+    .bg-color-6 {
+        background-color: #bd1c68 !important;
+    }
+
+        .bg-color-6 .badge {
+            background-color: #fff !important;
+            padding: 4px 7px;
+            color: #111;
+        }
+
+    #btnshow {
+        background-color: #094e8c !important;
+    }
+
+    .btn {
+        margin-right: 5px;
+        padding: 4px 12px;
+    }
+
+
+
+    #popup_message {
+        text-align: center !important;
+        padding: 0 !important;
+    }
+
+    #popup_container {
+        font-size: 14px !important;
+    }
+
+    #popup_panel {
+        margin-left: 0 !important;
+    }
+
+    #myImportModal .modal-body {
+        border-radius: 0 0 20px 20px;
+    }
+
+    #dtNextFollowDateOutOfRWarn, #dtDOBOutOfRWarn, #dtAnniversarydateOutOfRWarn {
+        left: 0 !important;
+        top: 60px !important;
+    }
+
+    .dxeOutOfRWarn_PlasticBlue {
+        font-size: 13px !important;
+        width: 100%;
+        left: 0 !important;
+        top: 55px !important;
+    }
+
+    .validationDiv {
+        margin-bottom: 10px;
+    }
+
+    .btn-radius {
+        border-radius: 50px;
+        /*float:left;*/
+    }
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 22px;
+        height: 22px;
+        display: inline-block;
+        background: #0d4d91;
+        line-height: 22px;
+    }
+
+    .add-btn {
+        padding: 6px 10px 6px 6px !important;
+        /*background-color: #f8666f !important;
+        border-color: #f8666f !important;*/
+    }
+
+    .col-md-1, .col-md-2, .col-md-4 {
+        padding-right: 8px !important;
+        padding-left: 8px !important;
+    }
+
+    .calendar-icon {
+        right: 14px !important;
+    }
+
+    .personal-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #10977e;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    .company-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #971073;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    .others-info .section-heading h4:before {
+        content: "";
+        position: absolute;
+        right: -11px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 11px solid #974310;
+        border-top: 12px solid transparent;
+        border-bottom: 14px solid transparent;
+    }
+
+    /*.personal-info .section-heading h4:after {
+        content: "";
+        position: absolute;
+        left: -1px;
+        bottom: 0;
+        width: 0;
+        height: 0;
+        border-left: 1px solid white;
+        border-top: 14px solid transparent;
+        border-bottom: 14px solid transparent;
+    }*/
+
+    .personal-info .section-heading h4 .bulet, .company-info .section-heading h4 .bulet, .others-info .section-heading h4 .bulet {
+        position: absolute;
+        right: 0px;
+        top: 11px;
+        background: #fff;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        box-shadow: 0px 0px 1px 2px rgb(26, 128, 44);
+    }
+
+    .company-info .section-heading h4 .bulet {
+        box-shadow: 0px 0px 1px 2px rgb(81 5 61) !important;
+    }
+
+    .others-info .section-heading h4 .bulet {
+        box-shadow: 0px 0px 1px 2px rgb(99 39 3) !important;
+    }
+
+    #btnshow, #ddlAppIds {
+        height: 34px;
+    }
+
+    #ddlAppIds {
+        padding: 2px 10px !important;
+    }
+
+    #ShopSearchModel .modal-dialog, #ReferenceUserSearchModel .modal-dialog, #ProductSearchModel .model-dialog {
+        width: 42% !important;
+    }
+
+    .container {
+        width: 88%;
+    }
+
+    .only-view {
+        cursor: default !important;
+    }
+
+    @@media (min-width: 1200px) {
+        .container {
+            width: 88%;
+        }
+    }
+
+    #dtCurrentStockDate_DDD_PW-1 {
+        left: 10px !important;
+    }
+
+
+    .pmsModal .modal-header {
+        /*background: #094e8c !important;
+background-image: none !important;*/
+        padding: 11px 20px;
+        border: none;
+        border-radius: 15px 15px 0 0 !important;
+        /*color: #fff;*/
+        /*background: linear-gradient(to right, #1f5fbf, #11998e) !important;*/
+    }
+
+    .pmsModal .modal-content {
+        border: none;
+        background: linear-gradient(1deg, #cff3ff, #ffffff);
+    }
+
+    /*.pmsModal .modal-header .modal-title {
+    font-size: 14px;
+}*/
+
+    .pmsModal .modal-header .modal-title {
+        font-size: 16px !important;
+        color: #111;
+        font-size: 24px;
+    }
+
+    .pmsModal .modal-header {
+        background: transparent !important;
+        /*margin-bottom: 10px;*/
+        border-bottom: 1px solid #d5d5d5;
+    }
+
+    .close {
+        font-size: 34px;
+        opacity: .8;
+    }
+
+    button.close {
+        color: #111 !important;
+        font-weight: 400 !important;
+        opacity: .8 !important;
+        font-size: 32px !important;
+    }
+
+    .pmsModal .close {
+        font-weight: 400;
+        font-size: 25px;
+        color: #fff;
+        text-shadow: none;
+        opacity: .5;
+    }
+
+    .pmsModal .modal-body, .pmsModal .modal-footer {
+        background: transparent !important;
+    }
+
+    .dynamicPopupTbl {
+        background: #fff !important;
+    }
+
+    .close:hover, .close:focus
+    {
+        color: #111 !important;
+    }
+
+    .whclass.selectH, #ddlShowReport {
+        -webkit-appearance: none;
+        position: relative;
+        z-index: 1;
+        background: transparent;
+    }
+
+    .h-branch-select > div {
+        background: #fff;
+    }
+
+    .add-new-btn {
+        -webkit-animation: pulse 1s;
+        animation: pulse-afct 1s;
+        box-shadow: 0 0 0 20px transparent;
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+    }
+
+    @@-webkit-keyframes pulse-afct {
+        0% {
+            box-shadow: 0 0 0 0 #164f929e;
+        }
+    }
+
+    @@keyframes pulse-afct {
+        0% {
+            box-shadow: 0 0 0 0 #164f929e;
+        }
+    }
+
+    .add-btn .btn-icon {
+        border-radius: 50px;
+        width: 21px;
+        height: 21px;
+        display: inline-block;
+        background: #fff;
+        line-height: 21px;
+        margin-right: 5px;
+    }
+
+    .add-btn {
+        transition: all .4s;
+    }
+
+        .add-btn:hover {
+            color: #fff;
+            background-color: #0e4f23;
+            border-color: #0e4f23;
+        }
+
+        .add-btn .btn-icon i {
+            color: #238945;
+        }
+
+    .add-btn {
+        background-color: #238945;
+        margin-right: 5px;
+    }
+
+    .custom-dropdown {
+        position: relative;
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+    .dropdown-button {
+        display: flex;
+        align-items: center;
+        background-color: #e17134;
+        color: white;
+        border: none;
+        padding: 6px 15px 6px 10px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        height: 34px;
+        transition: all .3s;
+    }
+
+        .dropdown-button:hover {
+            background: #ae4b15;
+            color: #fff;
+            /*transform: scale(1.1);*/
+        }
+
+    .dropdown-icon {
+        margin-right: 8px;
+    }
+
+    .dropdown-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #ffdcc8;
+        /* border: 1px solid #ccc; */
+        border-radius: 8px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        width: 100%;
+        color: #000000;
+        overflow: hidden;
+        text-align: center;
+    }
+
+        .dropdown-list.show {
+            display: block; /* Show when class is added */
+            opacity: 1; /* Full opacity when shown */
+        }
+
+
+        .dropdown-list li {
+            padding: 5px;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+            .dropdown-list li:hover {
+                background-color: #c85a1e;
+                color: #fff;
+            }
+
+    .custom-dropdown .btn-icon img {
+        /*color: #238945;*/
+        width: 17px;
+    }
+
+    .btn-icon img {
+        /*color: #238945;*/
+        width: 15px;
+    }
+
+    .custom-dropdown .btn-icon, .btn-icon {
+        border-radius: 50px;
+        width: 23px;
+        height: 23px;
+        display: inline-block;
+        background: #fff;
+        line-height: 20px;
+        margin-right: 5px;
+    }
+
+
+    div:where(.swal2-container) button:where(.swal2-styled):not([disabled]) {
+        width: 90px !important;
+        border-radius: 8px !important;
+        height: 36px !important;
+        font-size: 14px !important;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: none; /* Initially hidden */
+    }
+
+    .flex-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dxgvLoadingPanel_PlasticBlue {
+        display: none !important;
+    }
+
+    .flex-loader img {
+        width: 120px;
+    }
+
+    .flex-loader h4 {
+        font-size: 22px;
+        color: #000000;
+    }
+
+    .rowActive {
+        background-color: #ebf4ff !important;
+        color: #000 !important;
+    }
+
+    div:where(.swal2-container)
+    {
+        z-index: 999999 !important;
+    }
+
+</style>
+
+<script>
+    var Is_PageLoad = "Ispageload";
+
+    function DownloadFormat()
+    {
+        var url = '@Url.Action("DownloadFormat", "CurrentStockRegister")'
+        window.location.href = url;
+    }
+
+    function ImportCurrentStockPopOpen() {
+        $("#myImportModal").modal('show');
+    }
+
+    function ClickToImportCurrentStock() {
+        todate = null;
+        fromdate = null;
+        var isprocess = false;
+        var filename = $("#fileprod").val();
+        if ($('#fileprod').get(0).files.length === 0) {
+            //jAlert("No files selected.");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'No files selected.'
+            });
+
+            return false;
+        }
+        else {
+            var extension = filename.replace(/^.*\./, '');
+            switch (extension.toLowerCase()) {
+                case 'xls':
+                    isprocess = true;
+                case 'xlsx':
+                    isprocess = true;
+                default:
+                    // Cancel the form submission
+                    if (!isprocess) {
+                        //jAlert('Only excel file require.');
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Warning',
+                            text: 'Only excel file require.'
+                        });
+
+                        return false;
+                    }
+            }
+        }
+
+        if (isprocess == true) {
+            var fileUpload = $("#fileprod").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+
+            $.ajax({
+                url: "@Url.Action("ImportExcel", "CurrentStockRegister")",
+                type: "POST",
+                contentType: false,
+                processData: false,
+                data: fileData,
+                success: function (result) {
+                    jAlert(result, 'Alert', function () {
+                        $("#fileprod").val('');
+                        //$("#myImportModal").toggle();
+                        $("#myImportModal").modal('hide');
+                        GridShow();
+                        $.ajax({
+                            type: "POST",
+                            url: "@Url.Action("CurrentStockImportLog", "CurrentStockRegister")",
+                            success: function (response) {
+                                if (response) {
+                                    pcModalCurrentStockImportLogMode.Show();
+                                    gridCurrentStockImportLog.Refresh();
+                                    gridCurrentStockImportLog.Refresh();
+                                }
+                            }
+                        });
+                    });
+
+                },
+                error: function (err) {
+                    //jAlert(err.statusText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Sorry!',
+                        text: err.statusText
+                    });
+                }
+            });
+        }
+    }
+
+    function ImportLogPopOpen() {
+        var d = new Date();
+
+        dtLogFrom_Import.SetValue(d);
+        dtLogTo_Import.SetValue(d);
+
+        pcModalImportViewMode.Show();
+    }
+
+
+    function CurrentStockImportUserLog() {
+        var url = '/CurrentStockRegister/CurrentStockImportManualLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogFrom_Import.GetText(), 'ToDate': dtLogTo_Import.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("CurrentStockImportLog", "CurrentStockRegister")",
+                        success: function (response) {
+                            if (response) {
+                                pcModalCurrentStockImportLogMode.Show();
+                                gridCurrentStockImportLog.Refresh();
+                                gridCurrentStockImportLog.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                    // jAlert(response);
+                   Swal.fire({
+                       icon: 'error',
+                       title: 'Sorry!',
+                       text: response
+                    });
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+
+
+
+
+    function GridShow() {
+        //GetEmpSelectedFieldValuesOndemand($("#hdnEmployeeId").val());
+        Is_PageLoad = "";
+
+        //gridCRMContact.Refresh();
+
+        //datefrm = dtFrom.GetText();
+        //var newdatefrom = datefrm.split("-").reverse().join("-");
+
+        //var startdate = new Date(Date.parse(newdatefrom));
+        ////  alert(startdate);
+
+        //dateto = dtTo.GetText();
+        //var newdateTo = dateto.split("-").reverse().join("-");
+
+        //var endDate = new Date(Date.parse(newdateTo));
+
+        //if (endDate < startdate) {
+
+        //    jAlert('From date should be before/equal To date');
+        //}
+        //else {
+        //    var start = $('#dtFrom_I').val();
+        //    var end = $('#dtTo_I').val();
+        //    start = start.split('-')[1] + '-' + start.split('-')[0] + '-' + start.split('-')[2];
+        //    end = end.split('-')[1] + '-' + end.split('-')[0] + '-' + end.split('-')[2];
+
+        //   gridCRMContact.Refresh();
+
+        //}
+    }
+
+    function OnStartCallback(s, e) {
+
+        document.getElementById("loading-overlay").style.display = "block";
+
+        e.customArgs["Is_PageLoad"] = "1";
+    }
+
+    function OnEndCallback() {
+        // Hide overlay and remove blur when data finishes loading
+        document.getElementById("loading-overlay").style.display = "none";
+        /*document.getElementById("grid-container").classList.remove("blur");*/
+    }
+
+
+    // Shop Name
+    function ShopButnClick(s, e) {
+        $('#ShopSearchModel').modal('show');
+        $("#txtShopSearch").focus();
+    }
+
+    function Shop_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#ShopSearchModel').modal('show');
+            $("#txtShopSearch").focus();
+        }
+    }
+
+    function Shopkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtShopSearch").val()) == "" || $.trim($("#txtShopSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtShopSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Shop Name");
+            HeaderCaption.push("Shop Code");
+            HeaderCaption.push("Shop Owner Contact");
+            HeaderCaption.push("Shop Type");
+
+            if ($("#txtShopSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetShopList", OtherDetails, "ShopTable", HeaderCaption, "ShopIndex", "SetShop");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[ShopIndex=0]"))
+                $("input[ShopIndex=0]").focus();
+        }
+    }
+
+    function SetShop(id, Name) {
+        var key = id;
+        $('#hdnShopCode').val(id)
+        if (key != null && key != '') {
+            $('#ShopSearchModel').modal('hide');
+            ShopNameTxt.SetText(Name);
+            ShopNameTxt.SetFocus();
+        }
+    }
+
+    // End Shop Name
+
+    // Product Name
+    function ProductButnClick(s, e) {
+        $('#ProductSearchModel').modal('show');
+        $("#txtProductSearch").focus();
+    }
+
+    function Product_KeyDown(s, e) {
+        if (e.htmlEvent.key == "Enter" || e.code == "NumpadEnter") {
+            $('#ProductSearchModel').modal('show');
+            $("#txtProductSearch").focus();
+        }
+    }
+
+    function Productkeydown(e) {
+        var OtherDetails = {}
+        if ($.trim($("#txtProductSearch").val()) == "" || $.trim($("#txtProductSearch").val()) == null) {
+            return false;
+        }
+        OtherDetails.SearchKey = $("#txtProductSearch").val();
+
+        if (e.code == "Enter" || e.code == "NumpadEnter") {
+            var HeaderCaption = [];
+            HeaderCaption.push("Product Code");
+            HeaderCaption.push("Product Name");
+
+            if ($("#txtProductSearch").val() != "") {
+                callonServer("../../../Models/ShopAddress.asmx/GetProductList", OtherDetails, "ProductTable", HeaderCaption, "ProductIndex", "SetProduct");
+            }
+        }
+        else if (e.code == "ArrowDown") {
+            if ($("input[ProductIndex=0]"))
+                $("input[ProductIndex=0]").focus();
+        }
+    }
+
+    function SetProduct(id, Name) {
+        var key = id;
+        $('#hdnProductID').val(id)
+        if (key != null && key != '') {
+            $('#ProductSearchModel').modal('hide');
+            ProductNameTxt.SetText(Name);
+            ProductNameTxt.SetFocus();
+        }
+    }
+
+    // End Product Name
+
+    function ClearData() {
+        $("#ddlBranch").val('0');
+        $('#hdnShopCode').val('0');
+        $('#hdnProductID').val('0');
+        $('#txtQuantity').val('');
+        dtCurrentStockDate.Clear();
+        $("#txtExpSalesValue").val('');
+        ProductNameTxt.SetText('');
+        ShopNameTxt.SetText('');
+
+        $("#txtProductSearch").val('');
+        $("#txtShopSearch").val('');
+
+
+        var txt = "<table border = '1' width = '100%' class='dynamicPopupTbl' > <tr class='HeaderStyle'> <th class='hide'>id</th><th class='ShopIndex_0'>Shop Name</th><th class='ShopIndex_1'>Shop Code</th><th class='ShopIndex_2'>Shop Owner Contact</th><th class='ShopIndex_3'>Shop Type</th></table>"
+        document.getElementById("ShopTable").innerHTML = txt;
+
+        txt = "<table border = '1' width = '100%' class='dynamicPopupTbl' > <tr class='HeaderStyle'> <th class='hide'>id</th><th class='ProductIndex_0'>Product Code</th><th class='ProductIndex_1'>Product Name</th></table>"
+        document.getElementById("ProductTable").innerHTML = txt;
+    }
+
+    function AddCurrentStock() {
+        ClearData();
+
+        $('#hdnAddEditMode').val('ADDCURRENTSTOCK');
+        $('#hdnStockId').val('0');
+
+        $('#myModal').modal('show');
+
+    }
+
+    function SaveCurrentStock(mode)
+    {
+        if (dtCurrentStockDate.GetText() == "" || dtCurrentStockDate.GetText() == "01-01-0100" || dtCurrentStockDate.GetText() == null
+            || dtCurrentStockDate.GetText() == undefined) {
+
+            //jAlert("Please enter valid Current Stock Date. Current Stock Date should be greater than or equal to current system date.", "Alert", function () {
+            //    setTimeout(function () {
+            //        $("#dtCurrentStockDate").focus();
+            //        return
+            //    }, 200);
+            //});
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Please enter valid Current Stock Date. Current Stock Date should be greater than or equal to current system date.'
+            });
+
+            $("#dtCurrentStockDate").focus();
+            return;
+        }
+
+        if ($("#ddlBranch").val() == "" || $("#ddlBranch").val() == "0" || $("#ddlBranch").val() == null || $("#ddlBranch").val() == undefined) {
+            //jAlert("Please select Branch.", "Alert", function () {
+            //    setTimeout(function () {
+            //        $("#ddlBranch").focus();
+            //        return
+            //    }, 200);
+            //});
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Please select Branch.'
+            });
+
+            $("#ddlBranch").focus();
+            return;
+        }
+
+
+        if ($("#hdnShopCode").val() == "" || $("#hdnShopCode").val() == "0" || $("#hdnShopCode").val() == null || $("#hdnShopCode").val() == undefined) {
+            //jAlert("Please select Shop.", "Alert", function () {
+            //    setTimeout(function () {
+            //        $("#ShopNameText").focus();
+            //        return
+            //    }, 200);
+            //});
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Please select Shop.'
+            });
+
+            $("#ShopNameText").focus();
+            return;
+        }
+
+
+        if ($("#hdnProductID").val() == "" || $("#hdnProductID").val() == "0" || $("#hdnProductID").val() == null || $("#hdnProductID").val() == undefined) {
+            //jAlert("Please select Product.", "Alert", function () {
+            //    setTimeout(function () {
+            //        $("#ProductNameText").focus();
+            //        return
+            //    }, 200);
+            //});
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Please select Product.'
+            });
+
+            $("#ProductNameText").focus();
+            return;
+        }
+
+
+        if ($("#txtQuantity").val() == "" || $("#txtQuantity").val() == "0" || $("#txtQuantity").val() == null || $("#txtQuantity").val() == undefined) {
+            //jAlert("Please enter Quantity.", "Alert", function () {
+            //    setTimeout(function () {
+            //        $("#txtQuantity").focus();
+            //        return
+            //    }, 200);
+            //});
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Warning',
+                text: 'Please enter Quantity.'
+            });
+
+            $("#txtQuantity").focus();
+            return;
+        }
+
+        var action = $("#hdnAddEditMode").val();
+
+        var data = {
+            Action: action,
+            StockId: $('#hdnStockId').val(),
+            BranchID: $("#ddlBranch").val(),
+            ShopCode: $("#hdnShopCode").val(),
+            ProductID: $("#hdnProductID").val(),
+            CurrentStockDate: dtCurrentStockDate.GetText(),
+            Quantity: $("#txtQuantity").val()
+        }
+
+        $.ajax({
+            url: "@Url.Action("SaveCurrentStock", "CurrentStockRegister")",
+            async: false,
+            data: { data: data },
+            type: 'POST',
+            success: function (returnValue
+                ) {
+                if (returnValue == "Duplicate") {
+                    //jAlert("Data exists with this Shop and Product.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Sorry!',
+                        text: 'Data exists with this Shop and Product.'
+                    });
+                }
+                else if (returnValue == "Success") {
+                    //jAlert("Current Stock submitted successfully.");
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Current Stock saved successfully.'
+                    }).then(() => {
+                        ClearData();
+                        if (mode == "Exit") {
+                            $('#myModal').modal('hide');
+                        }
+                    });
+                    //GridShow();
+                }
+                else {
+                    //jAlert(returnValue);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Sorry!',
+                        text: returnValue
+                    });
+                }
+            },
+            error: function () {
+            },
+        });
+
+    }
+
+    function OpenCurrentStockforEdit(stockid) {
+        var x = "";
+        var dt = "";
+
+        $.ajax({
+            url: "@Url.Action("EditCurrentStock", "CurrentStockRegister")",
+            async: false,
+            data: { stockid: stockid },
+            type: 'POST',
+            success: function (data) {
+
+                $("#btnSaveExit").removeClass('hide');  // Show Save & Exit
+                $("#btnSaveNew").addClass('hide'); // Hide Save & New
+
+                $("#hdnAddEditMode").val('MODIFYCURRENTSTOCK');
+                $("#myModalLabel").text("Edit Current Stock");
+                $('#hdnStockId').val(stockid);
+
+                $("#ddlBranch").val(data.BranchID);
+                $('#hdnShopCode').val(data.ShopCode);
+                $('#hdnProductID').val(data.ProductID);
+                $("#txtQuantity").val(data.Quantity);
+                ProductNameTxt.SetText(data.ProductName);
+                ShopNameTxt.SetText(data.ShopName);
+
+                if (data.CurrentStockDate != "") {
+                    var d = new Date(data.CurrentStockDate);
+                    dtCurrentStockDate.SetDate(d);
+                }
+                else {
+                    dtCurrentStockDate.Clear();
+                }
+
+                $('#myModal').modal('show');
+            },
+            error: function () {
+            },
+        });
+    }
+
+    function OnClickDeleteCurrentStock(stockid) {
+        var url = '/CurrentStockRegister/DeleteCurrentStock/';
+
+        //jConfirm("Confirm Delete?", "Confirmation Dialog", function (ret) {
+        Swal.fire({
+            title: 'Are you sure you want to delete?',
+            text: "This action cannot be undone!",
+            imageUrl: '/assests/images/delete-big.png', // Custom icon for confirmation
+            imageWidth: 40, // Adjust the width as needed
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No'
+        }).then((result) => {
+            //if (ret == true) {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: JSON.stringify({ 'StockId': stockid }),
+                    async: false,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        if (response == "Delete Succesfully.") {
+                            //jAlert("Successfully Deleted.");
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: 'Delete Succesfully.'
+                            }).then(() => {
+                                gridCurrentStock.Refresh();
+                                gridCurrentStock.Refresh();
+                            });
+                            
+                        }
+                        else {
+                            //jAlert(response);
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Sorry!',
+                                text: response
+                            });
+                        }
+                    },
+                    error: function (response) {
+                        console.log(response);
+                    }
+                });
+            }
+        });
+    }
+
+</script>
+
+<script>
+    $(function () {
+
+        $('body').on('click', '#btnshow', function () {
+
+            gridCurrentStock.Refresh();
+            gridCurrentStock.Refresh();
+
+        });
+
+
+        $(document).ready(function() {
+            // Toggle dropdown on button click with slide animation
+            $('#dropdownButton').on('click', function() {
+                $('#dropdownList').slideToggle(300); // Use slide toggle
+            });
+
+            // Change selected option and trigger export function
+            $('#dropdownList li').on('click', function() {
+                var selectedValue = $(this).data('value');
+
+                $('#ddlAppIds').val(selectedValue); // Update the original select value
+
+                // Trigger the change event for the export function
+                $('#ddlAppIds').trigger('change');
+
+                // Reset the button text to "Export to"
+                $('#selectedOption').text("Export to");
+
+                $('#dropdownList').slideUp(300); // Slide up to close dropdown
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.custom-dropdown').length) {
+                    $('#dropdownList').slideUp(300); // Slide up to close
+                }
+            });
+
+            // Export function
+
+
+
+
+            $('#ddlAppIds').on('change', function () {
+                if ($("#ddlAppIds option:selected").index() > 0) {
+                    var selectedValue = $(this).val();
+                    //var desg = $("#drpdesignation").val();
+                    //var usrtype = $("#ddlusertypes").val();
+                    $('#ddlAppIds').prop("selectedIndex", 0);
+                    var url = '@Url.Action("ExporRegisterList", "CurrentStockRegister", new { type = "_type_" })'
+                    window.location.href = url.replace("_type_", selectedValue);
+                }
+            });
+        });
+
+        $('#txtQuantity').attr('maxlength', 14);
+
+    });
+
+
+    $(document).ready(function () {
+        $('#txtQuantity').on('input', function () {
+            var inputValue = $(this).val().replace(/[^0-9.]/g, ''); // Remove non-numeric characters except for the dot
+            var parts = inputValue.split('.');
+
+            // Allow up to 15 digits before the decimal
+            if (parts[0].length > 11) {
+                parts[0] = parts[0].substring(0, 11);
+            }
+
+            // Limit decimals to 2
+            if (parts[1] && parts[1].length > 2) {
+                parts[1] = parts[1].substring(0, 2);
+            }
+
+            // Combine the integer and decimal parts with only one decimal point
+            var sanitizedValue = parts.length > 1 ? parts[0] + '.' + parts.slice(1).join('') : parts[0];
+            $(this).val(sanitizedValue);
+        });
+    });
+
+    $(document).ready(function () {
+        $('#ShopSearchModel').on('shown.bs.modal', function () {
+            $('#txtShopSearch').focus();
+        });
+
+        $('#ProductSearchModel').on('shown.bs.modal', function () {
+            $('#txtProductSearch').focus();
+        });
+    });
+
+    function gridRowclick(s, e) {
+        $('#gridCurrentStock').find('tr').removeClass('rowActive');
+
+
+        $(s.GetRow(e.visibleIndex)).addClass('rowActive');
+
+    }
+
+</script>
+
+<div class="breadCumb">
+    <span>Current Stock</span>
+</div>
+
+<div class="overlay" id="loading-overlay">
+    <div class="flex-loader">
+        <img src="/assests/images/new-loader.gif" />
+        <h4>Data is loading, Please Wait</h4>
+    </div>
+
+</div>
+
+<div class="container ">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="backBox mt-5 px-4 pb-4">
+                <div class="row">
+                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 20px;">
+                        <!-- Button trigger modal -->
+                        @if (ViewBag.CanAdd)
+                        {
+                            <button type="button" class="btn btn-success add-btn add-new-btn" data-toggle="modal" data-backdrop="static" data-keyboard="false" onclick="AddCurrentStock();">
+                                <span class="btn-icon"><i class="fa fa-plus"></i></span> Add
+                            </button>
+                        }
+
+                        @if (ViewBag.CanView)
+                        {
+                            <button type="button" id="btnshow" class="btn btn-success btnwidth" tabindex=4>
+                                <span class="btn-icon"><img src="/assests/images/stock-view.svg"></span> Show
+                            </button>
+                        }
+
+                        @if (ViewBag.CanBulkUpdate)
+                        {
+                            <button type="button" class="btn btn-info btn-clr-3" onclick="DownloadFormat();">
+                                <span class="btn-icon"><img src="/assests/images/download-btn-icon.svg"></span> Download Format
+                            </button>
+
+                            <button type="button" class="btn btn-primary btn-clr-4" onclick="ImportCurrentStockPopOpen();">
+                                <span class="btn-icon"><img src="/assests/images/file-import.svg"></span> Import File
+                            </button>
+
+                            <button type="button" class="btn btn-warning btn-clr-5" onclick="ImportLogPopOpen();">
+                                <span class="btn-icon"><img src="/assests/images/log-file.svg"></span> View Log
+                            </button>
+                        }
+
+
+                        @if (ViewBag.CanExport)
+                        {
+                            @*<select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds">
+                <option value="0">Export to</option>
+                <option value="2">XLSX</option>
+            </select>*@
+
+                            <div class="custom-dropdown">
+                                <button class="dropdown-button" id="dropdownButton">
+                                    <span class="btn-icon"><img src="/assests/images/export.svg"></span>
+                                    <span id="selectedOption">Export to</span>
+                                </button>
+                                <ul class="dropdown-list" id="dropdownList">
+                                    @*<li data-value="0">Export to</li>*@
+
+                                    <li data-value="2">XLSX</li>
+
+                                </ul>
+                                <!-- Hidden original select for export logic -->
+                                @*<select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds" style="display: none;">
+                    <option value="0">Export to</option>
+                    <option value="1">PDF</option>
+                    <option value="2">XLSX</option>
+                    <option value="3">XLS</option>
+                    <option value="4">RTF</option>
+                    <option value="5">CSV</option>
+                </select>*@
+                                <select name="ddlAppIds" class="btn btn-sm btn-primary" id="ddlAppIds" style="display: none;">
+                                    <option value="0">Export to</option>
+                                    <option value="2">XLSX</option>
+                                </select>
+                            </div>
+                        }
+
+                    </div>
+                    <div class="clear"></div>
+
+                    @*<div class="col-md-3" style="padding-top: 20px;">
+                        <span></span>
+                        <div>
+                            
+
+                            
+
+                        </div>
+                    </div>*@
+
+                </div>
+                <div class="clearfix"></div>
+
+                <div class="scrooler">
+                    <div id="refreshgrid">
+                        @{
+                            Html.RenderAction("PartialCurrentStockGridList", "CurrentStockRegister", new { Is_PageLoad = "Ispageload" });
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myImportModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Import Excel Template For Current Stock</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5 mt-4"><input type="submit" value="Import (Add/Update)" onclick="return ClickToImportCurrentStock();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalCurrentStockImportLogMode";
+        settings.Width = 1200; //System.Web.UI.WebControls.Unit.Percentage(80);
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Import Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("CurrentStockImportLog", new List<CurrentStockImportLogModel>());
+           // ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportImportLogGrid();'>Export</button>");
+        });
+
+        //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+    }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalImportViewMode";
+            settings.Width = 300;
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Import Current Stock Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("_CurrentStockImportManualLogView");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+        }).GetHtml()
+
+
+<div class="modal fade pmsModal w70 font-pp modalScroll" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="ClearData();"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Current Stock</h4>
+            </div>
+            @*<input type="hidden" id="hdnShopCode" value="" />*@
+            <div class="modal-body inputShrink">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-4 mb-10">
+                                <label>Current Stock Date<em style="color: red">*</em></label>
+                                <div class="date-select">
+                                    @Html.DevExpress().DateEditFor(x => x.CurrentStockDate,
+                                   deSettings =>
+                                   {
+                                       deSettings.Name = "dtCurrentStockDate";
+                                       deSettings.Date = DateTime.Now;
+                                       deSettings.Properties.UseMaskBehavior = true;
+                                       deSettings.Properties.EditFormat = EditFormat.Custom;
+                                       deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                       deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                       deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                       deSettings.Properties.MinDate = DateTime.Now.AddDays(-1);
+                                   }).GetHtml()
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-10 h-branch-select">
+                                @*Rev 1.0 [caption "Type" change to "Contact Type" ] *@
+                                <label>Branch<em style="color: red">*</em> </label>
+                                <div>
+                                    @Html.DropDownListFor(m => m.StockBranchId, new SelectList(Model.StockBranchList, "branch_id", "branch_code", Model.StockBranchId), new { @id = "ddlBranch", @class = "form-control whclass selectH" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4 mb-10">
+                                <label>Shop<em style="color: red">*</em></label>
+                                <div>
+                                    @Html.DevExpress().ButtonEdit(
+                                    settings =>
+                                    {
+                                        settings.Name = "ShopNameTxt";
+                                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        settings.Text = Model.ShopName;
+                                        settings.ReadOnly = true;
+                                        settings.Properties.Buttons.Add("...");
+                                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){ShopButnClick(s,e);}";
+                                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Shop_KeyDown(s,e);}";
+
+                                    }).GetHtml()
+
+                                    @*<input type="hidden" id="hdnUserID" value="@Model.NewUserid">*@
+                                    <input type="hidden" id="hdnShopCode" value="@Model.ShopId">
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="clearfix"></div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-10">
+                                <label>Product<em style="color: red">*</em></label>
+                                <div>
+                                    @Html.DevExpress().ButtonEdit(
+                                    settings =>
+                                    {
+                                        settings.Name = "ProductNameTxt";
+                                        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                        settings.Text = Model.ProductName;
+                                        settings.ReadOnly = true;
+                                        settings.Properties.Buttons.Add("...");
+                                        settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){ProductButnClick(s,e);}";
+                                        settings.Properties.ClientSideEvents.KeyDown = "function(s,e){Product_KeyDown(s,e);}";
+
+                                    }).GetHtml()
+
+                                    <input type="hidden" id="hdnProductID" value="@Model.ProductId">
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-4 mb-10">
+                                <label>Quantity<em style="color: red">*</em></label>
+                                <div>
+                                    @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control ", @id = "txtQuantity", type = "text" })
+                                    @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+
+
+                    <div class="clear"></div>
+
+                </div>
+
+
+            </div>
+
+            <div class="modal-footer">
+                <div class="mt-15 ml-n15">
+                    <button type="button" id="btnSaveExit" class="btn btn-success mr-2" onclick="SaveCurrentStock('Exit');">Save & Exit</button>
+                    <button type="button" id="btnSaveNew" class="btn btn-primary mr-2" onclick="SaveCurrentStock('New');">Save & New</button>
+                    <button type="button" class="btn btn-danger mr-2" data-dismiss="modal" onclick="ClearData();">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnAddEditMode" />
+<input type="hidden" id="hdnStockId" />
+
+<div class="modal fade pmsModal w70" id="ShopSearchModel" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog w-50">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Shop Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" onkeydown="Shopkeydown(event)" id="txtShopSearch" autofocus style="width:100%" placeholder="Search By Shop Name or Entity Code or Type or Owner Contact" />
+                <div id="ShopTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Shop Name</th>
+                            <th>Shop Code</th>
+                            <th>Shop Owner Contact</th>
+                            <th>Shop Type</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade pmsModal" id="ProductSearchModel" role="dialog" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog w-50">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Product Search</h4>
+            </div>
+            <div class="modal-body">
+                <input type="text" class="form-control mb-3" onkeydown="Productkeydown(event)" id="txtProductSearch" autofocus style="width:100%" placeholder="Search By Product Code or Name" />
+                <div id="ProductTable">
+                    <table border='1' width="100%" class="dynamicPopupTbl">
+                        <tr class="HeaderStyle">
+                            <th class="hide">id</th>
+                            <th>Product Code</th>
+                            <th>Product Name</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

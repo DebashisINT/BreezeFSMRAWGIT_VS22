@@ -3,6 +3,7 @@
                                                                  Mantis: 26721
   2.0       23-11-2023        V2.0.43          Sanchita          Bulk Import feature required for Enquiry Module.Mantis: 27020   
   3.0		25-04-2024	      V2.0.46		   Priti             0027383: New Enquires type Add and Hide # Eurobond Portal
+  4.0       10/09/2024        V2.0.48          Sanchita          27690: Quotation Notification issue @ Eurobond
 **************************************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -289,5 +290,42 @@ namespace MyShop.Models
         public string EnquiryFromDesc { get; set; }
     }
     //Rev 3.0 End
+
+    // Rev 4.0
+    public class Data
+    {
+
+        public string body {get; set;}
+        public string title { get; set; }
+        public string key_1 { get; set; }
+        public string key_2 { get; set; }
+        public string UserName { get; set; }
+        public string UserID { get; set; }
+        public string header { get; set; }
+        public string type { get; set; }
+        public string imgNotification_Icon { get; set; }
+        public string lead_date {  get; set; }
+        public string enquiry_type { get; set;}
+    }
+
+    public class Message
+    {
+        public string token { get; set; }
+        public Data data { get; set; }
+        public Notification notification { get; set; }
+    }
+
+    public class Notification
+    {
+        public string title { get; set; }
+        public string body { get; set; }
+    }
+
+    public class Root
+    {
+        public Message message { get; set; }
+
+    }
+    // End of Rev 4.0
 }
 

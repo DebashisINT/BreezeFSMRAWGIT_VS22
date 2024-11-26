@@ -3,6 +3,7 @@ Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is r
 Rev 2.0     Sanchita   V2.0.44    19/12/2023      Beat related tab will be added in the security roles of Parties. Mantis: 27080  
 Rev 3.0     Sanchita   V2.0.47    30/05/2024      Mass Delete related tabs will be added in the security roles of Parties. Mantis: 27489
 Rev 4.0     Sanchita   V2.0.47    03/06/2024      27500: Attendance/ Leave Clear tab need to add in security Role of "Users"
+Rev 5.0     Sanchuta   V2.0.49    17/09/2024      27698: Customization work of New Order Status Update module  
 *****************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.MenuBLS;
@@ -307,6 +308,9 @@ namespace ERP.OMS.Management.Master
                         // Rev 4.0
                         || model.CanAttendanceLeaveClear
                         // End of Rev 4.0
+                        // Rev 5.0
+                        || model.CanInvoice || model.CanReadyToDispatch || model.CanDispatch || model.CanDeliver
+                        // End of Rev 5.0
                         )
                     // End of Rev 2.0
                     // End of Rev 1.0
@@ -665,6 +669,52 @@ namespace ERP.OMS.Management.Master
                             }
                         }
                         // End of Rev 4.0
+                        // Rev 5.0
+                        if (model.CanInvoice)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|33";
+                            }
+                            else
+                            {
+                                TempString += "33";
+                            }
+                        }
+                        if (model.CanReadyToDispatch)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|34";
+                            }
+                            else
+                            {
+                                TempString += "34";
+                            }
+                        }
+                        if (model.CanDispatch)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|35";
+                            }
+                            else
+                            {
+                                TempString += "35";
+                            }
+                        }
+                        if (model.CanDeliver)
+                        {
+                            if (!string.IsNullOrWhiteSpace(TempString))
+                            {
+                                TempString += "|36";
+                            }
+                            else
+                            {
+                                TempString += "36";
+                            }
+                        }
+                        // End of Rev 5.0
 
                         TempString = model.MenuId + "^" + TempString;
                     }

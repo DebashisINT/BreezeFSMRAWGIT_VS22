@@ -4,7 +4,9 @@
 
     settings.CallbackRouteValues = new { Action = "GetSalesSummaryList", Controller = "SalesReportSummary" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallback";
-
+    
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
@@ -25,15 +27,15 @@
 
 
     settings.Columns.Add(x =>
-   {
-       x.FieldName = "USER_LOGINID";
-       x.Caption = "Login ID";
-       x.VisibleIndex = 1;
-       x.Width = 180;
-       // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-   });
+    {
+        x.FieldName = "USER_LOGINID";
+        x.Caption = "Login ID";
+        x.VisibleIndex = 1;
+        x.Width = 180;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
 
- settings.Columns.Add(x =>
+    settings.Columns.Add(x =>
     {
         x.FieldName = "Employee_ID";
         x.Caption = "Employee ID";
@@ -53,21 +55,21 @@
     });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "STATE";
-     x.Caption = "State";
-     x.VisibleIndex = 4;
-     x.Width = 180;
-     //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
- });
+    {
+        x.FieldName = "STATE";
+        x.Caption = "State";
+        x.VisibleIndex = 4;
+        x.Width = 180;
+        //x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
 
     settings.Columns.Add(x =>
- {
-     x.FieldName = "BRANCHDESC";
-     x.Caption = "Branch";
-     x.VisibleIndex = 5;
-     x.Width = 140;
- });
+    {
+        x.FieldName = "BRANCHDESC";
+        x.Caption = "Branch";
+        x.VisibleIndex = 5;
+        x.Width = 140;
+    });
 
     settings.Columns.Add(x =>
     {
@@ -79,24 +81,24 @@
     });
 
     settings.Columns.Add(x =>
-      {
-          x.FieldName = "REPORTTO";
-          x.Caption = "Supervisor";
-          x.VisibleIndex = 7;
-          x.Width = 140;
-          x.ColumnType = MVCxGridViewColumnType.TextBox;
-          // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
-      });
+    {
+        x.FieldName = "REPORTTO";
+        x.Caption = "Supervisor";
+        x.VisibleIndex = 7;
+        x.Width = 140;
+        x.ColumnType = MVCxGridViewColumnType.TextBox;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(15);
+    });
 
 
     settings.Columns.Add(x =>
-  {
-      x.FieldName = "ATTEN_STATUS";
-      x.Caption = "Attendance Type";
-      x.VisibleIndex = 8;
-      x.Width = 180;
-      // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
-  });
+    {
+        x.FieldName = "ATTEN_STATUS";
+        x.Caption = "Attendance Type";
+        x.VisibleIndex = 8;
+        x.Width = 180;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    });
 
     settings.Columns.Add(x =>
     {
@@ -118,14 +120,14 @@
     });
 
     settings.Columns.Add(x =>
-   {
-       x.FieldName = "LOGEDOUT";
-       x.Caption = "Logout Time";
-       x.VisibleIndex = 11;
-       x.Width = 160;
-       // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+    {
+        x.FieldName = "LOGEDOUT";
+        x.Caption = "Logout Time";
+        x.VisibleIndex = 11;
+        x.Width = 160;
+        // x.Width = System.Web.UI.WebControls.Unit.Percentage(10);
 
-   });
+    });
     settings.Columns.Add(x =>
     {
         x.FieldName = "TOTAL_HRS_WORKED";
@@ -214,13 +216,14 @@
     });
 
 
-    
+
     ///Summary
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "IDEALTIME_CNT").DisplayFormat = "0";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "SHOPS_VISITED").DisplayFormat = "0";
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE").DisplayFormat = "0.00"; ;
     settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_COLLECTION").DisplayFormat = "0.00"; ;
 
+    settings.ClientSideEvents.RowClick = "gridRowclick";
 
 }).Bind(Model).GetHtml()
 

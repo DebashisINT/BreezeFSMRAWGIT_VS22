@@ -1,0 +1,204 @@
+﻿@*/***************************************************************************************
+    * Written by Sanchita on 24/09/2024 for V2.0.49
+    27707: In Item Current Stock there shall be a stock import option. The sample import file is attached
+ ****************************************************************************************/*@
+
+@Html.DevExpress().GridView(settings =>
+{
+    settings.Name = "gridCurrentStock";
+    settings.KeyFieldName = "STOCK_ID";
+    settings.CallbackRouteValues = new { Action = "PartialCurrentStockGridList", Controller = "CurrentStockRegister" };
+    settings.ClientSideEvents.BeginCallback = "OnStartCallback";
+
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollBarMode = ScrollBarMode.Auto;
+    settings.Settings.VerticalScrollableHeight = 200;
+
+
+    settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
+    settings.SettingsContextMenu.FooterMenuItemVisibility.SummaryCount = true;
+    settings.SettingsSearchPanel.Visible = true;
+    settings.Settings.ShowFilterRow = true;
+    settings.Settings.ShowGroupPanel = false;
+    settings.SettingsContextMenu.EnableColumnMenu = DefaultBoolean.True;
+
+    settings.Settings.ShowFooter = true;
+    settings.SettingsContextMenu.EnableFooterMenu = DefaultBoolean.True;
+
+    settings.SettingsPager.PageSizeItemSettings.Items = new string[] { "10", "20", "30", "50", "100" };
+    settings.SettingsPager.PageSizeItemSettings.Visible = true;
+    settings.SettingsPager.PageSize = 10;
+
+    settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+
+    // settings.SettingsBehavior.EnableCustomizationWindow = true;
+    // settings.ClientSideEvents.CustomizationWindowCloseUp = "grid_CustomizationWindowCloseUp";
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SEQ";
+        column.Caption = "Sr. No\r\n";
+        column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.Width = 96;
+        
+    });
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "BRANCH";
+        column.Caption = "Branch";
+        column.VisibleIndex = 1;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SHOPNAME";
+        column.Caption = "Shop Name";
+        column.VisibleIndex = 2;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CODE";
+        column.Caption = "Code";
+        column.VisibleIndex = 3;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CONTACTNUMBER";
+        column.Caption = "Contact Number";
+        column.VisibleIndex = 4;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "SHOPTYPE";
+        column.Caption = "Shop type";
+        column.VisibleIndex = 5;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CURRENTSTOCKDATE";
+        column.Caption = "Current Stock Date";
+        column.VisibleIndex = 6;
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        column.Width = 150;
+    });
+
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "PRODUCTCODE";
+        column.Caption = "Product Code";
+        column.VisibleIndex = 7;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "PRODUCTNAME";
+        column.Caption = "Product Name";
+        column.VisibleIndex = 8;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "QUANTITY";
+        column.Caption = "Quantity";
+        column.VisibleIndex = 9;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "QUANTITY_BAL";
+        column.Caption = "Bal Quantity";
+        column.VisibleIndex = 9;
+        column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATED_DATE";
+        column.Caption = "Created Date";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        column.Width = 100;
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "CREATED_BY";
+        column.Caption = "Created By";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MODIFIED_DATE";
+        column.Caption = "Modified Date";
+        column.ColumnType = MVCxGridViewColumnType.DateEdit;
+        column.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+        (column.PropertiesEdit as DateEditProperties).EditFormatString = "dd-MM-yyyy";
+        column.Width = 100;
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.FieldName = "MODIFIED_BY";
+        column.Caption = "Modified By";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+        column.ColumnType = DevExpress.Web.Mvc.MVCxGridViewColumnType.TextBox;
+        column.Width = 100;
+
+    });
+
+    settings.Columns.Add(column =>
+    {
+        column.SetDataItemTemplateContent(tc =>
+        {
+            ViewContext.Writer.Write(
+                "<div class=''><a href=\"javascript:void(0);\" onclick=\"OpenCurrentStockforEdit('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "STOCK_ID")) + "')\" class=\"\" title=\"Modify\"><span class='ico editColor mr-2'><img src=\"../../../assests/images/Edit.png\" /></span></a>" +
+                "" +
+                "<a href=\"javascript:void(0);\" onclick=\"OnClickDeleteCurrentStock('" + Convert.ToString(DataBinder.Eval(tc.DataItem, "STOCK_ID")) + "')\" class=\"\" title=\"Delete\"><span class='ico deleteColor mr-2'><img src=\"../../../assests/images/Delete.png\" /></span></a></div>"
+            );
+        });
+
+        column.Settings.AllowDragDrop = DefaultBoolean.False;
+        column.Settings.AllowSort = DefaultBoolean.False;
+        column.Width = 100;
+        column.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        column.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+        column.Caption = "Action";
+        //column.FixedStyle = GridViewColumnFixedStyle.Left;
+
+
+    });
+
+    settings.ClientSideEvents.RowClick = "gridRowclick";
+
+}).Bind(Model).GetHtml()
+
+
+
+
+

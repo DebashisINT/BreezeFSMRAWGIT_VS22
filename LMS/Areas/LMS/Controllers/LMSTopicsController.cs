@@ -2,7 +2,7 @@
 using DevExpress.Web;
 using DevExpress.Web.Mvc;
 using LMS.Models;
-using MyShop.Models;
+//using MyShop.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +19,6 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using UtilityLayer;
 using Google.Apis.Auth.OAuth2;
-using BusinessLogicLayer;
 
 namespace LMS.Areas.LMS.Controllers
 {
@@ -263,14 +262,14 @@ namespace LMS.Areas.LMS.Controllers
 
             });
 
-            settings.Columns.Add(x =>
-            {
-                x.FieldName = "TOPIC_COMP_DAY";
-                x.Caption = "Topic Completion Day(s)";
-                x.VisibleIndex = 5;
-                x.ExportWidth = 170;
+            //settings.Columns.Add(x =>
+            //{
+            //    x.FieldName = "TOPIC_COMP_DAY";
+            //    x.Caption = "Topic Completion Day(s)";
+            //    x.VisibleIndex = 5;
+            //    x.ExportWidth = 170;
 
-            });
+            //});
 
             settings.Columns.Add(x =>
             {
@@ -283,9 +282,18 @@ namespace LMS.Areas.LMS.Controllers
 
             settings.Columns.Add(x =>
             {
+                x.FieldName = "TOPIC_SEQ";
+                x.Caption = "Topic Sequence";
+                x.VisibleIndex = 7;
+                x.ExportWidth = 150;
+
+            });
+
+            settings.Columns.Add(x =>
+            {
                 x.FieldName = "CREATEDBY";
                 x.Caption = "Created by";
-                x.VisibleIndex = 7;
+                x.VisibleIndex = 8;
                 x.ExportWidth = 150;
 
             });
@@ -294,7 +302,7 @@ namespace LMS.Areas.LMS.Controllers
             {
                 x.FieldName = "CREATEDON";
                 x.Caption = "Created on";
-                x.VisibleIndex = 8;
+                x.VisibleIndex = 9;
                 x.ExportWidth = 150;
                 x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             });
@@ -303,7 +311,7 @@ namespace LMS.Areas.LMS.Controllers
             {
                 x.FieldName = "UPDATEDBY";
                 x.Caption = "Modified by";
-                x.VisibleIndex = 9;
+                x.VisibleIndex = 10;
                 x.ExportWidth = 150;
 
             });
@@ -312,7 +320,7 @@ namespace LMS.Areas.LMS.Controllers
             {
                 x.FieldName = "UPDATEDON";
                 x.Caption = "Modified on";
-                x.VisibleIndex = 10;
+                x.VisibleIndex = 11;
                 x.ExportWidth = 150;
                 x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
             });
@@ -364,6 +372,11 @@ namespace LMS.Areas.LMS.Controllers
                     data.TopicCompDay = "0";
                 }
 
+                if(data.TopicSequence == null)
+                {
+                    data.TopicSequence = "0";
+                }
+
 
                 //string rtrnduplicatevalue = "";
                 //string Userid = Convert.ToString(Session["userid"]);
@@ -377,6 +390,7 @@ namespace LMS.Areas.LMS.Controllers
                 proc.AddPara("@USERID", Convert.ToString(HttpContext.Session["userid"]));
                 proc.AddPara("@TOPIC_COMP_DAY", data.TopicCompDay);
                 proc.AddPara("@TOPIC_ISDEFAULT", data.DefaultTopic);
+                proc.AddPara("@TOPIC_SEQ", data.TopicSequence);
                 proc.AddVarcharPara("@RETURN_VALUE", 500, "", QueryParameterDirection.Output);
                 proc.AddVarcharPara("@RETURN_DUPLICATEMAPNAME", -1, "", QueryParameterDirection.Output);
                 proc.AddVarcharPara("@RETURN_NEWASSIGN", -1, "", QueryParameterDirection.Output);
@@ -543,10 +557,10 @@ namespace LMS.Areas.LMS.Controllers
                 //    }
                 //}
 
-                DBEngine odbengine = new DBEngine();
+              
                 string fileName = "", projectname = "";
                 DataTable dt = new DataTable();
-                ProcedureExecute proc = new ProcedureExecute("PRC_PUSHNOTIFICATIONS");               
+                ProcedureExecute proc = new ProcedureExecute("PRC_PUSHNOTIFICATIONS");
                 proc.AddPara("@Action", "GETJSONFORINDUSNETTECH");
                 dt = proc.GetTable();
                 if (dt.Rows.Count > 0)
@@ -554,8 +568,6 @@ namespace LMS.Areas.LMS.Controllers
                     fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/" + Convert.ToString(dt.Rows[0]["JSONFILE_NAME"]));
                     projectname = Convert.ToString(dt.Rows[0]["PROJECT_NAME"]);
                 }
-
-
                 //string fileName = System.Web.Hosting.HostingEnvironment.MapPath("~/demofsm-fee63-firebase-adminsdk-m1emn-4e3e8bba2d.json"); //Download from Firebase Console ServiceAccount
 
                 string scopes = "https://www.googleapis.com/auth/firebase.messaging";
@@ -612,7 +624,23 @@ namespace LMS.Areas.LMS.Controllers
                 rootObj.message.notification.body = message;
 
 
-           
+                //var data2 = new
+                //{
+                //    to = deviceid,
+
+                //    data = new
+                //    {
+                //        UserName = Customer,
+                //        UserID = Requesttype,
+                //        header = "New Topic Added",
+                //        body = message,
+                //        type = "lms_content_assign",
+                //        imgNotification_Icon = imgNotification_Icon
+                //    }
+                //};
+
+                //var serializer = new JavaScriptSerializer();
+                //var jsonObj = serializer.Serialize(data2);
 
                 //-------------Convert Model To JSON ----------------------
 
@@ -688,5 +716,24 @@ namespace LMS.Areas.LMS.Controllers
 
             return Json(output_msg, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetLastTopicSeq()
+        {
+            LMSTopicsModel model = new LMSTopicsModel();
+
+            DataTable dt = new DataTable();
+            ProcedureExecute proc = new ProcedureExecute("PRC_LMSTOPICSMASTER");
+            proc.AddPara("@Action", "GETLASTTOPICSEQ");
+            dt = proc.GetTable();
+
+            if (dt != null && dt.Rows.Count > 0)
+            {
+                model.TopicSequence = Convert.ToString(dt.Rows[0]["TopicSequence"]);
+            }
+
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }

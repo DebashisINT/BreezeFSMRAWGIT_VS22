@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using DataAccessLayer;
-using MyShop.Models;
+//using MyShop.Models;
 
 namespace LMS.Models
 {

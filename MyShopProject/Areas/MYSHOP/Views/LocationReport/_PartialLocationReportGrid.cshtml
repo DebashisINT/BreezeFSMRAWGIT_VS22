@@ -9,6 +9,10 @@
     settings.CallbackRouteValues = new { Action = "GetLocationReportlistPartial", Controller = "LocationReport" };
     settings.ClientSideEvents.BeginCallback = "OnStartCallback";
 
+    //Rev 1.0
+    settings.ClientSideEvents.EndCallback = "OnEndCallback";
+    //Rev end 1.0
+
     settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
     settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
     settings.SettingsBehavior.ColumnResizeMode = ColumnResizeMode.Control;
@@ -203,5 +207,7 @@
     //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Count, "Shoptype"); ;
     //settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "TOTAL_ORDER_BOOKED_VALUE");
     // settings.TotalSummary.Add(DevExpress.Data.SummaryItemType.Sum, "countactivity").DisplayFormat = "0";
+
+    settings.ClientSideEvents.RowClick = "gridRowclick";
 
 }).Bind(Model).GetHtml()

@@ -5,6 +5,7 @@
 @*3.0                10-02-2023        2.0.39           Pallab              25656 : Master module design modification *@
 @*4.0                22-03-2023        2.0.39           Pallab              25746 : The delete caption message change and alignment issue fix for Beat master *@
 @*5.0                05-06-2023        2.0.41           Pallab              26286: Group/Beat module User Map popup pagesize dropdown position issue fix *@
+@*6.0                14-10-2024        2.0.49           Sanchita            27742: Beat import format as per the attached file    *@
 @*====================================================== Revision History ===========================================================*@
 
 @using MyShop.Models;
@@ -329,6 +330,160 @@
 
 
     }
+
+    // Rev 6.0
+     function DownloadFormat()
+     {
+        var url = '@Url.Action("DownloadFormat", "Beat")'
+        window.location.href = url;
+    }
+
+     function ImportBeatPopOpen() {
+         $("#myImportModal").modal('show');
+     }
+
+     function ClickToImportBeat() {
+         todate = null;
+         fromdate = null;
+         var isprocess = false;
+         var filename = $("#fileprod").val();
+         if ($('#fileprod').get(0).files.length === 0) {
+             jAlert("No files selected.");
+             //Swal.fire({
+             //    icon: 'warning',
+             //    title: 'Warning',
+             //    text: 'No files selected.'
+             //});
+
+             return false;
+         }
+         else {
+             var extension = filename.replace(/^.*\./, '');
+             switch (extension.toLowerCase()) {
+                 case 'xls':
+                     isprocess = true;
+                 case 'xlsx':
+                     isprocess = true;
+                 default:
+                     // Cancel the form submission
+                     if (!isprocess) {
+                         jAlert('Only excel file require.');
+                         //Swal.fire({
+                         //    icon: 'warning',
+                         //    title: 'Warning',
+                         //    text: 'Only excel file require.'
+                         //});
+
+                         return false;
+                     }
+             }
+         }
+
+         if (isprocess == true) {
+             var fileUpload = $("#fileprod").get(0);
+             var files = fileUpload.files;
+
+             // Create FormData object
+             var fileData = new FormData();
+
+             // Looping over all files and add it to FormData object
+             for (var i = 0; i < files.length; i++) {
+                 fileData.append(files[i].name, files[i]);
+             }
+
+
+             $.ajax({
+                 url: "@Url.Action("ImportExcel", "Beat")",
+                 type: "POST",
+                 contentType: false,
+                 processData: false,
+                 data: fileData,
+                 success: function (result) {
+                     jAlert(result, 'Alert', function () {
+                         $("#fileprod").val('');
+                         //$("#myImportModal").toggle();
+                         $("#myImportModal").modal('hide');
+                         //gridList.Refresh();
+
+                         $.ajax({
+                             type: "POST",
+                             url: "@Url.Action("BeatImportLog", "Beat")",
+                             success: function (response) {
+                                 if (response) {
+                                     pcModalBeatImportLogMode.Show();
+                                     gridBeatImportLog.Refresh();
+                                     gridBeatImportLog.Refresh();
+                                 }
+                             }
+                         });
+                     });
+
+                 },
+                 error: function (err) {
+                     jAlert(err.statusText);
+                     //Swal.fire({
+                     //    icon: 'error',
+                     //    title: 'Sorry!',
+                     //    text: err.statusText
+                     //});
+                 }
+             });
+         }
+     }
+
+     function ImportLogPopOpen() {
+         var d = new Date();
+
+         dtLogFrom_Import.SetValue(d);
+         dtLogTo_Import.SetValue(d);
+
+         pcModalImportViewMode.Show();
+    }
+
+    function CloseLog() {
+        location.reload();
+    }
+
+    function BeatImportUserLog() {
+        var url = '/Beat/BeatImportManualLog/';
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify({ 'Fromdt': dtLogFrom_Import.GetText(), 'ToDate': dtLogTo_Import.GetText() }),
+            async: false,
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                if (response == "True") {
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("BeatImportLog", "Beat")",
+                        success: function (response) {
+                            if (response) {
+                                pcModalImportViewMode.Hide();
+                                pcModalBeatImportLogMode.Show();
+                                gridBeatImportLog.Refresh();
+                                gridBeatImportLog.Refresh();
+                            }
+                        }
+                    });
+                }
+                else {
+                   jAlert(response);
+                   //Swal.fire({
+                   //    icon: 'error',
+                   //    title: 'Sorry!',
+                   //    text: response
+                   // });
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            }
+        });
+    }
+     // End of Rev 6.0
 
 </script>
 
@@ -792,6 +947,22 @@
                 <td style="">
                     <button type="button" id="btnAdd" class="btn btn-success btnwidth" onclick="AddBeat()">Add Beat</button>
                 </td>
+
+                @if (ViewBag.CanBulkUpdate)
+                {
+                    <td style="">
+                        <button type="button" class="btn btn-info btn-clr-3" onclick="DownloadFormat();">Download Format</button>
+                    </td>
+
+                    <td style="">
+                        <button type="button" class="btn btn-primary btn-clr-4" onclick="ImportBeatPopOpen();">Import File</button>
+                    </td>
+
+                    <td style="">
+                        <button type="button" class="btn btn-warning btn-clr-5" onclick="ImportLogPopOpen();">View Log</button>
+                    </td>
+
+                }
             </tr>
             <tr></tr>
         </table>
@@ -984,3 +1155,87 @@
     </div>
     <input type="hidden" id="hdnID" />
 </div>
+
+<div id="myImportModal" class="modal fade pmsModal w30" data-backdrop="static" role="dialog">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="close()">&times;</button>
+                <h4 class="modal-title">Import Excel Template For Beat</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="divproduct">
+                                    <label class="uplabel mb-4">Select File to Import (Add/Update)</label>
+                                    <div><input type="file" id="fileprod" accept=".xls,.xlsx"></div>
+                                    <div class="pTop10  mTop5 mt-4"><input type="submit" value="Import (Add/Update)" onclick="return ClickToImportBeat();" id="btnimportxls" class="btn btn-primary"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "pcModalBeatImportLogMode";
+        settings.Width = 1200; //System.Web.UI.WebControls.Unit.Percentage(80);
+        //settings.Height = 220;
+        //settings.ScrollBars.v
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Import Log";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.Top = 50;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+        settings.ClientSideEvents.CloseButtonClick = "function(s, e) {CloseLog(); }";
+        settings.SetContent(() =>
+        {
+            Html.RenderPartial("BeatImportLog", new List<BeatImportLogModel>());
+            // ViewContext.Writer.Write("<button type='button' class='btn btn-primary pull-right mtop8' title='Export To Excel' onclick='ExportImportLogGrid();'>Export</button>");
+        });
+
+        //settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true);  }";
+    }).GetHtml()
+
+@Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "pcModalImportViewMode";
+            settings.Width = 300;
+            //settings.Height = 220;
+            //settings.ScrollBars.v
+            settings.AllowDragging = true;
+            settings.CloseAction = CloseAction.CloseButton;
+            settings.CloseOnEscape = true;
+            settings.PopupAnimationType = AnimationType.None;
+            settings.HeaderText = "Import Beat Log";
+            settings.Modal = true;
+            settings.AutoUpdatePosition = true;
+            settings.Top = 50;
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.Above;
+            settings.SetContent(() =>
+            {
+                Html.RenderPartial("BeatImportLogManual");
+            });
+
+            // settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+        }).GetHtml()

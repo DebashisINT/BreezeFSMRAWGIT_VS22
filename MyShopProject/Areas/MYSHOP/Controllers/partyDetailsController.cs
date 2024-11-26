@@ -5,6 +5,7 @@ Rev 3.0     Sanchita   V2.0.46    11/04/2024      0027348: FSM: Master > Contact
 Rev 4.0     Sanchita   V2.0.47    29/05/2024      0027405: Colum Chooser Option needs to add for the following Modules   
 Rev 5.0     Sanchita   V2.0.47    30/05/2024      Mass Delete related tabs will be added in the security roles of Parties. Mantis: 27489
 Rev 6.0     Priti      V2.0.48    08-07-2024      0027407: "Party Status" - needs to add in the following reports.
+Rev 7.0     Priti      V2.0.49    15-11-2024      0027799: A new Global settings required as WillShowLoanDetailsInParty.
 *****************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -12,7 +13,9 @@ using ClosedXML.Excel;
 using DataAccessLayer;
 using DevExpress.Utils;
 using DevExpress.Web;
+using DevExpress.Web.ASPxHtmlEditor.Internal;
 using DevExpress.Web.Mvc;
+using DevExpress.XtraCharts.Design;
 using DevExpress.XtraSpreadsheet.Forms;
 //using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Packaging;
@@ -46,6 +49,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
 {
     public class partyDetailsController : Controller
     {
+        CommonBL objSystemSettings = new CommonBL();
         AddPartyDetailsBL obj = new AddPartyDetailsBL();
         public ActionResult Index()
         {
@@ -143,6 +147,41 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     // End of Rev 1.0
 
                 }
+
+                //REV 7.0
+                string WillShowLoanDetailsInParty = objSystemSettings.GetSystemSettingsResult("WillShowLoanDetailsInParty");
+
+                if (WillShowLoanDetailsInParty=="1")
+                {
+                    
+                    DataSet dsLoanDetails = obj.GetLoanDetails();
+                    if (dsLoanDetails != null)
+                    {
+                        List<LOANTypes> RiskDetailsList = new List<LOANTypes>();
+                        RiskDetailsList = APIHelperMethods.ToModelList<LOANTypes>(dsLoanDetails.Tables[0]);
+                        Dtls.RiskList = RiskDetailsList;
+
+
+                        List<WORKABLEVALUE> WORKABLEDetailsList = new List<WORKABLEVALUE>();
+                        WORKABLEDetailsList = APIHelperMethods.ToModelList<WORKABLEVALUE>(dsLoanDetails.Tables[1]);
+                        Dtls.WORKABLELIST = WORKABLEDetailsList;
+
+
+                        List<LOANTypes> DISPOSITIONCODEDETAILSLIST = new List<LOANTypes>();
+                        DISPOSITIONCODEDETAILSLIST = APIHelperMethods.ToModelList<LOANTypes>(dsLoanDetails.Tables[2]);
+                        Dtls.DISPOSITIONCODELIST = DISPOSITIONCODEDETAILSLIST;
+
+                        List<LOANTypes> FINALSTATUSLISTDETAILSLIST = new List<LOANTypes>();
+                        FINALSTATUSLISTDETAILSLIST = APIHelperMethods.ToModelList<LOANTypes>(dsLoanDetails.Tables[3]);
+                        Dtls.FINALSTATUSLIST = FINALSTATUSLISTDETAILSLIST;
+                    }
+                   
+                }
+
+                //REV 7.0 END
+
+
+
                 // Mantis Issue 24603
                 string IsAutoCodificationRequired = "0";
                 DBEngine obj1 = new DBEngine();
@@ -172,6 +211,12 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 ViewBag.CanDelete = rights.CanDelete;
                 // End of Rev 3.0
 
+                //REV 7.0
+                ViewBag.WillShowLoanDetailsInParty = WillShowLoanDetailsInParty;
+                //REV 7.0 END
+
+
+
                 return View(Dtls);
             }
             catch
@@ -192,7 +237,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
             // Rev 3.0
             ViewBag.CanDelete = rights.CanDelete;
             // End of Rev 3.0
-
+            //REV 7.0
+            string WillShowLoanDetailsInParty = objSystemSettings.GetSystemSettingsResult("WillShowLoanDetailsInParty");
+            ViewBag.WillShowLoanDetailsInParty = WillShowLoanDetailsInParty;
+            //REV 7.0 END
             return PartialView(GetDataDetails(Is_PageLoad));
         }
 
@@ -551,6 +599,28 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     ret.dobstr = dt.Rows[0]["dob"].ToString();
                     ret.date_aniversarystr = dt.Rows[0]["date_aniversary"].ToString();
                     //Rev work close 01.08.2022 0025120: Owner dob,owner aniversery date not fetch in edit mode in party master
+
+
+                    //REV Priti
+                    ret.BKT = dt.Rows[0]["BKT"].ToString();
+                    ret.TOTALOUTSTANDING = Convert.ToDecimal(dt.Rows[0]["TOTALOUTSTANDING"]);
+                    ret.POS = Convert.ToDecimal(dt.Rows[0]["POS"]);
+                    ret.EMIAMOUNT = Convert.ToDecimal(dt.Rows[0]["EMIAMOUNT"]);
+                    ret.ALLCHARGES = Convert.ToDecimal(dt.Rows[0]["ALLCHARGES"]);
+                    
+                    ret.TOTALCOLLECTABLE = Convert.ToDecimal(dt.Rows[0]["TOTALCOLLECTABLE"]);
+                    ret.RISK = dt.Rows[0]["RISK"].ToString();
+                    ret.WORKABLE = dt.Rows[0]["WORKABLE"].ToString();
+                    ret.DISPOSITIONCODE = dt.Rows[0]["DISPOSITIONCODE"].ToString();
+                    ret.PTPDATE = (dt.Rows[0]["PTPDATE"]).ToString();
+
+                    ret.PTPAMOUNT = Convert.ToDecimal(dt.Rows[0]["PTPAMOUNT"]);
+                    ret.COLLECTIONDATE = (dt.Rows[0]["COLLECTIONDATE"]).ToString();
+                    ret.COLLECTIONAMOUNT = Convert.ToDecimal(dt.Rows[0]["COLLECTIONAMOUNT"]);
+                    ret.FINALSTATUS = dt.Rows[0]["FINALSTATUS"].ToString();
+                    //REV Priti END
+
+
                 }
                 return Json(ret, JsonRequestBehavior.AllowGet);
             }
@@ -601,6 +671,10 @@ namespace MyShop.Areas.MYSHOP.Controllers
 
         private GridViewSettings GetDoctorBatchGridViewSettings()
         {
+            //REV 7.0
+            string WillShowLoanDetailsInParty = objSystemSettings.GetSystemSettingsResult("WillShowLoanDetailsInParty");
+            //REV 7.0 END
+
             // Rev 4.0
             DataTable dtColmn = obj.GetPageRetention(Session["userid"].ToString(), "PARTY LIST");
             if (dtColmn != null && dtColmn.Rows.Count > 0)
@@ -613,7 +687,7 @@ namespace MyShop.Areas.MYSHOP.Controllers
             settings.Name = "gridPartyDetails";
             settings.SettingsExport.ExportedRowType = GridViewExportedRowType.All;
             settings.SettingsExport.FileName = "Party Details";
-
+            
             settings.Columns.Add(x =>
             {
                 x.FieldName = "EmpName";
@@ -1571,6 +1645,396 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 // End of Rev 4.0
             });
 
+            //REV 7.0
+            if (WillShowLoanDetailsInParty == "1")
+            {
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "BKT";
+                    x.Caption = "BKT";
+                    x.VisibleIndex = 39;
+                    x.Width = 100;
+
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='BKT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "TOTALOUTSTANDING";
+                    x.Caption = "TOTAL OUTSTANDING";
+                    x.VisibleIndex = 40;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "0.00";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTALOUTSTANDING'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "POS";
+                    x.Caption = "POS";
+                    x.VisibleIndex = 41;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "0.00";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='POS'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "ALLCHARGES";
+                    x.Caption = "ALL CHARGES";
+                    x.VisibleIndex = 42;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "0.00";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='ALLCHARGES'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "TOTALCOLLECTABLE";
+                    x.Caption = "TOTAL COLLECTABLE";
+                    x.VisibleIndex = 43;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "0.00";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='TOTALCOLLECTABLE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "WORKABLE";
+                    x.Caption = "WORKABLE";
+                    x.VisibleIndex = 44;
+                    x.Width = 100;
+
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='WORKABLE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "PTPDATE";
+                    x.Caption = "PTP DATE";
+                    x.VisibleIndex = 45;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PTPDATE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "PTPAMOUNT";
+                    x.Caption = "PTP AMOUNT";
+                    x.VisibleIndex = 46;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "0.00";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='PTPAMOUNT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "COLLECTIONDATE";
+                    x.Caption = "COLLECTION DATE";
+                    x.VisibleIndex = 47;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "dd-MM-yyyy";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='COLLECTIONDATE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "COLLECTIONAMOUNT";
+                    x.Caption = "COLLECTION AMOUNT";
+                    x.VisibleIndex = 48;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "0.00";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='COLLECTIONAMOUNT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "EMIAMOUNT";
+                    x.Caption = "EMI AMOUNT";
+                    x.VisibleIndex = 49;
+                    x.Width = 100;
+                    x.PropertiesEdit.DisplayFormatString = "0.00";
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='EMIAMOUNT'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "RISK";
+                    x.Caption = "RISK";
+                    x.VisibleIndex = 50;
+                    x.Width = 100;
+
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='RISK'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "DISPOSITIONCODE";
+                    x.Caption = "DISPOSITION CODE";
+                    x.VisibleIndex = 51;
+                    x.Width = 100;
+
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='DISPOSITIONCODE'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+                settings.Columns.Add(x =>
+                {
+                    x.FieldName = "FINALSTATUS";
+                    x.Caption = "FINAL STATUS";
+                    x.VisibleIndex = 52;
+                    x.Width = 100;
+
+                    // Rev 2.0
+                    if (ViewBag.RetentionColumn != null)
+                    {
+                        System.Data.DataRow[] row = ViewBag.RetentionColumn.Select("ColumnName='FINALSTATUS'");
+                        if (row != null && row.Length > 0)  /// Check now
+                        {
+                            x.Visible = false;
+                        }
+                        else
+                        {
+                            x.Visible = true;
+                        }
+                    }
+                    else
+                    {
+                        x.Visible = true;
+                    }
+                    // End of Rev 2.0
+                });
+
+            }
+            //REV 7.0 END
+
+
             settings.SettingsExport.PaperKind = System.Drawing.Printing.PaperKind.A4;
             settings.SettingsExport.LeftMargin = 20;
             settings.SettingsExport.RightMargin = 20;
@@ -2359,6 +2823,20 @@ namespace MyShop.Areas.MYSHOP.Controllers
                     Anniversary = data.date_aniversary.Split('-')[2] + '-' + data.date_aniversary.Split('-')[1] + '-' + data.date_aniversary.Split('-')[0];
                 }
 
+                //REV 7.0
+                string _PTPDATE = null;
+                string _COLLECTIONDATE = null;
+                if (data.PTPDATE != null && data.PTPDATE != "01-01-0100")
+                {
+                    _PTPDATE = data.PTPDATE.Split('-')[2] + '-' + data.PTPDATE.Split('-')[1] + '-' + data.PTPDATE.Split('-')[0];
+                }
+
+                if (data.COLLECTIONDATE != null && data.COLLECTIONDATE != "01-01-0100")
+                {
+                    _COLLECTIONDATE = data.COLLECTIONDATE.Split('-')[2] + '-' + data.COLLECTIONDATE.Split('-')[1] + '-' + data.COLLECTIONDATE.Split('-')[0];
+                }
+                //REV 7.0 END
+
                 // Mantis Issue 24450,24451
                 string rtrnvalue = "";
                 // End of Mantis Issue 24450,24451
@@ -2424,6 +2902,27 @@ namespace MyShop.Areas.MYSHOP.Controllers
                 proc.AddPara("@Alt_MobileNo1", data.Alt_MobileNo1);
                 proc.AddPara("@Shop_Owner_Email2", data.Shop_Owner_Email2);
                 //End of Mantis Issue 24571
+
+
+                //REV 7.0
+                proc.AddPara("@BKT", data.BKT);
+                proc.AddPara("@TOTALOUTSTANDING", data.TOTALOUTSTANDING);
+                proc.AddPara("@POS", data.POS);
+                proc.AddPara("@EMIAMOUNT", data.EMIAMOUNT);
+                proc.AddPara("@ALLCHARGES", data.ALLCHARGES);
+                proc.AddPara("@TOTALCOLLECTABLE", data.TOTALCOLLECTABLE);
+                proc.AddPara("@RISK", data.RiskId);
+                proc.AddPara("@WORKABLE", data.WORKABLE);
+                proc.AddPara("@DISPOSITIONCODE", data.DISPOSITIONID);
+
+                proc.AddPara("@PTPDATE", _PTPDATE);
+                proc.AddPara("@PTPAMOUNT", data.PTPAMOUNT);
+                proc.AddPara("@COLLECTIONDATE", _COLLECTIONDATE);
+                proc.AddPara("@COLLECTIONAMOUNT", data.COLLECTIONAMOUNT);
+                proc.AddPara("@FINALSTATUS", data.FINALSTATUSID);
+
+                //REV 7.0 END
+
                 // Mantis Issue 24450,24451
                 proc.AddVarcharPara("@RETURN_VALUE", 50, "", QueryParameterDirection.Output);
                 // End of Mantis Issue 24450,24451

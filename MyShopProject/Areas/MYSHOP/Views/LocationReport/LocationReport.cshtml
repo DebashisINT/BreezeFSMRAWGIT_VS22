@@ -314,12 +314,20 @@
 
     function OnStartCallback(s, e) {
 
+        document.getElementById("loading-overlay").style.display = "block";
+
         e.customArgs["EmployeeID"] = empId;
         e.customArgs["State"] = StateId;
         e.customArgs["Designation_id"] = desigId;
         e.customArgs["FromDate"] = dtFrom.GetText();
         e.customArgs["ToDate"] = dtTo.GetText();
         e.customArgs["Ispageload"] = 1;
+    }
+
+    function OnEndCallback() {
+        // Hide overlay and remove blur when data finishes loading
+        document.getElementById("loading-overlay").style.display = "none";
+        /*document.getElementById("grid-container").classList.remove("blur");*/
     }
 
 
@@ -361,7 +369,17 @@
     }
 
 
+    function gridRowclick(s, e) {
+        $('#gridLocationReportList').find('tr').removeClass('rowActive');
+
+
+        $(s.GetRow(e.visibleIndex)).addClass('rowActive');
+
+    }
+
 </script>
+
+
 
 
 
@@ -706,6 +724,44 @@
     }
     /*Rev end 1.0*/
 
+    .rowActive {
+        background-color: #ebf4ff !important;
+        color: #000 !important;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 9999;
+        display: none; /* Initially hidden */
+    }
+
+    .flex-loader {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
+
+    .dxgvLoadingPanel_PlasticBlue {
+        display: none !important;
+    }
+
+    .flex-loader img {
+        width: 120px;
+    }
+
+    .flex-loader h4 {
+        font-size: 22px;
+        color: #000000;
+    }
+
     @@media only screen and (max-width: 768px) {
         .breadCumb > span {
             padding: 9px 15px;
@@ -743,6 +799,14 @@
 
 <div class="breadCumb">
     <span>Salesman With Supervisor Tracking</span>
+</div>
+
+<div class="overlay" id="loading-overlay">
+    <div class="flex-loader">
+        <img src="/assests/images/new-loader.gif" />
+        <h4>Data is loading, Please Wait</h4>
+    </div>
+
 </div>
 
 <div class="container">

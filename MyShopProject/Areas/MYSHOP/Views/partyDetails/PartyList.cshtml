@@ -12,6 +12,7 @@
 @*10.0               11/04/2024          V2.0.46         Sanchita             0027348: FSM: Master > Contact > Parties [Delete Facility]*@
 @*11.0                29/05/2024        V2.0.47          Sanchita            0027405: Colum Chooser Option needs to add for the following Modules*@
 @*12.0              30/05/2024          V2.0.47         Sanchita            Mass Delete related tabs will be added in the security roles of Parties. Mantis: 27489*@
+
 @*====================================================== Revision History ===========================================================*@
 
 @using MyShop.Models;
@@ -35,6 +36,17 @@
     var Is_PageLoad = "Ispageload";
     $(function () {
 
+        /*REV PRITI*/
+        $("#ddlFINALSTATUS").val(0);
+        $("#ddlDISPOSITION").val(0);
+        $("#ddlWORKABLE").val('Yes');
+        $("#ddlRISK").val(0);
+
+
+
+
+
+        /*REV PRITI*/
         $("#ddlStatus").val(1);
         var d = new Date();
 
@@ -170,7 +182,15 @@
         });
 
     });
-
+    function limitDecimalPlaces(input, decimalPlaces) {
+        let value = input.value;
+        if (value.includes('.')) {
+            let [integerPart, decimalPart] = value.split('.');
+            if (decimalPart.length > decimalPlaces) {
+                input.value = integerPart + '.' + decimalPart.slice(0, decimalPlaces);
+            }
+        }
+    }
     function ExportLogGrid() {
         var url = '@Url.Action("ExportPartyLogList", "partyDetails", new { type = "_type_" })'
         window.location.href = url.replace("_type_", 3);
@@ -630,7 +650,21 @@
             }
 
 
-            var data = {
+            var date_txtPTPDATE = null;
+            var date_txtCOLLECTIONDATE = null;
+             if ('@ViewBag.WillShowLoanDetailsInParty' == "1")
+                {
+                    if (txtPTPDATE.GetText() != null && txtPTPDATE.GetText() != "01-01-0100") {
+                        date_txtPTPDATE = txtPTPDATE.GetText();
+                 }
+                 if (txtCOLLECTIONDATE.GetText() != null && txtCOLLECTIONDATE.GetText() != "01-01-0100") {
+                     date_txtCOLLECTIONDATE = txtCOLLECTIONDATE.GetText();
+                 }
+               }
+
+
+
+                         var data = {
                 session_token: "zksjfhjsdjkskjdh",
                 //user_id: $("#ddlNewCreateUser").val(),
                 user_id: $("#hdnUserID").val(),
@@ -682,6 +716,26 @@
                 UPIID: $("#txtUPIID").val(),
                 assigned_to_shop_id: $('#RetailerShopCode').val(),
 
+
+                //REV PRITI
+                BKT: $("#txtBKT").val(),
+                TOTALOUTSTANDING: $("#txtTotalOutstanding").val(),
+                POS: $("#txtPOS").val(),
+                EMIAMOUNT: $("#txtEMIamount").val(),
+                ALLCHARGES: $("#txtAllCharges").val(),
+                TOTALCOLLECTABLE: $("#txtTotalCollectable").val(),
+                RiskId: $("#ddlRISK").val(),
+                WORKABLE: $("#ddlWORKABLE").val(),
+                DISPOSITIONID: $("#ddlDISPOSITION").val(),
+                //PTPDATE: GetServerDateFormat(txtPTPDATE.GetValue()),
+                PTPDATE: date_txtPTPDATE,
+                PTPAMOUNT: $("#txtPTPAMOUNT").val(),
+                /*COLLECTIONDATE: GetServerDateFormat(txtCOLLECTIONDATE.GetValue()), */
+                COLLECTIONDATE: date_txtCOLLECTIONDATE,
+                COLLECTIONAMOUNT: $("#txtCOLLECTIONAMOUNT").val(),
+                FINALSTATUSID: $("#ddlFINALSTATUS").val(),
+                //REV PRITI END
+
             }
 
 
@@ -698,13 +752,13 @@
                 else {
                     add_photo_url = "@Url.Action("RegisterShop", "partyDetails")";
                 }
-                var model = new FormData();
-                var i = 0;//selected file index
-                model.append("shop_image", files[0]);
-                model.append("data", JSON.stringify(data));
+             var model = new FormData();
+             var i = 0;//selected file index
+             model.append("shop_image", files[0]);
+             model.append("data", JSON.stringify(data));
                 $.ajax({
-                    // and other parameter is set here
-                    url: add_photo_url,
+             // and other parameter is set here
+             url: add_photo_url,
                     type: "POST",
                     data: model,
                     dataType: "json",
@@ -712,63 +766,84 @@
                     contentType: false,
                     processData: false
                 }).always(function (result) {
-                    if (result == 'OK') {
-                        jAlert("Party submitted successfully.");
+                 if (result == 'OK') {
+                     jAlert("Party submitted successfully.");
 
-                        ClearData();
-                        if (values == "Exit") {
+                     ClearData();
+                     if (values == "Exit") {
                             $('#myModal').modal('hide');
-                        }
-                        GridShow();
-                    }
+                     }
+                     GridShow();
+                 }
 
-                    //gridPartyDetails.Refresh();
-                    //gridPartyDetails.Refresh();
-                });
+                 //gridPartyDetails.Refresh();
+                 //gridPartyDetails.Refresh();
+             });
             }
             else {
                 $.ajax({
-                    url: "@Url.Action("AddParty", "partyDetails")",
+                 url: "@Url.Action("AddParty", "partyDetails")",
                     async: false,
                     data: { data: data },
                     type: 'POST',
                     success: function (returnValue
                         ) {
-                        // Mantis Issue 24603 (Return value "returnValue" added )
-                        if (returnValue == "204") {
-                            jAlert("Auto Party Code Not generated. Party not addded.");
-                        }
-                        else if (returnValue == "205") {
-                            jAlert("Invalid Last Number. Party not addded.");
-                        }
-                        else if (returnValue == "206") {
-                            jAlert("Invalid Shop Type. Party not addded.");
-                        }
-                        else if (returnValue == "207") {
-                            jAlert("Invalid State Code. Party not addded.");
-                        }
-                        else {
-                            jAlert("Party submitted successfully. Auto Party Code " + returnValue + " generated.");
-                        }
-                        // End of Mantis Issue 24603
-                        ClearData();
-                        if (values == "Exit") {
+                         // Mantis Issue 24603 (Return value "returnValue" added )
+                         if (returnValue == "204") {
+                             jAlert("Auto Party Code Not generated. Party not addded.");
+                         }
+                         else if (returnValue == "205") {
+                             jAlert("Invalid Last Number. Party not addded.");
+                         }
+                         else if (returnValue == "206") {
+                             jAlert("Invalid Shop Type. Party not addded.");
+                         }
+                         else if (returnValue == "207") {
+                             jAlert("Invalid State Code. Party not addded.");
+                         }
+                         else {
+                             jAlert("Party submitted successfully. Auto Party Code " + returnValue + " generated.");
+                         }
+                         // End of Mantis Issue 24603
+                         ClearData();
+                         if (values == "Exit") {
                             $('#myModal').modal('hide');
-                        }
-                        GridShow();
-                        //gridPartyDetails.Refresh();
-                        //gridPartyDetails.Refresh();
-                    },
+                         }
+                         GridShow();
+                         //gridPartyDetails.Refresh();
+                         //gridPartyDetails.Refresh();
+                     },
                     error: function () {
-                    },
+                     },
                 });
-            }
+             }
         }
         else {
-            jAlert("Please try again later!");
-        }
+                 jAlert("Please try again later!");
+             }
     }
+    //REV PRITI
+    function GetServerDateFormat(today) {
+        if (today != "" && today != null) {
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
 
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
+            today = yyyy + '-' + mm + '-' + dd;
+        }
+        else {
+            today = "";
+        }
+
+        return today;
+    }
+    //REV PRITI
     function ShopActiveInactive(shopCode) {
         $.ajax({
             url: "@Url.Action("PartyChangeStatus", "partyDetails")",
@@ -952,6 +1027,43 @@
                 //setTimeout(function () {
                 //    $("#ddlArea").val(data.AreaID);
                 //}, 1000);
+
+                //REV PRITI
+                $("#txtBKT").val(data.BKT);
+                $("#txtTotalOutstanding").val(data.TOTALOUTSTANDING);
+                $("#txtPOS").val(data.POS);
+                $("#txtEMIamount").val(data.EMIAMOUNT);
+                $("#txtAllCharges").val(data.ALLCHARGES);
+                $("#txtTotalCollectable").val(data.TOTALCOLLECTABLE);
+                $("#ddlRISK").val(data.RISK);
+                $("#ddlWORKABLE").val(data.WORKABLE);
+                $("#ddlDISPOSITION").val(data.DISPOSITIONCODE);
+
+                if ('@ViewBag.WillShowLoanDetailsInParty' == "1") {
+                    if (data.PTPDATE != "") {
+                        var dateSPTPDATE = new Date(data.PTPDATE);
+                        txtPTPDATE.SetDate(dateSPTPDATE);
+                    }
+                    else {
+                        txtPTPDATE.Clear();
+                    }
+
+                    if (data.COLLECTIONDATE != "") {
+                        var dateCOLLECTIONDATE = new Date(data.COLLECTIONDATE);
+                        txtCOLLECTIONDATE.SetDate(dateCOLLECTIONDATE);
+                    }
+                    else {
+                        txtCOLLECTIONDATE.Clear();
+                    }
+                }
+                $("#txtPTPAMOUNT").val(data.PTPAMOUNT);
+
+                
+
+
+                $("#txtCOLLECTIONAMOUNT").val(data.COLLECTIONAMOUNT);
+                $("#ddlFINALSTATUS").val(data.FINALSTATUS);
+                //REV PRITI
 
                 $('#myModal').modal('show');
             },
@@ -1881,7 +1993,7 @@
 
         $("#MassDeleteShopModal").modal('show');
     }
-    
+
     function MassDeleteImportShopPopOpen() {
         //document.getElementById('MassDeleteShopTable').innerHTML = '';
         //MassDeleteShopTxt.SetText('');
@@ -1890,7 +2002,7 @@
 
         $("#MassDeleteImportShopModal").modal('show');
     }
-    
+
     function MassDeletePartyImport() {
         todate = null;
         fromdate = null;
@@ -2753,16 +2865,25 @@
         border-bottom: 1px solid #ef2a2a91;
     }
 
+    .Loan-info {
+        padding-bottom: 20px;
+        background: #1c76770d;
+        padding-top: 12px;
+        padding-left: 4px;
+        /* border-left: 5px solid #9eb329; */
+        border-bottom: 1px solid #1c7677b5;
+    }
+
     .pmsModal .modal-body {
         /*Rev 5.0*/
         /*padding-top: 0;*/
-        padding-top: 15px;
+        padding-top: 10px;
         /*Rev end 5.0*/
         padding-right: 15px;
         padding-left: 15px;
         /*Rev 5.0*/
         /*padding-bottom: 0;*/
-        padding-bottom: 15px;
+        padding-bottom: 10px;
         /*Rev end 5.0*/
     }
 
@@ -2798,6 +2919,13 @@
         font-size: 16px;
         margin: 0;
         color: #e54949;
+        padding-left: 8px;
+    }
+
+    .Loan-info h3 {
+        font-size: 16px;
+        margin: 0;
+        color: #1c7677;
         padding-left: 8px;
     }
 
@@ -2847,7 +2975,7 @@
     .calendar-icon {
         position: absolute;
         bottom: 7px;
-        right: 19px;
+        right: 12px;
         z-index: 0;
         cursor: pointer;
     }
@@ -2871,6 +2999,7 @@
     .for-cust-icon {
         position: relative;
         z-index: 1;
+        width: 160px;
     }
 
     .pmsModal .modal-content {
@@ -3106,6 +3235,69 @@
 
     .dxpcLite_PlasticBlue .dxpc-content, .dxdpLite_PlasticBlue .dxpc-content {
         padding: 7px 10px 10px !important;
+    }
+
+    .tooltip-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        /*width: 140px;*/
+        background-color: #0d8f24;
+        color: #fff;
+        text-align: center;
+        border-radius: 10px;
+        padding: 8px 10px;
+        position: absolute;
+        z-index: 99;
+        bottom: 130%;
+        left: 42%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: #0d8f24 transparent transparent transparent;
+        }
+
+    .tooltip-container:hover .tooltip {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    .dxgvEditFormDisplayRow_PlasticBlue td.dxgv, .dxgvDataRow_PlasticBlue td.dxgv, .dxgvDataRowAlt_PlasticBlue td.dxgv, .dxgvSelectedRow_PlasticBlue td.dxgv, .dxgvFocusedRow_PlasticBlue td.dxgv {
+        overflow: visible;
+    }
+
+    .party-list-buttons .btn {
+        border-radius: 50px;
+        margin-right: 8px;
+        transition: .3s;
+    }
+
+    .party-list-buttons .btn:hover
+    {
+        transform: scale(1.1);
+    }
+
+    .plr-5
+    {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .btn-warning {
+        background-color: #db8711;
     }
 </style>
 
@@ -3523,15 +3715,15 @@
         <div class="col-md-12">
             <div class="backBox mt-5 px-4">
                 <div class="row">
-                    <div class="col-md-12" style="padding-top: 15px;margin-bottom: 10px;">
+                    <div class="col-md-12 party-list-buttons" style="padding-top: 15px;margin-bottom: 10px;">
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-success" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" onclick="ClearData();">
                             Add Party
                         </button>
-                        <button type="button" class="btn btn-info mr-1" onclick="DownloadFormat();">
+                        <button type="button" class="btn btn-info" onclick="DownloadFormat();">
                             Download Format
                         </button>
-                        <button type="button" class="btn btn-primary" onclick="ImportPartyPopOpen();">
+                        <button type="button" class="btn btn-warning" onclick="ImportPartyPopOpen();">
                             Import File
                         </button>
                         <button type="button" class="btn btn-success" onclick="ReAssignUserPopOpen();">
@@ -3544,11 +3736,11 @@
                         @*Mantis Issue 25133*@
                         @*Mantis Issue 25536, 25535, 25542, 25543, 25544*@
                         @*<button type="button" class="btn btn-success" onclick="ReAssignBeatGroupPopOpen();">
-            Re-assigned Beat/Group
-        </button>
-        <button type="button" class="btn btn-primary" onclick="ReAssignBeatGroupLogPopOpen();">
-            Re-assigned Beat/Group Log
-        </button>*@
+                Re-assigned Beat/Group
+            </button>
+            <button type="button" class="btn btn-primary" onclick="ReAssignBeatGroupLogPopOpen();">
+                Re-assigned Beat/Group Log
+            </button>*@
                         @if (ViewBag.CanReassignedBeatParty)
                         {
                             <button type="button" class="btn btn-success" onclick="ReAssignBeatGroupPopOpen();">
@@ -3595,20 +3787,20 @@
                         @*Rev 10.0*@
                         @*Rev 12.0*@
                         @*@if (ViewBag.CanDelete)
-                        {
-                            <button type="button" class="btn btn-danger" onclick="MassDeleteShopPopOpen();">
-                                Mass Delete
-                            </button>
-                            <button type="button" class="btn btn-info" onclick="DownloadMassDeleteFormat();">
-                                Download Mass Delete Format
-                            </button>
-                            <button type="button" class="btn btn-danger" onclick="MassDeleteImportShopPopOpen();">
-                                Mass Delete Import
-                            </button>
-                            <button type="button" class="btn btn-mass-dlt-imp-log" onclick="MassDeleteShopLogPopOpen();">
-                                View Mass Delete Import Log
-                            </button>
-                        }*@
+            {
+                <button type="button" class="btn btn-danger" onclick="MassDeleteShopPopOpen();">
+                    Mass Delete
+                </button>
+                <button type="button" class="btn btn-info" onclick="DownloadMassDeleteFormat();">
+                    Download Mass Delete Format
+                </button>
+                <button type="button" class="btn btn-danger" onclick="MassDeleteImportShopPopOpen();">
+                    Mass Delete Import
+                </button>
+                <button type="button" class="btn btn-mass-dlt-imp-log" onclick="MassDeleteShopLogPopOpen();">
+                    View Mass Delete Import Log
+                </button>
+            }*@
 
                         @if (ViewBag.CanMassDelete)
                         {
@@ -3632,13 +3824,13 @@
                         @*End of Rev 10.0*@
                     </div>
                     <div class="clear"></div>
-                    <div class="col-md-2" style="margin-bottom: 16px;">
+                    <div class="col-md-2 plr-5" style="margin-bottom: 16px; padding-left: 15px;">
                         <span>State</span>
                         <div>
                             @Html.Action("GetStateList", "MasterPopulate")
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2 plr-5">
                         <span>Employee</span>
                         <div>
                             @*@Html.Action("GetEmpList", "MasterPopulate")*@
@@ -3659,7 +3851,7 @@
 
                     @*Rev 5.0*@
                     @*<div class="col-md-2">*@
-                    <div class="col-md-2 for-cust-icon">
+                    <div class="col-md-2 for-cust-icon plr-5">
                         @*Rev end 5.0*@
                         <span>From Date</span>
                         <div>
@@ -3681,7 +3873,7 @@
                     </div>
                     @*Rev 5.0*@
                     @*<div class="col-md-2">*@
-                    <div class="col-md-2 for-cust-icon">
+                    <div class="col-md-2 for-cust-icon plr-5">
                         @*Rev end 5.0*@
                         <span>To Date</span>
                         <div>
@@ -3703,15 +3895,13 @@
                     </div>
                     @*Rev 2.0*@
                     @*<div class="col-md-2" style="padding-top: 13px;">*@
-                    <div class="col-md-4" style="padding-top: 20px;">
+                    <div class="col-md-2 plr-5" style="padding-top: 20px;">
                         @*Rev end 2.0*@
                         <span>&nbsp;</span>
                         <input type="checkbox" id="chkIsAssignDate" /> Re-assigned Date
                     </div>
-                    <div class="clear"></div>
-                    @*Rev 2.0*@
-                    @*<div class="col-md-2" style="padding-top: 13px;">*@
-                    <div class="col-md-12" style="padding-top: 13px;">
+
+                    <div class="col-md-2 plr-5" style="padding-top: 13px;">
                         @*Rev end 2.0*@
                         <span></span>
                         <div>
@@ -3722,6 +3912,10 @@
                             </select>
                         </div>
                     </div>
+                    <div class="clear"></div>
+                    @*Rev 2.0*@
+                    @*<div class="col-md-2" style="padding-top: 13px;">*@
+
                 </div>
                 <div class="clearfix"></div>
 
@@ -3802,8 +3996,8 @@
                             <label>Type <span class="red">*</span></label>
                             <div>
                                 @*<select class="form-control">
-                                        <option>Select</option>
-                                    </select>*@
+                    <option>Select</option>
+                </select>*@
                                 @Html.DropDownListFor(m => m.type, new SelectList(Model.ShpTypeList, "ID", "Name", Model.Shoptype), new { @id = "ddlshoptypesr", @class = "form-control", @onchange = "ShopTypeChange();" })
                             </div>
                         </div>
@@ -3812,8 +4006,8 @@
                             <label>Assigned To PP</label>
                             <div>
                                 @*<select class="form-control">
-                                        <option>Select</option>
-                                    </select>*@
+                    <option>Select</option>
+                </select>*@
                                 @*@Html.DropDownListFor(m => m.AssignedTo, new SelectList(Model.PPCodeList, "Shop_Code", "Shop_Name", Model.PPCode), new { @id = "ddlPPList", @class = "form-control" })*@
                                 @Html.DevExpress().ButtonEdit(
                                 settings =>
@@ -3881,16 +4075,16 @@
                         @*Rev 3.0*@
                         @*Rev 6.0*@
                         <!--<div class="col-md-3 hide" id="divddType">
-                            @*Rev 3.0: id changed*@
-                            @*<label id="lblTypes">Type </label>*@
-                            <label id="lblTypes_second">Type </label>
-                            @*Rev end 3.0*@
-                            <div id="ShopTypes">
-                                <select class="form-control" id="ddlShopTypes">
-                                    <option>Select</option>
-                                </select>
-                            </div>
-                        </div>-->
+        @*Rev 3.0: id changed*@
+        @*<label id="lblTypes">Type </label>*@
+        <label id="lblTypes_second">Type </label>
+        @*Rev end 3.0*@
+        <div id="ShopTypes">
+            <select class="form-control" id="ddlShopTypes">
+                <option>Select</option>
+            </select>
+        </div>
+    </div>-->
                         @*End of Rev 6.0*@
 
                         <div class="col-md-3 hide" id="DivAssignToRetailer">
@@ -3913,7 +4107,7 @@
                             </div>
                         </div>
                         @*Rev end 3.0*@
-                                           <div
+                        <div
                             <div class="clear"></div>
                         </div>
 
@@ -3964,8 +4158,8 @@
                                 <label>Party Status </label>
                                 <div id="Citydiv">
                                     @*<select class="form-control">
-                                            <option>Select</option>
-                                        </select>*@
+                        <option>Select</option>
+                    </select>*@
                                     @Html.DropDownListFor(m => m.PartyStatus, new SelectList(Model.PartyStatusList, "id", "name", Model.PartyStatusId), new { @id = "ddlPartyStatus", @class = "form-control" })
                                 </div>
                             </div>
@@ -3974,8 +4168,8 @@
                                 <label>Entity Category </label>
                                 <div>
                                     @*<select class="form-control">
-                                            <option>Select</option>
-                                        </select>*@
+                        <option>Select</option>
+                    </select>*@
                                     @Html.DropDownListFor(m => m.EntyType, new SelectList(Model.EntityTypeList, "TypeID", "TypeName", Model.EntityType), new { @id = "ddlEntityType", @class = "form-control" })
                                 </div>
                             </div>
@@ -3984,8 +4178,8 @@
                                 <label>Entity Type</label>
                                 <div id="EntityTypediv">
                                     @*<select class="form-control">
-                                            <option>Select</option>
-                                        </select>*@
+                        <option>Select</option>
+                    </select>*@
                                     @Html.DropDownListFor(m => m.Entity, new SelectList(Model.EntityList, "id", "name", Model.EntityId), new { @id = "ddlEntity", @class = "form-control" })
                                 </div>
                             </div>
@@ -3994,8 +4188,8 @@
                                 <label>Group/Beat </label>
                                 <div id="Citydiv">
                                     @*<select class="form-control">
-                                            <option>Select</option>
-                                        </select>*@
+                        <option>Select</option>
+                    </select>*@
                                     @Html.DropDownListFor(m => m.GroupBeat, new SelectList(Model.GroupBeatList, "id", "name", Model.GroupBeatId), new { @id = "ddlGroupBeat", @class = "form-control" })
                                 </div>
                             </div>
@@ -4036,8 +4230,8 @@
                                 <label>Assign to User <span class="red">*</span></label>
                                 <div>
                                     @*<select class="form-control">
-                                            <option>Select</option>
-                                        </select>*@
+                        <option>Select</option>
+                    </select>*@
                                     @*@Html.DropDownListFor(m => m.NewUser, new SelectList(Model.NewUseridList, "UserID", "username", Model.NewUserid), new { @id = "ddlNewCreateUser", @class = "form-control" })*@
                                     @Html.DevExpress().ButtonEdit(
                                     settings =>
@@ -4061,8 +4255,8 @@
                                 <label>Old Assigned User</label>
                                 <div>
                                     @*<select class="form-control">
-                                            <option>Select</option>
-                                        </select>*@
+                        <option>Select</option>
+                    </select>*@
                                     @*@Html.DropDownListFor(m => m.OldUser, new SelectList(Model.OldUseridList, "UserID", "username", Model.OldUserid), new { @id = "ddlOldCreateUser", @class = "form-control" })*@
 
                                     @Html.DevExpress().ButtonEdit(
@@ -4283,185 +4477,237 @@
                         @*Rev end 3.0*@
 
 
-
-
-
-
-
-                        <!--<div class="col-md-3">
-                        <label>Status <span class="red">*</span></label>
-                        <div>
-                            <select class="form-control" id="ddlStatus">
-                                <option value="Select">Select</option>
-                                <option value="1">Active</option>
-                                <option value="0">Inactive</option>
-                            </select>-->
-                        @*@Html.DropDownListFor(m => m.type, new SelectList(Model.shptypes, "ID", "Name", Model.Shoptype), new { @id = "ddlStatus", @class = "form-control" })*@
-                        <!--</div>
-                        </div>-->
-                        <div class="clear"></div>
-
-                        <!--<div class="col-md-3">
-                        <label>Entity Category </label>
-                        <div>-->
-                        @*<select class="form-control">
-                                <option>Select</option>
-                            </select>*@
-                        <!--@Html.DropDownListFor(m => m.EntyType, new SelectList(Model.EntityTypeList, "TypeID", "TypeName", Model.EntityType), new { @id = "ddlEntityType", @class = "form-control" })
-                            </div>
-                        </div>-->
-                        @*Mantis Issue 24571*@
-                        <!--<div class="col-md-3">
-                        <label>GSTIN </label>
-                        <div>-->
-                        @*<input type="text" class="form-control" />*@
-                        <!--@Html.TextBoxFor(m => m.GSTN_NUMBER, new { @class = "form-control", @id = "txtgstn" })
-                            </div>
-                        </div>-->
-
-                        <div class="clear"></div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    @*End of Mantis Issue 24571*@
-
-
-
-
-                    <!--<div class="col-md-3">
-                    <label>Assign to User <span class="red">*</span></label>
-                    <div>-->
-                    @*<select class="form-control">
-                            <option>Select</option>
-                        </select>*@
-                    @*@Html.DropDownListFor(m => m.NewUser, new SelectList(Model.NewUseridList, "UserID", "username", Model.NewUserid), new { @id = "ddlNewCreateUser", @class = "form-control" })*@
-                    @*@Html.DevExpress().ButtonEdit(
-                        settings =>
+                        @*REV PRITI*@
+                        @if (ViewBag.WillShowLoanDetailsInParty == "1")
                         {
-                            settings.Name = "UserTxt";
-                            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
-                            settings.Text = Model.AssignedTo;
-                            settings.ReadOnly = true;
-                            settings.Properties.Buttons.Add("...");
-                            settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){UserButnClick(s,e);}";
-                            settings.Properties.ClientSideEvents.KeyDown = "function(s,e){User_KeyDown(s,e);}";
+                            <div class="Loan-info">
+                                <h3 class="add-party-popup-section-title col-md-12">Loan Info</h3>
+                                <div class="col-md-3">
+                                    <label>BKT</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.BKT, new { @class = "form-control", @id = "txtBKT", @MaxLength = "200" })
+                                    </div>
+                                </div>
 
-                        }).GetHtml()*@
+                                <div class="col-md-3">
+                                    <label>Total Outstanding</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.TOTALOUTSTANDING, new { @class = "form-control allow_decimal numbersOnly", @id = "txtTotalOutstanding", @oninput = "limitDecimalPlaces(this, 2)" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>POS</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.POS, new { @class = "form-control allow_decimal numbersOnly", @id = "txtPOS", @oninput = "limitDecimalPlaces(this, 2)" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>EMI amount</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.EMIAMOUNT, new { @class = "form-control allow_decimal numbersOnly", @id = "txtEMIamount", @oninput = "limitDecimalPlaces(this, 2)" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>All Charges</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.ALLCHARGES, new { @class = "form-control allow_decimal numbersOnly", @id = "txtAllCharges", @oninput = "limitDecimalPlaces(this, 2)" })
+                                    </div>
+                                </div>
+                                @*<div class="clear"></div>*@
+                                <div class="col-md-3">
+                                    <label>Total Collectable</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.TOTALCOLLECTABLE, new { @class = "form-control allow_decimal numbersOnly", @id = "txtTotalCollectable", @oninput = "limitDecimalPlaces(this, 2)" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Risk</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.RISK, new SelectList(Model.RiskList, "ID", "Name", Model.RiskId), new { @id = "ddlRISK", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Workable</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.WORKABLE, new SelectList(Model.WORKABLELIST, "ID", "NAME", Model.WORKABLEID), new { @id = "ddlWORKABLE", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Disposition Code</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.DISPOSITIONCODE, new SelectList(Model.DISPOSITIONCODELIST, "ID", "NAME", Model.DISPOSITIONID), new { @id = "ddlDISPOSITION", @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>PTP Date</label>
+                                    <div>
+                                        @Html.DevExpress().DateEditFor(x => x.PTPDATE,
+                                 deSettings =>
+                                 {
+                                     deSettings.Name = "txtPTPDATE";
+                                     deSettings.Date = DateTime.Now;
+                                     deSettings.Properties.UseMaskBehavior = true;
+                                     deSettings.Properties.EditFormat = EditFormat.Custom;
+                                     deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                     deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                     deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                 }).GetHtml()
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>PTP Amount</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.PTPAMOUNT, new { @class = "form-control allow_decimal numbersOnly", @id = "txtPTPAMOUNT" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Collection Date</label>
+                                    <div>
+                                        @Html.DevExpress().DateEditFor(x => x.COLLECTIONDATE,
+                                 deSettings =>
+                                 {
+                                     deSettings.Name = "txtCOLLECTIONDATE";
+                                     deSettings.Date = DateTime.Now;
+                                     deSettings.Properties.UseMaskBehavior = true;
+                                     deSettings.Properties.EditFormat = EditFormat.Custom;
+                                     deSettings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                                     deSettings.Properties.DisplayFormatString = "dd-MM-yyyy";
+                                     deSettings.Properties.EditFormatString = "dd-MM-yyyy";
+                                 }).GetHtml()
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Collection Amount</label>
+                                    <div>
+                                        @Html.TextBoxFor(m => m.COLLECTIONAMOUNT, new { @class = "form-control allow_decimal numbersOnly", @id = "txtCOLLECTIONAMOUNT" })
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label>Final Status</label>
+                                    <div>
+                                        @Html.DropDownListFor(m => m.FINALSTATUS, new SelectList(Model.FINALSTATUSLIST, "ID", "NAME", Model.FINALSTATUSID), new { @id = "ddlFINALSTATUS", @class = "form-control" })
+                                    </div>
+                                </div>
 
-                    @*<input type="hidden" id="txtContact_hidden">*@
-                    <!--<input type="hidden" id="hdnUserID" value="@Model.NewUserid">
-                        </div>
-                    </div>-->
-                    <!--<div class="col-md-3">
-                    <label>Party Location Lat </label>
-                    <div>-->
-                    @*<input type="text" class="form-control" />*@
-                    <!--@Html.TextBoxFor(m => m.shop_lat, new { @class = "form-control allow_decimal numbersOnly", @id = "txtPartyLocationLat" })
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <label>Party Location Long</label>
-                        <div>-->
-                    @*<input type="text" class="form-control" />*@
-                    <!--@Html.TextBoxFor(m => m.shop_long, new { @class = "form-control allow_decimal numbersOnly", @id = "txtPartyLocationLang" })
-                        </div>
-                    </div>-->
-                        <div class="clear"></div>
-
-
-
-                        <!--<div class="col-md-3">
-                        <label>Party Status </label>
-                        <div id="Citydiv">-->
-                        @*<select class="form-control">
-                        <option>Select</option>
-                        </select>*@
-                        <!--@Html.DropDownListFor(m => m.PartyStatus, new SelectList(Model.PartyStatusList, "id", "name", Model.PartyStatusId), new { @id = "ddlPartyStatus", @class = "form-control" })
+                                <div class="clear"></div>
                             </div>
-                        </div>-->
-                        <!--<div class="col-md-3">
-                        <label>Group/Beat </label>
-                        <div id="Citydiv">-->
-                        @*<select class="form-control">
-                        <option>Select</option>
-                        </select>*@
-                        <!--@Html.DropDownListFor(m => m.GroupBeat, new SelectList(Model.GroupBeatList, "id", "name", Model.GroupBeatId), new { @id = "ddlGroupBeat", @class = "form-control" })
-                            </div>
-                        </div>-->
-
-                        <div class="clear"></div>
+                        }
+                            @*END REV PRITI*@
 
 
 
-                        <!--<div class="col-md-4">
-                        <label>Add Photo</label>
-                        <input type="file" id="uploadFile" accept=".jpg, .jpeg, .png, .gif" class="form-control" />
-                        <span class="red">
-                            Accepts .jpg, .jpeg, .png, .gif upto 1 MB
-                        </span>-->
-                        @*<span class="buttonphoto"><i class="fa fa-plus-circle"></i> Add Photo</span>*@
-                        <!--</div>-->
-                    </div>
+                            <!--<div class="col-md-3">
+        <label>Status <span class="red">*</span></label>
+        <div>
+            <select class="form-control" id="ddlStatus">
+                <option value="Select">Select</option>
+                <option value="1">Active</option>
+                <option value="0">Inactive</option>
+            </select>-->
+                            @*@Html.DropDownListFor(m => m.type, new SelectList(Model.shptypes, "ID", "Name", Model.Shoptype), new { @id = "ddlStatus", @class = "form-control" })*@
+                            <!--</div>
+        </div>-->
+                            <div class="clear"></div>
+
+                            <!--<div class="col-md-3">
+        <label>Entity Category </label>
+        <div>-->
+                            @*<select class="form-control">
+                <option>Select</option>
+            </select>*@
+                            <!--@Html.DropDownListFor(m => m.EntyType, new SelectList(Model.EntityTypeList, "TypeID", "TypeName", Model.EntityType), new { @id = "ddlEntityType", @class = "form-control" })
+            </div>
+        </div>-->
+                            @*Mantis Issue 24571*@
+                            <!--<div class="col-md-3">
+        <label>GSTIN </label>
+        <div>-->
+                            @*<input type="text" class="form-control" />*@
+                            <!--@Html.TextBoxFor(m => m.GSTN_NUMBER, new { @class = "form-control", @id = "txtgstn" })
+            </div>
+        </div>-->
+
+                            <div class="clear"></div>
+
+                            @*End of Mantis Issue 24571*@
+
+
+
+
+                            <!--<div class="col-md-3">
+        <label>Assign to User <span class="red">*</span></label>
+        <div>-->
+                            @*<select class="form-control">
+                <option>Select</option>
+            </select>*@
+                            @*@Html.DropDownListFor(m => m.NewUser, new SelectList(Model.NewUseridList, "UserID", "username", Model.NewUserid), new { @id = "ddlNewCreateUser", @class = "form-control" })*@
+                            @*@Html.DevExpress().ButtonEdit(
+            settings =>
+            {
+                settings.Name = "UserTxt";
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.Text = Model.AssignedTo;
+                settings.ReadOnly = true;
+                settings.Properties.Buttons.Add("...");
+                settings.Properties.ClientSideEvents.ButtonClick = "function(s,e){UserButnClick(s,e);}";
+                settings.Properties.ClientSideEvents.KeyDown = "function(s,e){User_KeyDown(s,e);}";
+
+            }).GetHtml()*@
+
+                            @*<input type="hidden" id="txtContact_hidden">*@
+                            <!--<input type="hidden" id="hdnUserID" value="@Model.NewUserid">
+            </div>
+        </div>-->
+                            <!--<div class="col-md-3">
+        <label>Party Location Lat </label>
+        <div>-->
+                            @*<input type="text" class="form-control" />*@
+                            <!--@Html.TextBoxFor(m => m.shop_lat, new { @class = "form-control allow_decimal numbersOnly", @id = "txtPartyLocationLat" })
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label>Party Location Long</label>
+            <div>-->
+                            @*<input type="text" class="form-control" />*@
+                            <!--@Html.TextBoxFor(m => m.shop_long, new { @class = "form-control allow_decimal numbersOnly", @id = "txtPartyLocationLang" })
+            </div>
+        </div>-->
+                            <div class="clear"></div>
+
+
+
+                            <!--<div class="col-md-3">
+        <label>Party Status </label>
+        <div id="Citydiv">-->
+                            @*<select class="form-control">
+            <option>Select</option>
+            </select>*@
+                            <!--@Html.DropDownListFor(m => m.PartyStatus, new SelectList(Model.PartyStatusList, "id", "name", Model.PartyStatusId), new { @id = "ddlPartyStatus", @class = "form-control" })
+            </div>
+        </div>-->
+                            <!--<div class="col-md-3">
+        <label>Group/Beat </label>
+        <div id="Citydiv">-->
+                            @*<select class="form-control">
+            <option>Select</option>
+            </select>*@
+                            <!--@Html.DropDownListFor(m => m.GroupBeat, new SelectList(Model.GroupBeatList, "id", "name", Model.GroupBeatId), new { @id = "ddlGroupBeat", @class = "form-control" })
+            </div>
+        </div>-->
+
+                            <div class="clear"></div>
+
+
+
+                            <!--<div class="col-md-4">
+        <label>Add Photo</label>
+        <input type="file" id="uploadFile" accept=".jpg, .jpeg, .png, .gif" class="form-control" />
+        <span class="red">
+            Accepts .jpg, .jpeg, .png, .gif upto 1 MB
+        </span>-->
+                            @*<span class="buttonphoto"><i class="fa fa-plus-circle"></i> Add Photo</span>*@
+                            <!--</div>-->
+                        </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" onclick="AddShop('Exit');">Save & Exit</button>
