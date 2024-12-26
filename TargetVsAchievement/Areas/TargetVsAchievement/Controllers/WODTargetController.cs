@@ -1,4 +1,6 @@
-﻿using DataAccessLayer;
+﻿
+using BusinessLogicLayer;
+using DataAccessLayer;
 using DevExpress.XtraTreeList.Handler;
 using System;
 using System.Collections.Generic;
@@ -15,6 +17,7 @@ namespace TargetVsAchievement.Areas.TargetVsAchievement.Controllers
 {
     public class WODTargetController : Controller
     {
+        
         WODModel objdata = null;
         Int32 DetailsID = 0;
         string TargetNo = string.Empty;
@@ -24,6 +27,8 @@ namespace TargetVsAchievement.Areas.TargetVsAchievement.Controllers
         }
         public ActionResult Index()
         {
+            
+
             EntityLayer.CommonELS.UserRightsForPage rights = BusinessLogicLayer.CommonBLS.CommonBL.GetUserRightSession("/TargetSetUp/Index");
 
 
@@ -32,7 +37,7 @@ namespace TargetVsAchievement.Areas.TargetVsAchievement.Controllers
             ViewBag.CanExport = rights.CanExport;
             ViewBag.CanEdit = rights.CanEdit;
             ViewBag.CanDelete = rights.CanDelete;
-
+            
             // SELECT TARGET TYPE DROPDOWN //
             DataTable dt = new DataTable();
             dt = GetListData();

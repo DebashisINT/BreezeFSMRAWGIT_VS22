@@ -2937,39 +2937,6 @@
       <Column Name="AUDIOPATH" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
     </Type>
   </Table>
-  <Table Name="dbo.FTSORDERREGISTER_REPORT" Member="FTSORDERREGISTER_REPORTs">
-    <Type Name="FTSORDERREGISTER_REPORT">
-      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="EMPCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="EMPNAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="BRANCHDESC" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
-      <Column Name="SHOPNAME" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="ENTITYCODE" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
-      <Column Name="ADDRESS" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="CONTACT" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="SHOPTYPE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
-      <Column Name="ORDDATE" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
-      <Column Name="ORDID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
-      <Column Name="ORDRNO" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
-      <Column Name="PRODUCT" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
-      <Column Name="QUANTITY" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
-      <Column Name="RATE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="ORDVALUE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="PPName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="DDName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Employee_ID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="Scheme_Qty" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="Scheme_Rate" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="Total_Scheme_Price" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="MRP" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="DISCOUNT" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
-      <Column Name="PARTYSTATUS" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
-      <Column Name="PPCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="DDCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="STATENAME" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.FSM_CURRENTSTOCK_LISTING" Member="FSM_CURRENTSTOCK_LISTINGs">
     <Type Name="FSM_CURRENTSTOCK_LISTING">
       <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -3057,6 +3024,40 @@
       <Column Name="RISK" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="DISPOSITIONCODE" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="FINALSTATUS" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FTSORDERREGISTER_REPORT" Member="FTSORDERREGISTER_REPORTs">
+    <Type Name="FTSORDERREGISTER_REPORT">
+      <Column Name="USERID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SEQ" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EMPCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EMPNAME" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="BRANCHDESC" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="SHOPNAME" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ENTITYCODE" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="ADDRESS" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="CONTACT" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="SHOPTYPE" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GROUPBEATNAME" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="ORDDATE" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
+      <Column Name="ORDID" Type="System.Int64" DbType="BigInt" CanBeNull="true" />
+      <Column Name="ORDRNO" Type="System.String" DbType="NVarChar(60)" CanBeNull="true" />
+      <Column Name="PRODUCT" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="QUANTITY" Type="System.Decimal" DbType="Decimal(18,3)" CanBeNull="true" />
+      <Column Name="RATE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="ORDVALUE" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="PPName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="DDName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Employee_ID" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Scheme_Qty" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Scheme_Rate" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="Total_Scheme_Price" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="MRP" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="DISCOUNT" Type="System.Decimal" DbType="Decimal(18,2)" CanBeNull="true" />
+      <Column Name="PARTYSTATUS" Type="System.String" DbType="VarChar(250)" CanBeNull="true" />
+      <Column Name="PPCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="DDCODE" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="STATENAME" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

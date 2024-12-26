@@ -1402,7 +1402,7 @@
                     </button>
                 </div>
                 @*</div>
-                    <div class="col-md-2">*@
+        <div class="col-md-2">*@
                 <div class="add-show-btns">
                     <button type="button" class="btn add-btn product-target" onclick="AddProductTarget();">
                         <span class="btn-icon"><i class="fa fa-plus"></i></span> Product Target
@@ -1410,7 +1410,7 @@
 
                 </div>
                 @*</div>
-                    <div class="col-md-3">*@
+        <div class="col-md-3">*@
                 <div class="add-show-btns">
                     <button type="button" class="btn add-btn brand-value-target" onclick="AddBrandVolumeValueTarget();">
                         <span class="btn-icon"><i class="fa fa-plus"></i></span> Brand Volume/Value Target
@@ -1418,14 +1418,18 @@
 
                 </div>
                 @*</div>
-                    <div class="col-md-2">*@
-                <div class="add-show-btns">
-                    <button type="button" class="btn add-btn wod-target" onclick="AddWODTarget();">
-                        <span class="btn-icon"><i class="fa fa-plus"></i></span>WOD Target
-                    </button>
+        <div class="col-md-2">*@
 
+                @if (Convert.ToInt16(ViewBag.IsShowWODCountInTarget) == 1)
+                {
+                    <div class="add-show-btns">
+                        <button type="button" class="btn add-btn wod-target" onclick="AddWODTarget();">
+                            <span class="btn-icon"><i class="fa fa-plus"></i></span>WOD Target
+                        </button>
+
+                    </div>
+                }
                 </div>
-            </div>
         </div>
     </div>
 
@@ -1483,16 +1487,36 @@
             </div>
             <div class="col-md-2 mb-3  h-branch-select">
                 <label>Target Type </label>
-                <div>
-                    <select name="ddlStatus" id="ddlTargetType">
-                        <option value="Select">Select</option>
-                        <option value="SalesTarget">Sales Target</option>
-                        <option value="ProductTarget">Product Target</option>
-                        <option value="BrandTarget">Brand Volume/Value Target</option>
-                        <option value="WODTarget">WOD Target</option>
-                    </select>
+
+                @if (Convert.ToInt16(ViewBag.IsShowWODCountInTarget) == 0)
+                {
+                    <div>
+                        <select name="ddlStatus" id="ddlTargetType">
+                            <option value="Select">Select</option>
+                            <option value="SalesTarget">Sales Target</option>
+                            <option value="ProductTarget">Product Target</option>
+                            <option value="BrandTarget">Brand Volume/Value Target</option>                           
+                        </select>
+                    </div>
+                }
+                    @if (Convert.ToInt16(ViewBag.IsShowWODCountInTarget) == 1)
+                    {
+                        <div>
+                            <select name="ddlStatus" id="ddlTargetType">
+                                <option value="Select">Select</option>
+                                <option value="SalesTarget">Sales Target</option>
+                                <option value="ProductTarget">Product Target</option>
+                                <option value="BrandTarget">Brand Volume/Value Target</option>
+                                <option value="WODTarget">WOD Target</option>
+                            </select>
+                        </div>
+                    }
                 </div>
-            </div>
+
+
+
+
+
             <div class="col-md-6 mt-22">
                 <div class="">
                     <div class="add-show-btns">

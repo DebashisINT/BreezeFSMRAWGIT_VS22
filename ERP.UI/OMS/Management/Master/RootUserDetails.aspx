@@ -4328,7 +4328,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                             </table>
                                         </td>
                                         <%-- Rev 19.0--%>
-                                        <td id="divIsUserWiseLMSEnable" runat="server">
+                                        <%--<td id="divIsUserWiseLMSEnable" runat="server">
                                             <table>
                                                 <tr>
                                                     <td>
@@ -4338,8 +4338,8 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                                     <td>Show LMS Menu </td>
                                                 </tr>
                                             </table>
-                                        </td>
-                                        <td id="divIsUserWiseLMSFeatureOnly" runat="server">
+                                        </td>--%>
+                                        <%--<td id="divIsUserWiseLMSFeatureOnly" runat="server">
                                             <table>
                                                 <tr>
                                                     <td>
@@ -4349,7 +4349,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                                     <td>Is LMS Feature Only ? </td>
                                                 </tr>
                                             </table>
-                                        </td>
+                                        </td>--%>
                                         <%--End of Rev 19.0--%>
                                         <%-- Rev 20.0--%>
                                         <td id="divIsUserWiseRecordAudioEnableForVisitRevisit" runat="server">
@@ -4364,23 +4364,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                             </table>
                                         </td>
                                         <%--End of Rev 20.0--%>
-                                    </tr>
-                                    <%-- End of Rev 18.0--%>
-                                    <tr>
-                                        <%-- Rev 21.0--%>
-                                        <td id="DivShowClearQuiz" runat="server">
-                                            <table>
-                                                <tr>
-                                                    <td>
-                                                        <dxe:ASPxCheckBox ID="chkDivShowClearQuiz" runat="server" Text="">
-                                                        </dxe:ASPxCheckBox>
-                                                    </td>
-                                                    <td>Show Clear Quiz ?</td>
-                                                </tr>
-                                            </table>
-                                        </td>
-                                        <%--End of Rev 21.0--%>
-                                        <%-- Rev 22.0--%>
+
                                         <td id="divIsAllowProductCurrentStockUpdateFromApp" runat="server">
                                             <table>
                                                 <tr>
@@ -4392,8 +4376,7 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                                 </tr>
                                             </table>
                                         </td>
-                                        <%--End of Rev 22.0--%>
-                                        <%-- Rev 23.0--%>
+
                                         <td id="divShowTargetOnApp" runat="server">
                                             <table>
                                                 <tr>
@@ -4405,8 +4388,49 @@ Rev Number         DATE              VERSION          DEVELOPER           CHANGE
                                                 </tr>
                                             </table>
                                         </td>
-                                        <%--End of Rev 23.0--%>
                                     </tr>
+                                    <%-- End of Rev 18.0--%>
+                                    <%--<tr>--%>
+                                        <%-- Rev 21.0--%>
+                                        <%--<td id="DivShowClearQuiz" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkDivShowClearQuiz" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Clear Quiz ?</td>
+                                                </tr>
+                                            </table>
+                                        </td>--%>
+                                        <%--End of Rev 21.0--%>
+                                        <%-- Rev 22.0--%>
+                                        <%--<td id="divIsAllowProductCurrentStockUpdateFromApp" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkIsAllowProductCurrentStockUpdateFromApp" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Allow Product Current Stock Update From App ?</td>
+                                                </tr>
+                                            </table>
+                                        </td>--%>
+                                        <%--End of Rev 22.0--%>
+                                        <%-- Rev 23.0--%>
+                                        <%--<td id="divShowTargetOnApp" runat="server">
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <dxe:ASPxCheckBox ID="chkShowTargetOnApp" runat="server" Text="">
+                                                        </dxe:ASPxCheckBox>
+                                                    </td>
+                                                    <td>Show Target On App ?</td>
+                                                </tr>
+                                            </table>
+                                        </td>--%>
+                                        <%--End of Rev 23.0--%>
+                                    <%--</tr>--%>
                                 </table>
                             </div>
                         </div>

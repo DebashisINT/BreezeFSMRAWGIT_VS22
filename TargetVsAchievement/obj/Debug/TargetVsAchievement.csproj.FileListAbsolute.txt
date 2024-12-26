@@ -345,3 +345,4 @@ D:\GIT\GitHub\BreezeFSMGIT_VS22\TargetVsAchievement\bin\de\DevExpress.DataAccess
 D:\GIT\GitHub\BreezeFSMGIT_VS22\TargetVsAchievement\bin\es\DevExpress.DataAccess.v15.1.resources.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\TargetVsAchievement\bin\ja\DevExpress.DataAccess.v15.1.resources.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\TargetVsAchievement\bin\ru\DevExpress.DataAccess.v15.1.resources.dll
+D:\GIT\GitHub\BreezeFSMGIT_VS22\TargetVsAchievement\bin\DocumentFormat.OpenXml.dll

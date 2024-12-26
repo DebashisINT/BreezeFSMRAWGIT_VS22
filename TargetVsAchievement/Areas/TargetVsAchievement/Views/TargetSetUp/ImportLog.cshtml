@@ -160,14 +160,19 @@
         x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
 
     });
-    settings.Columns.Add(x =>
-    {
-        x.FieldName = "WODCOUNT";
-        x.Caption = "WOD Count";
-        x.VisibleIndex = 16;
-        x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
 
-    });
+    if(Convert.ToInt16(ViewBag.IsShowWODCountInTarget) == 1)
+    {
+        settings.Columns.Add(x =>
+        {
+            x.FieldName = "WODCOUNT";
+            x.Caption = "WOD Count";
+            x.VisibleIndex = 16;
+            x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
+
+        });
+    }
+
     settings.Columns.Add(x =>
     {
         x.FieldName = "PRODUCTNAME";
