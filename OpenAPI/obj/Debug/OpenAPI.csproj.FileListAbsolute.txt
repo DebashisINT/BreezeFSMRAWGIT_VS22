@@ -72,7 +72,6 @@ D:\GIT\GitHub\BreezeFSMGIT_VS22\OpenAPI\bin\System.Web.WebPages.Deployment.xml
 D:\GIT\GitHub\BreezeFSMGIT_VS22\OpenAPI\bin\System.Web.WebPages.Razor.xml
 D:\GIT\GitHub\BreezeFSMGIT_VS22\OpenAPI\bin\Antlr3.Runtime.pdb
 D:\GIT\GitHub\BreezeFSMGIT_VS22\OpenAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\GIT\GitHub\BreezeFSMGIT_VS22\OpenAPI\obj\Debug\OpenAPI.csproj.CopyComplete
 D:\GIT\GitHub\BreezeFSMGIT_VS22\OpenAPI\obj\Debug\OpenAPI.dll
 D:\GIT\GitHub\BreezeFSMGIT_VS22\OpenAPI\obj\Debug\OpenAPI.pdb
 E:\GIT22\BreezeFSMGIT_VS22\OpenAPI\bin\OpenAPI.dll.config
@@ -306,3 +305,4 @@ D:\PROJECTS\BreezeFSMGIT_VS22\OpenAPI\obj\Debug\OpenAPI.csproj.CoreCompileInputs
 D:\PROJECTS\BreezeFSMGIT_VS22\OpenAPI\obj\Debug\OpenAPI.csproj.Up2Date
 D:\PROJECTS\BreezeFSMGIT_VS22\OpenAPI\obj\Debug\OpenAPI.dll
 D:\PROJECTS\BreezeFSMGIT_VS22\OpenAPI\obj\Debug\OpenAPI.pdb
+D:\GIT\GitHub\BreezeFSMGIT_VS22\OpenAPI\obj\Debug\OpenAPI.csproj.Up2Date

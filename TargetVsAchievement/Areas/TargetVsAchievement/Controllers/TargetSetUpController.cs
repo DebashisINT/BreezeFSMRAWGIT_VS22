@@ -1,4 +1,8 @@
-﻿using DevExpress.XtraReports.Templates;
+﻿/***************************************************************************************************************
+1.0  V2 .0.50  Priti  04/12/2024     Create a new global settings as IsShowWODCountInTarget. Refer: 0027832
+***********************************************************************************************************/
+using BusinessLogicLayer;
+using DevExpress.XtraReports.Templates;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -21,9 +25,16 @@ namespace TargetVsAchievement.Areas.TargetVsAchievement.Controllers
 {
     public class TargetSetUpController : Controller
     {
+        //REV 1.0 
+        CommonBL objSystemSettings = new CommonBL();
+        //REV 1.0 END
         // GET: TargetVsAchievement/TargetSetUp
         public ActionResult Index()
         {
+            //REV 1.0
+            string IsShowWODCountInTarget = objSystemSettings.GetSystemSettingsResult("IsShowWODCountInTarget");            
+            ViewBag.IsShowWODCountInTarget = IsShowWODCountInTarget;
+            //REV 1.0 END
             TempData["FromManualLog"] = null;
             TempData["ImportLog"] = null;
             TempData["TARGETASSIGNGRIDVIEW"] = null;
@@ -565,6 +576,12 @@ namespace TargetVsAchievement.Areas.TargetVsAchievement.Controllers
         }
         public ActionResult ImportLog()
         {
+
+            //REV 1.0
+            string IsShowWODCountInTarget = objSystemSettings.GetSystemSettingsResult("IsShowWODCountInTarget");
+            ViewBag.IsShowWODCountInTarget = IsShowWODCountInTarget;
+            //REV 1.0 END
+
             List<ImportLogModel> list = new List<ImportLogModel>();
             DataTable dt = new DataTable();
             try

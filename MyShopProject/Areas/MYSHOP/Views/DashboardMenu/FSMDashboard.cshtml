@@ -57,12 +57,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
 <link href="https://fonts.googleapis.com/css?family=Fira+Sans:200,300,400,500,600|Montserrat:300,400,500,600,700|Open+Sans+Condensed:300,700|Open+Sans:300,400,600,700" rel="stylesheet">
 <script>
     //REV 13.0
-    var LMSstateids = [];
-    var LMSbranchids = [];
+    //var LMSstateids = [];
+    //var LMSbranchids = [];
     var isShowVisitDataClicked = false;
     var Action = "";
 
-    function OnTotalLearnersClick(elem) {
+    @*function OnTotalLearnersClick(elem) {
 
 
 
@@ -171,368 +171,365 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
     window.location.href = url;
 
     //window.location.href = url.replace("_type_", 3, "_Name_", $("#griddetailsHeadedtext").text());
-    }
+    }*@
+
+
+    //$(document).ready(function () {
+
+    //    $('#cmbStateLMS').multiselect({
+    //        includeSelectAllOption: true,
+    //        enableFiltering: true,
+    //        maxHeight: 400,
+    //        enableCaseInsensitiveFiltering: true,
+    //        onDropdownHide: function (event) {
+    //            console.log("on hide");
+    //            GetSateValueLMS();
+    //        }
+    //    }).multiselect('selectAll', false).multiselect('updateButtonText');
+
+
+    //    $('#cmbBranchLMS').multiselect({
+    //        includeSelectAllOption: true,
+    //        enableFiltering: true,
+    //        maxHeight: 400,
+    //        enableCaseInsensitiveFiltering: true,
+    //        onDropdownHide: function (event) {
+    //            GetBranchValueLMS();
+    //        }
+    //    }).multiselect('selectAll', false).multiselect('updateButtonText');
+    //    LMSbranchids = $('#cmbBranchLMS').val();
+    //    LMSstateids = $('#cmbStateLMS').val();
+
+    //    var statelistcount = $('#hdnStateListCountLMS').val();
+    //    if (statelistcount > 0) {
+    //        for (var i = objsettings.length - 1; i >= 0; i--) {
+    //            if (objsettings[i].ID == settingsid) {
+    //                objsettings.splice(i, 1);
+    //            }
+    //        }
+
+    //    }
+    //    else {
+    //        $('.bodymain_areastatewise').hide();
+    //    }
+
+    //});
+    //function GetSateValueLMS() {
+    //    console.log("state value");
+    //    LMSstateids = [];
+
+    //    var datalist = $('#cmbStateLMS').val();
+    //    if (datalist != null) {
+    //        LMSstateids = datalist;
+    //    }
+    //    else {
+    //        LMSstateids.push('999999');
+    //    }
+    //    cmbStatechangeLMS();
+    //}
+    //function cmbStatechangeLMS() {
+
+    //    if (!isShowVisitDataClicked) {
+    //        return;
+    //    }
+    //    settingsid = "1";
+    //    for (var i = objsettings.length - 1; i >= 0; i--) {
+    //        if (objsettings[i].ID == settingsid) {
+    //            objsettings.splice(i, 1);
+    //        }
+    //    }
+    //    if (settingsid == "1") {
+    //        stateid = LMSstateids.join(','); //;cmbState.GetValue();
+    //        var obj1 = {};
+    //        obj1.stateid = stateid;
+    //        $.ajax({
+    //            type: "POST",
+    //            url: "/DashboardMenu/DashboardBranchComboboxLMS",
+    //            data: JSON.stringify(obj1),
+    //            async: true,
+    //            contentType: "application/json; charset=utf-8",
+    //            dataType: "json",
+    //            success: function (response) {
+    //                const mainData = response.map(function (item) {
+    //                    return {
+    //                        label: item.name,
+    //                        title: item.name,
+    //                        value: item.BranchID,
+    //                        selected: true
+    //                    }
+    //                })
+
+    //                $("#cmbBranchLMS").multiselect('dataprovider', mainData);
+    //                //var newBranch = $('#cmbBranchLMS').val();
+    //                //var isObject = typeof newBranch
+    //                //if (isObject == "object") {
+    //                //    if (newBranch != null && newBranch.length > 0) {
+    //                //        LMSbranchids = newBranch.join(',');
+    //                //    } else {
+    //                //        LMSbranchids = "";
+    //                //    }
+    //                //} else {
+    //                //    if (newBranch != null && newBranch.length > 0) {
+    //                //        LMSbranchids = newBranch;
+    //                //    }
+    //                //    else {
+    //                //        LMSbranchids = "";
+    //                //    }
+    //                //}
+    //               // reloadBoxData(LMSbranchids);
+    //            },
+    //            error: function (response) {
+    //                jAlert("Please try again later");
+    //            }
+    //        });
+
+    //    }
+    //}
+
+    //function GetBranchValueLMS() {
+    //    LMSbranchids = [];
+
+    //    var datalist = $('#cmbBranchLMS').val();
+    //    if (datalist != null) {
+    //        LMSbranchids = datalist;
+    //    }
+    //    else {
+    //        LMSbranchids.push('999999');
+    //    }
+    //    cmbBranchChangeLMS();
+    //}
+    //function cmbBranchChangeLMS() {
+
+    //    if (!isShowVisitDataClicked) {
+    //        return; // Disable click event
+    //    }
+    //    //let newBranch = $('#cmbBranchLMS').val();
+    //    //var isObject = typeof newBranch
+    //    //if (isObject == "object") {
+    //    //    if (newBranch != null && newBranch.length > 0) {
+    //    //        LMSbranchids = newBranch.join(',');
+    //    //    } else {
+    //    //        LMSbranchids = "";
+
+    //    //    }
+    //    //} else {
+    //    //    if (newBranch != null && newBranch.length > 0) {
+    //    //        LMSbranchids = newBranch;
+    //    //    }
+    //    //    else {
+    //    //        LMSbranchids = "";
+    //    //    }
+    //    //}
+    //    // reloadBoxData(LMSbranchids);
+    //    ShowLMSData();
+    //    gridList.Refresh();
+    //}
+    //function ShowLMSData() {
+
+    //    isShowVisitDataClicked = true;
+    //    $('#lms-btn-4').addClass('zoom');
+    //    $('#lms-btn-1').addClass('zoom');
+    //    $('#lms-btn-2').addClass('zoom');
+    //    $('#lms-btn-3').addClass('zoom');
+    //    $('#lms-btn-5').addClass('zoom');
+
+
+
+    //    WindowSize = $(window).width();
+
+    //    $(".visit-tb-hand").hide();
+    //    $("#lblTotalLearners").html("<img src='/assests/images/Spinner.gif' />");
+    //    $("#lblAssignedTopics").html("<img src='/assests/images/Spinner.gif' />");
+    //    $("#lblYettoStart").html("<img src='/assests/images/Spinner.gif' />");
+    //    $("#lblInProgress").html("<img src='/assests/images/Spinner.gif' />");
+    //    $("#lblCompleted").html("<img src='/assests/images/Spinner.gif' />");
+
+    //    //var branchidids = "";
+    //    //var isObject = typeof LMSbranchids
+    //    //if (isObject == "object") {
+    //    //    if (LMSbranchids != null && LMSbranchids.length > 0) {
+    //    //        branchidids = LMSbranchids.join(',');
+    //    //    } else {
+    //    //        branchidids = "";
+
+    //    //    }
+    //    //} else {
+    //    //    if (LMSbranchids != null && LMSbranchids.length > 0) {
+    //    //        branchidids = LMSbranchids;
+    //    //    }
+    //    //    else {
+    //    //        branchidids = "";
+    //    //    }
+    //    //}
+
+    //    objData = {};
+
+    //    var hdnLMS = $('#hdnLMS').val();
+    //    var obj = {};
+    //    obj.stateid = LMSstateids.join(',');
+    //    obj.branchid = LMSbranchids.join(',');;
+
+    //    if (hdnLMS > 0) {
+    //        $.ajax({
+    //            type: "POST",
+    //            url: "/DashboardMenu/GETLMSCOUNTDATA",
+    //            data: JSON.stringify(obj),
+    //            async: true,
+    //            contentType: "application/json; charset=utf-8",
+    //            dataType: "json",
+    //            success: function (response) {
+    //                var g = '';
+
+    //                $("#gaugeCanvas").html("");
+
+    //                $("#lblTotalLearners").html(response.TotalLearners);
+
+    //                $("#lblAssignedTopics").html(response.AssignedTopics);
+
+    //                $("#lblYettoStart").html(response.YettoStart);
+
+    //                $("#lblInProgress").html(response.InProgress);
+
+    //                $("#lblCompleted").html(response.Completed);
+    //                /*$("#lblAverageProgress").html(response.AverageProgress);*/
+    //                $("#lblAverageProgress").html("Progress: " + response.AverageProgress + "%");
+
+    //                /*rev Pallab*/
+
+    //                //g = new JustGage({
+    //                //    id: "gauge",
+    //                //    value: response.AverageProgress,
+    //                //    min: 0,
+    //                //    max: 100,
+    //                //    hideValue: true,
+    //                //    title: "",
+    //                //    levelColors: ["#76FF03"],
+    //                //});
+
+    //                //Rev 14.0
+    //                $(".lms-chart-box").show();
+    //                //Rev 14.0 End
+
+    //                var opts = {
+    //                    angle: 0, // The span of the gauge arc
+    //                    lineWidth: 0.3, // The line thickness
+    //                    radiusScale: 1, // Relative radius
+    //                    pointer: {
+    //                        length: 0.6, // Relative to gauge radius
+    //                        strokeWidth: 0.035, // The thickness
+    //                        color: '#000000' // Pointer color
+    //                    },
+    //                    limitMax: false,     // If false, max value increases automatically if value > maxValue
+    //                    limitMin: false,     // If true, the min value of the gauge will be fixed
+    //                    colorStart: '#6FADCF',   // Colors
+    //                    colorStop: '#8FC0DA',    // Just experiment with them
+    //                    strokeColor: '#E0E0E0',  // To see which ones work best for you
+    //                    generateGradient: true,
+    //                    highDpiSupport: true,     // High resolution support
+    //                    staticZones: [
+    //                        { strokeStyle: "#F03E3E", min: 0, max: 30 },  // Red zone
+    //                        { strokeStyle: "#FFDD00", min: 30, max: 60 }, // Yellow zone
+    //                        { strokeStyle: "#30B32D", min: 60, max: 100 }, // Green zone
+    //                    ],
+    //                    staticLabels: {
+    //                        font: "10px sans-serif",  // Specifies font
+    //                        labels: [0, 30, 60, 100],  // Print labels at these values
+    //                        color: "#000000",  // Optional: Label text color
+    //                        fractionDigits: 0  // Optional: Numerical precision
+    //                    },
+    //                };
+
+    //                var target = document.getElementById('gaugeCanvas'); // Your canvas element
+    //                var gauge = new Gauge(target).setOptions(opts); // Create gauge!
+
+    //                gauge.maxValue = 100; // Set max gauge value
+    //                gauge.setMinValue(0);  // Set min gauge value
+    //                gauge.animationSpeed = 32; // Set animation speed (32 is default value)
+    //                gauge.set(response.AverageProgress); // Set gauge value dynamically
 
 
 
 
 
-    $(document).ready(function () {
+    //                // Assuming you have the data received in these variables
+    //                var lmsresponse = {
+    //                    InProgress: response.InProgress,
+    //                    Completed: response.Completed,
+    //                    YettoStart: response.YettoStart
+    //                };
 
-        $('#cmbStateLMS').multiselect({
-            includeSelectAllOption: true,
-            enableFiltering: true,
-            maxHeight: 400,
-            enableCaseInsensitiveFiltering: true,
-            onDropdownHide: function (event) {
-                console.log("on hide");
-                GetSateValueLMS();
-            }
-        }).multiselect('selectAll', false).multiselect('updateButtonText');
+    //                var ctx = document.getElementById('myDoughnutChart').getContext('2d');
 
-
-        $('#cmbBranchLMS').multiselect({
-            includeSelectAllOption: true,
-            enableFiltering: true,
-            maxHeight: 400,
-            enableCaseInsensitiveFiltering: true,
-            onDropdownHide: function (event) {
-                GetBranchValueLMS();
-            }
-        }).multiselect('selectAll', false).multiselect('updateButtonText');
-        LMSbranchids = $('#cmbBranchLMS').val();
-        LMSstateids = $('#cmbStateLMS').val();
-
-        var statelistcount = $('#hdnStateListCountLMS').val();
-        if (statelistcount > 0) {
-            for (var i = objsettings.length - 1; i >= 0; i--) {
-                if (objsettings[i].ID == settingsid) {
-                    objsettings.splice(i, 1);
-                }
-            }
-
-        }
-        else {
-            $('.bodymain_areastatewise').hide();
-        }
-
-    });
-    function GetSateValueLMS() {
-        console.log("state value");
-        LMSstateids = [];
-
-        var datalist = $('#cmbStateLMS').val();
-        if (datalist != null) {
-            LMSstateids = datalist;
-        }
-        else {
-            LMSstateids.push('999999');
-        }
-        cmbStatechangeLMS();
-    }
-    function cmbStatechangeLMS() {
-
-        if (!isShowVisitDataClicked) {
-            return;
-        }
-        settingsid = "1";
-        for (var i = objsettings.length - 1; i >= 0; i--) {
-            if (objsettings[i].ID == settingsid) {
-                objsettings.splice(i, 1);
-            }
-        }
-        if (settingsid == "1") {
-            stateid = LMSstateids.join(','); //;cmbState.GetValue();
-            var obj1 = {};
-            obj1.stateid = stateid;
-            $.ajax({
-                type: "POST",
-                url: "/DashboardMenu/DashboardBranchComboboxLMS",
-                data: JSON.stringify(obj1),
-                async: true,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    const mainData = response.map(function (item) {
-                        return {
-                            label: item.name,
-                            title: item.name,
-                            value: item.BranchID,
-                            selected: true
-                        }
-                    })
-
-                    $("#cmbBranchLMS").multiselect('dataprovider', mainData);
-                    //var newBranch = $('#cmbBranchLMS').val();
-                    //var isObject = typeof newBranch
-                    //if (isObject == "object") {
-                    //    if (newBranch != null && newBranch.length > 0) {
-                    //        LMSbranchids = newBranch.join(',');
-                    //    } else {
-                    //        LMSbranchids = "";
-                    //    }
-                    //} else {
-                    //    if (newBranch != null && newBranch.length > 0) {
-                    //        LMSbranchids = newBranch;
-                    //    }
-                    //    else {
-                    //        LMSbranchids = "";
-                    //    }
-                    //}
-                   // reloadBoxData(LMSbranchids);
-                },
-                error: function (response) {
-                    jAlert("Please try again later");
-                }
-            });
-
-        }
-    }
-
-    function GetBranchValueLMS() {
-        LMSbranchids = [];
-
-        var datalist = $('#cmbBranchLMS').val();
-        if (datalist != null) {
-            LMSbranchids = datalist;
-        }
-        else {
-            LMSbranchids.push('999999');
-        }
-        cmbBranchChangeLMS();
-    }
-    function cmbBranchChangeLMS() {
-
-        if (!isShowVisitDataClicked) {
-            return; // Disable click event
-        }
-        //let newBranch = $('#cmbBranchLMS').val();
-        //var isObject = typeof newBranch
-        //if (isObject == "object") {
-        //    if (newBranch != null && newBranch.length > 0) {
-        //        LMSbranchids = newBranch.join(',');
-        //    } else {
-        //        LMSbranchids = "";
-
-        //    }
-        //} else {
-        //    if (newBranch != null && newBranch.length > 0) {
-        //        LMSbranchids = newBranch;
-        //    }
-        //    else {
-        //        LMSbranchids = "";
-        //    }
-        //}
-        // reloadBoxData(LMSbranchids);
-        ShowLMSData();
-        gridList.Refresh();
-    }
-    function ShowLMSData() {
-
-        isShowVisitDataClicked = true;
-        $('#lms-btn-4').addClass('zoom');
-        $('#lms-btn-1').addClass('zoom');
-        $('#lms-btn-2').addClass('zoom');
-        $('#lms-btn-3').addClass('zoom');
-        $('#lms-btn-5').addClass('zoom');
+    //                // Create the Doughnut chart
+    //                var myDoughnutChart = new Chart(ctx, {
+    //                    type: 'doughnut',
+    //                    data: {
+    //                        labels: ['In Progress', 'Completed', 'Yet to Start'],
+    //                        datasets: [{
+    //                            data: [lmsresponse.InProgress, lmsresponse.Completed, lmsresponse.YettoStart],
+    //                            backgroundColor: [
+    //                                '#18B2BF',  // Color for In Progress
+    //                                '#6ABD2E',  // Color for Completed
+    //                                '#E717C5'   // Color for Yet to Start
+    //                            ],
+    //                            hoverBackgroundColor: [
+    //                                '#18B2BF',
+    //                                '#6ABD2E',
+    //                                '#E717C5'
+    //                            ]
+    //                        }]
+    //                    },
+    //                    options: {
+    //                        responsive: true,
+    //                        maintainAspectRatio: false,
+    //                        plugins: {
+    //                            legend: {
+    //                                display: true,
+    //                                position: 'bottom',
+    //                                labels: {
+    //                                    generateLabels: function (chart) {
+    //                                        let data = chart.data;
+    //                                        if (data.labels.length && data.datasets.length) {
+    //                                            return data.labels.map(function (label, i) {
+    //                                                var value = data.datasets[0].data[i];
+    //                                                return {
+    //                                                    text: `${value} ${label}`, // Label below the number
+    //                                                    fillStyle: data.datasets[0].backgroundColor[i],
+    //                                                    strokeStyle: data.datasets[0].hoverBackgroundColor[i],
+    //                                                    lineWidth: 2,
+    //                                                    hidden: isNaN(data.datasets[0].data[i]) || chart.getDatasetMeta(0).data[i].hidden,
+    //                                                    index: i
+    //                                                };
+    //                                            });
+    //                                        }
+    //                                        return [];
+    //                                    },
+    //                                    boxWidth: 20,   // Width of the legend color box
+    //                                    padding: 20,    // Padding around the legend items
+    //                                    usePointStyle: true, // Use circles instead of squares
+    //                                    font: {
+    //                                        size: 14 // Font size for the legend text
+    //                                    }
+    //                                }
+    //                            },
+    //                            tooltip: {
+    //                                enabled: true
+    //                            }
+    //                        }
+    //                    }
+    //                });
 
 
+    //                /*rev end Pallab*/
 
-        WindowSize = $(window).width();
+    //            },
+    //            error: function (response) {
+    //                jAlert("Please try again later");
+    //            }
+    //        });
+    //    }
 
-        $(".visit-tb-hand").hide();
-        $("#lblTotalLearners").html("<img src='/assests/images/Spinner.gif' />");
-        $("#lblAssignedTopics").html("<img src='/assests/images/Spinner.gif' />");
-        $("#lblYettoStart").html("<img src='/assests/images/Spinner.gif' />");
-        $("#lblInProgress").html("<img src='/assests/images/Spinner.gif' />");
-        $("#lblCompleted").html("<img src='/assests/images/Spinner.gif' />");
-
-        //var branchidids = "";
-        //var isObject = typeof LMSbranchids
-        //if (isObject == "object") {
-        //    if (LMSbranchids != null && LMSbranchids.length > 0) {
-        //        branchidids = LMSbranchids.join(',');
-        //    } else {
-        //        branchidids = "";
-
-        //    }
-        //} else {
-        //    if (LMSbranchids != null && LMSbranchids.length > 0) {
-        //        branchidids = LMSbranchids;
-        //    }
-        //    else {
-        //        branchidids = "";
-        //    }
-        //}
-
-        objData = {};
-
-        var hdnLMS = $('#hdnLMS').val();
-        var obj = {};
-        obj.stateid = LMSstateids.join(',');
-        obj.branchid = LMSbranchids.join(',');;
-
-        if (hdnLMS > 0) {
-            $.ajax({
-                type: "POST",
-                url: "/DashboardMenu/GETLMSCOUNTDATA",
-                data: JSON.stringify(obj),
-                async: true,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response) {
-                    var g = '';
-
-                    $("#gaugeCanvas").html("");
-
-                    $("#lblTotalLearners").html(response.TotalLearners);
-
-                    $("#lblAssignedTopics").html(response.AssignedTopics);
-
-                    $("#lblYettoStart").html(response.YettoStart);
-
-                    $("#lblInProgress").html(response.InProgress);
-
-                    $("#lblCompleted").html(response.Completed);
-                    /*$("#lblAverageProgress").html(response.AverageProgress);*/
-                    $("#lblAverageProgress").html("Progress: " + response.AverageProgress + "%");
-
-                    /*rev Pallab*/
-
-                    //g = new JustGage({
-                    //    id: "gauge",
-                    //    value: response.AverageProgress,
-                    //    min: 0,
-                    //    max: 100,
-                    //    hideValue: true,
-                    //    title: "",
-                    //    levelColors: ["#76FF03"],
-                    //});
-
-                    //Rev 14.0
-                    $(".lms-chart-box").show();
-                    //Rev 14.0 End
-
-                    var opts = {
-                        angle: 0, // The span of the gauge arc
-                        lineWidth: 0.3, // The line thickness
-                        radiusScale: 1, // Relative radius
-                        pointer: {
-                            length: 0.6, // Relative to gauge radius
-                            strokeWidth: 0.035, // The thickness
-                            color: '#000000' // Pointer color
-                        },
-                        limitMax: false,     // If false, max value increases automatically if value > maxValue
-                        limitMin: false,     // If true, the min value of the gauge will be fixed
-                        colorStart: '#6FADCF',   // Colors
-                        colorStop: '#8FC0DA',    // Just experiment with them
-                        strokeColor: '#E0E0E0',  // To see which ones work best for you
-                        generateGradient: true,
-                        highDpiSupport: true,     // High resolution support
-                        staticZones: [
-                            { strokeStyle: "#F03E3E", min: 0, max: 30 },  // Red zone
-                            { strokeStyle: "#FFDD00", min: 30, max: 60 }, // Yellow zone
-                            { strokeStyle: "#30B32D", min: 60, max: 100 }, // Green zone
-                        ],
-                        staticLabels: {
-                            font: "10px sans-serif",  // Specifies font
-                            labels: [0, 30, 60, 100],  // Print labels at these values
-                            color: "#000000",  // Optional: Label text color
-                            fractionDigits: 0  // Optional: Numerical precision
-                        },
-                    };
-
-                    var target = document.getElementById('gaugeCanvas'); // Your canvas element
-                    var gauge = new Gauge(target).setOptions(opts); // Create gauge!
-
-                    gauge.maxValue = 100; // Set max gauge value
-                    gauge.setMinValue(0);  // Set min gauge value
-                    gauge.animationSpeed = 32; // Set animation speed (32 is default value)
-                    gauge.set(response.AverageProgress); // Set gauge value dynamically
-
-
-
-
-
-                    // Assuming you have the data received in these variables
-                    var lmsresponse = {
-                        InProgress: response.InProgress,
-                        Completed: response.Completed,
-                        YettoStart: response.YettoStart
-                    };
-
-                    var ctx = document.getElementById('myDoughnutChart').getContext('2d');
-
-                    // Create the Doughnut chart
-                    var myDoughnutChart = new Chart(ctx, {
-                        type: 'doughnut',
-                        data: {
-                            labels: ['In Progress', 'Completed', 'Yet to Start'],
-                            datasets: [{
-                                data: [lmsresponse.InProgress, lmsresponse.Completed, lmsresponse.YettoStart],
-                                backgroundColor: [
-                                    '#18B2BF',  // Color for In Progress
-                                    '#6ABD2E',  // Color for Completed
-                                    '#E717C5'   // Color for Yet to Start
-                                ],
-                                hoverBackgroundColor: [
-                                    '#18B2BF',
-                                    '#6ABD2E',
-                                    '#E717C5'
-                                ]
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    position: 'bottom',
-                                    labels: {
-                                        generateLabels: function (chart) {
-                                            let data = chart.data;
-                                            if (data.labels.length && data.datasets.length) {
-                                                return data.labels.map(function (label, i) {
-                                                    var value = data.datasets[0].data[i];
-                                                    return {
-                                                        text: `${value} ${label}`, // Label below the number
-                                                        fillStyle: data.datasets[0].backgroundColor[i],
-                                                        strokeStyle: data.datasets[0].hoverBackgroundColor[i],
-                                                        lineWidth: 2,
-                                                        hidden: isNaN(data.datasets[0].data[i]) || chart.getDatasetMeta(0).data[i].hidden,
-                                                        index: i
-                                                    };
-                                                });
-                                            }
-                                            return [];
-                                        },
-                                        boxWidth: 20,   // Width of the legend color box
-                                        padding: 20,    // Padding around the legend items
-                                        usePointStyle: true, // Use circles instead of squares
-                                        font: {
-                                            size: 14 // Font size for the legend text
-                                        }
-                                    }
-                                },
-                                tooltip: {
-                                    enabled: true
-                                }
-                            }
-                        }
-                    });
-
-
-                    /*rev end Pallab*/
-
-                },
-                error: function (response) {
-                    jAlert("Please try again later");
-                }
-            });
-        }
-
-    }
+    //}
     //REV 13.0 End
 </script>
 <script>
@@ -3081,12 +3078,12 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
             $(".tab-pane#profile").addClass("hide");
         }/*Rev end 2.0*/
         /*REV 13.0*/
-        else if (getTabDetail == "LMS") {
-            $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
-            $(".tab-pane#LMSList").addClass("active");
-            $("#LMSList").addClass("active");
-            $(".tab-pane#profile").addClass("hide");
-        }
+        //else if (getTabDetail == "LMS") {
+        //    $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
+        //    $(".tab-pane#LMSList").addClass("active");
+        //    $("#LMSList").addClass("active");
+        //    $(".tab-pane#profile").addClass("hide");
+        //}
         /*REV 13.0 END*/
         else {
             $(".mainAreaTAb .tab-pane, .tabItemsLI li").removeClass("active");
@@ -3653,10 +3650,10 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
         }
         // Rev end 2.0
         //REV 13.0
-        else if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "LMS").Count() > 0)
+        @*else if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "LMS").Count() > 0)
         {
 <input type="hidden" class="getTabDetail" value="LMS" />
-        }
+        }*@
         //REV 13.0 End
         else
         {
@@ -3816,7 +3813,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
                     </li>
                             }
                     @*REV 13.0*@
-                    @if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "LMS").Count() > 0)
+                    @*@if (Model.DashboardSettingMappedList.Where(x => x.DetailsName == "LMS").Count() > 0)
                             {
                     <li role="presentation" id="tbs7" class="shLeader">
                         <a href="#LMSList" class="" aria-controls="LMSList" role="tab" data-toggle="tab">
@@ -3825,7 +3822,7 @@ Rev Number   DATE            VERSION     DEVELOPER       CHANGES
                             <span class="shLeader">LMS</span>
                         </a>
                     </li>
-                            }
+                            }*@
                     @*REV 13.0 END*@
                     <li></li>
                 </ul>

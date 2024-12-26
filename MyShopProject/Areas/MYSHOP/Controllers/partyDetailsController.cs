@@ -6,6 +6,7 @@ Rev 4.0     Sanchita   V2.0.47    29/05/2024      0027405: Colum Chooser Option 
 Rev 5.0     Sanchita   V2.0.47    30/05/2024      Mass Delete related tabs will be added in the security roles of Parties. Mantis: 27489
 Rev 6.0     Priti      V2.0.48    08-07-2024      0027407: "Party Status" - needs to add in the following reports.
 Rev 7.0     Priti      V2.0.49    15-11-2024      0027799: A new Global settings required as WillShowLoanDetailsInParty.
+Rev 8.0     Sanchita   V2.0.50    29/11/2024      0027799: A new Global settings required as WillShowLoanDetailsInParty.-- Import New Filed for Load Details     
 *****************************************************************************************************************/
 using BusinessLogicLayer;
 using BusinessLogicLayer.SalesmanTrack;
@@ -2293,21 +2294,85 @@ namespace MyShop.Areas.MYSHOP.Controllers
                         dtExcelData.Columns.Add("Assign to User", typeof(string));
                         dtExcelData.Columns.Add("Party Location Lat", typeof(string));
                         dtExcelData.Columns.Add("Party Location Lang", typeof(string));
+
+                        // Rev 8.0
+                        dtExcelData.Columns.Add("BKT", typeof(string));
+                        dtExcelData.Columns.Add("Total Outstanding", typeof(string));
+                        dtExcelData.Columns.Add("POS", typeof(string));
+                        dtExcelData.Columns.Add("EMI amount", typeof(string));
+                        dtExcelData.Columns.Add("All Charges", typeof(string));
+                        dtExcelData.Columns.Add("Total Collectable", typeof(string));
+                        dtExcelData.Columns.Add("Risk", typeof(string));
+                        dtExcelData.Columns.Add("Workable", typeof(string));
+                        dtExcelData.Columns.Add("Disposition Code", typeof(string));
+                        dtExcelData.Columns.Add("PTP Date", typeof(string));
+                        dtExcelData.Columns.Add("PTP Amount", typeof(string));
+                        dtExcelData.Columns.Add("Collection Date", typeof(string));
+                        dtExcelData.Columns.Add("Collection Amount", typeof(string));
+                        dtExcelData.Columns.Add("Final Status", typeof(string));
+                        // End of Rev 8.0
+
                         foreach (DataRow row in dt.Rows)
                         {
                             //row["Contact*"] = Convert.ToString(row["Contact*"]);
                             //row["Alternate Contact"] = Convert.ToString(row["Alternate Contact"]);
                             //row["Alternate Contact 1"] = Convert.ToString(row["Alternate Contact 1"]);
+
+                            // Rev 8.0 (New columns for Loan Details added)
                             if (Convert.ToString(row["State*"]) != "" && Convert.ToString(row["Contact*"]) != "")
                             {
+
+                                if(Convert.ToString(row["Total Outstanding"]) == "")
+                                {
+                                    row["Total Outstanding"] = "0";
+                                }
+
+                                if (Convert.ToString(row["POS"]) == "")
+                                {
+                                    row["POS"] = "0";
+                                }
+
+                                if (Convert.ToString(row["EMI amount"]) == "")
+                                {
+                                    row["EMI amount"] = "0";
+                                }
+
+                                if (Convert.ToString(row["All Charges"]) == "")
+                                {
+                                    row["All Charges"] = "0";
+                                }
+
+                                if (Convert.ToString(row["Total Collectable"]) == "")
+                                {
+                                    row["Total Collectable"] = "0";
+                                }
+
+                                if (Convert.ToString(row["PTP Amount"]) == "")
+                                {
+                                    row["PTP Amount"] = "0";
+                                }
+
+                                if (Convert.ToString(row["Collection Amount"]) == "")
+                                {
+                                    row["Collection Amount"] = "0";
+                                }
+
+
+
                                 dtExcelData.Rows.Add(Convert.ToString(row["State*"]), Convert.ToString(row["City*"]), Convert.ToString(row["Area"]), Convert.ToString(row["Cluster*"]), Convert.ToString(row["Type*"]),
-                                                Convert.ToString(row["Shop Type"]), Convert.ToString(row["Entity Type"]), Convert.ToString(row["Assigned To PP"]), Convert.ToString(row["DD Type"]), Convert.ToString(row["Assigned To DD"]),
-                                                Convert.ToString(row["Party Name*"]), Convert.ToString(row["Party Code*"]), Convert.ToString(row["Party Status"]), Convert.ToString(row["Address*"]), Convert.ToString(row["Pin Code*"])
-                                                , Convert.ToString(row["Owner*"]), Convert.ToString(row["DOB"]), Convert.ToString(row["Anniversary"]), Convert.ToString(row["Contact*"]), Convert.ToString(row["Alternate Contact"])
-                                                , Convert.ToString(row["Alternate Contact 1"]), Convert.ToString(row["Email"]), Convert.ToString(row["Alternate Email"]), Convert.ToString(row["Status*"]), Convert.ToString(row["Entity Category"])
-                                                , Convert.ToString(row["Owner PAN"]), Convert.ToString(row["Owner Aadhaar"]), Convert.ToString(row["GSTIN"]), Convert.ToString(row["Trade License"]), Convert.ToString(row["Location"])
-                                                , Convert.ToString(row["Group/Beat"]), Convert.ToString(row["Account Holder"]), Convert.ToString(row["Bank Name"]), Convert.ToString(row["Account No"]), Convert.ToString(row["IFSC Code"])
-                                                , Convert.ToString(row["UPI ID"]), Convert.ToString(row["Remarks"]), Convert.ToString(row["Assign to User*"]), Convert.ToString(row["Party Location Lat"]), Convert.ToString(row["Party Location Lang"]));
+                                        Convert.ToString(row["Shop Type"]), Convert.ToString(row["Entity Type"]), Convert.ToString(row["Assigned To PP"]), Convert.ToString(row["DD Type"]), Convert.ToString(row["Assigned To DD"]),
+                                        Convert.ToString(row["Party Name*"]), Convert.ToString(row["Party Code*"]), Convert.ToString(row["Party Status"]), Convert.ToString(row["Address*"]), Convert.ToString(row["Pin Code*"])
+                                        , Convert.ToString(row["Owner*"]), Convert.ToString(row["DOB"]), Convert.ToString(row["Anniversary"]), Convert.ToString(row["Contact*"]), Convert.ToString(row["Alternate Contact"])
+                                        , Convert.ToString(row["Alternate Contact 1"]), Convert.ToString(row["Email"]), Convert.ToString(row["Alternate Email"]), Convert.ToString(row["Status*"]), Convert.ToString(row["Entity Category"])
+                                        , Convert.ToString(row["Owner PAN"]), Convert.ToString(row["Owner Aadhaar"]), Convert.ToString(row["GSTIN"]), Convert.ToString(row["Trade License"]), Convert.ToString(row["Location"])
+                                        , Convert.ToString(row["Group/Beat"]), Convert.ToString(row["Account Holder"]), Convert.ToString(row["Bank Name"]), Convert.ToString(row["Account No"]), Convert.ToString(row["IFSC Code"])
+                                        , Convert.ToString(row["UPI ID"]), Convert.ToString(row["Remarks"]), Convert.ToString(row["Assign to User*"]), Convert.ToString(row["Party Location Lat"]), Convert.ToString(row["Party Location Lang"])
+
+                                        , Convert.ToString(row["BKT"]), Convert.ToString(row["Total Outstanding"]), Convert.ToString(row["POS"]), Convert.ToString(row["EMI amount"]), Convert.ToString(row["All Charges"])
+                                        , Convert.ToString(row["Total Collectable"]), Convert.ToString(row["Risk"]), Convert.ToString(row["Workable (Yes/No)"]), Convert.ToString(row["Disposition Code"]), Convert.ToString(row["PTP Date (yyyy-mm-dd)"])
+                                        , Convert.ToString(row["PTP Amount"]), Convert.ToString(row["Collection Date (yyyy-mm-dd)"]), Convert.ToString(row["Collection Amount"]), Convert.ToString(row["Final Status"])
+
+                                        );
                             }
                            
                         }
@@ -2327,10 +2392,16 @@ namespace MyShop.Areas.MYSHOP.Controllers
                             dtCmb = proc.GetTable();
                            
                         }
-                        catch (Exception)
-                        {
+                        // Rev 8.0
+                        //catch (Exception)
+                        //{
 
+                        //}
+                        catch (Exception ex)
+                        {
+                            throw new Exception(ex.Message);
                         }
+                        // End of Rev 8.0
                     }
                 }
             }
@@ -3007,6 +3078,22 @@ namespace MyShop.Areas.MYSHOP.Controllers
                             data.AlternateContact1 = Convert.ToString(row["Alt_MobileNo1"]);
                             data.AlternateEmail = Convert.ToString(row["Shop_Owner_Email2"]);
                             //End of Mantis Issue 24572
+                            // Rev 8.0
+                            data.BKT = Convert.ToString(row["BKT"]);
+                            data.TotalOutstanding = Convert.ToString(row["Total Outstanding"]);
+                            data.POS = Convert.ToString(row["POS"]);
+                            data.EMIamount = Convert.ToString(row["EMI amount"]);
+                            data.AllCharges = Convert.ToString(row["All Charges"]);
+                            data.TotalCollectable = Convert.ToString(row["Total Collectable"]);
+                            data.Risk = Convert.ToString(row["Risk"]);
+                            data.Workable = Convert.ToString(row["Workable"]);
+                            data.DispositionCode = Convert.ToString(row["Disposition Code"]);
+                            data.PTPDate = Convert.ToString(row["PTP Date"]);
+                            data.PTPAmount = Convert.ToString(row["PTP Amount"]);
+                            data.CollectionDate = Convert.ToString(row["Collection Date"]);
+                            data.CollectionAmount = Convert.ToString(row["Collection Amount"]);
+                            data.FinalStatus = Convert.ToString(row["Final Status"]);
+                            // End of Rev 8.0
                             list.Add(data);
                         }
                     }

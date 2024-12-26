@@ -2553,22 +2553,22 @@ namespace ERP.OMS.Management.Master
                 }
                 // End of Rev 14.0
                 // Rev 16.0
-                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUserWiseLMSEnable"]) == true)
-                {
-                    chkIsUserWiseLMSEnable.Checked = true;
-                }
-                else
-                {
-                    chkIsUserWiseLMSEnable.Checked = false;
-                }
-                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUserWiseLMSFeatureOnly"]) == true)
-                {
-                    chkIsUserWiseLMSFeatureOnly.Checked = true;
-                }
-                else
-                {
-                    chkIsUserWiseLMSFeatureOnly.Checked = false;
-                }
+                //if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUserWiseLMSEnable"]) == true)
+                //{
+                //    chkIsUserWiseLMSEnable.Checked = true;
+                //}
+                //else
+                //{
+                //    chkIsUserWiseLMSEnable.Checked = false;
+                //}
+                //if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUserWiseLMSFeatureOnly"]) == true)
+                //{
+                //    chkIsUserWiseLMSFeatureOnly.Checked = true;
+                //}
+                //else
+                //{
+                //    chkIsUserWiseLMSFeatureOnly.Checked = false;
+                //}
                 // End of Rev 16.0
                 // Rev 17.0
                 if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsUserWiseRecordAudioEnableForVisitRevisit"]) == true)
@@ -2581,14 +2581,14 @@ namespace ERP.OMS.Management.Master
                 }
                 // End of Rev 17.0
                 // Rev 18.0
-                if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["ShowClearQuiz"]) == true)
-                {
-                    chkDivShowClearQuiz.Checked = true;
-                }
-                else
-                {
-                    chkDivShowClearQuiz.Checked = false;
-                }
+                //if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["ShowClearQuiz"]) == true)
+                //{
+                //    chkDivShowClearQuiz.Checked = true;
+                //}
+                //else
+                //{
+                //    chkDivShowClearQuiz.Checked = false;
+                //}
                 // End of Rev 18.0
                 // Rev 19.0
                 if (Convert.ToBoolean(dsUserDetail.Tables[0].Rows[0]["IsAllowProductCurrentStockUpdateFromApp"]) == true)
@@ -4591,14 +4591,14 @@ namespace ERP.OMS.Management.Master
                     IsShowDateWiseOrderInApp = 0;
                 // End of Rev 14.0
                 // Rev 16.0
-                if (chkIsUserWiseLMSEnable.Checked == true)
-                    IsUserWiseLMSEnable = 1;
-                else
-                    IsUserWiseLMSEnable = 0;
-                if (chkIsUserWiseLMSFeatureOnly.Checked == true)
-                    IsUserWiseLMSFeatureOnly = 1;
-                else
-                    IsUserWiseLMSFeatureOnly = 0;
+                //if (chkIsUserWiseLMSEnable.Checked == true)
+                //    IsUserWiseLMSEnable = 1;
+                //else
+                //    IsUserWiseLMSEnable = 0;
+                //if (chkIsUserWiseLMSFeatureOnly.Checked == true)
+                //    IsUserWiseLMSFeatureOnly = 1;
+                //else
+                //    IsUserWiseLMSFeatureOnly = 0;
                 // End of Rev 16.0
                 // Rev 17.0
                 if (chkIsUserWiseRecordAudioEnableForVisitRevisit.Checked == true)
@@ -4608,11 +4608,11 @@ namespace ERP.OMS.Management.Master
                 // End of Rev 17.0
 
                 // Rev 18.0
-                if (chkDivShowClearQuiz.Checked == true)
-                    ShowClearQuiz = 1;
-                else
-                    ShowClearQuiz = 0;
-                // End of Rev 18.0
+                //if (chkDivShowClearQuiz.Checked == true)
+                //    ShowClearQuiz = 1;
+                //else
+                //    ShowClearQuiz = 0;
+                //// End of Rev 18.0
                 // Rev 19.0
                 if (chkIsAllowProductCurrentStockUpdateFromApp.Checked == true)
                     IsAllowProductCurrentStockUpdateFromApp = 1;
@@ -8150,28 +8150,28 @@ namespace ERP.OMS.Management.Master
                     }
                     // End of Rev 14.0
                     // Rev 16.0
-                    else if (Convert.ToString(dr["key"]) == "IsUserWiseLMSEnable")
-                    {
-                        if (Convert.ToString(dr["Value"]) == "1")
-                        {
-                            divIsUserWiseLMSEnable.Style.Add("display", "table-cell");
-                        }
-                        else
-                        {
-                            divIsUserWiseLMSEnable.Style.Add("display", "none");
-                        }
-                    }
-                    else if (Convert.ToString(dr["key"]) == "IsUserWiseLMSFeatureOnly")
-                    {
-                        if (Convert.ToString(dr["Value"]) == "1")
-                        {
-                            divIsUserWiseLMSFeatureOnly.Style.Add("display", "table-cell");
-                        }
-                        else
-                        {
-                            divIsUserWiseLMSFeatureOnly.Style.Add("display", "none");
-                        }
-                    }
+                    //else if (Convert.ToString(dr["key"]) == "IsUserWiseLMSEnable")
+                    //{
+                    //    if (Convert.ToString(dr["Value"]) == "1")
+                    //    {
+                    //        divIsUserWiseLMSEnable.Style.Add("display", "table-cell");
+                    //    }
+                    //    else
+                    //    {
+                    //        divIsUserWiseLMSEnable.Style.Add("display", "none");
+                    //    }
+                    //}
+                    //else if (Convert.ToString(dr["key"]) == "IsUserWiseLMSFeatureOnly")
+                    //{
+                    //    if (Convert.ToString(dr["Value"]) == "1")
+                    //    {
+                    //        divIsUserWiseLMSFeatureOnly.Style.Add("display", "table-cell");
+                    //    }
+                    //    else
+                    //    {
+                    //        divIsUserWiseLMSFeatureOnly.Style.Add("display", "none");
+                    //    }
+                    //}
                     // End of Rev 16.0
                     // Rev 17.0
                     else if (Convert.ToString(dr["key"]) == "isRecordAudioEnableForVisitRevisit")
@@ -8206,14 +8206,14 @@ namespace ERP.OMS.Management.Master
 
 
             // Rev 18.0
-            if (strShowClearQuiz == "YES")
-            {
-                DivShowClearQuiz.Style.Add("display", "table-cell");                
-            }
-            else
-            {
-                DivShowClearQuiz.Style.Add("display", "none");
-            }
+            //if (strShowClearQuiz == "YES")
+            //{
+            //    DivShowClearQuiz.Style.Add("display", "table-cell");                
+            //}
+            //else
+            //{
+            //    DivShowClearQuiz.Style.Add("display", "none");
+            //}
             // End of Rev 18.0
         }
     }

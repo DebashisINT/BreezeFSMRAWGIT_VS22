@@ -96,17 +96,3 @@ D:\Projects\BreezeFSMGIT_VS22\UtilityLayer\obj\Debug\UtilityLayer.csproj.CoreCom
 D:\Projects\BreezeFSMGIT_VS22\UtilityLayer\obj\Debug\UtilityL.BC4B101D.Up2Date
 D:\Projects\BreezeFSMGIT_VS22\UtilityLayer\obj\Debug\UtilityLayer.dll
 D:\Projects\BreezeFSMGIT_VS22\UtilityLayer\obj\Debug\UtilityLayer.pdb
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\UtilityLayer.pdb
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\BusinessLogicLayer.dll
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\EntityLayer.dll
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\DataAccessLayer.dll
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\Aspose.Pdf.Kit.dll
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\Ionic.Zip.dll
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\BusinessLogicLayer.pdb
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\EntityLayer.pdb
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\bin\Debug\DataAccessLayer.pdb
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\obj\Debug\UtilityLayer.csproj.AssemblyReference.cache
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\obj\Debug\UtilityLayer.csproj.CoreCompileInputs.cache
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\obj\Debug\UtilityL.BC4B101D.Up2Date
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\obj\Debug\UtilityLayer.dll
-D:\GIT\GitHub\BreezeFSMRAWGIT_VS22\UtilityLayer\obj\Debug\UtilityLayer.pdb

@@ -2062,10 +2062,6 @@
     <Content Include="Areas\MYSHOP\Views\partyDetails\_BulkDeleteManualLogView.cshtml" />
     <Content Include="Areas\MYSHOP\Views\partyDetails\_MassDeleteManualLogView.cshtml" />
     <Content Include="Areas\MYSHOP\Views\partyDetails\MassDeleteLog.cshtml" />
-    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardLMS.cshtml" />
-    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashBoardGVLMS.cshtml" />
-    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardStateComboboxLMS.cshtml" />
-    <Content Include="Areas\MYSHOP\Views\DashboardMenu\DashboardBranchComboboxLMS.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DailyCallReport\Index.cshtml" />
     <Content Include="Areas\MYSHOP\Views\DailyCallReport\PartialDailyCallReport.cshtml" />
     <Content Include="Areas\MYSHOP\Views\UpdateOrderStatus\Index.cshtml" />

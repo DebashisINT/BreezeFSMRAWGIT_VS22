@@ -1,5 +1,6 @@
 ﻿/*************************************************************************************************************
 Rev 1.0     Sanchita   V2.0.28    27/01/2023      Bulk modification feature is required in Parties menu. Refer: 25609
+Rev 2.0     Sanchita   V2.0.50    29/11/2024      0027799: A new Global settings required as WillShowLoanDetailsInParty.-- Import New Filed for Load Details
 *****************************************************************************************************************/
 using System;
 using System.Collections.Generic;
@@ -46,7 +47,23 @@ namespace MyShop.Models
         public String AlternateEmail { get; set; }
         public String GSTIN { get; set; }
         //End of Mantis Issue 24572
-       
+        // Rev 2.0
+        public String BKT { get; set; }
+        public String TotalOutstanding { get; set; }
+        public String POS { get; set; }
+        public String EMIamount { get; set; }
+        public String AllCharges { get; set; }
+        public String TotalCollectable { get; set; }
+        public String Risk { get; set; }
+        public String Workable { get; set; }
+        public String DispositionCode { get; set; }
+        public String PTPDate { get; set; }
+        public String PTPAmount { get; set; }
+        public String CollectionDate { get; set; }
+        public String CollectionAmount { get; set; }
+        public String FinalStatus { get; set; }
+        // End of Rev 2.0
+
     }
 
     public class ReAssignShopModel

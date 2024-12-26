@@ -1,4 +1,9 @@
-﻿@Html.DevExpress().GridView(settings =>
+﻿@*******************************************************************************************************************************************
+Rev 1.0     Sanchita   V2.0.50    29/11/2024      0027799: A new Global settings required as WillShowLoanDetailsInParty.-- Import New Filed for Load Details
+
+******************************************************************************************************************************************@
+
+@Html.DevExpress().GridView(settings =>
 {
     settings.Name = "gridTemplateImportLogList";
     settings.CallbackRouteValues = new { Action = "GetPartyImportLog", Controller = "partyDetails" };
@@ -322,10 +327,167 @@
         //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
     });
 
+    // Rev 1.0
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "BKT";
+        x.Caption = "BKT";
+        x.VisibleIndex = 31;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TotalOutstanding";
+        x.Caption = "TotalOutstanding";
+        x.VisibleIndex = 32;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "POS";
+        x.Caption = "POS";
+        x.VisibleIndex = 33;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "EMIamount";
+        x.Caption = "EMIamount";
+        x.VisibleIndex = 34;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "AllCharges";
+        x.Caption = "AllCharges";
+        x.VisibleIndex = 35;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "TotalCollectable";
+        x.Caption = "TotalCollectable";
+        x.VisibleIndex = 36;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Risk";
+        x.Caption = "Risk";
+        x.VisibleIndex = 37;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "Workable";
+        x.Caption = "Workable";
+        x.VisibleIndex = 38;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "DispositionCode";
+        x.Caption = "DispositionCode";
+        x.VisibleIndex = 39;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PTPDate";
+        x.Caption = "PTPDate";
+        x.VisibleIndex = 40;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "PTPAmount";
+        x.Caption = "PTPAmount";
+        x.VisibleIndex = 41;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CollectionDate";
+        x.Caption = "CollectionDate";
+        x.VisibleIndex = 42;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "CollectionAmount";
+        x.Caption = "CollectionAmount";
+        x.VisibleIndex = 43;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+
+    settings.Columns.Add(x =>
+    {
+        x.FieldName = "FinalStatus";
+        x.Caption = "FinalStatus";
+        x.VisibleIndex = 44;
+        x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+        //x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+        //x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Right;
+    });
+    // End of Rev 1.0
+
     settings.Columns.Add(x =>
     {
         x.Caption = "STATUS";
-        x.VisibleIndex = 31;
+        x.VisibleIndex = 45;
         x.Width = System.Web.UI.WebControls.Unit.Pixel(80);
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
         x.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
@@ -350,7 +512,7 @@
     {
         x.FieldName = "ImportMsg";
         x.Caption = "Reason";
-        x.VisibleIndex = 32;
+        x.VisibleIndex = 46;
         x.Width = System.Web.UI.WebControls.Unit.Pixel(160);
 
         x.CellStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Left;
@@ -362,7 +524,7 @@
     {
         x.FieldName = "ImportDate";
         x.Caption = "Import Date & Time";
-        x.VisibleIndex = 33;
+        x.VisibleIndex = 47;
         x.Width = System.Web.UI.WebControls.Unit.Pixel(140);
         x.ColumnType = MVCxGridViewColumnType.DateEdit;
 
